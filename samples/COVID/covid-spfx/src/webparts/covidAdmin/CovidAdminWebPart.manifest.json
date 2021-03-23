@@ -21,10 +21,10 @@
         "default": "Other"
       },
       "title": {
-        "default": "covid-admin"
+        "default": "Covid Admin"
       },
       "description": {
-        "default": "covid-admin description"
+        "default": "Covid Admin description"
       },
       "officeFabricIconFontName": "Page",
       "properties": {}

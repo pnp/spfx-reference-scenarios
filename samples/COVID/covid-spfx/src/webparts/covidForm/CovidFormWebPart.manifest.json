@@ -21,10 +21,10 @@
         "default": "Other"
       },
       "title": {
-        "default": "CovidForm"
+        "default": "Covid Form"
       },
       "description": {
-        "default": "CovidForm description"
+        "default": "Covid Form description"
       },
       "officeFabricIconFontName": "Page",
       "properties": {}
