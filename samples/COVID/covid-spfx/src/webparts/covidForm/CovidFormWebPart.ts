@@ -1,5 +1,9 @@
 import * as React from 'react';
 import * as ReactDom from 'react-dom';
+
+import { sp } from "@pnp/sp";
+import { Logger, LogLevel, ConsoleListener } from "@pnp/logging";
+
 import { Version } from '@microsoft/sp-core-library';
 import {
   IPropertyPaneConfiguration,
@@ -12,9 +16,19 @@ import CovidForm, { ICovidFormProps } from './components/CovidForm';
 
 
 export interface ICovidFormWebPartProps {
+  notifications: string;
 }
 
 export default class CovidFormWebPart extends BaseClientSideWebPart<ICovidFormWebPartProps> {
+
+  public async onInit(): Promise<void> {
+    //Initialize PnPLogger
+    Logger.subscribe(new ConsoleListener());
+    Logger.activeLogLevel = LogLevel.Info;
+
+    //Initialize PnPJs
+    sp.setup({ spfxContext: this.context });
+  }
 
   public render(): void {
     const element: React.ReactElement<ICovidFormProps> = React.createElement(

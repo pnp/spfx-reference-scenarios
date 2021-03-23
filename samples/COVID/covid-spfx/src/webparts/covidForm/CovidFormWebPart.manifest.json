@@ -27,7 +27,9 @@
         "default": "Covid Form description"
       },
       "officeFabricIconFontName": "Page",
-      "properties": {}
+      "properties": {
+        "notifications": "string"
+      }
     }
   ]
 }
