@@ -13,6 +13,7 @@ import { BaseClientSideWebPart } from '@microsoft/sp-webpart-base';
 
 import * as strings from 'CovidAdminWebPartStrings';
 import CovidAdmin, { ICovidAdminProps } from './components/CovidAdmin';
+import { cs } from '../../common/covid.service';
 
 export interface ICovidAdminWebPartProps {
 }
@@ -26,6 +27,8 @@ export default class CovidAdminWebPart extends BaseClientSideWebPart<ICovidAdmin
 
     //Initialize PnPJs
     sp.setup({ spfxContext: this.context });
+
+    cs.init();
   }
 
   public render(): void {

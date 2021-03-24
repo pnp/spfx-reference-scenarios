@@ -1,6 +1,7 @@
 export interface IList {
   Id: number;
   Title: string;
+  CreatedOn: Date;
 }
 
 export interface ILocations extends IList { }
@@ -22,14 +23,36 @@ export interface ISelfCheckInLI extends IList {
   Questions: IAnswer[];
 }
 
+export class SelfCheckInLI implements ISelfCheckInLI {
+  constructor(
+    public Id: number = 0,
+    public Title: string = "",
+    public CreatedOn: Date = null,
+    public EmployeeId: number = null,
+    public Questions: IAnswer[] = null
+  ) { }
+}
+
 export interface ISelfCheckIn extends ISelfCheckInLI {
-  Employee: string;
+  Employee: IPerson;
+}
+
+export class SelfCheckIn implements ISelfCheckIn {
+  constructor(
+    public Id: number = 0,
+    public Title: string = "",
+    public CreatedOn: Date = null,
+    public EmployeeId: number = null,
+    public Questions: IAnswer[] = null,
+    public Employee: IPerson = null
+  ) { }
 }
 
 export interface IPerson {
   Id: number;
   Title: string;
 }
+
 export interface ICheckInLI extends IList {
   EmployeeId: number;
   Guest: string;
@@ -39,7 +62,37 @@ export interface ICheckInLI extends IList {
   CheckInById: number;
 }
 
+export class CheckInLI implements ICheckInLI {
+  constructor(
+    public Id: number = 0,
+    public Title: string = "",
+    public CreatedOn: Date = null,
+    public EmployeeId: number = null,
+    public Guest: string = "",
+    public CheckInOffice: string = "",
+    public Questions: IAnswer[] = null,
+    public CheckIn: Date = null,
+    public CheckInById: number = null
+  ) { }
+}
+
 export interface ICheckIn extends ICheckInLI {
-  Employee: IPerson
+  Employee: IPerson;
   CheckInBy: IPerson;
+}
+
+export class CheckIn implements ICheckIn {
+  constructor(
+    public Id: number = 0,
+    public Title: string = "",
+    public CreatedOn: Date = null,
+    public EmployeeId: number = null,
+    public Guest: string = "",
+    public CheckInOffice: string = "",
+    public Questions: IAnswer[] = null,
+    public CheckIn: Date = null,
+    public CheckInById: number = null,
+    public Employee: IPerson = null,
+    public CheckInBy: IPerson = null
+  ) { }
 }

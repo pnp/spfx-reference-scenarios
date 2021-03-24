@@ -13,6 +13,7 @@ import { BaseClientSideWebPart } from '@microsoft/sp-webpart-base';
 
 import * as strings from 'CovidFormWebPartStrings';
 import CovidForm, { ICovidFormProps } from './components/CovidForm';
+import { cs } from '../../common/covid.service';
 
 
 export interface ICovidFormWebPartProps {
@@ -28,6 +29,8 @@ export default class CovidFormWebPart extends BaseClientSideWebPart<ICovidFormWe
 
     //Initialize PnPJs
     sp.setup({ spfxContext: this.context });
+
+    cs.init();
   }
 
   public render(): void {
