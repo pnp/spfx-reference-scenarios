@@ -60,6 +60,7 @@ export interface ICheckInLI extends IList {
   Questions: IAnswer[];
   CheckIn: Date;
   CheckInById: number;
+  SubmittedOn: Date;
 }
 
 export class CheckInLI implements ICheckInLI {
@@ -72,7 +73,8 @@ export class CheckInLI implements ICheckInLI {
     public CheckInOffice: string = "",
     public Questions: IAnswer[] = null,
     public CheckIn: Date = null,
-    public CheckInById: number = null
+    public CheckInById: number = null,
+    public SubmittedOn: Date = null
   ) { }
 }
 
@@ -92,6 +94,7 @@ export class CheckIn implements ICheckIn {
     public Questions: IAnswer[] = null,
     public CheckIn: Date = null,
     public CheckInById: number = null,
+    public SubmittedOn: Date = null,
     public Employee: IPerson = null,
     public CheckInBy: IPerson = null
   ) { }

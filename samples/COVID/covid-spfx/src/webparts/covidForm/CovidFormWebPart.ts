@@ -21,6 +21,7 @@ export interface ICovidFormWebPartProps {
 }
 
 export default class CovidFormWebPart extends BaseClientSideWebPart<ICovidFormWebPartProps> {
+  private LOG_SOURCE: string = "🔶CovidFormWebPart";
 
   public async onInit(): Promise<void> {
     //Initialize PnPLogger

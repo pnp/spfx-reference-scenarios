@@ -13,7 +13,7 @@ export class CovidFormState implements ICovidFormState {
 }
 
 export default class CovidForm extends React.Component<ICovidFormProps, ICovidFormState> {
-  private LOG_SOURCE: string = "CovidForm";
+  private LOG_SOURCE: string = "🔶CovidForm";
 
   constructor(props: ICovidFormProps) {
     super(props);
@@ -30,10 +30,11 @@ export default class CovidForm extends React.Component<ICovidFormProps, ICovidFo
     try {
       return (
         <div data-component={this.LOG_SOURCE}>
+          Hello World
         </div>
       );
     } catch (err) {
-      Logger.write(`${err} - ${this.LOG_SOURCE} (render)`, LogLevel.Error);
+      Logger.write(`${this.LOG_SOURCE} (render) - ${err}`, LogLevel.Error);
       return null;
     }
   }

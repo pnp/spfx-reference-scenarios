@@ -19,6 +19,7 @@ export interface ICovidAdminWebPartProps {
 }
 
 export default class CovidAdminWebPart extends BaseClientSideWebPart<ICovidAdminWebPartProps> {
+  private LOG_SOURCE: string = "🔶CovidAdminWebPart";
 
   public async onInit(): Promise<void> {
     //Initialize PnPLogger
