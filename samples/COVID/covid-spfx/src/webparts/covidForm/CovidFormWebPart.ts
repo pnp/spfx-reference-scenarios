@@ -22,10 +22,10 @@ export interface ICovidFormWebPartProps {
 }
 
 export default class CovidFormWebPart extends BaseClientSideWebPart<ICovidFormWebPartProps> {
+  private LOG_SOURCE: string = "🔶CovidFormWebPart";
   private _questions: IQuestion[] = [];
   private _locations: ILocations[] = [];
   private _answers: IAnswer[] = [];
-
 
   public async onInit(): Promise<void> {
     //Initialize PnPLogger

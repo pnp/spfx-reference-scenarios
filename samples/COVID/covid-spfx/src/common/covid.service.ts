@@ -3,17 +3,20 @@ import { Logger, LogLevel } from "@pnp/logging";
 import "@pnp/sp/webs";
 import "@pnp/sp/lists/web";
 import "@pnp/sp/items/list";
+import "@pnp/sp/site-users/web";
 
 import * as lodash from "lodash";
 import { sp } from "@pnp/sp";
-import { ILocations, IQuestion, ICheckIn, ISelfCheckIn, SelfCheckInLI, CheckInLI, ISelfCheckInLI } from "./covid.model";
+import { ILocations, IQuestion, ICheckIn, ISelfCheckIn, SelfCheckInLI, CheckInLI, ISelfCheckInLI, IAnswer } from "./covid.model";
+
+const mockAnswers: IAnswer[] = [{ QuestionId: 1, Answer: "no" }, { QuestionId: 2, Answer: "98.2" }, { QuestionId: 3, Answer: "no" }, { QuestionId: 4, Answer: "no" }, { QuestionId: 5, Answer: "no" }, { QuestionId: 6, Answer: "no" }, { QuestionId: 7, Answer: "no" }]
 
 export interface ICovidService {
 
 }
 
 export class CovidService implements ICovidService {
-  private LOG_SOURCE = "CovidService";
+  private LOG_SOURCE = "🔶CovidService";
 
   private SKIPADDFIELDS: string[] = ["Id", "CreatedOn"];
   private LOCATIONLIST = "CheckInLocations";
@@ -53,7 +56,7 @@ export class CovidService implements ICovidService {
         this._ready = true;
       }
     } catch (err) {
-      Logger.write(`${err} - ${this.LOG_SOURCE} (init)`, LogLevel.Error);
+      Logger.write(`${this.LOG_SOURCE} (init) - ${err}`, LogLevel.Error);
     }
   }
 
@@ -63,7 +66,7 @@ export class CovidService implements ICovidService {
       this._locations = await sp.web.lists.getByTitle(this.LOCATIONLIST).items.top(5000).select("Id, Title").get<ILocations[]>();
       retVal = true;
     } catch (err) {
-      Logger.write(`${err} - ${this.LOG_SOURCE} (getLocations)`, LogLevel.Error);
+      Logger.write(`${this.LOG_SOURCE} (getLocations) - ${err}`, LogLevel.Error);
     }
     return retVal;
   }
@@ -74,7 +77,27 @@ export class CovidService implements ICovidService {
       this._questions = await sp.web.lists.getByTitle(this.QUESTIONLIST).items.top(5000).select("Id, Title, ToolTip, QuestionType, Order").filter("Enabled eq 1").orderBy("Order").get<IQuestion[]>();
       retVal = true;
     } catch (err) {
-      Logger.write(`${err} - ${this.LOG_SOURCE} (getQuestions)`, LogLevel.Error);
+      Logger.write(`${this.LOG_SOURCE} (getQuestions) - ${err}`, LogLevel.Error);
+    }
+    return retVal;
+  }
+
+  public async userCanCheckIn(loginName: string): Promise<boolean> {
+    let retVal: boolean = false;
+    try {
+      await this.moveSelfCheckIns();
+      const user = await sp.web.ensureUser(loginName);
+      if (user.data) {
+        const today = new Date((new Date()).getFullYear(), (new Date()).getMonth(), (new Date()).getDay());
+        const checkIns = await sp.web.lists.getByTitle(this.COVIDCHECKINLIST).items.top(1)
+          .filter(`(EmployeeId eq ${user.data.Id}) and (CreatedOn gt ${today.toUTCString()})`)
+          .get();
+
+        if (checkIns.length < 1)
+          retVal = true;
+      }
+    } catch (err) {
+      Logger.write(`${this.LOG_SOURCE} (userCanCheckIn) - ${err} - `, LogLevel.Error);
     }
     return retVal;
   }
@@ -87,9 +110,10 @@ export class CovidService implements ICovidService {
         .expand("Employee, CheckInBy")
         .get<ICheckIn[]>();
 
+
       retVal = true;
     } catch (err) {
-      Logger.write(`${err} - ${this.LOG_SOURCE} (getCheckIns)`, LogLevel.Error);
+      Logger.write(`${this.LOG_SOURCE} (getCheckIns) - ${err}`, LogLevel.Error);
     }
     return retVal;
   }
@@ -107,6 +131,7 @@ export class CovidService implements ICovidService {
         const batch = sp.createBatch();
         selfCheckIns.forEach(sci => {
           let checkInLI = new CheckInLI();
+          checkInLI.SubmittedOn = sci.CreatedOn;
           Object.getOwnPropertyNames(sci).forEach(prop => {
             checkInLI[prop] = sci[prop];
           });
@@ -117,7 +142,7 @@ export class CovidService implements ICovidService {
         retVal = true;
       }
     } catch (err) {
-      Logger.write(`${err} - ${this.LOG_SOURCE} (moveSelfCheckIns)`, LogLevel.Error);
+      Logger.write(`${this.LOG_SOURCE} (moveSelfCheckIns) - ${err}`, LogLevel.Error);
     }
     return retVal;
   }
@@ -135,7 +160,7 @@ export class CovidService implements ICovidService {
         retVal = true;
       retVal = true;
     } catch (err) {
-      Logger.write(`${err} - ${this.LOG_SOURCE} (addCheckIn)`, LogLevel.Error);
+      Logger.write(`${this.LOG_SOURCE} (addCheckIn) - ${err}`, LogLevel.Error);
     }
     return retVal;
   }
@@ -152,7 +177,7 @@ export class CovidService implements ICovidService {
       if (addSelfCheckIn.item)
         retVal = true;
     } catch (err) {
-      Logger.write(`${err} - ${this.LOG_SOURCE} (addSelfCheckIn)`, LogLevel.Error);
+      Logger.write(`${this.LOG_SOURCE} (addSelfCheckIn) - ${err}`, LogLevel.Error);
     }
     return retVal;
   }

@@ -13,7 +13,7 @@ export class CovidAdminState implements ICovidAdminState {
 }
 
 export default class CovidAdmin extends React.Component<ICovidAdminProps, ICovidAdminState> {
-  private LOG_SOURCE: string = "CovidAdmin";
+  private LOG_SOURCE: string = "🔶CovidAdmin";
 
   constructor(props: ICovidAdminProps) {
     super(props);
@@ -33,7 +33,7 @@ export default class CovidAdmin extends React.Component<ICovidAdminProps, ICovid
         </div>
       );
     } catch (err) {
-      Logger.write(`${err} - ${this.LOG_SOURCE} (render)`, LogLevel.Error);
+      Logger.write(`${this.LOG_SOURCE} (render) - ${err}`, LogLevel.Error);
       return null;
     }
   }
