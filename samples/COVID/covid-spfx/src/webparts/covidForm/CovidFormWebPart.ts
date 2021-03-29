@@ -14,6 +14,7 @@ import { BaseClientSideWebPart } from '@microsoft/sp-webpart-base';
 import * as strings from 'CovidFormWebPartStrings';
 import CovidForm, { ICovidFormProps } from './components/CovidForm';
 import { cs } from '../../common/covid.service';
+import { IAnswer, ILocations, IQuestion } from '../../common/covid.model';
 
 
 export interface ICovidFormWebPartProps {
@@ -21,6 +22,10 @@ export interface ICovidFormWebPartProps {
 }
 
 export default class CovidFormWebPart extends BaseClientSideWebPart<ICovidFormWebPartProps> {
+  private _questions: IQuestion[] = [];
+  private _locations: ILocations[] = [];
+  private _answers: IAnswer[] = [];
+
 
   public async onInit(): Promise<void> {
     //Initialize PnPLogger
@@ -30,13 +35,30 @@ export default class CovidFormWebPart extends BaseClientSideWebPart<ICovidFormWe
     //Initialize PnPJs
     sp.setup({ spfxContext: this.context });
 
-    cs.init();
+    await cs.init();
+    if (cs.Ready) {
+      this._questions = cs.Questions;
+      this._locations = cs.Locations;
+      this._buildAnswerArray();
+    }
+  }
+
+  private _buildAnswerArray() {
+    this._questions.map((q) => {
+      return this._answers.push({
+        QuestionId: q.Id,
+        Answer: ""
+      });
+    });
   }
 
   public render(): void {
     const element: React.ReactElement<ICovidFormProps> = React.createElement(
       CovidForm,
       {
+        questions: this._questions,
+        locations: this._locations,
+        answers: this._answers
       }
     );
 

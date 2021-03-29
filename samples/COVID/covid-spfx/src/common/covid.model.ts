@@ -96,3 +96,8 @@ export class CheckIn implements ICheckIn {
     public CheckInBy: IPerson = null
   ) { }
 }
+
+export enum QuestionType {
+  YesNo = "Yes/No",
+  Text = "Text"
+}

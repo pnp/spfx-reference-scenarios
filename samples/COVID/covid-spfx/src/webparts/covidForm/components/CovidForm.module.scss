@@ -1,3 +1,30 @@
 //@import '~office-ui-fabric-react/dist/sass/References.scss';
+:global{
+    @import "node_modules/liquid-core/src/styles/00-base/colors/color-vars-css-converted";
+  }
+.covidForm { 
+  :global{
+    @import "node_modules/liquid-core/src/styles/style.scss";
+  }
+  
+  .formRow{
+    font-size: 1rem;
+    padding-bottom: 1.25rem;
+    .question{
+      font-weight: bold;
+    }
+    .radio label{
+      padding-right: .25rem;
+    }
+  }
+  
+  .buttonRow{
+    display: flex;
+    button{
+      margin-right: 1rem;
+      cursor: pointer;
+    }
+  }
+  
 
-.covidForm {}
+}
