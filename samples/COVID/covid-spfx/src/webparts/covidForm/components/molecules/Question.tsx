@@ -8,7 +8,7 @@ import RadioButton from "../atoms/RadioButton";
 
 export interface IQuestionProps {
   question: IQuestion;
-  onChange: (fieldName: string, questionID: number) => void;
+  onChange: (fieldValue: string, fieldName: string) => void;
 }
 
 export interface IQuestionState {
@@ -39,7 +39,7 @@ export default class Question extends React.Component<IQuestionProps, IQuestionS
       return (
         <>
           <div className={styles.question}>{this.props.question.Title}</div>
-          {this.props.question.QuestionType === QuestionType.YesNo ? <RadioButton question={this.props.question} onChange={this.props.onChange} /> : <TextBox question={this.props.question} onChange={this.props.onChange} />}
+          {this.props.question.QuestionType === QuestionType.YesNo ? <RadioButton name={this.props.question.Id.toString()} onChange={this.props.onChange} /> : <TextBox name={this.props.question.Id.toString()} onChange={this.props.onChange} />}
         </>
       );
     } catch (err) {

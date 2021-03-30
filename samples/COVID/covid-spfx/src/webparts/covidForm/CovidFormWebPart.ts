@@ -14,7 +14,7 @@ import { BaseClientSideWebPart } from '@microsoft/sp-webpart-base';
 import * as strings from 'CovidFormWebPartStrings';
 import CovidForm, { ICovidFormProps } from './components/CovidForm';
 import { cs } from '../../common/covid.service';
-import { IAnswer, ILocations, IQuestion } from '../../common/covid.model';
+import { CheckInMode, IAnswer, ILocations, IQuestion } from '../../common/covid.model';
 
 
 export interface ICovidFormWebPartProps {
@@ -26,6 +26,7 @@ export default class CovidFormWebPart extends BaseClientSideWebPart<ICovidFormWe
   private _questions: IQuestion[] = [];
   private _locations: ILocations[] = [];
   private _answers: IAnswer[] = [];
+  private _checkInMode: CheckInMode = CheckInMode.Self;
 
   public async onInit(): Promise<void> {
     //Initialize PnPLogger
@@ -40,6 +41,7 @@ export default class CovidFormWebPart extends BaseClientSideWebPart<ICovidFormWe
       this._questions = cs.Questions;
       this._locations = cs.Locations;
       this._buildAnswerArray();
+      this._setCheckInMode();
     }
   }
 
@@ -52,13 +54,30 @@ export default class CovidFormWebPart extends BaseClientSideWebPart<ICovidFormWe
     });
   }
 
+  private _setCheckInMode() {
+    let guest = this._getParameterByName("g");
+    if (guest === "1") {
+      this._checkInMode = CheckInMode.Guest
+    }
+  }
+
+  private _getParameterByName(name, url = window.location.href) {
+    name = name.replace(/[\[\]]/g, '\\$&');
+    var regex = new RegExp('[?&]' + name + '(=([^&#]*)|&|#|$)'),
+      results = regex.exec(url);
+    if (!results) return null;
+    if (!results[2]) return '';
+    return decodeURIComponent(results[2].replace(/\+/g, ' '));
+  }
+
   public render(): void {
     const element: React.ReactElement<ICovidFormProps> = React.createElement(
       CovidForm,
       {
         questions: this._questions,
         locations: this._locations,
-        answers: this._answers
+        answers: this._answers,
+        checkInMode: this._checkInMode
       }
     );
 

@@ -30,6 +30,7 @@ export default class CovidAdmin extends React.Component<ICovidAdminProps, ICovid
     try {
       return (
         <div data-component={this.LOG_SOURCE}>
+          <a href="https://a830edad9050849spodk2100036.sharepoint.com/sites/COVID/SitePages/Covid-Check-In.aspx?g=1">Check In Guest</a>
         </div>
       );
     } catch (err) {

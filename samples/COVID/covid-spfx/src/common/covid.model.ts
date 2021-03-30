@@ -104,3 +104,7 @@ export enum QuestionType {
   YesNo = "Yes/No",
   Text = "Text"
 }
+export enum CheckInMode {
+  Self = "Self",
+  Guest = "Guest"
+}

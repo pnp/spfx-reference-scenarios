@@ -1,12 +1,10 @@
 import * as React from "react";
 import { Logger, LogLevel } from "@pnp/logging";
 import { isEqual } from "lodash";
-import styles from '../CovidForm.module.scss';
-import { IQuestion } from "../../../../common/covid.model";
 
 export interface ITextBoxProps {
-  question: IQuestion;
-  onChange: (fieldName: string, questionID: number) => void;
+  name: string;
+  onChange: (fieldValue: string, fieldName: string) => void;
 }
 
 export interface ITextBoxState {
@@ -33,10 +31,10 @@ export default class TextBox extends React.Component<ITextBoxProps, ITextBoxStat
     return true;
   }
 
-  private _onChange = (newValue: string, questionID: number) => {
+  private _onChange = (newValue: string, fieldName: string) => {
     try {
       this.setState({ value: newValue });
-      this.props.onChange(newValue, questionID);
+      this.props.onChange(newValue, fieldName);
     } catch (err) {
       Logger.write(`${err} - ${this.LOG_SOURCE} (textFieldChanged)`, LogLevel.Error);
     }
@@ -46,7 +44,7 @@ export default class TextBox extends React.Component<ITextBoxProps, ITextBoxStat
     try {
       return (
         <div className="textbox">
-          <input className="lqd-input-text" name={'question-' + this.props.question.Id} type="text" value={this.state.value} placeholder="" onChange={(newValue) => { this._onChange(newValue.target.value, this.props.question.Id); }} />
+          <input className="lqd-input-text" name={'question-' + this.props.name} type="text" value={this.state.value} placeholder="" onChange={(newValue) => { this._onChange(newValue.target.value, this.props.name); }} />
         </div>
       );
     } catch (err) {

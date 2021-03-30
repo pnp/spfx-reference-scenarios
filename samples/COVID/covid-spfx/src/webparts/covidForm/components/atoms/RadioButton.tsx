@@ -5,8 +5,8 @@ import styles from '../CovidForm.module.scss';
 import { IQuestion } from "../../../../common/covid.model";
 
 export interface IRadioButtonProps {
-  question: IQuestion;
-  onChange: (fieldName: string, questionID: number) => void;
+  name: string;
+  onChange: (fieldValue: string, fieldName: string) => void;
 }
 
 export interface IRadioButtonState {
@@ -31,9 +31,9 @@ export default class RadioButton extends React.Component<IRadioButtonProps, IRad
     return true;
   }
 
-  private _onChange = (newValue: any, questionID: number) => {
+  private _onChange = (newValue: any, fieldName: string) => {
     try {
-      this.props.onChange(newValue.value, questionID);
+      this.props.onChange(newValue.value, fieldName);
     } catch (err) {
       Logger.write(`${err} - ${this.LOG_SOURCE} (_onChange)`, LogLevel.Error);
     }
@@ -42,9 +42,9 @@ export default class RadioButton extends React.Component<IRadioButtonProps, IRad
   public render(): React.ReactElement<IRadioButtonProps> {
     try {
       return (
-        <div className={styles.radio} onChange={(newValue) => { this._onChange(newValue.target, this.props.question.Id); }}>
-          <input type="radio" name={'question-' + this.props.question.Id} id={'question-' + this.props.question.Id + "-Yes"} value="Yes" className="lqd-radio" /><label htmlFor={'question-' + this.props.question.Id + "-Yes"}>Yes</label>
-          <input type="radio" name={'question-' + this.props.question.Id} id={'question-' + this.props.question.Id + "-No"} value="No" className="lqd-radio" /><label htmlFor={'question-' + this.props.question.Id + "-No"}>No</label>
+        <div className={styles.radio} onChange={(newValue) => { this._onChange(newValue.target, this.props.name); }}>
+          <input type="radio" name={'question-' + this.props.name} id={'question-' + this.props.name + "-Yes"} value="Yes" className="lqd-radio" /><label htmlFor={'question-' + this.props.name + "-Yes"}>Yes</label>
+          <input type="radio" name={'question-' + this.props.name} id={'question-' + this.props.name + "-No"} value="No" className="lqd-radio" /><label htmlFor={'question-' + this.props.name + "-No"}>No</label>
         </div>
       );
     } catch (err) {
