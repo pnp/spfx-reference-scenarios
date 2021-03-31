@@ -2,12 +2,13 @@ import * as React from "react";
 import { Logger, LogLevel } from "@pnp/logging";
 import { isEqual } from "lodash";
 import styles from '../CovidForm.module.scss';
-import { IQuestion } from "../../../../common/covid.model";
+import { IQuestion } from "../../covid.model";
 
 export interface IButtonProps {
   className: string;
   disabled: boolean;
   label: string;
+  onClick: React.MouseEventHandler<HTMLButtonElement>;
 }
 
 export interface IButtonState {
@@ -34,12 +35,12 @@ export default class Button extends React.Component<IButtonProps, IButtonState> 
   public render(): React.ReactElement<IButtonProps> {
     try {
       return (
-        <button className={this.props.className} disabled={this.props.disabled} aria-disabled={this.props.disabled}>
+        <button className={this.props.className} disabled={this.props.disabled} aria-disabled={this.props.disabled} onClick={this.props.onClick}>
           <div className="lqd-button-label">{this.props.label}</div>
         </button>
       );
     } catch (err) {
-      Logger.write(`${err} - ${this.LOG_SOURCE} (render)`, LogLevel.Error);
+      Logger.write(`${this.LOG_SOURCE} (render) - ${err}`, LogLevel.Error);
       return null;
     }
   }

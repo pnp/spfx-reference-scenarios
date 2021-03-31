@@ -2,12 +2,13 @@ import * as React from "react";
 import { Logger, LogLevel } from "@pnp/logging";
 import { isEqual } from "lodash";
 import styles from '../CovidForm.module.scss';
-import { IQuestion, QuestionType } from "../../../../common/covid.model";
+import { IQuestion, QuestionType, IAnswer } from "../../covid.model";
 import TextBox from "../atoms/TextBox";
 import RadioButton from "../atoms/RadioButton";
 
 export interface IQuestionProps {
   question: IQuestion;
+  answer: IAnswer;
   onChange: (fieldValue: string, fieldName: string) => void;
 }
 
@@ -37,13 +38,16 @@ export default class Question extends React.Component<IQuestionProps, IQuestionS
     try {
 
       return (
-        <>
+        <div data-component={this.LOG_SOURCE} key={this.props.question.Id}>
           <div className={styles.question}>{this.props.question.Title}</div>
-          {this.props.question.QuestionType === QuestionType.YesNo ? <RadioButton name={this.props.question.Id.toString()} onChange={this.props.onChange} /> : <TextBox name={this.props.question.Id.toString()} onChange={this.props.onChange} />}
-        </>
+          {this.props.question.QuestionType === QuestionType.YesNo ?
+            <RadioButton name={`question-${this.props.question.Id}`} value={this.props.answer.Answer} onChange={this.props.onChange} /> :
+            <TextBox name={`question-${this.props.question.Id}`} value={this.props.answer.Answer} onChange={this.props.onChange} />
+          }
+        </div>
       );
     } catch (err) {
-      Logger.write(`${err} - ${this.LOG_SOURCE} (render)`, LogLevel.Error);
+      Logger.write(`${this.LOG_SOURCE} (render) - ${err}`, LogLevel.Error);
       return null;
     }
   }

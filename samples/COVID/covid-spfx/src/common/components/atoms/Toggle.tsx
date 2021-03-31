@@ -2,7 +2,7 @@ import * as React from "react";
 import { Logger, LogLevel } from "@pnp/logging";
 import { isEqual } from "lodash";
 import styles from '../CovidForm.module.scss';
-import { IQuestion } from "../../../../common/covid.model";
+import { IQuestion } from "../../covid.model";
 
 export interface IToggleProps {
   question: IQuestion;
@@ -38,7 +38,7 @@ export default class Toggle extends React.Component<IToggleProps, IToggleState> 
       this.setState({ value: newValue });
       this.props.onChange(newValue.toString(), questionID);
     } catch (err) {
-      Logger.write(`${err} - ${this.LOG_SOURCE} (textFieldChanged)`, LogLevel.Error);
+      Logger.write(`${this.LOG_SOURCE} (textFieldChanged) - ${err}`, LogLevel.Error);
     }
   }
 
@@ -57,7 +57,7 @@ export default class Toggle extends React.Component<IToggleProps, IToggleState> 
         </div>
       );
     } catch (err) {
-      Logger.write(`${err} - ${this.LOG_SOURCE} (render)`, LogLevel.Error);
+      Logger.write(`${this.LOG_SOURCE} (render) - ${err}`, LogLevel.Error);
       return null;
     }
   }

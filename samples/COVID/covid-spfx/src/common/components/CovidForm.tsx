@@ -1,13 +1,13 @@
 import * as React from "react";
 import { Logger, LogLevel } from "@pnp/logging";
-import { isEqual } from "lodash";
+import { isEqual, find, cloneDeep } from "lodash";
+
 import styles from './CovidForm.module.scss';
 import Question from "./molecules/Question";
-import { CheckInMode, IAnswer, ILocations, IQuestion } from "../../../common/covid.model";
+import { CheckInMode, IAnswer, ILocations, IQuestion } from "../covid.model";
 import Button from "./atoms/Button";
 import TextBox from "./atoms/TextBox";
-import DropDown from "./atoms/DropDown";
-
+import DropDown, { IDropDownOption } from "./atoms/DropDown";
 
 export interface ICovidFormProps {
   questions: IQuestion[];
@@ -32,12 +32,12 @@ export class CovidFormState implements ICovidFormState {
 
 export default class CovidForm extends React.Component<ICovidFormProps, ICovidFormState> {
   private LOG_SOURCE: string = "🔶CovidForm";
+  private _locationOptions: IDropDownOption[] = [];
 
   constructor(props: ICovidFormProps) {
     super(props);
     this.state = new CovidFormState(this.props.answers);
-    this._onQuestionValueChange = this._onQuestionValueChange.bind(this);
-    this._onTextChange = this._onTextChange.bind(this);
+    this._locationOptions = props.locations.map((l) => { return { key: l.Id, text: l.Title }; });
   }
 
   public shouldComponentUpdate(nextProps: ICovidFormProps, nextState: ICovidFormState) {
@@ -46,26 +46,28 @@ export default class CovidForm extends React.Component<ICovidFormProps, ICovidFo
     return true;
   }
 
-  private _onQuestionValueChange(fieldValue: string, fieldName: string) {
+  private _onQuestionValueChange = (fieldValue: string, fieldName: string) => {
     try {
-      let answers = this.state.answers;
-      let index = answers.map(a => a.QuestionId.toString()).indexOf(fieldName);
-      //QuestionId is a number so convert from string
-      answers[index] = { QuestionId: Number(fieldName), Answer: fieldValue };
-      this.setState({ answers });
+      let answers = cloneDeep(this.state.answers);
+      const questionId: number = +fieldName.split("-")[1];
+      let answer = find(answers, { QuestionId: questionId });
+      answer.Answer = fieldValue;
+      this.setState({ answers: answers });
     } catch (err) {
-      Logger.write(`${err} - ${this.LOG_SOURCE} (_onQuestionValueChange)`, LogLevel.Error);
-    }
-  }
-  private _onTextChange(fieldValue: string, fieldName: string) {
-    try {
-      this.state[fieldName] = fieldValue;
-    } catch (err) {
-      Logger.write(`${err} - ${this.LOG_SOURCE} (_onQuestionValueChange)`, LogLevel.Error);
+      Logger.write(`${this.LOG_SOURCE} (_onQuestionValueChange) - ${err}`, LogLevel.Error);
     }
   }
 
-
+  private _onTextChange = (fieldValue: string, fieldName: string) => {
+    try {
+      const value = cloneDeep(this.state[fieldName])[fieldName] = fieldValue;
+      let state = {};
+      state[fieldValue] = value;
+      this.setState(state);
+    } catch (err) {
+      Logger.write(`${this.LOG_SOURCE} (_onTextChange) - ${err}`, LogLevel.Error);
+    }
+  }
 
   public render(): React.ReactElement<ICovidFormProps> {
     try {
@@ -80,21 +82,20 @@ export default class CovidForm extends React.Component<ICovidFormProps, ICovidFo
               {this.props.checkInMode === CheckInMode.Guest ?
                 <div className={styles.formRow}>
                   <div className={styles.question}>Guest Name</div>
-                  <TextBox name="guest" onChange={this._onTextChange} />
+                  <TextBox name="guest" value={this.state.guest} onChange={this._onTextChange} />
                 </div>
                 : null}
               <div className={styles.formRow}>
                 <div className={styles.question}>Office</div>
-                <DropDown onChange={this._onTextChange} options={this.props.locations} name="checkInOffice" />
+                <DropDown onChange={this._onTextChange} value={this.state.checkInOffice} options={this._locationOptions} id="checkInOffice" />
               </div>
-              {this.props.questions ? this.props.questions.map(q => (
-                <div className={styles.formRow}>
-                  <Question question={q} onChange={this._onQuestionValueChange} />
-                </div>
-              )) : null}
-              <div className={styles.formRow + ' ' + styles.buttonRow} >
-                <Button className="lqd-button-primary" disabled={false} label="Save" />
-                <Button className="lqd-button" disabled={false} label="Cancel" />
+              {this.props.questions?.map((q) => {
+                const a = find(this.state.answers, { QuestionId: q.Id });
+                return (<Question question={q} answer={a} onChange={this._onQuestionValueChange} />);
+              })}
+              <div className={`${styles.formRow} ${styles.buttonRow}`} >
+                <Button className="lqd-button-primary" disabled={false} label="Save" onClick={() => { }} />
+                <Button className="lqd-button" disabled={false} label="Cancel" onClick={() => { }} />
               </div>
             </div>
           </div>

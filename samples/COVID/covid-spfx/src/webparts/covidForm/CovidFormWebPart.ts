@@ -11,8 +11,9 @@ import {
 } from '@microsoft/sp-property-pane';
 import { BaseClientSideWebPart } from '@microsoft/sp-webpart-base';
 
-import * as strings from 'CovidFormWebPartStrings';
-import CovidForm, { ICovidFormProps } from './components/CovidForm';
+import * as strings from 'CovidWebPartStrings';
+import styles from '../../common/components/CovidForm.module.scss';
+import CovidForm, { ICovidFormProps } from '../../common/components/CovidForm';
 import { cs } from '../../common/covid.service';
 import { CheckInMode, IAnswer, ILocations, IQuestion } from '../../common/covid.model';
 
@@ -57,7 +58,7 @@ export default class CovidFormWebPart extends BaseClientSideWebPart<ICovidFormWe
   private _setCheckInMode() {
     let guest = this._getParameterByName("g");
     if (guest === "1") {
-      this._checkInMode = CheckInMode.Guest
+      this._checkInMode = CheckInMode.Guest;
     }
   }
 
@@ -80,7 +81,7 @@ export default class CovidFormWebPart extends BaseClientSideWebPart<ICovidFormWe
         checkInMode: this._checkInMode
       }
     );
-
+    this.domElement.className = styles.appPartPage;
     ReactDom.render(element, this.domElement);
   }
 
@@ -92,20 +93,18 @@ export default class CovidFormWebPart extends BaseClientSideWebPart<ICovidFormWe
     return Version.parse('1.0');
   }
 
+  //TODO: Clean out if not used.
   protected getPropertyPaneConfiguration(): IPropertyPaneConfiguration {
     return {
       pages: [
         {
           header: {
-            description: strings.PropertyPaneDescription
+            description: ""
           },
           groups: [
             {
-              groupName: strings.BasicGroupName,
+              groupName: "",
               groupFields: [
-                PropertyPaneTextField('description', {
-                  label: strings.DescriptionFieldLabel
-                })
               ]
             }
           ]

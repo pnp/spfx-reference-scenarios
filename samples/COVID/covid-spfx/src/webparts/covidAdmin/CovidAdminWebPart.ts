@@ -11,7 +11,8 @@ import {
 } from '@microsoft/sp-property-pane';
 import { BaseClientSideWebPart } from '@microsoft/sp-webpart-base';
 
-import * as strings from 'CovidAdminWebPartStrings';
+import * as strings from 'CovidWebPartStrings';
+import styles from '../../common/components/CovidForm.module.scss';
 import CovidAdmin, { ICovidAdminProps } from './components/CovidAdmin';
 import { cs } from '../../common/covid.service';
 
@@ -39,6 +40,7 @@ export default class CovidAdminWebPart extends BaseClientSideWebPart<ICovidAdmin
       }
     );
 
+    this.domElement.className = styles.appPartPage;
     ReactDom.render(element, this.domElement);
   }
 
@@ -50,21 +52,18 @@ export default class CovidAdminWebPart extends BaseClientSideWebPart<ICovidAdmin
     return Version.parse('1.0');
   }
 
+  //TODO: Clean up if not using property pane.
   protected getPropertyPaneConfiguration(): IPropertyPaneConfiguration {
     return {
       pages: [
         {
           header: {
-            description: strings.PropertyPaneDescription
+            description: ""
           },
           groups: [
             {
-              groupName: strings.BasicGroupName,
-              groupFields: [
-                PropertyPaneTextField('description', {
-                  label: strings.DescriptionFieldLabel
-                })
-              ]
+              groupName: "",
+              groupFields: []
             }
           ]
         }

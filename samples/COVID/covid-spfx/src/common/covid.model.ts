@@ -78,12 +78,12 @@ export class CheckInLI implements ICheckInLI {
   ) { }
 }
 
-export interface ICheckIn extends ICheckInLI {
+export interface ICheckIns extends ICheckInLI {
   Employee: IPerson;
   CheckInBy: IPerson;
 }
 
-export class CheckIn implements ICheckIn {
+export class CheckIns implements ICheckIns {
   constructor(
     public Id: number = 0,
     public Title: string = "",

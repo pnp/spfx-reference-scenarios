@@ -21,7 +21,7 @@
   },
   "externals": {},
   "localizedResources": {
-    "CovidFormWebPartStrings": "lib/webparts/covidForm/loc/{locale}.js",
-    "CovidAdminWebPartStrings": "lib/webparts/covidAdmin/loc/{locale}.js"
+    "CovidWebPartStrings": "lib/common/loc/{locale}.js",
+    "CovidWebPartStrings": "lib/common/loc/{locale}.js"
   }
 }

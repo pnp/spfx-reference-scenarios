@@ -4,17 +4,14 @@ import { isEqual } from "lodash";
 
 export interface ITextBoxProps {
   name: string;
+  value: string;
   onChange: (fieldValue: string, fieldName: string) => void;
 }
 
-export interface ITextBoxState {
-  value: string;
-}
+export interface ITextBoxState { }
 
 export class TextBoxState implements ITextBoxState {
-  constructor(
-    public value: string = ""
-  ) { }
+  constructor() { }
 }
 
 export default class TextBox extends React.Component<ITextBoxProps, ITextBoxState> {
@@ -33,10 +30,9 @@ export default class TextBox extends React.Component<ITextBoxProps, ITextBoxStat
 
   private _onChange = (newValue: string, fieldName: string) => {
     try {
-      this.setState({ value: newValue });
       this.props.onChange(newValue, fieldName);
     } catch (err) {
-      Logger.write(`${err} - ${this.LOG_SOURCE} (textFieldChanged)`, LogLevel.Error);
+      Logger.write(`${this.LOG_SOURCE} (_onChange) - ${err}`, LogLevel.Error);
     }
   }
 
@@ -44,11 +40,17 @@ export default class TextBox extends React.Component<ITextBoxProps, ITextBoxStat
     try {
       return (
         <div className="textbox">
-          <input className="lqd-input-text" name={'question-' + this.props.name} type="text" value={this.state.value} placeholder="" onChange={(newValue) => { this._onChange(newValue.target.value, this.props.name); }} />
+          <input
+            className="lqd-input-text"
+            name={this.props.name}
+            type="text"
+            value={this.props.value}
+            placeholder=""
+            onChange={(newValue) => { this._onChange(newValue.target.value, this.props.name); }} />
         </div>
       );
     } catch (err) {
-      Logger.write(`${err} - ${this.LOG_SOURCE} (render)`, LogLevel.Error);
+      Logger.write(`${this.LOG_SOURCE} (render) - ${err}`, LogLevel.Error);
       return null;
     }
   }

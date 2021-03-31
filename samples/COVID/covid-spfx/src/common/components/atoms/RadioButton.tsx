@@ -2,10 +2,11 @@ import * as React from "react";
 import { Logger, LogLevel } from "@pnp/logging";
 import { isEqual } from "lodash";
 import styles from '../CovidForm.module.scss';
-import { IQuestion } from "../../../../common/covid.model";
+import { IQuestion } from "../../covid.model";
 
 export interface IRadioButtonProps {
   name: string;
+  value: string;
   onChange: (fieldValue: string, fieldName: string) => void;
 }
 
@@ -35,20 +36,20 @@ export default class RadioButton extends React.Component<IRadioButtonProps, IRad
     try {
       this.props.onChange(newValue.value, fieldName);
     } catch (err) {
-      Logger.write(`${err} - ${this.LOG_SOURCE} (_onChange)`, LogLevel.Error);
+      Logger.write(`${this.LOG_SOURCE} (_onChange) - ${err}`, LogLevel.Error);
     }
   }
 
   public render(): React.ReactElement<IRadioButtonProps> {
     try {
       return (
-        <div className={styles.radio} onChange={(newValue) => { this._onChange(newValue.target, this.props.name); }}>
-          <input type="radio" name={'question-' + this.props.name} id={'question-' + this.props.name + "-Yes"} value="Yes" className="lqd-radio" /><label htmlFor={'question-' + this.props.name + "-Yes"}>Yes</label>
-          <input type="radio" name={'question-' + this.props.name} id={'question-' + this.props.name + "-No"} value="No" className="lqd-radio" /><label htmlFor={'question-' + this.props.name + "-No"}>No</label>
+        <div data-component={this.LOG_SOURCE} className={styles.radio} onChange={(newValue) => { this._onChange(newValue.target, this.props.name); }}>
+          <input type="radio" name={this.props.name} id={`${this.props.name}-Yes`} value="Yes" className="lqd-radio" /><label htmlFor={`${this.props.name}-Yes`}>Yes</label>
+          <input type="radio" name={this.props.name} id={`${this.props.name}-No`} value="No" className="lqd-radio" /><label htmlFor={`${this.props.name}-No`}>No</label>
         </div>
       );
     } catch (err) {
-      Logger.write(`${err} - ${this.LOG_SOURCE} (render)`, LogLevel.Error);
+      Logger.write(`${this.LOG_SOURCE} (render) - ${err}`, LogLevel.Error);
       return null;
     }
   }
