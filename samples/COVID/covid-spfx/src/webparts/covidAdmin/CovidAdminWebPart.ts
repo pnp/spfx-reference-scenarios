@@ -21,6 +21,7 @@ export interface ICovidAdminWebPartProps {
 
 export default class CovidAdminWebPart extends BaseClientSideWebPart<ICovidAdminWebPartProps> {
   private LOG_SOURCE: string = "🔶CovidAdminWebPart";
+  private _userId: number = 0;
 
   public async onInit(): Promise<void> {
     //Initialize PnPLogger
@@ -30,18 +31,44 @@ export default class CovidAdminWebPart extends BaseClientSideWebPart<ICovidAdmin
     //Initialize PnPJs
     sp.setup({ spfxContext: this.context });
 
-    cs.init();
+    await cs.init();
+    const user = await sp.web.ensureUser(this.context.pageContext.user.loginName);
+    this._userId = user.data.Id;
+    cs.getCheckIns(new Date());
+    this.processSelfCheckins();
+  }
+
+  private async delay(ms: number): Promise<any> {
+    return new Promise(resolve => setTimeout(resolve, ms));
+  }
+
+  public async processSelfCheckins(): Promise<void> {
+    while (true) {
+      await this.delay(60000);
+      await cs.moveSelfCheckIns();
+    }
   }
 
   public render(): void {
-    const element: React.ReactElement<ICovidAdminProps> = React.createElement(
-      CovidAdmin,
-      {
-      }
-    );
+    try {
+      if (cs.Ready) {
+        const element: React.ReactElement<ICovidAdminProps> = React.createElement(
+          CovidAdmin,
+          {
+            loginName: this.context.pageContext.user.loginName,
+            displayName: this.context.pageContext.user.displayName,
+            userId: this._userId
+          }
+        );
 
-    this.domElement.className = styles.appPartPage;
-    ReactDom.render(element, this.domElement);
+        this.domElement.className = styles.appPartPage;
+        ReactDom.render(element, this.domElement);
+      } else {
+        //TODO: Render error
+      }
+    } catch (err) {
+      Logger.write(`${this.LOG_SOURCE} (render) - ${err}`, LogLevel.Error);
+    }
   }
 
   protected onDispose(): void {

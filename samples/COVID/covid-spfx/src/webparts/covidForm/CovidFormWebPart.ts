@@ -2,12 +2,13 @@ import * as React from 'react';
 import * as ReactDom from 'react-dom';
 
 import { sp } from "@pnp/sp";
+import "@pnp/sp/webs";
+import "@pnp/sp/site-users/web";
 import { Logger, LogLevel, ConsoleListener } from "@pnp/logging";
 
 import { Version } from '@microsoft/sp-core-library';
 import {
   IPropertyPaneConfiguration,
-  PropertyPaneTextField
 } from '@microsoft/sp-property-pane';
 import { BaseClientSideWebPart } from '@microsoft/sp-webpart-base';
 
@@ -15,7 +16,8 @@ import * as strings from 'CovidWebPartStrings';
 import styles from '../../common/components/CovidForm.module.scss';
 import CovidForm, { ICovidFormProps } from '../../common/components/CovidForm';
 import { cs } from '../../common/covid.service';
-import { CheckInMode, IAnswer, ILocations, IQuestion } from '../../common/covid.model';
+import { CheckInMode } from '../../common/covid.model';
+
 
 
 export interface ICovidFormWebPartProps {
@@ -24,65 +26,45 @@ export interface ICovidFormWebPartProps {
 
 export default class CovidFormWebPart extends BaseClientSideWebPart<ICovidFormWebPartProps> {
   private LOG_SOURCE: string = "🔶CovidFormWebPart";
-  private _questions: IQuestion[] = [];
-  private _locations: ILocations[] = [];
-  private _answers: IAnswer[] = [];
-  private _checkInMode: CheckInMode = CheckInMode.Self;
+  private _userId: number = 0;
 
   public async onInit(): Promise<void> {
-    //Initialize PnPLogger
-    Logger.subscribe(new ConsoleListener());
-    Logger.activeLogLevel = LogLevel.Info;
+    try {
+      //Initialize PnPLogger
+      Logger.subscribe(new ConsoleListener());
+      Logger.activeLogLevel = LogLevel.Info;
 
-    //Initialize PnPJs
-    sp.setup({ spfxContext: this.context });
+      //Initialize PnPJs
+      sp.setup({ spfxContext: this.context });
 
-    await cs.init();
-    if (cs.Ready) {
-      this._questions = cs.Questions;
-      this._locations = cs.Locations;
-      this._buildAnswerArray();
-      this._setCheckInMode();
+      await cs.init();
+      const user = await sp.web.ensureUser(this.context.pageContext.user.loginName);
+      this._userId = user.data.Id;
+    } catch (err) {
+      Logger.write(`${this.LOG_SOURCE} (onInit) - ${err}`, LogLevel.Error);
     }
-  }
-
-  private _buildAnswerArray() {
-    this._questions.map((q) => {
-      return this._answers.push({
-        QuestionId: q.Id,
-        Answer: ""
-      });
-    });
-  }
-
-  private _setCheckInMode() {
-    let guest = this._getParameterByName("g");
-    if (guest === "1") {
-      this._checkInMode = CheckInMode.Guest;
-    }
-  }
-
-  private _getParameterByName(name, url = window.location.href) {
-    name = name.replace(/[\[\]]/g, '\\$&');
-    var regex = new RegExp('[?&]' + name + '(=([^&#]*)|&|#|$)'),
-      results = regex.exec(url);
-    if (!results) return null;
-    if (!results[2]) return '';
-    return decodeURIComponent(results[2].replace(/\+/g, ' '));
   }
 
   public render(): void {
-    const element: React.ReactElement<ICovidFormProps> = React.createElement(
-      CovidForm,
-      {
-        questions: this._questions,
-        locations: this._locations,
-        answers: this._answers,
-        checkInMode: this._checkInMode
+    try {
+      if (cs.Ready) {
+        const element: React.ReactElement<ICovidFormProps> = React.createElement(
+          CovidForm,
+          {
+            checkInMode: CheckInMode.Self,
+            loginName: this.context.pageContext.user.loginName,
+            displayName: this.context.pageContext.user.displayName,
+            userId: this._userId
+          }
+        );
+        this.domElement.className = styles.appPartPage;
+        ReactDom.render(element, this.domElement);
+      } else {
+        //TODO: Render error
       }
-    );
-    this.domElement.className = styles.appPartPage;
-    ReactDom.render(element, this.domElement);
+    } catch (err) {
+      Logger.write(`${this.LOG_SOURCE} (render) - ${err}`, LogLevel.Error);
+    }
   }
 
   protected onDispose(): void {

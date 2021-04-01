@@ -8,6 +8,8 @@ import "@pnp/sp/site-users/web";
 import * as lodash from "lodash";
 import { sp } from "@pnp/sp";
 import { ILocations, IQuestion, ICheckIns, ISelfCheckIn, SelfCheckInLI, CheckInLI, ISelfCheckInLI, IAnswer } from "./covid.model";
+import { forEach } from "lodash";
+import { IItemAddResult } from "@pnp/sp/items/types";
 
 const mockAnswers: IAnswer[] = [{ QuestionId: 1, Answer: "no" }, { QuestionId: 2, Answer: "98.2" }, { QuestionId: 3, Answer: "no" }, { QuestionId: 4, Answer: "no" }, { QuestionId: 5, Answer: "no" }, { QuestionId: 6, Answer: "no" }, { QuestionId: 7, Answer: "no" }];
 
@@ -19,6 +21,7 @@ export class CovidService implements ICovidService {
   private LOG_SOURCE = "🔶CovidService";
 
   private SKIPADDFIELDS: string[] = ["Id", "CreatedOn"];
+  private JSONFIELDS: string[] = ["Questions"];
   private LOCATIONLIST = "CheckInLocations";
   private QUESTIONLIST = "CheckInQuestions";
   private SELFCHECKINLIST = "SelfCheckIn";
@@ -28,6 +31,8 @@ export class CovidService implements ICovidService {
   private _locations: ILocations[];
   private _questions: IQuestion[];
   private _checkIns: ICheckIns[];
+
+  private _checkInsRefresh: () => void = null;
 
   constructor() { }
 
@@ -45,6 +50,10 @@ export class CovidService implements ICovidService {
 
   public get CheckIns(): ICheckIns[] {
     return this._checkIns;
+  }
+
+  public set CheckInsRefresh(value: () => void) {
+    this._checkInsRefresh = value;
   }
 
   public async init(): Promise<void> {
@@ -90,7 +99,7 @@ export class CovidService implements ICovidService {
       if (user.data) {
         const today = new Date((new Date()).getFullYear(), (new Date()).getMonth(), (new Date()).getDay());
         const checkIns = await sp.web.lists.getByTitle(this.COVIDCHECKINLIST).items.top(1)
-          .filter(`(EmployeeId eq ${user.data.Id}) and (CreatedOn gt ${today.toUTCString()})`)
+          .filter(`(EmployeeId eq ${user.data.Id}) and (Created gt ${today.toUTCString()})`)
           .get();
 
         if (checkIns.length < 1)
@@ -110,7 +119,15 @@ export class CovidService implements ICovidService {
         .expand("Employee, CheckInBy")
         .get<ICheckIns[]>();
 
+      Object.getOwnPropertyNames(this._checkIns).forEach(prop => {
+        if (this.JSONFIELDS.indexOf(prop) > -1) {
+          this._checkIns[`${prop}Value`] = JSON.parse(this._checkIns[prop]);
+        }
+      });
 
+      if (typeof this._checkInsRefresh == "function") {
+        this._checkInsRefresh();
+      }
       retVal = true;
     } catch (err) {
       Logger.write(`${this.LOG_SOURCE} (getCheckIns) - ${err}`, LogLevel.Error);
@@ -118,33 +135,50 @@ export class CovidService implements ICovidService {
     return retVal;
   }
 
-  public async moveSelfCheckIns(): Promise<boolean> {
-    let retVal: boolean = false;
-    try {
-      //Get Self CheckIns
-      const selfCheckIns = await sp.web.lists.getByTitle(this.SELFCHECKINLIST).items.top(5000)
-        .select("Id, Title, EmployeeId, Questions, CreatedOn")
-        .get<ISelfCheckInLI[]>();
+  public moveSelfCheckIns(): Promise<boolean> {
+    return new Promise(async (resolve) => {
+      try {
+        //Get Self CheckIns
+        const selfCheckIns = await sp.web.lists.getByTitle(this.SELFCHECKINLIST).items.top(5000)
+          .select("Id, Title, EmployeeId, Questions, Created")
+          .get<ISelfCheckInLI[]>();
 
-      if (selfCheckIns.length > 0) {
-        //Bulk Add to CovidCheckIns
-        const batch = sp.createBatch();
-        selfCheckIns.forEach(sci => {
-          let checkInLI = new CheckInLI();
-          checkInLI.SubmittedOn = sci.CreatedOn;
-          Object.getOwnPropertyNames(sci).forEach(prop => {
-            checkInLI[prop] = sci[prop];
+        if (selfCheckIns.length > 0) {
+          let p = [];
+          let pd = [];
+          //Bulk Add to CovidCheckIns
+          const batch = sp.createBatch();
+          const batchDelete = sp.createBatch();
+          selfCheckIns.forEach(sci => {
+            let checkInLI = new CheckInLI();
+            checkInLI.SubmittedOn = sci.Created;
+            Object.getOwnPropertyNames(sci).forEach(prop => {
+              checkInLI[prop] = sci[prop];
+            });
+            this.SKIPADDFIELDS.forEach(f => { delete checkInLI[f]; });
+            p.push(sp.web.lists.getByTitle(this.COVIDCHECKINLIST).items.inBatch(batch).add(checkInLI));
+            pd.push(sp.web.lists.getByTitle(this.SELFCHECKINLIST).items.getById(sci.Id).inBatch(batchDelete).delete());
           });
-          this.SKIPADDFIELDS.forEach(f => { delete checkInLI[f]; });
-          sp.web.lists.getByTitle(this.COVIDCHECKINLIST).items.inBatch(batch).add(checkInLI);
-        });
-        await batch.execute();
-        retVal = true;
+          batch.execute().then(async () => {
+            let result: boolean = true;
+            forEach(p, (item: IItemAddResult) => {
+              if (item == null)
+                result = false;
+            });
+            if (result) {
+              batchDelete.execute();
+              const success = await this.getCheckIns(new Date());
+              resolve(success);
+            } else {
+              resolve(result);
+            }
+          });
+        }
+      } catch (err) {
+        Logger.write(`${this.LOG_SOURCE} (moveSelfCheckIns) - ${err}`, LogLevel.Error);
+        resolve(false);
       }
-    } catch (err) {
-      Logger.write(`${this.LOG_SOURCE} (moveSelfCheckIns) - ${err}`, LogLevel.Error);
-    }
-    return retVal;
+    });
   }
 
   public async addCheckIn(checkIn: ICheckIns): Promise<boolean> {
@@ -152,7 +186,11 @@ export class CovidService implements ICovidService {
     try {
       let checkInLI = new CheckInLI();
       Object.getOwnPropertyNames(checkInLI).forEach(prop => {
-        checkInLI[prop] = checkIn[prop];
+        if (this.JSONFIELDS.indexOf(prop) > -1) {
+          checkInLI[prop] = JSON.stringify(checkIn[`${prop}Value`]);
+        } else {
+          checkInLI[prop] = checkIn[prop];
+        }
       });
       this.SKIPADDFIELDS.forEach(f => { delete checkInLI[f]; });
       const addCheckIn = await sp.web.lists.getByTitle(this.COVIDCHECKINLIST).items.add(checkInLI);
@@ -170,7 +208,11 @@ export class CovidService implements ICovidService {
     try {
       let selfCheckInLI = new SelfCheckInLI();
       Object.getOwnPropertyNames(selfCheckInLI).forEach(prop => {
-        selfCheckInLI[prop] = checkIn[prop];
+        if (this.JSONFIELDS.indexOf(prop) > -1) {
+          selfCheckInLI[prop] = JSON.stringify(checkIn[`${prop}Value`]);
+        } else {
+          selfCheckInLI[prop] = checkIn[prop];
+        }
       });
       this.SKIPADDFIELDS.forEach(f => { delete selfCheckInLI[f]; });
       const addSelfCheckIn = await sp.web.lists.getByTitle(this.SELFCHECKINLIST).items.add(selfCheckInLI);

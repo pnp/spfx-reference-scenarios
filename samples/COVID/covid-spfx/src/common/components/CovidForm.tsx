@@ -4,40 +4,42 @@ import { isEqual, find, cloneDeep } from "lodash";
 
 import styles from './CovidForm.module.scss';
 import Question from "./molecules/Question";
-import { CheckInMode, IAnswer, ILocations, IQuestion } from "../covid.model";
+import { CheckInMode, IAnswer, IQuestion, ICheckIns, CheckIns } from "../covid.model";
 import Button from "./atoms/Button";
 import TextBox from "./atoms/TextBox";
 import DropDown, { IDropDownOption } from "./atoms/DropDown";
+import { cs } from "../covid.service";
 
 export interface ICovidFormProps {
-  questions: IQuestion[];
-  locations: ILocations[];
-  answers: IAnswer[];
   checkInMode: CheckInMode;
+  loginName: string;
+  displayName: string;
+  userId?: number;
+  checkInForm?: ICheckIns;
 }
 
 export interface ICovidFormState {
-  answers: IAnswer[];
-  checkInOffice: string;
-  guest: string;
+  checkInForm: ICheckIns;
 }
 
 export class CovidFormState implements ICovidFormState {
   constructor(
-    public answers: IAnswer[] = [],
-    public checkInOffice: string = "",
-    public guest: string = ""
+    public checkInForm: ICheckIns = new CheckIns()
   ) { }
 }
 
 export default class CovidForm extends React.Component<ICovidFormProps, ICovidFormState> {
   private LOG_SOURCE: string = "🔶CovidForm";
+  private _questions: IQuestion[] = [];
   private _locationOptions: IDropDownOption[] = [];
 
   constructor(props: ICovidFormProps) {
     super(props);
-    this.state = new CovidFormState(this.props.answers);
-    this._locationOptions = props.locations.map((l) => { return { key: l.Title, text: l.Title }; });
+    this._questions = cloneDeep(cs.Questions);
+    this._locationOptions = cs.Locations.map((l) => { return { key: l.Title, text: l.Title }; });
+    const today = new Date();
+    const title = `${props.displayName} - ${today.toLocaleDateString()}`;
+    this.state = new CovidFormState(this.props.checkInForm || new CheckIns(0, title, today, this.props.userId || null, null, "", this._questions.map<IAnswer>((q) => { return { QuestionId: q.Id, Answer: "" }; })));
   }
 
   public shouldComponentUpdate(nextProps: ICovidFormProps, nextState: ICovidFormState) {
@@ -48,11 +50,11 @@ export default class CovidForm extends React.Component<ICovidFormProps, ICovidFo
 
   private _onQuestionValueChange = (fieldValue: string, fieldName: string) => {
     try {
-      let answers = cloneDeep(this.state.answers);
+      const checkInForm = cloneDeep(this.state.checkInForm);
       const questionId: number = +fieldName.split("-")[1];
-      let answer = find(answers, { QuestionId: questionId });
+      let answer = find(checkInForm.QuestionsValue, { QuestionId: questionId });
       answer.Answer = fieldValue;
-      this.setState({ answers: answers });
+      this.setState({ checkInForm: checkInForm });
     } catch (err) {
       Logger.write(`${this.LOG_SOURCE} (_onQuestionValueChange) - ${err}`, LogLevel.Error);
     }
@@ -60,11 +62,34 @@ export default class CovidForm extends React.Component<ICovidFormProps, ICovidFo
 
   private _onTextChange = (fieldValue: string, fieldName: string) => {
     try {
-      let state = {};
-      state[fieldName] = fieldValue;
-      this.setState(state);
+      const checkInForm = cloneDeep(this.state.checkInForm);
+      checkInForm[fieldName] = fieldValue;
+      this.setState({ checkInForm: checkInForm });
     } catch (err) {
       Logger.write(`${this.LOG_SOURCE} (_onTextChange) - ${err}`, LogLevel.Error);
+    }
+  }
+
+  private _save = async (): Promise<void> => {
+    try {
+      const checkInForm = cloneDeep(this.state.checkInForm);
+      let success: boolean = false;
+      if (this.props.checkInMode === CheckInMode.Guest) {
+        success = await cs.addCheckIn(checkInForm);
+      } else {
+        success = await cs.addSelfCheckIn(checkInForm);
+      }
+    } catch (err) {
+      Logger.write(`${this.LOG_SOURCE} (_save) - ${err}`, LogLevel.Error);
+    }
+  }
+
+  private _cancel = () => {
+    try {
+      const checkInForm = new CheckIns();
+      this.setState({ checkInForm: checkInForm });
+    } catch (err) {
+      Logger.write(`${this.LOG_SOURCE} (_cancel) - ${err}`, LogLevel.Error);
     }
   }
 
@@ -81,20 +106,20 @@ export default class CovidForm extends React.Component<ICovidFormProps, ICovidFo
               {this.props.checkInMode === CheckInMode.Guest ?
                 <div className={styles.formRow}>
                   <div className={styles.question}>Guest Name</div>
-                  <TextBox name="guest" value={this.state.guest} onChange={this._onTextChange} />
+                  <TextBox name="Guest" value={this.state.checkInForm.Guest} onChange={this._onTextChange} />
                 </div>
                 : null}
               <div className={styles.formRow}>
                 <div className={styles.question}>Office</div>
-                <DropDown onChange={this._onTextChange} value={this.state.checkInOffice} options={this._locationOptions} id="checkInOffice" />
+                <DropDown onChange={this._onTextChange} value={this.state.checkInForm.CheckInOffice} options={this._locationOptions} id="CheckInOffice" />
               </div>
-              {this.props.questions?.map((q) => {
-                const a = find(this.state.answers, { QuestionId: q.Id });
+              {this._questions?.map((q) => {
+                const a = find(this.state.checkInForm.QuestionsValue, { QuestionId: q.Id });
                 return (<Question question={q} answer={a} onChange={this._onQuestionValueChange} />);
               })}
               <div className={`${styles.formRow} ${styles.buttonRow}`} >
-                <Button className="lqd-button-primary" disabled={false} label="Save" onClick={() => { }} />
-                <Button className="lqd-button" disabled={false} label="Cancel" onClick={() => { }} />
+                <Button className="lqd-button-primary" disabled={false} label="Save" onClick={this._save} />
+                <Button className="lqd-button" disabled={false} label="Cancel" onClick={this._cancel} />
               </div>
             </div>
           </div>
