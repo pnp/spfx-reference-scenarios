@@ -42,14 +42,13 @@ export class DropDownState implements IDropDownState {
 }
 
 export default class DropDown extends React.Component<IDropDownProps, IDropDownState> {
-  private LOG_SOURCE: string = "DropDown";
-  private _optionElements: HTMLLIElement[];
-  private _inputElement;
+  private LOG_SOURCE: string = "🔶DropDown";
+  private _optionElements = [];
+  private _inputElement: React.RefObject<HTMLInputElement>;
 
   constructor(props: IDropDownProps) {
     super(props);
     this.state = new DropDownState(props.options.length);
-    this._optionElements = [];
     this._inputElement = React.createRef<HTMLInputElement>();
   }
 
@@ -75,9 +74,10 @@ export default class DropDown extends React.Component<IDropDownProps, IDropDownS
       switch (this.state.ddState) {
         case DDState.Initial:
           open = !open;
+          ddState = DDState.Open;
           break;
         case DDState.Open:
-          if (focus == this._inputElement) {
+          if (focus == this._inputElement.current) {
             open = false;
             ddState = DDState.Initial;
           } else if (focus.tagName == "LI") {
@@ -124,7 +124,7 @@ export default class DropDown extends React.Component<IDropDownProps, IDropDownS
             open = false;
             ddState = DDState.Closed;
             this._moveFocus(document.activeElement, Focus.Input);
-          } else if (this.state.ddState === DDState.Open && focus === this._inputElement) {
+          } else if (this.state.ddState === DDState.Open && focus === this._inputElement.current) {
             // if state = opened and focus on input, close it
             open = false;
             ddState = DDState.Closed;
@@ -134,7 +134,7 @@ export default class DropDown extends React.Component<IDropDownProps, IDropDownS
             open = false;
             ddState = DDState.Closed;
             this._moveFocus(document.activeElement, Focus.Input);
-          } else if (this.state.ddState === DDState.Filtered && focus === this._inputElement) {
+          } else if (this.state.ddState === DDState.Filtered && focus === this._inputElement.current) {
             // if state = filtered and focus on input, set state to opened
             open = true;
             ddState = DDState.Open;
@@ -158,7 +158,7 @@ export default class DropDown extends React.Component<IDropDownProps, IDropDownS
             // if state = initial or closed, set state to opened and moveFocus to first
             open = true;
             ddState = DDState.Open;
-            this._moveFocus(this._inputElement, Focus.Forward);
+            this._moveFocus(this._inputElement.current, Focus.Forward);
           } else {
             // if state = opened and focus on input, moveFocus to first
             // if state = opened and focus on list, moveFocus to next/first
@@ -174,7 +174,7 @@ export default class DropDown extends React.Component<IDropDownProps, IDropDownS
             // if state = closed, set state to opened and moveFocus to last
             open = true;
             ddState = DDState.Open;
-            this._moveFocus(this._inputElement, Focus.Back);
+            this._moveFocus(this._inputElement.current, Focus.Back);
           } else {
             // if state = opened and focus on input, moveFocus to last
             // if state = opened and focus on list, moveFocus to prev/last
@@ -212,7 +212,7 @@ export default class DropDown extends React.Component<IDropDownProps, IDropDownS
     try {
       let optionsLength = this.state.optionsLength;
       let ddState = this.state.ddState;
-      const terms = this._inputElement.value;
+      const terms = this._inputElement.current.value;
       const aFilteredOptions = this._optionElements.filter((option) => {
         if (option.innerText.toUpperCase().substring(0, terms.length) == (terms.toUpperCase())) {
           return true;
@@ -231,55 +231,59 @@ export default class DropDown extends React.Component<IDropDownProps, IDropDownS
   }
 
   private _moveFocus = (fromHere: Element, toThere: Focus) => {
-    // grab the currently showing options, which might have been filtered
-    const aCurrentOptions = this._optionElements.filter((option) => {
-      if (option.style.display === '') {
-        return true;
+    try {
+      // grab the currently showing options, which might have been filtered
+      const aCurrentOptions = this._optionElements.filter((option) => {
+        if (option.style.display === '') {
+          return true;
+        }
+      });
+      // don't move if all options have been filtered out
+      if (aCurrentOptions.length === 0) {
+        return;
       }
-    });
-    // don't move if all options have been filtered out
-    if (aCurrentOptions.length === 0) {
-      return;
-    }
-    if (toThere === Focus.Input) {
-      this._inputElement.focus();
-    }
-    // possible start points
-    switch (fromHere) {
-      case this._inputElement:
-        if (toThere === Focus.Forward) {
-          aCurrentOptions[0].focus();
-        } else if (toThere === Focus.Back) {
-          aCurrentOptions[aCurrentOptions.length - 1].focus();
-        }
-        break;
-      case this._optionElements[0]:
-        if (toThere === Focus.Forward) {
-          aCurrentOptions[1].focus();
-        } else if (toThere === Focus.Back) {
-          this._inputElement.focus();
-        }
-        break;
-      case this._optionElements[this._optionElements.length - 1]:
-        if (toThere === Focus.Forward) {
-          aCurrentOptions[0].focus();
-        } else if (toThere === Focus.Back) {
-          aCurrentOptions[aCurrentOptions.length - 2].focus();
-        }
-        break;
-      default: // middle list or filtered items 
-        const currentItem = document.activeElement;
-        const whichOne = findIndex(aCurrentOptions, (o) => { return o == (currentItem as HTMLLIElement); });
-        if (toThere === Focus.Forward) {
-          const nextOne = aCurrentOptions[whichOne + 1];
-          nextOne.focus();
-        } else if (toThere === Focus.Back && whichOne > 0) {
-          const previousOne = aCurrentOptions[whichOne - 1];
-          previousOne.focus();
-        } else { // if whichOne = 0
-          this._inputElement.focus();
-        }
-        break;
+      if (toThere === Focus.Input) {
+        this._inputElement.current.focus();
+      }
+      // possible start points
+      switch (fromHere) {
+        case this._inputElement.current:
+          if (toThere === Focus.Forward) {
+            aCurrentOptions[0].focus();
+          } else if (toThere === Focus.Back) {
+            aCurrentOptions[aCurrentOptions.length - 1].focus();
+          }
+          break;
+        case this._optionElements[0]:
+          if (toThere === Focus.Forward) {
+            aCurrentOptions[1].focus();
+          } else if (toThere === Focus.Back) {
+            this._inputElement.current.focus();
+          }
+          break;
+        case this._optionElements[this._optionElements.length - 1]:
+          if (toThere === Focus.Forward) {
+            aCurrentOptions[0].focus();
+          } else if (toThere === Focus.Back) {
+            aCurrentOptions[aCurrentOptions.length - 2].focus();
+          }
+          break;
+        default: // middle list or filtered items 
+          const currentItem = document.activeElement;
+          const whichOne = findIndex(aCurrentOptions, (o) => { return o == (currentItem as HTMLLIElement); });
+          if (toThere === Focus.Forward) {
+            const nextOne = aCurrentOptions[whichOne + 1];
+            nextOne.focus();
+          } else if (toThere === Focus.Back && whichOne > 0) {
+            const previousOne = aCurrentOptions[whichOne - 1];
+            previousOne.focus();
+          } else { // if whichOne = 0
+            this._inputElement.current.focus();
+          }
+          break;
+      }
+    } catch (err) {
+      Logger.write(`${this.LOG_SOURCE} (_moveFocus) - ${err}`, LogLevel.Error);
     }
   }
 
@@ -302,8 +306,8 @@ export default class DropDown extends React.Component<IDropDownProps, IDropDownS
             role="listbox"
             className={`lqd-select-dropdown ${(this.state.open) ? "" : "hidden-all"}`}
             onChange={(newValue) => { this._onChange(newValue.target, this.props.id); }}>
-            {this.props.options.map((o) => {
-              return (<li ref={(element) => this._optionElements?.push(element)} key={o.key} className="lqd-option" role="option" data-value={o.key} tabIndex={-1}>{o.text}</li>);
+            {this.props.options.map((o, index) => {
+              return (<li ref={element => this._optionElements[index] = element} key={o.key} className="lqd-option" role="option" data-value={o.key} tabIndex={-1}>{o.text}</li>);
             })}
           </ul>
         </div>

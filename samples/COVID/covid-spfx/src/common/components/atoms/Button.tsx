@@ -19,7 +19,7 @@ export class ButtonState implements IButtonState {
 }
 
 export default class Button extends React.Component<IButtonProps, IButtonState> {
-  private LOG_SOURCE: string = "Button";
+  private LOG_SOURCE: string = "🔶Button";
 
   constructor(props: IButtonProps) {
     super(props);

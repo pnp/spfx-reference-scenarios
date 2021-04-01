@@ -37,7 +37,7 @@ export default class CovidForm extends React.Component<ICovidFormProps, ICovidFo
   constructor(props: ICovidFormProps) {
     super(props);
     this.state = new CovidFormState(this.props.answers);
-    this._locationOptions = props.locations.map((l) => { return { key: l.Id, text: l.Title }; });
+    this._locationOptions = props.locations.map((l) => { return { key: l.Title, text: l.Title }; });
   }
 
   public shouldComponentUpdate(nextProps: ICovidFormProps, nextState: ICovidFormState) {
@@ -60,9 +60,8 @@ export default class CovidForm extends React.Component<ICovidFormProps, ICovidFo
 
   private _onTextChange = (fieldValue: string, fieldName: string) => {
     try {
-      const value = cloneDeep(this.state[fieldName])[fieldName] = fieldValue;
       let state = {};
-      state[fieldValue] = value;
+      state[fieldName] = fieldValue;
       this.setState(state);
     } catch (err) {
       Logger.write(`${this.LOG_SOURCE} (_onTextChange) - ${err}`, LogLevel.Error);

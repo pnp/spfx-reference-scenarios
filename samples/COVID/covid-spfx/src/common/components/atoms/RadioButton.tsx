@@ -19,7 +19,7 @@ export class RadioButtonState implements IRadioButtonState {
 }
 
 export default class RadioButton extends React.Component<IRadioButtonProps, IRadioButtonState> {
-  private LOG_SOURCE: string = "RadioButton";
+  private LOG_SOURCE: string = "🔶RadioButton";
 
   constructor(props: IRadioButtonProps) {
     super(props);

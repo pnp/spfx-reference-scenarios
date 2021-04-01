@@ -15,7 +15,7 @@ export class TextBoxState implements ITextBoxState {
 }
 
 export default class TextBox extends React.Component<ITextBoxProps, ITextBoxState> {
-  private LOG_SOURCE: string = "TextBox";
+  private LOG_SOURCE: string = "🔶TextBox";
 
   constructor(props: ITextBoxProps) {
     super(props);

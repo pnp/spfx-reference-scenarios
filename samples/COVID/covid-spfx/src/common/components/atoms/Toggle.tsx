@@ -20,7 +20,7 @@ export class ToggleState implements IToggleState {
 }
 
 export default class Toggle extends React.Component<IToggleProps, IToggleState> {
-  private LOG_SOURCE: string = "Toggle";
+  private LOG_SOURCE: string = "🔶Toggle";
 
   constructor(props: IToggleProps) {
     super(props);

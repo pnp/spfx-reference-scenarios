@@ -20,7 +20,7 @@ export class QuestionState implements IQuestionState {
 }
 
 export default class Question extends React.Component<IQuestionProps, IQuestionState> {
-  private LOG_SOURCE: string = "Question";
+  private LOG_SOURCE: string = "🔶Question";
 
   constructor(props: IQuestionProps) {
     super(props);
