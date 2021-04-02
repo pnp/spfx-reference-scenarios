@@ -27,6 +27,7 @@ export interface ICovidFormWebPartProps {
 export default class CovidFormWebPart extends BaseClientSideWebPart<ICovidFormWebPartProps> {
   private LOG_SOURCE: string = "🔶CovidFormWebPart";
   private _userId: number = 0;
+  private _userCanCheckIn: boolean = false;
 
   public async onInit(): Promise<void> {
     try {
@@ -38,25 +39,31 @@ export default class CovidFormWebPart extends BaseClientSideWebPart<ICovidFormWe
       sp.setup({ spfxContext: this.context });
 
       await cs.init();
+
       const user = await sp.web.ensureUser(this.context.pageContext.user.loginName);
       this._userId = user.data.Id;
+      this._userCanCheckIn = await cs.userCanCheckIn(this._userId);
     } catch (err) {
       Logger.write(`${this.LOG_SOURCE} (onInit) - ${err}`, LogLevel.Error);
     }
   }
 
+  //TODO: Better message/styling for already submitted form message.
   public render(): void {
     try {
       if (cs.Ready) {
-        const element: React.ReactElement<ICovidFormProps> = React.createElement(
-          CovidForm,
-          {
+        let element;
+        if (this._userCanCheckIn) {
+          const props: ICovidFormProps = {
             checkInMode: CheckInMode.Self,
             loginName: this.context.pageContext.user.loginName,
             displayName: this.context.pageContext.user.displayName,
             userId: this._userId
-          }
-        );
+          };
+          element = React.createElement(CovidForm, props);
+        } else {
+          element = React.createElement("div", null, "You have already submitted your COVID Attestation today.");
+        }
         this.domElement.className = styles.appPartPage;
         ReactDom.render(element, this.domElement);
       } else {

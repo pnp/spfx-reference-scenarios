@@ -91,20 +91,19 @@ export class CovidService implements ICovidService {
     return retVal;
   }
 
-  public async userCanCheckIn(loginName: string): Promise<boolean> {
+  public async userCanCheckIn(userId: number): Promise<boolean> {
     let retVal: boolean = false;
     try {
       await this.moveSelfCheckIns();
-      const user = await sp.web.ensureUser(loginName);
-      if (user.data) {
-        const today = new Date((new Date()).getFullYear(), (new Date()).getMonth(), (new Date()).getDay());
-        const checkIns = await sp.web.lists.getByTitle(this.COVIDCHECKINLIST).items.top(1)
-          .filter(`(EmployeeId eq ${user.data.Id}) and (Created gt ${today.toUTCString()})`)
-          .get();
+      let today = new Date();
+      today.setHours(0, 0, 0, 0);
+      const checkIns = await sp.web.lists.getByTitle(this.COVIDCHECKINLIST).items.top(1)
+        .filter(`(EmployeeId eq ${userId}) and (SubmittedOn gt '${today.toISOString()}')`)
+        .get();
 
-        if (checkIns.length < 1)
-          retVal = true;
-      }
+      if (checkIns.length < 1)
+        retVal = true;
+
     } catch (err) {
       Logger.write(`${this.LOG_SOURCE} (userCanCheckIn) - ${err} - `, LogLevel.Error);
     }
@@ -173,6 +172,8 @@ export class CovidService implements ICovidService {
               resolve(result);
             }
           });
+        } else {
+          resolve(true);
         }
       } catch (err) {
         Logger.write(`${this.LOG_SOURCE} (moveSelfCheckIns) - ${err}`, LogLevel.Error);
