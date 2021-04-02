@@ -97,32 +97,32 @@ export default class CovidForm extends React.Component<ICovidFormProps, ICovidFo
     try {
       return (
         <div data-component={this.LOG_SOURCE} className={styles.covidForm}>
-          <div className="form">
-            <h1>Covid-19 Employee Self-Attestation Form</h1>
-            <p>As on-site work resumes, all employees must complete a Covid-19 self attestation form each day before they enter
+
+          <h1>Covid-19 Employee Self-Attestation Form</h1>
+          <p>As on-site work resumes, all employees must complete a Covid-19 self attestation form each day before they enter
             the building. This requirement applies to all employees, contractors, visitors, or temporary employees.</p>
-            <p>In the last 72 hours have you experienced any of the following symptoms that are not attributed to another illness?</p>
-            <div className={styles.formBody}>
-              {this.props.checkInMode === CheckInMode.Guest ?
-                <div className={styles.formRow}>
-                  <div className={styles.question}>Guest Name</div>
-                  <TextBox name="Guest" value={this.state.checkInForm.Guest} onChange={this._onTextChange} />
-                </div>
-                : null}
+          <p>In the last 72 hours have you experienced any of the following symptoms that are not attributed to another illness?</p>
+          <div className={styles.form}>
+            {this.props.checkInMode === CheckInMode.Guest ?
               <div className={styles.formRow}>
-                <div className={styles.question}>Office</div>
-                <DropDown onChange={this._onTextChange} value={this.state.checkInForm.CheckInOffice} options={this._locationOptions} id="CheckInOffice" />
+                <div className={styles.question}>Guest Name</div>
+                <TextBox name="Guest" value={this.state.checkInForm.Guest} onChange={this._onTextChange} />
               </div>
-              {this._questions?.map((q) => {
-                const a = find(this.state.checkInForm.QuestionsValue, { QuestionId: q.Id });
-                return (<Question question={q} answer={a} onChange={this._onQuestionValueChange} />);
-              })}
-              <div className={`${styles.formRow} ${styles.buttonRow}`} >
-                <Button className="lqd-button-primary" disabled={false} label="Save" onClick={this._save} />
-                <Button className="lqd-button" disabled={false} label="Cancel" onClick={this._cancel} />
-              </div>
+              : null}
+            <div className={styles.formRow}>
+              <div className={styles.question}>Office</div>
+              <DropDown onChange={this._onTextChange} value={this.state.checkInForm.CheckInOffice} options={this._locationOptions} id="CheckInOffice" />
+            </div>
+            {this._questions?.map((q) => {
+              const a = find(this.state.checkInForm.QuestionsValue, { QuestionId: q.Id });
+              return (<div className={styles.formRow}><Question question={q} answer={a} onChange={this._onQuestionValueChange} /></div>);
+            })}
+            <div className={`${styles.formRow} ${styles.buttons}`} >
+              <Button className="lqd-button-primary" disabled={false} label="Save" onClick={this._save} />
+              <Button className="lqd-button" disabled={false} label="Cancel" onClick={this._cancel} />
             </div>
           </div>
+
         </div>
       );
     } catch (err) {
