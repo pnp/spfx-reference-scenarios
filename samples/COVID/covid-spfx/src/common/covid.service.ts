@@ -20,7 +20,8 @@ export interface ICovidService {
 export class CovidService implements ICovidService {
   private LOG_SOURCE = "🔶CovidService";
 
-  private SKIPADDFIELDS: string[] = ["Id", "CreatedOn"];
+  private SKIPADDFIELDS: string[] = ["Id", "Created"];
+  private SKIPUPDATEFIELDS: string[] = ["Created"];
   private JSONFIELDS: string[] = ["Questions"];
   private LOCATIONLIST = "CheckInLocations";
   private QUESTIONLIST = "CheckInQuestions";
@@ -72,7 +73,10 @@ export class CovidService implements ICovidService {
   private async getLocations(): Promise<boolean> {
     let retVal: boolean = false;
     try {
-      this._locations = await sp.web.lists.getByTitle(this.LOCATIONLIST).items.top(5000).select("Id, Title").get<ILocations[]>();
+      this._locations = await sp.web.lists.getByTitle(this.LOCATIONLIST).items
+        .top(5000)
+        .select("Id, Title")
+        .get<ILocations[]>();
       retVal = true;
     } catch (err) {
       Logger.write(`${this.LOG_SOURCE} (getLocations) - ${err}`, LogLevel.Error);
@@ -83,7 +87,12 @@ export class CovidService implements ICovidService {
   private async getQuestions(): Promise<boolean> {
     let retVal: boolean = false;
     try {
-      this._questions = await sp.web.lists.getByTitle(this.QUESTIONLIST).items.top(5000).select("Id, Title, ToolTip, QuestionType, Order").filter("Enabled eq 1").orderBy("Order").get<IQuestion[]>();
+      this._questions = await sp.web.lists.getByTitle(this.QUESTIONLIST).items
+        .top(5000)
+        .select("Id, Title, ToolTip, QuestionType, Order")
+        .filter("Enabled eq 1")
+        .orderBy("Order")
+        .get<IQuestion[]>();
       retVal = true;
     } catch (err) {
       Logger.write(`${this.LOG_SOURCE} (getQuestions) - ${err}`, LogLevel.Error);
@@ -97,7 +106,8 @@ export class CovidService implements ICovidService {
       await this.moveSelfCheckIns();
       let today = new Date();
       today.setHours(0, 0, 0, 0);
-      const checkIns = await sp.web.lists.getByTitle(this.COVIDCHECKINLIST).items.top(1)
+      const checkIns = await sp.web.lists.getByTitle(this.COVIDCHECKINLIST).items
+        .top(1)
         .filter(`(EmployeeId eq ${userId}) and (SubmittedOn gt '${today.toISOString()}')`)
         .get();
 
@@ -113,7 +123,8 @@ export class CovidService implements ICovidService {
   public async getCheckIns(today: Date): Promise<boolean> {
     let retVal: boolean = false;
     try {
-      this._checkIns = await sp.web.lists.getByTitle(this.COVIDCHECKINLIST).items.top(5000)
+      this._checkIns = await sp.web.lists.getByTitle(this.COVIDCHECKINLIST).items
+        .top(5000)
         .select("Id, Title, EmployeeId, Employee/Id, Employee/Title, Guest, CheckInOffice, Questions, CheckIn, CheckInById, CheckInBy/Id, CheckInBy/Title")
         .expand("Employee, CheckInBy")
         .get<ICheckIns[]>();
@@ -138,8 +149,9 @@ export class CovidService implements ICovidService {
     return new Promise(async (resolve) => {
       try {
         //Get Self CheckIns
-        const selfCheckIns = await sp.web.lists.getByTitle(this.SELFCHECKINLIST).items.top(5000)
-          .select("Id, Title, EmployeeId, Questions, Created")
+        const selfCheckIns = await sp.web.lists.getByTitle(this.SELFCHECKINLIST).items
+          .top(5000)
+          .select("Id, Title, EmployeeId, CheckInOffice, Questions, Created")
           .get<ISelfCheckInLI[]>();
 
         if (selfCheckIns.length > 0) {
@@ -200,6 +212,20 @@ export class CovidService implements ICovidService {
       retVal = true;
     } catch (err) {
       Logger.write(`${this.LOG_SOURCE} (addCheckIn) - ${err}`, LogLevel.Error);
+    }
+    return retVal;
+  }
+
+  public async adminCheckIn(checkIn: ICheckIns): Promise<boolean> {
+    let retVal: boolean = false;
+    try {
+      const data = { CheckIn: checkIn.CheckIn, CheckInById: checkIn.CheckInById };
+      const updateCheckIn = await sp.web.lists.getByTitle(this.COVIDCHECKINLIST).items.getById(checkIn.Id).update(data);
+      if (updateCheckIn.item)
+        retVal = true;
+      retVal = true;
+    } catch (err) {
+      Logger.write(`${this.LOG_SOURCE} (adminCheckIn) - ${err}`, LogLevel.Error);
     }
     return retVal;
   }

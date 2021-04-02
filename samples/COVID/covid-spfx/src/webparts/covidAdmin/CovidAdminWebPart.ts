@@ -7,7 +7,9 @@ import { Logger, LogLevel, ConsoleListener } from "@pnp/logging";
 import { Version } from '@microsoft/sp-core-library';
 import {
   IPropertyPaneConfiguration,
-  PropertyPaneTextField
+  PropertyPaneTextField,
+  PropertyPaneSlider,
+  PropertyPaneLabel
 } from '@microsoft/sp-property-pane';
 import { BaseClientSideWebPart } from '@microsoft/sp-webpart-base';
 
@@ -17,6 +19,8 @@ import CovidAdmin, { ICovidAdminProps } from './components/CovidAdmin';
 import { cs } from '../../common/covid.service';
 
 export interface ICovidAdminWebPartProps {
+  moveCheckingRate: number;
+  notifyGroup: string;
 }
 
 export default class CovidAdminWebPart extends BaseClientSideWebPart<ICovidAdminWebPartProps> {
@@ -44,7 +48,8 @@ export default class CovidAdminWebPart extends BaseClientSideWebPart<ICovidAdmin
 
   public async processSelfCheckins(): Promise<void> {
     while (true) {
-      await this.delay(60000);
+      const delay: number = (this.properties.moveCheckingRate == null) ? 60000 : (this.properties.moveCheckingRate * 60000);
+      await this.delay(delay);
       await cs.moveSelfCheckIns();
     }
   }
@@ -84,13 +89,19 @@ export default class CovidAdminWebPart extends BaseClientSideWebPart<ICovidAdmin
     return {
       pages: [
         {
-          header: {
-            description: ""
-          },
           groups: [
             {
-              groupName: "",
-              groupFields: []
+              groupName: "Configuration",
+              groupFields: [
+                PropertyPaneTextField("notifyGroup", {
+                  label: "Email Notification Group"
+                }),
+                PropertyPaneLabel("", { text: "Employee Check-In Update (mins)" }),
+                PropertyPaneSlider("moveCheckingRate", {
+                  min: 1,
+                  max: 60
+                })
+              ]
             }
           ]
         }

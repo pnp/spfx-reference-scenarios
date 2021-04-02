@@ -64,7 +64,7 @@ export default class CovidAdmin extends React.Component<ICovidAdminProps, ICovid
           </div>
           {this.state.tab === ADMINTABS.TODAY &&
             <div>
-              {this.state.checkIns.map((ci) => {
+              {this.state.checkIns?.map((ci) => {
                 return (
                   <div key={ci.Id}>
                     <span>{ci.Id}</span>
