@@ -1,7 +1,11 @@
 //@import '~office-ui-fabric-react/dist/sass/References.scss';
 :global {
   @import "node_modules/liquid-core/src/styles/00-base/colors/color-vars-css-converted";
+
 }
+
+@import "node_modules/liquid-core/src/styles/00-base/mixin/core.mixin";
+@import "node_modules/liquid-core/src/styles/00-base/mixin/grid.mixin";
 
 .appPartPage {
   box-sizing: border-box;
@@ -12,42 +16,49 @@
 
 .covidForm {
   :global {
-    @import "node_modules/liquid-core/src/styles/style.scss";
+    @import "node_modules/liquid-core/src/styles/style";
 
     .lqd-input-text {
       width: 100%;
     }
   }
 
-  .formBody {
-    max-width: 40%;
+  .form {
+    @include gridBase();
+
   }
 
+  /*h1 {
+    @include gridSpan(12, 1);
+  }
+
+  p,
+  .lqd-select,
+  .question,
+  .textbox {
+    @include gridSpan(6, 1);
+  }*/
   .formRow {
-    font-size: 1rem;
-    padding-bottom: 1.25rem;
-
-    .question {
-      font-weight: bold;
-    }
-
-    .radio label {
-      padding-right: .25rem;
-    }
+    @include gridSpan(6, 1);
   }
 
-  .buttonRow {
+  .question {
+    font-weight: 700;
+    line-height: 24px;
+  }
+
+  .textbox {
+    width: 100%;
+  }
+
+  .buttons,
+  .radio {
+    @include gridSpan(2, 1);
     display: flex;
+    gap: px2rem(16px);
 
     button {
-      margin-right: 1rem;
       cursor: pointer;
-    }
-  }
-
-  @media screen and (max-width: 1024px) {
-    .formBody {
-      max-width: fit-content;
     }
   }
 }
