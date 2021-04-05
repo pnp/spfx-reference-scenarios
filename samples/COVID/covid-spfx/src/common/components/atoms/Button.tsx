@@ -1,8 +1,6 @@
 import * as React from "react";
 import { Logger, LogLevel } from "@pnp/logging";
 import { isEqual } from "lodash";
-import styles from '../CovidForm.module.scss';
-import { IQuestion } from "../../covid.model";
 
 export interface IButtonProps {
   className: string;

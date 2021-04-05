@@ -1,3 +1,33 @@
 //@import '~office-ui-fabric-react/dist/sass/References.scss';
+:global {
+  @import "node_modules/liquid-core/src/styles/00-base/colors/color-vars-css-converted";
 
-.covidAdmin {}
+}
+
+@import "node_modules/liquid-core/src/styles/00-base/mixin/core.mixin";
+
+.covidAdmin {
+  :global {
+    @import "node_modules/liquid-core/src/styles/style";
+
+    .lqd-input-text {
+      width: 100%;
+    }
+  }
+
+  .dot {
+    height: 1rem;
+    width: 1rem;
+    background-color: green;
+    border-radius: 50%;
+    display: inline-block;
+  }
+
+  .green {
+    background-color: green;
+  }
+
+  .red {
+    background-color: red;
+  }
+}

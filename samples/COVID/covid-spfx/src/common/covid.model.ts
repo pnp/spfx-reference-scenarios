@@ -115,3 +115,7 @@ export enum CheckInMode {
   Self = "Self",
   Guest = "Guest"
 }
+export interface IIconType {
+  Class: string;
+  SVG: string;
+}

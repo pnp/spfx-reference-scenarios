@@ -38,13 +38,13 @@ export default class Question extends React.Component<IQuestionProps, IQuestionS
     try {
 
       return (
-        <div data-component={this.LOG_SOURCE} key={this.props.question.Id}>
+        <>
           <div className={styles.question}>{this.props.question.Title}</div>
           {this.props.question.QuestionType === QuestionType.YesNo ?
             <RadioButton name={`question-${this.props.question.Id}`} value={this.props.answer.Answer} onChange={this.props.onChange} /> :
             <TextBox name={`question-${this.props.question.Id}`} value={this.props.answer.Answer} onChange={this.props.onChange} />
           }
-        </div>
+        </>
       );
     } catch (err) {
       Logger.write(`${this.LOG_SOURCE} (render) - ${err}`, LogLevel.Error);
