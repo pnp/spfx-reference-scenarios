@@ -1,4 +1,8 @@
 export const Icons = {
   "LeftArrow": { "Class": "left-arrow", "SVG": '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 2048 2048"><path d="M1390 2023l-999-999 999-999 121 121-878 878 878 878-121 121z"></path></svg>' },
-  "RightArrow": { "Class": "right-arrow", "SVG": '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 2048 2048"><path d="M515 1955l930-931L515 93l90-90 1022 1021L605 2045l-90-90z"></path></svg>' }
+  "RightArrow": { "Class": "right-arrow", "SVG": '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 2048 2048"><path d="M515 1955l930-931L515 93l90-90 1022 1021L605 2045l-90-90z"></path></svg>' },
+  "MoreVertical": { "Class": "more-vertical", "SVG": '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 2048 2048"><path d="M1024 1664q27 0 50 10t40 27 28 41 10 50q0 27-10 50t-27 40-41 28-50 10q-27 0-50-10t-40-27-28-41-10-50q0-27 10-50t27-40 41-28 50-10zm0-768q27 0 50 10t40 27 28 41 10 50q0 27-10 50t-27 40-41 28-50 10q-27 0-50-10t-40-27-28-41-10-50q0-27 10-50t27-40 41-28 50-10zm0-512q-27 0-50-10t-40-27-28-41-10-50q0-27 10-50t27-40 41-28 50-10q27 0 50 10t40 27 28 41 10 50q0 27-10 50t-27 40-41 28-50 10z"></path></svg>' },
+  "Close": { "Class": "close", "SVG": '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 2048 2048"><path d="M1169 1024l879 879-145 145-879-879-879 879L0 1903l879-879L0 145 145 0l879 879L1903 0l145 145-879 879z"></path></svg>' },
+  "Check": { "Class": "check", "SVG": '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 2048 2048"><path d="M1902 196l121 120L683 1657 25 999l121-121 537 537L1902 196z"></path></svg>' },
+  "DownArrow": { "Class": "down-arrow", "SVG": '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 2048 2048"><path d="M1024 1657L25 658l121-121 878 878 878-878 121 121-999 999z"></path></svg>' },
 };

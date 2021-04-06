@@ -7,10 +7,17 @@ import CovidForm from "../../../common/components/CovidForm";
 import styles from "./CovidAdmin.module.scss";
 import PivotBar, { IPivotBarOption } from "../../../common/components/atoms/PivotBar";
 import DatePicker from "../../../common/components/molecules/DatePicker";
+import Persona, { Presence } from "../../../common/components/molecules/Persona";
+import ButtonIcon from "../../../common/components/atoms/ButtonIcon";
+import { Icons } from "../../../common/enums";
+import { Size } from "../../../common/components/atoms/Avatar";
+import CovidAdministration from "./CovidAdministration";
 
 export enum ADMINTABS {
   "TODAY",
-  "GUEST"
+  "GUEST",
+  "CONTACTTRACING",
+  "ADMINISTRATION"
 }
 export interface ICovidAdminProps {
   loginName: string;
@@ -22,6 +29,7 @@ export interface ICovidAdminState {
   tab: ADMINTABS;
   checkIns: ICheckIns[];
   selectedDate: Date;
+
 }
 
 export class CovidAdminState implements ICovidAdminState {
@@ -29,18 +37,26 @@ export class CovidAdminState implements ICovidAdminState {
     public checkIns: ICheckIns[] = [],
     public tab: ADMINTABS = ADMINTABS.TODAY,
     public selectedDate: Date = new Date()
+
   ) { }
 }
 
 export default class CovidAdmin extends React.Component<ICovidAdminProps, ICovidAdminState> {
   private LOG_SOURCE: string = "🔶 CovidAdmin";
   //Set up the tabs for the PivotBar
+  //Does this belong here?
   private _tabOptions: IPivotBarOption[] = [
     {
-      key: 0, text: "Today", active: true, onClick: () => this._changeTab(ADMINTABS.TODAY)
+      text: "Today", active: true, onClick: () => this._changeTab(ADMINTABS.TODAY)
     },
     {
-      key: 1, text: "Register Guest", active: false, onClick: () => this._changeTab(ADMINTABS.GUEST)
+      text: "Register Guest", active: false, onClick: () => this._changeTab(ADMINTABS.GUEST)
+    },
+    {
+      text: "Contact Tracing", active: false, onClick: () => this._changeTab(ADMINTABS.CONTACTTRACING)
+    },
+    {
+      text: "Administration", active: false, onClick: () => this._changeTab(ADMINTABS.ADMINISTRATION)
     }];
 
   constructor(props: ICovidAdminProps) {
@@ -67,6 +83,7 @@ export default class CovidAdmin extends React.Component<ICovidAdminProps, ICovid
     this.setState({ tab: newTab });
   }
 
+
   private _changeDate = (dateOffset: number) => {
     try {
       const selectedDate = cloneDeep(this.state.selectedDate);
@@ -76,20 +93,31 @@ export default class CovidAdmin extends React.Component<ICovidAdminProps, ICovid
       Logger.write(`${this.LOG_SOURCE} (_changeDate) - ${err}`, LogLevel.Error);
     }
   }
+  private _checkInPerson = () => {
+    try {
+      console.log("I did something");
+    } catch (err) {
+      Logger.write(`${this.LOG_SOURCE} (_changeDate) - ${err}`, LogLevel.Error);
+    }
+  }
+
 
   public render(): React.ReactElement<ICovidAdminProps> {
     try {
+
+
+
       return (
         <div data-component={this.LOG_SOURCE} className={styles.covidAdmin}>
-          <h1>Check-In Covid-19</h1>
-          <p>As people enter the building please check this Covid check-In page to ensure that they have completed their self
-    attestation. For guests please fill out the form for them. using the link below.</p>
+
           <PivotBar options={this._tabOptions} />
-
-
           {this.state.tab === ADMINTABS.TODAY &&
             <>
+              <h1>Check-In Covid-19</h1>
+              <p>As people enter the building please check this Covid check-In page to ensure that they have completed their self
+    attestation. For guests please fill out the form for them. using the link below.</p>
               <DatePicker selectedDate={this.state.selectedDate} onDateChange={this._changeDate} />
+
               <table className="lqd-table">
                 <thead>
                   <tr>
@@ -98,6 +126,7 @@ export default class CovidAdmin extends React.Component<ICovidAdminProps, ICovid
                     <th>Submitted</th>
                     <th>Status</th>
                     <th>Checked In</th>
+                    <th></th>
                   </tr>
                 </thead>
                 <tbody>
@@ -105,27 +134,15 @@ export default class CovidAdmin extends React.Component<ICovidAdminProps, ICovid
                     return (
                       //TODO: add loading="lazy" to image
                       <tr key={ci.Id}>
-                        <td>
-                          <div className="lqd-persona">
-                            <div className="lqd-avatar-pres">
-                              <div className="lqd-avatar">
 
-                                <img src="../../../images/mug-shots/female-mugshot-001.jpg" alt="" className="lqd-avatar" />
-                              </div>
-                              <div className="lqd-presence is-dnd" title="Online"></div>
-                            </div>
-                            <div className="lqd-persona-data">
-                              <div className="lqd-persona-name">{ci.Employee?.Title || ci.Guest}</div>
-                              //<div className="lqd-persona-function"><span>Lead Fluent Designer</span></div>
-                              //<div className="lqd-persona-statustext"><span>In a meeting</span></div>
-                              //<div className="lqd-persona-available"><span>Call me yesterday</span></div>
-                            </div>
-                          </div>
+                        <td>
+                          <Persona size={Size.FortyEight} src="https://pbs.twimg.com/profile_images/1238648419415187457/53YpWGZ4_400x400.jpg" showPresence={true} presence={Presence.Away} name={ci.Employee?.Title || ci.Guest} />
                         </td>
                         <td>{ci.CheckInOffice}</td>
                         <td>{ci.SubmittedOn || ci.Created}</td>
-                        <td>status</td>
+                        <td className={styles.checkIn}><span className={`${(ci.CheckIn) ? styles.isCheckedIn : styles.isNotCheckedIn}`}></span></td>
                         <td>{ci.CheckIn}</td>
+                        <td><ButtonIcon iconType={Icons.Check} onClick={this._checkInPerson} /></td>
                       </tr>
                     );
                   })}
@@ -137,6 +154,7 @@ export default class CovidAdmin extends React.Component<ICovidAdminProps, ICovid
                     <th>Submitted</th>
                     <th>Status</th>
                     <th>Checked In</th>
+                    <th></th>
                   </tr>
                 </tfoot>
               </table>
@@ -145,6 +163,12 @@ export default class CovidAdmin extends React.Component<ICovidAdminProps, ICovid
           }
           {this.state.tab === ADMINTABS.GUEST &&
             <CovidForm loginName={this.props.loginName} displayName={this.props.displayName} userId={this.props.userId} checkInMode={CheckInMode.Guest} />
+          }
+          {this.state.tab === ADMINTABS.CONTACTTRACING &&
+            <div>Contact Tracing goes here</div>
+          }
+          {this.state.tab === ADMINTABS.ADMINISTRATION &&
+            <CovidAdministration />
           }
         </div>
       );

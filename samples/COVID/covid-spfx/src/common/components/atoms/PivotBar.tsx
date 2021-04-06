@@ -3,7 +3,6 @@ import { Logger, LogLevel } from "@pnp/logging";
 import { isEqual } from "lodash";
 
 export interface IPivotBarOption {
-  key: string | number;
   text: string;
   active: boolean;
   onClick: React.MouseEventHandler<HTMLButtonElement>;
@@ -41,7 +40,7 @@ export default class PivotBar extends React.Component<IPivotBarProps, IPivotBarS
         <div className="lqd-pivotbar">
           {this.props.options.map((o, index) => {
             return (
-              <button className={`lqd-button-pivot ${(o.active) ? "is-active" : ""}`} onClick={o.onClick} key={o.key}>
+              <button className={`lqd-button-pivot ${(o.active) ? "is-active" : ""}`} onClick={o.onClick}>
                 <div className="lqd-pivot-inner" title={o.text}>{o.text}</div>
               </button>);
           })}

@@ -9,6 +9,7 @@ import Button from "./atoms/Button";
 import TextBox from "./atoms/TextBox";
 import DropDown, { IDropDownOption } from "./atoms/DropDown";
 import { cs } from "../covid.service";
+import Dialog from "./molecules/Dialog";
 
 export interface ICovidFormProps {
   checkInMode: CheckInMode;
@@ -20,11 +21,15 @@ export interface ICovidFormProps {
 
 export interface ICovidFormState {
   checkInForm: ICheckIns;
+  dialogVisible: boolean;
+  formVisible: boolean;
 }
 
 export class CovidFormState implements ICovidFormState {
   constructor(
-    public checkInForm: ICheckIns = new CheckIns()
+    public checkInForm: ICheckIns = new CheckIns(),
+    public dialogVisible: boolean = false,
+    public formVisible: boolean = true
   ) { }
 }
 
@@ -79,6 +84,9 @@ export default class CovidForm extends React.Component<ICovidFormProps, ICovidFo
       } else {
         success = await cs.addSelfCheckIn(checkInForm);
       }
+      if (success) {
+        this.setState({ dialogVisible: true, formVisible: false });
+      }
     } catch (err) {
       Logger.write(`${this.LOG_SOURCE} (_save) - ${err}`, LogLevel.Error);
     }
@@ -92,9 +100,21 @@ export default class CovidForm extends React.Component<ICovidFormProps, ICovidFo
       Logger.write(`${this.LOG_SOURCE} (_cancel) - ${err}`, LogLevel.Error);
     }
   }
+  private _changeVisibility = (visible: boolean): void => {
+    this.setState({ dialogVisible: visible });
+  }
 
   public render(): React.ReactElement<ICovidFormProps> {
     try {
+      let formVisibleCSS: React.CSSProperties = {};
+      let confirmationVisibleCSS: React.CSSProperties = {};
+      if (!this.state.formVisible) {
+        formVisibleCSS = { 'display': 'none' };
+        confirmationVisibleCSS = { 'display': 'block' };
+      } else {
+        formVisibleCSS = {};
+        confirmationVisibleCSS = { 'display': 'none' };
+      }
       return (
         <div data-component={this.LOG_SOURCE} className={styles.covidForm}>
 
@@ -102,7 +122,7 @@ export default class CovidForm extends React.Component<ICovidFormProps, ICovidFo
           <p>As on-site work resumes, all employees must complete a Covid-19 self attestation form each day before they enter
             the building. This requirement applies to all employees, contractors, visitors, or temporary employees.</p>
           <p>In the last 72 hours have you experienced any of the following symptoms that are not attributed to another illness?</p>
-          <div className={styles.form}>
+          <div className={styles.form} style={formVisibleCSS}>
             {this.props.checkInMode === CheckInMode.Guest ?
               <div className={styles.formRow}>
                 <div className={styles.question}>Guest Name</div>
@@ -122,7 +142,10 @@ export default class CovidForm extends React.Component<ICovidFormProps, ICovidFo
               <Button className="lqd-button" disabled={false} label="Cancel" onClick={this._cancel} />
             </div>
           </div>
-
+          <div style={confirmationVisibleCSS}>
+            <p>Thank you for submitting your attestation for today. You can only submit one attestation per day.</p>
+          </div>
+          <Dialog header="Submission Submitted Successfully" content="Your check in was submitted successfully." visible={this.state.dialogVisible} onChange={this._changeVisibility} />
         </div>
       );
     } catch (err) {

@@ -15,19 +15,18 @@
     }
   }
 
-  .dot {
+  .checkIn span {
     height: 1rem;
     width: 1rem;
-    background-color: green;
     border-radius: 50%;
     display: inline-block;
   }
 
-  .green {
+  .isCheckedIn {
     background-color: green;
   }
 
-  .red {
+  .isNotCheckedIn {
     background-color: red;
   }
 }
