@@ -110,9 +110,9 @@ export default class CovidForm extends React.Component<ICovidFormProps, ICovidFo
       let confirmationVisibleCSS: React.CSSProperties = {};
       if (!this.state.formVisible) {
         formVisibleCSS = { 'display': 'none' };
-        confirmationVisibleCSS = { 'display': 'block' };
+        confirmationVisibleCSS = { 'display': 'visible' };
       } else {
-        formVisibleCSS = {};
+        formVisibleCSS = { 'display': 'grid' };
         confirmationVisibleCSS = { 'display': 'none' };
       }
       return (
