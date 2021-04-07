@@ -1,3 +1,39 @@
+export enum Tables {
+  LOCATIONLIST = "CheckInLocations",
+  QUESTIONLIST = "CheckInQuestions",
+  SELFCHECKINLIST = "SelfCheckIn",
+  COVIDCHECKINLIST = "CovidCheckIn"
+}
+
+export interface IFieldList {
+  name: string;
+  props: { FieldTypeKind: number, choices?: string[], richText?: boolean };
+}
+
+export const QUESTIONLISTFields: IFieldList[] = [
+  { name: "Question", props: { "FieldTypeKind": 2 } },
+  { name: "ToolTip", props: { "FieldTypeKind": 3, "richText": false } },
+  { name: "QuestionType", props: { "FieldTypeKind": 6, "choices": ["Yes/No", "Text"] } },
+  { name: "Order", props: { "FieldTypeKind": 9 } },
+  { name: "Enabled", props: { "FieldTypeKind": 8 } },
+];
+
+export const SELFCHECKINLISTFields: IFieldList[] = [
+  { name: "CheckInOffice", props: { "FieldTypeKind": 2 } },
+  { name: "Employee", props: { "FieldTypeKind": 20 } },
+  { name: "Questions", props: { "FieldTypeKind": 3, "richText": false } }
+];
+
+export const COVIDCHECKINLISTFields: IFieldList[] = [
+  { name: "CheckInOffice", props: { "FieldTypeKind": 2 } },
+  { name: "Employee", props: { "FieldTypeKind": 20 } },
+  { name: "Questions", props: { "FieldTypeKind": 3, "richText": false } },
+  { name: "CheckIn", props: { "FieldTypeKind": 4 } },
+  { name: "CheckInBy", props: { "FieldTypeKind": 20 } },
+  { name: "Guest", props: { "FieldTypeKind": 2 } },
+  { name: "SubmittedOn", props: { "FieldTypeKind": 4 } },
+];
+
 export interface IList {
   Id: number;
   Title: string;

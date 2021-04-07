@@ -7,7 +7,7 @@ import "@pnp/sp/site-users/web";
 
 import * as lodash from "lodash";
 import { sp } from "@pnp/sp";
-import { ILocations, IQuestion, ICheckIns, ISelfCheckIn, SelfCheckInLI, CheckInLI, ISelfCheckInLI, IAnswer } from "./covid.model";
+import { ILocations, IQuestion, ICheckIns, ISelfCheckIn, SelfCheckInLI, CheckInLI, ISelfCheckInLI, IAnswer, Tables } from "./covid.model";
 import { forEach } from "lodash";
 import { IItemAddResult } from "@pnp/sp/items/types";
 
@@ -23,10 +23,6 @@ export class CovidService implements ICovidService {
   private SKIPADDFIELDS: string[] = ["Id", "Created"];
   private SKIPUPDATEFIELDS: string[] = ["Created"];
   private JSONFIELDS: string[] = ["Questions"];
-  private LOCATIONLIST = "CheckInLocations";
-  private QUESTIONLIST = "CheckInQuestions";
-  private SELFCHECKINLIST = "SelfCheckIn";
-  private COVIDCHECKINLIST = "CovidCheckIn";
 
   private _ready: boolean = false;
   private _locations: ILocations[];
@@ -73,7 +69,7 @@ export class CovidService implements ICovidService {
   private async getLocations(): Promise<boolean> {
     let retVal: boolean = false;
     try {
-      this._locations = await sp.web.lists.getByTitle(this.LOCATIONLIST).items
+      this._locations = await sp.web.lists.getByTitle(Tables.LOCATIONLIST).items
         .top(5000)
         .select("Id, Title")
         .get<ILocations[]>();
@@ -87,7 +83,7 @@ export class CovidService implements ICovidService {
   private async getQuestions(): Promise<boolean> {
     let retVal: boolean = false;
     try {
-      this._questions = await sp.web.lists.getByTitle(this.QUESTIONLIST).items
+      this._questions = await sp.web.lists.getByTitle(Tables.QUESTIONLIST).items
         .top(5000)
         .select("Id, Title, ToolTip, QuestionType, Order")
         .filter("Enabled eq 1")
@@ -106,7 +102,7 @@ export class CovidService implements ICovidService {
       await this.moveSelfCheckIns();
       let today = new Date();
       today.setHours(0, 0, 0, 0);
-      const checkIns = await sp.web.lists.getByTitle(this.COVIDCHECKINLIST).items
+      const checkIns = await sp.web.lists.getByTitle(Tables.COVIDCHECKINLIST).items
         .top(1)
         .filter(`(EmployeeId eq ${userId}) and (SubmittedOn gt '${today.toISOString()}')`)
         .get();
@@ -123,7 +119,7 @@ export class CovidService implements ICovidService {
   public async getCheckIns(today: Date): Promise<boolean> {
     let retVal: boolean = false;
     try {
-      this._checkIns = await sp.web.lists.getByTitle(this.COVIDCHECKINLIST).items
+      this._checkIns = await sp.web.lists.getByTitle(Tables.COVIDCHECKINLIST).items
         .top(5000)
         .select("Id, Title, EmployeeId, Employee/Id, Employee/Title, Guest, CheckInOffice, Questions, CheckIn, CheckInById, CheckInBy/Id, CheckInBy/Title")
         .expand("Employee, CheckInBy")
@@ -149,7 +145,7 @@ export class CovidService implements ICovidService {
     return new Promise(async (resolve) => {
       try {
         //Get Self CheckIns
-        const selfCheckIns = await sp.web.lists.getByTitle(this.SELFCHECKINLIST).items
+        const selfCheckIns = await sp.web.lists.getByTitle(Tables.SELFCHECKINLIST).items
           .top(5000)
           .select("Id, Title, EmployeeId, CheckInOffice, Questions, Created")
           .get<ISelfCheckInLI[]>();
@@ -167,8 +163,8 @@ export class CovidService implements ICovidService {
               checkInLI[prop] = sci[prop];
             });
             this.SKIPADDFIELDS.forEach(f => { delete checkInLI[f]; });
-            p.push(sp.web.lists.getByTitle(this.COVIDCHECKINLIST).items.inBatch(batch).add(checkInLI));
-            pd.push(sp.web.lists.getByTitle(this.SELFCHECKINLIST).items.getById(sci.Id).inBatch(batchDelete).delete());
+            p.push(sp.web.lists.getByTitle(Tables.COVIDCHECKINLIST).items.inBatch(batch).add(checkInLI));
+            pd.push(sp.web.lists.getByTitle(Tables.SELFCHECKINLIST).items.getById(sci.Id).inBatch(batchDelete).delete());
           });
           batch.execute().then(async () => {
             let result: boolean = true;
@@ -206,7 +202,7 @@ export class CovidService implements ICovidService {
         }
       });
       this.SKIPADDFIELDS.forEach(f => { delete checkInLI[f]; });
-      const addCheckIn = await sp.web.lists.getByTitle(this.COVIDCHECKINLIST).items.add(checkInLI);
+      const addCheckIn = await sp.web.lists.getByTitle(Tables.COVIDCHECKINLIST).items.add(checkInLI);
       if (addCheckIn.item)
         retVal = true;
       retVal = true;
@@ -220,7 +216,7 @@ export class CovidService implements ICovidService {
     let retVal: boolean = false;
     try {
       const data = { CheckIn: checkIn.CheckIn, CheckInById: checkIn.CheckInById };
-      const updateCheckIn = await sp.web.lists.getByTitle(this.COVIDCHECKINLIST).items.getById(checkIn.Id).update(data);
+      const updateCheckIn = await sp.web.lists.getByTitle(Tables.COVIDCHECKINLIST).items.getById(checkIn.Id).update(data);
       if (updateCheckIn.item)
         retVal = true;
       retVal = true;
@@ -242,7 +238,7 @@ export class CovidService implements ICovidService {
         }
       });
       this.SKIPADDFIELDS.forEach(f => { delete selfCheckInLI[f]; });
-      const addSelfCheckIn = await sp.web.lists.getByTitle(this.SELFCHECKINLIST).items.add(selfCheckInLI);
+      const addSelfCheckIn = await sp.web.lists.getByTitle(Tables.SELFCHECKINLIST).items.add(selfCheckInLI);
       if (addSelfCheckIn.item)
         retVal = true;
     } catch (err) {

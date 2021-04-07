@@ -17,6 +17,8 @@ import * as strings from 'CovidWebPartStrings';
 import styles from '../../common/components/CovidForm.module.scss';
 import CovidAdmin, { ICovidAdminProps } from './components/CovidAdmin';
 import { cs } from '../../common/covid.service';
+import { ccs } from '../../common/covidConfig.service';
+import Configure, { IConfigureProps } from './components/Configure';
 
 export interface ICovidAdminWebPartProps {
   moveCheckingRate: number;
@@ -28,18 +30,33 @@ export default class CovidAdminWebPart extends BaseClientSideWebPart<ICovidAdmin
   private _userId: number = 0;
 
   public async onInit(): Promise<void> {
-    //Initialize PnPLogger
-    Logger.subscribe(new ConsoleListener());
-    Logger.activeLogLevel = LogLevel.Info;
+    try {
+      //Initialize PnPLogger
+      Logger.subscribe(new ConsoleListener());
+      Logger.activeLogLevel = LogLevel.Info;
 
-    //Initialize PnPJs
-    sp.setup({ spfxContext: this.context });
+      //Initialize PnPJs
+      sp.setup({ spfxContext: this.context });
 
-    await cs.init();
-    const user = await sp.web.ensureUser(this.context.pageContext.user.loginName);
-    this._userId = user.data.Id;
-    cs.getCheckIns(new Date());
-    this.processSelfCheckins();
+      const siteValid = await ccs.isValid();
+      if (siteValid) {
+        await this._init();
+      }
+    } catch (err) {
+      Logger.write(`${this.LOG_SOURCE} (onInit) - ${err}`, LogLevel.Error);
+    }
+  }
+
+  private async _init(): Promise<void> {
+    try {
+      await cs.init();
+      const user = await sp.web.ensureUser(this.context.pageContext.user.loginName);
+      this._userId = user.data.Id;
+      cs.getCheckIns(new Date());
+      this.processSelfCheckins();
+    } catch (err) {
+      Logger.write(`${this.LOG_SOURCE} (_init) - ${err}`, LogLevel.Error);
+    }
   }
 
   private async delay(ms: number): Promise<any> {
@@ -56,23 +73,36 @@ export default class CovidAdminWebPart extends BaseClientSideWebPart<ICovidAdmin
 
   public render(): void {
     try {
-      if (cs.Ready) {
-        const element: React.ReactElement<ICovidAdminProps> = React.createElement(
-          CovidAdmin,
-          {
-            loginName: this.context.pageContext.user.loginName,
-            displayName: this.context.pageContext.user.displayName,
-            userId: this._userId
-          }
-        );
-
-        this.domElement.className = styles.appPartPage;
-        ReactDom.render(element, this.domElement);
+      let element;
+      if (!ccs.Valid) {
+        const props: IConfigureProps = { startConfigure: this._configure };
+        element = React.createElement(Configure, props);
+      } else if (cs.Ready) {
+        const props: ICovidAdminProps = {
+          loginName: this.context.pageContext.user.loginName,
+          displayName: this.context.pageContext.user.displayName,
+          userId: this._userId
+        };
+        element = React.createElement(CovidAdmin, props);
       } else {
         //TODO: Render error
       }
+      this.domElement.className = styles.appPartPage;
+      ReactDom.render(element, this.domElement);
     } catch (err) {
       Logger.write(`${this.LOG_SOURCE} (render) - ${err}`, LogLevel.Error);
+    }
+  }
+
+  private _configure = async (): Promise<void> => {
+    try {
+      const success = await ccs.configure();
+      if (success) {
+        await this._init();
+        this.render();
+      }
+    } catch (err) {
+      Logger.write(`${this.LOG_SOURCE} (_configure) - ${err} - `, LogLevel.Error);
     }
   }
 
