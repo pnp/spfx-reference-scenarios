@@ -75,8 +75,8 @@ export default class CovidAdmin extends React.Component<ICovidAdminProps, ICovid
     return true;
   }
 
-  private _updateCheckIns = () => {
-    this.setState({ checkIns: cs.CheckIns });
+  private _updateCheckIns = (selectedDate: Date) => {
+    this.setState({ checkIns: cs.CheckIns, selectedDate: selectedDate });
   }
 
   private _changeTab = (newTab: ADMINTABS): void => {
@@ -88,7 +88,8 @@ export default class CovidAdmin extends React.Component<ICovidAdminProps, ICovid
     try {
       const selectedDate = cloneDeep(this.state.selectedDate);
       selectedDate.setDate(selectedDate.getDate() + dateOffset);
-      this.setState({ selectedDate: selectedDate });
+      cs.getCheckIns(selectedDate);
+      //this.setState({ selectedDate: selectedDate });
     } catch (err) {
       Logger.write(`${this.LOG_SOURCE} (_changeDate) - ${err}`, LogLevel.Error);
     }
@@ -130,13 +131,20 @@ export default class CovidAdmin extends React.Component<ICovidAdminProps, ICovid
                   </tr>
                 </thead>
                 <tbody>
-                  {this.state.checkIns.map((ci) => {
+                  {this.state.checkIns?.map((ci) => {
                     return (
                       //TODO: add loading="lazy" to image
+                      //"https://pbs.twimg.com/profile_images/1238648419415187457/53YpWGZ4_400x400.jpg"
                       <tr key={ci.Id}>
-
                         <td>
-                          <Persona size={Size.FortyEight} src="https://pbs.twimg.com/profile_images/1238648419415187457/53YpWGZ4_400x400.jpg" showPresence={true} presence={Presence.Away} name={ci.Employee?.Title || ci.Guest} />
+                          <Persona
+                            size={Size.FortyEight}
+                            src={ci.Employee.PhotoBlobUrl}
+                            showPresence={true}
+                            presence={Presence[ci.Employee.Presence.activity]}
+                            status={ci.Employee.Presence.availability}
+                            name={ci.Employee?.Title || ci.Guest}
+                            jobTitle={(ci.Employee) ? ci.Employee.JobTitle : "Guest"} />
                         </td>
                         <td>{ci.CheckInOffice}</td>
                         <td>{ci.SubmittedOn || ci.Created}</td>

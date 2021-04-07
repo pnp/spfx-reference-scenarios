@@ -2,6 +2,7 @@ import * as React from 'react';
 import * as ReactDom from 'react-dom';
 
 import { sp } from "@pnp/sp";
+import { graph } from "@pnp/graph";
 import { Logger, LogLevel, ConsoleListener } from "@pnp/logging";
 
 import { Version } from '@microsoft/sp-core-library';
@@ -12,6 +13,7 @@ import {
   PropertyPaneLabel
 } from '@microsoft/sp-property-pane';
 import { BaseClientSideWebPart } from '@microsoft/sp-webpart-base';
+import { MSGraphClient } from '@microsoft/sp-http';
 
 import * as strings from 'CovidWebPartStrings';
 import styles from '../../common/components/CovidForm.module.scss';
@@ -28,6 +30,7 @@ export interface ICovidAdminWebPartProps {
 export default class CovidAdminWebPart extends BaseClientSideWebPart<ICovidAdminWebPartProps> {
   private LOG_SOURCE: string = "🔶CovidAdminWebPart";
   private _userId: number = 0;
+  private _graphClient: MSGraphClient;
 
   public async onInit(): Promise<void> {
     try {
@@ -37,6 +40,7 @@ export default class CovidAdminWebPart extends BaseClientSideWebPart<ICovidAdmin
 
       //Initialize PnPJs
       sp.setup({ spfxContext: this.context });
+      graph.setup({ spfxContext: this.context });
 
       const siteValid = await ccs.isValid();
       if (siteValid) {
@@ -49,7 +53,9 @@ export default class CovidAdminWebPart extends BaseClientSideWebPart<ICovidAdmin
 
   private async _init(): Promise<void> {
     try {
-      await cs.init();
+      if (this._graphClient == null)
+        this._graphClient = await this.context.msGraphClientFactory.getClient();
+      await cs.init(this._graphClient);
       const user = await sp.web.ensureUser(this.context.pageContext.user.loginName);
       this._userId = user.data.Id;
       cs.getCheckIns(new Date());

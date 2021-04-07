@@ -21,9 +21,10 @@ export interface IPersonaProps {
   size: Size;
   src: string;
   name: string;
+  jobTitle: string;
   presence: Presence;
+  status: string;
   showPresence: boolean;
-
 }
 
 export interface IPersonaState {
@@ -58,8 +59,8 @@ export default class Persona extends React.Component<IPersonaProps, IPersonaStat
           </div>
           <div className="lqd-persona-data">
             <div className="lqd-persona-name">{this.props.name}</div>
-            <div className="lqd-persona-function"><span>Lead Fluent Designer</span></div>
-            <div className="lqd-persona-statustext"><span>In a meeting</span></div>
+            <div className="lqd-persona-function"><span>{this.props.jobTitle}</span></div>
+            <div className="lqd-persona-statustext"><span>{this.props.status}</span></div>
             <div className="lqd-persona-available"><span>Call me yesterday</span></div>
           </div>
         </div>

@@ -1,3 +1,6 @@
+
+import { Presence as IUserPresence } from "@microsoft/microsoft-graph-types";
+
 export enum Tables {
   LOCATIONLIST = "CheckInLocations",
   QUESTIONLIST = "CheckInQuestions",
@@ -92,6 +95,11 @@ export class SelfCheckIn implements ISelfCheckIn {
 export interface IPerson {
   Id: number;
   Title: string;
+  EMail: string;
+  GraphId: string;
+  Presence: IUserPresence;
+  PhotoBlobUrl: string;
+  JobTitle: string;
 }
 
 export interface ICheckInLI extends IList {
@@ -115,7 +123,7 @@ export class CheckInLI implements ICheckInLI {
     public Questions: string = null,
     public CheckIn: Date = null,
     public CheckInById: number = null,
-    public SubmittedOn: Date = null
+    public SubmittedOn: Date = new Date()
   ) { }
 }
 

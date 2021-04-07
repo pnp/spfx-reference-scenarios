@@ -18,8 +18,6 @@ import CovidForm, { ICovidFormProps } from '../../common/components/CovidForm';
 import { cs } from '../../common/covid.service';
 import { CheckInMode } from '../../common/covid.model';
 
-
-
 export interface ICovidFormWebPartProps {
   notifications: string;
 }
