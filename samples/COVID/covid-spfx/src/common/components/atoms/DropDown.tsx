@@ -1,6 +1,7 @@
 import * as React from "react";
 import { Logger, LogLevel } from "@pnp/logging";
 import { isEqual, find, findIndex } from "lodash";
+import { Icons } from "../../enums";
 
 export enum DDState {
   "Initial",
@@ -295,11 +296,11 @@ export default class DropDown extends React.Component<IDropDownProps, IDropDownS
             {this.props.options.length} options available. Arrow down to browse or start typing to filter.
           </div>
           <input ref={this._inputElement} type="text" id={`${this.props.id}-input`} value={this.props.value} className="lqd-select-text" aria-autocomplete="both" aria-controls={`${this.props.id}-list`} />
-          <button className="lqd-buttonicon">
+          <button className="lqd-buttonicon" aria-label="">
             <div className="lqd-icon">
-              <svg className="lqd-icon-svg icon-arrow-down" aria-hidden="true">
-                <use xlinkHref="../../images/icons.svg#icon-arrow-down"></use>
-              </svg>
+              <span className={`lqd-icon-svg ${Icons.DownArrow.Class}`} aria-hidden="true" dangerouslySetInnerHTML={{ "__html": Icons.DownArrow.SVG }} >
+              </span>
+
             </div>
           </button>
           <ul
