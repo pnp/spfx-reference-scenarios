@@ -36,7 +36,7 @@ export default class DatePicker extends React.Component<IDatePickerProps, IDateP
       return (
         <div className="dateSelector">
           <ButtonIcon iconType={Icons.LeftArrow} onClick={() => this.props.onDateChange(-1)} />
-          <h2>{this.props.selectedDate.toLocaleDateString()}</h2>
+          <h2>{this.props.selectedDate.toDateString()}</h2>
           <ButtonIcon iconType={Icons.RightArrow} onClick={() => this.props.onDateChange(1)} />
         </div>
       );

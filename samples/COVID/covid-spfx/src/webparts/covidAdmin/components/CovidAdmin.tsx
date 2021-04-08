@@ -44,7 +44,6 @@ export class CovidAdminState implements ICovidAdminState {
 export default class CovidAdmin extends React.Component<ICovidAdminProps, ICovidAdminState> {
   private LOG_SOURCE: string = "🔶 CovidAdmin";
   //Set up the tabs for the PivotBar
-  //Does this belong here?
   private _tabOptions: IPivotBarOption[] = [
     {
       text: "Today", active: true, onClick: () => this._changeTab(ADMINTABS.TODAY)
@@ -89,7 +88,7 @@ export default class CovidAdmin extends React.Component<ICovidAdminProps, ICovid
       const selectedDate = cloneDeep(this.state.selectedDate);
       selectedDate.setDate(selectedDate.getDate() + dateOffset);
       cs.getCheckIns(selectedDate);
-      //this.setState({ selectedDate: selectedDate });
+      this.setState({ selectedDate: selectedDate });
     } catch (err) {
       Logger.write(`${this.LOG_SOURCE} (_changeDate) - ${err}`, LogLevel.Error);
     }
