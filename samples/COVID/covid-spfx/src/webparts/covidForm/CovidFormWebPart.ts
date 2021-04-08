@@ -58,7 +58,8 @@ export default class CovidFormWebPart extends BaseClientSideWebPart<ICovidFormWe
           microsoftTeams: this._microsoftTeams,
           checkInMode: CheckInMode.Self,
           displayName: this.context.pageContext.user.displayName,
-          userId: this._userId
+          userId: this._userId,
+          userCanCheckIn: this._userCanCheckIn
         };
         element = React.createElement(CovidForm, props);
         //} else {

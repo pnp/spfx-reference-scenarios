@@ -19,6 +19,7 @@ export interface ICovidFormProps {
   close?: () => void;
   userId?: number;
   checkInForm?: ICheckIns;
+  userCanCheckIn?: boolean;
 }
 
 export interface ICovidFormState {
@@ -39,6 +40,7 @@ export default class CovidForm extends React.Component<ICovidFormProps, ICovidFo
   private LOG_SOURCE: string = "🔶CovidForm";
   private _questions: IQuestion[] = [];
   private _locationOptions: IDropDownOption[] = [];
+  private _userCanCheckIn: boolean = this.props.userCanCheckIn;
 
   constructor(props: ICovidFormProps) {
     super(props);
@@ -110,23 +112,35 @@ export default class CovidForm extends React.Component<ICovidFormProps, ICovidFo
       Logger.write(`${this.LOG_SOURCE} (_cancel) - ${err}`, LogLevel.Error);
     }
   }
-  private _changeVisibility = (visible: boolean): void => {
+  private _changeVisibility = async (visible: boolean): Promise<void> => {
+    await this._updateCanUserCheckIn();
     this.setState({ dialogVisible: visible });
+  }
+
+  private async _updateCanUserCheckIn() {
+    if (this.props.userId) {
+      this._userCanCheckIn = await cs.userCanCheckIn(this.props.userId);
+    }
   }
 
   public render(): React.ReactElement<ICovidFormProps> {
     try {
-      let formVisibleCSS: React.CSSProperties = {};
-      let confirmationVisibleCSS: React.CSSProperties = {};
 
-      if (cs.userCanCheckIn(this.props.userId)) {
-        formVisibleCSS = { 'display': 'grid' };
-        confirmationVisibleCSS = { 'display': 'none' };
+      let formVisibilityCSS: React.CSSProperties;
+      let confirmationVisibilityCSS: React.CSSProperties;
+      if (this.props.checkInMode === CheckInMode.Guest) {
+        formVisibilityCSS = { "display": "grid" } as React.CSSProperties;
+        confirmationVisibilityCSS = { "display": "none" } as React.CSSProperties;
       } else {
-        formVisibleCSS = { 'display': 'none' };
-        confirmationVisibleCSS = { 'display': 'visible' };
-
+        if (this._userCanCheckIn) {
+          formVisibilityCSS = { "display": "grid" } as React.CSSProperties;
+          confirmationVisibilityCSS = { "display": "none" } as React.CSSProperties;
+        } else {
+          formVisibilityCSS = { "display": "none" } as React.CSSProperties;
+          confirmationVisibilityCSS = { "display": "grid" } as React.CSSProperties;
+        }
       }
+
 
       return (
         <div data-component={this.LOG_SOURCE} className={styles.covidForm}>
@@ -135,7 +149,7 @@ export default class CovidForm extends React.Component<ICovidFormProps, ICovidFo
           <p>As on-site work resumes, all employees must complete a Covid-19 self attestation form each day before they enter
             the building. This requirement applies to all employees, contractors, visitors, or temporary employees.</p>
           <p>In the last 72 hours have you experienced any of the following symptoms that are not attributed to another illness?</p>
-          <div className={styles.form} style={formVisibleCSS}>
+          <div className={styles.form} style={formVisibilityCSS}>
             {this.props.checkInMode === CheckInMode.Guest ?
               <div className={styles.formRow}>
                 <div className={styles.question}>Guest Name</div>
@@ -155,7 +169,7 @@ export default class CovidForm extends React.Component<ICovidFormProps, ICovidFo
               <Button className="lqd-button" disabled={false} label="Cancel" onClick={this._cancel} />
             </div>
           </div>
-          <div style={confirmationVisibleCSS}>
+          <div style={confirmationVisibilityCSS}>
             <p>Thank you for submitting your attestation for today. You can only submit one attestation per day.</p>
           </div>
           <Dialog header="Submission Submitted Successfully" content="Your check in was submitted successfully." visible={this.state.dialogVisible} onChange={this._changeVisibility} />
