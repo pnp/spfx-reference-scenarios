@@ -12,6 +12,7 @@ import ButtonIcon from "../../../common/components/atoms/ButtonIcon";
 import { Icons } from "../../../common/enums";
 import { Size } from "../../../common/components/atoms/Avatar";
 import CovidAdministration from "./CovidAdministration";
+import { IMicrosoftTeams } from "@microsoft/sp-webpart-base";
 
 export enum ADMINTABS {
   "TODAY",
@@ -20,9 +21,10 @@ export enum ADMINTABS {
   "ADMINISTRATION"
 }
 export interface ICovidAdminProps {
+  microsoftTeams: IMicrosoftTeams;
   loginName: string;
   displayName: string;
-  userId?: number;
+  userId: number;
 }
 
 export interface ICovidAdminState {
@@ -63,19 +65,21 @@ export default class CovidAdmin extends React.Component<ICovidAdminProps, ICovid
     this.state = new CovidAdminState();
   }
 
-  public componentDidMount() {
-    this.setState({ checkIns: cs.CheckIns });
-    cs.CheckInsRefresh = this._updateCheckIns;
-  }
-
-  public shouldComponentUpdate(nextProps: ICovidAdminProps, nextState: ICovidAdminState) {
+  public shouldComponentUpdate(nextProps: Readonly<ICovidAdminProps>, nextState: Readonly<ICovidAdminState>) {
     if ((isEqual(nextState, this.state) && isEqual(nextProps, this.props)))
       return false;
     return true;
   }
 
+  public componentDidMount() {
+    const checkIns = cloneDeep(cs.CheckIns);
+    this.setState({ checkIns: checkIns });
+    cs.CheckInsRefresh = this._updateCheckIns;
+  }
+
   private _updateCheckIns = (selectedDate: Date) => {
-    this.setState({ checkIns: cs.CheckIns, selectedDate: selectedDate });
+    const checkIns = cloneDeep(cs.CheckIns);
+    this.setState({ checkIns: checkIns, selectedDate: selectedDate });
   }
 
   private _changeTab = (newTab: ADMINTABS): void => {
@@ -93,20 +97,24 @@ export default class CovidAdmin extends React.Component<ICovidAdminProps, ICovid
       Logger.write(`${this.LOG_SOURCE} (_changeDate) - ${err}`, LogLevel.Error);
     }
   }
-  private _checkInPerson = () => {
+  private _checkInPerson = (checkIn: ICheckIns) => {
     try {
-      console.log("I did something");
+      checkIn.CheckInById = this.props.userId;
+      checkIn.CheckIn = new Date();
+      cs.adminCheckIn(checkIn);
     } catch (err) {
       Logger.write(`${this.LOG_SOURCE} (_changeDate) - ${err}`, LogLevel.Error);
     }
   }
 
+  private _closeGuestForm = () => {
+    this.setState({ tab: ADMINTABS.TODAY });
+    const selectedDate = cloneDeep(this.state.selectedDate);
+    cs.getCheckIns(selectedDate);
+  }
 
   public render(): React.ReactElement<ICovidAdminProps> {
     try {
-
-
-
       return (
         <div data-component={this.LOG_SOURCE} className={styles.covidAdmin}>
 
@@ -138,18 +146,18 @@ export default class CovidAdmin extends React.Component<ICovidAdminProps, ICovid
                         <td>
                           <Persona
                             size={Size.FortyEight}
-                            src={ci.Employee.PhotoBlobUrl}
+                            src={ci.Employee?.PhotoBlobUrl}
                             showPresence={true}
-                            presence={Presence[ci.Employee.Presence.activity]}
-                            status={ci.Employee.Presence.availability}
+                            presence={Presence[ci.Employee?.Presence.activity]}
+                            status={ci.Employee?.Presence.availability}
                             name={ci.Employee?.Title || ci.Guest}
                             jobTitle={(ci.Employee) ? ci.Employee.JobTitle : "Guest"} />
                         </td>
                         <td>{ci.CheckInOffice}</td>
-                        <td>{ci.SubmittedOn || ci.Created}</td>
+                        <td>{ci.SubmittedOn?.toLocaleString() || ci.Created?.toLocaleString()}</td>
                         <td className={styles.checkIn}><span className={`${(ci.CheckIn) ? styles.isCheckedIn : styles.isNotCheckedIn}`}></span></td>
-                        <td>{ci.CheckIn}</td>
-                        <td><ButtonIcon iconType={Icons.Check} onClick={this._checkInPerson} /></td>
+                        <td>{ci.CheckIn?.toLocaleString()}</td>
+                        <td><ButtonIcon iconType={Icons.Check} onClick={() => this._checkInPerson(ci)} /></td>
                       </tr>
                     );
                   })}
@@ -169,7 +177,7 @@ export default class CovidAdmin extends React.Component<ICovidAdminProps, ICovid
 
           }
           {this.state.tab === ADMINTABS.GUEST &&
-            <CovidForm loginName={this.props.loginName} displayName={this.props.displayName} userId={this.props.userId} checkInMode={CheckInMode.Guest} />
+            <CovidForm microsoftTeams={this.props.microsoftTeams} displayName="Guest" checkInMode={CheckInMode.Guest} close={this._closeGuestForm} />
           }
           {this.state.tab === ADMINTABS.CONTACTTRACING &&
             <div>Contact Tracing goes here</div>

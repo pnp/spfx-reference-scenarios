@@ -10,7 +10,7 @@ import { Version } from '@microsoft/sp-core-library';
 import {
   IPropertyPaneConfiguration,
 } from '@microsoft/sp-property-pane';
-import { BaseClientSideWebPart } from '@microsoft/sp-webpart-base';
+import { BaseClientSideWebPart, IMicrosoftTeams } from '@microsoft/sp-webpart-base';
 
 import * as strings from 'CovidWebPartStrings';
 import styles from '../../common/components/CovidForm.module.scss';
@@ -26,6 +26,7 @@ export default class CovidFormWebPart extends BaseClientSideWebPart<ICovidFormWe
   private LOG_SOURCE: string = "🔶CovidFormWebPart";
   private _userId: number = 0;
   private _userCanCheckIn: boolean = false;
+  private _microsoftTeams: IMicrosoftTeams;
 
   public async onInit(): Promise<void> {
     try {
@@ -35,6 +36,7 @@ export default class CovidFormWebPart extends BaseClientSideWebPart<ICovidFormWe
 
       //Initialize PnPJs
       sp.setup({ spfxContext: this.context });
+      this._microsoftTeams = this.context.sdks?.microsoftTeams;
 
       await cs.init();
 
@@ -53,8 +55,8 @@ export default class CovidFormWebPart extends BaseClientSideWebPart<ICovidFormWe
         let element;
         //if (this._userCanCheckIn) {
         const props: ICovidFormProps = {
+          microsoftTeams: this._microsoftTeams,
           checkInMode: CheckInMode.Self,
-          loginName: this.context.pageContext.user.loginName,
           displayName: this.context.pageContext.user.displayName,
           userId: this._userId
         };

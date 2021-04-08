@@ -10,11 +10,13 @@ import TextBox from "./atoms/TextBox";
 import DropDown, { IDropDownOption } from "./atoms/DropDown";
 import { cs } from "../covid.service";
 import Dialog from "./molecules/Dialog";
+import { IMicrosoftTeams } from "@microsoft/sp-webpart-base";
 
 export interface ICovidFormProps {
+  microsoftTeams: IMicrosoftTeams;
   checkInMode: CheckInMode;
-  loginName: string;
   displayName: string;
+  close?: () => void;
   userId?: number;
   checkInForm?: ICheckIns;
 }
@@ -44,7 +46,7 @@ export default class CovidForm extends React.Component<ICovidFormProps, ICovidFo
     this._locationOptions = cs.Locations.map((l) => { return { key: l.Title, text: l.Title }; });
     const today = new Date();
     const title = `${props.displayName} - ${today.toLocaleDateString()}`;
-    this.state = new CovidFormState(this.props.checkInForm || new CheckIns(0, title, today, this.props.userId || null, null, "", this._questions.map<IAnswer>((q) => { return { QuestionId: q.Id, Answer: "" }; })));
+    this.state = new CovidFormState(this.props.checkInForm || new CheckIns(0, title, today, this.props.userId || null, null, "", this._questions.map<IAnswer>((q) => { return { QuestionId: q.Id, Answer: "" }; }), today));
   }
 
   public shouldComponentUpdate(nextProps: ICovidFormProps, nextState: ICovidFormState) {
@@ -85,7 +87,11 @@ export default class CovidForm extends React.Component<ICovidFormProps, ICovidFo
         success = await cs.addSelfCheckIn(checkInForm);
       }
       if (success) {
-        this.setState({ dialogVisible: true, formVisible: false });
+        if (this.props.checkInMode == CheckInMode.Self) {
+          this.setState({ dialogVisible: true, formVisible: false });
+        } else {
+          this.props.close();
+        }
       }
     } catch (err) {
       Logger.write(`${this.LOG_SOURCE} (_save) - ${err}`, LogLevel.Error);
@@ -94,8 +100,12 @@ export default class CovidForm extends React.Component<ICovidFormProps, ICovidFo
 
   private _cancel = () => {
     try {
-      const checkInForm = new CheckIns();
-      this.setState({ checkInForm: checkInForm });
+      if (this.props.checkInMode == CheckInMode.Self) {
+        const checkInForm = new CheckIns();
+        this.setState({ checkInForm: checkInForm });
+      } else {
+        this.props.close();
+      }
     } catch (err) {
       Logger.write(`${this.LOG_SOURCE} (_cancel) - ${err}`, LogLevel.Error);
     }

@@ -31,6 +31,7 @@ export class CovidService implements ICovidService {
   private SKIPADDFIELDS: string[] = ["Id", "Created"];
   private SKIPUPDATEFIELDS: string[] = ["Created"];
   private JSONFIELDS: string[] = ["Questions"];
+  private JSONDATEFIELDS: string[] = ["Created", "CheckIn", "SubmittedOn"];
 
   private _graphClient: MSGraphClient;
   private _ready: boolean = false;
@@ -38,6 +39,9 @@ export class CovidService implements ICovidService {
   private _questions: IQuestion[];
   private _checkIns: ICheckIns[];
   private _users: IPerson[] = [];
+  private _currentDate: Date;
+  private _questionListUrl: string;
+  private _locationListUrl: string;
 
   private _checkInsRefresh: (selectedDate: Date) => void = null;
 
@@ -59,12 +63,22 @@ export class CovidService implements ICovidService {
     return this._checkIns;
   }
 
+  public get QuestionListUrl(): string {
+    return this._questionListUrl;
+  }
+
+  public get LocationListUrl(): string {
+    return this._locationListUrl;
+  }
+
   public set CheckInsRefresh(value: (selectedDate: Date) => void) {
     this._checkInsRefresh = value;
   }
 
   public async init(httpGraph?: MSGraphClient): Promise<void> {
     try {
+      this._locationListUrl = `${sp.site.toUrl()}/Lists/${Tables.LOCATIONLIST}/AllItems.aspx`;
+      this._questionListUrl = `${sp.site.toUrl()}/Lists/${Tables.QUESTIONLIST}/AllItems.aspx`;
       this._graphClient = httpGraph;
       let success: boolean[] = [];
       success.push(await this.getLocations());
@@ -136,15 +150,19 @@ export class CovidService implements ICovidService {
       end.setUTCHours(23, 59, 59, 9999);
       this._checkIns = await sp.web.lists.getByTitle(Tables.COVIDCHECKINLIST).items
         .top(5000)
-        .select("Id, Title, EmployeeId, Employee/Id, Employee/Title, Employee/EMail, Guest, CheckInOffice, Questions, SubmittedOn, CheckIn, CheckInById, CheckInBy/Id, CheckInBy/Title, CheckInBy/EMail")
+        .select("Id, Title, EmployeeId, Employee/Id, Employee/Title, Employee/EMail, Guest, CheckInOffice, Questions, SubmittedOn, CheckIn, CheckInById, CheckInBy/Id, CheckInBy/Title, CheckInBy/EMail, Created")
         .filter(`(SubmittedOn gt '${start.toISOString()}') and (SubmittedOn lt '${end.toISOString()}')`)
         .expand("Employee, CheckInBy")
         .get<ICheckIns[]>();
 
-      Object.getOwnPropertyNames(this._checkIns).forEach(prop => {
-        if (this.JSONFIELDS.indexOf(prop) > -1) {
-          this._checkIns[`${prop}Value`] = JSON.parse(this._checkIns[prop]);
-        }
+      forEach(this._checkIns, (ci) => {
+        Object.getOwnPropertyNames(ci).forEach(prop => {
+          if (this.JSONDATEFIELDS.indexOf(prop) > -1 && ci[prop] != null) {
+            ci[prop] = new Date(ci[prop]);
+          } else if (this.JSONFIELDS.indexOf(prop) > -1) {
+            ci[`${prop}Value`] = JSON.parse(ci[prop]);
+          }
+        });
       });
 
       let ids: string[] = [];
@@ -178,6 +196,7 @@ export class CovidService implements ICovidService {
         await this._loadUserPresence(ids);
       }
 
+      this._currentDate = d;
       if (typeof this._checkInsRefresh == "function") {
         this._checkInsRefresh(d);
       }
@@ -203,11 +222,6 @@ export class CovidService implements ICovidService {
             const url = window.URL || window.webkitURL;
             user.PhotoBlobUrl = url.createObjectURL(photoValue);
           }
-          // const p = await this._graphClient.api(`users/${user.EMail}/photo/$value`).version("v1.0").get();
-          // if (p) {
-          //   const url = window.URL || window.webkitURL;
-          //   user.PhotoBlobUrl = url.createObjectURL(p.data);
-          // }
         } catch (e) { }
         retVal = this._users.push(user) - 1;
       }
@@ -295,9 +309,10 @@ export class CovidService implements ICovidService {
       });
       this.SKIPADDFIELDS.forEach(f => { delete checkInLI[f]; });
       const addCheckIn = await sp.web.lists.getByTitle(Tables.COVIDCHECKINLIST).items.add(checkInLI);
-      if (addCheckIn.item)
+      if (addCheckIn.item) {
         retVal = true;
-      retVal = true;
+        this.getCheckIns(this._currentDate);
+      }
     } catch (err) {
       Logger.write(`${this.LOG_SOURCE} (addCheckIn) - ${err.message}`, LogLevel.Error);
     }
@@ -309,9 +324,22 @@ export class CovidService implements ICovidService {
     try {
       const data = { CheckIn: checkIn.CheckIn, CheckInById: checkIn.CheckInById };
       const updateCheckIn = await sp.web.lists.getByTitle(Tables.COVIDCHECKINLIST).items.getById(checkIn.Id).update(data);
-      if (updateCheckIn.item)
+      if (updateCheckIn.item) {
         retVal = true;
-      retVal = true;
+        let ci = find(this._checkIns, { Id: checkIn.Id });
+        ci.CheckIn = checkIn.CheckIn;
+        ci.CheckInById = checkIn.CheckInById;
+        let idxCIB = findIndex(this._users, { Id: ci.CheckInById });
+        if (idxCIB < 0) {
+          idxCIB = await this._loadUserData(ci.CheckInBy);
+        }
+        if (idxCIB > -1) {
+          ci.CheckInBy = this._users[idxCIB];
+        }
+        if (typeof this._checkInsRefresh == "function") {
+          this._checkInsRefresh(this._currentDate);
+        }
+      }
     } catch (err) {
       Logger.write(`${this.LOG_SOURCE} (adminCheckIn) - ${err.message}`, LogLevel.Error);
     }

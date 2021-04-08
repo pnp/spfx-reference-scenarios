@@ -12,7 +12,7 @@ import {
   PropertyPaneSlider,
   PropertyPaneLabel
 } from '@microsoft/sp-property-pane';
-import { BaseClientSideWebPart } from '@microsoft/sp-webpart-base';
+import { BaseClientSideWebPart, IMicrosoftTeams } from '@microsoft/sp-webpart-base';
 import { MSGraphClient } from '@microsoft/sp-http';
 
 import * as strings from 'CovidWebPartStrings';
@@ -30,6 +30,7 @@ export interface ICovidAdminWebPartProps {
 export default class CovidAdminWebPart extends BaseClientSideWebPart<ICovidAdminWebPartProps> {
   private LOG_SOURCE: string = "🔶CovidAdminWebPart";
   private _userId: number = 0;
+  private _microsoftTeams: IMicrosoftTeams;
   private _graphClient: MSGraphClient;
 
   public async onInit(): Promise<void> {
@@ -53,6 +54,7 @@ export default class CovidAdminWebPart extends BaseClientSideWebPart<ICovidAdmin
 
   private async _init(): Promise<void> {
     try {
+      this._microsoftTeams = this.context.sdks?.microsoftTeams;
       if (this._graphClient == null)
         this._graphClient = await this.context.msGraphClientFactory.getClient();
       await cs.init(this._graphClient);
@@ -85,6 +87,7 @@ export default class CovidAdminWebPart extends BaseClientSideWebPart<ICovidAdmin
         element = React.createElement(Configure, props);
       } else if (cs.Ready) {
         const props: ICovidAdminProps = {
+          microsoftTeams: this._microsoftTeams,
           loginName: this.context.pageContext.user.loginName,
           displayName: this.context.pageContext.user.displayName,
           userId: this._userId
