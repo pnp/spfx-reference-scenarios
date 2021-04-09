@@ -14,6 +14,7 @@ import { Size } from "../../../common/components/molecules/Persona";
 import CovidAdministration from "./CovidAdministration";
 import { IMicrosoftTeams } from "@microsoft/sp-webpart-base";
 import Table, { ITable, ITableCell, ITableRow } from "../../../common/components/molecules/Table";
+import ContactTracing from "./ContactTracing";
 
 export enum ADMINTABS {
   "TODAY",
@@ -198,7 +199,7 @@ export default class CovidAdmin extends React.Component<ICovidAdminProps, ICovid
             <CovidForm microsoftTeams={this.props.microsoftTeams} displayName="Guest" checkInMode={CheckInMode.Guest} close={this._closeGuestForm} />
           }
           {this.state.tab === ADMINTABS.CONTACTTRACING &&
-            <div>Contact Tracing goes here</div>
+            <ContactTracing />
           }
           {this.state.tab === ADMINTABS.ADMINISTRATION &&
             <CovidAdministration />

@@ -1,8 +1,6 @@
 import * as React from "react";
 import { Logger, LogLevel } from "@pnp/logging";
 import { isEqual } from "lodash";
-import Avatar, { Size } from "../atoms/Avatar";
-
 
 
 export interface ITableCell {
