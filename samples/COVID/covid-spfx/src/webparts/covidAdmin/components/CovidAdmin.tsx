@@ -10,7 +10,7 @@ import DatePicker from "../../../common/components/molecules/DatePicker";
 import Persona, { Presence } from "../../../common/components/molecules/Persona";
 import ButtonIcon from "../../../common/components/atoms/ButtonIcon";
 import { Icons } from "../../../common/enums";
-import { Size } from "../../../common/components/atoms/Avatar";
+import { Size } from "../../../common/components/molecules/Persona";
 import CovidAdministration from "./CovidAdministration";
 import { IMicrosoftTeams } from "@microsoft/sp-webpart-base";
 import Table, { ITable, ITableCell, ITableRow } from "../../../common/components/molecules/Table";

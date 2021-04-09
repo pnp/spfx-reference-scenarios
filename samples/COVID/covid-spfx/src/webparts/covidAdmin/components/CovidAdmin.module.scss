@@ -13,6 +13,94 @@
     .lqd-input-text {
       width: 100%;
     }
+
+    .noImage {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      color: white;
+
+      &.green10 {
+        background-color: #498205;
+      }
+
+      &.darkGreen20 {
+        background-color: #0b6a0b;
+      }
+
+      &.teal10 {
+        background-color: #038387;
+      }
+
+      &.cyan30 {
+        background-color: #005b70;
+      }
+
+      &.lightBlue30 {
+        background-color: #4f6bed;
+      }
+
+      &.blue20 {
+        background-color: #0078d4;
+      }
+
+      &.darkBlue10 {
+        background-color: #004e8c;
+      }
+
+      &.violet10 {
+        background-color: #8764b8;
+      }
+
+      &.purple10 {
+        background-color: #5c2e91;
+      }
+
+      &.magenta10 {
+        background-color: #881798;
+      }
+
+      &.lightPink10 {
+        background-color: #c239b3;
+      }
+
+      &.pink10 {
+        background-color: #e3008c;
+      }
+
+      &.pinkRed10 {
+        background-color: #750b1c;
+      }
+
+      &.red10 {
+        background-color: #d13438;
+      }
+
+      &.darkRed20 {
+        background-color: #a4262c;
+      }
+
+      &.orange10 {
+        background-color: #ca5010;
+      }
+
+      &.orange30 {
+        background-color: #8e562e;
+      }
+
+      &.orangeYellow20 {
+        background-color: #986f0b;
+      }
+
+      &.gray30 {
+        background-color: #7a7574;
+      }
+
+      &.gray20 {
+        background-color: #69797e;
+      }
+
+    }
   }
 
   .checkIn span {
@@ -29,4 +117,6 @@
   .isNotCheckedIn {
     background-color: red;
   }
+
+
 }
