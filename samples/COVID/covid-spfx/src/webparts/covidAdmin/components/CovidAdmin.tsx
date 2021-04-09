@@ -13,6 +13,7 @@ import { Icons } from "../../../common/enums";
 import { Size } from "../../../common/components/atoms/Avatar";
 import CovidAdministration from "./CovidAdministration";
 import { IMicrosoftTeams } from "@microsoft/sp-webpart-base";
+import Table, { ITable, ITableCell, ITableRow } from "../../../common/components/molecules/Table";
 
 export enum ADMINTABS {
   "TODAY",
@@ -45,6 +46,8 @@ export class CovidAdminState implements ICovidAdminState {
 
 export default class CovidAdmin extends React.Component<ICovidAdminProps, ICovidAdminState> {
   private LOG_SOURCE: string = "🔶 CovidAdmin";
+  private _tableHeaders: string[] = ['Name', 'Office', 'Submitted', 'Status', 'Check In Time', ''];
+  private _tableFooters: string[] = ['Name', 'Office', 'Submitted', 'Status', 'Check In Time', ''];
   //Set up the tabs for the PivotBar
   private _tabOptions: IPivotBarOption[] = [
     {
@@ -93,6 +96,7 @@ export default class CovidAdmin extends React.Component<ICovidAdminProps, ICovid
       selectedDate.setDate(selectedDate.getDate() + dateOffset);
       cs.getCheckIns(selectedDate);
       this.setState({ selectedDate: selectedDate });
+
     } catch (err) {
       Logger.write(`${this.LOG_SOURCE} (_changeDate) - ${err}`, LogLevel.Error);
     }
@@ -113,8 +117,69 @@ export default class CovidAdmin extends React.Component<ICovidAdminProps, ICovid
     cs.getCheckIns(selectedDate);
   }
 
+  private _getTableData = (checkIns: ICheckIns[]): ITable => {
+    let tableDataRows: ITableRow[] = [];
+    checkIns?.map((ci, index) => {
+      let cells: ITableCell[] = [];
+      let personaCell: ITableCell = {
+        key: 0,
+        className: "",
+        element: React.createElement(Persona, {
+          size: Size.FortyEight,
+          src: (ci.Employee) ? ci.Employee.PhotoBlobUrl : "",
+          showPresence: true,
+          presence: (ci.Employee) ? Presence[ci.Employee.Presence.activity] : Presence.PresenceUnknown,
+          status: (ci.Employee) ? ci.Employee.Presence.availability : "",
+          name: ci.Employee?.Title || ci.Guest,
+          jobTitle: (ci.Employee) ? ci.Employee.JobTitle : "Guest"
+        }, "")
+      };
+      cells.push(personaCell);
+      let officeCell: ITableCell = {
+        key: 1,
+        className: "",
+        element: React.createElement('span', {}, ci.CheckInOffice)
+      };
+      cells.push(officeCell);
+      let submittedCell: ITableCell = {
+        key: 2,
+        className: "",
+        element: React.createElement('span', {}, new Date(ci.SubmittedOn?.toString()).toLocaleString() || new Date(ci.Created?.toString()).toLocaleString())
+      };
+      cells.push(submittedCell);
+      let checkInCell: ITableCell = {
+        key: 3,
+        className: styles.checkIn,
+        element: React.createElement('span', { className: (ci.CheckIn) ? styles.isCheckedIn : styles.isNotCheckedIn }, "")
+      };
+      cells.push(checkInCell);
+      let checkInTimeCell: ITableCell = {
+        key: 4,
+        className: "",
+        element: React.createElement('span', {}, ci.CheckIn?.toLocaleString())
+      };
+      cells.push(checkInTimeCell);
+      let checkInButtonCell: ITableCell = {
+        key: 5,
+        className: "",
+        element: (ci.CheckIn) ? React.createElement('span', {}, "") : React.createElement(ButtonIcon, { iconType: Icons.Check, onClick: () => this._checkInPerson(ci) }, "")
+      };
+      cells.push(checkInButtonCell);
+      return (
+        tableDataRows.push({ key: index, className: "", cells: cells })
+      );
+    });
+
+    return {
+      headers: this._tableHeaders,
+      footers: this._tableFooters,
+      dataRows: tableDataRows
+    };
+  }
+
   public render(): React.ReactElement<ICovidAdminProps> {
     try {
+
       return (
         <div data-component={this.LOG_SOURCE} className={styles.covidAdmin}>
 
@@ -125,54 +190,7 @@ export default class CovidAdmin extends React.Component<ICovidAdminProps, ICovid
               <p>As people enter the building please check this Covid check-In page to ensure that they have completed their self
     attestation. For guests please fill out the form for them. using the link below.</p>
               <DatePicker selectedDate={this.state.selectedDate} onDateChange={this._changeDate} />
-
-              <table className="lqd-table">
-                <thead>
-                  <tr>
-                    <th>Name</th>
-                    <th>Office</th>
-                    <th>Submitted</th>
-                    <th>Status</th>
-                    <th>Checked In</th>
-                    <th></th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {this.state.checkIns?.map((ci) => {
-                    return (
-                      //TODO: add loading="lazy" to image
-                      //"https://pbs.twimg.com/profile_images/1238648419415187457/53YpWGZ4_400x400.jpg"
-                      <tr key={ci.Id}>
-                        <td>
-                          <Persona
-                            size={Size.FortyEight}
-                            src={ci.Employee?.PhotoBlobUrl}
-                            showPresence={true}
-                            presence={Presence[ci.Employee?.Presence.activity]}
-                            status={ci.Employee?.Presence.availability}
-                            name={ci.Employee?.Title || ci.Guest}
-                            jobTitle={(ci.Employee) ? ci.Employee.JobTitle : "Guest"} />
-                        </td>
-                        <td>{ci.CheckInOffice}</td>
-                        <td>{ci.SubmittedOn?.toLocaleString() || ci.Created?.toLocaleString()}</td>
-                        <td className={styles.checkIn}><span className={`${(ci.CheckIn) ? styles.isCheckedIn : styles.isNotCheckedIn}`}></span></td>
-                        <td>{ci.CheckIn?.toLocaleString()}</td>
-                        <td><ButtonIcon iconType={Icons.Check} onClick={() => this._checkInPerson(ci)} /></td>
-                      </tr>
-                    );
-                  })}
-                </tbody>
-                <tfoot>
-                  <tr>
-                    <th>Name</th>
-                    <th>Office</th>
-                    <th>Submitted</th>
-                    <th>Status</th>
-                    <th>Checked In</th>
-                    <th></th>
-                  </tr>
-                </tfoot>
-              </table>
+              <Table table={this._getTableData(this.state.checkIns)} />
             </>
 
           }

@@ -3,18 +3,27 @@ import { Logger, LogLevel } from "@pnp/logging";
 import { isEqual } from "lodash";
 import Avatar, { Size } from "../atoms/Avatar";
 
-export interface ITableCellOption {
+
+
+export interface ITableCell {
   key: string | number;
-  text: string;
+  className: string;
+  element: React.ReactElement;
+}
+export interface ITableRow {
+  key: string | number;
+  className: string;
+  cells: ITableCell[];
 }
 
-export interface ITableRowOption {
-  key: string | number;
-  cells: ITableCellOption[];
+export interface ITable {
+  headers: string[];
+  footers: string[];
+  dataRows: ITableRow[];
 }
 
 export interface ITableProps {
-  cells: ITableCellOption[];
+  table: ITable;
 }
 
 export interface ITableState {
@@ -45,31 +54,34 @@ export default class Table extends React.Component<ITableProps, ITableState> {
         <table className="lqd-table">
           <thead>
             <tr>
-              {this.props.cells.map((ri) => {
+              {this.props.table.headers.map((h) => {
                 return (
-                  <th>{ri.text}</th>
+                  <th>{h}</th>
                 );
               })}
             </tr>
           </thead>
           <tbody>
-
-            <tr>
-              <td>
-                <Avatar size={Size.FortyEight} src="https://pbs.twimg.com/profile_images/1238648419415187457/53YpWGZ4_400x400.jpg" />
-              </td>
-              <td></td>
-              <td></td>
-              <td>status</td>
-              <td></td>
-            </tr>
+            {this.props.table.dataRows?.map((r) => {
+              return (
+                <tr key={r.key}>
+                  {r.cells.map((c) => {
+                    return (
+                      <td key={c.key} className={c.className}>
+                        {c.element}
+                      </td>
+                    );
+                  })}
+                </tr>
+              );
+            })}
 
           </tbody>
           <tfoot>
             <tr>
-              {this.props.cells.map((ri) => {
+              {this.props.table.footers.map((f) => {
                 return (
-                  <th>{ri.text}</th>
+                  <th>{f}</th>
                 );
               })}
             </tr>
