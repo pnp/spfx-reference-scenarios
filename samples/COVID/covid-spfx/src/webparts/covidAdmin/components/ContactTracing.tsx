@@ -4,6 +4,9 @@ import { cloneDeep, isEqual } from "lodash";
 import styles from "./CovidAdmin.module.scss";
 import Persona, { Presence, Size } from "../../../common/components/molecules/Persona";
 import CollapsibleTable, { ICollapsibleTable, ICollapsibleTableCell, ICollapsibleTableRow, ICollapsibleTableSection } from "../../../common/components/molecules/CollapsibleTable";
+import { cs } from "../../../common/covid.service";
+import { IQuery, Query } from "../../../common/covid.model";
+import Button from "../../../common/components/atoms/Button";
 
 
 export interface IContactTracingProps {
@@ -38,6 +41,15 @@ export default class ContactTracing extends React.Component<IContactTracingProps
     if ((isEqual(nextState, this.state) && isEqual(nextProps, this.props)))
       return false;
     return true;
+  }
+
+  private _search = async (): Promise<void> => {
+    try {
+      let query: IQuery = new Query(new Date("4/1/2021"), new Date("4/12/2021"));
+      const results = await cs.searchCheckIn(query);
+    } catch (err) {
+      Logger.write(`${this.LOG_SOURCE} (_search) - ${err}`, LogLevel.Error);
+    }
   }
 
   private _getTableData = (): ICollapsibleTable => {
@@ -119,6 +131,7 @@ export default class ContactTracing extends React.Component<IContactTracingProps
           <h1>Covid-19 Contact Tracing</h1>
           <p>You can search for a person or location and see who was checked into the building during the same time. </p>
           <div>Search Box goes Here</div>
+          <div><Button className="lqd-button-primary" disabled={false} label="LoadData" onClick={this._search} /></div>
           <CollapsibleTable table={this._getTableData()}></CollapsibleTable>
 
 

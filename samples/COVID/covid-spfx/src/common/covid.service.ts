@@ -1,12 +1,10 @@
-import { forEach, findIndex, cloneDeep, find, indexOf } from "lodash";
+import { forEach, findIndex, cloneDeep, find, indexOf, groupBy } from "lodash";
 
 import { graph } from "@pnp/graph";
 import "@pnp/graph/users";
 import "@pnp/graph/photos";
 
 import { MSGraphClient } from '@microsoft/sp-http';
-
-import { User as IUserType } from "@microsoft/microsoft-graph-types";
 
 import * as lodash from "lodash";
 import { sp } from "@pnp/sp";
@@ -17,7 +15,7 @@ import "@pnp/sp/items/list";
 import "@pnp/sp/site-users/web";
 import { IItemAddResult } from "@pnp/sp/items/types";
 
-import { ILocations, IQuestion, ICheckIns, ISelfCheckIn, SelfCheckInLI, CheckInLI, ISelfCheckInLI, IAnswer, Tables, IPerson } from "./covid.model";
+import { ILocations, IQuestion, ICheckIns, ISelfCheckIn, SelfCheckInLI, CheckInLI, ISelfCheckInLI, IAnswer, Tables, IPerson, IQuery, ISearchResults } from "./covid.model";
 
 const mockAnswers: IAnswer[] = [{ QuestionId: 1, Answer: "no" }, { QuestionId: 2, Answer: "98.2" }, { QuestionId: 3, Answer: "no" }, { QuestionId: 4, Answer: "no" }, { QuestionId: 5, Answer: "no" }, { QuestionId: 6, Answer: "no" }, { QuestionId: 7, Answer: "no" }];
 
@@ -363,6 +361,56 @@ export class CovidService implements ICovidService {
         retVal = true;
     } catch (err) {
       Logger.write(`${this.LOG_SOURCE} (addSelfCheckIn) - ${err.message}`, LogLevel.Error);
+    }
+    return retVal;
+  }
+
+  public async searchCheckIn(query: IQuery): Promise<lodash.Dictionary<ICheckIns[]>> {
+    let retVal: lodash.Dictionary<ICheckIns[]> = null;
+    try {
+      let filter = [];
+      if (query.person != null) {
+        if ((typeof query.person) == "string") {
+          filter.push(`(Guest eq '${query.person}')`);
+        } else {
+          filter.push(`(EmployeeId eq ${query.person})`);
+        }
+      }
+      if (query.startDate != null) {
+        const start: Date = cloneDeep(query.startDate);
+        start.setUTCHours(0, 0, 0, 0);
+        filter.push(`(CheckIn gt '${start.toISOString()}')`);
+
+      }
+      if (query.endDate != null) {
+        const end: Date = cloneDeep(query.endDate);
+        end.setUTCHours(23, 59, 59, 9999);
+        filter.push(`(CheckIn lt '${end.toISOString()}')`);
+      }
+      if (query.office != null && query.office.length > 0) {
+        filter.push(`(CheckInOffice eq '${query.office}')`);
+      }
+      const filterString = filter.join(" and ");
+      const checkIns = await sp.web.lists.getByTitle(Tables.COVIDCHECKINLIST).items
+        .top(5000)
+        .select("Id, Title, EmployeeId, Employee/Id, Employee/Title, Employee/EMail, Guest, CheckInOffice, Questions, SubmittedOn, CheckIn, CheckInById, CheckInBy/Id, CheckInBy/Title, CheckInBy/EMail, Created")
+        .filter(filterString)
+        .expand("Employee, CheckInBy")
+        .get<ICheckIns[]>();
+
+      forEach(checkIns, (ci) => {
+        Object.getOwnPropertyNames(ci).forEach(prop => {
+          if (this.JSONDATEFIELDS.indexOf(prop) > -1 && ci[prop] != null) {
+            ci[prop] = new Date(ci[prop]);
+          } else if (this.JSONFIELDS.indexOf(prop) > -1) {
+            ci[`${prop}Value`] = JSON.parse(ci[prop]);
+          }
+        });
+      });
+
+      retVal = groupBy(checkIns, (ci) => { return ci.CheckIn.toLocaleDateString(); });
+    } catch (err) {
+      Logger.write(`${this.LOG_SOURCE} (searchCheckIn) - ${err} - `, LogLevel.Error);
     }
     return retVal;
   }

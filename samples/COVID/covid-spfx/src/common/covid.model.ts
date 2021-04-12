@@ -163,3 +163,41 @@ export interface IIconType {
   Class: string;
   SVG: string;
 }
+
+export interface IQuery {
+  startDate: Date;
+  endDate: Date;
+  office: string;
+  person: string | number;
+}
+
+export class Query implements IQuery {
+  constructor(
+    public startDate: Date = null,
+    public endDate: Date = null,
+    public office: string = null,
+    public person: string | number = null
+  ) { }
+}
+
+export interface ISearchResults {
+  resultGroups: IResultGroup[];
+}
+
+export interface IResultGroup {
+  groupHeader: string;
+  result: ICheckIns[];
+}
+
+export class ResultGroup implements IResultGroup {
+  constructor(
+    public groupHeader: string = null,
+    public result: ICheckIns[] = []
+  ) { }
+}
+
+export class SearchResults implements ISearchResults {
+  constructor(
+    public resultGroups: IResultGroup[] = []
+  ) { }
+}
