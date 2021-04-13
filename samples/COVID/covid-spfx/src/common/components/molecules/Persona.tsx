@@ -14,7 +14,7 @@ export enum Presence {
   "BusyIdle" = "is-dnd",
   "DoNotDisturb" = "is-dnd",
   "Offline" = "is-invisible",
-  "PresenceUnknown" = "is-oof",
+  "PresenceUnknown" = "is-invisible",
 }
 
 export enum Size {
@@ -64,7 +64,7 @@ export default class Persona extends React.Component<IPersonaProps, IPersonaStat
         <div className={`hoo-persona-${this.props.size}`}>
           <div className="hoo-avatar-pres">
             <Avatar src={this.props.src} name={this.props.name} />
-            <div className={`hoo-presence ${this.props.presence}`} title="Online"></div>
+            <div className={`hoo-presence ${this.props.presence}`} title={this.props.status}></div>
           </div>
           <div className="hoo-persona-data">
             <div className="hoo-persona-name">{this.props.name}</div>

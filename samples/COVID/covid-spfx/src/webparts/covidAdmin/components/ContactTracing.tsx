@@ -1,12 +1,15 @@
 import * as React from "react";
 import { Logger, LogLevel } from "@pnp/logging";
-import { cloneDeep, isEqual } from "lodash";
+import { cloneDeep, isEqual, Dictionary, find, includes } from "lodash";
 import styles from "./CovidAdmin.module.scss";
 import Persona, { Presence, Size } from "../../../common/components/molecules/Persona";
 import CollapsibleTable, { ICollapsibleTable, ICollapsibleTableCell, ICollapsibleTableRow, ICollapsibleTableSection } from "../../../common/components/molecules/CollapsibleTable";
 import { cs } from "../../../common/covid.service";
-import { IQuery, Query } from "../../../common/covid.model";
+import { IQuery, Query, ICheckIns } from "../../../common/covid.model";
 import Button from "../../../common/components/atoms/Button";
+import TableHeader from "./atoms/TableHeader";
+import TableSectionHeader from "./atoms/TableSectionHeader";
+import TableSection from "./atoms/TableSection";
 
 
 export interface IContactTracingProps {
@@ -14,13 +17,16 @@ export interface IContactTracingProps {
 }
 
 export interface IContactTracingState {
-
-
+  allExpanded: boolean;
+  searchResults: Dictionary<ICheckIns[]>;
+  sectionExpanded: { section: string, expanded: boolean; }[];
 }
 
 export class ContactTracingState implements IContactTracingState {
   constructor(
-
+    public allExpanded: boolean = true,
+    public searchResults: Dictionary<ICheckIns[]> = null,
+    public sectionExpanded: { section: string, expanded: boolean; }[] = []
   ) { }
 }
 
@@ -46,7 +52,9 @@ export default class ContactTracing extends React.Component<IContactTracingProps
   private _search = async (): Promise<void> => {
     try {
       let query: IQuery = new Query(new Date("4/1/2021"), new Date("4/12/2021"));
-      const results = await cs.searchCheckIn(query);
+      const searchResults = await cs.searchCheckIn(query);
+      const sectionExpanded = (searchResults != null) ? Object.getOwnPropertyNames(searchResults).map((section) => { return { section: section, expanded: true }; }) : [];
+      this.setState({ searchResults, sectionExpanded });
     } catch (err) {
       Logger.write(`${this.LOG_SOURCE} (_search) - ${err}`, LogLevel.Error);
     }
@@ -120,21 +128,52 @@ export default class ContactTracing extends React.Component<IContactTracingProps
     };
   }
 
+  private expandEvent(sectionName: string): void {
+    try {
+      let allExpanded = this.state.allExpanded;
+      const sectionExpanded = cloneDeep(this.state.sectionExpanded);
+      if (sectionName == "All") {
+        allExpanded = !allExpanded;
+        sectionExpanded.forEach((o) => { o.expanded = allExpanded; });
+      } else {
+        const se = find(sectionExpanded, { section: sectionName });
+        se.expanded = !se.expanded;
+      }
+      this.setState({ allExpanded, sectionExpanded });
+    } catch (err) {
+      Logger.write(`${this.LOG_SOURCE} (expandEvent) - ${err} - `, LogLevel.Error);
+    }
+  }
 
   public render(): React.ReactElement<IContactTracingProps> {
     try {
-
-
-
       return (
         <div data-component={this.LOG_SOURCE} className={styles.covidAdmin}>
           <h1>Covid-19 Contact Tracing</h1>
           <p>You can search for a person or location and see who was checked into the building during the same time. </p>
           <div>Search Box goes Here</div>
           <div><Button className="hoo-button-primary" disabled={false} label="LoadData" onClick={this._search} /></div>
-          <CollapsibleTable table={this._getTableData()}></CollapsibleTable>
-
-
+          {/* <CollapsibleTable table={this._getTableData()}></CollapsibleTable> */}
+          {this.state.searchResults &&
+            <table className="hoo-table is-collapsable">
+              <TableHeader columnNames={this._tableHeaders} expanded={this.state.allExpanded} expandClick={() => this.expandEvent("All")} />
+              {Object.getOwnPropertyNames(this.state.searchResults).map((result) => {
+                const expanded = find(this.state.sectionExpanded, { section: result })?.expanded || false;
+                return (
+                  <>
+                    <TableSectionHeader
+                      sectionName={result}
+                      colSpan={5}
+                      sectionHeader={result}
+                      expanded={expanded}
+                      expandClick={() => { this.expandEvent(result); }}
+                    />
+                    <TableSection sectionName={result} expanded={expanded} data={this.state.searchResults[result]} />
+                  </>
+                );
+              })}
+            </table>
+          }
         </div>
       );
     } catch (err) {

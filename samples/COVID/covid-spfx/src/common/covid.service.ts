@@ -408,6 +408,37 @@ export class CovidService implements ICovidService {
         });
       });
 
+      let ids: string[] = [];
+      for (let i = 0; i < checkIns.length; i++) {
+        const ci = checkIns[i];
+        if (ci.CheckInById != null) {
+          let idxCIB = findIndex(this._users, { Id: ci.CheckInById });
+          if (idxCIB < 0) {
+            idxCIB = await this._loadUserData(ci.CheckInBy);
+          }
+          if (idxCIB > -1) {
+            ci.CheckInBy = this._users[idxCIB];
+            if (indexOf(ids, ci.CheckInBy.GraphId) == -1)
+              ids.push(ci.CheckInBy.GraphId);
+          }
+        }
+        if (ci.EmployeeId != null) {
+          let idxEmp = findIndex(this._users, { Id: ci.EmployeeId });
+          if (idxEmp < 0) {
+            idxEmp = await this._loadUserData(ci.Employee);
+          }
+          if (idxEmp > -1) {
+            ci.Employee = this._users[idxEmp];
+            if (indexOf(ids, ci.Employee.GraphId) == -1)
+              ids.push(ci.Employee.GraphId);
+          }
+        }
+      }
+
+      if (ids.length > 0) {
+        await this._loadUserPresence(ids);
+      }
+
       retVal = groupBy(checkIns, (ci) => { return ci.CheckIn.toLocaleDateString(); });
     } catch (err) {
       Logger.write(`${this.LOG_SOURCE} (searchCheckIn) - ${err} - `, LogLevel.Error);
