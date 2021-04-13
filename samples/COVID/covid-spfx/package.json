@@ -41,7 +41,7 @@
     "@types/webpack-env": "1.13.1",
     "ajv": "~5.2.2",
     "gulp": "~3.9.1",
-    "liquid-core": "file:../../../../liquid/liquid-core",
+    "@n8design/htwoo-core": "file:../../../../htwoo/htwoo-core",
     "typescript": "^3.9.9"
   }
 }
