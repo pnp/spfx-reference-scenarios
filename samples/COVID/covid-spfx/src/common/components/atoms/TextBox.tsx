@@ -42,7 +42,7 @@ export default class TextBox extends React.Component<ITextBoxProps, ITextBoxStat
       return (
         <div className={styles.textbox}>
           <input
-            className="lqd-input-text"
+            className="hoo-input-text"
             name={this.props.name}
             type="text"
             value={this.props.value}

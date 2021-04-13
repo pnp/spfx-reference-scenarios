@@ -44,8 +44,8 @@ export default class RadioButton extends React.Component<IRadioButtonProps, IRad
     try {
       return (
         <div data-component={this.LOG_SOURCE} className={styles.radio} onChange={(newValue) => { this._onChange(newValue.target, this.props.name); }}>
-          <input type="radio" name={this.props.name} id={`${this.props.name}-Yes`} value="Yes" className="lqd-radio" /><label htmlFor={`${this.props.name}-Yes`}>Yes</label>
-          <input type="radio" name={this.props.name} id={`${this.props.name}-No`} value="No" className="lqd-radio" /><label htmlFor={`${this.props.name}-No`}>No</label>
+          <input type="radio" name={this.props.name} id={`${this.props.name}-Yes`} value="Yes" className="hoo-radio" /><label htmlFor={`${this.props.name}-Yes`}>Yes</label>
+          <input type="radio" name={this.props.name} id={`${this.props.name}-No`} value="No" className="hoo-radio" /><label htmlFor={`${this.props.name}-No`}>No</label>
         </div>
       );
     } catch (err) {

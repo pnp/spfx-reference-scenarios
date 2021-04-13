@@ -34,7 +34,7 @@ export default class Button extends React.Component<IButtonProps, IButtonState> 
     try {
       return (
         <button className={this.props.className} disabled={this.props.disabled} aria-disabled={this.props.disabled} onClick={this.props.onClick}>
-          <div className="lqd-button-label">{this.props.label}</div>
+          <div className="hoo-button-label">{this.props.label}</div>
         </button>
       );
     } catch (err) {

@@ -37,11 +37,11 @@ export default class PivotBar extends React.Component<IPivotBarProps, IPivotBarS
   public render(): React.ReactElement<IPivotBarProps> {
     try {
       return (
-        <div className="lqd-pivotbar">
+        <div className="hoo-pivotbar">
           {this.props.options.map((o, index) => {
             return (
-              <button className={`lqd-button-pivot ${(o.active) ? "is-active" : ""}`} onClick={o.onClick}>
-                <div className="lqd-pivot-inner" title={o.text}>{o.text}</div>
+              <button className={`hoo-button-pivot ${(o.active) ? "is-active" : ""}`} onClick={o.onClick}>
+                <div className="hoo-pivot-inner" title={o.text}>{o.text}</div>
               </button>);
           })}
         </div>

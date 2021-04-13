@@ -291,24 +291,24 @@ export default class DropDown extends React.Component<IDropDownProps, IDropDownS
   public render(): React.ReactElement<IDropDownProps> {
     try {
       return (
-        <div data-component={this.LOG_SOURCE} className="lqd-select" role="combobox" aria-haspopup="listbox" aria-owns={`${this.props.id}-list`} onClick={this._toggleDropdown} onKeyUp={this._keyUp} >
+        <div data-component={this.LOG_SOURCE} className="hoo-select" role="combobox" aria-haspopup="listbox" aria-owns={`${this.props.id}-list`} onClick={this._toggleDropdown} onKeyUp={this._keyUp} >
           <div id={`${this.props.id}-status`} className="hidden-visually" aria-live="polite">
             {this.props.options.length} options available. Arrow down to browse or start typing to filter.
           </div>
-          <input ref={this._inputElement} type="text" id={`${this.props.id}-input`} value={this.props.value} className="lqd-select-text" aria-autocomplete="both" aria-controls={`${this.props.id}-list`} />
-          <button className="lqd-buttonicon" aria-label="">
-            <div className="lqd-icon">
-              <span className={`lqd-icon-svg ${Icons.DownArrow.Class}`} aria-hidden="true" dangerouslySetInnerHTML={{ "__html": Icons.DownArrow.SVG }} >
+          <input ref={this._inputElement} type="text" id={`${this.props.id}-input`} value={this.props.value} className="hoo-select-text" aria-autocomplete="both" aria-controls={`${this.props.id}-list`} />
+          <button className="hoo-buttonicon" aria-label="">
+            <div className="hoo-icon">
+              <span className={`hoo-icon-svg ${Icons.DownArrow.Class}`} aria-hidden="true" dangerouslySetInnerHTML={{ "__html": Icons.DownArrow.SVG }} >
               </span>
 
             </div>
           </button>
           <ul
             role="listbox"
-            className={`lqd-select-dropdown ${(this.state.open) ? "" : "hidden-all"}`}
+            className={`hoo-select-dropdown ${(this.state.open) ? "" : "hidden-all"}`}
             onChange={(newValue) => { this._onChange(newValue.target, this.props.id); }}>
             {this.props.options.map((o, index) => {
-              return (<li ref={element => this._optionElements[index] = element} key={o.key} className="lqd-option" role="option" data-value={o.key} tabIndex={-1}>{o.text}</li>);
+              return (<li ref={element => this._optionElements[index] = element} key={o.key} className="hoo-option" role="option" data-value={o.key} tabIndex={-1}>{o.text}</li>);
             })}
           </ul>
         </div>

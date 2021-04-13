@@ -42,17 +42,17 @@ export default class Dialog extends React.Component<IDialogProps, IDialogState> 
       const styleBlock = { "--lqdDialogHeight": "30vh", "--lqdDialogWidth": "40vw" } as React.CSSProperties;
       return (
         <div className="tmp-hidden">
-          <div className={`lqd-mdldialog-outer  ${(this.props.visible) ? "is-visible" : ""}`}>
-            <div className="lqd-mdldialog" style={styleBlock}>
-              <div className="lqd-dlgheader">
-                <div className="lqd-dlgheader-title">
+          <div className={`hoo-mdldialog-outer  ${(this.props.visible) ? "is-visible" : ""}`}>
+            <div className="hoo-mdldialog" style={styleBlock}>
+              <div className="hoo-dlgheader">
+                <div className="hoo-dlgheader-title">
                   <h2>{this.props.header}</h2>
                 </div>
-                <div className="lqd-dlgheader-closer">
+                <div className="hoo-dlgheader-closer">
                   <ButtonIcon iconType={Icons.Close} onClick={() => { this.props.onChange(false); }} />
                 </div>
               </div>
-              <div className="lqd-dlgcontent">
+              <div className="hoo-dlgcontent">
                 {this.props.content}
               </div>
             </div>

@@ -61,16 +61,16 @@ export default class Persona extends React.Component<IPersonaProps, IPersonaStat
     try {
 
       return (
-        <div className={`lqd-persona-${this.props.size}`}>
-          <div className="lqd-avatar-pres">
+        <div className={`hoo-persona-${this.props.size}`}>
+          <div className="hoo-avatar-pres">
             <Avatar src={this.props.src} name={this.props.name} />
-            <div className={`lqd-presence ${this.props.presence}`} title="Online"></div>
+            <div className={`hoo-presence ${this.props.presence}`} title="Online"></div>
           </div>
-          <div className="lqd-persona-data">
-            <div className="lqd-persona-name">{this.props.name}</div>
-            <div className="lqd-persona-function"><span>{this.props.jobTitle}</span></div>
-            <div className="lqd-persona-statustext"><span>{this.props.status}</span></div>
-            <div className="lqd-persona-available"><span></span></div>
+          <div className="hoo-persona-data">
+            <div className="hoo-persona-name">{this.props.name}</div>
+            <div className="hoo-persona-function"><span>{this.props.jobTitle}</span></div>
+            <div className="hoo-persona-statustext"><span>{this.props.status}</span></div>
+            <div className="hoo-persona-available"><span></span></div>
           </div>
         </div>
       );

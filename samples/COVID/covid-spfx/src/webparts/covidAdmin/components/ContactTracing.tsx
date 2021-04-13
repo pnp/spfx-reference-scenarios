@@ -131,7 +131,7 @@ export default class ContactTracing extends React.Component<IContactTracingProps
           <h1>Covid-19 Contact Tracing</h1>
           <p>You can search for a person or location and see who was checked into the building during the same time. </p>
           <div>Search Box goes Here</div>
-          <div><Button className="lqd-button-primary" disabled={false} label="LoadData" onClick={this._search} /></div>
+          <div><Button className="hoo-button-primary" disabled={false} label="LoadData" onClick={this._search} /></div>
           <CollapsibleTable table={this._getTableData()}></CollapsibleTable>
 
 

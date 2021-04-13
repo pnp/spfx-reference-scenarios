@@ -56,10 +56,10 @@ export default class CollapsibleTable extends React.Component<ICollapsibleTableP
     try {
 
       return (
-        <table className="lqd-table is-collapsable">
+        <table className="hoo-table is-collapsable">
           <thead>
             <tr className="collapsable" data-sectionHeader="all">
-              <th className="lqd-table-iconcell" scope="col">
+              <th className="hoo-table-iconcell" scope="col">
                 <ButtonIcon iconType={Icons.DownArrow} onClick={() => { }} />
               </th>
               {this.props.table.headers.map((h) => {
@@ -74,11 +74,11 @@ export default class CollapsibleTable extends React.Component<ICollapsibleTableP
               return (
                 <>
                   <tr key={s.key} className="collapsable" data-sectionHeader={`section${s.key}`}>
-                    <th className="lqd-table-iconcell">
+                    <th className="hoo-table-iconcell">
                       <ButtonIcon iconType={Icons.DownArrow} onClick={() => { }} />
                     </th>
                     <th aria-colspan={this.props.table.headers.length}>
-                      <div className="lqd-table-subheader"><span>{s.sectionHeader}</span></div>
+                      <div className="hoo-table-subheader"><span>{s.sectionHeader}</span></div>
                     </th>
                   </tr>
                   {s.rows.map((r) => {

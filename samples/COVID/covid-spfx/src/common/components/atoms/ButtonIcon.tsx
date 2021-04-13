@@ -32,9 +32,9 @@ export default class ButtonIcon extends React.Component<IButtonIconProps, IButto
   public render(): React.ReactElement<IButtonIconProps> {
     try {
       return (
-        <button className="lqd-buttonicon" aria-label="" onClick={this.props.onClick}>
-          <div className="lqd-icon">
-            <span className={`lqd-icon-svg ${this.props.iconType.Class}`} aria-hidden="true" dangerouslySetInnerHTML={{ "__html": this.props.iconType.SVG }} >
+        <button className="hoo-buttonicon" aria-label="" onClick={this.props.onClick}>
+          <div className="hoo-icon">
+            <span className={`hoo-icon-svg ${this.props.iconType.Class}`} aria-hidden="true" dangerouslySetInnerHTML={{ "__html": this.props.iconType.SVG }} >
             </span>
 
           </div>

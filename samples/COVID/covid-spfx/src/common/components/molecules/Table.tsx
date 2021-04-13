@@ -49,7 +49,7 @@ export default class Table extends React.Component<ITableProps, ITableState> {
     try {
 
       return (
-        <table className="lqd-table">
+        <table className="hoo-table">
           <thead>
             <tr>
               {this.props.table.headers.map((h) => {

@@ -165,8 +165,8 @@ export default class CovidForm extends React.Component<ICovidFormProps, ICovidFo
               return (<div className={styles.formRow}><Question question={q} answer={a} onChange={this._onQuestionValueChange} /></div>);
             })}
             <div className={`${styles.formRow} ${styles.buttons}`} >
-              <Button className="lqd-button-primary" disabled={false} label="Save" onClick={this._save} />
-              <Button className="lqd-button" disabled={false} label="Cancel" onClick={this._cancel} />
+              <Button className="hoo-button-primary" disabled={false} label="Save" onClick={this._save} />
+              <Button className="hoo-button" disabled={false} label="Cancel" onClick={this._cancel} />
             </div>
           </div>
           <div style={confirmationVisibilityCSS}>

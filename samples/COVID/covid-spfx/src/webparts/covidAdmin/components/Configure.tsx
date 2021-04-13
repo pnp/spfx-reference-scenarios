@@ -33,7 +33,7 @@ export default class Configure extends React.Component<IConfigureProps, IConfigu
       return (
         <div data-component={this.LOG_SOURCE}>
           <div>It appears the Covid Attestation application has not been configured.</div>
-          <Button className="lqd-button-primary" disabled={false} label="Configure Now" onClick={this.props.startConfigure} />
+          <Button className="hoo-button-primary" disabled={false} label="Configure Now" onClick={this.props.startConfigure} />
         </div>
       );
     } catch (err) {

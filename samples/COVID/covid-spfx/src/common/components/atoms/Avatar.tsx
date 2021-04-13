@@ -55,7 +55,7 @@ export default class Avatar extends React.Component<IAvatarProps, IAvatarState> 
       this._selectedStyle = this._styleArray[rand];
 
     } else {
-      avatar = <img src={this.props.src} alt="" className="lqd-avatar" />;
+      avatar = <img src={this.props.src} alt="" className="hoo-avatar" />;
     }
     return avatar;
   }
@@ -65,7 +65,7 @@ export default class Avatar extends React.Component<IAvatarProps, IAvatarState> 
     try {
       let avatar = this._renderAvatar();
       return (
-        <div className={`lqd-avatar ${(isEmpty(this.props.src)) ? `noImage ${this._selectedStyle}` : ""}`} >
+        <div className={`hoo-avatar ${(isEmpty(this.props.src)) ? `noImage ${this._selectedStyle}` : ""}`} >
           {avatar}
         </div >
       );
