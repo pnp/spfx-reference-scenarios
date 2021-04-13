@@ -157,21 +157,23 @@ export default class ContactTracing extends React.Component<IContactTracingProps
           {this.state.searchResults &&
             <table className="hoo-table is-collapsable">
               <TableHeader columnNames={this._tableHeaders} expanded={this.state.allExpanded} expandClick={() => this.expandEvent("All")} />
-              {Object.getOwnPropertyNames(this.state.searchResults).map((result) => {
-                const expanded = find(this.state.sectionExpanded, { section: result })?.expanded || false;
-                return (
-                  <>
-                    <TableSectionHeader
-                      sectionName={result}
-                      colSpan={5}
-                      sectionHeader={result}
-                      expanded={expanded}
-                      expandClick={() => { this.expandEvent(result); }}
-                    />
-                    <TableSection sectionName={result} expanded={expanded} data={this.state.searchResults[result]} />
-                  </>
-                );
-              })}
+              <tbody>
+                {Object.getOwnPropertyNames(this.state.searchResults).map((result) => {
+                  const expanded = find(this.state.sectionExpanded, { section: result })?.expanded || false;
+                  return (
+                    <>
+                      <TableSectionHeader
+                        sectionName={result}
+                        colSpan={5}
+                        sectionHeader={result}
+                        expanded={expanded}
+                        expandClick={() => { this.expandEvent(result); }}
+                      />
+                      <TableSection sectionName={result} expanded={expanded} data={this.state.searchResults[result]} />
+                    </>
+                  );
+                })}
+              </tbody>
             </table>
           }
         </div>

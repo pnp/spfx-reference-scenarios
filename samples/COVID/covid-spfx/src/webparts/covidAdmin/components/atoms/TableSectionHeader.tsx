@@ -38,7 +38,7 @@ export default class TableSectionHeader extends React.Component<ITableSectionHea
       return (
         <tr data-component={this.LOG_SOURCE} className="collapsable" data-sectionHeader={this.props.sectionName} aria-hidden={!this.props.expanded} aria-expanded={this.props.expanded}>
           <th className="hoo-table-iconcell">
-            <ButtonIcon iconType={(this.props.expanded) ? Icons.DownArrow : Icons.RightArrow} onClick={this.props.expandClick} />
+            <ButtonIcon iconType={Icons.DownArrow} onClick={this.props.expandClick} />
           </th>
           <th colSpan={this.props.colSpan}>
             <div className="hoo-table-subheader"><span>{this.props.sectionHeader}</span></div>
