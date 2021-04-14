@@ -102,6 +102,18 @@ export interface IPerson {
   JobTitle: string;
 }
 
+export class Person implements IPerson {
+  constructor(
+    public Id: number = 0,
+    public Title: string = null,
+    public EMail: string = null,
+    public GraphId: string = null,
+    public Presence: IUserPresence = null,
+    public PhotoBlobUrl: string = null,
+    public JobTitle: string = null
+  ) { }
+}
+
 export interface ICheckInLI extends IList {
   EmployeeId: number;
   Guest: string;

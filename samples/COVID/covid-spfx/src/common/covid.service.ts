@@ -1,8 +1,14 @@
-import { forEach, findIndex, cloneDeep, find, indexOf, groupBy } from "lodash";
+import forEach from "lodash/forEach";
+import findIndex from "lodash/findIndex";
+import cloneDeep from "lodash/cloneDeep";
+import find from "lodash/find";
+import indexOf from "lodash/indexOf";
+import groupBy from "lodash/groupBy";
 
 import { graph } from "@pnp/graph";
 import "@pnp/graph/users";
 import "@pnp/graph/photos";
+import "@pnp/graph/cloud-communications";
 
 import { MSGraphClient } from '@microsoft/sp-http';
 
@@ -15,7 +21,7 @@ import "@pnp/sp/items/list";
 import "@pnp/sp/site-users/web";
 import { IItemAddResult } from "@pnp/sp/items/types";
 
-import { ILocations, IQuestion, ICheckIns, ISelfCheckIn, SelfCheckInLI, CheckInLI, ISelfCheckInLI, IAnswer, Tables, IPerson, IQuery, ISearchResults } from "./covid.model";
+import { ILocations, IQuestion, ICheckIns, ISelfCheckIn, SelfCheckInLI, CheckInLI, ISelfCheckInLI, IAnswer, Tables, IPerson, IQuery, ISearchResults, Person } from "./covid.model";
 
 const mockAnswers: IAnswer[] = [{ QuestionId: 1, Answer: "no" }, { QuestionId: 2, Answer: "98.2" }, { QuestionId: 3, Answer: "no" }, { QuestionId: 4, Answer: "no" }, { QuestionId: 5, Answer: "no" }, { QuestionId: 6, Answer: "no" }, { QuestionId: 7, Answer: "no" }];
 
@@ -139,6 +145,94 @@ export class CovidService implements ICovidService {
     return retVal;
   }
 
+  private async _updateIPerson(checkIns: ICheckIns[] | IPerson[]): Promise<void> {
+    try {
+      let ids: string[] = [];
+      for (let i = 0; i < checkIns.length; i++) {
+        if (checkIns[i].hasOwnProperty("GraphId")) {
+          let p: IPerson = checkIns[i] as IPerson;
+          let idxEmp = findIndex(this._users, { Id: p.Id });
+          if (idxEmp < 0) {
+            idxEmp = await this._loadUserData(p);
+          }
+          if (idxEmp > -1) {
+            p = this._users[idxEmp];
+            if (indexOf(ids, p.GraphId) == -1)
+              ids.push(p.GraphId);
+          }
+        } else {
+          const ci: ICheckIns = checkIns[i] as ICheckIns;
+          if (ci.CheckInById != null) {
+            let idxCIB = findIndex(this._users, { Id: ci.CheckInById });
+            if (idxCIB < 0) {
+              idxCIB = await this._loadUserData(ci.CheckInBy);
+            }
+            if (idxCIB > -1) {
+              ci.CheckInBy = this._users[idxCIB];
+              if (indexOf(ids, ci.CheckInBy.GraphId) == -1)
+                ids.push(ci.CheckInBy.GraphId);
+            }
+          }
+          if (ci.EmployeeId != null) {
+            let idxEmp = findIndex(this._users, { Id: ci.EmployeeId });
+            if (idxEmp < 0) {
+              idxEmp = await this._loadUserData(ci.Employee);
+            }
+            if (idxEmp > -1) {
+              ci.Employee = this._users[idxEmp];
+              if (indexOf(ids, ci.Employee.GraphId) == -1)
+                ids.push(ci.Employee.GraphId);
+            }
+          }
+        }
+      }
+
+      if (ids.length > 0) {
+        await this._loadUserPresence(ids);
+      }
+    } catch (err) {
+      Logger.write(`${this.LOG_SOURCE} (_updateIPerson) - ${err.message} - `, LogLevel.Error);
+    }
+  }
+
+  private async _loadUserData(user: IPerson): Promise<number> {
+    let retVal: number = -1;
+    try {
+      const u = await graph.users.getById(user.EMail).select("id, jobTitle")();
+      if (u) {
+        user.GraphId = u.id;
+        user.JobTitle = u.jobTitle;
+        try {
+          const photoValue = await graph.users.getById(user.GraphId).photo.getBlob();
+          if (photoValue) {
+            const url = window.URL || window.webkitURL;
+            user.PhotoBlobUrl = url.createObjectURL(photoValue);
+          }
+        } catch (e) { }
+        retVal = this._users.push(user) - 1;
+      }
+    } catch (err) {
+      Logger.write(`${this.LOG_SOURCE} (_loadUserData) - ${err.message} - `, LogLevel.Error);
+    }
+    return retVal;
+  }
+
+  private async _loadUserPresence(ids: string[]): Promise<void> {
+    try {
+      const p = await graph.communications.getPresencesByUserId(ids);
+      if (p) {
+        for (let i = 0; i < p.length; i++) {
+          const user = find(this._users, { GraphId: p[i].id });
+          if (user) {
+            user.Presence = p[i];
+          }
+        }
+      }
+    } catch (err) {
+      Logger.write(`${this.LOG_SOURCE} (_loadUserPresence) - ${err.message} - `, LogLevel.Error);
+    }
+  }
+
   public async getCheckIns(d: Date): Promise<boolean> {
     let retVal: boolean = false;
     try {
@@ -163,36 +257,7 @@ export class CovidService implements ICovidService {
         });
       });
 
-      let ids: string[] = [];
-      for (let i = 0; i < this._checkIns.length; i++) {
-        const ci = this._checkIns[i];
-        if (ci.CheckInById != null) {
-          let idxCIB = findIndex(this._users, { Id: ci.CheckInById });
-          if (idxCIB < 0) {
-            idxCIB = await this._loadUserData(ci.CheckInBy);
-          }
-          if (idxCIB > -1) {
-            ci.CheckInBy = this._users[idxCIB];
-            if (indexOf(ids, ci.CheckInBy.GraphId) == -1)
-              ids.push(ci.CheckInBy.GraphId);
-          }
-        }
-        if (ci.EmployeeId != null) {
-          let idxEmp = findIndex(this._users, { Id: ci.EmployeeId });
-          if (idxEmp < 0) {
-            idxEmp = await this._loadUserData(ci.Employee);
-          }
-          if (idxEmp > -1) {
-            ci.Employee = this._users[idxEmp];
-            if (indexOf(ids, ci.Employee.GraphId) == -1)
-              ids.push(ci.Employee.GraphId);
-          }
-        }
-      }
-
-      if (ids.length > 0) {
-        await this._loadUserPresence(ids);
-      }
+      await this._updateIPerson(this._checkIns);
 
       this._currentDate = d;
       if (typeof this._checkInsRefresh == "function") {
@@ -203,46 +268,6 @@ export class CovidService implements ICovidService {
       Logger.write(`${this.LOG_SOURCE} (getCheckIns) - ${err.message}`, LogLevel.Error);
     }
     return retVal;
-  }
-
-  private async _loadUserData(user: IPerson): Promise<number> {
-    let retVal: number = -1;
-    try {
-      const u = await this._graphClient.api(`users/${user.EMail}`).version("v1.0")
-        .select("id,jobTitle")
-        .get();
-      if (u) {
-        user.GraphId = u.id;
-        user.JobTitle = u.jobTitle;
-        try {
-          const photoValue = await graph.users.getById(user.GraphId).photo.getBlob();
-          if (photoValue) {
-            const url = window.URL || window.webkitURL;
-            user.PhotoBlobUrl = url.createObjectURL(photoValue);
-          }
-        } catch (e) { }
-        retVal = this._users.push(user) - 1;
-      }
-    } catch (err) {
-      Logger.write(`${this.LOG_SOURCE} (_loadUserData) - ${err.message} - `, LogLevel.Error);
-    }
-    return retVal;
-  }
-
-  private async _loadUserPresence(ids: string[]): Promise<void> {
-    try {
-      const p = await this._graphClient.api(`/communications/getPresencesByUserId`).version("v1.0").post({ ids: ids });
-      if (p) {
-        for (let i = 0; i < p.value.length; i++) {
-          const user = find(this._users, { GraphId: p.value[i].id });
-          if (user) {
-            user.Presence = p.value[i];
-          }
-        }
-      }
-    } catch (err) {
-      Logger.write(`${this.LOG_SOURCE} (_loadUserPresence) - ${err.message} - `, LogLevel.Error);
-    }
   }
 
   public moveSelfCheckIns(): Promise<boolean> {
@@ -408,40 +433,27 @@ export class CovidService implements ICovidService {
         });
       });
 
-      let ids: string[] = [];
-      for (let i = 0; i < checkIns.length; i++) {
-        const ci = checkIns[i];
-        if (ci.CheckInById != null) {
-          let idxCIB = findIndex(this._users, { Id: ci.CheckInById });
-          if (idxCIB < 0) {
-            idxCIB = await this._loadUserData(ci.CheckInBy);
-          }
-          if (idxCIB > -1) {
-            ci.CheckInBy = this._users[idxCIB];
-            if (indexOf(ids, ci.CheckInBy.GraphId) == -1)
-              ids.push(ci.CheckInBy.GraphId);
-          }
-        }
-        if (ci.EmployeeId != null) {
-          let idxEmp = findIndex(this._users, { Id: ci.EmployeeId });
-          if (idxEmp < 0) {
-            idxEmp = await this._loadUserData(ci.Employee);
-          }
-          if (idxEmp > -1) {
-            ci.Employee = this._users[idxEmp];
-            if (indexOf(ids, ci.Employee.GraphId) == -1)
-              ids.push(ci.Employee.GraphId);
-          }
-        }
-      }
-
-      if (ids.length > 0) {
-        await this._loadUserPresence(ids);
-      }
+      await this._updateIPerson(checkIns);
 
       retVal = groupBy(checkIns, (ci) => { return ci.CheckIn.toLocaleDateString(); });
     } catch (err) {
       Logger.write(`${this.LOG_SOURCE} (searchCheckIn) - ${err} - `, LogLevel.Error);
+    }
+    return retVal;
+  }
+
+  public async getSiteUsers(): Promise<IPerson[]> {
+    let retVal: IPerson[] = [];
+    try {
+      const siteUsers = await sp.web.siteUsers();
+      forEach(siteUsers, (su) => {
+        //if (su.LoginName.indexOf("i:0#.f|membership") > -1)
+        if (su.Email?.length > 0)
+          retVal.push(new Person(su.Id, su.Title, su.Email));
+      });
+      await this._updateIPerson(retVal);
+    } catch (err) {
+      Logger.write(`${this.LOG_SOURCE} (getSiteUsers) - ${err} - `, LogLevel.Error);
     }
     return retVal;
   }

@@ -145,6 +145,7 @@ export default class ContactTracing extends React.Component<IContactTracingProps
     }
   }
 
+
   public render(): React.ReactElement<IContactTracingProps> {
     try {
       return (
@@ -152,7 +153,10 @@ export default class ContactTracing extends React.Component<IContactTracingProps
           <h1>Covid-19 Contact Tracing</h1>
           <p>You can search for a person or location and see who was checked into the building during the same time. </p>
           <div>Search Box goes Here</div>
-          <div><Button className="hoo-button-primary" disabled={false} label="LoadData" onClick={this._search} /></div>
+          <div>
+            <Button className="hoo-button-primary" disabled={false} label="LoadData" onClick={this._search} />
+            <Button className="hoo-button-primary" disabled={false} label="GetSiteUsers" onClick={() => cs.getSiteUsers()} />
+          </div>
           {/* <CollapsibleTable table={this._getTableData()}></CollapsibleTable> */}
           {this.state.searchResults &&
             <table className="hoo-table is-collapsable">

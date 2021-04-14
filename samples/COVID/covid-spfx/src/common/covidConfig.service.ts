@@ -40,15 +40,25 @@ export class CovidConfigService implements ICovidConfigService {
 
   public async configure(): Promise<boolean> {
     try {
+      const siteVisitorsPermissions = await this.getRoleInformation();
       const successLocations = await this.createList(Tables.LOCATIONLIST, []);
       const successQuestions = await this.createList(Tables.QUESTIONLIST, QUESTIONLISTFields);
       const successSelfCheckin = await this.createList(Tables.SELFCHECKINLIST, SELFCHECKINLISTFields);
+      if (successSelfCheckin) {
+        await successSelfCheckin.breakRoleInheritance(true);
+        if (siteVisitorsPermissions.length > 0) {
+          await successSelfCheckin.roleAssignments.getById(siteVisitorsPermissions[0]).delete();
+          await successSelfCheckin.roleAssignments.add(siteVisitorsPermissions[0], siteVisitorsPermissions[1]);
+        } else {
+          Logger.write(`${this.LOG_SOURCE} (configure) - SelfCheckIn list created but permissions could not be set.`, LogLevel.Error);
+          return false;
+        }
+      }
       const successCheckin = await this.createList(Tables.COVIDCHECKINLIST, COVIDCHECKINLISTFields);
       if (successCheckin) {
         await successCheckin.breakRoleInheritance(true);
-        let checkInPermissions = await this.getRoleInformation();
-        if (checkInPermissions.length > 0) {
-          await successCheckin.roleAssignments.getById(checkInPermissions[0]).delete();
+        if (siteVisitorsPermissions.length > 0) {
+          await successCheckin.roleAssignments.getById(siteVisitorsPermissions[0]).delete();
         } else {
           Logger.write(`${this.LOG_SOURCE} (configure) - CovidCheckIn list created but permissions could not be set.`, LogLevel.Error);
           return false;
