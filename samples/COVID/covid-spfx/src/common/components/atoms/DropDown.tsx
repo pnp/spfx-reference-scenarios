@@ -24,7 +24,7 @@ export interface IDropDownOption {
 export interface IDropDownProps {
   options: IDropDownOption[];
   id: string;
-  value: string;
+  value: string | number;
   onChange: (fieldValue: string, fieldName: string) => void;
 }
 

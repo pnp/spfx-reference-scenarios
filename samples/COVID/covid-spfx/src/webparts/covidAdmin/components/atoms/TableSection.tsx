@@ -51,8 +51,6 @@ export default class TableSection extends React.Component<ITableSectionProps, IT
                   />
                 </td>
                 <td>{o.CheckInOffice}</td>
-                <td>{o.SubmittedOn?.toLocaleString()}</td>
-                <td><span className={(o.CheckIn) ? styles.isCheckedIn : styles.isNotCheckedIn} /></td>
                 <td>{o.CheckIn?.toLocaleString()}</td>
               </tr>
             );
