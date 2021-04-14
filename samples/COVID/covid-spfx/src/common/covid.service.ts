@@ -421,6 +421,7 @@ export class CovidService implements ICovidService {
         .select("Id, Title, EmployeeId, Employee/Id, Employee/Title, Employee/EMail, Guest, CheckInOffice, Questions, SubmittedOn, CheckIn, CheckInById, CheckInBy/Id, CheckInBy/Title, CheckInBy/EMail, Created")
         .filter(filterString)
         .expand("Employee, CheckInBy")
+        .orderBy("CheckIn", false)
         .get<ICheckIns[]>();
 
       forEach(checkIns, (ci) => {
