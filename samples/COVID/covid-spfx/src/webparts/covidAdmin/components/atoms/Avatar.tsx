@@ -4,6 +4,13 @@ import isEmpty from "lodash/isEmpty";
 import isEqual from "lodash/isEqual";
 import random from "lodash/random";
 
+declare module 'react' {
+  interface HTMLAttributes<T> extends React.DOMAttributes<T> {
+    // extends React's HTMLAttributes for lazy loading
+    loading?: string;
+  }
+}
+
 export enum Size {
   "Sixteen" = 16,
   "TwentyFour" = 24,
@@ -56,12 +63,11 @@ export default class Avatar extends React.Component<IAvatarProps, IAvatarState> 
       let rand: number = random(0, this._styleArray.length - 1);
       this._selectedStyle = this._styleArray[rand];
     } else {
-      avatar = <img src={this.props.src} alt="" className="hoo-avatar" />;
+      avatar = <img src={this.props.src} loading="lazy" alt="" className="hoo-avatar" />;
     }
     return avatar;
   }
 
-  //TODO: loading="lazy"
   public render(): React.ReactElement<IAvatarProps> {
     try {
       const avatar = this._renderAvatar();

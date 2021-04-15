@@ -19,8 +19,8 @@ export interface ICovidFormProps {
   microsoftTeams: IMicrosoftTeams;
   checkInMode: CheckInMode;
   displayName: string;
+  userId: number;
   close?: () => void;
-  userId?: number;
   checkInForm?: ICheckIns;
   userCanCheckIn?: boolean;
 }
@@ -52,7 +52,7 @@ export default class CovidForm extends React.Component<ICovidFormProps, ICovidFo
       this._locationOptions = cs.Locations.map((l) => { return { key: l.Title, text: l.Title }; });
       const today = new Date();
       const title = `${props.displayName} - ${today.toLocaleDateString()}`;
-      this.state = new CovidFormState(this.props.checkInForm || new CheckIns(0, title, today, this.props.userId || null, null, "", this._questions.map<IAnswer>((q) => { return { QuestionId: q.Id, Answer: "" }; }), today));
+      this.state = new CovidFormState(this.props.checkInForm || new CheckIns(0, title, today, (this.props.checkInMode === CheckInMode.Self) ? this.props.userId : null, null, "", this._questions.map<IAnswer>((q) => { return { QuestionId: q.Id, Answer: "" }; }), today));
     } catch (err) {
       Logger.write(`${this.LOG_SOURCE} (constructor) - ${err}`, LogLevel.Error);
     }
@@ -91,6 +91,8 @@ export default class CovidForm extends React.Component<ICovidFormProps, ICovidFo
       const checkInForm = cloneDeep(this.state.checkInForm);
       let success: boolean = false;
       if (this.props.checkInMode === CheckInMode.Guest) {
+        checkInForm.CheckIn = new Date();
+        checkInForm.CheckInById = this.props.userId;
         success = await cs.addCheckIn(checkInForm);
       } else {
         success = await cs.addSelfCheckIn(checkInForm);

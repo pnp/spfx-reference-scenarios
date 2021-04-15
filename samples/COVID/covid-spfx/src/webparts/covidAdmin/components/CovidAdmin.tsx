@@ -130,7 +130,7 @@ export default class CovidAdmin extends React.Component<ICovidAdminProps, ICovid
                 </>
               }
               {this.state.tab === ADMINTABS.GUEST &&
-                <CovidForm microsoftTeams={this.props.microsoftTeams} displayName="Guest" checkInMode={CheckInMode.Guest} close={this._closeGuestForm} />
+                <CovidForm microsoftTeams={this.props.microsoftTeams} displayName="Guest" userId={this.props.userId} checkInMode={CheckInMode.Guest} close={this._closeGuestForm} />
               }
               {this.state.tab === ADMINTABS.CONTACTTRACING &&
                 <ContactTracing />

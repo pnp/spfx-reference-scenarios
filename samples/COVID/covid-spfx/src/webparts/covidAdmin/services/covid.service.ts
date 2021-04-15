@@ -28,7 +28,7 @@ export interface ICovidService {
   CheckIns: ICheckIns[];
   QuestionListUrl: string;
   LocationListUrl: string;
-  init: () => Promise<void>;
+  init: (siteUrl: string) => Promise<void>;
   CheckInsRefresh: (selectedDate: Date) => void;
   userCanCheckIn: (userId: number) => Promise<boolean>;
   getCheckIns: (d: Date) => Promise<boolean>;
@@ -52,6 +52,7 @@ export class CovidService implements ICovidService {
   private _checkIns: ICheckIns[];
   private _users: IPerson[] = [];
   private _currentDate: Date;
+  private _siteUrl: string;
   private _questionListUrl: string;
   private _locationListUrl: string;
 
@@ -91,10 +92,11 @@ export class CovidService implements ICovidService {
     this._checkInsRefresh = value;
   }
 
-  public async init(): Promise<void> {
+  public async init(siteUrl: string): Promise<void> {
     try {
-      this._locationListUrl = `${sp.site.toUrl()}/Lists/${Tables.LOCATIONLIST}/AllItems.aspx`;
-      this._questionListUrl = `${sp.site.toUrl()}/Lists/${Tables.QUESTIONLIST}/AllItems.aspx`;
+      this._siteUrl = siteUrl;
+      this._locationListUrl = `${this._siteUrl}/Lists/${Tables.LOCATIONLIST}/AllItems.aspx`;
+      this._questionListUrl = `${this._siteUrl}/Lists/${Tables.QUESTIONLIST}/AllItems.aspx`;
       await this._loadUserRole();
       let success: boolean[] = [];
       success.push(await this._getLocations());

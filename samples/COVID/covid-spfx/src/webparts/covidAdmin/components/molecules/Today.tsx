@@ -39,11 +39,7 @@ export default class Today extends React.Component<ITodayProps, ITodayState> {
           <table className="hoo-table">
             <TableHeader columnNames={this._tableHeaders} />
             <tbody>
-              {this.props.data?.map((result) => {
-                return (
-                  <TableSection fields={this._tableHeaders} data={this.props.data} />
-                );
-              })}
+              <TableSection fields={this._tableHeaders} data={this.props.data} />
             </tbody>
           </table>
         </div>
