@@ -9,6 +9,8 @@ export interface IDialogProps {
   content: string;
   visible: boolean;
   onChange: (visibility: boolean) => void;
+  height?: number;
+  width?: number;
 }
 
 export interface IDialogState {
@@ -39,7 +41,9 @@ export default class Dialog extends React.Component<IDialogProps, IDialogState> 
 
   public render(): React.ReactElement<IDialogProps> {
     try {
-      const styleBlock = { "--lqdDialogHeight": "30vh", "--lqdDialogWidth": "40vw" } as React.CSSProperties;
+      let height: number = (this.props.height) ? this.props.height : 30;
+      let width: number = (this.props.width) ? this.props.width : 40;
+      const styleBlock = { "--lqdDialogHeight": `${height}vh`, "--lqdDialogWidth": `${width}vw` } as React.CSSProperties;
       return (
         <div className="tmp-hidden">
           <div className={`hoo-mdldialog-outer  ${(this.props.visible) ? "is-visible" : ""}`}>
@@ -54,6 +58,7 @@ export default class Dialog extends React.Component<IDialogProps, IDialogState> 
               </div>
               <div className="hoo-dlgcontent">
                 {this.props.content}
+                {this.props.children ? this.props.children : null}
               </div>
             </div>
           </div>
