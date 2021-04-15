@@ -5,7 +5,7 @@ import { cs } from "../../../common/covid.service";
 import { ICheckIns, CheckInMode } from "../../../common/covid.model";
 import CovidForm from "../../../common/components/CovidForm";
 import styles from "./CovidAdmin.module.scss";
-import PivotBar, { IPivotBarOption } from "../../../common/components/atoms/PivotBar";
+import PivotBar, { IPivotBarOption } from "./atoms/PivotBar";
 import DatePicker from "../../../common/components/molecules/DatePicker";
 import Persona, { Presence } from "../../../common/components/molecules/Persona";
 import ButtonIcon from "../../../common/components/atoms/ButtonIcon";
@@ -50,19 +50,36 @@ export default class CovidAdmin extends React.Component<ICovidAdminProps, ICovid
   private _tableHeaders: string[] = ['Name', 'Office', 'Submitted', 'Check In Status', 'Check In Time', ''];
   private _tableFooters: string[] = ['Name', 'Office', 'Submitted', 'Check In Status', 'Check In Time', ''];
   //Set up the tabs for the PivotBar
+
+  //Array of tab object key:enum text display name
+  //pass in active from state
+  //pass onclick function
   private _tabOptions: IPivotBarOption[] = [
     {
-      text: "Today", active: true, onClick: () => this._changeTab(ADMINTABS.TODAY)
+      key: ADMINTABS.TODAY,
+      displayName: "Today"
     },
     {
-      text: "Register Guest", active: false, onClick: () => this._changeTab(ADMINTABS.GUEST)
+      key: ADMINTABS.GUEST,
+      displayName: "Register Guest"
     },
     {
-      text: "Contact Tracing", active: false, onClick: () => this._changeTab(ADMINTABS.CONTACTTRACING)
+      key: ADMINTABS.CONTACTTRACING,
+      displayName: "Contact Tracing"
     },
     {
-      text: "Administration", active: false, onClick: () => this._changeTab(ADMINTABS.ADMINISTRATION)
+      key: ADMINTABS.ADMINISTRATION,
+      displayName: "Administration"
     }];
+  // {
+  //   text: "Register Guest", active: false, onClick: () => this._changeTab(ADMINTABS.GUEST)
+  // },
+  // {
+  //   text: "Contact Tracing", active: false, onClick: () => this._changeTab(ADMINTABS.CONTACTTRACING)
+  // },
+  // {
+  //   text: "Administration", active: false, onClick: () => this._changeTab(ADMINTABS.ADMINISTRATION)
+  // }];
 
   constructor(props: ICovidAdminProps) {
     super(props);
@@ -184,7 +201,7 @@ export default class CovidAdmin extends React.Component<ICovidAdminProps, ICovid
       return (
         <div data-component={this.LOG_SOURCE} className={styles.covidAdmin}>
 
-          <PivotBar options={this._tabOptions} />
+          <PivotBar options={this._tabOptions} onClick={this._changeTab} activeTab={this.state.tab} />
           {this.state.tab === ADMINTABS.TODAY &&
             <>
               <h1>Check-In Covid-19</h1>
