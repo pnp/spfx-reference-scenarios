@@ -443,6 +443,42 @@ export class CovidService implements ICovidService {
     return retVal;
   }
 
+  public async traceCheckIn(query: IQuery, person: string | number): Promise<lodash.Dictionary<ICheckIns[]>> {
+    let retVal: lodash.Dictionary<ICheckIns[]> = null;
+
+    try {
+      const searchResults = await cs.searchCheckIn(query);
+
+      for (let key in searchResults) {
+        let value = searchResults[key];
+        let include = false;
+        if (value.length > 0) {
+
+          forEach(value, (p) => {
+            if (p.Employee == null) {
+              if (p.Guest === person) {
+                include = true;
+              }
+            } else {
+              if (p.Employee.Id === person) {
+                include = true;
+              }
+
+            }
+          });
+        }
+        if (!include) {
+          delete searchResults[key];
+        }
+      }
+
+      retVal = searchResults;
+    } catch (err) {
+      Logger.write(`${this.LOG_SOURCE} (searchCheckIn) - ${err} - `, LogLevel.Error);
+    }
+    return retVal;
+  }
+
   public async getSiteUsers(): Promise<IPerson[]> {
     let retVal: IPerson[] = [];
     try {

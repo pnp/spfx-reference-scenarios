@@ -2,7 +2,7 @@ import * as React from "react";
 import { Logger, LogLevel } from "@pnp/logging";
 import { cloneDeep, isEqual, Dictionary, find, forEach } from "lodash";
 import { cs } from "../../../common/covid.service";
-import { IQuery, ICheckIns } from "../../../common/covid.model";
+import { IQuery, ICheckIns, Query } from "../../../common/covid.model";
 import Button from "../../../common/components/atoms/Button";
 import TableHeader from "./atoms/TableHeader";
 import TableSectionHeader from "./atoms/TableSectionHeader";
@@ -79,9 +79,30 @@ export default class ContactTracing extends React.Component<IContactTracingProps
 
   private _updateSearchQuery = (query: IQuery) => {
     try {
-      this._search(query);
+      if (query.person) {
+        this._traceUser(query);
+      } else {
+        this._search(query);
+      }
+
     } catch (err) {
       Logger.write(`${this.LOG_SOURCE} (_updateSearchQuery) - ${err}`, LogLevel.Error);
+    }
+  }
+  private _traceUser = async (query: IQuery): Promise<void> => {
+    try {
+      const person = (query.person) ? query.person : null;
+      let searchQuery: IQuery = new Query(
+        query.startDate,
+        query.endDate,
+        query.office,
+        null
+      );
+      const searchResults = await cs.traceCheckIn(searchQuery, person);
+      const sectionExpanded = (searchResults != null) ? Object.getOwnPropertyNames(searchResults).map((section) => { return { section: section, expanded: true }; }) : [];
+      this.setState({ searchResults, sectionExpanded });
+    } catch (err) {
+      Logger.write(`${this.LOG_SOURCE} (_search) - ${err}`, LogLevel.Error);
     }
   }
 
