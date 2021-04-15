@@ -42,6 +42,7 @@ export default class TableSection extends React.Component<ITableSectionProps, IT
             return (
               <tr data-section={this.props.sectionName || ""} className={expandedClass} aria-hidden={!(this.props.expanded || true)}>
                 <td></td>
+                <td>{o.CheckInOffice}</td>
                 {this.props.fields.map((field) => {
                   return (
                     <td>

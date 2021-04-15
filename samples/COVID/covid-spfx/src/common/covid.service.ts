@@ -442,6 +442,7 @@ export class CovidService implements ICovidService {
         .select("Id, Title, EmployeeId, Employee/Id, Employee/Title, Employee/EMail, Guest, CheckInOffice, Questions, SubmittedOn, CheckIn, CheckInById, CheckInBy/Id, CheckInBy/Title, CheckInBy/EMail, Created")
         .filter(filterString)
         .expand("Employee, CheckInBy")
+        .orderBy("CheckIn", false)
         .get<ICheckIns[]>();
 
       forEach(checkIns, (ci) => {
@@ -457,6 +458,42 @@ export class CovidService implements ICovidService {
       await this._updateIPerson(checkIns);
 
       retVal = groupBy(checkIns, (ci) => { return ci.CheckIn.toLocaleDateString(); });
+    } catch (err) {
+      Logger.write(`${this.LOG_SOURCE} (searchCheckIn) - ${err} - `, LogLevel.Error);
+    }
+    return retVal;
+  }
+
+  public async traceCheckIn(query: IQuery, person: string | number): Promise<lodash.Dictionary<ICheckIns[]>> {
+    let retVal: lodash.Dictionary<ICheckIns[]> = null;
+
+    try {
+      const searchResults = await cs.searchCheckIn(query);
+
+      for (let key in searchResults) {
+        let value = searchResults[key];
+        let include = false;
+        if (value.length > 0) {
+
+          forEach(value, (p) => {
+            if (p.Employee == null) {
+              if (p.Guest === person) {
+                include = true;
+              }
+            } else {
+              if (p.Employee.Id === person) {
+                include = true;
+              }
+
+            }
+          });
+        }
+        if (!include) {
+          delete searchResults[key];
+        }
+      }
+
+      retVal = searchResults;
     } catch (err) {
       Logger.write(`${this.LOG_SOURCE} (searchCheckIn) - ${err} - `, LogLevel.Error);
     }

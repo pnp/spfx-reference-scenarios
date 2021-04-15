@@ -5,6 +5,7 @@
 }
 
 @import "node_modules/@n8design/htwoo-core/src/styles/00-base/mixin/core.mixin";
+@import "node_modules/@n8design/htwoo-core/src/styles/00-base/mixin/grid.mixin";
 
 .covidAdmin {
   :global {
@@ -13,6 +14,8 @@
     .hoo-input-text {
       width: 100%;
     }
+
+
 
     .noImage {
       display: flex;
@@ -103,6 +106,22 @@
     }
   }
 
+  @include gridBase();
+
+  >h1 {
+    @include gridSpan(6, 1);
+  }
+
+  >p {
+    @include gridSpan(8, 1);
+  }
+
+  >div,
+  >table {
+    @include gridSpan(12, 1);
+  }
+
+
   .checkIn span {
     height: 1rem;
     width: 1rem;
@@ -117,6 +136,20 @@
   .isNotCheckedIn {
     background-color: red;
   }
+
+  .searchControls {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+  }
+
+  .dateSelector {
+    display: flex;
+    justify-content: center;
+
+  }
+
+
 
 
 }
