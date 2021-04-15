@@ -13,7 +13,6 @@ import {
   PropertyPaneLabel
 } from '@microsoft/sp-property-pane';
 import { BaseClientSideWebPart, IMicrosoftTeams } from '@microsoft/sp-webpart-base';
-import { MSGraphClient } from '@microsoft/sp-http';
 
 import * as strings from 'CovidWebPartStrings';
 import styles from '../../common/components/CovidForm.module.scss';

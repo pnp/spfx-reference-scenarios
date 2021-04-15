@@ -151,7 +151,7 @@ export class CovidService implements ICovidService {
     try {
       await this.moveSelfCheckIns();
       let today = new Date();
-      today.setUTCHours(0, 0, 0, 0);
+      today.setHours(0, 0, 0, 0);
       const checkIns = await sp.web.lists.getByTitle(Tables.COVIDCHECKINLIST).items
         .top(1)
         .filter(`(EmployeeId eq ${userId}) and (SubmittedOn gt '${today.toISOString()}')`)
@@ -259,8 +259,8 @@ export class CovidService implements ICovidService {
     try {
       const start = cloneDeep(d);
       const end = cloneDeep(d);
-      start.setUTCHours(0, 0, 0, 0);
-      end.setUTCHours(23, 59, 59, 9999);
+      start.setHours(0, 0, 0, 0);
+      end.setHours(23, 59, 59, 9999);
       this._checkIns = await sp.web.lists.getByTitle(Tables.COVIDCHECKINLIST).items
         .top(5000)
         .select("Id, Title, EmployeeId, Employee/Id, Employee/Title, Employee/EMail, Guest, CheckInOffice, Questions, SubmittedOn, CheckIn, CheckInById, CheckInBy/Id, CheckInBy/Title, CheckInBy/EMail, Created")
@@ -424,13 +424,13 @@ export class CovidService implements ICovidService {
       }
       if (query.startDate != null) {
         const start: Date = cloneDeep(query.startDate);
-        start.setUTCHours(0, 0, 0, 0);
+        start.setHours(0, 0, 0, 0);
         filter.push(`(CheckIn gt '${start.toISOString()}')`);
 
       }
       if (query.endDate != null) {
         const end: Date = cloneDeep(query.endDate);
-        end.setUTCHours(23, 59, 59, 9999);
+        end.setHours(23, 59, 59, 9999);
         filter.push(`(CheckIn lt '${end.toISOString()}')`);
       }
       if (query.office != null && query.office.length > 0) {
