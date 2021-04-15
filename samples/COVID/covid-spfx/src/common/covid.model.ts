@@ -5,7 +5,15 @@ export enum Tables {
   LOCATIONLIST = "CheckInLocations",
   QUESTIONLIST = "CheckInQuestions",
   SELFCHECKINLIST = "SelfCheckIn",
-  COVIDCHECKINLIST = "CovidCheckIn"
+  COVIDCHECKINLIST = "CovidCheckIn",
+}
+
+export enum ADMINTABS {
+  "TODAY",
+  "GUEST",
+  "CONTACTTRACING",
+  "ADMINISTRATION",
+  "SELFCHECKIN"
 }
 
 export interface IFieldList {

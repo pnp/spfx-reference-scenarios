@@ -173,7 +173,7 @@ export default class ContactTracing extends React.Component<IContactTracingProps
                         expanded={expanded}
                         expandClick={() => { this.expandEvent(result); }}
                       />
-                      <TableSection sectionName={result} expanded={expanded} data={this.state.searchResults[result]} />
+                      <TableSection fields={this._tableHeaders} sectionName={result} expanded={expanded} data={this.state.searchResults[result]} />
                     </>
                   );
                 })}

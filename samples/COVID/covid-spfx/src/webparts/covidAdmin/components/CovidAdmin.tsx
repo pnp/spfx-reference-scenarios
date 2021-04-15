@@ -2,7 +2,7 @@ import * as React from "react";
 import { Logger, LogLevel } from "@pnp/logging";
 import { cloneDeep, isEqual } from "lodash";
 import { cs } from "../../../common/covid.service";
-import { ICheckIns, CheckInMode } from "../../../common/covid.model";
+import { ICheckIns, CheckInMode, ADMINTABS } from "../../../common/covid.model";
 import CovidForm from "../../../common/components/CovidForm";
 import styles from "./CovidAdmin.module.scss";
 import PivotBar, { IPivotBarOption } from "../../../common/components/atoms/PivotBar";
@@ -15,18 +15,14 @@ import CovidAdministration from "./CovidAdministration";
 import { IMicrosoftTeams } from "@microsoft/sp-webpart-base";
 import Table, { ITable, ITableCell, ITableRow } from "../../../common/components/molecules/Table";
 import ContactTracing from "./ContactTracing";
+import Today from "./molecules/Today";
 
-export enum ADMINTABS {
-  "TODAY",
-  "GUEST",
-  "CONTACTTRACING",
-  "ADMINISTRATION"
-}
 export interface ICovidAdminProps {
   microsoftTeams: IMicrosoftTeams;
   loginName: string;
   displayName: string;
   userId: number;
+  userCanCheckIn: boolean;
 }
 
 export interface ICovidAdminState {
@@ -49,6 +45,8 @@ export default class CovidAdmin extends React.Component<ICovidAdminProps, ICovid
   private LOG_SOURCE: string = "🔶 CovidAdmin";
   private _tableHeaders: string[] = ['Name', 'Office', 'Submitted', 'Status', 'Check In Time', ''];
   private _tableFooters: string[] = ['Name', 'Office', 'Submitted', 'Status', 'Check In Time', ''];
+  private _userCanCheckIn: boolean = false;
+
   //Set up the tabs for the PivotBar
   private _tabOptions: IPivotBarOption[] = [
     {
@@ -62,10 +60,14 @@ export default class CovidAdmin extends React.Component<ICovidAdminProps, ICovid
     },
     {
       text: "Administration", active: false, onClick: () => this._changeTab(ADMINTABS.ADMINISTRATION)
+    },
+    {
+      text: "Self Check-In", active: false, onClick: () => this._changeTab(ADMINTABS.SELFCHECKIN)
     }];
 
   constructor(props: ICovidAdminProps) {
     super(props);
+
     this.state = new CovidAdminState();
   }
 
@@ -183,26 +185,34 @@ export default class CovidAdmin extends React.Component<ICovidAdminProps, ICovid
 
       return (
         <div data-component={this.LOG_SOURCE} className={styles.covidAdmin}>
-
-          <PivotBar options={this._tabOptions} />
-          {this.state.tab === ADMINTABS.TODAY &&
+          {cs.IsAdmin &&
             <>
-              <h1>Check-In Covid-19</h1>
-              <p>As people enter the building please check this Covid check-In page to ensure that they have completed their self
+              <PivotBar options={this._tabOptions} />
+              {this.state.tab == ADMINTABS.SELFCHECKIN &&
+                <CovidForm microsoftTeams={this.props.microsoftTeams} checkInMode={CheckInMode.Self} displayName={this.props.displayName} userId={this.props.userId} userCanCheckIn={this._userCanCheckIn} />
+              }
+              {this.state.tab === ADMINTABS.TODAY &&
+                <>
+                  <h1>Check-In Covid-19</h1>
+                  <p>As people enter the building please check this Covid check-In page to ensure that they have completed their self
     attestation. For guests please fill out the form for them. using the link below.</p>
-              <DatePicker selectedDate={this.state.selectedDate} onDateChange={this._changeDate} />
-              <Table table={this._getTableData(this.state.checkIns)} />
+                  <DatePicker selectedDate={this.state.selectedDate} onDateChange={this._changeDate} />
+                  <Today data={this.state.checkIns} />
+                </>
+              }
+              {this.state.tab === ADMINTABS.GUEST &&
+                <CovidForm microsoftTeams={this.props.microsoftTeams} displayName="Guest" checkInMode={CheckInMode.Guest} close={this._closeGuestForm} />
+              }
+              {this.state.tab === ADMINTABS.CONTACTTRACING &&
+                <ContactTracing />
+              }
+              {this.state.tab === ADMINTABS.ADMINISTRATION &&
+                <CovidAdministration />
+              }
             </>
-
           }
-          {this.state.tab === ADMINTABS.GUEST &&
-            <CovidForm microsoftTeams={this.props.microsoftTeams} displayName="Guest" checkInMode={CheckInMode.Guest} close={this._closeGuestForm} />
-          }
-          {this.state.tab === ADMINTABS.CONTACTTRACING &&
-            <ContactTracing />
-          }
-          {this.state.tab === ADMINTABS.ADMINISTRATION &&
-            <CovidAdministration />
+          {!cs.IsAdmin &&
+            <CovidForm microsoftTeams={this.props.microsoftTeams} checkInMode={CheckInMode.Self} displayName={this.props.displayName} userId={this.props.userId} userCanCheckIn={this._userCanCheckIn} />
           }
         </div>
       );
