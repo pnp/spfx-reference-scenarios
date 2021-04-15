@@ -47,8 +47,8 @@ export class CovidAdminState implements ICovidAdminState {
 
 export default class CovidAdmin extends React.Component<ICovidAdminProps, ICovidAdminState> {
   private LOG_SOURCE: string = "🔶 CovidAdmin";
-  private _tableHeaders: string[] = ['Name', 'Office', 'Submitted', 'Status', 'Check In Time', ''];
-  private _tableFooters: string[] = ['Name', 'Office', 'Submitted', 'Status', 'Check In Time', ''];
+  private _tableHeaders: string[] = ['Name', 'Office', 'Submitted', 'Check In Status', 'Check In Time', ''];
+  private _tableFooters: string[] = ['Name', 'Office', 'Submitted', 'Check In Status', 'Check In Time', ''];
   //Set up the tabs for the PivotBar
   private _tabOptions: IPivotBarOption[] = [
     {

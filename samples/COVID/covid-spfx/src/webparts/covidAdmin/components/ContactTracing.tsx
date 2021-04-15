@@ -50,7 +50,20 @@ export default class ContactTracing extends React.Component<IContactTracingProps
 
   private _search = async (query: IQuery): Promise<void> => {
     try {
-      const searchResults = await cs.searchCheckIn(query);
+      let searchResults;
+      if (query.person) {
+        const person = (query.person) ? query.person : null;
+        let searchQuery: IQuery = new Query(
+          query.startDate,
+          query.endDate,
+          query.office,
+          null
+        );
+        searchResults = await cs.traceCheckIn(searchQuery, person);
+      } else {
+        searchResults = await cs.searchCheckIn(query);
+      }
+
       for (let key in searchResults) {
         let value = searchResults[key];
         if (value.length > 0) {
@@ -77,37 +90,6 @@ export default class ContactTracing extends React.Component<IContactTracingProps
     }
   }
 
-  private _updateSearchQuery = (query: IQuery) => {
-    try {
-      if (query.person) {
-        this._traceUser(query);
-      } else {
-        this._search(query);
-      }
-
-    } catch (err) {
-      Logger.write(`${this.LOG_SOURCE} (_updateSearchQuery) - ${err}`, LogLevel.Error);
-    }
-  }
-  private _traceUser = async (query: IQuery): Promise<void> => {
-    try {
-      const person = (query.person) ? query.person : null;
-      let searchQuery: IQuery = new Query(
-        query.startDate,
-        query.endDate,
-        query.office,
-        null
-      );
-      const searchResults = await cs.traceCheckIn(searchQuery, person);
-      const sectionExpanded = (searchResults != null) ? Object.getOwnPropertyNames(searchResults).map((section) => { return { section: section, expanded: true }; }) : [];
-      this.setState({ searchResults, sectionExpanded });
-    } catch (err) {
-      Logger.write(`${this.LOG_SOURCE} (_search) - ${err}`, LogLevel.Error);
-    }
-  }
-
-
-
   private expandEvent(sectionName: string): void {
     try {
       let allExpanded = this.state.allExpanded;
@@ -133,7 +115,7 @@ export default class ContactTracing extends React.Component<IContactTracingProps
           <h1>Covid-19 Contact Tracing</h1>
           <p>You can search for a person or location and see who was checked into the building during the same time. </p>
           <div>
-            <Search search={this._updateSearchQuery} peopleOptions={this._peopleOptions} />
+            <Search search={this._search} peopleOptions={this._peopleOptions} />
           </div>
           {this.state.searchResults &&
             <table className="hoo-table is-collapsable">
