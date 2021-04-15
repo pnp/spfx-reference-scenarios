@@ -29,7 +29,6 @@ export interface ICovidAdminState {
   tab: ADMINTABS;
   checkIns: ICheckIns[];
   selectedDate: Date;
-
 }
 
 export class CovidAdminState implements ICovidAdminState {
@@ -45,7 +44,7 @@ export default class CovidAdmin extends React.Component<ICovidAdminProps, ICovid
   private LOG_SOURCE: string = "🔶 CovidAdmin";
   private _tableHeaders: string[] = ['Name', 'Office', 'Submitted', 'Check In Status', 'Check In Time', ''];
   private _tableFooters: string[] = ['Name', 'Office', 'Submitted', 'Check In Status', 'Check In Time', ''];
-  private _userCanCheckIn: boolean = false;
+
   //Set up the tabs for the PivotBar
   private _tabOptions: IPivotBarOption[] = [
     {
@@ -188,7 +187,7 @@ export default class CovidAdmin extends React.Component<ICovidAdminProps, ICovid
             <>
               <PivotBar options={this._tabOptions} />
               {this.state.tab == ADMINTABS.SELFCHECKIN &&
-                <CovidForm microsoftTeams={this.props.microsoftTeams} checkInMode={CheckInMode.Self} displayName={this.props.displayName} userId={this.props.userId} userCanCheckIn={this._userCanCheckIn} />
+                <CovidForm microsoftTeams={this.props.microsoftTeams} checkInMode={CheckInMode.Self} displayName={this.props.displayName} userId={this.props.userId} userCanCheckIn={this.props.userCanCheckIn} />
               }
               {this.state.tab === ADMINTABS.TODAY &&
                 <>
@@ -211,7 +210,7 @@ export default class CovidAdmin extends React.Component<ICovidAdminProps, ICovid
             </>
           }
           {!cs.IsAdmin &&
-            <CovidForm microsoftTeams={this.props.microsoftTeams} checkInMode={CheckInMode.Self} displayName={this.props.displayName} userId={this.props.userId} userCanCheckIn={this._userCanCheckIn} />
+            <CovidForm microsoftTeams={this.props.microsoftTeams} checkInMode={CheckInMode.Self} displayName={this.props.displayName} userId={this.props.userId} userCanCheckIn={this.props.userCanCheckIn} />
           }
         </div>
       );
