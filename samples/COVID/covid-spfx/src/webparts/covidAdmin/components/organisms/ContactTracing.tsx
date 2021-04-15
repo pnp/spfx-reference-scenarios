@@ -15,6 +15,7 @@ import TableSectionHeader from "../atoms/TableSectionHeader";
 import TableSection from "../atoms/TableSection";
 import Search from "../molecules/Search";
 import { IDropDownOption } from "../atoms/DropDown";
+import styles from "../CovidAdmin.module.scss";
 
 export interface IContactTracingProps {
 
@@ -107,7 +108,7 @@ export default class ContactTracing extends React.Component<IContactTracingProps
   public render(): React.ReactElement<IContactTracingProps> {
     try {
       return (
-        <div data-component={this.LOG_SOURCE}>
+        <div data-component={this.LOG_SOURCE} className={styles.componentGrid}>
           <h1>{strings.ContractTracingHeader}</h1>
           <p>{strings.ContractTracingSubHeader}</p>
           <div>

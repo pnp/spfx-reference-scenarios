@@ -57,7 +57,7 @@ export default class CovidAdministration extends React.Component<ICovidAdministr
   public render(): React.ReactElement<ICovidAdministrationProps> {
     try {
       return (
-        <div data-component={this.LOG_SOURCE}>
+        <div data-component={this.LOG_SOURCE} className={styles.componentGrid}>
           <h1>{strings.AdministrationHeader}</h1>
           <p>{strings.AdministrationSubHeader}</p>
           <div className={`${styles.formRow} ${styles.buttons}`}>
