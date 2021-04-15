@@ -1,5 +1,7 @@
 define([], function () {
   return {
+    "ConfigurationNeeded": "It appears the Covid Attestation application has not been configured.",
+    "ConfigureNow": "Configure Now",
     "CovidFormSelfCheckInTitle": "Covid-19 Employee Self-Attestation Form",
     "CovidFormIntro": "As on-site work resumes, all employees must complete a Covid-19 self attestation form each day before they enter the building. This requirement applies to all employees, contractors, visitors, or temporary employees.</p><p>In the last 72 hours have you experienced any of the following symptoms that are not attributed to another illness?",
     "AdminCheckInTitle": "Check-In Covid-19",

@@ -1,6 +1,7 @@
 import * as React from "react";
 import { Logger, LogLevel } from "@pnp/logging";
-import { isEqual } from "lodash";
+import isEqual from "lodash/isEqual";
+
 import { IIconType } from "../../models/covid.model";
 
 export interface IButtonIconProps {
@@ -36,7 +37,6 @@ export default class ButtonIcon extends React.Component<IButtonIconProps, IButto
           <div className="hoo-icon">
             <span className={`hoo-icon-svg ${this.props.iconType.Class}`} aria-hidden="true" dangerouslySetInnerHTML={{ "__html": this.props.iconType.SVG }} >
             </span>
-
           </div>
         </button>
       );

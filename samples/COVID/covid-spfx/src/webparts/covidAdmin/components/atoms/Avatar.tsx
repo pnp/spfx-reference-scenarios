@@ -1,6 +1,8 @@
 import * as React from "react";
 import { Logger, LogLevel } from "@pnp/logging";
-import { isEmpty, isEqual, random } from "lodash";
+import isEmpty from "lodash/isEmpty";
+import isEqual from "lodash/isEqual";
+import random from "lodash/random";
 
 export enum Size {
   "Sixteen" = 16,
@@ -53,20 +55,18 @@ export default class Avatar extends React.Component<IAvatarProps, IAvatarState> 
       avatar = <span>{initials}</span>;
       let rand: number = random(0, this._styleArray.length - 1);
       this._selectedStyle = this._styleArray[rand];
-
     } else {
       avatar = <img src={this.props.src} alt="" className="hoo-avatar" />;
     }
     return avatar;
   }
 
-  //To Do  loading="lazy"
+  //TODO: loading="lazy"
   public render(): React.ReactElement<IAvatarProps> {
     try {
-      let avatar = this._renderAvatar();
       return (
         <div className={`hoo-avatar ${(isEmpty(this.props.src)) ? `noImage ${this._selectedStyle}` : ""}`} >
-          {avatar}
+          {this._renderAvatar()}
         </div >
       );
     } catch (err) {

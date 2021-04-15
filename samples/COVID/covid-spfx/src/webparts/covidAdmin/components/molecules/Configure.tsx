@@ -1,6 +1,8 @@
 import * as React from "react";
 import { Logger, LogLevel } from "@pnp/logging";
-import { isEqual } from "lodash";
+import isEqual from "lodash/isEqual";
+
+import strings from "CovidWebPartStrings";
 import Button from "../atoms/Button";
 
 export interface IConfigureProps {
@@ -15,7 +17,7 @@ export class ConfigureState implements IConfigureState {
 }
 
 export default class Configure extends React.Component<IConfigureProps, IConfigureState> {
-  private LOG_SOURCE: string = "Configure";
+  private LOG_SOURCE: string = "🔶Configure";
 
   constructor(props: IConfigureProps) {
     super(props);
@@ -32,8 +34,8 @@ export default class Configure extends React.Component<IConfigureProps, IConfigu
     try {
       return (
         <div data-component={this.LOG_SOURCE}>
-          <div>It appears the Covid Attestation application has not been configured.</div>
-          <Button className="hoo-button-primary" disabled={false} label="Configure Now" onClick={this.props.startConfigure} />
+          <div>{strings.ConfigurationNeeded}</div>
+          <Button className="hoo-button-primary" disabled={false} label={strings.ConfigureNow} onClick={this.props.startConfigure} />
         </div>
       );
     } catch (err) {
