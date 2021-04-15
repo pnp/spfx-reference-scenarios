@@ -47,10 +47,12 @@ export default class CovidAdministration extends React.Component<ICovidAdministr
         <div data-component={this.LOG_SOURCE} className={styles.covidAdmin}>
           <h1>Covid-19 Application Administration</h1>
           <p>From here you can manage the questions and locations for the application. This data is stored in SharePoint lists. </p>
-          <ul>
-            <li><a href="https://julieturner.sharepoint.com/sites/TeamsSamples/Lists/CheckInLocations/AllItems.aspx">Manage Locations</a></li>
-            <li><a href="https://julieturner.sharepoint.com/sites/TeamsSamples/Lists/CheckInQuestions/AllItems.aspx">Manage Questions</a></li>
-          </ul>
+          <div>
+            <ul>
+              <li><a href="https://julieturner.sharepoint.com/sites/TeamsSamples/Lists/CheckInLocations/AllItems.aspx">Manage Locations</a></li>
+              <li><a href="https://julieturner.sharepoint.com/sites/TeamsSamples/Lists/CheckInQuestions/AllItems.aspx">Manage Questions</a></li>
+            </ul>
+          </div>
 
 
         </div>

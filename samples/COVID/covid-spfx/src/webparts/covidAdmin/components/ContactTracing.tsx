@@ -9,6 +9,8 @@ import TableSectionHeader from "./atoms/TableSectionHeader";
 import TableSection from "./atoms/TableSection";
 import Search from "./molecules/Search";
 import { IDropDownOption } from "../../../common/components/atoms/DropDown";
+import styles from "./CovidAdmin.module.scss";
+
 
 
 export interface IContactTracingProps {
@@ -111,34 +113,39 @@ export default class ContactTracing extends React.Component<IContactTracingProps
   public render(): React.ReactElement<IContactTracingProps> {
     try {
       return (
-        <div data-component={this.LOG_SOURCE}>
+        <div data-component={this.LOG_SOURCE} className={styles.covidAdmin}>
+
           <h1>Covid-19 Contact Tracing</h1>
           <p>You can search for a person or location and see who was checked into the building during the same time. </p>
+
           <div>
             <Search search={this._search} peopleOptions={this._peopleOptions} />
           </div>
-          {this.state.searchResults &&
-            <table className="hoo-table is-collapsable">
-              <TableHeader columnNames={this._tableHeaders} expanded={this.state.allExpanded} expandClick={() => this.expandEvent("All")} />
-              <tbody>
-                {Object.getOwnPropertyNames(this.state.searchResults).map((result) => {
-                  const expanded = find(this.state.sectionExpanded, { section: result })?.expanded || false;
-                  return (
-                    <>
-                      <TableSectionHeader
-                        sectionName={result}
-                        colSpan={3}
-                        sectionHeader={result}
-                        expanded={expanded}
-                        expandClick={() => { this.expandEvent(result); }}
-                      />
-                      <TableSection sectionName={result} expanded={expanded} data={this.state.searchResults[result]} />
-                    </>
-                  );
-                })}
-              </tbody>
-            </table>
-          }
+          <div>
+            {this.state.searchResults &&
+              <table className="hoo-table is-collapsable">
+                <TableHeader columnNames={this._tableHeaders} expanded={this.state.allExpanded} expandClick={() => this.expandEvent("All")} />
+                <tbody>
+                  {Object.getOwnPropertyNames(this.state.searchResults).map((result) => {
+                    const expanded = find(this.state.sectionExpanded, { section: result })?.expanded || false;
+                    return (
+                      <>
+                        <TableSectionHeader
+                          sectionName={result}
+                          colSpan={3}
+                          sectionHeader={result}
+                          expanded={expanded}
+                          expandClick={() => { this.expandEvent(result); }}
+                        />
+                        <TableSection sectionName={result} expanded={expanded} data={this.state.searchResults[result]} />
+                      </>
+                    );
+                  })}
+                </tbody>
+              </table>
+            }
+          </div>
+
         </div>
       );
     } catch (err) {
