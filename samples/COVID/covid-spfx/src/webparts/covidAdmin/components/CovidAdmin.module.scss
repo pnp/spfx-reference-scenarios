@@ -127,6 +127,16 @@
     @include gridSpan(12, 1);
   }
 
+  .formRow {
+    @include gridSpan(6, 1);
+  }
+
+  .buttons {
+    display: flex;
+    gap: px2rem(16px);
+
+  }
+
 
   .checkIn span {
     height: 1rem;
