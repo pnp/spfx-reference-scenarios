@@ -56,7 +56,6 @@ export default class CovidAdministration extends React.Component<ICovidAdministr
 
   public render(): React.ReactElement<ICovidAdministrationProps> {
     try {
-      const styleBlock = { "height": `70vh`, "width": `56vw` } as React.CSSProperties;
       return (
         <div data-component={this.LOG_SOURCE}>
           <h1>{strings.AdministrationHeader}</h1>
@@ -65,10 +64,10 @@ export default class CovidAdministration extends React.Component<ICovidAdministr
             <Button label={strings.ManageLocations} className="hoo-button-primary" disabled={false} onClick={() => { this._changeLocationVisibility(true); }} />
             <Button label={strings.ManageQuestions} className="hoo-button-primary" disabled={false} onClick={() => { this._changeQuestionsVisibility(true); }} />
             <Dialog header={strings.ManageLocations} content="" visible={this.state.locationsVisible} onChange={this._changeLocationVisibility} width={60} height={80}>
-              <iframe src={cs.LocationListUrl} style={styleBlock} />
+              <iframe src={cs.LocationListUrl} className={styles.adminIFrame} />
             </Dialog>
             <Dialog header={strings.ManageQuestions} content="" visible={this.state.questionsVisible} onChange={this._changeQuestionsVisibility} width={60} height={80}>
-              <iframe src={cs.QuestionListUrl} style={styleBlock} />
+              <iframe src={cs.QuestionListUrl} className={styles.adminIFrame} />
             </Dialog>
           </div>
         </div>

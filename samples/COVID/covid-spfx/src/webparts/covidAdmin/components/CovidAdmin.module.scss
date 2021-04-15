@@ -137,7 +137,6 @@
 
   }
 
-
   .checkIn span {
     height: 1rem;
     width: 1rem;
@@ -192,5 +191,10 @@
     button {
       cursor: pointer;
     }
+  }
+
+  .adminIFrame {
+    height: 70vh;
+    width: 56vw;
   }
 }
