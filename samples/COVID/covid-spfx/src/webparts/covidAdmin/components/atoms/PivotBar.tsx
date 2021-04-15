@@ -1,16 +1,17 @@
 import * as React from "react";
 import { Logger, LogLevel } from "@pnp/logging";
 import { isEqual } from "lodash";
+import { ADMINTABS } from "../../../../common/covid.model";
 
 export interface IPivotBarOption {
-  text: string;
-  active: boolean;
-  onClick: React.MouseEventHandler<HTMLButtonElement>;
-
+  key: ADMINTABS;
+  displayName: string;
 }
 
 export interface IPivotBarProps {
   options: IPivotBarOption[];
+  onClick: (ADMINTABS) => void;
+  activeTab: ADMINTABS;
 }
 
 export interface IPivotBarState {
@@ -40,8 +41,8 @@ export default class PivotBar extends React.Component<IPivotBarProps, IPivotBarS
         <div className="hoo-pivotbar">
           {this.props.options.map((o, index) => {
             return (
-              <button className={`hoo-button-pivot ${(o.active) ? "is-active" : ""}`} onClick={o.onClick}>
-                <div className="hoo-pivot-inner" title={o.text}>{o.text}</div>
+              <button className={`hoo-button-pivot ${(o.key === this.props.activeTab) ? "is-active" : ""}`} onClick={() => { this.props.onClick(o.key); }}>
+                <div className="hoo-pivot-inner" title={o.displayName}>{o.displayName}</div>
               </button>);
           })}
         </div>

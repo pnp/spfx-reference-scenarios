@@ -5,7 +5,6 @@ import { cs } from "../../../common/covid.service";
 import { ICheckIns, CheckInMode, ADMINTABS } from "../../../common/covid.model";
 import CovidForm from "../../../common/components/CovidForm";
 import styles from "./CovidAdmin.module.scss";
-import PivotBar, { IPivotBarOption } from "../../../common/components/atoms/PivotBar";
 import DatePicker from "../../../common/components/molecules/DatePicker";
 import Persona, { Presence } from "../../../common/components/molecules/Persona";
 import ButtonIcon from "../../../common/components/atoms/ButtonIcon";
@@ -16,6 +15,7 @@ import { IMicrosoftTeams } from "@microsoft/sp-webpart-base";
 import Table, { ITable, ITableCell, ITableRow } from "../../../common/components/molecules/Table";
 import ContactTracing from "./ContactTracing";
 import Today from "./molecules/Today";
+import PivotBar, { IPivotBarOption } from "./atoms/PivotBar";
 
 export interface ICovidAdminProps {
   microsoftTeams: IMicrosoftTeams;
@@ -48,19 +48,20 @@ export default class CovidAdmin extends React.Component<ICovidAdminProps, ICovid
   //Set up the tabs for the PivotBar
   private _tabOptions: IPivotBarOption[] = [
     {
-      text: "Today", active: true, onClick: () => this._changeTab(ADMINTABS.TODAY)
+      key: ADMINTABS.TODAY,
+      displayName: "Today"
     },
     {
-      text: "Register Guest", active: false, onClick: () => this._changeTab(ADMINTABS.GUEST)
+      key: ADMINTABS.GUEST,
+      displayName: "Register Guest"
     },
     {
-      text: "Contact Tracing", active: false, onClick: () => this._changeTab(ADMINTABS.CONTACTTRACING)
+      key: ADMINTABS.CONTACTTRACING,
+      displayName: "Contact Tracing"
     },
     {
-      text: "Administration", active: false, onClick: () => this._changeTab(ADMINTABS.ADMINISTRATION)
-    },
-    {
-      text: "Self Check-In", active: false, onClick: () => this._changeTab(ADMINTABS.SELFCHECKIN)
+      key: ADMINTABS.ADMINISTRATION,
+      displayName: "Administration"
     }];
 
   constructor(props: ICovidAdminProps) {
@@ -118,66 +119,6 @@ export default class CovidAdmin extends React.Component<ICovidAdminProps, ICovid
     cs.getCheckIns(selectedDate);
   }
 
-  private _getTableData = (checkIns: ICheckIns[]): ITable => {
-    let tableDataRows: ITableRow[] = [];
-    checkIns?.map((ci, index) => {
-      let cells: ITableCell[] = [];
-      let personaCell: ITableCell = {
-        key: 0,
-        className: "",
-        element: React.createElement(Persona, {
-          size: Size.FortyEight,
-          src: (ci.Employee) ? ci.Employee.PhotoBlobUrl : "",
-          showPresence: true,
-          presence: (ci.Employee) ? Presence[ci.Employee.Presence.activity] : Presence.PresenceUnknown,
-          status: (ci.Employee) ? ci.Employee.Presence.availability : "",
-          name: ci.Employee?.Title || ci.Guest,
-          jobTitle: (ci.Employee) ? ci.Employee.JobTitle : "Guest"
-        }, "")
-      };
-      cells.push(personaCell);
-      let officeCell: ITableCell = {
-        key: 1,
-        className: "",
-        element: React.createElement('span', {}, ci.CheckInOffice)
-      };
-      cells.push(officeCell);
-      let submittedCell: ITableCell = {
-        key: 2,
-        className: "",
-        element: React.createElement('span', {}, new Date(ci.SubmittedOn?.toString()).toLocaleString() || new Date(ci.Created?.toString()).toLocaleString())
-      };
-      cells.push(submittedCell);
-      let checkInCell: ITableCell = {
-        key: 3,
-        className: styles.checkIn,
-        element: React.createElement('span', { className: (ci.CheckIn) ? styles.isCheckedIn : styles.isNotCheckedIn }, "")
-      };
-      cells.push(checkInCell);
-      let checkInTimeCell: ITableCell = {
-        key: 4,
-        className: "",
-        element: React.createElement('span', {}, ci.CheckIn?.toLocaleString())
-      };
-      cells.push(checkInTimeCell);
-      let checkInButtonCell: ITableCell = {
-        key: 5,
-        className: "",
-        element: (ci.CheckIn) ? React.createElement('span', {}, "") : React.createElement(ButtonIcon, { iconType: Icons.Check, onClick: () => this._checkInPerson(ci) }, "")
-      };
-      cells.push(checkInButtonCell);
-      return (
-        tableDataRows.push({ key: index, className: "", cells: cells })
-      );
-    });
-
-    return {
-      headers: this._tableHeaders,
-      footers: this._tableFooters,
-      dataRows: tableDataRows
-    };
-  }
-
   public render(): React.ReactElement<ICovidAdminProps> {
     try {
 
@@ -185,7 +126,7 @@ export default class CovidAdmin extends React.Component<ICovidAdminProps, ICovid
         <div data-component={this.LOG_SOURCE} className={styles.covidAdmin}>
           {cs.IsAdmin &&
             <>
-              <PivotBar options={this._tabOptions} />
+              <PivotBar options={this._tabOptions} onClick={this._changeTab} activeTab={this.state.tab} />
               {this.state.tab == ADMINTABS.SELFCHECKIN &&
                 <CovidForm microsoftTeams={this.props.microsoftTeams} checkInMode={CheckInMode.Self} displayName={this.props.displayName} userId={this.props.userId} userCanCheckIn={this.props.userCanCheckIn} />
               }
