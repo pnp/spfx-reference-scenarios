@@ -2,10 +2,9 @@ import * as React from "react";
 import { Logger, LogLevel } from "@pnp/logging";
 import { cloneDeep, isEqual } from "lodash";
 import { cs } from "../../../common/covid.service";
-import { ICheckIns, CheckInMode } from "../../../common/covid.model";
+import { ICheckIns, CheckInMode, ADMINTABS } from "../../../common/covid.model";
 import CovidForm from "../../../common/components/CovidForm";
 import styles from "./CovidAdmin.module.scss";
-import PivotBar, { IPivotBarOption } from "./atoms/PivotBar";
 import DatePicker from "../../../common/components/molecules/DatePicker";
 import Persona, { Presence } from "../../../common/components/molecules/Persona";
 import ButtonIcon from "../../../common/components/atoms/ButtonIcon";
@@ -15,18 +14,15 @@ import CovidAdministration from "./CovidAdministration";
 import { IMicrosoftTeams } from "@microsoft/sp-webpart-base";
 import Table, { ITable, ITableCell, ITableRow } from "../../../common/components/molecules/Table";
 import ContactTracing from "./ContactTracing";
+import Today from "./molecules/Today";
+import PivotBar, { IPivotBarOption } from "./atoms/PivotBar";
 
-export enum ADMINTABS {
-  "TODAY",
-  "GUEST",
-  "CONTACTTRACING",
-  "ADMINISTRATION"
-}
 export interface ICovidAdminProps {
   microsoftTeams: IMicrosoftTeams;
   loginName: string;
   displayName: string;
   userId: number;
+  userCanCheckIn: boolean;
 }
 
 export interface ICovidAdminState {
@@ -49,11 +45,8 @@ export default class CovidAdmin extends React.Component<ICovidAdminProps, ICovid
   private LOG_SOURCE: string = "🔶 CovidAdmin";
   private _tableHeaders: string[] = ['Name', 'Office', 'Submitted', 'Check In Status', 'Check In Time', ''];
   private _tableFooters: string[] = ['Name', 'Office', 'Submitted', 'Check In Status', 'Check In Time', ''];
+  private _userCanCheckIn: boolean = false;
   //Set up the tabs for the PivotBar
-
-  //Array of tab object key:enum text display name
-  //pass in active from state
-  //pass onclick function
   private _tabOptions: IPivotBarOption[] = [
     {
       key: ADMINTABS.TODAY,
@@ -71,18 +64,10 @@ export default class CovidAdmin extends React.Component<ICovidAdminProps, ICovid
       key: ADMINTABS.ADMINISTRATION,
       displayName: "Administration"
     }];
-  // {
-  //   text: "Register Guest", active: false, onClick: () => this._changeTab(ADMINTABS.GUEST)
-  // },
-  // {
-  //   text: "Contact Tracing", active: false, onClick: () => this._changeTab(ADMINTABS.CONTACTTRACING)
-  // },
-  // {
-  //   text: "Administration", active: false, onClick: () => this._changeTab(ADMINTABS.ADMINISTRATION)
-  // }];
 
   constructor(props: ICovidAdminProps) {
     super(props);
+
     this.state = new CovidAdminState();
   }
 
@@ -135,91 +120,39 @@ export default class CovidAdmin extends React.Component<ICovidAdminProps, ICovid
     cs.getCheckIns(selectedDate);
   }
 
-  private _getTableData = (checkIns: ICheckIns[]): ITable => {
-    let tableDataRows: ITableRow[] = [];
-    checkIns?.map((ci, index) => {
-      let cells: ITableCell[] = [];
-      let personaCell: ITableCell = {
-        key: 0,
-        className: "",
-        element: React.createElement(Persona, {
-          size: Size.FortyEight,
-          src: (ci.Employee) ? ci.Employee.PhotoBlobUrl : "",
-          showPresence: true,
-          presence: (ci.Employee) ? Presence[ci.Employee.Presence.activity] : Presence.PresenceUnknown,
-          status: (ci.Employee) ? ci.Employee.Presence.availability : "",
-          name: ci.Employee?.Title || ci.Guest,
-          jobTitle: (ci.Employee) ? ci.Employee.JobTitle : "Guest"
-        }, "")
-      };
-      cells.push(personaCell);
-      let officeCell: ITableCell = {
-        key: 1,
-        className: "",
-        element: React.createElement('span', {}, ci.CheckInOffice)
-      };
-      cells.push(officeCell);
-      let submittedCell: ITableCell = {
-        key: 2,
-        className: "",
-        element: React.createElement('span', {}, new Date(ci.SubmittedOn?.toString()).toLocaleString() || new Date(ci.Created?.toString()).toLocaleString())
-      };
-      cells.push(submittedCell);
-      let checkInCell: ITableCell = {
-        key: 3,
-        className: styles.checkIn,
-        element: React.createElement('span', { className: (ci.CheckIn) ? styles.isCheckedIn : styles.isNotCheckedIn }, "")
-      };
-      cells.push(checkInCell);
-      let checkInTimeCell: ITableCell = {
-        key: 4,
-        className: "",
-        element: React.createElement('span', {}, ci.CheckIn?.toLocaleString())
-      };
-      cells.push(checkInTimeCell);
-      let checkInButtonCell: ITableCell = {
-        key: 5,
-        className: "",
-        element: (ci.CheckIn) ? React.createElement('span', {}, "") : React.createElement(ButtonIcon, { iconType: Icons.Check, onClick: () => this._checkInPerson(ci) }, "")
-      };
-      cells.push(checkInButtonCell);
-      return (
-        tableDataRows.push({ key: index, className: "", cells: cells })
-      );
-    });
-
-    return {
-      headers: this._tableHeaders,
-      footers: this._tableFooters,
-      dataRows: tableDataRows
-    };
-  }
-
   public render(): React.ReactElement<ICovidAdminProps> {
     try {
 
       return (
         <div data-component={this.LOG_SOURCE} className={styles.covidAdmin}>
-
-          <PivotBar options={this._tabOptions} onClick={this._changeTab} activeTab={this.state.tab} />
-          {this.state.tab === ADMINTABS.TODAY &&
+          {cs.IsAdmin &&
             <>
-              <h1>Check-In Covid-19</h1>
-              <p>As people enter the building please check this Covid check-In page to ensure that they have completed their self
+              <PivotBar options={this._tabOptions} onClick={this._changeTab} activeTab={this.state.tab} />
+              {this.state.tab == ADMINTABS.SELFCHECKIN &&
+                <CovidForm microsoftTeams={this.props.microsoftTeams} checkInMode={CheckInMode.Self} displayName={this.props.displayName} userId={this.props.userId} userCanCheckIn={this._userCanCheckIn} />
+              }
+              {this.state.tab === ADMINTABS.TODAY &&
+                <>
+                  <h1>Check-In Covid-19</h1>
+                  <p>As people enter the building please check this Covid check-In page to ensure that they have completed their self
     attestation. For guests please fill out the form for them. using the link below.</p>
-              <DatePicker selectedDate={this.state.selectedDate} onDateChange={this._changeDate} />
-              <Table table={this._getTableData(this.state.checkIns)} />
+                  <DatePicker selectedDate={this.state.selectedDate} onDateChange={this._changeDate} />
+                  <Today data={this.state.checkIns} />
+                </>
+              }
+              {this.state.tab === ADMINTABS.GUEST &&
+                <CovidForm microsoftTeams={this.props.microsoftTeams} displayName="Guest" checkInMode={CheckInMode.Guest} close={this._closeGuestForm} />
+              }
+              {this.state.tab === ADMINTABS.CONTACTTRACING &&
+                <ContactTracing />
+              }
+              {this.state.tab === ADMINTABS.ADMINISTRATION &&
+                <CovidAdministration />
+              }
             </>
-
           }
-          {this.state.tab === ADMINTABS.GUEST &&
-            <CovidForm microsoftTeams={this.props.microsoftTeams} displayName="Guest" checkInMode={CheckInMode.Guest} close={this._closeGuestForm} />
-          }
-          {this.state.tab === ADMINTABS.CONTACTTRACING &&
-            <ContactTracing />
-          }
-          {this.state.tab === ADMINTABS.ADMINISTRATION &&
-            <CovidAdministration />
+          {!cs.IsAdmin &&
+            <CovidForm microsoftTeams={this.props.microsoftTeams} checkInMode={CheckInMode.Self} displayName={this.props.displayName} userId={this.props.userId} userCanCheckIn={this._userCanCheckIn} />
           }
         </div>
       );

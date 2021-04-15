@@ -11,8 +11,6 @@ import Search from "./molecules/Search";
 import { IDropDownOption } from "../../../common/components/atoms/DropDown";
 import styles from "./CovidAdmin.module.scss";
 
-
-
 export interface IContactTracingProps {
 
 }
@@ -137,7 +135,7 @@ export default class ContactTracing extends React.Component<IContactTracingProps
                           expanded={expanded}
                           expandClick={() => { this.expandEvent(result); }}
                         />
-                        <TableSection sectionName={result} expanded={expanded} data={this.state.searchResults[result]} />
+                        <TableSection sectionName={result} expanded={expanded} fields={this._tableHeaders} data={this.state.searchResults[result]} />
                       </>
                     );
                   })}

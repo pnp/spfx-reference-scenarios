@@ -31,7 +31,7 @@ export default class CovidAdminWebPart extends BaseClientSideWebPart<ICovidAdmin
   private LOG_SOURCE: string = "🔶CovidAdminWebPart";
   private _userId: number = 0;
   private _microsoftTeams: IMicrosoftTeams;
-  private _graphClient: MSGraphClient;
+  private _userCanCheckIn: boolean = false;
 
   public async onInit(): Promise<void> {
     try {
@@ -55,11 +55,10 @@ export default class CovidAdminWebPart extends BaseClientSideWebPart<ICovidAdmin
   private async _init(): Promise<void> {
     try {
       this._microsoftTeams = this.context.sdks?.microsoftTeams;
-      if (this._graphClient == null)
-        this._graphClient = await this.context.msGraphClientFactory.getClient();
-      await cs.init(this._graphClient);
+      await cs.init();
       const user = await sp.web.ensureUser(this.context.pageContext.user.loginName);
       this._userId = user.data.Id;
+      this._userCanCheckIn = await cs.userCanCheckIn(this._userId);
       cs.getCheckIns(new Date());
       this.processSelfCheckins();
     } catch (err) {
@@ -90,7 +89,8 @@ export default class CovidAdminWebPart extends BaseClientSideWebPart<ICovidAdmin
           microsoftTeams: this._microsoftTeams,
           loginName: this.context.pageContext.user.loginName,
           displayName: this.context.pageContext.user.displayName,
-          userId: this._userId
+          userId: this._userId,
+          userCanCheckIn: this._userCanCheckIn
         };
         element = React.createElement(CovidAdmin, props);
       } else {

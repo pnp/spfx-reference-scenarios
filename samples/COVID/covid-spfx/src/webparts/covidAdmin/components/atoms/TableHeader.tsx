@@ -6,8 +6,8 @@ import { Icons } from "../../../../common/enums";
 
 export interface ITableHeaderProps {
   columnNames: string[];
-  expanded: boolean;
-  expandClick: () => void;
+  expanded?: boolean;
+  expandClick?: () => void;
 }
 
 export interface ITableHeaderState {
@@ -36,9 +36,11 @@ export default class TableHeader extends React.Component<ITableHeaderProps, ITab
       return (
         <thead data-component={this.LOG_SOURCE}>
           <tr className="collapsable" data-sectionHeader="all">
-            <th className="hoo-table-iconcell" scope="col">
-              <ButtonIcon iconType={(this.props.expanded) ? Icons.DownArrow : Icons.RightArrow} onClick={this.props.expandClick} />
-            </th>
+            {this.props.expanded != null &&
+              <th className="hoo-table-iconcell" scope="col">
+                <ButtonIcon iconType={(this.props.expanded) ? Icons.DownArrow : Icons.RightArrow} onClick={this.props.expandClick} />
+              </th>
+            }
             {this.props.columnNames && this.props.columnNames.map((cn) => {
               return (<th scope="col">{cn}</th>);
             })}

@@ -1,7 +1,7 @@
 import * as React from "react";
 import { Logger, LogLevel } from "@pnp/logging";
 import { isEqual } from "lodash";
-import { ADMINTABS } from "../CovidAdmin";
+import { ADMINTABS } from "../../../../common/covid.model";
 
 export interface IPivotBarOption {
   key: ADMINTABS;

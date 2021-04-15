@@ -33,11 +33,10 @@ export class CovidService implements ICovidService {
   private LOG_SOURCE = "🔶CovidService";
 
   private SKIPADDFIELDS: string[] = ["Id", "Created"];
-  private SKIPUPDATEFIELDS: string[] = ["Created"];
   private JSONFIELDS: string[] = ["Questions"];
   private JSONDATEFIELDS: string[] = ["Created", "CheckIn", "SubmittedOn"];
 
-  private _graphClient: MSGraphClient;
+  private _isAdmin: boolean = false;
   private _ready: boolean = false;
   private _locations: ILocations[];
   private _questions: IQuestion[];
@@ -53,6 +52,10 @@ export class CovidService implements ICovidService {
 
   public get Ready(): boolean {
     return this._ready;
+  }
+
+  public get IsAdmin(): boolean {
+    return this._isAdmin;
   }
 
   public get Locations(): ILocations[] {
@@ -79,11 +82,11 @@ export class CovidService implements ICovidService {
     this._checkInsRefresh = value;
   }
 
-  public async init(httpGraph?: MSGraphClient): Promise<void> {
+  public async init(): Promise<void> {
     try {
       this._locationListUrl = `${sp.site.toUrl()}/Lists/${Tables.LOCATIONLIST}/AllItems.aspx`;
       this._questionListUrl = `${sp.site.toUrl()}/Lists/${Tables.QUESTIONLIST}/AllItems.aspx`;
-      this._graphClient = httpGraph;
+      await this._loadUserRole();
       let success: boolean[] = [];
       success.push(await this.getLocations());
       success.push(await this.getQuestions());
@@ -92,6 +95,24 @@ export class CovidService implements ICovidService {
       }
     } catch (err) {
       Logger.write(`${this.LOG_SOURCE} (init) - ${err.message}`, LogLevel.Error);
+    }
+  }
+
+  private async _loadUserRole(): Promise<void> {
+    try {
+      let ownersGroup = await sp.web.associatedOwnerGroup();
+      let membersGroup = await sp.web.associatedMemberGroup();
+      let data = await sp.web.currentUser.expand("groups").get<{ IsSiteAdmin: boolean, Groups: { Id: string }[] }>();
+      let ownerIndex: number = findIndex(data.Groups, o => (o["Id"].toString() === ownersGroup.Id.toString()));
+      if (data.IsSiteAdmin) {
+        ownerIndex = 0;
+      }
+      let membersIndex: number = findIndex(data.Groups, o => (o["Id"].toString() === membersGroup.Id.toString()));
+      if ((ownerIndex > -1) || membersIndex > -1) {
+        this._isAdmin = true;
+      }
+    } catch (err) {
+      Logger.write(`${this.LOG_SOURCE} (_loadUserRole) - ${err.message}`, LogLevel.Error);
     }
   }
 
