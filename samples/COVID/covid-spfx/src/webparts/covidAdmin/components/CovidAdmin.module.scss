@@ -7,6 +7,14 @@
 @import "node_modules/@n8design/htwoo-core/src/styles/00-base/mixin/core.mixin";
 @import "node_modules/@n8design/htwoo-core/src/styles/00-base/mixin/grid.mixin";
 
+.appPartPage {
+  box-sizing: border-box;
+  max-width: 1268px;
+  margin: 0 auto;
+  padding: 0 1em;
+  position: relative;
+}
+
 .covidAdmin {
   :global {
     @import "node_modules/@n8design/htwoo-core/src/styles/style";
@@ -14,8 +22,6 @@
     .hoo-input-text {
       width: 100%;
     }
-
-
 
     .noImage {
       display: flex;
@@ -149,7 +155,32 @@
 
   }
 
+  .form {
+    @include gridBase();
 
+  }
 
+  .formRow {
+    @include gridSpan(6, 1);
+  }
 
+  .question {
+    font-weight: 700;
+    line-height: 24px;
+  }
+
+  .textbox {
+    width: 100%;
+  }
+
+  .buttons,
+  .radio {
+    @include gridSpan(2, 1);
+    display: flex;
+    gap: px2rem(16px);
+
+    button {
+      cursor: pointer;
+    }
+  }
 }

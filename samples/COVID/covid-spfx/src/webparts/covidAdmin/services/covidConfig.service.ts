@@ -8,7 +8,7 @@ import "@pnp/sp/views/list";
 import "@pnp/sp/site-groups";
 import "@pnp/sp/security";
 
-import { Tables, IFieldList, QUESTIONLISTFields, SELFCHECKINLISTFields, COVIDCHECKINLISTFields } from "./covid.model";
+import { Tables, IFieldList, QUESTIONLISTFields, SELFCHECKINLISTFields, COVIDCHECKINLISTFields } from "../models/covid.model";
 import { DateTimeFieldFormatType, CalendarType, DateTimeFieldFriendlyFormatType, UrlFieldFormatType, FieldUserSelectionMode } from "@pnp/sp/fields/types";
 import { IList } from "@pnp/sp/lists";
 

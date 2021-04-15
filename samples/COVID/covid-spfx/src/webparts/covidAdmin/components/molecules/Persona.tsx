@@ -1,8 +1,6 @@
 import * as React from "react";
 import { Logger, LogLevel } from "@pnp/logging";
-import { isEqual } from "lodash";
-import ButtonIcon from "../atoms/ButtonIcon";
-import { Icons } from "../../enums";
+import isEqual from "lodash/isEqual";
 import Avatar from "../atoms/Avatar";
 
 export enum Presence {
@@ -59,7 +57,6 @@ export default class Persona extends React.Component<IPersonaProps, IPersonaStat
 
   public render(): React.ReactElement<IPersonaProps> {
     try {
-
       return (
         <div className={`hoo-persona-${this.props.size}`}>
           <div className="hoo-avatar-pres">

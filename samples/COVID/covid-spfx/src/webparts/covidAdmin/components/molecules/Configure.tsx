@@ -1,7 +1,7 @@
 import * as React from "react";
 import { Logger, LogLevel } from "@pnp/logging";
 import { isEqual } from "lodash";
-import Button from "../../../common/components/atoms/Button";
+import Button from "../atoms/Button";
 
 export interface IConfigureProps {
   startConfigure: () => void;

@@ -1,16 +1,19 @@
+import { IMicrosoftTeams } from "@microsoft/sp-webpart-base";
 import * as React from "react";
 import { Logger, LogLevel } from "@pnp/logging";
-import { isEqual, find, cloneDeep } from "lodash";
+import cloneDeep from "lodash/cloneDeep";
+import isEqual from "lodash/isEqual";
+import find from "lodash/find";
 
-import styles from './CovidForm.module.scss';
-import Question from "./molecules/Question";
-import { CheckInMode, IAnswer, IQuestion, ICheckIns, CheckIns } from "../covid.model";
-import Button from "./atoms/Button";
-import TextBox from "./atoms/TextBox";
-import DropDown, { IDropDownOption } from "./atoms/DropDown";
-import { cs } from "../covid.service";
-import Dialog from "./molecules/Dialog";
-import { IMicrosoftTeams } from "@microsoft/sp-webpart-base";
+import strings from "CovidWebPartStrings";
+import styles from '../CovidAdmin.module.scss';
+import { cs } from "../../services/covid.service";
+import { CheckInMode, IAnswer, IQuestion, ICheckIns, CheckIns } from "../../models/covid.model";
+import Question from "../molecules/Question";
+import Button from "../atoms/Button";
+import TextBox from "../atoms/TextBox";
+import DropDown, { IDropDownOption } from "../atoms/DropDown";
+import Dialog from "../molecules/Dialog";
 
 export interface ICovidFormProps {
   microsoftTeams: IMicrosoftTeams;
@@ -44,11 +47,15 @@ export default class CovidForm extends React.Component<ICovidFormProps, ICovidFo
 
   constructor(props: ICovidFormProps) {
     super(props);
-    this._questions = cloneDeep(cs.Questions);
-    this._locationOptions = cs.Locations.map((l) => { return { key: l.Title, text: l.Title }; });
-    const today = new Date();
-    const title = `${props.displayName} - ${today.toLocaleDateString()}`;
-    this.state = new CovidFormState(this.props.checkInForm || new CheckIns(0, title, today, this.props.userId || null, null, "", this._questions.map<IAnswer>((q) => { return { QuestionId: q.Id, Answer: "" }; }), today));
+    try {
+      this._questions = cloneDeep(cs.Questions);
+      this._locationOptions = cs.Locations.map((l) => { return { key: l.Title, text: l.Title }; });
+      const today = new Date();
+      const title = `${props.displayName} - ${today.toLocaleDateString()}`;
+      this.state = new CovidFormState(this.props.checkInForm || new CheckIns(0, title, today, this.props.userId || null, null, "", this._questions.map<IAnswer>((q) => { return { QuestionId: q.Id, Answer: "" }; }), today));
+    } catch (err) {
+      Logger.write(`${this.LOG_SOURCE} (constructor) - ${err}`, LogLevel.Error);
+    }
   }
 
   public shouldComponentUpdate(nextProps: ICovidFormProps, nextState: ICovidFormState) {
@@ -143,12 +150,11 @@ export default class CovidForm extends React.Component<ICovidFormProps, ICovidFo
 
 
       return (
-        <div data-component={this.LOG_SOURCE} className={styles.covidForm}>
+        <div data-component={this.LOG_SOURCE}>
 
-          <h1>Covid-19 Employee Self-Attestation Form</h1>
-          <p>As on-site work resumes, all employees must complete a Covid-19 self attestation form each day before they enter
-            the building. This requirement applies to all employees, contractors, visitors, or temporary employees.</p>
-          <p>In the last 72 hours have you experienced any of the following symptoms that are not attributed to another illness?</p>
+          <h1>{(this.props.checkInMode === CheckInMode.Guest) ? strings.AdminCheckInTitle : strings.CovidFormSelfCheckInTitle}</h1>
+          <p>{(this.props.checkInMode === CheckInMode.Guest) ? strings.AdminCheckInIntro : strings.CovidFormIntro}</p>
+          <p>{strings.CheckInHeader}</p>
           <div className={styles.form} style={formVisibilityCSS}>
             {this.props.checkInMode === CheckInMode.Guest ?
               <div className={styles.formRow}>
@@ -170,9 +176,9 @@ export default class CovidForm extends React.Component<ICovidFormProps, ICovidFo
             </div>
           </div>
           <div style={confirmationVisibilityCSS}>
-            <p>Thank you for submitting your attestation for today. You can only submit one attestation per day.</p>
+            <p>{strings.CheckInConfirmation}</p>
           </div>
-          <Dialog header="Submission Submitted Successfully" content="Your check in was submitted successfully." visible={this.state.dialogVisible} onChange={this._changeVisibility} />
+          <Dialog header={strings.CheckInSuccessHeader} content={strings.CheckInSuccessContent} visible={this.state.dialogVisible} onChange={this._changeVisibility} />
         </div>
       );
     } catch (err) {

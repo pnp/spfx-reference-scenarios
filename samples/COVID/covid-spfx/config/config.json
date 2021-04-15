@@ -2,21 +2,17 @@
   "$schema": "https://developer.microsoft.com/json-schemas/spfx-build/config.2.0.schema.json",
   "version": "2.0",
   "bundles": {
-    "covid-form-web-part": {
-      "components": [{
-        "entrypoint": "./lib/webparts/covidForm/CovidFormWebPart.js",
-        "manifest": "./src/webparts/covidForm/CovidFormWebPart.manifest.json"
-      }]
-    },
     "covid-admin-web-part": {
-      "components": [{
-        "entrypoint": "./lib/webparts/covidAdmin/CovidAdminWebPart.js",
-        "manifest": "./src/webparts/covidAdmin/CovidAdminWebPart.manifest.json"
-      }]
+      "components": [
+        {
+          "entrypoint": "./lib/webparts/covidAdmin/CovidAdminWebPart.js",
+          "manifest": "./src/webparts/covidAdmin/CovidAdminWebPart.manifest.json"
+        }
+      ]
     }
   },
   "externals": {},
   "localizedResources": {
-    "CovidWebPartStrings": "lib/common/loc/{locale}.js"
+    "CovidWebPartStrings": "lib/webparts/covidAdmin/loc/{locale}.js"
   }
 }

@@ -1,8 +1,9 @@
 import * as React from "react";
 import { Logger, LogLevel } from "@pnp/logging";
-import { isEqual } from "lodash";
-import styles from '../CovidForm.module.scss';
-import { IQuestion, QuestionType, IAnswer } from "../../covid.model";
+import isEqual from "lodash/isEqual";
+
+import styles from '../CovidAdmin.module.scss';
+import { IQuestion, QuestionType, IAnswer } from "../../models/covid.model";
 import TextBox from "../atoms/TextBox";
 import RadioButton from "../atoms/RadioButton";
 
@@ -33,10 +34,9 @@ export default class Question extends React.Component<IQuestionProps, IQuestionS
     return true;
   }
 
-  //To Do We should probably switch QuestionType in the model to reference the Enum. 
+  //TODO: We should probably switch QuestionType in the model to reference the Enum. 
   public render(): React.ReactElement<IQuestionProps> {
     try {
-
       return (
         <>
           <div className={styles.question}>{this.props.question.Title}</div>

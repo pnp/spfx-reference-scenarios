@@ -1,9 +1,10 @@
 import * as React from "react";
 import { Logger, LogLevel } from "@pnp/logging";
 import isEqual from "lodash/isEqual";
+
 import TableHeader from "../atoms/TableHeader";
 import TableSection from "../atoms/TableSection";
-import { ICheckIns } from "../../../../common/covid.model";
+import { ICheckIns } from "../../models/covid.model";
 
 export interface ITodayProps {
   data: ICheckIns[];

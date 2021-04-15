@@ -1,15 +1,20 @@
 import * as React from "react";
 import { Logger, LogLevel } from "@pnp/logging";
-import { cloneDeep, isEqual, Dictionary, find, forEach } from "lodash";
-import { cs } from "../../../common/covid.service";
-import { IQuery, ICheckIns, Query } from "../../../common/covid.model";
-import Button from "../../../common/components/atoms/Button";
-import TableHeader from "./atoms/TableHeader";
-import TableSectionHeader from "./atoms/TableSectionHeader";
-import TableSection from "./atoms/TableSection";
-import Search from "./molecules/Search";
-import { IDropDownOption } from "../../../common/components/atoms/DropDown";
-import styles from "./CovidAdmin.module.scss";
+
+import cloneDeep from "lodash/cloneDeep";
+import isEqual from "lodash/isEqual";
+import { Dictionary } from "lodash";
+import find from "lodash/find";
+import forEach from "lodash/forEach";
+
+import strings from "CovidWebPartStrings";
+import { cs } from "../../services/covid.service";
+import { IQuery, ICheckIns, Query } from "../../models/covid.model";
+import TableHeader from "../atoms/TableHeader";
+import TableSectionHeader from "../atoms/TableSectionHeader";
+import TableSection from "../atoms/TableSection";
+import Search from "../molecules/Search";
+import { IDropDownOption } from "../atoms/DropDown";
 
 export interface IContactTracingProps {
 
@@ -30,16 +35,20 @@ export class ContactTracingState implements IContactTracingState {
 }
 
 export default class ContactTracing extends React.Component<IContactTracingProps, IContactTracingState> {
-  private LOG_SOURCE: string = "🔶 ContactTracing";
+  private LOG_SOURCE: string = "🔶ContactTracing";
   private _tableHeaders: string[] = ['Name', 'Office', 'Check In Time'];
   private _peopleOptions: IDropDownOption[] = [{ key: "", text: "" }];
 
   constructor(props: IContactTracingProps) {
     super(props);
-    this.state = new ContactTracingState();
-    const startDate = new Date();
-    startDate.setDate(startDate.getDate() - 14);
-    this._search({ endDate: new Date(), startDate: startDate, office: null, person: null });
+    try {
+      this.state = new ContactTracingState();
+      const startDate = new Date();
+      startDate.setDate(startDate.getDate() - 14);
+      this._search({ endDate: new Date(), startDate: startDate, office: null, person: null });
+    } catch (err) {
+      Logger.write(`${this.LOG_SOURCE} (constructor) - ${err}`, LogLevel.Error);
+    }
   }
 
   public shouldComponentUpdate(nextProps: IContactTracingProps, nextState: IContactTracingState) {
@@ -107,15 +116,12 @@ export default class ContactTracing extends React.Component<IContactTracingProps
     }
   }
 
-
   public render(): React.ReactElement<IContactTracingProps> {
     try {
       return (
-        <div data-component={this.LOG_SOURCE} className={styles.covidAdmin}>
-
-          <h1>Covid-19 Contact Tracing</h1>
-          <p>You can search for a person or location and see who was checked into the building during the same time. </p>
-
+        <div data-component={this.LOG_SOURCE}>
+          <h1>{strings.ContractTracingHeader}</h1>
+          <p>{strings.ContractTracingSubHeader}</p>
           <div>
             <Search search={this._search} peopleOptions={this._peopleOptions} />
           </div>

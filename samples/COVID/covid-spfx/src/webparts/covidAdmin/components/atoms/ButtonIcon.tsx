@@ -1,7 +1,7 @@
 import * as React from "react";
 import { Logger, LogLevel } from "@pnp/logging";
 import { isEqual } from "lodash";
-import { IIconType } from "../../covid.model";
+import { IIconType } from "../../models/covid.model";
 
 export interface IButtonIconProps {
   iconType: IIconType;

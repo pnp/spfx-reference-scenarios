@@ -2,9 +2,8 @@ import * as React from "react";
 import { Logger, LogLevel } from "@pnp/logging";
 import { isEqual } from "lodash";
 import ButtonIcon from "../atoms/ButtonIcon";
-import { Icons } from "../../enums";
-import styles from "../../../webparts/covidAdmin/components/CovidAdmin.module.scss";
-
+import { Icons } from "../../models/enums";
+import styles from "../CovidAdmin.module.scss";
 
 export interface IDatePickerProps {
   selectedDate: Date;

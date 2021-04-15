@@ -1,8 +1,8 @@
 import * as React from "react";
 import { Logger, LogLevel } from "@pnp/logging";
 import isEqual from "lodash/isEqual";
-import ButtonIcon from "../../../../common/components/atoms/ButtonIcon";
-import { Icons } from "../../../../common/enums";
+import ButtonIcon from "../atoms/ButtonIcon";
+import { Icons } from "../../models/enums";
 
 export interface ITableHeaderProps {
   columnNames: string[];

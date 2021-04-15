@@ -1,8 +1,8 @@
 import * as React from "react";
 import { Logger, LogLevel } from "@pnp/logging";
 import { isEqual } from "lodash";
-import styles from '../CovidForm.module.scss';
-import { IQuestion } from "../../covid.model";
+import styles from '../CovidAdmin.module.scss';
+import { IQuestion } from "../../models/covid.model";
 
 export interface IRadioButtonProps {
   name: string;

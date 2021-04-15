@@ -10,8 +10,6 @@ import "@pnp/graph/users";
 import "@pnp/graph/photos";
 import "@pnp/graph/cloud-communications";
 
-import { MSGraphClient } from '@microsoft/sp-http';
-
 import * as lodash from "lodash";
 import { sp } from "@pnp/sp";
 import { Logger, LogLevel } from "@pnp/logging";
@@ -21,13 +19,9 @@ import "@pnp/sp/items/list";
 import "@pnp/sp/site-users/web";
 import { IItemAddResult } from "@pnp/sp/items/types";
 
-import { ILocations, IQuestion, ICheckIns, ISelfCheckIn, SelfCheckInLI, CheckInLI, ISelfCheckInLI, IAnswer, Tables, IPerson, IQuery, ISearchResults, Person } from "./covid.model";
+import { ILocations, IQuestion, ICheckIns, ISelfCheckIn, SelfCheckInLI, CheckInLI, ISelfCheckInLI, IAnswer, Tables, IPerson, IQuery, ISearchResults, Person } from "../models/covid.model";
 
-const mockAnswers: IAnswer[] = [{ QuestionId: 1, Answer: "no" }, { QuestionId: 2, Answer: "98.2" }, { QuestionId: 3, Answer: "no" }, { QuestionId: 4, Answer: "no" }, { QuestionId: 5, Answer: "no" }, { QuestionId: 6, Answer: "no" }, { QuestionId: 7, Answer: "no" }];
-
-export interface ICovidService {
-
-}
+export interface ICovidService { }
 
 export class CovidService implements ICovidService {
   private LOG_SOURCE = "🔶CovidService";

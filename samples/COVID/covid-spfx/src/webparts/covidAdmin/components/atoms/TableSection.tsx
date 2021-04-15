@@ -1,8 +1,8 @@
 import * as React from "react";
 import { Logger, LogLevel } from "@pnp/logging";
 import isEqual from "lodash/isEqual";
-import { ICheckIns } from "../../../../common/covid.model";
-import Persona, { Size, Presence } from "../../../../common/components/molecules/Persona";
+import { ICheckIns } from "../../models/covid.model";
+import Persona, { Size, Presence } from "../molecules/Persona";
 import styles from "../CovidAdmin.module.scss";
 
 export interface ITableSectionProps {

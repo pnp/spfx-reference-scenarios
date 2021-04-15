@@ -14,12 +14,11 @@ import {
 } from '@microsoft/sp-property-pane';
 import { BaseClientSideWebPart, IMicrosoftTeams } from '@microsoft/sp-webpart-base';
 
-import * as strings from 'CovidWebPartStrings';
-import styles from '../../common/components/CovidForm.module.scss';
+import styles from './components/CovidAdmin.module.scss';
 import CovidAdmin, { ICovidAdminProps } from './components/CovidAdmin';
-import { cs } from '../../common/covid.service';
-import { ccs } from '../../common/covidConfig.service';
-import Configure, { IConfigureProps } from './components/Configure';
+import { cs } from './services/covid.service';
+import { ccs } from './services/covidConfig.service';
+import Configure, { IConfigureProps } from './components/molecules/Configure';
 
 export interface ICovidAdminWebPartProps {
   moveCheckingRate: number;

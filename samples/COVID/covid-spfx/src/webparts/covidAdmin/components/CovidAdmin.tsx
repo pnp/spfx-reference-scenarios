@@ -1,19 +1,19 @@
+import { IMicrosoftTeams } from "@microsoft/sp-webpart-base";
+
 import * as React from "react";
 import { Logger, LogLevel } from "@pnp/logging";
-import { cloneDeep, isEqual } from "lodash";
-import { cs } from "../../../common/covid.service";
-import { ICheckIns, CheckInMode, ADMINTABS } from "../../../common/covid.model";
-import CovidForm from "../../../common/components/CovidForm";
+import cloneDeep from "lodash/cloneDeep";
+import isEqual from "lodash/isEqual";
+
+import strings from "CovidWebPartStrings";
 import styles from "./CovidAdmin.module.scss";
-import DatePicker from "../../../common/components/molecules/DatePicker";
-import Persona, { Presence } from "../../../common/components/molecules/Persona";
-import ButtonIcon from "../../../common/components/atoms/ButtonIcon";
-import { Icons } from "../../../common/enums";
-import { Size } from "../../../common/components/molecules/Persona";
-import CovidAdministration from "./CovidAdministration";
-import { IMicrosoftTeams } from "@microsoft/sp-webpart-base";
-import Table, { ITable, ITableCell, ITableRow } from "../../../common/components/molecules/Table";
-import ContactTracing from "./ContactTracing";
+import { cs } from "../services/covid.service";
+import { ICheckIns, CheckInMode, ADMINTABS } from "../models/covid.model";
+
+import CovidForm from "./organisms/CovidForm";
+import DatePicker from "./molecules/DatePicker";
+import CovidAdministration from "./organisms/CovidAdministration";
+import ContactTracing from "./organisms/ContactTracing";
 import Today from "./molecules/Today";
 import PivotBar, { IPivotBarOption } from "./atoms/PivotBar";
 
@@ -41,9 +41,7 @@ export class CovidAdminState implements ICovidAdminState {
 }
 
 export default class CovidAdmin extends React.Component<ICovidAdminProps, ICovidAdminState> {
-  private LOG_SOURCE: string = "🔶 CovidAdmin";
-  private _tableHeaders: string[] = ['Name', 'Office', 'Submitted', 'Check In Status', 'Check In Time', ''];
-  private _tableFooters: string[] = ['Name', 'Office', 'Submitted', 'Check In Status', 'Check In Time', ''];
+  private LOG_SOURCE: string = "🔶CovidAdmin";
 
   //Set up the tabs for the PivotBar
   private _tabOptions: IPivotBarOption[] = [
@@ -56,6 +54,10 @@ export default class CovidAdmin extends React.Component<ICovidAdminProps, ICovid
       displayName: "Register Guest"
     },
     {
+      key: ADMINTABS.SELFCHECKIN,
+      displayName: "Self Check-In"
+    },
+    {
       key: ADMINTABS.CONTACTTRACING,
       displayName: "Contact Tracing"
     },
@@ -66,7 +68,6 @@ export default class CovidAdmin extends React.Component<ICovidAdminProps, ICovid
 
   constructor(props: ICovidAdminProps) {
     super(props);
-
     this.state = new CovidAdminState();
   }
 
@@ -91,7 +92,6 @@ export default class CovidAdmin extends React.Component<ICovidAdminProps, ICovid
     this.setState({ tab: newTab });
   }
 
-
   private _changeDate = (dateOffset: number) => {
     try {
       const selectedDate = cloneDeep(this.state.selectedDate);
@@ -99,15 +99,6 @@ export default class CovidAdmin extends React.Component<ICovidAdminProps, ICovid
       cs.getCheckIns(selectedDate);
       this.setState({ selectedDate: selectedDate });
 
-    } catch (err) {
-      Logger.write(`${this.LOG_SOURCE} (_changeDate) - ${err}`, LogLevel.Error);
-    }
-  }
-  private _checkInPerson = (checkIn: ICheckIns) => {
-    try {
-      checkIn.CheckInById = this.props.userId;
-      checkIn.CheckIn = new Date();
-      cs.adminCheckIn(checkIn);
     } catch (err) {
       Logger.write(`${this.LOG_SOURCE} (_changeDate) - ${err}`, LogLevel.Error);
     }
@@ -132,9 +123,8 @@ export default class CovidAdmin extends React.Component<ICovidAdminProps, ICovid
               }
               {this.state.tab === ADMINTABS.TODAY &&
                 <>
-                  <h1>Check-In Covid-19</h1>
-                  <p>As people enter the building please check this Covid check-In page to ensure that they have completed their self
-    attestation. For guests please fill out the form for them. using the link below.</p>
+                  <h1>{strings.TodayHeader}</h1>
+                  <p>{strings.TodaySubHeader}</p>
                   <DatePicker selectedDate={this.state.selectedDate} onDateChange={this._changeDate} />
                   <Today data={this.state.checkIns} />
                 </>

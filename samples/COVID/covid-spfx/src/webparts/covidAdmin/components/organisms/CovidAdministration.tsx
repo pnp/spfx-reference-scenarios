@@ -1,17 +1,13 @@
 import * as React from "react";
 import { Logger, LogLevel } from "@pnp/logging";
-import { cloneDeep, isEqual } from "lodash";
-import { cs } from "../../../common/covid.service";
-import styles from "./CovidAdmin.module.scss";
+import isEqual from "lodash/isEqual";
 
-export interface ICovidAdministrationProps {
+import strings from "CovidWebPartStrings";
+import { cs } from "../../services/covid.service";
 
-}
+export interface ICovidAdministrationProps { }
 
-export interface ICovidAdministrationState {
-
-
-}
+export interface ICovidAdministrationState { }
 
 export class CovidAdministrationState implements ICovidAdministrationState {
   constructor(
@@ -20,15 +16,11 @@ export class CovidAdministrationState implements ICovidAdministrationState {
 }
 
 export default class CovidAdministration extends React.Component<ICovidAdministrationProps, ICovidAdministrationState> {
-  private LOG_SOURCE: string = "🔶 CovidAdministration";
+  private LOG_SOURCE: string = "🔶CovidAdministration";
 
   constructor(props: ICovidAdministrationProps) {
     super(props);
     this.state = new CovidAdministrationState();
-  }
-
-  public componentDidMount() {
-
   }
 
   public shouldComponentUpdate(nextProps: ICovidAdministrationProps, nextState: ICovidAdministrationState) {
@@ -37,24 +29,18 @@ export default class CovidAdministration extends React.Component<ICovidAdministr
     return true;
   }
 
-
   public render(): React.ReactElement<ICovidAdministrationProps> {
     try {
-
-
-
       return (
-        <div data-component={this.LOG_SOURCE} className={styles.covidAdmin}>
-          <h1>Covid-19 Application Administration</h1>
-          <p>From here you can manage the questions and locations for the application. This data is stored in SharePoint lists. </p>
+        <div data-component={this.LOG_SOURCE}>
+          <h1>{strings.AdministrationHeader}</h1>
+          <p>{strings.AdministrationSubHeader}</p>
           <div>
             <ul>
-              <li><a href="https://julieturner.sharepoint.com/sites/TeamsSamples/Lists/CheckInLocations/AllItems.aspx">Manage Locations</a></li>
-              <li><a href="https://julieturner.sharepoint.com/sites/TeamsSamples/Lists/CheckInQuestions/AllItems.aspx">Manage Questions</a></li>
+              <li><a href={cs.LocationListUrl}>{strings.ManageLocations}</a></li>
+              <li><a href={cs.QuestionListUrl}>{strings.ManageQuestions}</a></li>
             </ul>
           </div>
-
-
         </div>
       );
     } catch (err) {

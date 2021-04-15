@@ -1,7 +1,7 @@
 import * as React from "react";
 import { Logger, LogLevel } from "@pnp/logging";
 import { isEqual } from "lodash";
-import styles from "../CovidForm.module.scss";
+import styles from "../CovidAdmin.module.scss";
 
 export interface ITextBoxProps {
   name: string;

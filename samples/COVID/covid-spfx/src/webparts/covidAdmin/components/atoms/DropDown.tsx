@@ -1,7 +1,7 @@
 import * as React from "react";
 import { Logger, LogLevel } from "@pnp/logging";
 import { isEqual, find, findIndex } from "lodash";
-import { Icons } from "../../enums";
+import { Icons } from "../../models/enums";
 
 export enum DDState {
   "Initial",
