@@ -64,9 +64,10 @@ export default class Avatar extends React.Component<IAvatarProps, IAvatarState> 
   //TODO: loading="lazy"
   public render(): React.ReactElement<IAvatarProps> {
     try {
+      const avatar = this._renderAvatar();
       return (
         <div className={`hoo-avatar ${(isEmpty(this.props.src)) ? `noImage ${this._selectedStyle}` : ""}`} >
-          {this._renderAvatar()}
+          {avatar}
         </div >
       );
     } catch (err) {

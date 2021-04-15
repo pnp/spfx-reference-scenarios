@@ -19,9 +19,24 @@ import "@pnp/sp/items/list";
 import "@pnp/sp/site-users/web";
 import { IItemAddResult } from "@pnp/sp/items/types";
 
-import { ILocations, IQuestion, ICheckIns, ISelfCheckIn, SelfCheckInLI, CheckInLI, ISelfCheckInLI, IAnswer, Tables, IPerson, IQuery, ISearchResults, Person } from "../models/covid.model";
+import { ILocations, IQuestion, ICheckIns, ISelfCheckIn, SelfCheckInLI, CheckInLI, ISelfCheckInLI, IAnswer, Tables, IPerson, IQuery, Person } from "../models/covid.model";
 
-export interface ICovidService { }
+export interface ICovidService {
+  IsAdmin: boolean;
+  Locations: ILocations[];
+  Questions: IQuestion[];
+  CheckIns: ICheckIns[];
+  QuestionListUrl: string;
+  LocationListUrl: string;
+  init: () => Promise<void>;
+  CheckInsRefresh: (selectedDate: Date) => void;
+  userCanCheckIn: (userId: number) => Promise<boolean>;
+  getCheckIns: (d: Date) => Promise<boolean>;
+  moveSelfCheckIns: () => Promise<boolean>;
+  addCheckIn: (checkIn: ICheckIns) => Promise<boolean>;
+  addSelfCheckIn: (checkIn: ISelfCheckIn) => Promise<boolean>;
+  searchCheckIn: (query: IQuery) => Promise<lodash.Dictionary<ICheckIns[]>>;
+}
 
 export class CovidService implements ICovidService {
   private LOG_SOURCE = "🔶CovidService";
@@ -82,8 +97,8 @@ export class CovidService implements ICovidService {
       this._questionListUrl = `${sp.site.toUrl()}/Lists/${Tables.QUESTIONLIST}/AllItems.aspx`;
       await this._loadUserRole();
       let success: boolean[] = [];
-      success.push(await this.getLocations());
-      success.push(await this.getQuestions());
+      success.push(await this._getLocations());
+      success.push(await this._getQuestions());
       if (success.indexOf(false) == -1) {
         this._ready = true;
       }
@@ -110,7 +125,7 @@ export class CovidService implements ICovidService {
     }
   }
 
-  private async getLocations(): Promise<boolean> {
+  private async _getLocations(): Promise<boolean> {
     let retVal: boolean = false;
     try {
       this._locations = await sp.web.lists.getByTitle(Tables.LOCATIONLIST).items
@@ -119,12 +134,12 @@ export class CovidService implements ICovidService {
         .get<ILocations[]>();
       retVal = true;
     } catch (err) {
-      Logger.write(`${this.LOG_SOURCE} (getLocations) - ${err.message}`, LogLevel.Error);
+      Logger.write(`${this.LOG_SOURCE} (_getLocations) - ${err.message}`, LogLevel.Error);
     }
     return retVal;
   }
 
-  private async getQuestions(): Promise<boolean> {
+  private async _getQuestions(): Promise<boolean> {
     let retVal: boolean = false;
     try {
       this._questions = await sp.web.lists.getByTitle(Tables.QUESTIONLIST).items
@@ -135,7 +150,7 @@ export class CovidService implements ICovidService {
         .get<IQuestion[]>();
       retVal = true;
     } catch (err) {
-      Logger.write(`${this.LOG_SOURCE} (getQuestions) - ${err.message}`, LogLevel.Error);
+      Logger.write(`${this.LOG_SOURCE} (_getQuestions) - ${err.message}`, LogLevel.Error);
     }
     return retVal;
   }
@@ -409,13 +424,6 @@ export class CovidService implements ICovidService {
     let retVal: lodash.Dictionary<ICheckIns[]> = null;
     try {
       let filter = [];
-      if (query.person != null) {
-        if ((typeof query.person) == "string") {
-          filter.push(`(Guest eq '${query.person}')`);
-        } else {
-          filter.push(`(EmployeeId eq ${query.person})`);
-        }
-      }
       if (query.startDate != null) {
         const start: Date = cloneDeep(query.startDate);
         start.setHours(0, 0, 0, 0);
@@ -451,61 +459,32 @@ export class CovidService implements ICovidService {
 
       await this._updateIPerson(checkIns);
 
-      retVal = groupBy(checkIns, (ci) => { return ci.CheckIn.toLocaleDateString(); });
-    } catch (err) {
-      Logger.write(`${this.LOG_SOURCE} (searchCheckIn) - ${err} - `, LogLevel.Error);
-    }
-    return retVal;
-  }
-
-  public async traceCheckIn(query: IQuery, person: string | number): Promise<lodash.Dictionary<ICheckIns[]>> {
-    let retVal: lodash.Dictionary<ICheckIns[]> = null;
-
-    try {
-      const searchResults = await cs.searchCheckIn(query);
-
-      for (let key in searchResults) {
-        let value = searchResults[key];
-        let include = false;
-        if (value.length > 0) {
-
-          forEach(value, (p) => {
-            if (p.Employee == null) {
-              if (p.Guest === person) {
-                include = true;
+      const results = groupBy(checkIns, (ci) => { return ci.CheckIn.toLocaleDateString(); });
+      if (query.person != undefined) {
+        for (let key in results) {
+          let value = results[key];
+          let include = false;
+          if (value.length > 0) {
+            forEach(value, (p) => {
+              if (p.Employee == null) {
+                if (p.Guest === query.person) {
+                  include = true;
+                }
+              } else {
+                if (p.Employee.Id === query.person) {
+                  include = true;
+                }
               }
-            } else {
-              if (p.Employee.Id === person) {
-                include = true;
-              }
-
-            }
-          });
-        }
-        if (!include) {
-          delete searchResults[key];
+            });
+          }
+          if (!include) {
+            delete results[key];
+          }
         }
       }
-
-      retVal = searchResults;
+      retVal = results;
     } catch (err) {
       Logger.write(`${this.LOG_SOURCE} (searchCheckIn) - ${err} - `, LogLevel.Error);
-    }
-    return retVal;
-  }
-
-  public async getSiteUsers(): Promise<IPerson[]> {
-    let retVal: IPerson[] = [];
-    try {
-      const siteUsers = await sp.web.siteUsers();
-      forEach(siteUsers, (su) => {
-        //if (su.LoginName.indexOf("i:0#.f|membership") > -1)
-        if (su.Email?.length > 0)
-          retVal.push(new Person(su.Id, su.Title, su.Email));
-      });
-      await this._updateIPerson(retVal);
-    } catch (err) {
-      Logger.write(`${this.LOG_SOURCE} (getSiteUsers) - ${err} - `, LogLevel.Error);
     }
     return retVal;
   }

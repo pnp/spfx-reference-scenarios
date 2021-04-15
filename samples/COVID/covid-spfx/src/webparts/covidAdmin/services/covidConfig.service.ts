@@ -1,5 +1,4 @@
 import { Logger, LogLevel } from "@pnp/logging";
-import * as lodash from "lodash";
 import { sp } from "@pnp/sp";
 import "@pnp/sp/webs";
 import "@pnp/sp/lists";
@@ -13,7 +12,9 @@ import { DateTimeFieldFormatType, CalendarType, DateTimeFieldFriendlyFormatType,
 import { IList } from "@pnp/sp/lists";
 
 export interface ICovidConfigService {
-
+  Valid: boolean;
+  isValid: () => Promise<boolean>;
+  configure: () => Promise<boolean>;
 }
 
 export class CovidConfigService implements ICovidConfigService {
@@ -40,10 +41,10 @@ export class CovidConfigService implements ICovidConfigService {
 
   public async configure(): Promise<boolean> {
     try {
-      const siteVisitorsPermissions = await this.getRoleInformation();
-      const successLocations = await this.createList(Tables.LOCATIONLIST, []);
-      const successQuestions = await this.createList(Tables.QUESTIONLIST, QUESTIONLISTFields);
-      const successSelfCheckin = await this.createList(Tables.SELFCHECKINLIST, SELFCHECKINLISTFields);
+      const siteVisitorsPermissions = await this._getRoleInformation();
+      const successLocations = await this._createList(Tables.LOCATIONLIST, []);
+      const successQuestions = await this._createList(Tables.QUESTIONLIST, QUESTIONLISTFields);
+      const successSelfCheckin = await this._createList(Tables.SELFCHECKINLIST, SELFCHECKINLISTFields);
       if (successSelfCheckin) {
         await successSelfCheckin.breakRoleInheritance(true);
         if (siteVisitorsPermissions.length > 0) {
@@ -54,7 +55,7 @@ export class CovidConfigService implements ICovidConfigService {
           return false;
         }
       }
-      const successCheckin = await this.createList(Tables.COVIDCHECKINLIST, COVIDCHECKINLISTFields);
+      const successCheckin = await this._createList(Tables.COVIDCHECKINLIST, COVIDCHECKINLISTFields);
       if (successCheckin) {
         await successCheckin.breakRoleInheritance(true);
         if (siteVisitorsPermissions.length > 0) {
@@ -71,7 +72,7 @@ export class CovidConfigService implements ICovidConfigService {
     return this._valid;
   }
 
-  private async createList(listName: string, fieldList: IFieldList[]): Promise<IList> {
+  private async _createList(listName: string, fieldList: IFieldList[]): Promise<IList> {
     let retVal: IList = null;
     try {
       const l = await sp.web.lists.add(listName, listName, 100);
@@ -108,12 +109,12 @@ export class CovidConfigService implements ICovidConfigService {
         retVal = l.list;
       }
     } catch (err) {
-      Logger.write(`${err} - ${this.LOG_SOURCE} (createList)`, LogLevel.Error);
+      Logger.write(`${err} - ${this.LOG_SOURCE} (_createList)`, LogLevel.Error);
     }
     return retVal;
   }
 
-  private async getRoleInformation(): Promise<number[]> {
+  private async _getRoleInformation(): Promise<number[]> {
     let retVal: number[] = [];
     try {
       let targetGroup = await sp.web.associatedVisitorGroup();
@@ -123,7 +124,7 @@ export class CovidConfigService implements ICovidConfigService {
       retVal.push(targetGroupId);
       retVal.push(roleDefinitionId);
     } catch (err) {
-      Logger.write(`🎓 M365LP:${this.LOG_SOURCE} (getRoleInformation) - ${err}`, LogLevel.Error);
+      Logger.write(`${err} - ${this.LOG_SOURCE} (_getRoleInformation)`, LogLevel.Error);
     }
     return retVal;
   }

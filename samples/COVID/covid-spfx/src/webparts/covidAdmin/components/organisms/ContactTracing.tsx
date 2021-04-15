@@ -9,7 +9,7 @@ import forEach from "lodash/forEach";
 
 import strings from "CovidWebPartStrings";
 import { cs } from "../../services/covid.service";
-import { IQuery, ICheckIns, Query } from "../../models/covid.model";
+import { IQuery, ICheckIns } from "../../models/covid.model";
 import TableHeader from "../atoms/TableHeader";
 import TableSectionHeader from "../atoms/TableSectionHeader";
 import TableSection from "../atoms/TableSection";
@@ -59,19 +59,7 @@ export default class ContactTracing extends React.Component<IContactTracingProps
 
   private _search = async (query: IQuery): Promise<void> => {
     try {
-      let searchResults;
-      if (query.person) {
-        const person = (query.person) ? query.person : null;
-        let searchQuery: IQuery = new Query(
-          query.startDate,
-          query.endDate,
-          query.office,
-          null
-        );
-        searchResults = await cs.traceCheckIn(searchQuery, person);
-      } else {
-        searchResults = await cs.searchCheckIn(query);
-      }
+      const searchResults = await cs.searchCheckIn(query);
 
       for (let key in searchResults) {
         let value = searchResults[key];
