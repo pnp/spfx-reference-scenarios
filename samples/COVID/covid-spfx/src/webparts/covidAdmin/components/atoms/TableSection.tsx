@@ -5,6 +5,8 @@ import isEqual from "lodash/isEqual";
 import styles from "../CovidAdmin.module.scss";
 import { ICheckIns } from "../../models/covid.model";
 import Persona, { Size, Presence } from "../molecules/Persona";
+import ButtonIcon from "./ButtonIcon";
+import { Icons } from "../../models/enums";
 
 export interface ITableSectionProps {
   fields: string[];
@@ -47,7 +49,7 @@ export default class TableSection extends React.Component<ITableSectionProps, IT
                 }
                 {this.props.fields.map((field) => {
                   return (
-                    <td>
+                    <td className={(field == "Status") ? styles.checkIn : ""}>
                       {field == "Name" &&
                         <Persona size={Size.FortyEight}
                           src={(o.Employee) ? o.Employee.PhotoBlobUrl : ""}
