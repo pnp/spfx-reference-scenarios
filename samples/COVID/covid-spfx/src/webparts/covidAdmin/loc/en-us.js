@@ -15,6 +15,7 @@ define([], function () {
     "CheckInSuccessContent": "Your check in was submitted successfully.",
     "TodayHeader": "Check-In Covid-19",
     "TodaySubHeader": "As people enter the building please check this Covid check-In page to ensure that they have completed their self attestation. For guests please fill out the form for them. using the link below.",
+    "TodayTableHeaders": ['Name', 'Office', 'Submitted', 'Status', 'Check In Time', ''],
     "AdministrationHeader": "Covid-19 Application Administration",
     "AdministrationSubHeader": "From here you can manage the questions and locations for the application. This data is stored in SharePoint lists.",
     "ManageLocations": "Manage Locations",
