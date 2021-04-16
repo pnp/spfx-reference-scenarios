@@ -134,6 +134,10 @@
       gap: px2rem(16px);
     }
 
+    &.dialog {
+      margin: auto;
+    }
+
   }
 
   .form {
@@ -141,11 +145,6 @@
 
     .formRow {
       @include gridSpan(6, 1);
-    }
-
-    .question {
-      font-weight: 700;
-      line-height: 24px;
     }
 
     .textbox {
@@ -161,6 +160,10 @@
 
   }
 
+  .textLabel {
+    font-weight: 700;
+    line-height: 24px;
+  }
 
 
   span.checkIn {

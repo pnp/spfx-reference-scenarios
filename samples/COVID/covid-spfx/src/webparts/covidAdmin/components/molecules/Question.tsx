@@ -34,12 +34,11 @@ export default class Question extends React.Component<IQuestionProps, IQuestionS
     return true;
   }
 
-  //TODO: We should probably switch QuestionType in the model to reference the Enum. 
   public render(): React.ReactElement<IQuestionProps> {
     try {
       return (
         <>
-          <div className={styles.question}>{this.props.question.Title}</div>
+          <div className={styles.textLabel}>{this.props.question.Title}</div>
           {this.props.question.QuestionType === QuestionType.YesNo ?
             <RadioButton name={`question-${this.props.question.Id}`} value={this.props.answer.Answer} onChange={this.props.onChange} /> :
             <TextBox name={`question-${this.props.question.Id}`} value={this.props.answer.Answer} onChange={this.props.onChange} />

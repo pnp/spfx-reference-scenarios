@@ -53,7 +53,7 @@ export default class Dialog extends React.Component<IDialogProps, IDialogState> 
                 </div>
               </div>
               <div className="hoo-dlgcontent">
-                {this.props.content}
+                <p>{this.props.content}</p>
                 {this.props.children || null}
               </div>
             </div>
