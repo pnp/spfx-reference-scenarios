@@ -14,6 +14,7 @@ declare interface ICovidWebPartStrings {
   CheckInSuccessContent: string;
   TodayHeader: string;
   TodaySubHeader: string;
+  TodayTableHeaders: string[];
   AdministrationHeader: string;
   AdministrationSubHeader: string;
   ManageLocations: string;
@@ -32,6 +33,7 @@ declare interface ICovidWebPartStrings {
   AdminTabAdministration: string;
   SaveLabel: string;
   CancelLabel: string;
+
 }
 
 declare module 'CovidWebPartStrings' {

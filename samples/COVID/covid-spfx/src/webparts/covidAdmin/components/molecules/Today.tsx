@@ -1,13 +1,14 @@
 import * as React from "react";
 import { Logger, LogLevel } from "@pnp/logging";
 import isEqual from "lodash/isEqual";
-
+import strings from "CovidWebPartStrings";
 import TableHeader from "../atoms/TableHeader";
 import TableSection from "../atoms/TableSection";
 import { ICheckIns } from "../../models/covid.model";
 
 export interface ITodayProps {
   data: ICheckIns[];
+  checkIn?: (checkIn: ICheckIns) => void;
 }
 
 export interface ITodayState {
@@ -19,7 +20,9 @@ export class TodayState implements ITodayState {
 
 export default class Today extends React.Component<ITodayProps, ITodayState> {
   private LOG_SOURCE: string = "Today";
-  private _tableHeaders: string[] = ['Name', 'Office', 'Submitted', 'Status', 'Check In Time'];
+  private _tableHeaders: string[] = strings.TodayTableHeaders;
+  //These map to an if statement in TableSection.tsx to determine what fields to show
+  private _tableFieldNames: string[] = ['Name', 'Office', 'Submitted', 'Status', 'Check In Time', 'Check In'];
 
   constructor(props: ITodayProps) {
     super(props);
@@ -39,7 +42,7 @@ export default class Today extends React.Component<ITodayProps, ITodayState> {
           <table className="hoo-table">
             <TableHeader columnNames={this._tableHeaders} />
             <tbody>
-              <TableSection fields={this._tableHeaders} data={this.props.data} />
+              <TableSection fields={this._tableFieldNames} data={this.props.data} checkIn={this.props.checkIn} />
             </tbody>
           </table>
         </div>

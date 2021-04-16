@@ -13,6 +13,7 @@ export interface ITableSectionProps {
   data: ICheckIns[];
   sectionName?: string;
   expanded?: boolean;
+  checkIn?: (checkIn: ICheckIns) => void;
 }
 
 export interface ITableSectionState {
@@ -71,6 +72,9 @@ export default class TableSection extends React.Component<ITableSectionProps, IT
                       }
                       {field == "Check In Time" &&
                         <>{o.CheckIn?.toLocaleString()}</>
+                      }
+                      {field == "Check In" && !o.CheckIn &&
+                        <ButtonIcon iconType={Icons.Check} onClick={() => { this.props.checkIn(o); }} />
                       }
                     </td>
                   );

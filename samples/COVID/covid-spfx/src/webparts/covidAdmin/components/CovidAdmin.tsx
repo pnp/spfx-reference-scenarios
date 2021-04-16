@@ -110,6 +110,16 @@ export default class CovidAdmin extends React.Component<ICovidAdminProps, ICovid
     cs.getCheckIns(selectedDate);
   }
 
+  private _checkInPerson = (checkIn: ICheckIns) => {
+    try {
+      checkIn.CheckInById = this.props.userId;
+      checkIn.CheckIn = new Date();
+      cs.adminCheckIn(checkIn);
+    } catch (err) {
+      Logger.write(`${this.LOG_SOURCE} (_changeDate) - ${err}`, LogLevel.Error);
+    }
+  }
+
   public render(): React.ReactElement<ICovidAdminProps> {
     try {
 
@@ -126,7 +136,7 @@ export default class CovidAdmin extends React.Component<ICovidAdminProps, ICovid
                   <h1>{strings.TodayHeader}</h1>
                   <p>{strings.TodaySubHeader}</p>
                   <DatePicker selectedDate={this.state.selectedDate} onDateChange={this._changeDate} />
-                  <Today data={this.state.checkIns} />
+                  <Today data={this.state.checkIns} checkIn={this._checkInPerson} />
                 </>
               }
               {this.state.tab === ADMINTABS.GUEST &&
