@@ -5,7 +5,7 @@
   "id": "3ab8fb75-8f80-4ff1-90a3-6f711ad27c1d",
   "version": "1.0",
   "developer": {
-    "name": "Julie Turner/Stefan Bauer",
+    "name": "Sympraxis Consulting",
     "websiteUrl": "https://docs.microsoft.com/en-us/office365/customlearning/",
     "privacyUrl": "https://privacy.microsoft.com/en-us/privacystatement",
     "termsOfUseUrl": "https://www.microsoft.com/en-us/servicesagreement"
@@ -25,16 +25,8 @@
   "staticTabs": [
     {
       "entityId": "com.covidadmin.spfx",
-      "name": "Covid Admin",
+      "name": "Covid Attestation",
       "contentUrl": "https://{teamSiteDomain}/_layouts/15/TeamsLogon.aspx?SPFX=true&dest=/_layouts/15/teamshostedapp.aspx%3Fteams%26personal%26componentId=3ab8fb75-8f80-4ff1-90a3-6f711ad27c1d%26forceLocale={locale}",
-      "scopes": [
-        "personal"
-      ]
-    },
-    {
-      "entityId": "com.covidcheckin.spfx",
-      "name": "Covid CheckIn",
-      "contentUrl": "https://{teamSiteDomain}/_layouts/15/TeamsLogon.aspx?SPFX=true&dest=/_layouts/15/teamshostedapp.aspx%3Fteams%26personal%26componentId=e3019ff9-a91b-44bc-ac06-f52e9ca705c4%26forceLocale={locale}",
       "scopes": [
         "personal"
       ]
