@@ -8,6 +8,12 @@ export enum Tables {
   COVIDCHECKINLIST = "CovidCheckIn",
 }
 
+export enum SECURITY {
+  "OWNER",
+  "MEMBER",
+  "VISITOR"
+}
+
 export enum ADMINTABS {
   "TODAY",
   "GUEST",

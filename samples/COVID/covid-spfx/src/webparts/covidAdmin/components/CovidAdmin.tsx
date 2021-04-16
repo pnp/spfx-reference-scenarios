@@ -8,7 +8,7 @@ import isEqual from "lodash/isEqual";
 import strings from "CovidWebPartStrings";
 import styles from "./CovidAdmin.module.scss";
 import { cs } from "../services/covid.service";
-import { ICheckIns, CheckInMode, ADMINTABS } from "../models/covid.model";
+import { ICheckIns, CheckInMode, ADMINTABS, SECURITY } from "../models/covid.model";
 
 import CovidForm from "./organisms/CovidForm";
 import DatePicker from "./molecules/DatePicker";
@@ -44,31 +44,39 @@ export default class CovidAdmin extends React.Component<ICovidAdminProps, ICovid
   private LOG_SOURCE: string = "🔶CovidAdmin";
 
   //Set up the tabs for the PivotBar
-  private _tabOptions: IPivotBarOption[] = [
-    {
-      key: ADMINTABS.TODAY,
-      displayName: strings.AdminTabToday
-    },
-    {
-      key: ADMINTABS.GUEST,
-      displayName: strings.AdminTabRegisterGuest
-    },
-    {
-      key: ADMINTABS.SELFCHECKIN,
-      displayName: strings.AdminTabSelfCheckIn
-    },
-    {
-      key: ADMINTABS.CONTACTTRACING,
-      displayName: strings.AdminTabContactTracing
-    },
-    {
-      key: ADMINTABS.ADMINISTRATION,
-      displayName: strings.AdminTabAdministration
-    }];
+  private _tabOptions: IPivotBarOption[] = [];
 
   constructor(props: ICovidAdminProps) {
     super(props);
     this.state = new CovidAdminState();
+    try {
+      if ((cs.Security == SECURITY.MEMBER) || (cs.Security == SECURITY.OWNER)) {
+        this._tabOptions.push({
+          key: ADMINTABS.TODAY,
+          displayName: strings.AdminTabToday
+        });
+        this._tabOptions.push({
+          key: ADMINTABS.GUEST,
+          displayName: strings.AdminTabRegisterGuest
+        });
+      }
+      this._tabOptions.push({
+        key: ADMINTABS.SELFCHECKIN,
+        displayName: strings.AdminTabSelfCheckIn
+      });
+      if ((cs.Security == SECURITY.MEMBER) || (cs.Security == SECURITY.OWNER)) {
+        this._tabOptions.push({
+          key: ADMINTABS.CONTACTTRACING,
+          displayName: strings.AdminTabContactTracing
+        });
+        this._tabOptions.push({
+          key: ADMINTABS.ADMINISTRATION,
+          displayName: strings.AdminTabAdministration
+        });
+      }
+    } catch (err) {
+      Logger.write(`${this.LOG_SOURCE} (_changeDate) - ${err}`, LogLevel.Error);
+    }
   }
 
   public shouldComponentUpdate(nextProps: Readonly<ICovidAdminProps>, nextState: Readonly<ICovidAdminState>) {
@@ -122,36 +130,28 @@ export default class CovidAdmin extends React.Component<ICovidAdminProps, ICovid
 
   public render(): React.ReactElement<ICovidAdminProps> {
     try {
-
       return (
         <div data-component={this.LOG_SOURCE} className={styles.covidAdmin}>
-          {cs.IsAdmin &&
+          <PivotBar options={this._tabOptions} onClick={this._changeTab} activeTab={this.state.tab} />
+          {this.state.tab == ADMINTABS.SELFCHECKIN &&
+            <CovidForm microsoftTeams={this.props.microsoftTeams} checkInMode={CheckInMode.Self} displayName={this.props.displayName} userId={this.props.userId} userCanCheckIn={this.props.userCanCheckIn} />
+          }
+          {this.state.tab === ADMINTABS.TODAY &&
             <>
-              <PivotBar options={this._tabOptions} onClick={this._changeTab} activeTab={this.state.tab} />
-              {this.state.tab == ADMINTABS.SELFCHECKIN &&
-                <CovidForm microsoftTeams={this.props.microsoftTeams} checkInMode={CheckInMode.Self} displayName={this.props.displayName} userId={this.props.userId} userCanCheckIn={this.props.userCanCheckIn} />
-              }
-              {this.state.tab === ADMINTABS.TODAY &&
-                <>
-                  <h1>{strings.TodayHeader}</h1>
-                  <p>{strings.TodaySubHeader}</p>
-                  <DatePicker selectedDate={this.state.selectedDate} onDateChange={this._changeDate} />
-                  <Today data={this.state.checkIns} checkIn={this._checkInPerson} />
-                </>
-              }
-              {this.state.tab === ADMINTABS.GUEST &&
-                <CovidForm microsoftTeams={this.props.microsoftTeams} displayName={strings.CovidFormGuestValue} userId={this.props.userId} checkInMode={CheckInMode.Guest} close={this._closeGuestForm} />
-              }
-              {this.state.tab === ADMINTABS.CONTACTTRACING &&
-                <ContactTracing />
-              }
-              {this.state.tab === ADMINTABS.ADMINISTRATION &&
-                <CovidAdministration />
-              }
+              <h1>{strings.TodayHeader}</h1>
+              <p>{strings.TodaySubHeader}</p>
+              <DatePicker selectedDate={this.state.selectedDate} onDateChange={this._changeDate} />
+              <Today data={this.state.checkIns} checkIn={this._checkInPerson} />
             </>
           }
-          {!cs.IsAdmin &&
-            <CovidForm microsoftTeams={this.props.microsoftTeams} checkInMode={CheckInMode.Self} displayName={this.props.displayName} userId={this.props.userId} userCanCheckIn={this.props.userCanCheckIn} />
+          {this.state.tab === ADMINTABS.GUEST &&
+            <CovidForm microsoftTeams={this.props.microsoftTeams} displayName={strings.CovidFormGuestValue} userId={this.props.userId} checkInMode={CheckInMode.Guest} close={this._closeGuestForm} />
+          }
+          {this.state.tab === ADMINTABS.CONTACTTRACING &&
+            <ContactTracing />
+          }
+          {this.state.tab === ADMINTABS.ADMINISTRATION &&
+            <CovidAdministration />
           }
         </div>
       );

@@ -121,7 +121,7 @@ export default class CovidAdminWebPart extends BaseClientSideWebPart<ICovidAdmin
     return Version.parse('1.0');
   }
 
-  //TODO: Clean up if not using property pane.
+  //TODO: Figure out if the property pane can be accessed
   protected getPropertyPaneConfiguration(): IPropertyPaneConfiguration {
     return {
       pages: [
@@ -130,9 +130,6 @@ export default class CovidAdminWebPart extends BaseClientSideWebPart<ICovidAdmin
             {
               groupName: "Configuration",
               groupFields: [
-                PropertyPaneTextField("notifyGroup", {
-                  label: "Email Notification Group"
-                }),
                 PropertyPaneLabel("", { text: "Employee Check-In Update (mins)" }),
                 PropertyPaneSlider("moveCheckingRate", {
                   min: 1,

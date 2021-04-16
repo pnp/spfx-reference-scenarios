@@ -19,10 +19,10 @@ import "@pnp/sp/items/list";
 import "@pnp/sp/site-users/web";
 import { IItemAddResult } from "@pnp/sp/items/types";
 
-import { ILocations, IQuestion, ICheckIns, ISelfCheckIn, SelfCheckInLI, CheckInLI, ISelfCheckInLI, IAnswer, Tables, IPerson, IQuery, Person } from "../models/covid.model";
+import { ILocations, IQuestion, ICheckIns, ISelfCheckIn, SelfCheckInLI, CheckInLI, ISelfCheckInLI, IAnswer, Tables, IPerson, IQuery, Person, SECURITY } from "../models/covid.model";
 
 export interface ICovidService {
-  IsAdmin: boolean;
+  Security: SECURITY;
   Locations: ILocations[];
   Questions: IQuestion[];
   CheckIns: ICheckIns[];
@@ -45,7 +45,7 @@ export class CovidService implements ICovidService {
   private JSONFIELDS: string[] = ["Questions"];
   private JSONDATEFIELDS: string[] = ["Created", "CheckIn", "SubmittedOn"];
 
-  private _isAdmin: boolean = false;
+  private _security: SECURITY = SECURITY.VISITOR;
   private _ready: boolean = false;
   private _locations: ILocations[];
   private _questions: IQuestion[];
@@ -64,8 +64,8 @@ export class CovidService implements ICovidService {
     return this._ready;
   }
 
-  public get IsAdmin(): boolean {
-    return this._isAdmin;
+  public get Security(): SECURITY {
+    return this._security;
   }
 
   public get Locations(): ILocations[] {
@@ -119,8 +119,10 @@ export class CovidService implements ICovidService {
         ownerIndex = 0;
       }
       let membersIndex: number = findIndex(data.Groups, o => (o["Id"].toString() === membersGroup.Id.toString()));
-      if ((ownerIndex > -1) || membersIndex > -1) {
-        this._isAdmin = true;
+      if (ownerIndex > -1) {
+        this._security = SECURITY.OWNER;
+      } else if (membersIndex > -1) {
+        this._security = SECURITY.MEMBER;
       }
     } catch (err) {
       Logger.write(`${this.LOG_SOURCE} (_loadUserRole) - ${err.message}`, LogLevel.Error);
