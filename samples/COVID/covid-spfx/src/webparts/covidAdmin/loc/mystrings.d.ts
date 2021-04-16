@@ -5,6 +5,7 @@ declare interface ICovidWebPartStrings {
   CovidFormIntro: string;
   CovidFormGuestLabel: string;
   CovidFormOfficeLabel: string;
+  CovidFormNameLabel: string;
   CovidFormGuestValue: string;
   AdminCheckInTitle: string;
   AdminCheckInIntro: string;
@@ -15,6 +16,9 @@ declare interface ICovidWebPartStrings {
   TodayHeader: string;
   TodaySubHeader: string;
   TodayTableHeaders: string[];
+  CheckInSuccessHeader: string;
+  ReviewCheckInHeader: string;
+  ReviewCheckInContent: string;
   AdministrationHeader: string;
   AdministrationSubHeader: string;
   ManageLocations: string;
@@ -33,6 +37,7 @@ declare interface ICovidWebPartStrings {
   AdminTabAdministration: string;
   SaveLabel: string;
   CancelLabel: string;
+  CheckInLabel: string;
 
 }
 

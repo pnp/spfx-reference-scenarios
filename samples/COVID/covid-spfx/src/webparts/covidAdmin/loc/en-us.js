@@ -3,9 +3,10 @@ define([], function () {
     "ConfigurationNeeded": "It appears the Covid Attestation application has not been configured.",
     "ConfigureNow": "Configure Now",
     "CovidFormSelfCheckInTitle": "Covid-19 Employee Self-Attestation Form",
-    "CovidFormIntro": "As on-site work resumes, all employees must complete a Covid-19 self attestation form each day before they enter the building. This requirement applies to all employees, contractors, visitors, or temporary employees.</p><p>In the last 72 hours have you experienced any of the following symptoms that are not attributed to another illness?",
+    "CovidFormIntro": "As on-site work resumes, all employees must complete a Covid-19 self attestation form each day before they enter the building. This requirement applies to all employees, contractors, visitors, or temporary employees. In the last 72 hours have you experienced any of the following symptoms that are not attributed to another illness?",
     "CovidFormGuestLabel": "Guest",
     "CovidFormOfficeLabel": "Office",
+    "CovidFormNameLabel": "Name",
     "CovidFormGuestValue": "Guest",
     "AdminCheckInTitle": "Check-In Covid-19",
     "AdminCheckInIntro": "As people enter the building please check this Covid check-In page to ensure that they have completed their self attestation. For guests please fill out the form for them. using the link below.",
@@ -16,6 +17,8 @@ define([], function () {
     "TodayHeader": "Check-In Covid-19",
     "TodaySubHeader": "As people enter the building please check this Covid check-In page to ensure that they have completed their self attestation. For guests please fill out the form for them. using the link below.",
     "TodayTableHeaders": ['Name', 'Office', 'Submitted', 'Status', 'Check In Time', ''],
+    "ReviewCheckInHeader": "Review Check In",
+    "ReviewCheckInContent": "Please review the answers for the person you are checking in. If they answered yes to any of the questions or their answers do not meet the current COVID policy do not check them into the office.",
     "AdministrationHeader": "Covid-19 Application Administration",
     "AdministrationSubHeader": "From here you can manage the questions and locations for the application. This data is stored in SharePoint lists.",
     "ManageLocations": "Manage Locations",
@@ -34,5 +37,6 @@ define([], function () {
     "AdminTabAdministration": "Administration",
     "SaveLabel": "Save",
     "CancelLabel": "Cancel",
+    "CheckInLabel": "Check In",
   }
 });

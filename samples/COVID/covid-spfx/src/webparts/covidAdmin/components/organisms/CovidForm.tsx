@@ -143,12 +143,12 @@ export default class CovidForm extends React.Component<ICovidFormProps, ICovidFo
           <div className={`${styles.form} ${(this.state.formVisible) ? styles.isVisibleGrid : styles.isHidden}`}>
             {this.props.checkInMode === CheckInMode.Guest ?
               <div className={styles.formRow}>
-                <div className={styles.question}>{strings.CovidFormGuestLabel}</div>
+                <div className={styles.textLabel}>{strings.CovidFormGuestLabel}</div>
                 <TextBox name="Guest" value={this.state.checkInForm.Guest} onChange={this._onTextChange} />
               </div>
               : null}
             <div className={styles.formRow}>
-              <div className={styles.question}>{strings.CovidFormOfficeLabel}</div>
+              <div className={styles.textLabel}>{strings.CovidFormOfficeLabel}</div>
               <DropDown onChange={this._onTextChange} value={this.state.checkInForm.CheckInOffice} options={this._locationOptions} id="CheckInOffice" />
             </div>
             {this._questions?.map((q) => {
