@@ -192,4 +192,16 @@
     height: 70vh;
     width: 56vw;
   }
+
+  .isVisibleGrid {
+    display: grid;
+  }
+
+  .isVisible {
+    display: block;
+  }
+
+  .isHidden {
+    display: none;
+  }
 }

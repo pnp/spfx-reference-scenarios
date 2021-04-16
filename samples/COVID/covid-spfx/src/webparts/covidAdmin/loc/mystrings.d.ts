@@ -3,6 +3,9 @@ declare interface ICovidWebPartStrings {
   ConfigureNow: string;
   CovidFormSelfCheckInTitle: string;
   CovidFormIntro: string;
+  CovidFormGuestLabel: string;
+  CovidFormOfficeLabel: string;
+  CovidFormGuestValue: string;
   AdminCheckInTitle: string;
   AdminCheckInIntro: string;
   CheckInHeader: string;
@@ -22,6 +25,13 @@ declare interface ICovidWebPartStrings {
   SearchOfficeLabel: string;
   SearchPersonLabel: string;
   SearchButtonLabel: string;
+  AdminTabToday: string;
+  AdminTabRegisterGuest: string;
+  AdminTabSelfCheckIn: string;
+  AdminTabContactTracing: string;
+  AdminTabAdministration: string;
+  SaveLabel: string;
+  CancelLabel: string;
 }
 
 declare module 'CovidWebPartStrings' {

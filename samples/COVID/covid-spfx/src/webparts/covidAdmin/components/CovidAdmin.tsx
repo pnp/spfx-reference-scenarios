@@ -47,23 +47,23 @@ export default class CovidAdmin extends React.Component<ICovidAdminProps, ICovid
   private _tabOptions: IPivotBarOption[] = [
     {
       key: ADMINTABS.TODAY,
-      displayName: "Today"
+      displayName: strings.AdminTabToday
     },
     {
       key: ADMINTABS.GUEST,
-      displayName: "Register Guest"
+      displayName: strings.AdminTabRegisterGuest
     },
     {
       key: ADMINTABS.SELFCHECKIN,
-      displayName: "Self Check-In"
+      displayName: strings.AdminTabSelfCheckIn
     },
     {
       key: ADMINTABS.CONTACTTRACING,
-      displayName: "Contact Tracing"
+      displayName: strings.AdminTabContactTracing
     },
     {
       key: ADMINTABS.ADMINISTRATION,
-      displayName: "Administration"
+      displayName: strings.AdminTabAdministration
     }];
 
   constructor(props: ICovidAdminProps) {
@@ -130,7 +130,7 @@ export default class CovidAdmin extends React.Component<ICovidAdminProps, ICovid
                 </>
               }
               {this.state.tab === ADMINTABS.GUEST &&
-                <CovidForm microsoftTeams={this.props.microsoftTeams} displayName="Guest" userId={this.props.userId} checkInMode={CheckInMode.Guest} close={this._closeGuestForm} />
+                <CovidForm microsoftTeams={this.props.microsoftTeams} displayName={strings.CovidFormGuestValue} userId={this.props.userId} checkInMode={CheckInMode.Guest} close={this._closeGuestForm} />
               }
               {this.state.tab === ADMINTABS.CONTACTTRACING &&
                 <ContactTracing />

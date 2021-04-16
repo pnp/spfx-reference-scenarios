@@ -52,7 +52,7 @@ export default class CovidForm extends React.Component<ICovidFormProps, ICovidFo
       this._locationOptions = cs.Locations.map((l) => { return { key: l.Title, text: l.Title }; });
       const today = new Date();
       const title = `${props.displayName} - ${today.toLocaleDateString()}`;
-      this.state = new CovidFormState(this.props.checkInForm || new CheckIns(0, title, today, (this.props.checkInMode === CheckInMode.Self) ? this.props.userId : null, null, "", this._questions.map<IAnswer>((q) => { return { QuestionId: q.Id, Answer: "" }; }), today));
+      this.state = new CovidFormState(this.props.checkInForm || new CheckIns(0, title, today, (this.props.checkInMode === CheckInMode.Self) ? this.props.userId : null, null, "", this._questions.map<IAnswer>((q) => { return { QuestionId: q.Id, Answer: "" }; }), today), false, this._userCanCheckIn);
     } catch (err) {
       Logger.write(`${this.LOG_SOURCE} (constructor) - ${err}`, LogLevel.Error);
     }
@@ -134,38 +134,21 @@ export default class CovidForm extends React.Component<ICovidFormProps, ICovidFo
 
   public render(): React.ReactElement<ICovidFormProps> {
     try {
-
-      let formVisibilityCSS: React.CSSProperties;
-      let confirmationVisibilityCSS: React.CSSProperties;
-      if (this.props.checkInMode === CheckInMode.Guest) {
-        formVisibilityCSS = { "display": "grid" } as React.CSSProperties;
-        confirmationVisibilityCSS = { "display": "none" } as React.CSSProperties;
-      } else {
-        if (this._userCanCheckIn) {
-          formVisibilityCSS = { "display": "grid" } as React.CSSProperties;
-          confirmationVisibilityCSS = { "display": "none" } as React.CSSProperties;
-        } else {
-          formVisibilityCSS = { "display": "none" } as React.CSSProperties;
-          confirmationVisibilityCSS = { "display": "grid" } as React.CSSProperties;
-        }
-      }
-
-
       return (
         <div data-component={this.LOG_SOURCE}>
 
           <h1>{(this.props.checkInMode === CheckInMode.Guest) ? strings.AdminCheckInTitle : strings.CovidFormSelfCheckInTitle}</h1>
           <p>{(this.props.checkInMode === CheckInMode.Guest) ? strings.AdminCheckInIntro : strings.CovidFormIntro}</p>
           <p>{strings.CheckInHeader}</p>
-          <div className={styles.form} style={formVisibilityCSS}>
+          <div className={`${styles.form} ${(this.state.formVisible) ? styles.isVisibleGrid : styles.isHidden}`}>
             {this.props.checkInMode === CheckInMode.Guest ?
               <div className={styles.formRow}>
-                <div className={styles.question}>Guest Name</div>
+                <div className={styles.question}>{strings.CovidFormGuestLabel}</div>
                 <TextBox name="Guest" value={this.state.checkInForm.Guest} onChange={this._onTextChange} />
               </div>
               : null}
             <div className={styles.formRow}>
-              <div className={styles.question}>Office</div>
+              <div className={styles.question}>{strings.CovidFormOfficeLabel}</div>
               <DropDown onChange={this._onTextChange} value={this.state.checkInForm.CheckInOffice} options={this._locationOptions} id="CheckInOffice" />
             </div>
             {this._questions?.map((q) => {
@@ -173,11 +156,11 @@ export default class CovidForm extends React.Component<ICovidFormProps, ICovidFo
               return (<div className={styles.formRow}><Question question={q} answer={a} onChange={this._onQuestionValueChange} /></div>);
             })}
             <div className={`${styles.formRow} ${styles.buttons}`} >
-              <Button className="hoo-button-primary" disabled={false} label="Save" onClick={this._save} />
-              <Button className="hoo-button" disabled={false} label="Cancel" onClick={this._cancel} />
+              <Button className="hoo-button-primary" disabled={false} label={strings.SaveLabel} onClick={this._save} />
+              <Button className="hoo-button" disabled={false} label={strings.CancelLabel} onClick={this._cancel} />
             </div>
           </div>
-          <div style={confirmationVisibilityCSS}>
+          <div className={`${(this.state.formVisible) ? styles.isHidden : styles.isVisible}`}>
             <p>{strings.CheckInConfirmation}</p>
           </div>
           <Dialog header={strings.CheckInSuccessHeader} content={strings.CheckInSuccessContent} visible={this.state.dialogVisible} onChange={this._changeVisibility} />

@@ -39,7 +39,7 @@ export default class Dialog extends React.Component<IDialogProps, IDialogState> 
     try {
       const height: number = this.props.height || 30;
       const width: number = this.props.width || 40;
-      const styleBlock = { "--lqdDialogHeight": "30vh", "--lqdDialogWidth": "40vw" } as React.CSSProperties;
+      const styleBlock = { "--lqdDialogHeight": `${height}vh`, "--lqdDialogWidth": `${width}vw` } as React.CSSProperties;
       return (
         <div className="tmp-hidden">
           <div className={`hoo-mdldialog-outer  ${(this.props.visible) ? "is-visible" : ""}`}>

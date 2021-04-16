@@ -4,6 +4,9 @@ define([], function () {
     "ConfigureNow": "Configure Now",
     "CovidFormSelfCheckInTitle": "Covid-19 Employee Self-Attestation Form",
     "CovidFormIntro": "As on-site work resumes, all employees must complete a Covid-19 self attestation form each day before they enter the building. This requirement applies to all employees, contractors, visitors, or temporary employees.</p><p>In the last 72 hours have you experienced any of the following symptoms that are not attributed to another illness?",
+    "CovidFormGuestLabel": "Guest",
+    "CovidFormOfficeLabel": "Office",
+    "CovidFormGuestValue": "Guest",
     "AdminCheckInTitle": "Check-In Covid-19",
     "AdminCheckInIntro": "As people enter the building please check this Covid check-In page to ensure that they have completed their self attestation. For guests please fill out the form for them. using the link below.",
     "CheckInHeader": "In the last 72 hours have you experienced any of the following symptoms that are not attributed to another illness?",
@@ -23,5 +26,12 @@ define([], function () {
     "SearchOfficeLabel": "Office",
     "SearchPersonLabel": "Person",
     "SearchButtonLabel": "Search",
+    "AdminTabToday": "Today",
+    "AdminTabRegisterGuest": "Register Guest",
+    "AdminTabSelfCheckIn": "Self Check-In",
+    "AdminTabContactTracing": "Contact Tracing",
+    "AdminTabAdministration": "Administration",
+    "SaveLabel": "Save",
+    "CancelLabel": "Cancel",
   }
 });
