@@ -17,6 +17,11 @@ define([], function () {
     "ManageLocations": "Manage Locations",
     "ManageQuestions": "Manage Questions",
     "ContractTracingHeader": "Covid-19 Contact Tracing",
-    "ContractTracingSubHeader": "You can search for a person or location and see who was checked into the building during the same time."
+    "ContractTracingSubHeader": "You can search for a person or location and see who was checked into the building during the same time.",
+    "SearchStartDateLabel": "Start Date",
+    "SearchEndDateLabel": "End Date",
+    "SearchOfficeLabel": "Office",
+    "SearchPersonLabel": "Person",
+    "SearchButtonLabel": "Search",
   }
 });

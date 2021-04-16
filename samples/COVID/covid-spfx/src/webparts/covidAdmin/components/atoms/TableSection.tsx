@@ -49,7 +49,7 @@ export default class TableSection extends React.Component<ITableSectionProps, IT
                 }
                 {this.props.fields.map((field) => {
                   return (
-                    <td className={(field == "Status") ? styles.checkIn : ""}>
+                    <td>
                       {field == "Name" &&
                         <Persona size={Size.FortyEight}
                           src={(o.Employee) ? o.Employee.PhotoBlobUrl : ""}
@@ -67,7 +67,7 @@ export default class TableSection extends React.Component<ITableSectionProps, IT
                         <>{o.SubmittedOn?.toLocaleString()}</>
                       }
                       {field == "Status" &&
-                        <span className={(o.CheckIn) ? styles.isCheckedIn : styles.isNotCheckedIn} />
+                        <span className={`${styles.checkIn} ${(o.CheckIn) ? styles.isCheckedIn : ''}`} />
                       }
                       {field == "Check In Time" &&
                         <>{o.CheckIn?.toLocaleString()}</>

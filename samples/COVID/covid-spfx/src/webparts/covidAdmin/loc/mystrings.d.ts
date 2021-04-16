@@ -17,6 +17,11 @@ declare interface ICovidWebPartStrings {
   ManageQuestions: string;
   ContractTracingHeader: string;
   ContractTracingSubHeader: string;
+  SearchStartDateLabel: string;
+  SearchEndDateLabel: string;
+  SearchOfficeLabel: string;
+  SearchPersonLabel: string;
+  SearchButtonLabel: string;
 }
 
 declare module 'CovidWebPartStrings' {

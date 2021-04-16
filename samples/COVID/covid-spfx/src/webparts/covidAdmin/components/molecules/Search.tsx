@@ -10,6 +10,7 @@ import { IQuery, Query } from "../../models/covid.model";
 import { cs } from "../../services/covid.service";
 import DropDown, { IDropDownOption } from "../atoms/DropDown";
 import Button from "../atoms/Button";
+import strings from "CovidWebPartStrings";
 
 export interface ISearchProps {
   search: (query: IQuery) => void;
@@ -131,19 +132,19 @@ export default class Search extends React.Component<ISearchProps, ISearchState> 
       return (
         <div className={styles.searchControls}>
           <div >
-            <div >Start Date</div>
+            <div >{strings.SearchStartDateLabel}</div>
             <input className="hoo-input-text" id="startDate" type="date" value={this.state.startDate.toISOString().substr(0, 10)} onChange={(newValue) => { this._onDateChange(newValue.target.value, "startDate"); }} />
           </div>
           <div >
-            <div >End Date</div>
+            <div >{strings.SearchEndDateLabel}</div>
             <input className="hoo-input-text" id="endDate" type="date" value={this.state.endDate.toISOString().substr(0, 10)} onChange={(newValue) => { this._onDateChange(newValue.target.value, "endDate"); }} />
           </div>
           <div>
-            <div>Office</div>
+            <div>{strings.SearchOfficeLabel}</div>
             <DropDown onChange={this._onDropDownChange} value={this.state.office} options={this._locationOptions} id="office" />
           </div>
           <div>
-            <div >&nbsp;</div>
+            <div >{strings.SearchPersonLabel}</div>
             <DropDown onChange={this._onPeopleDropDownChange} value={this.state.personName} options={this.props.peopleOptions} id="personName" />
           </div>
           <div>
