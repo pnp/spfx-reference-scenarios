@@ -10,10 +10,13 @@ export interface IConfigureProps {
 }
 
 export interface IConfigureState {
+  working: boolean;
 }
 
 export class ConfigureState implements IConfigureState {
-  constructor() { }
+  constructor(
+    public working: boolean = false
+  ) { }
 }
 
 export default class Configure extends React.Component<IConfigureProps, IConfigureState> {
@@ -30,12 +33,21 @@ export default class Configure extends React.Component<IConfigureProps, IConfigu
     return true;
   }
 
+  private _startConfigure = () => {
+    this.setState({ working: true }, () => {
+      this.props.startConfigure();
+    });
+  }
+
   public render(): React.ReactElement<IConfigureProps> {
     try {
       return (
         <div data-component={this.LOG_SOURCE}>
           <div>{strings.ConfigurationNeeded}</div>
-          <Button className="hoo-button-primary" disabled={false} label={strings.ConfigureNow} onClick={this.props.startConfigure} />
+          <Button className="hoo-button-primary" disabled={false} label={strings.ConfigureNow} onClick={this._startConfigure} />
+          {this.state.working &&
+            <div>LOADING</div>
+          }
         </div>
       );
     } catch (err) {
