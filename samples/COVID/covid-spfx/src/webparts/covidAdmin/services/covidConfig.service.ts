@@ -8,7 +8,7 @@ import "@pnp/sp/site-groups";
 import "@pnp/sp/security";
 
 import { Tables, IFieldList, QUESTIONLISTFields, SELFCHECKINLISTFields, COVIDCHECKINLISTFields } from "../models/covid.model";
-import { DateTimeFieldFormatType, CalendarType, DateTimeFieldFriendlyFormatType, UrlFieldFormatType, FieldUserSelectionMode } from "@pnp/sp/fields/types";
+import { DateTimeFieldFormatType, CalendarType, DateTimeFieldFriendlyFormatType, UrlFieldFormatType, FieldUserSelectionMode, IFieldCreationProperties } from "@pnp/sp/fields/types";
 import { IList } from "@pnp/sp/lists";
 
 export interface ICovidConfigService {
@@ -93,7 +93,13 @@ export class CovidConfigService implements ICovidConfigService {
           } else if (fieldList[i].props.FieldTypeKind === 6) {
             await sp.web.lists.getById(l.data.Id).fields.addChoice(fieldList[i].name, fieldList[i].props.choices);
           } else if (fieldList[i].props.FieldTypeKind === 8) {
-            await sp.web.lists.getById(l.data.Id).fields.addBoolean(fieldList[i].name);
+            if (fieldList[i].props.default) {
+              await sp.web.lists.getById(l.data.Id).fields.createFieldAsXml(
+                `<Field Type="Boolean" Name="${fieldList[i].name}" DisplayName="${fieldList[i].name}"><Default>${fieldList[i].props.default}</Default></Field>`
+              );
+            } else {
+              await sp.web.lists.getById(l.data.Id).fields.addBoolean(fieldList[i].name);
+            }
           } else if (fieldList[i].props.FieldTypeKind === 9) {
             await sp.web.lists.getById(l.data.Id).fields.addNumber(fieldList[i].name);
           } else if (fieldList[i].props.FieldTypeKind === 11) {

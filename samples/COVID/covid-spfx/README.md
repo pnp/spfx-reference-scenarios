@@ -52,7 +52,7 @@ root sample [README](../README.md)
   - **npm install**
   - **gulp serve**
 
-> Include any additional steps as needed.
+TODO: Include any additional steps as needed.
 
 ## References
 

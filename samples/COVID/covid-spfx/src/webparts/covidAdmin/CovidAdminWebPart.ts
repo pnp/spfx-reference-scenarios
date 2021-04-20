@@ -8,9 +8,6 @@ import { Logger, LogLevel, ConsoleListener } from "@pnp/logging";
 import { Version } from '@microsoft/sp-core-library';
 import {
   IPropertyPaneConfiguration,
-  PropertyPaneTextField,
-  PropertyPaneSlider,
-  PropertyPaneLabel
 } from '@microsoft/sp-property-pane';
 import { BaseClientSideWebPart, IMicrosoftTeams } from '@microsoft/sp-webpart-base';
 
@@ -22,7 +19,6 @@ import Configure, { IConfigureProps } from './components/molecules/Configure';
 
 export interface ICovidAdminWebPartProps {
   moveCheckingRate: number;
-  notifyGroup: string;
 }
 
 export default class CovidAdminWebPart extends BaseClientSideWebPart<ICovidAdminWebPartProps> {
@@ -33,6 +29,8 @@ export default class CovidAdminWebPart extends BaseClientSideWebPart<ICovidAdmin
 
   public async onInit(): Promise<void> {
     try {
+      if (this.properties.moveCheckingRate == undefined)
+        this.properties.moveCheckingRate = 1;
       //Initialize PnPLogger
       Logger.subscribe(new ConsoleListener());
       Logger.activeLogLevel = LogLevel.Info;
@@ -121,25 +119,9 @@ export default class CovidAdminWebPart extends BaseClientSideWebPart<ICovidAdmin
     return Version.parse('1.0');
   }
 
-  //TODO: Figure out if the property pane can be accessed
   protected getPropertyPaneConfiguration(): IPropertyPaneConfiguration {
     return {
-      pages: [
-        {
-          groups: [
-            {
-              groupName: "Configuration",
-              groupFields: [
-                PropertyPaneLabel("", { text: "Employee Check-In Update (mins)" }),
-                PropertyPaneSlider("moveCheckingRate", {
-                  min: 1,
-                  max: 60
-                })
-              ]
-            }
-          ]
-        }
-      ]
+      pages: []
     };
   }
 }

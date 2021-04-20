@@ -24,15 +24,15 @@ export enum ADMINTABS {
 
 export interface IFieldList {
   name: string;
-  props: { FieldTypeKind: number, choices?: string[], richText?: boolean };
+  props: { FieldTypeKind: number, choices?: string[], richText?: boolean, default?: boolean | string };
 }
 
 export const QUESTIONLISTFields: IFieldList[] = [
-  { name: "Question", props: { "FieldTypeKind": 2 } },
+  //  { name: "Question", props: { "FieldTypeKind": 2 } },
   { name: "ToolTip", props: { "FieldTypeKind": 3, "richText": false } },
   { name: "QuestionType", props: { "FieldTypeKind": 6, "choices": ["Yes/No", "Text"] } },
   { name: "Order", props: { "FieldTypeKind": 9 } },
-  { name: "Enabled", props: { "FieldTypeKind": 8 } },
+  { name: "Enabled", props: { "FieldTypeKind": 8, "default": true } }
 ];
 
 export const SELFCHECKINLISTFields: IFieldList[] = [
