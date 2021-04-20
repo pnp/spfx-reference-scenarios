@@ -48,6 +48,7 @@ export default class TextBox extends React.Component<ITextBoxProps, ITextBoxStat
             type="text"
             value={this.props.value}
             placeholder=""
+            autoComplete="off"
             onChange={(newValue) => { this._onChange(newValue.target.value, this.props.name); }} />
         </div>
       );

@@ -1,15 +1,15 @@
 define([], function () {
   return {
-    "ConfigurationNeeded": "It appears the Covid Attestation application has not been configured.",
+    "ConfigurationNeeded": "It appears the COVID Attestation application has not been configured.",
     "ConfigureNow": "Configure Now",
     "CovidFormSelfCheckInTitle": "Covid-19 Employee Self-Attestation Form",
-    "CovidFormIntro": "As on-site work resumes, all employees must complete a Covid-19 self attestation form each day before they enter the building. This requirement applies to all employees, contractors, visitors, or temporary employees. In the last 72 hours have you experienced any of the following symptoms that are not attributed to another illness?",
+    "CovidFormIntro": "As on-site work resumes, all employees must complete a COVID-19 self attestation form each day before they enter the building. This requirement applies to all employees, contractors, visitors, or temporary employees. In the last 72 hours have you experienced any of the following symptoms that are not attributed to another illness?",
     "CovidFormGuestLabel": "Guest",
     "CovidFormOfficeLabel": "Office",
     "CovidFormNameLabel": "Name",
     "CovidFormGuestValue": "Guest",
     "AdminCheckInTitle": "Check-In Covid-19",
-    "AdminCheckInIntro": "As people enter the building please check this Covid check-In page to ensure that they have completed their self attestation. For guests please fill out the form for them. using the link below.",
+    "AdminCheckInIntro": "As people enter the building please check this Covid check-In page to ensure that they have completed their self attestation. For guests please fill out the form for them using the link below.",
     "CheckInHeader": "In the last 72 hours have you experienced any of the following symptoms that are not attributed to another illness?",
     "CheckInConfirmation": "Thank you for submitting your attestation for today. You can only submit one attestation per day.",
     "CheckInSuccessHeader": "Submission Submitted Successfully",

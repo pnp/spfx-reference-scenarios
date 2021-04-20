@@ -8,7 +8,7 @@ import isEqual from "lodash/isEqual";
 import strings from "CovidWebPartStrings";
 import styles from "./CovidAdmin.module.scss";
 import { cs } from "../services/covid.service";
-import { ICheckIns, CheckInMode, ADMINTABS, CheckIns } from "../models/covid.model";
+import { ICheckIns, CheckInMode, ADMINTABS, CheckIns, SECURITY } from "../models/covid.model";
 
 import CovidForm from "./organisms/CovidForm";
 import DatePicker from "./molecules/DatePicker";
@@ -166,27 +166,13 @@ export default class CovidAdmin extends React.Component<ICovidAdminProps, ICovid
           }
           {this.state.tab === ADMINTABS.TODAY &&
             <>
-              <PivotBar options={this._tabOptions} onClick={this._changeTab} activeTab={this.state.tab} />
-              {this.state.tab == ADMINTABS.SELFCHECKIN &&
-                <CovidForm microsoftTeams={this.props.microsoftTeams} checkInMode={CheckInMode.Self} displayName={this.props.displayName} userId={this.props.userId} userCanCheckIn={this.props.userCanCheckIn} />
-              }
-              {this.state.tab === ADMINTABS.TODAY &&
-                <>
-                  <h1>{strings.TodayHeader}</h1>
-                  <p>{strings.TodaySubHeader}</p>
-                  <DatePicker selectedDate={this.state.selectedDate} onDateChange={this._changeDate} />
-                  <Today data={this.state.checkIns} checkIn={this._checkInPerson} />
-                </>
-              }
-              {this.state.tab === ADMINTABS.GUEST &&
-                <CovidForm microsoftTeams={this.props.microsoftTeams} displayName={strings.CovidFormGuestValue} userId={this.props.userId} checkInMode={CheckInMode.Guest} close={this._closeGuestForm} />
-              }
-              {this.state.tab === ADMINTABS.CONTACTTRACING &&
-                <ContactTracing />
-              }
-              {this.state.tab === ADMINTABS.ADMINISTRATION &&
-                <CovidAdministration />
-              }
+              <h1>{strings.TodayHeader}</h1>
+              <p>{strings.TodaySubHeader}</p>
+              <DatePicker selectedDate={this.state.selectedDate} onDateChange={this._changeDate} />
+              <Today data={this.state.checkIns} checkIn={this._openReview} />
+              <Dialog header={strings.ReviewCheckInHeader} content={strings.ReviewCheckInContent} visible={this.state.reviewFormVisible} onChange={this._changeReviewVisibility} height={90}>
+                <QuestionReview checkIn={this.state.currentCheckIn} save={this._checkInPerson} cancel={this._cancelCheckIn} />
+              </Dialog>
             </>
           }
           {this.state.tab === ADMINTABS.GUEST &&

@@ -297,7 +297,7 @@ export default class DropDown extends React.Component<IDropDownProps, IDropDownS
           <div id={`${this.props.id}-status`} className="hidden-visually" aria-live="polite">
             {this.props.options.length} options available. Arrow down to browse or start typing to filter.
           </div>
-          <input ref={this._inputElement} type="text" id={`${this.props.id}-input`} value={this.props.value} className="hoo-select-text" aria-autocomplete="both" aria-controls={`${this.props.id}-list`} />
+          <input ref={this._inputElement} type="text" id={`${this.props.id}-input`} value={this.props.value} className="hoo-select-text" aria-autocomplete="both" autoComplete="off" aria-controls={`${this.props.id}-list`} />
           <button className="hoo-buttonicon" aria-label="">
             <div className="hoo-icon">
               <span className={`hoo-icon-svg ${Icons.DownArrow.Class}`} aria-hidden="true" dangerouslySetInnerHTML={{ "__html": Icons.DownArrow.SVG }} >
