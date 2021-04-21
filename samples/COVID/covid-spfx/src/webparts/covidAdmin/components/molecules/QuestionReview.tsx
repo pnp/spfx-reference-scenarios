@@ -14,14 +14,10 @@ export interface IQuestionReviewProps {
   cancel: () => void;
 }
 
-export interface IQuestionReviewState {
-
-}
+export interface IQuestionReviewState { }
 
 export class QuestionReviewState implements IQuestionReviewState {
-  constructor(
-
-  ) { }
+  constructor() { }
 }
 
 export default class QuestionReview extends React.Component<IQuestionReviewProps, IQuestionReviewState> {
@@ -33,17 +29,13 @@ export default class QuestionReview extends React.Component<IQuestionReviewProps
     super(props);
     this._questions = cloneDeep(cs.Questions);
     this.state = new QuestionReviewState();
-
   }
-
 
   public shouldComponentUpdate(nextProps: IQuestionReviewProps, nextState: IQuestionReviewState) {
     if ((isEqual(nextState, this.state) && isEqual(nextProps, this.props)))
       return false;
     return true;
   }
-
-
 
   public render(): React.ReactElement<IQuestionReviewProps> {
     try {
@@ -64,7 +56,7 @@ export default class QuestionReview extends React.Component<IQuestionReviewProps
           </div>
           {this._questions.map((q) => {
             const a = find(this.props.checkIn.QuestionsValue, { QuestionId: q.Id });
-            return (<div><span className={styles.textLabel}>{q.Title}: </span>{a.Answer}</div>);
+            return (<div><span className={styles.textLabel}>{q.Title}: </span>{a?.Answer || "Not Answered"}</div>);
           })}
           <div className={styles.buttons} >
             <Button className="hoo-button-primary" disabled={false} label={strings.CheckInLabel} onClick={() => { this.props.save(this.props.checkIn); }} />

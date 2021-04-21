@@ -56,14 +56,16 @@ export default class CovidAdministration extends React.Component<ICovidAdministr
           <p>{strings.AdministrationSubHeader}</p>
           <div className={`${styles.formRow} ${styles.buttons}`}>
             <Button label={strings.ManageLocations} className="hoo-button-primary" disabled={false} onClick={() => { this._changeLocationVisibility(true); }} />
-            <Button label={strings.ManageQuestions} className="hoo-button-primary" disabled={false} onClick={() => { this._changeQuestionsVisibility(true); }} />
-            <Dialog header={strings.ManageLocations} content="" visible={this.state.locationsVisible} onChange={this._changeLocationVisibility} width={60} height={80}>
-              <iframe src={cs.LocationListUrl} className={styles.adminIFrame} />
-            </Dialog>
-            <Dialog header={strings.ManageQuestions} content="" visible={this.state.questionsVisible} onChange={this._changeQuestionsVisibility} width={60} height={80}>
-              <iframe src={cs.QuestionListUrl} className={styles.adminIFrame} />
-            </Dialog>
           </div>
+          <div className={`${styles.formRow} ${styles.buttons}`}>
+            <Button label={strings.ManageQuestions} className="hoo-button-primary" disabled={false} onClick={() => { this._changeQuestionsVisibility(true); }} />
+          </div>
+          <Dialog header={strings.ManageLocations} content="" visible={this.state.locationsVisible} onChange={this._changeLocationVisibility} width={60} height={80}>
+            <iframe src={cs.LocationListUrl} className={styles.adminIFrame} />
+          </Dialog>
+          <Dialog header={strings.ManageQuestions} content="" visible={this.state.questionsVisible} onChange={this._changeQuestionsVisibility} width={60} height={80}>
+            <iframe src={cs.QuestionListUrl} className={styles.adminIFrame} />
+          </Dialog>
         </div>
       );
     } catch (err) {
