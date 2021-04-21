@@ -3,6 +3,7 @@ declare interface ICovidWebPartStrings {
   ConfigureNow: string;
   CovidFormSelfCheckInTitle: string;
   CovidFormIntro: string;
+  CovidFormErrors: string;
   CovidFormGuestLabel: string;
   CovidFormOfficeLabel: string;
   CovidFormNameLabel: string;
