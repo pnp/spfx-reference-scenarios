@@ -14,6 +14,7 @@ import Button from "../atoms/Button";
 import TextBox from "../atoms/TextBox";
 import DropDown, { IDropDownOption } from "../atoms/DropDown";
 import Dialog from "../molecules/Dialog";
+import { forEach, isEmpty } from "lodash";
 
 export interface ICovidFormProps {
   microsoftTeams: IMicrosoftTeams;
@@ -29,13 +30,15 @@ export interface ICovidFormState {
   checkInForm: ICheckIns;
   dialogVisible: boolean;
   formVisible: boolean;
+  errors: boolean;
 }
 
 export class CovidFormState implements ICovidFormState {
   constructor(
     public checkInForm: ICheckIns = new CheckIns(),
     public dialogVisible: boolean = false,
-    public formVisible: boolean = true
+    public formVisible: boolean = true,
+    public errors: boolean = false
   ) { }
 }
 
@@ -89,21 +92,36 @@ export default class CovidForm extends React.Component<ICovidFormProps, ICovidFo
   private _save = async (): Promise<void> => {
     try {
       const checkInForm = cloneDeep(this.state.checkInForm);
-      let success: boolean = false;
-      if (this.props.checkInMode === CheckInMode.Guest) {
-        checkInForm.CheckIn = new Date();
-        checkInForm.CheckInById = this.props.userId;
-        success = await cs.addCheckIn(checkInForm);
-      } else {
-        success = await cs.addSelfCheckIn(checkInForm);
+      let errors = false;
+      forEach(this._questions, (q: IQuestion) => {
+        const a = find(checkInForm.QuestionsValue, { QuestionId: q.Id });
+
+        if (isEmpty(a.Answer)) { return errors = true; }
+      });
+      if (isEmpty(checkInForm.CheckInOffice)) {
+        errors = true;
       }
-      if (success) {
-        if (this.props.checkInMode == CheckInMode.Self) {
-          this.setState({ dialogVisible: true, formVisible: false });
+
+      if (!errors) {
+        let success: boolean = false;
+        if (this.props.checkInMode === CheckInMode.Guest) {
+          checkInForm.CheckIn = new Date();
+          checkInForm.CheckInById = this.props.userId;
+          success = await cs.addCheckIn(checkInForm);
         } else {
-          this.props.close();
+          success = await cs.addSelfCheckIn(checkInForm);
         }
+        if (success) {
+          if (this.props.checkInMode == CheckInMode.Self) {
+            this.setState({ dialogVisible: true, formVisible: false, errors: errors });
+          } else {
+            this.props.close();
+          }
+        }
+      } else {
+        this.setState({ errors: errors });
       }
+
     } catch (err) {
       Logger.write(`${this.LOG_SOURCE} (_save) - ${err}`, LogLevel.Error);
     }
@@ -141,6 +159,9 @@ export default class CovidForm extends React.Component<ICovidFormProps, ICovidFo
           <p>{(this.props.checkInMode === CheckInMode.Guest) ? strings.AdminCheckInIntro : strings.CovidFormIntro}</p>
           <p>{strings.CheckInHeader}</p>
           <div className={`${styles.form} ${(this.state.formVisible) ? styles.isVisibleGrid : styles.isHidden}`}>
+            <div className={`${styles.formRow} ${styles.error} ${(this.state.errors) ? styles.isVisible : styles.isHidden}`}>
+              <p>{strings.CovidFormErrors}</p>
+            </div>
             {this.props.checkInMode === CheckInMode.Guest ?
               <div className={styles.formRow}>
                 <div className={styles.textLabel}>{strings.CovidFormGuestLabel}</div>

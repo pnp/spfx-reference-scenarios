@@ -149,7 +149,7 @@ export default class Search extends React.Component<ISearchProps, ISearchState> 
           </div>
           <div>
             <div >&nbsp;</div>
-            <Button className="hoo-button-primary" disabled={false} label="Search" onClick={() => this._updateSearch()} />
+            <Button className="hoo-button-primary" disabled={false} label={strings.SearchButtonLabel} onClick={() => this._updateSearch()} />
           </div>
         </div>
       );

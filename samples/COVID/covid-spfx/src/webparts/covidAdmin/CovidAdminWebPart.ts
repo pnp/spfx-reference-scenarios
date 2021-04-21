@@ -4,7 +4,12 @@ import * as ReactDom from 'react-dom';
 import { sp } from "@pnp/sp";
 import { graph } from "@pnp/graph";
 import { Logger, LogLevel, ConsoleListener } from "@pnp/logging";
-
+import {
+  ThemeProvider,
+  ThemeChangedEventArgs,
+  IReadonlyTheme,
+  ISemanticColors
+} from '@microsoft/sp-component-base';
 import { Version } from '@microsoft/sp-core-library';
 import {
   IPropertyPaneConfiguration,
@@ -27,6 +32,9 @@ export default class CovidAdminWebPart extends BaseClientSideWebPart<ICovidAdmin
   private _userId: number = 0;
   private _microsoftTeams: IMicrosoftTeams;
   private _userCanCheckIn: boolean = false;
+  /** Used for theming */
+  private _themeProvider: ThemeProvider;
+  private _themeVariant: IReadonlyTheme | undefined;
 
   public async onInit(): Promise<void> {
     try {
@@ -56,9 +64,66 @@ export default class CovidAdminWebPart extends BaseClientSideWebPart<ICovidAdmin
       this._userCanCheckIn = await cs.userCanCheckIn(this._userId);
       cs.getCheckIns(new Date());
       this.processSelfCheckins();
+      // Consume the new ThemeProvider service
+      this._themeProvider = this.context.serviceScope.consume(ThemeProvider.serviceKey);
+
+      // If it exists, get the theme variant
+      this._themeVariant = this._themeProvider.tryGetTheme();
+
+      // If there is a theme variant
+      if (this._themeVariant) {
+
+        // we set transfer semanticColors into CSS variables
+        this.setCSSVariables(this._themeVariant.semanticColors);
+
+      } else if (window["__themeState__"].theme) {
+
+        // FALLBACK TO App Page
+
+        // we set transfer semanticColors into CSS variables
+        this.setCSSVariables(window["__themeState__"].theme);
+
+      }
+
+      // Register a handler to be notified if the theme variant changes
+      this._themeProvider.themeChangedEvent.add(this, this._handleThemeChangedEvent);
+
+      if (this._microsoftTeams) {
+        if (this._microsoftTeams.context.theme !== "default") {
+          this.domElement.style.setProperty("--bodyText", "white");
+          this.domElement.style.setProperty("--bodyBackground", "#333");
+          this.domElement.style.setProperty("--buttonBackgroundHovered", "#555");
+        }
+      }
     } catch (err) {
       Logger.write(`${this.LOG_SOURCE} (_init) - ${err}`, LogLevel.Error);
     }
+  }
+
+  private setCSSVariables(theming: any) {
+
+    // request all key defined in theming
+    let themingKeys = Object.keys(theming);
+
+    // if we have the key
+    if (themingKeys !== null) {
+      // loop over it
+      themingKeys.forEach(key => {
+        // add CSS variable to style property of the web part
+        this.domElement.style.setProperty(`--${key}`, theming[key]);
+
+      });
+
+    }
+
+  }
+
+  private _handleThemeChangedEvent(args: ThemeChangedEventArgs): void {
+
+    // assign new _themeVariant
+    this._themeVariant = args.theme;
+    this.setCSSVariables(this._themeVariant.semanticColors);
+    // this.render();
   }
 
   private async delay(ms: number): Promise<any> {

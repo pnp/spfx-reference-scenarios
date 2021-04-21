@@ -51,7 +51,7 @@ export default class QuestionReview extends React.Component<IQuestionReviewProps
       if (this.props.checkIn.Employee) {
         name = this.props.checkIn.Employee.Title;
       } else {
-        name = this.props.checkIn.Guest + " (Guest)";
+        name = `${this.props.checkIn.Guest} (${strings.CovidFormGuestValue})`;
       }
 
       return (

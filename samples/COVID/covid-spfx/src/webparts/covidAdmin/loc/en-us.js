@@ -4,6 +4,7 @@ define([], function () {
     "ConfigureNow": "Configure Now",
     "CovidFormSelfCheckInTitle": "Covid-19 Employee Self-Attestation Form",
     "CovidFormIntro": "As on-site work resumes, all employees must complete a COVID-19 self attestation form each day before they enter the building. This requirement applies to all employees, contractors, visitors, or temporary employees. In the last 72 hours have you experienced any of the following symptoms that are not attributed to another illness?",
+    "CovidFormErrors": "Please ensure you answered all the questions.",
     "CovidFormGuestLabel": "Guest",
     "CovidFormOfficeLabel": "Office",
     "CovidFormNameLabel": "Name",
