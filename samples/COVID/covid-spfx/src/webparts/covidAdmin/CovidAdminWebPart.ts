@@ -23,14 +23,13 @@ export interface ICovidAdminWebPartProps {
 
 export default class CovidAdminWebPart extends BaseClientSideWebPart<ICovidAdminWebPartProps> {
   private LOG_SOURCE: string = "🔶CovidAdminWebPart";
+  private MOVE_CHECKIN_RATE: number = 5;
   private _userId: number = 0;
   private _microsoftTeams: IMicrosoftTeams;
   private _userCanCheckIn: boolean = false;
 
   public async onInit(): Promise<void> {
     try {
-      if (this.properties.moveCheckingRate == undefined)
-        this.properties.moveCheckingRate = 1;
       //Initialize PnPLogger
       Logger.subscribe(new ConsoleListener());
       Logger.activeLogLevel = LogLevel.Info;
@@ -68,7 +67,7 @@ export default class CovidAdminWebPart extends BaseClientSideWebPart<ICovidAdmin
 
   public async processSelfCheckins(): Promise<void> {
     while (true) {
-      const delay: number = (this.properties.moveCheckingRate == null) ? 60000 : (this.properties.moveCheckingRate * 60000);
+      const delay: number = (this.MOVE_CHECKIN_RATE * 60000);
       await this.delay(delay);
       await cs.moveSelfCheckIns();
     }
