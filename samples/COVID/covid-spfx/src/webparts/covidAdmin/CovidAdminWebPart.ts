@@ -64,28 +64,17 @@ export default class CovidAdminWebPart extends BaseClientSideWebPart<ICovidAdmin
       this._userCanCheckIn = await cs.userCanCheckIn(this._userId);
       cs.getCheckIns(new Date());
       this.processSelfCheckins();
+
       // Consume the new ThemeProvider service
       this._themeProvider = this.context.serviceScope.consume(ThemeProvider.serviceKey);
-
-      // If it exists, get the theme variant
       this._themeVariant = this._themeProvider.tryGetTheme();
-
-      // If there is a theme variant
       if (this._themeVariant) {
-
         // we set transfer semanticColors into CSS variables
-        this.setCSSVariables(this._themeVariant.semanticColors);
-
+        this._setCSSVariables(this._themeVariant.semanticColors);
       } else if (window["__themeState__"].theme) {
-
-        // FALLBACK TO App Page
-
         // we set transfer semanticColors into CSS variables
-        this.setCSSVariables(window["__themeState__"].theme);
-
+        this._setCSSVariables(window["__themeState__"].theme);
       }
-
-      // Register a handler to be notified if the theme variant changes
       this._themeProvider.themeChangedEvent.add(this, this._handleThemeChangedEvent);
 
       if (this._microsoftTeams) {
@@ -100,30 +89,20 @@ export default class CovidAdminWebPart extends BaseClientSideWebPart<ICovidAdmin
     }
   }
 
-  private setCSSVariables(theming: any) {
+  private _handleThemeChangedEvent(args: ThemeChangedEventArgs): void {
+    this._themeVariant = args.theme;
+    this._setCSSVariables(this._themeVariant.semanticColors);
+    this._setCSSVariables(this._themeVariant.palette);
+  }
 
-    // request all key defined in theming
+  private _setCSSVariables(theming: any) {
     let themingKeys = Object.keys(theming);
-
-    // if we have the key
     if (themingKeys !== null) {
-      // loop over it
       themingKeys.forEach(key => {
         // add CSS variable to style property of the web part
         this.domElement.style.setProperty(`--${key}`, theming[key]);
-
       });
-
     }
-
-  }
-
-  private _handleThemeChangedEvent(args: ThemeChangedEventArgs): void {
-
-    // assign new _themeVariant
-    this._themeVariant = args.theme;
-    this.setCSSVariables(this._themeVariant.semanticColors);
-    // this.render();
   }
 
   private async delay(ms: number): Promise<any> {
