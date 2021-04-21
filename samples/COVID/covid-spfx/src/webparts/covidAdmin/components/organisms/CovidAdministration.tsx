@@ -43,15 +43,9 @@ export default class CovidAdministration extends React.Component<ICovidAdministr
 
   private _changeLocationVisibility = async (visible: boolean): Promise<void> => {
     this.setState({ locationsVisible: visible });
-    // if (visible) {
-    //   this.setState({ questionsVisible: false });
-    // }
   }
   private _changeQuestionsVisibility = async (visible: boolean): Promise<void> => {
     this.setState({ questionsVisible: visible });
-    // if (visible) {
-    //   this.setState({ locationsVisible: false });
-    // }
   }
 
   public render(): React.ReactElement<ICovidAdministrationProps> {
