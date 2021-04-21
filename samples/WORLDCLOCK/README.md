@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 # SPFx Teams Samples - World Clock
+=======
+# World Clock Sample
+>>>>>>> worldclock
 
 ## Summary
 
