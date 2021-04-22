@@ -39,13 +39,13 @@ export default class WorldClockWebPart extends BaseClientSideWebPart<IWorldClock
       Logger.activeLogLevel = LogLevel.Info;
 
       //Initialize PnPJs
-      sp.setup({ spfxContext: this.context });
+      //sp.setup({ spfxContext: this.context });
       graph.setup({ spfxContext: this.context });
 
-      const siteValid = await wcc.isValid();
-      if (siteValid) {
-        await this._init();
-      }
+      // const siteValid = await wcc.isValid();
+      // if (siteValid) {
+      await this._init();
+      //}
     } catch (err) {
       Logger.write(`${this.LOG_SOURCE} (onInit) - ${err}`, LogLevel.Error);
     }

@@ -44,6 +44,7 @@ export class WorldClockService implements IWorldClockService {
       this._locale = locale.substr(0, 2);
       await this._getConfig();
       await this._getTeamUsers();
+      this._ready = true;
       // let success: boolean[] = [];
       // success.push(await this._getLocations());
       // success.push(await this._getQuestions());

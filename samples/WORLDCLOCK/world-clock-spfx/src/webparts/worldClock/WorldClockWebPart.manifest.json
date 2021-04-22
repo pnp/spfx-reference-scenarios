@@ -22,15 +22,13 @@
         "default": "Other"
       },
       "title": {
-        "default": "world-clock-spfx"
+        "default": "World Clock"
       },
       "description": {
-        "default": "world-clock-spfx description"
+        "default": "World Clock Team Scheduling Tool"
       },
       "officeFabricIconFontName": "Page",
-      "properties": {
-        "description": "world-clock-spfx"
-      }
+      "properties": {}
     }
   ]
 }

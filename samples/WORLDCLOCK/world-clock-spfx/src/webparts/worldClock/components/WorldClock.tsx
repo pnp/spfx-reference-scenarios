@@ -30,6 +30,7 @@ export default class WorldClock extends React.Component<IWorldClockProps, IWorld
     try {
       return (
         <div data-component={this.LOG_SOURCE}>
+          Hello World!
         </div>
       );
     } catch (err) {
