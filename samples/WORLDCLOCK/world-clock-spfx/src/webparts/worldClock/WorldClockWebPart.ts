@@ -1,6 +1,5 @@
 import * as React from 'react';
 import * as ReactDom from 'react-dom';
-
 import { sp } from "@pnp/sp";
 import { graph } from "@pnp/graph";
 import { Logger, LogLevel, ConsoleListener } from "@pnp/logging";
@@ -15,22 +14,20 @@ import {
 } from '@microsoft/sp-property-pane';
 import { BaseClientSideWebPart, IMicrosoftTeams } from '@microsoft/sp-webpart-base';
 
-import styles from './components/CovidAdmin.module.scss';
-import CovidAdmin, { ICovidAdminProps } from './components/CovidAdmin';
-import { cs } from './services/covid.service';
-import { ccs } from './services/covidConfig.service';
-import Configure, { IConfigureProps } from './components/molecules/Configure';
+import styles from "./components/WorldClock.module.scss";
+import * as strings from 'WorldClockWebPartStrings';
+import WorldClock, { IWorldClockProps } from './components/WorldClock';
+import { wcc } from './services/wcConfig.service';
+import { wc } from './services/wc.service';
 
-export interface ICovidAdminWebPartProps {
-  moveCheckingRate: number;
+export interface IWorldClockWebPartProps {
+  description: string;
 }
 
-export default class CovidAdminWebPart extends BaseClientSideWebPart<ICovidAdminWebPartProps> {
-  private LOG_SOURCE: string = "🔶CovidAdminWebPart";
-  private MOVE_CHECKIN_RATE: number = 5;
-  private _userId: number = 0;
+export default class WorldClockWebPart extends BaseClientSideWebPart<IWorldClockWebPartProps> {
+  private LOG_SOURCE: string = "🔶WorldClockWebPart";
   private _microsoftTeams: IMicrosoftTeams;
-  private _userCanCheckIn: boolean = false;
+
   /** Used for theming */
   private _themeProvider: ThemeProvider;
   private _themeVariant: IReadonlyTheme | undefined;
@@ -45,7 +42,7 @@ export default class CovidAdminWebPart extends BaseClientSideWebPart<ICovidAdmin
       sp.setup({ spfxContext: this.context });
       graph.setup({ spfxContext: this.context });
 
-      const siteValid = await ccs.isValid();
+      const siteValid = await wcc.isValid();
       if (siteValid) {
         await this._init();
       }
@@ -57,12 +54,7 @@ export default class CovidAdminWebPart extends BaseClientSideWebPart<ICovidAdmin
   private async _init(): Promise<void> {
     try {
       this._microsoftTeams = this.context.sdks?.microsoftTeams;
-      await cs.init(this.context.pageContext.site.absoluteUrl);
-      const user = await sp.web.ensureUser(this.context.pageContext.user.loginName);
-      this._userId = user.data.Id;
-      this._userCanCheckIn = await cs.userCanCheckIn(this._userId);
-      cs.getCheckIns(new Date());
-      this.processSelfCheckins();
+      await wc.init(this.context.pageContext.cultureInfo.currentUICultureName);
 
       // Consume the new ThemeProvider service
       this._themeProvider = this.context.serviceScope.consume(ThemeProvider.serviceKey);
@@ -104,33 +96,12 @@ export default class CovidAdminWebPart extends BaseClientSideWebPart<ICovidAdmin
     }
   }
 
-  private async delay(ms: number): Promise<any> {
-    return new Promise(resolve => setTimeout(resolve, ms));
-  }
-
-  public async processSelfCheckins(): Promise<void> {
-    while (true) {
-      const delay: number = (this.MOVE_CHECKIN_RATE * 60000);
-      await this.delay(delay);
-      await cs.moveSelfCheckIns();
-    }
-  }
-
   public render(): void {
     try {
       let element;
-      if (!ccs.Valid) {
-        const props: IConfigureProps = { startConfigure: this._configure };
-        element = React.createElement(Configure, props);
-      } else if (cs.Ready) {
-        const props: ICovidAdminProps = {
-          microsoftTeams: this._microsoftTeams,
-          loginName: this.context.pageContext.user.loginName,
-          displayName: this.context.pageContext.user.displayName,
-          userId: this._userId,
-          userCanCheckIn: this._userCanCheckIn
-        };
-        element = React.createElement(CovidAdmin, props);
+      if (wc.Ready) {
+        const props: IWorldClockProps = {};
+        element = React.createElement(WorldClock, props);
       } else {
         //TODO: Render error
       }
@@ -138,18 +109,6 @@ export default class CovidAdminWebPart extends BaseClientSideWebPart<ICovidAdmin
       ReactDom.render(element, this.domElement);
     } catch (err) {
       Logger.write(`${this.LOG_SOURCE} (render) - ${err}`, LogLevel.Error);
-    }
-  }
-
-  private _configure = async (): Promise<void> => {
-    try {
-      const success = await ccs.configure();
-      if (success) {
-        await this._init();
-        this.render();
-      }
-    } catch (err) {
-      Logger.write(`${this.LOG_SOURCE} (_configure) - ${err} - `, LogLevel.Error);
     }
   }
 

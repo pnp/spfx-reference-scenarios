@@ -12,16 +12,17 @@
     "test": "gulp test"
   },
   "dependencies": {
-    "react": "16.8.5",
-    "react-dom": "16.8.5",
+    "@microsoft/sp-core-library": "1.11.0",
+    "@microsoft/sp-lodash-subset": "1.11.0",
+    "@microsoft/sp-office-ui-fabric-core": "1.11.0",
+    "@microsoft/sp-property-pane": "1.11.0",
+    "@microsoft/sp-webpart-base": "1.11.0",
     "@pnp/graph": "^2.4.0",
     "@pnp/sp": "^2.4.0",
     "lodash": "^4.17.21",
-    "@microsoft/sp-core-library": "1.11.0",
-    "@microsoft/sp-property-pane": "1.11.0",
-    "@microsoft/sp-webpart-base": "1.11.0",
-    "@microsoft/sp-lodash-subset": "1.11.0",
-    "@microsoft/sp-office-ui-fabric-core": "1.11.0"
+    "luxon": "^1.26.0",
+    "react": "16.8.5",
+    "react-dom": "16.8.5"
   },
   "devDependencies": {
     "@types/react": "16.8.8",

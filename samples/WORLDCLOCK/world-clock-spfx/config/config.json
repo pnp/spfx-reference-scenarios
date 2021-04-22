@@ -2,17 +2,17 @@
   "$schema": "https://developer.microsoft.com/json-schemas/spfx-build/config.2.0.schema.json",
   "version": "2.0",
   "bundles": {
-    "world-clock-spfx-web-part": {
+    "world-clock-web-part": {
       "components": [
         {
-          "entrypoint": "./lib/webparts/worldClockSpfx/WorldClockSpfxWebPart.js",
-          "manifest": "./src/webparts/worldClockSpfx/WorldClockSpfxWebPart.manifest.json"
+          "entrypoint": "./lib/webparts/worldClock/WorldClockWebPart.js",
+          "manifest": "./src/webparts/worldClock/WorldClockWebPart.manifest.json"
         }
       ]
     }
   },
   "externals": {},
   "localizedResources": {
-    "WorldClockSpfxWebPartStrings": "lib/webparts/worldClockSpfx/loc/{locale}.js"
+    "WorldClockWebPartStrings": "lib/webparts/worldClock/loc/{locale}.js"
   }
 }
