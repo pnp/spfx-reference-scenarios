@@ -56,8 +56,6 @@ export default class CovidAdministration extends React.Component<ICovidAdministr
           <p>{strings.AdministrationSubHeader}</p>
           <div className={`${styles.formRow} ${styles.buttons}`}>
             <Button label={strings.ManageLocations} className="hoo-button-primary" disabled={false} onClick={() => { this._changeLocationVisibility(true); }} />
-          </div>
-          <div className={`${styles.formRow} ${styles.buttons}`}>
             <Button label={strings.ManageQuestions} className="hoo-button-primary" disabled={false} onClick={() => { this._changeQuestionsVisibility(true); }} />
           </div>
           <Dialog header={strings.ManageLocations} content="" visible={this.state.locationsVisible} onChange={this._changeLocationVisibility} width={60} height={80}>
