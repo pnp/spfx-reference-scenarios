@@ -1,18 +1,12 @@
 
 export enum PERSON_TYPE {
-  "LocGuest",
-  "Employee"
+  LocGuest = 1,
+  Employee
 }
 
 export enum CONFIG_TYPE {
-  "Personal",
-  "Team"
-}
-
-export interface ITimeZone {
-  timeZone: string;
-  abbreviation: string;
-  offset: number;
+  Personal = 1,
+  Team
 }
 
 export interface IPerson {

@@ -1,7 +1,50 @@
 {
-  "configType": "",
-  "configPerson": {},
-  "configTeam": {},
-  "members": [],
-  "views": []
+  "configType": 2,
+  "configPerson": {
+    "personId": "",
+    "personType": 1,
+    "displayName": "",
+    "workDays": "",
+    "workHours": "",
+    "firstName": "",
+    "lastName": "",
+    "photoUrl": "",
+    "IANATimezone": ""
+  },
+  "configTeam": {
+    "teamId": "",
+    "teamName": ""
+  },
+  "members": [
+    {
+      "personId": "",
+      "personType": 1,
+      "displayName": "",
+      "workDays": "",
+      "workHours": "",
+      "firstName": "",
+      "lastName": "",
+      "photoUrl": "",
+      "IANATimezone": ""
+    }
+  ],
+  "views": [
+    {
+      "viewId": "0",
+      "viewName": "My View",
+      "members": [
+        {
+          "personId": "",
+          "personType": 1,
+          "displayName": "",
+          "workDays": "",
+          "workHours": "",
+          "firstName": "",
+          "lastName": "",
+          "photoUrl": "",
+          "IANATimezone": ""
+        }
+      ]
+    }
+  ]
 }
