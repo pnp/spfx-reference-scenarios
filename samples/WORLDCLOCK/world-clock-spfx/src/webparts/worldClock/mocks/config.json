@@ -1,16 +1,6 @@
 {
   "configType": 2,
-  "configPerson": {
-    "personId": "",
-    "personType": 1,
-    "displayName": "",
-    "workDays": "",
-    "workHours": "",
-    "firstName": "",
-    "lastName": "",
-    "photoUrl": "",
-    "IANATimezone": ""
-  },
+  "configPerson": null,
   "configTeam": {
     "teamId": "",
     "teamName": ""
