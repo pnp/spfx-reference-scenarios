@@ -274,12 +274,20 @@ export class CovidService implements ICovidService {
       const end = cloneDeep(d);
       start.setHours(0, 0, 0, 0);
       end.setHours(23, 59, 59, 9999);
-      this._checkIns = await sp.web.lists.getByTitle(Tables.COVIDCHECKINLIST).items
+      this._checkIns = [];
+      let checkInsPage = await sp.web.lists.getByTitle(Tables.COVIDCHECKINLIST).items
         .top(5000)
         .select("Id, Title, EmployeeId, Employee/Id, Employee/Title, Employee/EMail, Guest, CheckInOffice, Questions, SubmittedOn, CheckIn, CheckInById, CheckInBy/Id, CheckInBy/Title, CheckInBy/EMail, Created")
         .filter(`(SubmittedOn gt '${start.toISOString()}') and (SubmittedOn lt '${end.toISOString()}')`)
         .expand("Employee, CheckInBy")
-        .get<ICheckIns[]>();
+        .getPaged<ICheckIns[]>();
+
+      this._checkIns = this._checkIns.concat(checkInsPage.results);
+
+      while (checkInsPage.hasNext) {
+        checkInsPage = await checkInsPage.getNext();
+        this._checkIns = this._checkIns.concat(checkInsPage.results);
+      }
 
       forEach(this._checkIns, (ci) => {
         Object.getOwnPropertyNames(ci).forEach(prop => {
@@ -443,13 +451,21 @@ export class CovidService implements ICovidService {
         filter.push(`(CheckInOffice eq '${query.office}')`);
       }
       const filterString = filter.join(" and ");
-      const checkIns = await sp.web.lists.getByTitle(Tables.COVIDCHECKINLIST).items
+      let checkIns = [];
+      let checkInsPage = await sp.web.lists.getByTitle(Tables.COVIDCHECKINLIST).items
         .top(5000)
         .select("Id, Title, EmployeeId, Employee/Id, Employee/Title, Employee/EMail, Guest, CheckInOffice, Questions, SubmittedOn, CheckIn, CheckInById, CheckInBy/Id, CheckInBy/Title, CheckInBy/EMail, Created")
         .filter(filterString)
         .expand("Employee, CheckInBy")
         .orderBy("CheckIn", false)
-        .get<ICheckIns[]>();
+        .getPaged<ICheckIns[]>();
+
+      checkIns = checkIns.concat(checkInsPage.results);
+
+      while (checkInsPage.hasNext) {
+        checkInsPage = await checkInsPage.getNext();
+        checkIns = checkIns.concat(checkInsPage.results);
+      }
 
       forEach(checkIns, (ci) => {
         Object.getOwnPropertyNames(ci).forEach(prop => {
