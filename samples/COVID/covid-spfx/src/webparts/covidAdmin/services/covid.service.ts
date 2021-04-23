@@ -160,11 +160,11 @@ export class CovidService implements ICovidService {
     return retVal;
   }
 
-  public async userCanCheckIn(userId: number, checkinDate?: Date): Promise<boolean> {
+  public async userCanCheckIn(userId: number): Promise<boolean> {
     let retVal: boolean = false;
     try {
       //await this.moveSelfCheckIns();
-      let today = checkinDate || new Date();
+      let today = new Date();
       today.setHours(0, 0, 0, 0);
 
       if (this.Security == SECURITY.VISITOR) {
@@ -337,18 +337,20 @@ export class CovidService implements ICovidService {
           //Bulk Add to CovidCheckIns
           const batch = sp.createBatch();
           const batchDelete = sp.createBatch();
-          selfCheckIns.forEach(async sci => {
+          for (let i = 0; i < selfCheckIns.length; i++) {
+            const sci: ISelfCheckInLI = selfCheckIns[i];
             let checkInLI = new CheckInLI();
             checkInLI.SubmittedOn = sci.Created;
             Object.getOwnPropertyNames(sci).forEach(prop => {
               checkInLI[prop] = sci[prop];
             });
             this.SKIPADDFIELDS.forEach(f => { delete checkInLI[f]; });
-            if (await this.userCanCheckIn(sci.Id, sci.Created)) {
+            let userCanCheckIn = await this.userCanCheckIn(sci.EmployeeId);
+            if (userCanCheckIn) {
               p.push(sp.web.lists.getByTitle(Tables.COVIDCHECKINLIST).items.inBatch(batch).add(checkInLI));
             }
             pd.push(sp.web.lists.getByTitle(Tables.SELFCHECKINLIST).items.getById(sci.Id).inBatch(batchDelete).delete());
-          });
+          }
           batch.execute().then(async () => {
             let result: boolean = true;
             forEach(p, (item: IItemAddResult) => {
