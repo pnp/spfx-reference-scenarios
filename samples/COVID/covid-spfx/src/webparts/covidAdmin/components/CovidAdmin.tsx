@@ -37,8 +37,8 @@ export interface ICovidAdminState {
 
 export class CovidAdminState implements ICovidAdminState {
   constructor(
-    public checkIns: ICheckIns[] = [],
     public tab: ADMINTABS = ADMINTABS.TODAY,
+    public checkIns: ICheckIns[] = [],
     public selectedDate: Date = new Date(),
     public reviewFormVisible: boolean = false,
     public currentCheckIn: ICheckIns = new CheckIns()
@@ -54,7 +54,8 @@ export default class CovidAdmin extends React.Component<ICovidAdminProps, ICovid
 
   constructor(props: ICovidAdminProps) {
     super(props);
-    this.state = new CovidAdminState();
+    const tab: ADMINTABS = (cs.Security == SECURITY.VISITOR) ? ADMINTABS.SELFCHECKIN : ADMINTABS.TODAY;
+    this.state = new CovidAdminState(tab);
     try {
       if ((cs.Security == SECURITY.MEMBER) || (cs.Security == SECURITY.OWNER)) {
         this._tabOptions.push({
@@ -70,7 +71,7 @@ export default class CovidAdmin extends React.Component<ICovidAdminProps, ICovid
         key: ADMINTABS.SELFCHECKIN,
         displayName: strings.AdminTabSelfCheckIn
       });
-      if ((cs.Security == SECURITY.MEMBER) || (cs.Security == SECURITY.OWNER)) {
+      if (cs.Security == SECURITY.OWNER) {
         this._tabOptions.push({
           key: ADMINTABS.CONTACTTRACING,
           displayName: strings.AdminTabContactTracing
@@ -122,9 +123,7 @@ export default class CovidAdmin extends React.Component<ICovidAdminProps, ICovid
   }
 
   private _closeGuestForm = () => {
-    this.setState({ tab: ADMINTABS.TODAY });
-    const selectedDate = cloneDeep(this.state.selectedDate);
-    cs.getCheckIns(selectedDate);
+    this._changeTab(ADMINTABS.TODAY);
   }
 
 
