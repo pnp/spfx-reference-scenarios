@@ -21,6 +21,7 @@ import { IItemAddResult } from "@pnp/sp/items/types";
 
 import { ILocations, IQuestion, ICheckIns, ISelfCheckIn, SelfCheckInLI, CheckInLI, ISelfCheckInLI, IAnswer, Tables, IPerson, IQuery, Person, SECURITY } from "../models/covid.model";
 import { eq } from "lodash";
+import { Web } from "@pnp/sp/webs";
 
 export interface ICovidService {
   Security: SECURITY;
@@ -160,7 +161,7 @@ export class CovidService implements ICovidService {
     return retVal;
   }
 
-  public async userCanCheckIn(userId: number): Promise<boolean> {
+  public async userCanCheckIn(userId: number, siteUrl?: string): Promise<boolean> {
     let retVal: boolean = false;
     try {
       //await this.moveSelfCheckIns();
@@ -174,7 +175,8 @@ export class CovidService implements ICovidService {
           retVal = true;
         }
       } else {
-        const checkIns = await sp.web.lists.getByTitle(Tables.COVIDCHECKINLIST).items
+        const web = Web((siteUrl != undefined) ? siteUrl : sp.web.toUrl());
+        const checkIns = await web.lists.getByTitle(Tables.COVIDCHECKINLIST).items
           .top(1)
           .filter(`(EmployeeId eq ${userId}) and (SubmittedOn gt '${today.toISOString()}')`)
           .get();

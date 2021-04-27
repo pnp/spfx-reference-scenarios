@@ -7,8 +7,7 @@ import { Logger, LogLevel, ConsoleListener } from "@pnp/logging";
 import {
   ThemeProvider,
   ThemeChangedEventArgs,
-  IReadonlyTheme,
-  ISemanticColors
+  IReadonlyTheme
 } from '@microsoft/sp-component-base';
 import { Version } from '@microsoft/sp-core-library';
 import {

@@ -1,0 +1,57 @@
+{
+  "id": "a61a2a7e-a170-4c0c-81a4-d647277092ad",
+  "alias": "CovidCardAdaptiveCardExtension",
+  "componentType": "AdaptiveCardExtension",
+  "version": "1.0.0",
+  "manifestVersion": 2,
+  "requiresCustomScript": false,
+  "supportedHosts": [
+    "Dashboard",
+    "SharePointWebPart"
+  ],
+  "preconfiguredEntries": [
+    {
+      "groupId": "bd067b1e-3ad5-4d5d-a5fe-505f07d7f59c",
+      "group": {
+        "default": "Dashboard"
+      },
+      "title": {
+        "default": "COVID-19 CheckIn Card"
+      },
+      "description": {
+        "default": "COVID-19 Attestation CheckIn Card"
+      },
+      "officeFabricIconFontName": "Page",
+      "iconImageUrl": "../../../teams/3ab8fb75-8f80-4ff1-90a3-6f711ad27c1d_outline.png",
+      "properties": {
+        "title": "COVID-19 CheckIn",
+        "description": "COVID-19 Attestation CheckIn",
+        "iconProperty": ""
+      }
+    }
+  ],
+  "loaderConfig": {
+    "internalModuleBaseUrls": [],
+    "entryModuleId": "covid-card-adaptive-card-extension",
+    "scriptResources": {
+      "covid-card-adaptive-card-extension": {
+        "type": "path",
+        "path": "covid-card-adaptive-card-extension_58f58672c64d19c05e2c.js"
+      },
+      "@microsoft/sp-loader": {
+        "type": "component",
+        "id": "1c6c9123-7aac-41f3-a376-3caea41ed83f",
+        "version": "1.13.0"
+      },
+      "CovidCardAdaptiveCardExtensionStrings": {
+        "type": "path",
+        "path": "CovidCardAdaptiveCardExtensionStrings_en-us_405f2356de4ab18a0bfa78ece849b92a.js"
+      },
+      "@microsoft/sp-adaptive-card-extension-base": {
+        "type": "component",
+        "id": "eeec822e-c28a-46b4-affc-7058e4c1aa80",
+        "version": "1.13.0"
+      }
+    }
+  }
+}

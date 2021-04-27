@@ -1,0 +1,68 @@
+{
+  "id": "3ab8fb75-8f80-4ff1-90a3-6f711ad27c1d",
+  "alias": "CovidAdminWebPart",
+  "componentType": "WebPart",
+  "version": "1.0.0",
+  "manifestVersion": 2,
+  "requiresCustomScript": false,
+  "supportsThemeVariants": true,
+  "supportedHosts": [
+    "TeamsPersonalApp",
+    "SharePointFullPage"
+  ],
+  "preconfiguredEntries": [
+    {
+      "groupId": "5c03119e-3074-46fd-976b-c60198311f70",
+      "group": {
+        "default": "Other"
+      },
+      "title": {
+        "default": "Covid Admin"
+      },
+      "description": {
+        "default": "Covid Admin description"
+      },
+      "officeFabricIconFontName": "Page",
+      "properties": {}
+    }
+  ],
+  "loaderConfig": {
+    "internalModuleBaseUrls": [],
+    "entryModuleId": "covid-admin-web-part",
+    "scriptResources": {
+      "covid-admin-web-part": {
+        "type": "path",
+        "path": "covid-admin-web-part_e293dbb6f82e6dd813f9.js"
+      },
+      "@microsoft/sp-component-base": {
+        "type": "component",
+        "id": "467dc675-7cc5-4709-8aac-78e3b71bd2f6",
+        "version": "1.13.0"
+      },
+      "CovidWebPartStrings": {
+        "type": "path",
+        "path": "CovidWebPartStrings_en-us_ddff21e01a414c0b7618fbd27b115967.js"
+      },
+      "@microsoft/sp-core-library": {
+        "type": "component",
+        "id": "7263c7d0-1d6a-45ec-8d85-d4d1d234171b",
+        "version": "1.13.0"
+      },
+      "@microsoft/sp-webpart-base": {
+        "type": "component",
+        "id": "974a7777-0990-4136-8fa6-95d80114c2e0",
+        "version": "1.13.0"
+      },
+      "react": {
+        "type": "component",
+        "id": "0d910c1c-13b9-4e1c-9aa4-b008c5e42d7d",
+        "version": "16.9.0"
+      },
+      "react-dom": {
+        "type": "component",
+        "id": "aa0a46ec-1505-43cd-a44a-93f3a5aa460a",
+        "version": "16.9.0"
+      }
+    }
+  }
+}
