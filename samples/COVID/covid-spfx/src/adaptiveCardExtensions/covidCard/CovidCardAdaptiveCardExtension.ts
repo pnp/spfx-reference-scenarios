@@ -37,33 +37,36 @@ export default class CovidCardAdaptiveCardExtension extends BaseAdaptiveCardExte
   private _deferredPropertyPane: CovidCardPropertyPane | undefined;
 
   public async onInit(): Promise<void> {
-    if (this.properties.homeSite == undefined || this.properties.homeSite.length < 1) {
-      this.properties.homeSite = this.context.pageContext.site.absoluteUrl;
+    try {
+      if (this.properties.homeSite == undefined || this.properties.homeSite.length < 1) {
+        this.properties.homeSite = this.context.pageContext.site.absoluteUrl;
+      }
+
+      this.cardNavigator.register(CARD_VIEW_REGISTRY_ID, () => new CardView());
+      this.quickViewNavigator.register(QUICK_VIEW_REGISTRY_ID, () => new QuickView());
+
+      //Initialize PnPLogger
+      Logger.subscribe(new ConsoleListener());
+      Logger.activeLogLevel = LogLevel.Info;
+
+      //Initialize PnPJs
+      sp.setup({ spfxContext: this.context });
+      graph.setup({ spfxContext: this.context });
+
+      const siteValid = await ccs.isValid();
+      if (siteValid) {
+        await cs.init(this.context.pageContext.site.absoluteUrl);
+        const user = await sp.web.ensureUser(this.context.pageContext.user.loginName);
+        this._userId = user.data.Id;
+        this._userCanCheckIn = await cs.userCanCheckIn(this._userId, this.properties.homeSite);
+      }
+
+      this.state = {
+        canCheckIn: this._userCanCheckIn
+      };
+    } catch (err) {
+      Logger.write(`${this.LOG_SOURCE} (onInit) - ${err.message} - `, LogLevel.Error);
     }
-
-    this.cardNavigator.register(CARD_VIEW_REGISTRY_ID, () => new CardView());
-    this.quickViewNavigator.register(QUICK_VIEW_REGISTRY_ID, () => new QuickView());
-
-    //Initialize PnPLogger
-    Logger.subscribe(new ConsoleListener());
-    Logger.activeLogLevel = LogLevel.Info;
-
-    //Initialize PnPJs
-    sp.setup({ spfxContext: this.context });
-    graph.setup({ spfxContext: this.context });
-
-    const siteValid = await ccs.isValid();
-    if (siteValid) {
-      //TODO: Why can't i get teams context?
-      await cs.init(this.context.pageContext.site.absoluteUrl);
-      const user = await sp.web.ensureUser(this.context.pageContext.user.loginName);
-      this._userId = user.data.Id;
-      this._userCanCheckIn = await cs.userCanCheckIn(this._userId);
-    }
-
-    this.state = {
-      canCheckIn: this._userCanCheckIn
-    };
 
     return Promise.resolve();
   }

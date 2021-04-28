@@ -175,7 +175,7 @@ export class CovidService implements ICovidService {
           retVal = true;
         }
       } else {
-        const web = Web((siteUrl != undefined) ? siteUrl : sp.web.toUrl());
+        const web = Web((siteUrl != undefined) ? siteUrl : this._siteUrl);
         const checkIns = await web.lists.getByTitle(Tables.COVIDCHECKINLIST).items
           .top(1)
           .filter(`(EmployeeId eq ${userId}) and (SubmittedOn gt '${today.toISOString()}')`)
