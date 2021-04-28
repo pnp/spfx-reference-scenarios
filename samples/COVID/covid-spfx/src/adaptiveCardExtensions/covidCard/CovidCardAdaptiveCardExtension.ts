@@ -51,15 +51,10 @@ export default class CovidCardAdaptiveCardExtension extends BaseAdaptiveCardExte
 
       //Initialize PnPJs
       sp.setup({ spfxContext: this.context });
-      graph.setup({ spfxContext: this.context });
 
-      const siteValid = await ccs.isValid();
-      if (siteValid) {
-        await cs.init(this.context.pageContext.site.absoluteUrl);
-        const user = await sp.web.ensureUser(this.context.pageContext.user.loginName);
-        this._userId = user.data.Id;
-        this._userCanCheckIn = await cs.userCanCheckIn(this._userId, this.properties.homeSite);
-      }
+      const user = await sp.web.ensureUser(this.context.pageContext.user.loginName);
+      this._userId = user.data.Id;
+      this._userCanCheckIn = await cs.userCanCheckIn(this._userId, this.properties.homeSite);
 
       this.state = {
         canCheckIn: this._userCanCheckIn
