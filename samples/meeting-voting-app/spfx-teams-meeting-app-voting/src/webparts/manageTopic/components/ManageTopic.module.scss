@@ -1,0 +1,113 @@
+@import '~office-ui-fabric-react/dist/sass/References.scss';
+@import '../../../common/_colors.module.scss';
+@import '../../../common/Global.dark.module.scss';
+@import '../../../common/Global.default.module.scss';
+@import '../../../common/Global.contrast.module.scss';
+@import '../../../common/font.module.scss';
+
+.manageTopic {
+  .container {
+    @include ms-Grid;
+    margin: 10px;
+    font-family: "Segoe UI",-apple-system,BlinkMacSystemFont,Roboto,"Helvetica Neue",sans-serif;
+  }
+
+  .row {
+    @include ms-Grid-row;
+    padding: 20px;
+  }
+
+  .column {
+    @include ms-Grid-col;
+    @include ms-lg10;
+    @include ms-xl8;
+    @include ms-xlPush2;
+    @include ms-lgPush1;
+  }
+
+  .title {
+    @include ms-font-xl;
+  }
+
+  .button {
+    // Our button
+    text-decoration: none;
+    height: 32px;
+
+    // Primary Button
+    min-width: 80px;
+    background-color: $ms-color-themePrimary;
+    border-color: $ms-color-themePrimary;
+    color: $ms-color-white;
+
+    // Basic Button
+    outline: transparent;
+    position: relative;
+    font-family: "Segoe UI WestEuropean","Segoe UI",-apple-system,BlinkMacSystemFont,Roboto,"Helvetica Neue",sans-serif;
+    -webkit-font-smoothing: antialiased;
+    font-size: $ms-font-size-m;
+    font-weight: $ms-font-weight-regular;
+    border-width: 0;
+    text-align: center;
+    cursor: pointer;
+    display: inline-block;
+    padding: 0 16px;
+
+    .label {
+      font-weight: $ms-font-weight-semibold;
+      font-size: $ms-font-size-m;
+      height: 32px;
+      line-height: 32px;
+      margin: 0 4px;
+      vertical-align: top;
+      display: inline-block;
+    }
+  }
+
+  .topicButtonContainer {
+    margin-top: 10px;      
+    text-align: right;
+
+    .topicButton {
+      @extend .button;
+      margin-left: 10px;
+    }
+  }
+
+}
+
+[data-theme='default'] {
+	.manageTopic {
+		background: $default-manageTopic-background;
+		color: $default-manageTopic-color;
+
+		.button {
+			background: $default-manageTopicButton-background;
+			color: $default-manageTopicButton-color;
+		}
+	}
+}
+
+[data-theme='dark'] {
+	.manageTopic {
+		background: $dark-manageTopic-background;
+		color: $dark-manageTopic-color;
+
+		.button {
+			background: $dark-manageTopicButton-background;
+			color: $dark-manageTopicButton-color;
+		}
+	}
+}
+
+[data-theme='contrast'] {
+	.manageTopic {
+		background: $contrast-manageTopic-background;
+		color: $contrast-manageTopic-color;
+
+		.button {
+			background: $contrast-manageTopicButton-background;
+			color: $contrast-manageTopicButton-color;
+		}
+	}
+}

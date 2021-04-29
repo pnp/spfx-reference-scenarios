@@ -1,0 +1,73 @@
+{
+  "id": "452687e2-8aa6-4f38-9faa-33b54cb1ecc2",
+  "alias": "MeetingAppVotingWebPart",
+  "componentType": "WebPart",
+  "version": "0.0.1",
+  "manifestVersion": 2,
+  "supportsFullBleed": true,
+  "requiresCustomScript": false,
+  "supportedHosts": [
+    "SharePointWebPart",
+    "TeamsTab"
+  ],
+  "preconfiguredEntries": [
+    {
+      "groupId": "5c03119e-3074-46fd-976b-c60198311f70",
+      "group": {
+        "default": "Other"
+      },
+      "title": {
+        "default": "Meeting Voting"
+      },
+      "description": {
+        "default": "Teams meeting app for voting"
+      },
+      "officeFabricIconFontName": "SurveyQuestions",
+      "properties": {
+        "apiUrl": "https://teams-meeting-app-voting.ngrok.io/",
+        "apiAudience": "api://teams-meeting-app-voting-bot"
+      }
+    }
+  ],
+  "loaderConfig": {
+    "internalModuleBaseUrls": [
+      "https://localhost:4321/dist/"
+    ],
+    "entryModuleId": "meeting-voting-web-part",
+    "scriptResources": {
+      "meeting-voting-web-part": {
+        "type": "path",
+        "path": "meeting-voting-web-part_89dcee84da19ad66b127.js"
+      },
+      "MeetingVotingWebPartStrings": {
+        "type": "path",
+        "path": "MeetingVotingWebPartStrings_en-us_ff3a4ac180376372f1c67bb08d77efa6.js"
+      },
+      "@microsoft/sp-core-library": {
+        "type": "component",
+        "id": "7263c7d0-1d6a-45ec-8d85-d4d1d234171b",
+        "version": "1.12.1"
+      },
+      "@microsoft/sp-webpart-base": {
+        "type": "component",
+        "id": "974a7777-0990-4136-8fa6-95d80114c2e0",
+        "version": "1.12.1"
+      },
+      "react": {
+        "type": "component",
+        "id": "0d910c1c-13b9-4e1c-9aa4-b008c5e42d7d",
+        "version": "16.9.0"
+      },
+      "react-dom": {
+        "type": "component",
+        "id": "aa0a46ec-1505-43cd-a44a-93f3a5aa460a",
+        "version": "16.9.0"
+      },
+      "@microsoft/sp-http": {
+        "type": "component",
+        "id": "c07208f0-ea3b-4c1a-9965-ac1b825211a6",
+        "version": "1.12.1"
+      }
+    }
+  }
+}

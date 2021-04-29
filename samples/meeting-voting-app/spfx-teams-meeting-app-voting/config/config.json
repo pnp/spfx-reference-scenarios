@@ -1,0 +1,28 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/spfx-build/config.2.0.schema.json",
+  "version": "2.0",
+  "bundles": {
+    "meeting-voting-web-part": {
+      "components": [
+        {
+          "entrypoint": "./lib/webparts/meetingVoting/MeetingVotingWebPart.js",
+          "manifest": "./src/webparts/meetingVoting/MeetingVotingWebPart.manifest.json"
+        }
+      ]
+    },
+    "manage-topic-web-part": {
+      "components": [
+        {
+          "entrypoint": "./lib/webparts/manageTopic/ManageTopicWebPart.js",
+          "manifest": "./src/webparts/manageTopic/ManageTopicWebPart.manifest.json"
+        }
+      ]
+    }
+  },
+  "externals": {},
+  "localizedResources": {
+    "MeetingVotingWebPartStrings": "lib/webparts/meetingVoting/loc/{locale}.js",
+    "ControlStrings": "node_modules/@pnp/spfx-controls-react/lib/loc/{locale}.js",
+    "ManageTopicWebPartStrings": "lib/webparts/manageTopic/loc/{locale}.js"
+  }
+}

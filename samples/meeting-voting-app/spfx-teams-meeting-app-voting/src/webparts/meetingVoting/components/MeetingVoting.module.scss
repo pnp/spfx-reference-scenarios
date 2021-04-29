@@ -1,0 +1,193 @@
+@import '~office-ui-fabric-react/dist/sass/References.scss';
+@import '../../../common/_colors.module.scss';
+@import '../../../common/Global.dark.module.scss';
+@import '../../../common/Global.default.module.scss';
+@import '../../../common/Global.contrast.module.scss';
+@import '../../../common/font.module.scss';
+
+.meetingVoting {
+  .container {
+    @include ms-Grid;
+    margin: 10px;
+    font-family: "Segoe UI",-apple-system,BlinkMacSystemFont,Roboto,"Helvetica Neue",sans-serif;
+  }
+
+  .row {
+    @include ms-Grid-row;
+    padding: 20px;
+  }
+
+  .column {
+    @include ms-Grid-col;
+    @include ms-lg10;
+    @include ms-xl8;
+    @include ms-xlPush2;
+    @include ms-lgPush1;
+  }
+
+  .columnLeft {
+    @include ms-Grid-col;
+    @include ms-lg8;
+    @include ms-xl10;
+    @include ms-xlPush2;
+    @include ms-lgPush1;
+  }
+
+  .columnRight {
+    @include ms-Grid-col;
+    @include ms-lg4;
+    @include ms-xl2;
+    @include ms-xlPush2;
+    @include ms-lgPush1;
+  }
+
+  .title {
+    @include ms-font-xl;
+  }
+
+  .subTitle {
+    @include ms-font-l;
+  }
+
+  .footer {
+    @include ms-font-s;
+  }
+
+  .button {
+    // Our button
+    text-decoration: none;
+    height: 32px;
+
+    // Primary Button
+    min-width: 80px;
+    background-color: $default-meetingVoting-background;
+    border-color: $default-meetingVoting-background;
+    color: $ms-color-white;
+
+    // Basic Button
+    outline: transparent;
+    position: relative;
+    font-family: "Segoe UI WestEuropean","Segoe UI",-apple-system,BlinkMacSystemFont,Roboto,"Helvetica Neue",sans-serif;
+    -webkit-font-smoothing: antialiased;
+    font-size: $ms-font-size-m;
+    font-weight: $ms-font-weight-regular;
+    border-width: 0;
+    text-align: center;
+    cursor: pointer;
+    display: inline-block;
+    padding: 0 16px;
+
+    .label {
+      font-weight: $ms-font-weight-semibold;
+      font-size: $ms-font-size-m;
+      height: 32px;
+      line-height: 32px;
+      margin: 0 4px;
+      vertical-align: top;
+      display: inline-block;
+    }
+  }
+
+  .commandBar {
+    margin-top: 15px;
+    margin-bottom: 15px;
+  }
+
+  .questionCard {
+    border-radius: 10px;
+    padding: 8px;
+
+    .questionText {
+      margin-top: 10px;
+      margin-bottom: 10px;
+      font-weight: $ms-font-weight-semibold;
+      font-size: $ms-font-size-l;
+      vertical-align: top;
+      display: inline-block;
+    }
+
+    .questionButtonContainer {
+      margin-top: 10px;      
+      text-align: right;
+  
+      .questionButton {
+        @extend .button;
+      }
+    }
+  }
+}
+
+[data-theme='default'] {
+	.meetingVoting {
+		background: $default-meetingVoting-background;
+		color: $default-meetingVoting-color;
+
+		.button {
+			background: $default-meetingVotingButton-background;
+			color: $default-meetingVotingButton-color;
+		}
+
+    .questionCard {
+      background: $default-meetingVotingQuestionCard-background;
+      color: $default-meetingVotingQuestionCard-color;
+    }
+
+    mgt-person {
+      color: $default-meetingVotingQuestionCard-color;
+    }
+
+    .iconColor {
+      color: $default-meetingVoting-color !important;
+    }
+  }
+}
+
+[data-theme='dark'] {
+	.meetingVoting {
+		background: $dark-meetingVoting-background;
+		color: $dark-meetingVoting-color;
+
+		.button {
+			background: $dark-meetingVotingButton-background;
+			color: $dark-meetingVotingButton-color;
+		}
+
+    .questionCard {
+      background: $dark-meetingVotingQuestionCard-background;
+      color: $dark-meetingVotingQuestionCard-color;
+    }
+
+    mgt-person {
+      color: $dark-meetingVotingQuestionCard-color;
+    }
+
+    .iconColor {
+      color: $dark-meetingVoting-color !important;
+    }
+  }
+}
+
+[data-theme='contrast'] {
+	.meetingVoting {
+		background: $contrast-meetingVoting-background;
+		color: $contrast-meetingVoting-color;
+
+		.button {
+			background: $contrast-meetingVotingButton-background;
+			color: $contrast-meetingVotingButton-color;
+		}
+
+    .questionCard {
+      background: $contrast-meetingVotingQuestionCard-background;
+      color: $contrast-meetingVotingQuestionCard-color;
+    }
+
+    mgt-person {
+      color: $contrast-meetingVotingQuestionCard-color;
+    }
+
+    .iconColor {
+      color: $contrast-meetingVoting-color !important;
+    }
+  }
+}

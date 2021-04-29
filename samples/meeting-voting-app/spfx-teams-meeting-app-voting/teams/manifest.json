@@ -1,0 +1,86 @@
+{
+    "$schema": "https://developer.microsoft.com/en-us/json-schemas/teams/v1.8/MicrosoftTeams.schema.json",
+    "manifestVersion": "1.8",
+    "id": "186bfcfc-3fff-4d68-9797-bf74e242a2e7",
+    "version": "0.0.4",
+    "packageName": "spfx-teams-meeting-app-voting",
+    "developer": {
+      "name": "Paolo Pialorsi",
+      "websiteUrl": "https://piasys.com",
+      "privacyUrl": "https://piasys.com/privacy",
+      "termsOfUseUrl": "https://piasys.com/"
+    },
+    "name": {
+      "short": "SPFx Teams Meeting App Voting",
+      "full": "SPFx Teams Meeting App Voting"
+    },
+    "description": {
+      "short": "SPFx Teams Meeting App Voting",
+      "full": "SPFx Teams Meeting App Voting"
+    },
+    "icons": {
+      "outline": "452687e2-8aa6-4f38-9faa-33b54cb1ecc2_outline.png",
+      "color": "452687e2-8aa6-4f38-9faa-33b54cb1ecc2_color.png"
+    },
+    "accentColor": "#C0C0C0",
+    "configurableTabs": [
+      {
+        "configurationUrl": "https://{teamSiteDomain}{teamSitePath}/_layouts/15/TeamsLogon.aspx?SPFX=true&dest={teamSitePath}/_layouts/15/teamshostedapp.aspx%3FopenPropertyPane=true%26teams%26componentId=452687e2-8aa6-4f38-9faa-33b54cb1ecc2%26forceLocale={locale}",
+        "canUpdateConfiguration": true,
+        "scopes": [
+          "groupchat"
+        ],
+        "context": [
+          "meetingChatTab",
+          "meetingSidePanel",
+          "meetingStage",
+          "meetingDetailsTab"
+        ]
+      }
+    ],
+    "staticTabs": [],
+    "bots": [
+      {
+        "botId": "0b906cbf-f950-443a-8b73-e0ca2bfc23fa",
+        "needsChannelSelector": true,
+        "supportsCalling": true,
+        "isNotificationOnly": false,
+        "scopes": [
+          "team",
+          "personal",
+          "groupchat"
+        ],
+        "commandLists": [
+          {
+            "scopes": [
+              "team",
+              "personal"
+            ],
+            "commands": [
+              {
+                "title": "Help",
+                "description": "Shows help information"
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "connectors": [],
+    "composeExtensions": [],
+    "permissions": [
+      "identity",
+      "messageTeamMembers"
+    ],
+    "validDomains": [
+      "*.login.microsoftonline.com",
+      "*.sharepoint.com",
+      "teams-meeting-app-voting.ngrok.io"
+    ],
+    "showLoadingIndicator": false,
+    "webApplicationInfo": {
+        "resource": "https://{teamSiteDomain}",
+        "id": "00000003-0000-0ff1-ce00-000000000000"
+    }
+  }
+  

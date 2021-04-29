@@ -1,0 +1,104 @@
+{
+  "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
+  "type": "AdaptiveCard",
+  "version": "1.4",
+  "speak": "<s>Vote for the following question: ${$root.topic}.</s>",
+  "body": [
+    {
+      "type": "TextBlock",
+      "text": "${$root.topic}",
+      "weight": "bolder",
+      "size": "extraLarge",
+      "isSubtle": true,
+      "wrap": true
+    },
+    {
+      "type": "ColumnSet",
+      "separator": true,
+      "spacing": "Medium",
+      "columns": [
+        {
+          "type": "Column",
+          "width": "stretch",
+          "items": [
+            {
+              "type": "TextBlock",
+              "text": "Responses",
+              "isSubtle": true,
+              "weight": "Bolder",
+              "wrap": true
+            },
+            {
+              "type": "TextBlock",
+              "text": "Yes",
+              "spacing": "Small",
+              "wrap": true
+            },
+            {
+              "type": "TextBlock",
+              "text": "No",
+              "spacing": "Small",
+              "wrap": true
+            },
+            {
+              "type": "TextBlock",
+              "text": "Pass",
+              "spacing": "Small",
+              "wrap": true
+            },
+            {
+              "type": "TextBlock",
+              "text": "Voters",
+              "isSubtle": true,
+              "weight": "Bolder",
+              "wrap": true
+            }
+          ]
+        },
+        {
+          "type": "Column",
+          "width": "auto",
+          "items": [
+            {
+              "type": "TextBlock",
+              "text": "Votes",
+              "horizontalAlignment": "Right",
+              "isSubtle": true,
+              "weight": "Bolder",
+              "wrap": true
+            },
+            {
+              "type": "TextBlock",
+              "text": "${$root.yes}",
+              "horizontalAlignment": "Right",
+              "spacing": "Small",
+              "wrap": true
+            },
+            {
+              "type": "TextBlock",
+              "text": "${$root.no}",
+              "horizontalAlignment": "Right",
+              "spacing": "Small",
+              "wrap": true
+            },
+            {
+              "type": "TextBlock",
+              "text": "${$root.pass}",
+              "horizontalAlignment": "Right",
+              "spacing": "Small",
+              "wrap": true
+            },
+            {
+              "type": "TextBlock",
+              "text": "${$root.votes}/${$root.voters}",
+              "horizontalAlignment": "Right",
+              "spacing": "Small",
+              "weight": "Bolder",
+              "wrap": true
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

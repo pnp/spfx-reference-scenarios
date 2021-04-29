@@ -1,0 +1,64 @@
+{
+  "id": "2a0236c3-f47f-4006-8581-27c03a4652a5",
+  "alias": "ManageTopicWebPart",
+  "componentType": "WebPart",
+  "version": "0.0.1",
+  "manifestVersion": 2,
+  "requiresCustomScript": false,
+  "supportedHosts": [],
+  "preconfiguredEntries": [
+    {
+      "groupId": "5c03119e-3074-46fd-976b-c60198311f70",
+      "group": {
+        "default": "Other"
+      },
+      "title": {
+        "default": "Manage Topic"
+      },
+      "description": {
+        "default": "Task Module to manage topics for the voting system"
+      },
+      "officeFabricIconFontName": "Page",
+      "properties": {
+        "apiUrl": "https://teams-meeting-app-voting.ngrok.io/api/voting",
+        "apiAudience": "api://teams-meeting-app-voting-bot"
+      }
+    }
+  ],
+  "loaderConfig": {
+    "internalModuleBaseUrls": [
+      "https://localhost:4321/dist/"
+    ],
+    "entryModuleId": "manage-topic-web-part",
+    "scriptResources": {
+      "manage-topic-web-part": {
+        "type": "path",
+        "path": "manage-topic-web-part_55fea53d6d1c395600fe.js"
+      },
+      "ManageTopicWebPartStrings": {
+        "type": "path",
+        "path": "ManageTopicWebPartStrings_en-us_d952ce175c391fa61cbbdea23a3fc547.js"
+      },
+      "@microsoft/sp-core-library": {
+        "type": "component",
+        "id": "7263c7d0-1d6a-45ec-8d85-d4d1d234171b",
+        "version": "1.12.1"
+      },
+      "@microsoft/sp-webpart-base": {
+        "type": "component",
+        "id": "974a7777-0990-4136-8fa6-95d80114c2e0",
+        "version": "1.12.1"
+      },
+      "react": {
+        "type": "component",
+        "id": "0d910c1c-13b9-4e1c-9aa4-b008c5e42d7d",
+        "version": "16.9.0"
+      },
+      "react-dom": {
+        "type": "component",
+        "id": "aa0a46ec-1505-43cd-a44a-93f3a5aa460a",
+        "version": "16.9.0"
+      }
+    }
+  }
+}

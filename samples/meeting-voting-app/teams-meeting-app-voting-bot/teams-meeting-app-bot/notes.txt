@@ -1,0 +1,3 @@
+﻿http://localhost:3978/
+https://teams-meeting-app-voting.ngrok.io/
+ngrok http localhost:3978 -subdomain=teams-meeting-app-voting -host-header="localhost:3978"

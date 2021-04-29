@@ -1,0 +1,37 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.31105.61
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TeamsMeetingAppBot", "teams-meeting-app-bot\TeamsMeetingAppBot.csproj", "{82265F00-2D7C-4910-968F-6F3411F3AD68}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TeamsMeetingAppBot.Repository", "TeamsMeetingAppBot.Repository\TeamsMeetingAppBot.Repository.csproj", "{88F76FC1-ABBF-4418-B7D0-B87075A97EC1}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TeamsMeetingAppBot.Repository.Sql", "TeamsMeetingAppBot.Repository.Sql\TeamsMeetingAppBot.Repository.Sql.csproj", "{57AF5BEE-3AC8-4605-97A6-AF30ED7C641F}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{82265F00-2D7C-4910-968F-6F3411F3AD68}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{82265F00-2D7C-4910-968F-6F3411F3AD68}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{82265F00-2D7C-4910-968F-6F3411F3AD68}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{82265F00-2D7C-4910-968F-6F3411F3AD68}.Release|Any CPU.Build.0 = Release|Any CPU
+		{88F76FC1-ABBF-4418-B7D0-B87075A97EC1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{88F76FC1-ABBF-4418-B7D0-B87075A97EC1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{88F76FC1-ABBF-4418-B7D0-B87075A97EC1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{88F76FC1-ABBF-4418-B7D0-B87075A97EC1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{57AF5BEE-3AC8-4605-97A6-AF30ED7C641F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{57AF5BEE-3AC8-4605-97A6-AF30ED7C641F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{57AF5BEE-3AC8-4605-97A6-AF30ED7C641F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{57AF5BEE-3AC8-4605-97A6-AF30ED7C641F}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {C3589EC5-F375-4E05-8688-94AB94C58B8B}
+	EndGlobalSection
+EndGlobal
