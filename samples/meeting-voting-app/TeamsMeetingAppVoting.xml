@@ -1,0 +1,68 @@
+<?xml version="1.0"?>
+<pnp:Provisioning xmlns:pnp="http://schemas.dev.office.com/PnP/2020/02/ProvisioningSchema">
+  <pnp:Preferences Generator="PnP.Framework, Version=1.2.0.0, Culture=neutral, PublicKeyToken=null" />
+  <pnp:Templates ID="CONTAINER-TEMPLATE-F775324C4DC74628B7673F9FAA16FA6A">
+    <pnp:ProvisioningTemplate ID="TEMPLATE-F775324C4DC74628B7673F9FAA16FA6A" Version="1" BaseSiteTemplate="GROUP#0" Scope="RootSite">
+      <pnp:Lists>
+        <pnp:ListInstance Title="Votes" Description="" DocumentTemplate="" TemplateType="100" Url="Lists/Votes" EnableVersioning="true" MinorVersionLimit="0" MaxVersionLimit="50" DraftVersionVisibility="0" TemplateFeatureID="00bfea71-de22-43b2-a848-c05709900100" EnableFolderCreation="false" DefaultDisplayFormUrl="{site}/Lists/Votes/DispForm.aspx" DefaultEditFormUrl="{site}/Lists/Votes/EditForm.aspx" DefaultNewFormUrl="{site}/Lists/Votes/NewForm.aspx" ImageUrl="/_layouts/15/images/itgen.png?rev=47" IrmExpire="false" IrmReject="false" IsApplicationList="false" ValidationFormula="" ValidationMessage="">
+          <pnp:ContentTypeBindings>
+            <pnp:ContentTypeBinding ContentTypeID="0x01" Default="true" />
+          </pnp:ContentTypeBindings>
+          <pnp:Views>
+            <View Name="{6C0C6AF7-6922-4FBC-B4D4-760B9A8D3E15}" DefaultView="TRUE" MobileView="TRUE" MobileDefaultView="TRUE" Type="HTML" DisplayName="All Items" Url="{site}/Lists/Votes/AllItems.aspx" Level="1" BaseViewID="1" ContentTypeID="0x" ImageUrl="/_layouts/15/images/generic.png?rev=47">
+              <Query />
+              <ViewFields>
+                <FieldRef Name="LinkTitle" />
+                <FieldRef Name="MeetingId" />
+                <FieldRef Name="TopicId" />
+                <FieldRef Name="Voter" />
+                <FieldRef Name="Vote" />
+              </ViewFields>
+              <RowLimit Paged="TRUE">30</RowLimit>
+              <JSLink>clienttemplates.js</JSLink>
+              <CustomFormatter />
+            </View>
+          </pnp:Views>
+          <pnp:Fields>
+            <Field DisplayName="MeetingId" Format="Dropdown" IsModern="TRUE" MaxLength="255" Name="MeetingId" Title="MeetingId" Type="Text" ID="{326ad383-ed3a-4ce0-8a0c-6ee015cea393}" SourceID="{{listid:Votes}}" StaticName="MeetingId" ColName="nvarchar4" RowOrdinal="0" />
+            <Field DisplayName="TopicId" Format="Dropdown" IsModern="TRUE" MaxLength="255" Name="TopicId" Title="TopicId" Type="Text" ID="{757a1e7f-fbf5-45e5-90c2-ada21b38963d}" SourceID="{{listid:Votes}}" StaticName="TopicId" ColName="nvarchar5" RowOrdinal="0" />
+            <Field DisplayName="Voter" Format="Dropdown" IsModern="TRUE" MaxLength="255" Name="Voter" Title="Voter" Type="Text" ID="{2b2ea099-c687-4815-9a66-f4d4bf69d4c9}" SourceID="{{listid:Votes}}" StaticName="Voter" ColName="nvarchar6" RowOrdinal="0" />
+            <Field DisplayName="Vote" Format="Dropdown" IsModern="TRUE" MaxLength="255" Name="Vote" Title="Vote" Type="Text" ID="{e7e8825e-1e11-4824-b82b-a43d59e01576}" SourceID="{{listid:Votes}}" StaticName="Vote" ColName="nvarchar7" RowOrdinal="0" />
+          </pnp:Fields>
+        </pnp:ListInstance>
+        <pnp:ListInstance Title="VotingTopics" Description="" DocumentTemplate="" TemplateType="100" Url="Lists/VotingTopics" EnableVersioning="true" MinorVersionLimit="0" MaxVersionLimit="50" DraftVersionVisibility="0" TemplateFeatureID="00bfea71-de22-43b2-a848-c05709900100" EnableFolderCreation="false" DefaultDisplayFormUrl="{site}/Lists/VotingTopics/DispForm.aspx" DefaultEditFormUrl="{site}/Lists/VotingTopics/EditForm.aspx" DefaultNewFormUrl="{site}/Lists/VotingTopics/NewForm.aspx" ImageUrl="/_layouts/15/images/itgen.png?rev=47" IrmExpire="false" IrmReject="false" IsApplicationList="false" ValidationFormula="" ValidationMessage="">
+          <pnp:ContentTypeBindings>
+            <pnp:ContentTypeBinding ContentTypeID="0x01" Default="true" />
+          </pnp:ContentTypeBindings>
+          <pnp:Views>
+            <View Name="{66C0AF99-9943-42F9-B304-E919D521E523}" DefaultView="TRUE" MobileView="TRUE" MobileDefaultView="TRUE" Type="HTML" DisplayName="All Items" Url="{site}/Lists/VotingTopics/AllItems.aspx" Level="1" BaseViewID="1" ContentTypeID="0x" ImageUrl="/_layouts/15/images/generic.png?rev=47">
+              <Query />
+              <ViewFields>
+                <FieldRef Name="LinkTitle" />
+                <FieldRef Name="MeetingId" />
+                <FieldRef Name="AuthorUpn" />
+                <FieldRef Name="OpenForVoting" />
+                <FieldRef Name="ReplyId" />
+                <FieldRef Name="VotingResults" />
+              </ViewFields>
+              <RowLimit Paged="TRUE">30</RowLimit>
+              <Aggregations Value="Off" />
+              <JSLink>clienttemplates.js</JSLink>
+              <CustomFormatter />
+              <ViewData />
+            </View>
+          </pnp:Views>
+          <pnp:Fields>
+            <Field DisplayName="MeetingId" Format="Dropdown" IsModern="TRUE" MaxLength="255" Name="MeetingId" Title="MeetingId" Type="Text" ID="{006318a8-d4af-4baa-b3de-ecf6ac935577}" SourceID="{{listid:VotingTopics}}" StaticName="MeetingId" ColName="nvarchar4" RowOrdinal="0" />
+            <Field DisplayName="AuthorUpn" Format="Dropdown" IsModern="TRUE" MaxLength="255" Name="AuthorUpn" Title="AuthorUpn" Type="Text" ID="{fc48a85f-6a98-4f36-af6b-5c2a17a29217}" SourceID="{{listid:VotingTopics}}" StaticName="AuthorUpn" ColName="nvarchar5" RowOrdinal="0" />
+            <Field DisplayName="OpenForVoting" Format="Dropdown" IsModern="TRUE" Name="OpenForVoting" Title="OpenForVoting" Type="Boolean" ID="{a149a098-b1ab-4830-9be7-27e6d7166ccc}" SourceID="{{listid:VotingTopics}}" StaticName="OpenForVoting" ColName="bit1" RowOrdinal="0">
+              <Default>0</Default>
+            </Field>
+            <Field DisplayName="ReplyId" Format="Dropdown" IsModern="TRUE" MaxLength="255" Name="ReplyId" Title="ReplyId" Type="Text" ID="{b2586f71-71d5-406b-babf-c69fb9013250}" SourceID="{{listid:VotingTopics}}" StaticName="ReplyId" ColName="nvarchar6" RowOrdinal="0" />
+            <Field DisplayName="VotingResults" Format="Dropdown" IsModern="TRUE" MaxLength="255" Name="VotingResults" Title="VotingResults" Type="Text" ID="{46b69c22-4ac5-4d88-8dde-b15874570f42}" SourceID="{{listid:VotingTopics}}" StaticName="VotingResults" ColName="nvarchar7" RowOrdinal="0" />
+          </pnp:Fields>
+        </pnp:ListInstance>
+      </pnp:Lists>
+    </pnp:ProvisioningTemplate>
+  </pnp:Templates>
+</pnp:Provisioning>
