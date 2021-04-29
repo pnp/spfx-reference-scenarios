@@ -50,7 +50,7 @@ export default class TableSection extends React.Component<ITableSectionProps, IT
                 }
                 {this.props.fields.map((field) => {
                   return (
-                    <td>
+                    <td className={((field == "Status" || field == "Check In")) ? styles.centered : ""}>
                       {field == "Name" &&
                         <Persona size={Size.FortyEight}
                           src={(o.Employee) ? o.Employee.PhotoBlobUrl : ""}

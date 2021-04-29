@@ -4,6 +4,7 @@ import isEqual from "lodash/isEqual";
 
 import ButtonIcon from "../atoms/ButtonIcon";
 import { Icons } from "../../models/enums";
+import styles from "../CovidAdmin.module.scss";
 
 export interface ITableHeaderProps {
   columnNames: string[];
@@ -43,7 +44,7 @@ export default class TableHeader extends React.Component<ITableHeaderProps, ITab
               </th>
             }
             {this.props.columnNames && this.props.columnNames.map((cn) => {
-              return (<th scope="col">{cn}</th>);
+              return (<th scope="col" className={(cn == "Status") ? styles.centered : ""} >{cn}</th>);
             })}
           </tr>
         </thead>

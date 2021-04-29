@@ -46,6 +46,10 @@
       outline: none;
     }
 
+    .hoo-table tbody td {
+      vertical-align: middle;
+    }
+
     //Presence styles
     .noImage {
       display: flex;
@@ -282,6 +286,10 @@
 
   .error {
     color: red;
+  }
+
+  .centered {
+    text-align: center !important;
   }
 
 
