@@ -1,4 +1,10 @@
 declare interface IWorldClockWebPartStrings {
+  ConfigureViewsTitle: string;
+  ConfigureViewsContent: string;
+  ManageViewsTitle: string;
+  ManageViewsContent: string;
+  SaveLabel: string;
+  CancelLabel: string;
 
 }
 

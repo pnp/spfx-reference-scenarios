@@ -19,6 +19,7 @@ import * as strings from 'WorldClockWebPartStrings';
 import WorldClock, { IWorldClockProps } from './components/WorldClock';
 import { wcc } from './services/wcConfig.service';
 import { wc } from './services/wc.service';
+import { IWebEnsureUserResult } from "@pnp/sp/site-users/";
 
 export interface IWorldClockWebPartProps {
   description: string;
@@ -27,6 +28,7 @@ export interface IWorldClockWebPartProps {
 export default class WorldClockWebPart extends BaseClientSideWebPart<IWorldClockWebPartProps> {
   private LOG_SOURCE: string = "🔶WorldClockWebPart";
   private _microsoftTeams: IMicrosoftTeams;
+  private _userId: number = 0;
 
   /** Used for theming */
   private _themeProvider: ThemeProvider;
@@ -39,7 +41,7 @@ export default class WorldClockWebPart extends BaseClientSideWebPart<IWorldClock
       Logger.activeLogLevel = LogLevel.Info;
 
       //Initialize PnPJs
-      //sp.setup({ spfxContext: this.context });
+      sp.setup({ spfxContext: this.context });
       graph.setup({ spfxContext: this.context });
 
       // const siteValid = await wcc.isValid();
@@ -54,8 +56,9 @@ export default class WorldClockWebPart extends BaseClientSideWebPart<IWorldClock
   private async _init(): Promise<void> {
     try {
       this._microsoftTeams = this.context.sdks?.microsoftTeams;
-      await wc.init(this.context.pageContext.cultureInfo.currentUICultureName);
-
+      await wc.init(this.context.pageContext.cultureInfo.currentUICultureName, this.context.pageContext.site.absoluteUrl);
+      const user = await sp.web.ensureUser(this.context.pageContext.user.loginName);
+      this._userId = user.data.Id;
       // Consume the new ThemeProvider service
       this._themeProvider = this.context.serviceScope.consume(ThemeProvider.serviceKey);
       this._themeVariant = this._themeProvider.tryGetTheme();
@@ -100,7 +103,9 @@ export default class WorldClockWebPart extends BaseClientSideWebPart<IWorldClock
     try {
       let element;
       if (wc.Ready) {
-        const props: IWorldClockProps = {};
+        const props: IWorldClockProps = {
+          userId: this._userId
+        };
         element = React.createElement(WorldClock, props);
       } else {
         //TODO: Render error

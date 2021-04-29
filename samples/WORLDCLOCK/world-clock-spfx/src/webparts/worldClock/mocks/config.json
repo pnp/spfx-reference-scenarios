@@ -5,36 +5,220 @@
     "teamId": "",
     "teamName": ""
   },
-  "members": [
-    {
-      "personId": "",
+  "defaultViewId": 0,
+  "members": [{
+      "personId": "24",
       "personType": 1,
-      "displayName": "",
+      "displayName": "Derek Cash-Peterson",
       "workDays": "",
       "workHours": "",
-      "firstName": "",
-      "lastName": "",
+      "firstName": "Derek",
+      "lastName": "Cash-Peterson",
       "photoUrl": "",
-      "IANATimezone": ""
+      "IANATimeZone": "America/New_York"
+    },
+    {
+      "personId": "11",
+      "personType": 1,
+      "displayName": "Julie Turner",
+      "workDays": "",
+      "workHours": "",
+      "firstName": "Julie",
+      "lastName": "Turner",
+      "photoUrl": "",
+      "IANATimeZone": "America/New_York"
+    }, {
+      "personId": "23",
+      "personType": 1,
+      "displayName": "Stefan Bauer",
+      "workDays": "",
+      "workHours": "",
+      "firstName": "Stefan",
+      "lastName": "Bauer",
+      "photoUrl": "",
+      "IANATimeZone": "Europe/Vienna"
+    },
+    {
+      "personId": "5",
+      "personType": 1,
+      "displayName": "Josh West Coast",
+      "workDays": "",
+      "workHours": "",
+      "firstName": "Josh",
+      "lastName": "West Coast",
+      "photoUrl": "",
+      "IANATimeZone": "America/Los_Angeles"
+    }, {
+      "personId": "9",
+      "personType": 1,
+      "displayName": "Kendall Drew",
+      "workDays": "",
+      "workHours": "",
+      "firstName": "Kendall",
+      "lastName": "Drew",
+      "photoUrl": "",
+      "IANATimeZone": "America/Los_Angeles"
+    }, {
+      "personId": "6",
+      "personType": 1,
+      "displayName": "Jane Aust",
+      "workDays": "",
+      "workHours": "",
+      "firstName": "Jane",
+      "lastName": "Aust",
+      "photoUrl": "",
+      "IANATimeZone": "Australia/Melbourne"
+    }, {
+      "personId": "7",
+      "personType": 1,
+      "displayName": "Riley Hawaii",
+      "workDays": "",
+      "workHours": "",
+      "firstName": "Riley",
+      "lastName": "Hawaii",
+      "photoUrl": "",
+      "IANATimeZone": "Pacific/Honolulu"
+    }, {
+      "personId": "8",
+      "personType": 1,
+      "displayName": "Jaime Alaska",
+      "workDays": "",
+      "workHours": "",
+      "firstName": "Jaime",
+      "lastName": "Alaska",
+      "photoUrl": "",
+      "IANATimeZone": "America/Adak"
+    }, {
+      "personId": "8",
+      "personType": 1,
+      "displayName": "Jaime Alaska",
+      "workDays": "",
+      "workHours": "",
+      "firstName": "Jaime",
+      "lastName": "Alaska",
+      "photoUrl": "",
+      "IANATimeZone": "America/Adak"
+    }, {
+      "personId": "8",
+      "personType": 1,
+      "displayName": "Jaime Alaska",
+      "workDays": "",
+      "workHours": "",
+      "firstName": "Jaime",
+      "lastName": "Alaska",
+      "photoUrl": "",
+      "IANATimeZone": "America/Adak"
+    }, {
+      "personId": "8",
+      "personType": 1,
+      "displayName": "Jaime Alaska",
+      "workDays": "",
+      "workHours": "",
+      "firstName": "Jaime",
+      "lastName": "Alaska",
+      "photoUrl": "",
+      "IANATimeZone": "America/Adak"
+    }, {
+      "personId": "8",
+      "personType": 1,
+      "displayName": "Jaime Alaska",
+      "workDays": "",
+      "workHours": "",
+      "firstName": "Jaime",
+      "lastName": "Alaska",
+      "photoUrl": "",
+      "IANATimeZone": "America/Adak"
+    }, {
+      "personId": "8",
+      "personType": 1,
+      "displayName": "Jaime Alaska",
+      "workDays": "",
+      "workHours": "",
+      "firstName": "Jaime",
+      "lastName": "Alaska",
+      "photoUrl": "",
+      "IANATimeZone": "America/Adak"
+    }, {
+      "personId": "8",
+      "personType": 1,
+      "displayName": "Jaime Alaska",
+      "workDays": "",
+      "workHours": "",
+      "firstName": "Jaime",
+      "lastName": "Alaska",
+      "photoUrl": "",
+      "IANATimeZone": "America/Adak"
+    }, {
+      "personId": "8",
+      "personType": 1,
+      "displayName": "Jaime Alaska",
+      "workDays": "",
+      "workHours": "",
+      "firstName": "Jaime",
+      "lastName": "Alaska",
+      "photoUrl": "",
+      "IANATimeZone": "America/Adak"
+    }, {
+      "personId": "8",
+      "personType": 1,
+      "displayName": "Jaime Alaska",
+      "workDays": "",
+      "workHours": "",
+      "firstName": "Jaime",
+      "lastName": "Alaska",
+      "photoUrl": "",
+      "IANATimeZone": "America/Adak"
+    }, {
+      "personId": "8",
+      "personType": 1,
+      "displayName": "Jaime Alaska",
+      "workDays": "",
+      "workHours": "",
+      "firstName": "Jaime",
+      "lastName": "Alaska",
+      "photoUrl": "",
+      "IANATimeZone": "America/Adak"
+    }, {
+      "personId": "8",
+      "personType": 1,
+      "displayName": "Jaime Alaska",
+      "workDays": "",
+      "workHours": "",
+      "firstName": "Jaime",
+      "lastName": "Alaska",
+      "photoUrl": "",
+      "IANATimeZone": "America/Adak"
+    }, {
+      "personId": "8",
+      "personType": 1,
+      "displayName": "Jaime Alaska",
+      "workDays": "",
+      "workHours": "",
+      "firstName": "Jaime",
+      "lastName": "Alaska",
+      "photoUrl": "",
+      "IANATimeZone": "America/Adak"
+    }, {
+      "personId": "8",
+      "personType": 1,
+      "displayName": "Jaime Alaska",
+      "workDays": "",
+      "workHours": "",
+      "firstName": "Jaime",
+      "lastName": "Alaska",
+      "photoUrl": "",
+      "IANATimeZone": "America/Adak"
+    }, {
+      "personId": "8",
+      "personType": 1,
+      "displayName": "Jaime Alaska",
+      "workDays": "",
+      "workHours": "",
+      "firstName": "Jaime",
+      "lastName": "Alaska",
+      "photoUrl": "",
+      "IANATimeZone": "America/Adak"
     }
   ],
-  "views": [
-    {
-      "viewId": "0",
-      "viewName": "My View",
-      "members": [
-        {
-          "personId": "",
-          "personType": 1,
-          "displayName": "",
-          "workDays": "",
-          "workHours": "",
-          "firstName": "",
-          "lastName": "",
-          "photoUrl": "",
-          "IANATimezone": ""
-        }
-      ]
-    }
-  ]
+  "views": []
 }

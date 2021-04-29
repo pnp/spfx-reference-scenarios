@@ -18,7 +18,8 @@ export interface IPerson {
   firstName: string;
   lastName: string;
   photoUrl: string;
-  IANATimezone: string;
+  IANATimeZone: string;
+  offset?: number;
 }
 
 export class Person implements IPerson {
@@ -31,7 +32,8 @@ export class Person implements IPerson {
     public firstName: string = null,
     public lastName: string = null,
     public photoUrl: string = null,
-    public IANATimezone: string = null
+    public IANATimeZone: string = null,
+    public offset: number = 0,
   ) { }
 }
 
@@ -65,6 +67,7 @@ export interface IConfig {
   configType: CONFIG_TYPE;
   configPerson: IPerson;
   configTeam: ITeam;
+  defaultViewId: string;
   members: IPerson[];
   views: IView[];
 }
@@ -74,6 +77,7 @@ export class Config implements IConfig {
     public configType: CONFIG_TYPE = null,
     public configPerson: IPerson = null,
     public configTeam: ITeam = null,
+    public defaultViewId: string = null,
     public members: IPerson[] = [],
     public views: IView[] = []
   ) { }
