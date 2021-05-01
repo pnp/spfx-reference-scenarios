@@ -1,8 +1,11 @@
 import * as React from "react";
 import { Logger, LogLevel } from "@pnp/logging";
 import { isEqual } from "lodash";
+import { IPerson } from "../../models/wc.models";
+import Scheduler from "../molecules/Scheduler";
 
 export interface IMeetingSchedulerProps {
+  meetingMembers: IPerson[];
 }
 
 export interface IMeetingSchedulerState {
@@ -30,6 +33,7 @@ export default class MeetingScheduler extends React.Component<IMeetingSchedulerP
     try {
       return (
         <div data-component={this.LOG_SOURCE}>
+          <Scheduler meetingMembers={this.props.meetingMembers} />
         </div>
       );
     } catch (err) {

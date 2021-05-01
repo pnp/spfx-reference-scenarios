@@ -6,18 +6,22 @@ import MeetingScheduler from "./organisms/MeetingScheduler";
 import styles from "./WorldClock.module.scss";
 import { DateTime } from "luxon";
 import { wc } from "../services/wc.service";
+import { IPerson } from "../models/wc.models";
+import { cloneDeep, find, reduce, uniqBy } from "lodash";
 
 export interface IWorldClockProps {
-  userId: number;
+  userId: string;
 }
 
 export interface IWorldClockState {
   currentTime: DateTime;
+  meetingMembers: IPerson[];
 }
 
 export class WorldClockState implements IWorldClockState {
   constructor(
-    public currentTime: DateTime = DateTime.now().setLocale(wc.Locale).setZone(wc.IANATimeZone)
+    public currentTime: DateTime = DateTime.now().setLocale(wc.Locale).setZone(wc.IANATimeZone),
+    public meetingMembers: IPerson[] = []
   ) { }
 }
 
@@ -48,12 +52,23 @@ export default class WorldClock extends React.Component<IWorldClockProps, IWorld
     }
   }
 
+  private _addToMeeting = (person: IPerson) => {
+    let meetingMembers = cloneDeep(this.state.meetingMembers);
+    if (meetingMembers.length == 0) {
+      let currentUser: IPerson = find(wc.Config.members, { personId: this.props.userId });
+      meetingMembers.push(currentUser);
+    }
+    meetingMembers.push(person);
+    meetingMembers = uniqBy(meetingMembers, "personId");
+    this.setState({ meetingMembers: meetingMembers });
+  }
+
   public render(): React.ReactElement<IWorldClockProps> {
     try {
       return (
         <div data-component={this.LOG_SOURCE} className={styles.worldClock}>
-          <TeamTimes userId={this.props.userId} currentTime={this.state.currentTime} />
-          <MeetingScheduler />
+          <TeamTimes userId={this.props.userId} currentTime={this.state.currentTime} addToMeeting={this._addToMeeting} meetingMembers={this.state.meetingMembers} />
+          <MeetingScheduler meetingMembers={this.state.meetingMembers} />
         </div>
       );
     } catch (err) {

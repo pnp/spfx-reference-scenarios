@@ -12,7 +12,6 @@ import strings from "WorldClockWebPartStrings";
 
 export interface IManageViewsProps {
   views: IView[];
-  userId: number;
   save: (currentView: IView) => void;
   cancel: () => void;
 }

@@ -28,7 +28,7 @@ export interface IWorldClockWebPartProps {
 export default class WorldClockWebPart extends BaseClientSideWebPart<IWorldClockWebPartProps> {
   private LOG_SOURCE: string = "🔶WorldClockWebPart";
   private _microsoftTeams: IMicrosoftTeams;
-  private _userId: number = 0;
+  private _userId: string = "24";
 
   /** Used for theming */
   private _themeProvider: ThemeProvider;
@@ -57,8 +57,9 @@ export default class WorldClockWebPart extends BaseClientSideWebPart<IWorldClock
     try {
       this._microsoftTeams = this.context.sdks?.microsoftTeams;
       await wc.init(this.context.pageContext.cultureInfo.currentUICultureName, this.context.pageContext.site.absoluteUrl);
-      const user = await sp.web.ensureUser(this.context.pageContext.user.loginName);
-      this._userId = user.data.Id;
+      //TODO: Julie, this wasn't working right. Need to review.
+      //const user = await sp.web.ensureUser(this.context.pageContext.user.loginName);
+      //this._userId = user.data.Id.toString();
       // Consume the new ThemeProvider service
       this._themeProvider = this.context.serviceScope.consume(ThemeProvider.serviceKey);
       this._themeVariant = this._themeProvider.tryGetTheme();

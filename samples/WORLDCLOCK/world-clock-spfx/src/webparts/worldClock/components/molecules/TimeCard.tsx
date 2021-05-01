@@ -1,14 +1,21 @@
 import * as React from "react";
 import { Logger, LogLevel } from "@pnp/logging";
-import { endsWith, isEqual, replace } from "lodash";
+import { endsWith, find, includes, isEqual, replace, times } from "lodash";
 import { DateTime } from "luxon";
 import { IPerson } from "../../models/wc.models";
 import { wc } from "../../services/wc.service";
+import styles from "../WorldClock.module.scss";
+import ButtonIcon from "../atoms/ButtonIcon";
+import { Icons } from "../../models/wc.Icons";
 
 export interface ITimeCardProps {
   currentTime: DateTime;
   members: IPerson[];
   currentTimeZone: string;
+  userId: string;
+  addToMeeting: (IPerson) => void;
+  meetingMembers: IPerson[];
+  editProfile: (boolean) => void;
 }
 
 export interface ITimeCardState {
@@ -36,6 +43,7 @@ export default class TimeCard extends React.Component<ITimeCardProps, ITimeCardS
     return true;
   }
 
+
   public render(): React.ReactElement<ITimeCardProps> {
     try {
       let showAMPM: boolean = false;
@@ -50,7 +58,12 @@ export default class TimeCard extends React.Component<ITimeCardProps, ITimeCardS
           <div className="hoo-wc-time">{currentTime}<span className="hoo-wc-ampm">{(showAMPM) ? this.props.currentTime.setZone(this._IANATimeZone).toFormat("a") : ""}</span></div>
           <div className="hoo-wc-peoples">
             {this._members.map((m) => {
-              return (<div className="hoo-wc-people" title="Add to Meeting">{m.displayName}</div>);
+              let inMeeting: IPerson = find(this.props.meetingMembers, { personId: m.personId });
+              return (<div className="hoo-wc-people" title="Add to Meeting">{m.displayName}
+                {(this.props.userId == m.personId) ? <ButtonIcon iconType={Icons.Profile} onClick={() => this.props.editProfile(true)} altText="Edit my profile" /> : null}
+                {((this.props.userId != m.personId) && (!inMeeting)) ? <ButtonIcon iconType={Icons.PlusPerson} onClick={() => this.props.addToMeeting(m)} altText="Add to meeting" /> : null}
+
+              </div>);
             })
             }
           </div>

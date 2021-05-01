@@ -1,4 +1,3 @@
-
 export enum PERSON_TYPE {
   LocGuest = 1,
   Employee
@@ -8,6 +7,46 @@ export enum CONFIG_TYPE {
   Personal = 1,
   Team
 }
+export enum HOUR_TYPE {
+  WorkingHour = 1,
+  ExtendedHour,
+  NotWorking
+}
+let _hourList: IHour[] = [
+  { hourId: 0, workingType: HOUR_TYPE.NotWorking },
+  { hourId: 1, workingType: HOUR_TYPE.NotWorking },
+  { hourId: 2, workingType: HOUR_TYPE.NotWorking },
+  { hourId: 3, workingType: HOUR_TYPE.NotWorking },
+  { hourId: 4, workingType: HOUR_TYPE.NotWorking },
+  { hourId: 5, workingType: HOUR_TYPE.NotWorking },
+  { hourId: 6, workingType: HOUR_TYPE.NotWorking },
+  { hourId: 7, workingType: HOUR_TYPE.NotWorking },
+  { hourId: 8, workingType: HOUR_TYPE.ExtendedHour },
+  { hourId: 9, workingType: HOUR_TYPE.WorkingHour },
+  { hourId: 10, workingType: HOUR_TYPE.WorkingHour },
+  { hourId: 11, workingType: HOUR_TYPE.WorkingHour },
+  { hourId: 12, workingType: HOUR_TYPE.WorkingHour },
+  { hourId: 13, workingType: HOUR_TYPE.WorkingHour },
+  { hourId: 14, workingType: HOUR_TYPE.WorkingHour },
+  { hourId: 15, workingType: HOUR_TYPE.WorkingHour },
+  { hourId: 16, workingType: HOUR_TYPE.WorkingHour },
+  { hourId: 17, workingType: HOUR_TYPE.ExtendedHour },
+  { hourId: 18, workingType: HOUR_TYPE.NotWorking },
+  { hourId: 19, workingType: HOUR_TYPE.NotWorking },
+  { hourId: 20, workingType: HOUR_TYPE.NotWorking },
+  { hourId: 21, workingType: HOUR_TYPE.NotWorking },
+  { hourId: 22, workingType: HOUR_TYPE.NotWorking },
+  { hourId: 23, workingType: HOUR_TYPE.NotWorking },
+];
+let _dayList: IDay[] = [
+  { dayId: 1, hours: _hourList },
+  { dayId: 2, hours: _hourList },
+  { dayId: 3, hours: _hourList },
+  { dayId: 4, hours: _hourList },
+  { dayId: 5, hours: _hourList },
+  { dayId: 6, hours: _hourList },
+  { dayId: 0, hours: _hourList },
+];
 
 export interface IPerson {
   personId: string;
@@ -20,6 +59,7 @@ export interface IPerson {
   photoUrl: string;
   IANATimeZone: string;
   offset?: number;
+  schedule: ISchedule;
 }
 
 export class Person implements IPerson {
@@ -34,6 +74,7 @@ export class Person implements IPerson {
     public photoUrl: string = null,
     public IANATimeZone: string = null,
     public offset: number = 0,
+    public schedule: ISchedule = new Schedule()
   ) { }
 }
 
@@ -81,4 +122,234 @@ export class Config implements IConfig {
     public members: IPerson[] = [],
     public views: IView[] = []
   ) { }
+}
+
+//TODO: Julie is there a bette way to do this?
+export interface ISchedule {
+  days: IDay[];
+}
+export class Schedule implements ISchedule {
+  constructor(
+    public days: IDay[] = [
+      {
+        dayId: 1, hours: [
+          { hourId: 0, workingType: HOUR_TYPE.NotWorking },
+          { hourId: 1, workingType: HOUR_TYPE.NotWorking },
+          { hourId: 2, workingType: HOUR_TYPE.NotWorking },
+          { hourId: 3, workingType: HOUR_TYPE.NotWorking },
+          { hourId: 4, workingType: HOUR_TYPE.NotWorking },
+          { hourId: 5, workingType: HOUR_TYPE.NotWorking },
+          { hourId: 6, workingType: HOUR_TYPE.NotWorking },
+          { hourId: 7, workingType: HOUR_TYPE.ExtendedHour },
+          { hourId: 8, workingType: HOUR_TYPE.ExtendedHour },
+          { hourId: 9, workingType: HOUR_TYPE.WorkingHour },
+          { hourId: 10, workingType: HOUR_TYPE.WorkingHour },
+          { hourId: 11, workingType: HOUR_TYPE.WorkingHour },
+          { hourId: 12, workingType: HOUR_TYPE.WorkingHour },
+          { hourId: 13, workingType: HOUR_TYPE.WorkingHour },
+          { hourId: 14, workingType: HOUR_TYPE.WorkingHour },
+          { hourId: 15, workingType: HOUR_TYPE.WorkingHour },
+          { hourId: 16, workingType: HOUR_TYPE.WorkingHour },
+          { hourId: 17, workingType: HOUR_TYPE.ExtendedHour },
+          { hourId: 18, workingType: HOUR_TYPE.ExtendedHour },
+          { hourId: 19, workingType: HOUR_TYPE.NotWorking },
+          { hourId: 20, workingType: HOUR_TYPE.NotWorking },
+          { hourId: 21, workingType: HOUR_TYPE.NotWorking },
+          { hourId: 22, workingType: HOUR_TYPE.NotWorking },
+          { hourId: 23, workingType: HOUR_TYPE.NotWorking },
+        ]
+      },
+      {
+        dayId: 2, hours: [
+          { hourId: 0, workingType: HOUR_TYPE.NotWorking },
+          { hourId: 1, workingType: HOUR_TYPE.NotWorking },
+          { hourId: 2, workingType: HOUR_TYPE.NotWorking },
+          { hourId: 3, workingType: HOUR_TYPE.NotWorking },
+          { hourId: 4, workingType: HOUR_TYPE.NotWorking },
+          { hourId: 5, workingType: HOUR_TYPE.NotWorking },
+          { hourId: 6, workingType: HOUR_TYPE.NotWorking },
+          { hourId: 7, workingType: HOUR_TYPE.ExtendedHour },
+          { hourId: 8, workingType: HOUR_TYPE.ExtendedHour },
+          { hourId: 9, workingType: HOUR_TYPE.WorkingHour },
+          { hourId: 10, workingType: HOUR_TYPE.WorkingHour },
+          { hourId: 11, workingType: HOUR_TYPE.WorkingHour },
+          { hourId: 12, workingType: HOUR_TYPE.WorkingHour },
+          { hourId: 13, workingType: HOUR_TYPE.WorkingHour },
+          { hourId: 14, workingType: HOUR_TYPE.WorkingHour },
+          { hourId: 15, workingType: HOUR_TYPE.WorkingHour },
+          { hourId: 16, workingType: HOUR_TYPE.WorkingHour },
+          { hourId: 17, workingType: HOUR_TYPE.ExtendedHour },
+          { hourId: 18, workingType: HOUR_TYPE.ExtendedHour },
+          { hourId: 19, workingType: HOUR_TYPE.NotWorking },
+          { hourId: 20, workingType: HOUR_TYPE.NotWorking },
+          { hourId: 21, workingType: HOUR_TYPE.NotWorking },
+          { hourId: 22, workingType: HOUR_TYPE.NotWorking },
+          { hourId: 23, workingType: HOUR_TYPE.NotWorking },
+        ]
+      },
+      {
+        dayId: 3, hours: [
+          { hourId: 0, workingType: HOUR_TYPE.NotWorking },
+          { hourId: 1, workingType: HOUR_TYPE.NotWorking },
+          { hourId: 2, workingType: HOUR_TYPE.NotWorking },
+          { hourId: 3, workingType: HOUR_TYPE.NotWorking },
+          { hourId: 4, workingType: HOUR_TYPE.NotWorking },
+          { hourId: 5, workingType: HOUR_TYPE.NotWorking },
+          { hourId: 6, workingType: HOUR_TYPE.NotWorking },
+          { hourId: 7, workingType: HOUR_TYPE.ExtendedHour },
+          { hourId: 8, workingType: HOUR_TYPE.ExtendedHour },
+          { hourId: 9, workingType: HOUR_TYPE.WorkingHour },
+          { hourId: 10, workingType: HOUR_TYPE.WorkingHour },
+          { hourId: 11, workingType: HOUR_TYPE.WorkingHour },
+          { hourId: 12, workingType: HOUR_TYPE.WorkingHour },
+          { hourId: 13, workingType: HOUR_TYPE.WorkingHour },
+          { hourId: 14, workingType: HOUR_TYPE.WorkingHour },
+          { hourId: 15, workingType: HOUR_TYPE.WorkingHour },
+          { hourId: 16, workingType: HOUR_TYPE.WorkingHour },
+          { hourId: 17, workingType: HOUR_TYPE.ExtendedHour },
+          { hourId: 18, workingType: HOUR_TYPE.ExtendedHour },
+          { hourId: 19, workingType: HOUR_TYPE.NotWorking },
+          { hourId: 20, workingType: HOUR_TYPE.NotWorking },
+          { hourId: 21, workingType: HOUR_TYPE.NotWorking },
+          { hourId: 22, workingType: HOUR_TYPE.NotWorking },
+          { hourId: 23, workingType: HOUR_TYPE.NotWorking },
+        ]
+      },
+      {
+        dayId: 4, hours: [
+          { hourId: 0, workingType: HOUR_TYPE.NotWorking },
+          { hourId: 1, workingType: HOUR_TYPE.NotWorking },
+          { hourId: 2, workingType: HOUR_TYPE.NotWorking },
+          { hourId: 3, workingType: HOUR_TYPE.NotWorking },
+          { hourId: 4, workingType: HOUR_TYPE.NotWorking },
+          { hourId: 5, workingType: HOUR_TYPE.NotWorking },
+          { hourId: 6, workingType: HOUR_TYPE.NotWorking },
+          { hourId: 7, workingType: HOUR_TYPE.ExtendedHour },
+          { hourId: 8, workingType: HOUR_TYPE.ExtendedHour },
+          { hourId: 9, workingType: HOUR_TYPE.WorkingHour },
+          { hourId: 10, workingType: HOUR_TYPE.WorkingHour },
+          { hourId: 11, workingType: HOUR_TYPE.WorkingHour },
+          { hourId: 12, workingType: HOUR_TYPE.WorkingHour },
+          { hourId: 13, workingType: HOUR_TYPE.WorkingHour },
+          { hourId: 14, workingType: HOUR_TYPE.WorkingHour },
+          { hourId: 15, workingType: HOUR_TYPE.WorkingHour },
+          { hourId: 16, workingType: HOUR_TYPE.WorkingHour },
+          { hourId: 17, workingType: HOUR_TYPE.ExtendedHour },
+          { hourId: 18, workingType: HOUR_TYPE.ExtendedHour },
+          { hourId: 19, workingType: HOUR_TYPE.NotWorking },
+          { hourId: 20, workingType: HOUR_TYPE.NotWorking },
+          { hourId: 21, workingType: HOUR_TYPE.NotWorking },
+          { hourId: 22, workingType: HOUR_TYPE.NotWorking },
+          { hourId: 23, workingType: HOUR_TYPE.NotWorking },
+        ]
+      },
+      {
+        dayId: 5, hours: [
+          { hourId: 0, workingType: HOUR_TYPE.NotWorking },
+          { hourId: 1, workingType: HOUR_TYPE.NotWorking },
+          { hourId: 2, workingType: HOUR_TYPE.NotWorking },
+          { hourId: 3, workingType: HOUR_TYPE.NotWorking },
+          { hourId: 4, workingType: HOUR_TYPE.NotWorking },
+          { hourId: 5, workingType: HOUR_TYPE.NotWorking },
+          { hourId: 6, workingType: HOUR_TYPE.NotWorking },
+          { hourId: 7, workingType: HOUR_TYPE.ExtendedHour },
+          { hourId: 8, workingType: HOUR_TYPE.ExtendedHour },
+          { hourId: 9, workingType: HOUR_TYPE.WorkingHour },
+          { hourId: 10, workingType: HOUR_TYPE.WorkingHour },
+          { hourId: 11, workingType: HOUR_TYPE.WorkingHour },
+          { hourId: 12, workingType: HOUR_TYPE.WorkingHour },
+          { hourId: 13, workingType: HOUR_TYPE.WorkingHour },
+          { hourId: 14, workingType: HOUR_TYPE.WorkingHour },
+          { hourId: 15, workingType: HOUR_TYPE.WorkingHour },
+          { hourId: 16, workingType: HOUR_TYPE.WorkingHour },
+          { hourId: 17, workingType: HOUR_TYPE.ExtendedHour },
+          { hourId: 18, workingType: HOUR_TYPE.ExtendedHour },
+          { hourId: 19, workingType: HOUR_TYPE.NotWorking },
+          { hourId: 20, workingType: HOUR_TYPE.NotWorking },
+          { hourId: 21, workingType: HOUR_TYPE.NotWorking },
+          { hourId: 22, workingType: HOUR_TYPE.NotWorking },
+          { hourId: 23, workingType: HOUR_TYPE.NotWorking },
+        ]
+      },
+      {
+        dayId: 6, hours: [
+          { hourId: 0, workingType: HOUR_TYPE.NotWorking },
+          { hourId: 1, workingType: HOUR_TYPE.NotWorking },
+          { hourId: 2, workingType: HOUR_TYPE.NotWorking },
+          { hourId: 3, workingType: HOUR_TYPE.NotWorking },
+          { hourId: 4, workingType: HOUR_TYPE.NotWorking },
+          { hourId: 5, workingType: HOUR_TYPE.NotWorking },
+          { hourId: 6, workingType: HOUR_TYPE.NotWorking },
+          { hourId: 7, workingType: HOUR_TYPE.NotWorking },
+          { hourId: 8, workingType: HOUR_TYPE.NotWorking },
+          { hourId: 9, workingType: HOUR_TYPE.NotWorking },
+          { hourId: 10, workingType: HOUR_TYPE.NotWorking },
+          { hourId: 11, workingType: HOUR_TYPE.NotWorking },
+          { hourId: 12, workingType: HOUR_TYPE.NotWorking },
+          { hourId: 13, workingType: HOUR_TYPE.NotWorking },
+          { hourId: 14, workingType: HOUR_TYPE.NotWorking },
+          { hourId: 15, workingType: HOUR_TYPE.NotWorking },
+          { hourId: 16, workingType: HOUR_TYPE.NotWorking },
+          { hourId: 17, workingType: HOUR_TYPE.NotWorking },
+          { hourId: 18, workingType: HOUR_TYPE.NotWorking },
+          { hourId: 19, workingType: HOUR_TYPE.NotWorking },
+          { hourId: 20, workingType: HOUR_TYPE.NotWorking },
+          { hourId: 21, workingType: HOUR_TYPE.NotWorking },
+          { hourId: 22, workingType: HOUR_TYPE.NotWorking },
+          { hourId: 23, workingType: HOUR_TYPE.NotWorking },
+        ]
+      },
+      {
+        dayId: 7, hours: [
+          { hourId: 0, workingType: HOUR_TYPE.NotWorking },
+          { hourId: 1, workingType: HOUR_TYPE.NotWorking },
+          { hourId: 2, workingType: HOUR_TYPE.NotWorking },
+          { hourId: 3, workingType: HOUR_TYPE.NotWorking },
+          { hourId: 4, workingType: HOUR_TYPE.NotWorking },
+          { hourId: 5, workingType: HOUR_TYPE.NotWorking },
+          { hourId: 6, workingType: HOUR_TYPE.NotWorking },
+          { hourId: 7, workingType: HOUR_TYPE.NotWorking },
+          { hourId: 8, workingType: HOUR_TYPE.NotWorking },
+          { hourId: 9, workingType: HOUR_TYPE.NotWorking },
+          { hourId: 10, workingType: HOUR_TYPE.NotWorking },
+          { hourId: 11, workingType: HOUR_TYPE.NotWorking },
+          { hourId: 12, workingType: HOUR_TYPE.NotWorking },
+          { hourId: 13, workingType: HOUR_TYPE.NotWorking },
+          { hourId: 14, workingType: HOUR_TYPE.NotWorking },
+          { hourId: 15, workingType: HOUR_TYPE.NotWorking },
+          { hourId: 16, workingType: HOUR_TYPE.NotWorking },
+          { hourId: 17, workingType: HOUR_TYPE.NotWorking },
+          { hourId: 18, workingType: HOUR_TYPE.NotWorking },
+          { hourId: 19, workingType: HOUR_TYPE.NotWorking },
+          { hourId: 20, workingType: HOUR_TYPE.NotWorking },
+          { hourId: 21, workingType: HOUR_TYPE.NotWorking },
+          { hourId: 22, workingType: HOUR_TYPE.NotWorking },
+          { hourId: 23, workingType: HOUR_TYPE.NotWorking },
+        ]
+      },]
+  ) { }
+
+}
+
+export interface IDay {
+  dayId: number;
+  hours: IHour[];
+}
+export class Day implements IDay {
+  constructor(
+    public dayId: number = 0,
+    public hours: IHour[] = _hourList
+  ) { }
+
+}
+export interface IHour {
+  hourId: number;
+  workingType: HOUR_TYPE;
+}
+export class Hour implements IHour {
+  constructor(
+    public hourId: number = 0,
+    public workingType: HOUR_TYPE = HOUR_TYPE.NotWorking
+  ) { }
+
 }
