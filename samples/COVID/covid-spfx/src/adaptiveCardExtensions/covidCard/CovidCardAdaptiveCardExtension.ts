@@ -51,7 +51,7 @@ export default class CovidCardAdaptiveCardExtension extends BaseAdaptiveCardExte
       sp.setup({ spfxContext: this.context });
 
 
-      this._userId = this.context.pageContext.legacyPageContext.UserId;
+      this._userId = this.context.pageContext.legacyPageContext.userId;
       if (this._userId == undefined) {
         const user = await sp.web.ensureUser(this.context.pageContext.user.loginName);
         this._userId = user.data.Id;
