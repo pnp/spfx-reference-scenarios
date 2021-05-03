@@ -30,7 +30,7 @@ export interface ICovidService {
   CheckIns: ICheckIns[];
   QuestionListUrl: string;
   LocationListUrl: string;
-  init: (siteUrl: string) => Promise<void>;
+  init: (siteUrl: string, isAdmin: boolean, isOwner: boolean) => Promise<void>;
   CheckInsRefresh: (selectedDate: Date) => void;
   userCanCheckIn: (userId: number) => Promise<boolean>;
   getCheckIns: (d: Date) => Promise<boolean>;
@@ -48,6 +48,8 @@ export class CovidService implements ICovidService {
   private JSONDATEFIELDS: string[] = ["Created", "CheckIn", "SubmittedOn"];
 
   private _security: SECURITY = SECURITY.VISITOR;
+  private _isOwner: boolean;
+  private _isAdmin: boolean;
   private _ready: boolean = false;
   private _locations: ILocations[];
   private _questions: IQuestion[];
@@ -94,16 +96,26 @@ export class CovidService implements ICovidService {
     this._checkInsRefresh = value;
   }
 
-  public async init(siteUrl: string): Promise<void> {
+  public async init(siteUrl: string, isAdmin: boolean, isOwner: boolean): Promise<void> {
     try {
       this._siteUrl = siteUrl;
+      this._isAdmin = isAdmin;
+      this._isOwner = isOwner;
       this._locationListUrl = `${this._siteUrl}/Lists/${Tables.LOCATIONLIST}/AllItems.aspx`;
       this._questionListUrl = `${this._siteUrl}/Lists/${Tables.QUESTIONLIST}/AllItems.aspx`;
-      await this._loadUserRole();
-      let success: boolean[] = [];
-      success.push(await this._getLocations());
-      success.push(await this._getQuestions());
-      if (success.indexOf(false) == -1) {
+      let p: Promise<any>[] = [];
+      p.push(this._loadUserRole());
+      // await this._loadUserRole();
+      // let success: boolean[] = [];
+      // success.push(await this._getLocations());
+      // success.push(await this._getQuestions());
+      // if (success.indexOf(false) == -1) {
+      //   this._ready = true;
+      // }
+      p.push(this._getLocations());
+      p.push(this._getQuestions());
+      const pResults = await Promise.all(p);
+      if (pResults.indexOf(false) == -1) {
         this._ready = true;
       }
     } catch (err) {
@@ -111,24 +123,25 @@ export class CovidService implements ICovidService {
     }
   }
 
-  private async _loadUserRole(): Promise<void> {
+  private async _loadUserRole(): Promise<boolean> {
+    let retVal: boolean = false;
     try {
-      let ownersGroup = await sp.web.associatedOwnerGroup();
-      let membersGroup = await sp.web.associatedMemberGroup();
-      let data = await sp.web.currentUser.expand("groups").get<{ IsSiteAdmin: boolean, Groups: { Id: string }[] }>();
-      let ownerIndex: number = findIndex(data.Groups, o => (o["Id"].toString() === ownersGroup.Id.toString()));
-      if (data.IsSiteAdmin) {
-        ownerIndex = 0;
-      }
-      let membersIndex: number = findIndex(data.Groups, o => (o["Id"].toString() === membersGroup.Id.toString()));
-      if (ownerIndex > -1) {
+      if (this._isAdmin || this._isOwner) {
         this._security = SECURITY.OWNER;
-      } else if (membersIndex > -1) {
-        this._security = SECURITY.MEMBER;
+        retVal = true;
+      } else {
+        let data = await sp.web.currentUser.expand("groups").get<{ IsSiteAdmin: boolean, Groups: { Id: string }[] }>();
+        let membersGroup = await sp.web.associatedMemberGroup();
+        let membersIndex: number = findIndex(data.Groups, o => (o["Id"].toString() === membersGroup.Id.toString()));
+        if (membersIndex > -1) {
+          this._security = SECURITY.MEMBER;
+        }
+        retVal = true;
       }
     } catch (err) {
       Logger.write(`${this.LOG_SOURCE} (_loadUserRole) - ${err.message}`, LogLevel.Error);
     }
+    return retVal;
   }
 
   private async _getLocations(): Promise<boolean> {

@@ -2,13 +2,11 @@ import { IPropertyPaneConfiguration } from '@microsoft/sp-property-pane';
 import { BaseAdaptiveCardExtension } from '@microsoft/sp-adaptive-card-extension-base';
 
 import { sp } from "@pnp/sp";
-import { graph } from "@pnp/graph";
 import { Logger, LogLevel, ConsoleListener } from "@pnp/logging";
 
 import { CardView } from './cardView/CardView';
 import { QuickView } from './quickView/QuickView';
 import { CovidCardPropertyPane } from './CovidCardPropertyPane';
-import { ccs } from '../../webparts/covidAdmin/services/covidConfig.service';
 import { cs } from '../../webparts/covidAdmin/services/covid.service';
 
 export interface ICovidCardAdaptiveCardExtensionProps {
@@ -52,8 +50,12 @@ export default class CovidCardAdaptiveCardExtension extends BaseAdaptiveCardExte
       //Initialize PnPJs
       sp.setup({ spfxContext: this.context });
 
-      const user = await sp.web.ensureUser(this.context.pageContext.user.loginName);
-      this._userId = user.data.Id;
+
+      this._userId = this.context.pageContext.legacyPageContext.UserId;
+      if (this._userId == undefined) {
+        const user = await sp.web.ensureUser(this.context.pageContext.user.loginName);
+        this._userId = user.data.Id;
+      }
       this._userCanCheckIn = await cs.userCanCheckIn(this._userId, this.properties.homeSite);
 
       this.state = {
