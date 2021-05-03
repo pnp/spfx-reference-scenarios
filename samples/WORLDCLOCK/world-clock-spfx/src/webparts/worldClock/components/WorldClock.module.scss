@@ -35,6 +35,14 @@
     //Import hTWOo styles so they are available to our controls
     @import "node_modules/@n8design/htwoo-core/src/styles/style";
 
+    .hoo-buttonaction {
+      cursor: pointer;
+
+      .hoo-button-icon {
+        line-height: inherit;
+      }
+    }
+
     //Override to make the dialog have a scroll if necessary
     .hoo-mdldialog {
       overflow: auto;
@@ -82,7 +90,8 @@
       height: 2.5rem;
       border-right: 1px silver solid;
       cursor: pointer;
-      background-color: #6bb700;
+      //background-color: rgba(#6bb700, .8);
+      background-color: scale-color($color: #6bb700, $saturation: -30%, $lightness: 5%);
 
       &::before {
         content: "";
@@ -93,11 +102,12 @@
       }
 
       &.is-extended {
-        background-color: #fa4;
+        //background-color: rgba(#fa4, .8);
+        background-color: scale-color($color: #fa4, $saturation: 10%, $lightness: 5%);
       }
 
       &.is-away {
-        background-color: #c43148;
+        background-color: scale-color($color: #c43148, $saturation: -30%, $lightness: 5%);
       }
     }
 
@@ -118,7 +128,7 @@
       flex-direction: row;
       justify-content: flex-start;
 
-      margin-top: 2rem;
+      //margin-top: 2rem;
       margin-bottom: 2rem;
       flex-wrap: nowrap;
     }
@@ -232,8 +242,6 @@
         width: 3rem;
       }
     }
-
-
   }
 
   font-family: "Segoe UI",
@@ -284,9 +292,10 @@
         margin-bottom: 2%;
         /* (100-32*3)/2 */
       }
+    }
 
-
-
+    .buttons {
+      padding-top: 1rem;
     }
   }
 
@@ -294,6 +303,10 @@
   .textLabel {
     font-weight: 700;
     line-height: 24px;
+  }
+
+  .isRight {
+    text-align: right;
   }
 
 

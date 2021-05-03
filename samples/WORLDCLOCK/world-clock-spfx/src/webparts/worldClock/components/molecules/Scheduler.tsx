@@ -53,6 +53,7 @@ export default class Scheduler extends React.Component<ISchedulerProps, ISchedul
       if (!schedule) {
         schedule = new Schedule();
       }
+      date = date.setZone(person.IANATimeZone);
       let day = find(schedule.days, { dayId: date.weekday });
       let hour = find(day.hours, { hourId: date.hour });
 

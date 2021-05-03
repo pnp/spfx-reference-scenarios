@@ -6,6 +6,7 @@ import Scheduler from "../molecules/Scheduler";
 
 export interface IMeetingSchedulerProps {
   meetingMembers: IPerson[];
+  currentUser: IPerson;
 }
 
 export interface IMeetingSchedulerState {

@@ -6,22 +6,24 @@ import MeetingScheduler from "./organisms/MeetingScheduler";
 import styles from "./WorldClock.module.scss";
 import { DateTime } from "luxon";
 import { wc } from "../services/wc.service";
-import { IPerson } from "../models/wc.models";
-import { cloneDeep, find, reduce, uniqBy } from "lodash";
+import { IPerson, ISchedule, Person } from "../models/wc.models";
+import { chain, cloneDeep, find, reduce, uniqBy } from "lodash";
 
 export interface IWorldClockProps {
   userId: string;
 }
 
 export interface IWorldClockState {
+  currentUser: IPerson;
   currentTime: DateTime;
   meetingMembers: IPerson[];
 }
 
 export class WorldClockState implements IWorldClockState {
   constructor(
+    public currentUser: IPerson = new Person,
     public currentTime: DateTime = DateTime.now().setLocale(wc.Locale).setZone(wc.IANATimeZone),
-    public meetingMembers: IPerson[] = []
+    public meetingMembers: IPerson[] = [],
   ) { }
 }
 
@@ -31,7 +33,8 @@ export default class WorldClock extends React.Component<IWorldClockProps, IWorld
   constructor(props: IWorldClockProps) {
     super(props);
     this.updateCurrentTime();
-    this.state = new WorldClockState();
+    let currentUser: IPerson = find(wc.Config.members, { personId: this.props.userId });
+    this.state = new WorldClockState(currentUser);
   }
 
   public shouldComponentUpdate(nextProps: Readonly<IWorldClockProps>, nextState: Readonly<IWorldClockState>) {
@@ -45,7 +48,7 @@ export default class WorldClock extends React.Component<IWorldClockProps, IWorld
   }
   public async updateCurrentTime(): Promise<void> {
     while (true) {
-      const delay: number = (1000);
+      const delay: number = (60000);
       await this.delay(delay);
       let now: DateTime = await DateTime.now().setLocale(wc.Locale).setZone(wc.IANATimeZone);
       this.setState({ currentTime: now });
@@ -55,20 +58,50 @@ export default class WorldClock extends React.Component<IWorldClockProps, IWorld
   private _addToMeeting = (person: IPerson) => {
     let meetingMembers = cloneDeep(this.state.meetingMembers);
     if (meetingMembers.length == 0) {
-      let currentUser: IPerson = find(wc.Config.members, { personId: this.props.userId });
-      meetingMembers.push(currentUser);
+      let user: IPerson = find(wc.Config.members, { personId: this.state.currentUser.personId });
+      meetingMembers.push(user);
     }
     meetingMembers.push(person);
-    meetingMembers = uniqBy(meetingMembers, "personId");
+    meetingMembers = chain(meetingMembers).uniqBy("personId").sortBy("offset").value();
     this.setState({ meetingMembers: meetingMembers });
+  }
+
+  private _saveProfile = async (schedule: ISchedule): Promise<boolean> => {
+    let success: boolean = false;
+    try {
+      const config = cloneDeep(wc.Config);
+      let user = find(config.members, { personId: this.state.currentUser.personId });
+      if (user) {
+        user.schedule = schedule;
+      }
+      success = await wc.updateConfig(config);
+      if (success) {
+        let currentUserInMeeting = find(this.state.meetingMembers, { personId: this.state.currentUser.personId });
+        if (currentUserInMeeting) {
+          const meetingMembers = cloneDeep(this.state.meetingMembers);
+          meetingMembers.map((m, index) => {
+            if (m.personId == currentUserInMeeting.personId) {
+              meetingMembers[index] = user;
+            }
+          });
+          this.setState({ currentUser: user, meetingMembers: meetingMembers });
+        } else {
+          this.setState({ currentUser: user });
+        }
+      }
+    } catch (err) {
+      Logger.write(`${this.LOG_SOURCE} (_saveView) - ${err}`, LogLevel.Error);
+    }
+    return success;
   }
 
   public render(): React.ReactElement<IWorldClockProps> {
     try {
       return (
         <div data-component={this.LOG_SOURCE} className={styles.worldClock}>
-          <TeamTimes userId={this.props.userId} currentTime={this.state.currentTime} addToMeeting={this._addToMeeting} meetingMembers={this.state.meetingMembers} />
-          <MeetingScheduler meetingMembers={this.state.meetingMembers} />
+          <TeamTimes currentUser={this.state.currentUser} currentTime={this.state.currentTime} addToMeeting={this._addToMeeting} meetingMembers={this.state.meetingMembers} saveProfile={this._saveProfile} />
+          {(this.state.meetingMembers.length > 0) ? <MeetingScheduler meetingMembers={this.state.meetingMembers} currentUser={this.state.currentUser} /> : null}
+
         </div>
       );
     } catch (err) {

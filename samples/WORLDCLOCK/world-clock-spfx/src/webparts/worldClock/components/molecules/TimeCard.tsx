@@ -28,12 +28,10 @@ export class TimeCardState implements ITimeCardState {
 export default class TimeCard extends React.Component<ITimeCardProps, ITimeCardState> {
   private LOG_SOURCE: string = "🔶 TimeCard";
   private _IANATimeZone: string = "";
-  private _members: IPerson[] = [];
 
   constructor(props: ITimeCardProps) {
     super(props);
-    this._members = this.props.members as IPerson[];
-    (this._members.length > 0) ? this._IANATimeZone = this._members[0].IANATimeZone : this._IANATimeZone = this.props.currentTimeZone;
+    (this.props.members.length > 0) ? this._IANATimeZone = this.props.members[0].IANATimeZone : this._IANATimeZone = this.props.currentTimeZone;
     this.state = new TimeCardState();
   }
 
@@ -57,7 +55,7 @@ export default class TimeCard extends React.Component<ITimeCardProps, ITimeCardS
         <div data-component={this.LOG_SOURCE} className={`hoo-wc-clock ${(this.props.currentTimeZone == this._IANATimeZone) ? "is-current-me" : ""}`}>
           <div className="hoo-wc-time">{currentTime}<span className="hoo-wc-ampm">{(showAMPM) ? this.props.currentTime.setZone(this._IANATimeZone).toFormat("a") : ""}</span></div>
           <div className="hoo-wc-peoples">
-            {this._members.map((m) => {
+            {this.props.members.map((m) => {
               let inMeeting: IPerson = find(this.props.meetingMembers, { personId: m.personId });
               return (<div className="hoo-wc-people" title="Add to Meeting">{m.displayName}
                 {(this.props.userId == m.personId) ? <ButtonIcon iconType={Icons.Profile} onClick={() => this.props.editProfile(true)} altText="Edit my profile" /> : null}
