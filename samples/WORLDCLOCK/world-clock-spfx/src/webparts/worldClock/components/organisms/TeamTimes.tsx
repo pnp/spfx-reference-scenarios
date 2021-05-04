@@ -12,6 +12,7 @@ import Profile from "../molecules/Profile";
 import ButtonAction from "../atoms/ButtonAction";
 import { Icons } from "../../models/wc.Icons";
 import styles from "../WorldClock.module.scss";
+import ButtonSplitPrimary, { IButtonOption } from "../atoms/ButtonSplitPrimary";
 
 export interface ITeamTimesProps {
   currentUser: IPerson;
@@ -42,10 +43,12 @@ export class TeamTimesState implements ITeamTimesState {
 
 export default class TeamTimes extends React.Component<ITeamTimesProps, ITeamTimesState> {
   private LOG_SOURCE: string = "🔶 TeamTimes";
+  private _manageViewOptions: IButtonOption[] = [];
 
   constructor(props: ITeamTimesProps) {
     super(props);
     try {
+
       //TODO: Julie I need some help with the best way to do this.
       let timeZoneView: any[];
       let needsConfig = false;
@@ -56,6 +59,7 @@ export default class TeamTimes extends React.Component<ITeamTimesProps, ITeamTim
         timeZoneView = this._sortTimeZones(defaultView);
       }
       this.state = new TeamTimesState(needsConfig, needsConfig, wc.Config.views, timeZoneView);
+      this._getManageViewOptions();
     } catch (err) {
       Logger.write(`${this.LOG_SOURCE} (constructor) - ${err}`, LogLevel.Error);
     }
@@ -164,12 +168,37 @@ export default class TeamTimes extends React.Component<ITeamTimesProps, ITeamTim
     }
   }
 
+  private _getManageViewOptions() {
+    let options: IButtonOption[] = [];
+    this.state.views.map((v) => {
+      options.push({ iconType: Icons.TeamView, label: v.viewName, onClick: this._changeView });
+    });
+    options.push({ iconType: Icons.Plus, label: strings.AddEditViewLabel, onClick: this._addNewView });
+    this._manageViewOptions = options;
+  }
+  private _changeView = (viewName: string) => {
+    try {
+      const views = cloneDeep(this.state.views);
+      let v = find(views, { viewName: viewName });
+      let timeZoneView = this._sortTimeZones(v);
+      this.setState({ timeZoneView: timeZoneView });
+    } catch (err) {
+      Logger.write(`${this.LOG_SOURCE} (_changeView) - ${err}`, LogLevel.Error);
+    }
+  }
+  private _addNewView = (viewName: string) => {
+    try {
+      this._changeManageViewsVisibility(true);
+    } catch (err) {
+      Logger.write(`${this.LOG_SOURCE} (_changeView) - ${err}`, LogLevel.Error);
+    }
+  }
   public render(): React.ReactElement<ITeamTimesProps> {
     try {
       return (
         <div data-component={this.LOG_SOURCE}>
           <div className={styles.isRight}>
-            <ButtonAction iconType={Icons.TeamView} onClick={() => this._changeManageViewsVisibility(true)} label={strings.ManageViewsLabel} />
+            <ButtonSplitPrimary className={styles.managebutton} label={strings.ManageViewsLabel} options={this._manageViewOptions} />
           </div>
           <div className="hoo-wcs">
             {this.state.timeZoneView.map((m, index) => {

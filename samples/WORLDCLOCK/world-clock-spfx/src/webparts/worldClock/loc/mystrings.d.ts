@@ -11,6 +11,8 @@ declare interface IWorldClockWebPartStrings {
   SaveLabel: string;
   CancelLabel: string;
   ManageViewsLabel: string;
+  AddEditViewLabel: string;
+  TrashLabel: string;
 
 }
 

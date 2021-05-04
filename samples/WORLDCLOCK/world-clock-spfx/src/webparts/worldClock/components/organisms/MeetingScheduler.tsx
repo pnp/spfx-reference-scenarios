@@ -7,6 +7,7 @@ import Scheduler from "../molecules/Scheduler";
 export interface IMeetingSchedulerProps {
   meetingMembers: IPerson[];
   currentUser: IPerson;
+  removeFromMeeting: (IPerson) => void;
 }
 
 export interface IMeetingSchedulerState {
@@ -34,7 +35,7 @@ export default class MeetingScheduler extends React.Component<IMeetingSchedulerP
     try {
       return (
         <div data-component={this.LOG_SOURCE}>
-          <Scheduler meetingMembers={this.props.meetingMembers} />
+          <Scheduler meetingMembers={this.props.meetingMembers} removeFromMeeting={this.props.removeFromMeeting} />
         </div>
       );
     } catch (err) {

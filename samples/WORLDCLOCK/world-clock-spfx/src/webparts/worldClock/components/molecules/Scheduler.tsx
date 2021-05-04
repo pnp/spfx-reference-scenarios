@@ -4,18 +4,24 @@ import { find, isEqual, replace } from "lodash";
 import { HOUR_TYPE, IPerson, Schedule } from "../../models/wc.models";
 import { DateTime } from "luxon";
 import { wc } from "../../services/wc.service";
+import ButtonIcon from "../atoms/ButtonIcon";
+import { Icons } from "../../models/wc.Icons";
+import strings from "WorldClockWebPartStrings";
 
 export interface ISchedulerProps {
   meetingMembers: IPerson[];
+  removeFromMeeting: (IPerson) => void;
 }
 
 export interface ISchedulerState {
   meetingDate: DateTime;
+  selectedTime: DateTime;
 }
 
 export class SchedulerState implements ISchedulerState {
   constructor(
-    public meetingDate: DateTime = DateTime.local().setLocale(wc.Locale).setZone(wc.IANATimeZone)
+    public meetingDate: DateTime = DateTime.local().setLocale(wc.Locale).setZone(wc.IANATimeZone),
+    public selectedTime: DateTime = null
   ) { }
 }
 
@@ -45,7 +51,18 @@ export default class Scheduler extends React.Component<ISchedulerProps, ISchedul
     return true;
   }
 
-  private _getAvailability(person: IPerson, date: DateTime) {
+  private _setSelectedTime(date: DateTime) {
+    date = date.setZone(wc.IANATimeZone);
+    this.setState({ selectedTime: date });
+  }
+
+  private _getDateTimeString(person: IPerson, date: DateTime) {
+    date = date.setZone(person.IANATimeZone);
+    let dateTime: string = date.toLocaleString(DateTime.DATETIME_SHORT);
+    return dateTime;
+  }
+
+  private _setBlockStyle(person: IPerson, date: DateTime) {
     let retVal: string = "";
     try {
       let schedule = person.schedule;
@@ -53,17 +70,23 @@ export default class Scheduler extends React.Component<ISchedulerProps, ISchedul
       if (!schedule) {
         schedule = new Schedule();
       }
+      if (this.state.selectedTime) {
+        if ((date.weekday == this.state.selectedTime.weekday) && (date.hour == this.state.selectedTime.hour)) {
+          retVal += " " + "is-selected";
+        }
+      }
       date = date.setZone(person.IANATimeZone);
       let day = find(schedule.days, { dayId: date.weekday });
       let hour = find(day.hours, { hourId: date.hour });
+      let isNextDay: boolean = (hour.hourId == 23);
 
       switch (hour.workingType) {
         case HOUR_TYPE.ExtendedHour: {
-          retVal = "is-extended";
+          retVal += " is-extended";
           break;
         }
         case HOUR_TYPE.NotWorking: {
-          retVal = "is-away";
+          retVal += " is-away";
           break;
         }
         default: {
@@ -71,6 +94,11 @@ export default class Scheduler extends React.Component<ISchedulerProps, ISchedul
           break;
         }
       }
+
+      if (isNextDay) {
+        retVal += " " + "is-nextday";
+      }
+
 
     } catch (err) {
       Logger.write(`${this.LOG_SOURCE} (_getAvailability) - ${err}`, LogLevel.Error);
@@ -87,15 +115,17 @@ export default class Scheduler extends React.Component<ISchedulerProps, ISchedul
 
             <div data-dow="" className="hoo-dtsentry no-hover">
               <label htmlFor="" className="hoo-dtsday"></label>
+              <div className={`hoo-dtshours-label`}></div>
               {this._meetingTimes.map((h) => {
-                return (<div className="hoo-dtshours-label" data-time="">{replace(h.toLocaleString(DateTime.TIME_SIMPLE), ":00", "")}</div>);
+                return (<div className={`hoo-dtshours-label ${(this.state.selectedTime && (h.hour == this.state.selectedTime.hour)) ? "isSelected" : ""}`} data-time="" onClick={() => this._setSelectedTime(h)}>{replace(h.toLocaleString(DateTime.TIME_SIMPLE), ":00", "")}</div>);
               })}
             </div>
 
             {this.props.meetingMembers.map((m) => {
               return (<div data-dow="" className="hoo-dtsentry"><label htmlFor="" className="hoo-dtsday">{m.displayName}</label>
+                <div className={`hoo-dtshours no-bg`} data-time=""><ButtonIcon iconType={Icons.Trash} altText={strings.TrashLabel} onClick={() => this.props.removeFromMeeting(m)} /></div>
                 {this._meetingTimes.map((h) => {
-                  return (<div className={`hoo-dtshours ${this._getAvailability(m, h)}`} data-time="" onClick={() => { }}></div>);
+                  return (<div className={`hoo-dtshours ${this._setBlockStyle(m, h)}`} title={this._getDateTimeString(m, h)} data-time="" onClick={() => { }}></div>);
                 })}
 
               </div>);

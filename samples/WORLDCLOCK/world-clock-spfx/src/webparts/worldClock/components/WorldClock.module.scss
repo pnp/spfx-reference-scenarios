@@ -62,9 +62,9 @@
       flex-direction: row;
       margin-bottom: .5rem;
 
-      &:hover {
-        background-color: silver;
-      }
+      // &:hover {
+      //   background-color: silver;
+      // }
 
       &.no-hover {
         background-color: transparent;
@@ -81,6 +81,8 @@
       padding-right: .5rem;
       padding-left: .5rem;
       align-content: center;
+      margin-top: auto;
+      margin-bottom: auto;
     }
 
     .hoo-dtshours {
@@ -109,6 +111,23 @@
       &.is-away {
         background-color: scale-color($color: #c43148, $saturation: -30%, $lightness: 5%);
       }
+
+      &.is-nextday {
+        border-right: 2px black solid;
+      }
+
+      &.is-selected {
+        background-color: silver;
+
+      }
+
+      &.no-bg {
+        background-color: transparent;
+
+        .hoo-buttonicon:hover {
+          background-color: transparent;
+        }
+      }
     }
 
     .hoo-dtshours-label {
@@ -119,7 +138,13 @@
       background-color: transparent;
 
       &:hover {
-        background-color: transparent;
+        background-color: silver;
+        opacity: 1;
+      }
+
+      &.isSelected {
+        background-color: scale-color($color: silver, $saturation: -30%, $lightness: 5%);
+
       }
     }
 
@@ -306,7 +331,12 @@
   }
 
   .isRight {
-    text-align: right;
+    display: flex;
+
+    .managebutton {
+      margin-left: auto;
+      padding-top: px2rem(16px)
+    }
   }
 
 

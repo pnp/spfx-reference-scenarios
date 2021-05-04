@@ -11,6 +11,8 @@ define([], function () {
   "MakeDefaultViewLabel": "Make this view the default view for all users.",
   "SaveLabel": "Save",
   "CancelLabel": "Cancel", 
-  "ManageViewsLabel": "Manage Views", 
+  "ManageViewsLabel": "Select View", 
+  "AddEditViewLabel": "Add/Edit View", 
+  "TrashLabel": "Remove from meeting", 
 }
 });
