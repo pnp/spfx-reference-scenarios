@@ -2,7 +2,7 @@
   "@microsoft/generator-sharepoint": {
     "isCreatingSolution": true,
     "environment": "spo",
-    "version": "1.11.0",
+    "version": "1.12.1",
     "libraryName": "world-clock-spfx",
     "libraryId": "3796cf7f-de29-46a7-9430-c02b4a0d4c50",
     "packageManager": "npm",

@@ -66,15 +66,14 @@ export class WorldClockService implements IWorldClockService {
   private async _getTeamConfig(): Promise<void> {
     try {
       const teamConfig: IConfig = await sp.web.getFileByServerRelativeUrl(`${this._siteUrl}/SiteAssets/config.json`).getJSON();
-      tempConfig.members.map((m) => {
+      teamConfig.members.map((m) => {
         m.offset = this._getOffset(m.IANATimeZone);
-        let member = find(tempConfig.members, { personId: m.personId });
+        let member = find(teamConfig.members, { personId: m.personId });
         if (member) {
           merge(member, m);
         }
       });
-      this._currentConfig = tempConfig;
-
+      this._currentConfig = teamConfig;
     } catch (err) {
       Logger.write(`${this.LOG_SOURCE} (_getTeamConfig) - ${err} - `, LogLevel.Error);
     }
