@@ -67,7 +67,9 @@ export class WorldClockService implements IWorldClockService {
 
   private async _getConfig(): Promise<void> {
     try {
-      //TODO: Remove Mock
+      //TODO: wire this up to create config on initial load
+      //Make sure that all users have a schedule.
+      //TODO: Update for team member changes and personal app.
       //this._currentConfig = require("../mocks/config.json");
       const serverRelUrl = await sp.web.select("ServerRelativeUrl")();
       let tempConfig: IConfig = await sp.web.getFileByServerRelativeUrl(serverRelUrl.ServerRelativeUrl + "/SiteAssets/config.json").getJSON();

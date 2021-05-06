@@ -59,7 +59,7 @@ export default class WorldClockWebPart extends BaseClientSideWebPart<IWorldClock
       await wc.init(this.context.pageContext.cultureInfo.currentUICultureName, this.context.pageContext.site.absoluteUrl);
       //TODO: Julie, this wasn't working right. Need to review.
       //const user = await sp.web.ensureUser(this.context.pageContext.user.loginName);
-      //this._userId = user.data.Id.toString();
+      this._userId = this.context.pageContext.user.loginName;
       // Consume the new ThemeProvider service
       this._themeProvider = this.context.serviceScope.consume(ThemeProvider.serviceKey);
       this._themeVariant = this._themeProvider.tryGetTheme();

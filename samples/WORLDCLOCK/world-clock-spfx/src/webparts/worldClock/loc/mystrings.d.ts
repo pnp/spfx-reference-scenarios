@@ -13,6 +13,7 @@ declare interface IWorldClockWebPartStrings {
   ManageViewsLabel: string;
   AddEditViewLabel: string;
   TrashLabel: string;
+  ScheduleMeetingLabel: string;
 
 }
 

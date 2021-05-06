@@ -124,7 +124,7 @@ export class Config implements IConfig {
   ) { }
 }
 
-//TODO: Julie is there a bette way to do this?
+//TODO: Derek is there a first day of the week in the current locale.
 export interface ISchedule {
   days: IDay[];
 }

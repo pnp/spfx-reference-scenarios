@@ -267,6 +267,19 @@
         width: 3rem;
       }
     }
+
+    .date-picker {
+      display: flex;
+      gap: px2rem(16px);
+      padding-bottom: px2rem(16px);
+      padding-left: 11rem;
+
+      input {
+        width: auto;
+      }
+    }
+
+
   }
 
   font-family: "Segoe UI",
@@ -290,6 +303,7 @@
   .buttons {
     display: flex;
     gap: px2rem(16px);
+
   }
 
   .textbox {
@@ -322,6 +336,8 @@
     .buttons {
       padding-top: 1rem;
     }
+
+
   }
 
 

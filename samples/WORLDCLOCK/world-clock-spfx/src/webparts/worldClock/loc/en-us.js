@@ -14,5 +14,6 @@ define([], function () {
   "ManageViewsLabel": "Select View", 
   "AddEditViewLabel": "Add/Edit View", 
   "TrashLabel": "Remove from meeting", 
+  "ScheduleMeetingLabel": "Schedule Meeting", 
 }
 });
