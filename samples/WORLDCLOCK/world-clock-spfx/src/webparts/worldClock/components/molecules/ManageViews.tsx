@@ -1,6 +1,6 @@
 import * as React from "react";
 import { Logger, LogLevel } from "@pnp/logging";
-import { cloneDeep, find, isEqual, remove } from "lodash";
+import { cloneDeep, find, isEqual, remove, sortBy } from "lodash";
 import styles from "../WorldClock.module.scss";
 import DropDown, { IDropDownOption } from "../atoms/DropDown";
 import { IView, View } from "../../models/wc.models";
@@ -117,6 +117,7 @@ export default class ManageViews extends React.Component<IManageViewsProps, IMan
 
   public render(): React.ReactElement<IManageViewsProps> {
     try {
+      //TODO: Make it so that the drop down value doesn't change when we change the New View Name
       this._viewOptions = wc.Config.views.map((v) => { return { key: v.viewName, text: v.viewName }; });
       this._viewOptions.unshift({ key: -1, text: "New View" });
       return (
@@ -129,7 +130,7 @@ export default class ManageViews extends React.Component<IManageViewsProps, IMan
             <TextBox name="viewName" value={this.state.currentView.viewName} onChange={this._onTextChange} />
             <div className={styles.membersList}>
               <div className={styles.textLabel}>{strings.ViewMembersHeader}</div>
-              {wc.Config.members.map((m) => {
+              {sortBy(wc.Config.members, 'firstName').map((m) => {
                 let isChecked: boolean = false;
                 if (this.state.currentView.members.length > 0) {
                   let member = find(this.state.currentView.members, { personId: m.personId });
