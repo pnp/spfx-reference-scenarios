@@ -27,7 +27,9 @@ export interface ITeamTimesState {
   manageViewsVisible: boolean;
   views: IView[];
   timeZoneView: any[];
+  viewOptions: IButtonOption[];
   showProfile: boolean;
+
 }
 
 export class TeamTimesState implements ITeamTimesState {
@@ -36,6 +38,7 @@ export class TeamTimesState implements ITeamTimesState {
     public manageViewsVisible: boolean = false,
     public views: IView[] = [],
     public timeZoneView: any[] = [],
+    public viewOptions: IButtonOption[] = [],
     public showProfile: boolean = false,
 
   ) { }
@@ -43,13 +46,13 @@ export class TeamTimesState implements ITeamTimesState {
 
 export default class TeamTimes extends React.Component<ITeamTimesProps, ITeamTimesState> {
   private LOG_SOURCE: string = "🔶 TeamTimes";
-  private _manageViewOptions: IButtonOption[] = [];
 
   constructor(props: ITeamTimesProps) {
     super(props);
     try {
 
       //TODO: Julie I need some help with the best way to do this.
+      //TODO: Fix the offset so that it is UTC based.
       let timeZoneView: any[];
       let needsConfig = false;
       if ((wc.Config.members.length > 20) && (wc.Config.views.length == 0)) {
@@ -58,8 +61,9 @@ export default class TeamTimes extends React.Component<ITeamTimesProps, ITeamTim
         let defaultView: IView = wc.Config.views[wc.Config.defaultViewId];
         timeZoneView = this._sortTimeZones(defaultView);
       }
-      this.state = new TeamTimesState(needsConfig, needsConfig, wc.Config.views, timeZoneView);
-      this._getManageViewOptions();
+      let options: IButtonOption[] = this._getManageViewOptions();
+      this.state = new TeamTimesState(needsConfig, needsConfig, wc.Config.views, timeZoneView, options);
+
     } catch (err) {
       Logger.write(`${this.LOG_SOURCE} (constructor) - ${err}`, LogLevel.Error);
     }
@@ -134,7 +138,8 @@ export default class TeamTimes extends React.Component<ITeamTimesProps, ITeamTim
       success = await wc.updateConfig(config);
       if (success) {
         let timeZoneView = this._sortTimeZones(view);
-        this.setState({ manageViewsVisible: false, views: config.views, timeZoneView: timeZoneView });
+        let options: IButtonOption[] = this._getManageViewOptions();
+        this.setState({ manageViewsVisible: false, views: config.views, timeZoneView: timeZoneView, viewOptions: options });
       }
     } catch (err) {
       Logger.write(`${this.LOG_SOURCE} (_saveView) - ${err}`, LogLevel.Error);
@@ -170,11 +175,11 @@ export default class TeamTimes extends React.Component<ITeamTimesProps, ITeamTim
 
   private _getManageViewOptions() {
     let options: IButtonOption[] = [];
-    this.state.views.map((v) => {
+    wc.Config.views.map((v) => {
       options.push({ iconType: Icons.TeamView, label: v.viewName, onClick: this._changeView });
     });
     options.push({ iconType: Icons.Plus, label: strings.AddEditViewLabel, onClick: this._addNewView });
-    this._manageViewOptions = options;
+    return options;
   }
   private _changeView = (viewName: string) => {
     try {
@@ -198,7 +203,7 @@ export default class TeamTimes extends React.Component<ITeamTimesProps, ITeamTim
       return (
         <div data-component={this.LOG_SOURCE}>
           <div className={styles.isRight}>
-            <ButtonSplitPrimary className={styles.managebutton} label={strings.ManageViewsLabel} options={this._manageViewOptions} />
+            <ButtonSplitPrimary className={styles.managebutton} label={strings.ManageViewsLabel} options={this.state.viewOptions} />
           </div>
           <div className="hoo-wcs">
             {this.state.timeZoneView.map((m, index) => {
