@@ -19,6 +19,8 @@ export class WorldClockService implements IWorldClockService {
   private LOG_SOURCE: string = "🔶WorldClockService";
 
   private _ready: boolean = false;
+  private _userLogin: string = "";
+  private _siteUrl: string = "";
   private _locale: string = "us";
   private _currentIANATimeZone: string;
   private _currentConfig: IConfig = null;
@@ -48,29 +50,22 @@ export class WorldClockService implements IWorldClockService {
     return this._currentTeam;
   }
 
-  public async init(locale: string, siteUrl: string): Promise<void> {
+  public async init(loginName: string, locale: string, siteUrl: string): Promise<void> {
     try {
+      this._userLogin = loginName;
+      this._siteUrl = siteUrl;
       this._locale = locale.substr(0, 2);
-      await this._getConfig();
+      await this._getTeamConfig();
       await this._getTeamUsers();
       this._ready = true;
-      // let success: boolean[] = [];
-      // success.push(await this._getLocations());
-      // success.push(await this._getQuestions());
-      // if (success.indexOf(false) == -1) {
-      //   this._ready = true;
-      // }
     } catch (err) {
       Logger.write(`${this.LOG_SOURCE} (init) - ${err.message}`, LogLevel.Error);
     }
   }
 
-  private async _getConfig(): Promise<void> {
+  private async _getTeamConfig(): Promise<void> {
     try {
-      //TODO: Remove Mock
-      //this._currentConfig = require("../mocks/config.json");
-      const serverRelUrl = await sp.web.select("ServerRelativeUrl")();
-      let tempConfig: IConfig = await sp.web.getFileByServerRelativeUrl(serverRelUrl.ServerRelativeUrl + "/SiteAssets/config.json").getJSON();
+      const teamConfig: IConfig = await sp.web.getFileByServerRelativeUrl(`${this._siteUrl}/SiteAssets/config.json`).getJSON();
       tempConfig.members.map((m) => {
         m.offset = this._getOffset(m.IANATimeZone);
         let member = find(tempConfig.members, { personId: m.personId });
@@ -81,7 +76,7 @@ export class WorldClockService implements IWorldClockService {
       this._currentConfig = tempConfig;
 
     } catch (err) {
-      Logger.write(`${this.LOG_SOURCE} (_getConfig) - ${err} - `, LogLevel.Error);
+      Logger.write(`${this.LOG_SOURCE} (_getTeamConfig) - ${err} - `, LogLevel.Error);
     }
   }
   public async updateConfig(config: IConfig): Promise<boolean> {
