@@ -1,14 +1,16 @@
 import * as React from "react";
 import { Logger, LogLevel } from "@pnp/logging";
-import { cloneDeep, find, isEqual, remove, sortBy } from "lodash";
+import { cloneDeep, filter, find, includes, isEqual, remove, sortBy, startsWith } from "lodash";
 import styles from "../WorldClock.module.scss";
 import DropDown, { IDropDownOption } from "../atoms/DropDown";
-import { IView, View } from "../../models/wc.models";
+import { IPerson, IView, View } from "../../models/wc.models";
 import { wc } from "../../services/wc.service";
 import CheckBox from "../atoms/CheckBox";
-import TextBox from "../atoms/TextBox";
+import TextBox, { TextBoxState } from "../atoms/TextBox";
 import Button from "../atoms/Button";
 import strings from "WorldClockWebPartStrings";
+import Persona, { Presence, Size } from "./Persona";
+import SearchBox from "../atoms/SearchBox";
 
 export interface IManageViewsProps {
   save: (currentView: IView, isDefault: boolean) => void;
@@ -16,14 +18,18 @@ export interface IManageViewsProps {
 }
 
 export interface IManageViewsState {
+  searchMembers: IPerson[];
   currentView: IView;
   isDefault: boolean;
+  searchString: string;
 }
 
 export class ManageViewsState implements IManageViewsState {
   constructor(
+    public searchMembers: IPerson[] = [],
     public currentView: IView = new View(),
     public isDefault: boolean = false,
+    public searchString: string = "",
   ) { }
 }
 
@@ -46,7 +52,7 @@ export default class ManageViews extends React.Component<IManageViewsProps, IMan
       if (wc.Config.defaultViewId == defaultView.viewId) {
         isDefault = true;
       }
-      this.state = new ManageViewsState(defaultView, isDefault);
+      this.state = new ManageViewsState(wc.Config.members, defaultView, isDefault);
     } catch (err) {
       Logger.write(`${this.LOG_SOURCE} (constructor) - ${err}`, LogLevel.Error);
     }
@@ -63,6 +69,15 @@ export default class ManageViews extends React.Component<IManageViewsProps, IMan
       const currentView = cloneDeep(this.state.currentView);
       currentView[fieldName] = fieldValue;
       this.setState({ currentView: currentView });
+    } catch (err) {
+      Logger.write(`${this.LOG_SOURCE} (_onTextChange) - ${err}`, LogLevel.Error);
+    }
+  }
+  private _onSearchChange = (fieldValue: string, fieldName: string) => {
+    try {
+      const members = cloneDeep(wc.Config.members);
+      let searchMembers = filter(members, (m) => { return m.displayName.toLowerCase().indexOf(fieldValue.toLowerCase()) > -1; });
+      this.setState({ searchMembers: searchMembers, searchString: fieldValue });
     } catch (err) {
       Logger.write(`${this.LOG_SOURCE} (_onTextChange) - ${err}`, LogLevel.Error);
     }
@@ -118,6 +133,7 @@ export default class ManageViews extends React.Component<IManageViewsProps, IMan
   public render(): React.ReactElement<IManageViewsProps> {
     try {
       //TODO: Make it so that the drop down value doesn't change when we change the New View Name
+      //TODO: Julie - Wire up search box to graph search
       this._viewOptions = wc.Config.views.map((v) => { return { key: v.viewName, text: v.viewName }; });
       this._viewOptions.unshift({ key: -1, text: "New View" });
       return (
@@ -130,7 +146,7 @@ export default class ManageViews extends React.Component<IManageViewsProps, IMan
             <TextBox name="viewName" value={this.state.currentView.viewName} onChange={this._onTextChange} />
             <div className={styles.membersList}>
               <div className={styles.textLabel}>{strings.ViewMembersHeader}</div>
-              {sortBy(wc.Config.members, 'firstName').map((m) => {
+              {sortBy(this.state.currentView.members, 'firstName').map((m) => {
                 let isChecked: boolean = false;
                 if (this.state.currentView.members.length > 0) {
                   let member = find(this.state.currentView.members, { personId: m.personId });
@@ -138,7 +154,59 @@ export default class ManageViews extends React.Component<IManageViewsProps, IMan
                     isChecked = true;
                   }
                 }
-                return (<CheckBox name={m.personId} label={m.displayName} value={isChecked} onChange={this._onMemberCheckBoxChange} />);
+                return (
+                  <div className={`${styles.memberContainer}`}>
+                    <div className={styles.memberPersona}>
+                      <CheckBox
+                        name={m.personId}
+                        label={m.displayName}
+                        value={isChecked}
+                        onChange={this._onMemberCheckBoxChange}
+                        showLabel={false} />
+                      <Persona
+                        size={Size.FortyEight}
+                        src={m.photoUrl}
+                        showPresence={false}
+                        presence={Presence.PresenceUnknown}
+                        status={""}
+                        name={m.displayName}
+                        jobTitle={""} />
+                    </div>
+                  </div>);
+              })}
+            </div>
+            <div className={styles.membersList}>
+              <div className={styles.memberSearch}>
+                <div className={styles.textLabel}>{strings.AddViewMembersHeader}</div>
+                <SearchBox name="Search" value={this.state.searchString} onChange={this._onSearchChange} />
+              </div>
+              {sortBy(this.state.searchMembers, 'firstName').map((m) => {
+                let isChecked: boolean = false;
+                if (this.state.currentView.members.length > 0) {
+                  let member = find(this.state.currentView.members, { personId: m.personId });
+                  if (member) {
+                    isChecked = true;
+                  }
+                }
+                return ((!isChecked) &&
+                  <div className={`${styles.memberContainer}`}>
+                    <div className={styles.memberPersona}>
+                      <CheckBox
+                        name={m.personId}
+                        label={m.displayName}
+                        value={isChecked}
+                        onChange={this._onMemberCheckBoxChange}
+                        showLabel={false} />
+                      <Persona
+                        size={Size.FortyEight}
+                        src={m.photoUrl}
+                        showPresence={false}
+                        presence={Presence.PresenceUnknown}
+                        status={""}
+                        name={m.displayName}
+                        jobTitle={""} />
+                    </div>
+                  </div>);
               })}
             </div>
             <div className={styles.textLabel}>{strings.MakeDefaultViewHeader}</div>

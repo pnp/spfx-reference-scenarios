@@ -6,6 +6,7 @@ declare interface IWorldClockWebPartStrings {
   SelectAViewHeader: string;
   ViewTitleHeader: string;
   ViewMembersHeader: string;
+  AddViewMembersHeader: string;
   MakeDefaultViewHeader: string;
   MakeDefaultViewLabel: string;
   SaveLabel: string;

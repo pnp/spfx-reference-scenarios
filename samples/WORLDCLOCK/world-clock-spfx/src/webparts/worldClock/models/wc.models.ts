@@ -50,6 +50,7 @@ let _dayList: IDay[] = [
 
 export interface IPerson {
   personId: string;
+  email: string;
   personType: PERSON_TYPE;
   displayName: string;
   workDays: string;
@@ -65,6 +66,7 @@ export interface IPerson {
 export class Person implements IPerson {
   constructor(
     public personId: string = "",
+    public email: string = "",
     public personType: PERSON_TYPE = null,
     public displayName: string = "",
     public workDays: string = "",

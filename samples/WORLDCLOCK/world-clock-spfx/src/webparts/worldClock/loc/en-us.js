@@ -7,6 +7,7 @@ define([], function () {
   "SelectAViewHeader": "Select a view", 
   "ViewTitleHeader": "View Title", 
   "ViewMembersHeader": "View Members", 
+  "AddViewMembersHeader": "Add Additional Members", 
   "MakeDefaultViewHeader": "Make Default View",
   "MakeDefaultViewLabel": "Make this view the default view for all users.",
   "SaveLabel": "Save",

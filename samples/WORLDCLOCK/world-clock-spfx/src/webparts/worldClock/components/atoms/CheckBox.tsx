@@ -8,6 +8,7 @@ export interface ICheckBoxProps {
   label: string;
   value: boolean;
   onChange: (fieldValue: string, fieldName: string) => void;
+  showLabel?: boolean;
 }
 
 export interface ICheckBoxState {
@@ -44,7 +45,7 @@ export default class CheckBox extends React.Component<ICheckBoxProps, ICheckBoxS
     try {
       return (
         <div data-component={this.LOG_SOURCE} className={styles.item} onChange={(newValue) => { this._onChange(newValue.target, this.props.name); }}>
-          <input type="checkbox" name={this.props.name} id={this.props.name} checked={this.props.value} className="hoo-checkbox" /><label htmlFor={this.props.name}>{this.props.label}</label>
+          <input type="checkbox" name={this.props.name} id={this.props.name} checked={this.props.value} className="hoo-checkbox" /><label htmlFor={this.props.name}>{(this.props.showLabel == undefined || this.props.showLabel == true) ? this.props.label : ""}</label>
         </div>
       );
     } catch (err) {
