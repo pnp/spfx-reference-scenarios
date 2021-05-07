@@ -20,7 +20,8 @@
     "luxon": "^1.26.0",
     "office-ui-fabric-react": "7.156.0",
     "react": "16.9.0",
-    "react-dom": "16.9.0"
+    "react-dom": "16.9.0",
+    "windows-iana": "^5.0.2"
   },
   "devDependencies": {
     "@microsoft/rush-stack-compiler-3.7": "0.2.3",

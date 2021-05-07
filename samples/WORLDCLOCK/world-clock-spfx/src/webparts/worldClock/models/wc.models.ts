@@ -50,28 +50,28 @@ let _dayList: IDay[] = [
 
 export interface IPerson {
   personId: string;
+  userPrincipal: string;
   personType: PERSON_TYPE;
   displayName: string;
-  workDays: string;
-  workHours: string;
-  firstName: string;
-  lastName: string;
+  jobTitle: string;
+  mail: string;
   photoUrl: string;
+  schedule: ISchedule;
+  windowsTimeZone: string;
   IANATimeZone: string;
   offset?: number;
-  schedule: ISchedule;
 }
 
 export class Person implements IPerson {
   constructor(
     public personId: string = "",
+    public userPrincipal: string = "",
     public personType: PERSON_TYPE = null,
     public displayName: string = "",
-    public workDays: string = "",
-    public workHours: string = "",
-    public firstName: string = null,
-    public lastName: string = null,
+    public jobTitle: string = null,
+    public mail: string = null,
     public photoUrl: string = null,
+    public windowsTimeZone: string = null,
     public IANATimeZone: string = null,
     public offset: number = 0,
     public schedule: ISchedule = new Schedule()
@@ -117,9 +117,9 @@ export class Config implements IConfig {
   constructor(
     public configType: CONFIG_TYPE = null,
     public configPerson: IPerson = null,
+    public members: IPerson[] = [],
     public configTeam: ITeam = null,
     public defaultViewId: string = null,
-    public members: IPerson[] = [],
     public views: IView[] = []
   ) { }
 }

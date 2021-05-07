@@ -10,18 +10,18 @@ import { IPerson, ISchedule, Person } from "../models/wc.models";
 import { chain, cloneDeep, find, reduce, remove, uniqBy } from "lodash";
 
 export interface IWorldClockProps {
-  userId: string;
+  //userId: string;
 }
 
 export interface IWorldClockState {
-  currentUser: IPerson;
+  //currentUser: IPerson;
   currentTime: DateTime;
   meetingMembers: IPerson[];
 }
 
 export class WorldClockState implements IWorldClockState {
   constructor(
-    public currentUser: IPerson = new Person,
+    //public currentUser: IPerson = new Person,
     public currentTime: DateTime = DateTime.now().setLocale(wc.Locale).setZone(wc.IANATimeZone),
     public meetingMembers: IPerson[] = [],
   ) { }
@@ -33,8 +33,9 @@ export default class WorldClock extends React.Component<IWorldClockProps, IWorld
   constructor(props: IWorldClockProps) {
     super(props);
     this.updateCurrentTime();
-    let currentUser: IPerson = find(wc.Config.members, { personId: this.props.userId });
-    this.state = new WorldClockState(currentUser);
+    //let currentUser: IPerson = find(wc.Config.members, { personId: this.props.userId });
+    //this.state = new WorldClockState(currentUser);
+    this.state = new WorldClockState();
   }
 
   public shouldComponentUpdate(nextProps: Readonly<IWorldClockProps>, nextState: Readonly<IWorldClockState>) {
@@ -58,8 +59,8 @@ export default class WorldClock extends React.Component<IWorldClockProps, IWorld
   private _addToMeeting = (person: IPerson) => {
     let meetingMembers = cloneDeep(this.state.meetingMembers);
     if (meetingMembers.length == 0) {
-      let user: IPerson = find(wc.Config.members, { personId: this.state.currentUser.personId });
-      meetingMembers.push(user);
+      //let user: IPerson = find(wc.Config.members, { personId: this.state.currentUser.personId });
+      meetingMembers.push(wc.CurrentUser);
     }
     meetingMembers.push(person);
     meetingMembers = chain(meetingMembers).uniqBy("personId").sortBy("offset").value();
@@ -80,13 +81,13 @@ export default class WorldClock extends React.Component<IWorldClockProps, IWorld
     let success: boolean = false;
     try {
       const config = cloneDeep(wc.Config);
-      let user = find(config.members, { personId: this.state.currentUser.personId });
+      let user = find(config.members, { personId: wc.CurrentUser.personId });
       if (user) {
         user.schedule = schedule;
       }
       success = await wc.updateConfig(config);
       if (success) {
-        let currentUserInMeeting = find(this.state.meetingMembers, { personId: this.state.currentUser.personId });
+        let currentUserInMeeting = find(this.state.meetingMembers, { personId: wc.CurrentUser.personId });
         if (currentUserInMeeting) {
           const meetingMembers = cloneDeep(this.state.meetingMembers);
           meetingMembers.map((m, index) => {
@@ -94,13 +95,14 @@ export default class WorldClock extends React.Component<IWorldClockProps, IWorld
               meetingMembers[index] = user;
             }
           });
-          this.setState({ currentUser: user, meetingMembers: meetingMembers });
-        } else {
-          this.setState({ currentUser: user });
+          this.setState({ meetingMembers: meetingMembers });
         }
+        // } else {
+        //   this.setState({ currentUser: user });
+        // }
       }
     } catch (err) {
-      Logger.write(`${this.LOG_SOURCE} (_saveView) - ${err}`, LogLevel.Error);
+      Logger.write(`${this.LOG_SOURCE} (_saveProfile) - ${err}`, LogLevel.Error);
     }
     return success;
   }
@@ -109,9 +111,18 @@ export default class WorldClock extends React.Component<IWorldClockProps, IWorld
     try {
       return (
         <div data-component={this.LOG_SOURCE} className={styles.worldClock}>
-          <TeamTimes currentUser={this.state.currentUser} currentTime={this.state.currentTime} addToMeeting={this._addToMeeting} meetingMembers={this.state.meetingMembers} saveProfile={this._saveProfile} />
-          {(this.state.meetingMembers.length > 0) ? <MeetingScheduler meetingMembers={this.state.meetingMembers} currentUser={this.state.currentUser} removeFromMeeting={this._removefromMeeting} /> : null}
-
+          <TeamTimes
+            currentUser={wc.CurrentUser}
+            currentTime={this.state.currentTime}
+            addToMeeting={this._addToMeeting}
+            meetingMembers={this.state.meetingMembers}
+            saveProfile={this._saveProfile} />
+          {(this.state.meetingMembers.length > 0) &&
+            <MeetingScheduler
+              meetingMembers={this.state.meetingMembers}
+              currentUser={wc.CurrentUser}
+              removeFromMeeting={this._removefromMeeting} />
+          }
         </div>
       );
     } catch (err) {

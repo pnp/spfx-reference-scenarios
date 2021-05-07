@@ -26,6 +26,14 @@
       {
         "resource": "Microsoft Graph",
         "scope": "GroupMember.Read.All"
+      },
+      {
+        "resource": "Microsoft Graph",
+        "scope": "TeamMember.Read.All"
+      },
+      {
+        "resource": "Microsoft Graph",
+        "scope": "MailboxSettings.Read"
       }
     ]
   },

@@ -1,0 +1,57 @@
+{
+  "$schema": "https://developer.microsoft.com/en-us/json-schemas/teams/v1.9/MicrosoftTeams.schema.json",
+  "manifestVersion": "1.9",
+  "version": "1.0",
+  "id": "2c3960eb-ca53-4e0e-8e90-e3258f788999",
+  "packageName": "WorldClock",
+  "developer": {
+    "name": "Sympraxis Consulting",
+    "websiteUrl": "https://docs.microsoft.com/en-us/office365/customlearning/",
+    "privacyUrl": "https://privacy.microsoft.com/en-us/privacystatement",
+    "termsOfUseUrl": "https://www.microsoft.com/en-us/servicesagreement"
+  },
+  "icons": {
+    "color": "color.png",
+    "outline": "outline.png"
+  },
+  "name": {
+    "short": "World Clock",
+    "full": "World Clock Scheduling Application"
+  },
+  "description": {
+    "short": "World Clock Scheduling Application",
+    "full": "World Clock Scheduling Application is a teams or personal solution to allow teams or users to coordinate scheduling meetings with users across the globe."
+  },
+  "accentColor": "#F9F9FA",
+  "staticTabs": [
+    {
+      "entityId": "com.worldclock.spfx",
+      "name": "World Clock",
+      "contentUrl": "https://julieturner.sharepoint.com/_layouts/15/TeamsLogon.aspx?SPFX=true&dest=/_layouts/15/teamshostedapp.aspx%3Fteams%26personal%26componentId=2c3960eb-ca53-4e0e-8e90-e3258f788999%26forceLocale={locale}",
+      "scopes": [
+        "personal"
+      ]
+    },
+    {
+      "entityId": "about",
+      "scopes": [
+        "personal"
+      ]
+    }
+  ],
+  "permissions": [
+    "identity",
+    "messageTeamMembers"
+  ],
+  "validDomains": [
+    "julieturner.sharepoint.com",
+    "*.login.microsoftonline.com",
+    "*.sharepoint.com",
+    "spoprod-a.akamaihd.net",
+    "resourceseng.blob.core.windows.net"
+  ],
+  "webApplicationInfo": {
+    "id": "00000003-0000-0ff1-ce00-000000000000",
+    "resource": "https://julieturner.sharepoint.com"
+  }
+}
