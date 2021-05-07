@@ -51,7 +51,6 @@ export default class TeamTimes extends React.Component<ITeamTimesProps, ITeamTim
   constructor(props: ITeamTimesProps) {
     super(props);
     try {
-
       //TODO: Julie I need some help with the best way to do this.
       //TODO: Fix the offset so that it is UTC based.
       let timeZoneView: any[];
@@ -104,6 +103,7 @@ export default class TeamTimes extends React.Component<ITeamTimesProps, ITeamTim
 
   private _sortTimeZones(view: IWCView) {
     try {
+      const currentTime: DateTime = this.state?.currentTime || DateTime.now().setLocale(wc.Locale).setZone(wc.IANATimeZone);
       //TODO: Julie I need some help with the best way to do this.
       let timeZoneView: any[];
 
@@ -112,11 +112,11 @@ export default class TeamTimes extends React.Component<ITeamTimesProps, ITeamTim
       let dayTimeArray: any[] = [];
       for (let key in timeZoneView) {
         let groupMembers: IPerson[] = timeZoneView[key].members as IPerson[];
-        let currentTime: DateTime = this.state.currentTime.setZone(groupMembers[0].IANATimeZone);
+        let tzCurrentTime: DateTime = currentTime.setZone(groupMembers[0].IANATimeZone);
         let timeStyle: string = "";
-        if (currentTime.hour > 6 && currentTime.hour <= 7) {
+        if (tzCurrentTime.hour > 6 && tzCurrentTime.hour <= 7) {
           timeStyle = "hoo-wcs-day";
-        } else if (currentTime.hour > 7 && currentTime.hour <= 19) {
+        } else if (tzCurrentTime.hour > 7 && tzCurrentTime.hour <= 19) {
           timeStyle = "hoo-wcs-day";
         }
         else {
