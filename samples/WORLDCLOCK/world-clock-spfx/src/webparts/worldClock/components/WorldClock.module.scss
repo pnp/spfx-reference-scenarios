@@ -381,6 +381,10 @@
       padding-top: px2rem(5px);
     }
 
+    .is-hidden {
+      visibility: hidden;
+    }
+
 
   }
 
@@ -429,7 +433,7 @@
       column-gap: px2rem(32px);
 
       .textLabel {
-        width: 50%;
+        column-span: all;
       }
 
       .item {
@@ -465,7 +469,13 @@
   }
 
 
-  .textLabel {
+  .textLabel,
+  .errorTextLabel {
+    font-weight: 700;
+    line-height: 24px;
+  }
+
+  .errorTextLabel {
     font-weight: 700;
     line-height: 24px;
   }

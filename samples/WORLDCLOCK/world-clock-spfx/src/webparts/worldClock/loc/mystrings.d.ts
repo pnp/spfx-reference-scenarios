@@ -10,6 +10,7 @@ declare interface IWorldClockWebPartStrings {
   AddViewMembersHeader: string;
   MakeDefaultViewHeader: string;
   MakeDefaultViewLabel: string;
+  MaxMembersError: string;
   EditProfileTitle: string;
   EditProfileContent: string;
   AddToMeetingLabel: string;

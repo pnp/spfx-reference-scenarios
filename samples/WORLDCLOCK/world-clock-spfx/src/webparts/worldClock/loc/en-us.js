@@ -11,6 +11,7 @@ define([], function () {
   "AddViewMembersHeader": "Add Additional Members", 
   "MakeDefaultViewHeader": "Make Default View",
   "MakeDefaultViewLabel": "Make this view the default view for all users.",
+  "MaxMembersError": "You can only have up to 20 members in a view.",
   "EditProfileTitle":"Edit Profile",
   "EditProfileContent":"Edit your profile to show your working days and hours",
   "AddToMeetingLabel": "Add to meeting",

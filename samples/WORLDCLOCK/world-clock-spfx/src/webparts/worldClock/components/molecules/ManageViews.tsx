@@ -22,6 +22,8 @@ export interface IManageViewsState {
   currentView: IView;
   isDefault: boolean;
   searchString: string;
+  errors: boolean;
+  errorMessage: string;
 }
 
 export class ManageViewsState implements IManageViewsState {
@@ -30,6 +32,8 @@ export class ManageViewsState implements IManageViewsState {
     public currentView: IView = new View(),
     public isDefault: boolean = false,
     public searchString: string = "",
+    public errors: boolean = false,
+    public errorMessage: string = "",
   ) { }
 }
 
@@ -102,14 +106,24 @@ export default class ManageViews extends React.Component<IManageViewsProps, IMan
     try {
       const currentView = cloneDeep(this.state.currentView);
       let member = find(currentView.members, { personId: fieldName });
+
       if (member) {
         if (!fieldValue.checked) {
           remove(currentView.members, member);
         }
+        if (currentView.members.length < 19) {
+          this.setState({ errors: false, errorMessage: "" });
+        }
       } else {
-        let newMember = find(wc.Config.members, { personId: fieldName });
-        currentView.members.push(newMember);
+        if (currentView.members.length < 19) {
+          let newMember = find(wc.Config.members, { personId: fieldName });
+          currentView.members.push(newMember);
+        } else {
+          this.setState({ errors: true, errorMessage: strings.MaxMembersError });
+        }
       }
+
+
       this.setState({ currentView: currentView });
     } catch (err) {
       Logger.write(`${this.LOG_SOURCE} (_onMemberCheckBoxChange) - ${err}`, LogLevel.Error);
@@ -175,7 +189,9 @@ export default class ManageViews extends React.Component<IManageViewsProps, IMan
                   </div>);
               })}
             </div>
+            <span className={`${styles.textLabel} hoo-error ${(!this.state.errors) && "is-hidden"}`} id="">{this.state.errorMessage}</span>
             <div className={styles.membersList}>
+
               <div className={styles.memberSearch}>
                 <div className={styles.textLabel}>{strings.AddViewMembersHeader}</div>
                 <SearchBox name="Search" value={this.state.searchString} onChange={this._onSearchChange} />
