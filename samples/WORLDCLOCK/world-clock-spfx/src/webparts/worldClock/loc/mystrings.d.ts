@@ -2,6 +2,7 @@ declare interface IWorldClockWebPartStrings {
   ConfigureViewsTitle: string;
   ConfigureViewsContent: string;
   ManageViewsTitle: string;
+  NewViewTitle: string;
   ManageViewsContent: string;
   SelectAViewHeader: string;
   ViewTitleHeader: string;
@@ -9,12 +10,17 @@ declare interface IWorldClockWebPartStrings {
   AddViewMembersHeader: string;
   MakeDefaultViewHeader: string;
   MakeDefaultViewLabel: string;
+  EditProfileTitle: string;
+  EditProfileContent: string;
+  AddToMeetingLabel: string;
+  EditProfileLabel: string;
   SaveLabel: string;
   CancelLabel: string;
   ManageViewsLabel: string;
   AddEditViewLabel: string;
   TrashLabel: string;
   ScheduleMeetingLabel: string;
+  DropDownAvailableOptions: string;
 
 }
 

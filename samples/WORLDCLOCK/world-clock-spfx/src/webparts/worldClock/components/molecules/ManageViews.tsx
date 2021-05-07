@@ -6,7 +6,7 @@ import DropDown, { IDropDownOption } from "../atoms/DropDown";
 import { IPerson, IView, View } from "../../models/wc.models";
 import { wc } from "../../services/wc.service";
 import CheckBox from "../atoms/CheckBox";
-import TextBox, { TextBoxState } from "../atoms/TextBox";
+import TextBox from "../atoms/TextBox";
 import Button from "../atoms/Button";
 import strings from "WorldClockWebPartStrings";
 import Persona, { Presence, Size } from "./Persona";
@@ -44,7 +44,7 @@ export default class ManageViews extends React.Component<IManageViewsProps, IMan
       let defaultView: IView = new View();
       if (wc.Config.views.length == 0) {
         defaultView.viewId = "0";
-        defaultView.viewName = "New View";
+        defaultView.viewName = strings.NewViewTitle;
       } else {
         defaultView = wc.Config.views[wc.Config.defaultViewId];
       }
@@ -86,7 +86,7 @@ export default class ManageViews extends React.Component<IManageViewsProps, IMan
     try {
       let currentView = new View();
       let isDefault: boolean = false;
-      currentView.viewName = "New";
+      currentView.viewName = strings.NewViewTitle;
       if (fieldValue != "-1") {
         currentView = find(wc.Config.views, { viewName: fieldValue });
         if (wc.Config.defaultViewId == currentView.viewId) {
@@ -135,7 +135,7 @@ export default class ManageViews extends React.Component<IManageViewsProps, IMan
       //TODO: Make it so that the drop down value doesn't change when we change the New View Name
       //TODO: Julie - Wire up search box to graph search
       this._viewOptions = wc.Config.views.map((v) => { return { key: v.viewName, text: v.viewName }; });
-      this._viewOptions.unshift({ key: -1, text: "New View" });
+      this._viewOptions.unshift({ key: -1, text: strings.NewViewTitle });
       return (
         <div data-component={this.LOG_SOURCE} className={styles.manageViews}>
           <div className={styles.textLabel}>{strings.SelectAViewHeader}</div>

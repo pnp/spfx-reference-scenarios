@@ -3,6 +3,7 @@ import { Logger, LogLevel } from "@pnp/logging";
 import isEqual from "lodash/isEqual";
 import findIndex from "lodash/findIndex";
 import { Icons } from "../../models/wc.Icons";
+import strings from "WorldClockWebPartStrings";
 
 export enum DDState {
   "Initial",
@@ -294,7 +295,7 @@ export default class DropDown extends React.Component<IDropDownProps, IDropDownS
       return (
         <div data-component={this.LOG_SOURCE} className="hoo-select" role="combobox" aria-haspopup="listbox" aria-owns={`${this.props.id}-list`} onClick={this._toggleDropdown} onKeyUp={this._keyUp} >
           <div id={`${this.props.id}-status`} className="hidden-visually" aria-live="polite">
-            {this.props.options.length} options available. Arrow down to browse or start typing to filter.
+            {this.props.options.length} {strings.DropDownAvailableOptions}
           </div>
           <input ref={this._inputElement} type="text" id={`${this.props.id}-input`} value={this.props.value} className="hoo-select-text" aria-autocomplete="both" autoComplete="off" aria-controls={`${this.props.id}-list`} />
           <button className="hoo-buttonicon" aria-label="">

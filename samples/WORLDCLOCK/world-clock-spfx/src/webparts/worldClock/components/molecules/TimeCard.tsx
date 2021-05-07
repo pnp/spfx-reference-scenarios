@@ -1,12 +1,11 @@
 import * as React from "react";
 import { Logger, LogLevel } from "@pnp/logging";
-import { endsWith, find, includes, isEqual, replace, times } from "lodash";
+import { endsWith, find, isEqual, replace } from "lodash";
 import { DateTime } from "luxon";
 import { IPerson } from "../../models/wc.models";
-import { wc } from "../../services/wc.service";
-import styles from "../WorldClock.module.scss";
 import ButtonIcon from "../atoms/ButtonIcon";
 import { Icons } from "../../models/wc.Icons";
+import strings from "WorldClockWebPartStrings";
 
 export interface ITimeCardProps {
   currentTime: DateTime;
@@ -57,20 +56,20 @@ export default class TimeCard extends React.Component<ITimeCardProps, ITimeCardS
           <div className="hoo-wc-peoples">
             {this.props.members.map((m) => {
               let inMeeting: IPerson = find(this.props.meetingMembers, { personId: m.personId });
-              return (<div className="hoo-wc-people" title="Add to Meeting">
+              return (<div className="hoo-wc-people" title={strings.AddToMeetingLabel}>
                 <span className="hoo-wc-people-name">{m.displayName}</span>
                 {((this.props.userId != m.personId) && (!inMeeting)) &&
 
                   <ButtonIcon
                     iconType={Icons.PlusPerson}
                     onClick={() => this.props.addToMeeting(m)}
-                    altText="Add to meeting" />
+                    altText={strings.AddToMeetingLabel} />
                 }
                 {(this.props.userId == m.personId) &&
                   <ButtonIcon
                     iconType={Icons.Profile}
                     onClick={() => this.props.editProfile(true)}
-                    altText="Edit my profile" />
+                    altText={strings.EditProfileLabel} />
                 }
 
               </div>);

@@ -4,7 +4,7 @@ import isEqual from "lodash/isEqual";
 import TeamTimes from "./organisms/TeamTimes";
 import MeetingScheduler from "./organisms/MeetingScheduler";
 import styles from "./WorldClock.module.scss";
-import { DateTime, IANAZone } from "luxon";
+import { DateTime } from "luxon";
 import { wc } from "../services/wc.service";
 import { IPerson, ISchedule, Person } from "../models/wc.models";
 import { chain, cloneDeep, find, reduce, remove, uniqBy } from "lodash";
@@ -109,9 +109,18 @@ export default class WorldClock extends React.Component<IWorldClockProps, IWorld
     try {
       return (
         <div data-component={this.LOG_SOURCE} className={styles.worldClock}>
-          <TeamTimes currentUser={this.state.currentUser} currentTime={this.state.currentTime} addToMeeting={this._addToMeeting} meetingMembers={this.state.meetingMembers} saveProfile={this._saveProfile} />
-          {(this.state.meetingMembers.length > 0) ? <MeetingScheduler meetingMembers={this.state.meetingMembers} currentUser={this.state.currentUser} removeFromMeeting={this._removefromMeeting} /> : null}
-
+          <TeamTimes
+            currentUser={this.state.currentUser}
+            currentTime={this.state.currentTime}
+            addToMeeting={this._addToMeeting}
+            meetingMembers={this.state.meetingMembers}
+            saveProfile={this._saveProfile} />
+          {(this.state.meetingMembers.length > 0) &&
+            <MeetingScheduler
+              meetingMembers={this.state.meetingMembers}
+              currentUser={this.state.currentUser}
+              removeFromMeeting={this._removefromMeeting} />
+          }
         </div>
       );
     } catch (err) {
