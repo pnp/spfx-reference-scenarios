@@ -90,17 +90,17 @@ export class Team implements ITeam {
   ) { }
 }
 
-export interface IView {
+export interface IWCView {
   viewId: string;
   viewName: string;
-  members: IPerson[];
+  members: string[];
 }
 
-export class View implements IView {
+export class WCView implements IWCView {
   constructor(
     public viewId: string = null,
     public viewName: string = null,
-    public members: IPerson[] = []
+    public members: string[] = []
   ) { }
 }
 
@@ -110,7 +110,7 @@ export interface IConfig {
   configTeam: ITeam;
   defaultViewId: string;
   members: IPerson[];
-  views: IView[];
+  views: IWCView[];
 }
 
 export class Config implements IConfig {
@@ -120,7 +120,7 @@ export class Config implements IConfig {
     public members: IPerson[] = [],
     public configTeam: ITeam = null,
     public defaultViewId: string = null,
-    public views: IView[] = []
+    public views: IWCView[] = []
   ) { }
 }
 

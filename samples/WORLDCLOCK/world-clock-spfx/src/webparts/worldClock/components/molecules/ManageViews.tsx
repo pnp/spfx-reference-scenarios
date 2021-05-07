@@ -3,7 +3,7 @@ import { Logger, LogLevel } from "@pnp/logging";
 import { cloneDeep, filter, find, includes, isEqual, remove, sortBy, startsWith } from "lodash";
 import styles from "../WorldClock.module.scss";
 import DropDown, { IDropDownOption } from "../atoms/DropDown";
-import { IPerson, IView, View } from "../../models/wc.models";
+import { IPerson, IWCView, WCView } from "../../models/wc.models";
 import { wc } from "../../services/wc.service";
 import CheckBox from "../atoms/CheckBox";
 import TextBox from "../atoms/TextBox";
@@ -13,13 +13,13 @@ import Persona, { Presence, Size } from "./Persona";
 import SearchBox from "../atoms/SearchBox";
 
 export interface IManageViewsProps {
-  save: (currentView: IView, isDefault: boolean) => void;
+  save: (currentView: IWCView, isDefault: boolean) => void;
   cancel: () => void;
 }
 
 export interface IManageViewsState {
   searchMembers: IPerson[];
-  currentView: IView;
+  currentView: IWCView;
   isDefault: boolean;
   searchString: string;
   errors: boolean;
@@ -29,7 +29,7 @@ export interface IManageViewsState {
 export class ManageViewsState implements IManageViewsState {
   constructor(
     public searchMembers: IPerson[] = [],
-    public currentView: IView = new View(),
+    public currentView: IWCView = new WCView(),
     public isDefault: boolean = false,
     public searchString: string = "",
     public errors: boolean = false,
@@ -45,7 +45,7 @@ export default class ManageViews extends React.Component<IManageViewsProps, IMan
     super(props);
     try {
 
-      let defaultView: IView = new View();
+      let defaultView: IWCView = new WCView();
       if (wc.Config.views.length == 0) {
         defaultView.viewId = "0";
         defaultView.viewName = strings.NewViewTitle;
@@ -88,7 +88,7 @@ export default class ManageViews extends React.Component<IManageViewsProps, IMan
   }
   private _onDropDownChange = (fieldValue: string, fieldName: string) => {
     try {
-      let currentView = new View();
+      let currentView = new WCView();
       let isDefault: boolean = false;
       currentView.viewName = strings.NewViewTitle;
       if (fieldValue != "-1") {
@@ -105,11 +105,11 @@ export default class ManageViews extends React.Component<IManageViewsProps, IMan
   private _onMemberCheckBoxChange = (fieldValue: any, fieldName: string) => {
     try {
       const currentView = cloneDeep(this.state.currentView);
-      let member = find(currentView.members, { personId: fieldName });
+      let memberIdx = currentView.members.indexOf(fieldName);
 
-      if (member) {
+      if (memberIdx > -1) {
         if (!fieldValue.checked) {
-          remove(currentView.members, member);
+          currentView.members.splice(memberIdx, 1);
         }
         if (currentView.members.length < 19) {
           this.setState({ errors: false, errorMessage: "" });
@@ -117,7 +117,7 @@ export default class ManageViews extends React.Component<IManageViewsProps, IMan
       } else {
         if (currentView.members.length < 19) {
           let newMember = find(wc.Config.members, { personId: fieldName });
-          currentView.members.push(newMember);
+          currentView.members.push(newMember.personId);
         } else {
           this.setState({ errors: true, errorMessage: strings.MaxMembersError });
         }
@@ -163,27 +163,25 @@ export default class ManageViews extends React.Component<IManageViewsProps, IMan
               {sortBy(this.state.currentView.members, 'firstName').map((m) => {
                 let isChecked: boolean = false;
                 if (this.state.currentView.members.length > 0) {
-                  let member = find(this.state.currentView.members, { personId: m.personId });
-                  if (member) {
-                    isChecked = true;
-                  }
+                  isChecked = find(this.state.currentView.members, { personId: m }) > -1;
                 }
+                const member = find(wc.Config.members, { personId: m });
                 return (
                   <div className={`${styles.memberContainer}`}>
                     <div className={styles.memberPersona}>
                       <CheckBox
-                        name={m.personId}
-                        label={m.displayName}
+                        name={m}
+                        label={member.displayName}
                         value={isChecked}
                         onChange={this._onMemberCheckBoxChange}
                         showLabel={false} />
                       <Persona
                         size={Size.FortyEight}
-                        src={m.photoUrl}
+                        src={member.photoUrl}
                         showPresence={false}
                         presence={Presence.PresenceUnknown}
                         status={""}
-                        name={m.displayName}
+                        name={member.displayName}
                         jobTitle={""} />
                     </div>
                   </div>);

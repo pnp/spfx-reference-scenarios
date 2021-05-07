@@ -15,14 +15,13 @@ export interface IWorldClockProps {
 
 export interface IWorldClockState {
   //currentUser: IPerson;
-  currentTime: DateTime;
+  //currentTime: DateTime;
   meetingMembers: IPerson[];
 }
 
 export class WorldClockState implements IWorldClockState {
   constructor(
     //public currentUser: IPerson = new Person,
-    public currentTime: DateTime = DateTime.now().setLocale(wc.Locale).setZone(wc.IANATimeZone),
     public meetingMembers: IPerson[] = [],
   ) { }
 }
@@ -32,9 +31,6 @@ export default class WorldClock extends React.Component<IWorldClockProps, IWorld
 
   constructor(props: IWorldClockProps) {
     super(props);
-    this.updateCurrentTime();
-    //let currentUser: IPerson = find(wc.Config.members, { personId: this.props.userId });
-    //this.state = new WorldClockState(currentUser);
     this.state = new WorldClockState();
   }
 
@@ -42,18 +38,6 @@ export default class WorldClock extends React.Component<IWorldClockProps, IWorld
     if ((isEqual(nextState, this.state) && isEqual(nextProps, this.props)))
       return false;
     return true;
-  }
-
-  private async delay(ms: number): Promise<any> {
-    return new Promise(resolve => setTimeout(resolve, ms));
-  }
-  public async updateCurrentTime(): Promise<void> {
-    while (true) {
-      const delay: number = (60000);
-      await this.delay(delay);
-      let now: DateTime = await DateTime.now().setLocale(wc.Locale).setZone(wc.IANATimeZone);
-      this.setState({ currentTime: now });
-    }
   }
 
   private _addToMeeting = (person: IPerson) => {
@@ -112,8 +96,8 @@ export default class WorldClock extends React.Component<IWorldClockProps, IWorld
       return (
         <div data-component={this.LOG_SOURCE} className={styles.worldClock}>
           <TeamTimes
-            currentUser={wc.CurrentUser}
-            currentTime={this.state.currentTime}
+            //currentUser={wc.CurrentUser}
+            //currentTime={this.state.currentTime}
             addToMeeting={this._addToMeeting}
             meetingMembers={this.state.meetingMembers}
             saveProfile={this._saveProfile} />

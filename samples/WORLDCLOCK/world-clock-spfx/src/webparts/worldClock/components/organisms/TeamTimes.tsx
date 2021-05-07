@@ -4,7 +4,7 @@ import { chain, cloneDeep, Dictionary, find, groupBy, isEqual, merge, sortBy } f
 import Dialog from "../molecules/Dialog";
 import strings from "WorldClockWebPartStrings";
 import ManageViews from "../molecules/ManageViews";
-import { IPerson, ISchedule, IView, Person, View } from "../../models/wc.models";
+import { IPerson, ISchedule, IWCView, WCView } from "../../models/wc.models";
 import { wc } from "../../services/wc.service";
 import TimeCard from "../molecules/TimeCard";
 import { DateTime } from "luxon";
@@ -14,8 +14,8 @@ import styles from "../WorldClock.module.scss";
 import ButtonSplitPrimary, { IButtonOption } from "../atoms/ButtonSplitPrimary";
 
 export interface ITeamTimesProps {
-  currentUser: IPerson;
-  currentTime: DateTime;
+  //currentUser: IPerson;
+  //currentTime: DateTime;
   addToMeeting: (IPerson) => void;
   meetingMembers: IPerson[];
   saveProfile: (schedule: ISchedule) => Promise<boolean>;
@@ -24,22 +24,24 @@ export interface ITeamTimesProps {
 export interface ITeamTimesState {
   needsConfig: boolean;
   manageViewsVisible: boolean;
-  views: IView[];
+  views: IWCView[];
+  currentView: string;
   timeZoneView: any[];
   viewOptions: IButtonOption[];
   showProfile: boolean;
-
+  currentTime: DateTime;
 }
 
 export class TeamTimesState implements ITeamTimesState {
   constructor(
     public needsConfig: boolean = false,
     public manageViewsVisible: boolean = false,
-    public views: IView[] = [],
+    public views: IWCView[] = [],
+    public currentView: string = null,
     public timeZoneView: any[] = [],
     public viewOptions: IButtonOption[] = [],
     public showProfile: boolean = false,
-
+    public currentTime: DateTime = DateTime.now().setLocale(wc.Locale).setZone(wc.IANATimeZone),
   ) { }
 }
 
@@ -57,12 +59,12 @@ export default class TeamTimes extends React.Component<ITeamTimesProps, ITeamTim
       if ((wc.Config.members.length > 20) && (wc.Config.views.length == 0)) {
         needsConfig = true;
       } else {
-        let defaultView: IView = wc.Config.views[wc.Config.defaultViewId];
+        let defaultView: IWCView = wc.Config.views[wc.Config.defaultViewId];
         timeZoneView = this._sortTimeZones(defaultView);
       }
       let options: IButtonOption[] = this._getManageViewOptions();
-      this.state = new TeamTimesState(needsConfig, needsConfig, wc.Config.views, timeZoneView, options);
-
+      this.state = new TeamTimesState(needsConfig, needsConfig, wc.Config.views, (needsConfig) ? null : wc.Config.defaultViewId, timeZoneView, options);
+      this.updateCurrentTime();
     } catch (err) {
       Logger.write(`${this.LOG_SOURCE} (constructor) - ${err}`, LogLevel.Error);
     }
@@ -74,21 +76,43 @@ export default class TeamTimes extends React.Component<ITeamTimesProps, ITeamTim
       return false;
     return true;
   }
+
+  public componentDidUpdate() {
+    if (wc.Refresh) {
+      wc.Refresh = false;
+      const timeZoneView = this._sortTimeZones(wc.Config.views[this.state.currentView]);
+      this.setState({ timeZoneView });
+    }
+  }
+
+  private async delay(ms: number): Promise<any> {
+    return new Promise(resolve => setTimeout(resolve, ms));
+  }
+
+  public async updateCurrentTime(): Promise<void> {
+    while (true) {
+      const delay: number = (60000);
+      await this.delay(delay);
+      let now: DateTime = await DateTime.now().setLocale(wc.Locale).setZone(wc.IANATimeZone);
+      this.setState({ currentTime: now });
+    }
+  }
+
   private _changeManageViewsVisibility = (visible: boolean): void => {
     this.setState({ manageViewsVisible: visible, needsConfig: false });
   }
 
-  private _sortTimeZones(view: IView) {
+  private _sortTimeZones(view: IWCView) {
     try {
       //TODO: Julie I need some help with the best way to do this.
       let timeZoneView: any[];
 
-      let members: IPerson[] = view.members;
+      let members: IPerson[] = wc.GetTeamMembers(view.members);
       timeZoneView = chain(members).groupBy("offset").map((value, key) => ({ offset: parseInt(key.toString()), members: value })).sortBy("offset").value();
       let dayTimeArray: any[] = [];
       for (let key in timeZoneView) {
         let groupMembers: IPerson[] = timeZoneView[key].members as IPerson[];
-        let currentTime: DateTime = this.props.currentTime.setZone(groupMembers[0].IANATimeZone);
+        let currentTime: DateTime = this.state.currentTime.setZone(groupMembers[0].IANATimeZone);
         let timeStyle: string = "";
         if (currentTime.hour > 6 && currentTime.hour <= 7) {
           timeStyle = "hoo-wcs-day";
@@ -111,7 +135,7 @@ export default class TeamTimes extends React.Component<ITeamTimesProps, ITeamTim
     this.setState({ showProfile: visible });
   }
 
-  private _saveView = async (view: IView, isDefault: boolean): Promise<void> => {
+  private _saveView = async (view: IWCView, isDefault: boolean): Promise<void> => {
     try {
       let success: boolean = false;
       const config = cloneDeep(wc.Config);
@@ -206,10 +230,10 @@ export default class TeamTimes extends React.Component<ITeamTimesProps, ITeamTim
                 {m.cardItems.map((ci) => {
                   let members: IPerson[] = ci.members as IPerson[];
                   return (<TimeCard
-                    userId={this.props.currentUser.personId}
+                    userId={wc.CurrentUser.personId}
                     members={members}
                     currentTimeZone={wc.IANATimeZone}
-                    currentTime={this.props.currentTime}
+                    currentTime={this.state.currentTime}
                     addToMeeting={this.props.addToMeeting}
                     meetingMembers={this.props.meetingMembers}
                     editProfile={this._showProfile} />);
@@ -217,11 +241,17 @@ export default class TeamTimes extends React.Component<ITeamTimesProps, ITeamTim
               </div>);
             })}
           </div>
-          <Dialog header={(this.state.needsConfig) ? strings.ConfigureViewsTitle : strings.ManageViewsTitle} content={(this.state.needsConfig) ? strings.ConfigureViewsContent : strings.ManageViewsContent} visible={this.state.manageViewsVisible} onChange={this._changeManageViewsVisibility} height={70} width={60}>
+          <Dialog
+            header={(this.state.needsConfig) ? strings.ConfigureViewsTitle : strings.ManageViewsTitle}
+            content={(this.state.needsConfig) ? strings.ConfigureViewsContent : strings.ManageViewsContent}
+            visible={this.state.manageViewsVisible}
+            onChange={this._changeManageViewsVisibility}
+            height={70}
+            width={60}>
             <ManageViews save={this._saveView} cancel={this._cancelView} />
           </Dialog>
           <Dialog header={strings.EditProfileTitle} content={strings.EditProfileContent} visible={this.state.showProfile} onChange={this._showProfile} height={70} width={60}>
-            <Profile user={this.props.currentUser} save={this._saveProfile} cancel={this._cancelProfile} />
+            <Profile user={wc.CurrentUser} save={this._saveProfile} cancel={this._cancelProfile} />
           </Dialog>
         </div>
       );
