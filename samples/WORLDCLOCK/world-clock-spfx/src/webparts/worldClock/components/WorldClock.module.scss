@@ -258,8 +258,17 @@
 
     }
 
-    .hoo-wc.people {
+    .hoo-wc-people {
       cursor: pointer;
+      white-space: nowrap;
+      display: flex;
+      justify-content: space-between;
+
+      .hoo-wc-people-name {
+        padding-bottom: 4px;
+
+      }
+
     }
 
     .schedule {
@@ -420,7 +429,7 @@
       column-gap: px2rem(32px);
 
       .textLabel {
-        width: 100%;
+        width: 50%;
       }
 
       .item {

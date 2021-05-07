@@ -57,9 +57,21 @@ export default class TimeCard extends React.Component<ITimeCardProps, ITimeCardS
           <div className="hoo-wc-peoples">
             {this.props.members.map((m) => {
               let inMeeting: IPerson = find(this.props.meetingMembers, { personId: m.personId });
-              return (<div className="hoo-wc-people" title="Add to Meeting">{m.displayName}
-                {(this.props.userId == m.personId) ? <ButtonIcon iconType={Icons.Profile} onClick={() => this.props.editProfile(true)} altText="Edit my profile" /> : null}
-                {((this.props.userId != m.personId) && (!inMeeting)) ? <ButtonIcon iconType={Icons.PlusPerson} onClick={() => this.props.addToMeeting(m)} altText="Add to meeting" /> : null}
+              return (<div className="hoo-wc-people" title="Add to Meeting">
+                <span className="hoo-wc-people-name">{m.displayName}</span>
+                {((this.props.userId != m.personId) && (!inMeeting)) &&
+
+                  <ButtonIcon
+                    iconType={Icons.PlusPerson}
+                    onClick={() => this.props.addToMeeting(m)}
+                    altText="Add to meeting" />
+                }
+                {(this.props.userId == m.personId) &&
+                  <ButtonIcon
+                    iconType={Icons.Profile}
+                    onClick={() => this.props.editProfile(true)}
+                    altText="Edit my profile" />
+                }
 
               </div>);
             })
