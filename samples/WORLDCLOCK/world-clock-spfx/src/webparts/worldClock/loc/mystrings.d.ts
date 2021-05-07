@@ -2,18 +2,26 @@ declare interface IWorldClockWebPartStrings {
   ConfigureViewsTitle: string;
   ConfigureViewsContent: string;
   ManageViewsTitle: string;
+  NewViewTitle: string;
   ManageViewsContent: string;
   SelectAViewHeader: string;
   ViewTitleHeader: string;
   ViewMembersHeader: string;
+  AddViewMembersHeader: string;
   MakeDefaultViewHeader: string;
   MakeDefaultViewLabel: string;
+  MaxMembersError: string;
+  EditProfileTitle: string;
+  EditProfileContent: string;
+  AddToMeetingLabel: string;
+  EditProfileLabel: string;
   SaveLabel: string;
   CancelLabel: string;
   ManageViewsLabel: string;
   AddEditViewLabel: string;
   TrashLabel: string;
   ScheduleMeetingLabel: string;
+  DropDownAvailableOptions: string;
 
 }
 

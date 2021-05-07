@@ -1,6 +1,6 @@
 import * as React from "react";
 import { Logger, LogLevel } from "@pnp/logging";
-import { cloneDeep, find, isEqual, replace } from "lodash";
+import { find, isEqual, replace } from "lodash";
 import { HOUR_TYPE, IPerson, Schedule } from "../../models/wc.models";
 import { DateTime } from "luxon";
 import { wc } from "../../services/wc.service";

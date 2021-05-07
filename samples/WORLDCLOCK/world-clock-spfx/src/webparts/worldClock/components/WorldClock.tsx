@@ -4,7 +4,7 @@ import isEqual from "lodash/isEqual";
 import TeamTimes from "./organisms/TeamTimes";
 import MeetingScheduler from "./organisms/MeetingScheduler";
 import styles from "./WorldClock.module.scss";
-import { DateTime, IANAZone } from "luxon";
+import { DateTime } from "luxon";
 import { wc } from "../services/wc.service";
 import { IPerson, ISchedule, Person } from "../models/wc.models";
 import { chain, cloneDeep, find, reduce, remove, uniqBy } from "lodash";

@@ -9,7 +9,6 @@ import { wc } from "../../services/wc.service";
 import TimeCard from "../molecules/TimeCard";
 import { DateTime } from "luxon";
 import Profile from "../molecules/Profile";
-import ButtonAction from "../atoms/ButtonAction";
 import { Icons } from "../../models/wc.Icons";
 import styles from "../WorldClock.module.scss";
 import ButtonSplitPrimary, { IButtonOption } from "../atoms/ButtonSplitPrimary";
@@ -83,10 +82,6 @@ export default class TeamTimes extends React.Component<ITeamTimesProps, ITeamTim
     try {
       //TODO: Julie I need some help with the best way to do this.
       let timeZoneView: any[];
-
-      //if ((wc.Config.members.length > 20) && (wc.Config.views.length == 0)) {
-      //  needsConfig = true;
-      //} else {
 
       let members: IPerson[] = view.members;
       timeZoneView = chain(members).groupBy("offset").map((value, key) => ({ offset: parseInt(key.toString()), members: value })).sortBy("offset").value();
@@ -210,7 +205,14 @@ export default class TeamTimes extends React.Component<ITeamTimesProps, ITeamTim
               return (<div className={`${m.style} ${(index == 0) ? "first" : (index == this.state.timeZoneView.length - 1) ? "last" : ""}`}>
                 {m.cardItems.map((ci) => {
                   let members: IPerson[] = ci.members as IPerson[];
-                  return (<TimeCard userId={this.props.currentUser.personId} members={members} currentTimeZone={wc.IANATimeZone} currentTime={this.props.currentTime} addToMeeting={this.props.addToMeeting} meetingMembers={this.props.meetingMembers} editProfile={this._showProfile} />);
+                  return (<TimeCard
+                    userId={this.props.currentUser.personId}
+                    members={members}
+                    currentTimeZone={wc.IANATimeZone}
+                    currentTime={this.props.currentTime}
+                    addToMeeting={this.props.addToMeeting}
+                    meetingMembers={this.props.meetingMembers}
+                    editProfile={this._showProfile} />);
                 })}
               </div>);
             })}
@@ -218,7 +220,7 @@ export default class TeamTimes extends React.Component<ITeamTimesProps, ITeamTim
           <Dialog header={(this.state.needsConfig) ? strings.ConfigureViewsTitle : strings.ManageViewsTitle} content={(this.state.needsConfig) ? strings.ConfigureViewsContent : strings.ManageViewsContent} visible={this.state.manageViewsVisible} onChange={this._changeManageViewsVisibility} height={70} width={60}>
             <ManageViews save={this._saveView} cancel={this._cancelView} />
           </Dialog>
-          <Dialog header="Edit Profile" content="Edit your profile to show your working days and hours" visible={this.state.showProfile} onChange={this._showProfile} height={70} width={60}>
+          <Dialog header={strings.EditProfileTitle} content={strings.EditProfileContent} visible={this.state.showProfile} onChange={this._showProfile} height={70} width={60}>
             <Profile user={this.props.currentUser} save={this._saveProfile} cancel={this._cancelProfile} />
           </Dialog>
         </div>
