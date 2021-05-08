@@ -1,0 +1,33 @@
+[{
+    "personId": "24",
+    "personType": 1,
+    "displayName": "Derek Cash-Peterson",
+    "workDays": "",
+    "workHours": "",
+    "firstName": "Derek",
+    "lastName": "Cash-Peterson",
+    "photoUrl": "",
+    "IANATimeZone": "America/New_York"
+  },
+  {
+    "personId": "11",
+    "personType": 1,
+    "displayName": "Julie Turner",
+    "workDays": "",
+    "workHours": "",
+    "firstName": "Julie",
+    "lastName": "Turner",
+    "photoUrl": "",
+    "IANATimeZone": "America/New_York"
+  }, {
+    "personId": "23",
+    "personType": 1,
+    "displayName": "Stefan Bauer",
+    "workDays": "",
+    "workHours": "",
+    "firstName": "Stefan",
+    "lastName": "Bauer",
+    "photoUrl": "",
+    "IANATimeZone": "Europe/Vienna"
+  }
+]

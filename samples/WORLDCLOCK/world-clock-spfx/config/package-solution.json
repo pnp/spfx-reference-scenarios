@@ -1,0 +1,43 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/spfx-build/package-solution.schema.json",
+  "solution": {
+    "name": "SPFx Teams Samples - World Clock",
+    "id": "3796cf7f-de29-46a7-9430-c02b4a0d4c50",
+    "version": "2.0.0.0",
+    "includeClientSideAssets": true,
+    "skipFeatureDeployment": true,
+    "isDomainIsolated": false,
+    "developer": {
+      "name": "",
+      "websiteUrl": "",
+      "privacyUrl": "",
+      "termsOfUseUrl": "",
+      "mpnId": "M365PNP"
+    },
+    "webApiPermissionRequests": [
+      {
+        "resource": "Microsoft Graph",
+        "scope": "Presence.Read.All"
+      },
+      {
+        "resource": "Microsoft Graph",
+        "scope": "User.Read.All"
+      },
+      {
+        "resource": "Microsoft Graph",
+        "scope": "GroupMember.Read.All"
+      },
+      {
+        "resource": "Microsoft Graph",
+        "scope": "TeamMember.Read.All"
+      },
+      {
+        "resource": "Microsoft Graph",
+        "scope": "MailboxSettings.Read.All"
+      }
+    ]
+  },
+  "paths": {
+    "zippedPackage": "solution/world-clock-spfx.sppkg"
+  }
+}
