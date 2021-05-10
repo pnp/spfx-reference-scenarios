@@ -1,6 +1,6 @@
 import { Logger, LogLevel } from "@pnp/logging";
 import { sp } from "@pnp/sp";
-import { graph, graphGet, GraphQueryable } from "@pnp/graph";
+import { graph, graphGet, GraphQueryable, graphPut } from "@pnp/graph";
 import "@pnp/sp/webs";
 import "@pnp/sp/lists/web";
 import "@pnp/sp/items/list";
@@ -24,6 +24,7 @@ export interface IWorldClockService {
 
 export class WorldClockService implements IWorldClockService {
   private LOG_SOURCE: string = "🔶WorldClockService";
+  private CONFIG_FOLDER: string = "WorldClockApp";
   private CONFIG_FILE_NAME: string = "worldclockconfig.json";
 
   private _ready: boolean = false;
@@ -122,6 +123,25 @@ export class WorldClockService implements IWorldClockService {
     }
   }
 
+  private _readFileAsync(file) {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+
+      reader.onload = () => {
+        resolve(reader.result);
+      };
+
+      reader.onerror = reject;
+
+      reader.readAsArrayBuffer(file);
+    })
+  }
+
+  private _arrayBufferToString(arrayBuffer, decoderType = 'utf-8') {
+    let decoder = new TextDecoder(decoderType);
+    return decoder.decode(arrayBuffer);
+  }
+
   private async _getConfig(): Promise<void> {
     try {
       let newFile: boolean = false;
@@ -132,13 +152,16 @@ export class WorldClockService implements IWorldClockService {
           //Do Nothing as it'll just create the new config.
         }
       } else {
-        await this._getConfigId();
-        if (this._configItemId?.length > 0) {
-          const configBlob = await await graph.me.drives.getById(this._configDriveId).getItemById(this._configItemId).getContent();
-          const configStream = await configBlob.stream().getReader().read();
-          if (configStream.done) {
-            this._currentConfig = configStream.value();
-          }
+        try {
+          ///me/drive/root:/{item-path}:/content
+          const file = await graphGet(GraphQueryable(graph.me.drive.toUrl(), `root:/${this.CONFIG_FOLDER}/${this.CONFIG_FILE_NAME}:/`));
+          this._configItemId = file.id;
+          const fileContents = await graph.me.drive.getItemById(this._configItemId).getContent();
+          const content = await this._readFileAsync(fileContents);
+          this._currentConfig = JSON.parse(this._arrayBufferToString(content));
+        } catch (e) {
+          console.log(e);
+          //Do nothing as it'll just create the new config.
         }
       }
 
@@ -179,13 +202,27 @@ export class WorldClockService implements IWorldClockService {
       }
       const serverRelUrl = await sp.web.select("ServerRelativeUrl")();
       let configFile;
-      if (newFile) {
-        configFile = await sp.web.getFolderByServerRelativeUrl(`${serverRelUrl.ServerRelativeUrl}/SiteAssets/`).files.addUsingPath(this.CONFIG_FILE_NAME, JSON.stringify(this._currentConfig));
-      } else {
-        configFile = await sp.web.getFileByServerRelativeUrl(`${serverRelUrl.ServerRelativeUrl}/SiteAssets/${this.CONFIG_FILE_NAME}`).setContent(JSON.stringify(this._currentConfig));
+      if (wc.ConfigType === CONFIG_TYPE.Team) {
+        if (newFile) {
+          configFile = await sp.web.getFolderByServerRelativeUrl(`${serverRelUrl.ServerRelativeUrl}/SiteAssets/`).files.addUsingPath(this.CONFIG_FILE_NAME, JSON.stringify(this._currentConfig));
+        } else {
+          configFile = await sp.web.getFileByServerRelativeUrl(`${serverRelUrl.ServerRelativeUrl}/SiteAssets/${this.CONFIG_FILE_NAME}`).setContent(JSON.stringify(this._currentConfig));
+        }
+        if (configFile.data)
+          retVal = true;
+      } else if (wc.ConfigType == CONFIG_TYPE.Personal) {
+        if (newFile) {
+          configFile = await graphPut(GraphQueryable(graph.me.drive.toUrl(), `root:/${this.CONFIG_FOLDER}/${this.CONFIG_FILE_NAME}:/content`), { body: JSON.stringify(this._currentConfig) });
+          if (configFile?.id) {
+            this._configItemId = configFile.id;
+          }
+        } else {
+          configFile = await graphPut(GraphQueryable(graph.me.drive.toUrl(), `items/${this._configItemId}/content`), { body: JSON.stringify(this._currentConfig) });
+        }
+        if (configFile) {
+          retVal = true;
+        }
       }
-      if (configFile.data)
-        retVal = true;
     } catch (err) {
       Logger.write(`${this.LOG_SOURCE} (addCheckIn) - ${err.message}`, LogLevel.Error);
     }

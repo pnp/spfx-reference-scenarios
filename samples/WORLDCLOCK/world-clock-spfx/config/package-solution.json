@@ -34,6 +34,10 @@
       {
         "resource": "Microsoft Graph",
         "scope": "MailboxSettings.Read.All"
+      },
+      {
+        "resource": "Microsoft Graph",
+        "scope": "People.Read"
       }
     ]
   },

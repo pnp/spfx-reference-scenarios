@@ -67,7 +67,6 @@ export default class Scheduler extends React.Component<ISchedulerProps, ISchedul
     let retVal: string = "";
     try {
       let schedule = person.schedule;
-      //TODO: How do we ensure that everyone has a schedule even if it is the default.
       if (!schedule) {
         schedule = new Schedule();
       }

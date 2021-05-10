@@ -28,18 +28,21 @@ export class WorldClockMemberService implements IWorldClockMemberService {
       wcConfig = new Config(wc.ConfigType);
       if (wcConfig.configType === CONFIG_TYPE.Team) {
         wcConfig.configTeam = new Team(wc.GroupId, wc.TeamName);
-        wcConfig.members = await this._getTeamMembers();
-        if (wcConfig.members.length <= 20) {
-          //Create Default View
-          const view = new WCView("0", "Default", flatMap(wcConfig.members, (o) => { return o.personId; }));
-          wcConfig.defaultViewId = "0";
-          wcConfig.views.push(view);
-        }
-        this.UpdateTimezones(wcConfig.members);
       } else {
         const current = await graph.me.select("id,userPrincipalName,displayName,jobTitle,user").get<{ id: string, userPrincipalName: string, displayName: string, jobTitle: string, mail: string }>();
         wcConfig.configPerson = new Person(current.id, current.userPrincipalName, PERSON_TYPE.Employee, current.displayName, current.jobTitle, current.mail, "", wc.IANATimeZone);
       }
+      wcConfig.members = await this._getTeamMembers();
+      if (wcConfig.configPerson !== undefined) {
+        wcConfig.members.unshift(wcConfig.configPerson);
+      }
+      if (wcConfig.members.length <= 20) {
+        //Create Default View
+        const view = new WCView("0", "Default", flatMap(wcConfig.members, (o) => { return o.personId; }));
+        wcConfig.defaultViewId = "0";
+        wcConfig.views.push(view);
+      }
+      this.UpdateTimezones(wcConfig.members);
     } catch (err) {
       Logger.write(`${this.LOG_SOURCE} (GenerateConfig) - ${err} - `, LogLevel.Error);
     }
@@ -49,18 +52,26 @@ export class WorldClockMemberService implements IWorldClockMemberService {
   private async _getTeamMembers(): Promise<IPerson[]> {
     let retVal: IPerson[] = [];
     try {
-      if (wc.GroupId?.length > 0) {
-        const members = await graphGet<{ id: string, userPrincipalName: string, displayName: string, jobTitle: string, mail: string, userType: string }[]>(
+      let members: { id: string, userPrincipalName: string, displayName: string, jobTitle: string, mail: string, userType: string }[] = null;
+      if (wc.ConfigType === CONFIG_TYPE.Team && wc.GroupId?.length > 0) {
+        members = await graphGet<{ id: string, userPrincipalName: string, displayName: string, jobTitle: string, mail: string, userType: string }[]>(
           GraphQueryable(graph.groups.getById(wc.GroupId).toUrl(), "members?$select=id,displayName,jobTitle,mail,userPrincipalName,userType")
         );
-        if (members?.length > 0) {
-          forEach(members, (o) => {
-            const ext = (o.userType.toLowerCase() == "member") ? false : true;
-            const currentZone = (o.userPrincipalName.toLowerCase() === wc.UserLogin.toLowerCase()) ? wc.IANATimeZone : null;
-            const p = new Person(o.id, o.userPrincipalName, (ext) ? PERSON_TYPE.LocGuest : PERSON_TYPE.Employee, o.displayName, o.jobTitle, o.mail, null, currentZone);
-            retVal.push(p);
-          });
-        }
+
+      } else if (wc.ConfigType === CONFIG_TYPE.Personal) {
+        const people = await graph.me.people.top(20)
+          .select("id,displayName,jobTitle,userPrincipalName,scoredEmailAddresses,personType")
+          //.filter("personType/subclass eq 'OrganizationUser'")
+          .get<{ id: string, userPrincipalName: string, displayName: string, jobTitle: string, scoredEmailAddresses: { address: string }[], personType: { class: string, subclass: string } }[]>();
+        members = people.map((o) => { return { id: o.id, userPrincipalName: o.userPrincipalName, displayName: o.displayName, jobTitle: o.jobTitle, mail: o.scoredEmailAddresses[0].address, userType: (o.personType.subclass === 'OrganizationUser') ? "Member" : "Guest" } });
+      }
+      if (members?.length > 0) {
+        forEach(members, (o) => {
+          const ext = (o.userType.toLowerCase() == "member") ? false : true;
+          const currentZone = (o.userPrincipalName?.toLowerCase() === wc.UserLogin.toLowerCase()) ? wc.IANATimeZone : null;
+          const p = new Person(o.id, o.userPrincipalName, (ext) ? PERSON_TYPE.LocGuest : PERSON_TYPE.Employee, o.displayName, o.jobTitle, o.mail, null, currentZone);
+          retVal.push(p);
+        });
       }
     } catch (err) {
       Logger.write(`${this.LOG_SOURCE} (_getTeamMembers) - ${err} - `, LogLevel.Error);
