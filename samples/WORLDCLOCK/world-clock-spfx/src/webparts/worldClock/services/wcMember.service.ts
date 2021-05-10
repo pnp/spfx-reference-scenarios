@@ -82,28 +82,21 @@ export class WorldClockMemberService implements IWorldClockMemberService {
   public async UpdateTimezones(members: IPerson[]): Promise<boolean> {
     let hasChanged: boolean = false;
     try {
-      if (wc.GroupId?.length > 0) {
-        const now = DateTime.utc().millisecond;
-        for (let i = 0; i < members.length; i++) {
-          const o = members[i];
-          if (o.personType !== PERSON_TYPE.LocGuest) {
-            //Check Windows Timezone
-            try {
-              const tz = await graphGet(GraphQueryable(graph.users.getById(o.personId).toUrl(), "mailboxSettings/timeZone"));
-              //If changed convert to IANA
-              if (o.windowsTimeZone != tz || o.IANATimeZone?.length < 1) {
-                hasChanged = true;
-                o.windowsTimeZone = tz;
-                const winTZ = findIana(tz);
-                if (winTZ) {
-                  o.IANATimeZone = winTZ[0];
-                  o.offset = IANAZone.create(o.IANATimeZone).offset(now);
-                }
-              }
-            } catch (e) {
-              //Some do not have mailbox setup.
-            }
-
+      const now = DateTime.utc().millisecond;
+      for (let i = 0; i < members.length; i++) {
+        const o = members[i];
+        if (o.windowsTimeZone?.length > 0 || o.IANATimeZone?.length < 1) {
+          const winTZ = findIana(o.windowsTimeZone);
+          if (winTZ) {
+            hasChanged = true;
+            o.IANATimeZone = winTZ[0];
+            o.offset = IANAZone.create(o.IANATimeZone).offset(now);
+          }
+        } else if (o.IANATimeZone?.length > 0) {
+          const offset = IANAZone.create(o.IANATimeZone).offset(now);
+          if (offset != o.offset) {
+            hasChanged = true;
+            o.offset = offset;
           }
         }
       }
