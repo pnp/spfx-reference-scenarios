@@ -1,0 +1,62 @@
+{
+  "$schema": "https://developer.microsoft.com/en-us/json-schemas/teams/v1.9/MicrosoftTeams.schema.json",
+  "version": "1.0.0",
+  "manifestVersion": "1.9",
+  "id": "772bec53-bf4b-4ff6-928d-629d38d1717a",
+  "packageName": "com.package.name",
+  "name": {
+    "short": "World Clock",
+    "full": "World Clock Scheduling Application"
+  },
+  "developer": {
+    "name": "Sympraxis Consulting",
+    "mpnId": "M365PNP",
+    "websiteUrl": "https://sympraxisconsulting.com",
+    "privacyUrl": "https://privacy.microsoft.com/en-us/privacystatement",
+    "termsOfUseUrl": "https://www.microsoft.com/en-us/servicesagreement"
+  },
+  "description": {
+    "short": "World Clock Scheduling Application",
+    "full": "World Clock Scheduling Application is a teams or personal solution to allow teams or users to coordinate scheduling meetings with users across the globe."
+  },
+  "icons": {
+    "outline": "outline.png",
+    "color": "color.png"
+  },
+  "accentColor": "#FFFFFF",
+  "configurableTabs": [
+    {
+      "configurationUrl": "https://{teamSiteDomain}/_layouts/15/TeamsLogon.aspx?SPFX=true&dest={teamSitePath}/_layouts/15/teamshostedapp.aspx%3FopenPropertyPane=true%26teams%26componentId=2c3960eb-ca53-4e0e-8e90-e3258f788999%26forceLocale={locale}",
+      "canUpdateConfiguration": false,
+      "scopes": [
+        "team"
+      ],
+      "context": [
+        "channelTab"
+      ],
+      "supportedSharePointHosts": [
+        "sharePointFullPage"
+      ]
+    }
+  ],
+  "staticTabs": [
+    {
+      "entityId": "30db8732-26be-4927-8457-71474812319c",
+      "name": "World Clock",
+      "contentUrl": "https://{teamSiteDomain}/_layouts/15/TeamsLogon.aspx?SPFX=true&dest=/_layouts/15/teamshostedapp.aspx%3Fteams%26personal%26componentId=2c3960eb-ca53-4e0e-8e90-e3258f788999%26forceLocale={locale}",
+      "scopes": [
+        "personal"
+      ]
+    },
+    {
+      "entityId": "about",
+      "name": "",
+      "scopes": [
+        "personal"
+      ]
+    }
+  ],
+  "validDomains": [
+    "{teamSiteDomain}"
+  ]
+}
