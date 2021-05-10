@@ -20,6 +20,7 @@ import CovidAdmin, { ICovidAdminProps } from './components/CovidAdmin';
 import { cs } from './services/covid.service';
 import { ccs } from './services/covidConfig.service';
 import Configure, { IConfigureProps } from './components/molecules/Configure';
+import { SECURITY } from './models/covid.model';
 
 export interface ICovidAdminWebPartProps {
   moveCheckingRate: number;
@@ -57,12 +58,18 @@ export default class CovidAdminWebPart extends BaseClientSideWebPart<ICovidAdmin
   private async _init(): Promise<void> {
     try {
       this._microsoftTeams = this.context.sdks?.microsoftTeams;
-      await cs.init(this.context.pageContext.site.absoluteUrl);
-      const user = await sp.web.ensureUser(this.context.pageContext.user.loginName);
-      this._userId = user.data.Id;
+      await cs.init(this.context.pageContext.site.absoluteUrl, this.context.pageContext.legacyPageContext.isSiteAdmin, this.context.pageContext.legacyPageContext.isSiteOwner);
+      this._userId = this.context.pageContext.legacyPageContext.userId;
+      if (this._userId == undefined) {
+        const user = await sp.web.ensureUser(this.context.pageContext.user.loginName);
+        this._userId = user.data.Id;
+      }
       this._userCanCheckIn = await cs.userCanCheckIn(this._userId);
       cs.getCheckIns(new Date());
-      this.processSelfCheckins();
+      if (cs.Security != SECURITY.VISITOR) {
+        this.processSelfCheckins();
+      }
+
 
       // Consume the new ThemeProvider service
       this._themeProvider = this.context.serviceScope.consume(ThemeProvider.serviceKey);
@@ -110,9 +117,9 @@ export default class CovidAdminWebPart extends BaseClientSideWebPart<ICovidAdmin
 
   public async processSelfCheckins(): Promise<void> {
     while (true) {
+      await cs.moveSelfCheckIns();
       const delay: number = (this.MOVE_CHECKIN_RATE * 60000);
       await this.delay(delay);
-      await cs.moveSelfCheckIns();
     }
   }
 

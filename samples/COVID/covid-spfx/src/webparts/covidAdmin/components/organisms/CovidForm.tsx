@@ -140,14 +140,14 @@ export default class CovidForm extends React.Component<ICovidFormProps, ICovidFo
     }
   }
   private _changeVisibility = async (visible: boolean): Promise<void> => {
-    await this._updateCanUserCheckIn();
+    this._updateCanUserCheckIn();
     this.setState({ dialogVisible: visible });
   }
 
   private async _updateCanUserCheckIn() {
-    if (this.props.userId) {
-      this._userCanCheckIn = await cs.userCanCheckIn(this.props.userId);
-    }
+    let today = new Date();
+    today.setHours(0, 0, 0, 0);
+    localStorage.setItem("checkInDate", today.toISOString());
   }
 
   public render(): React.ReactElement<ICovidFormProps> {

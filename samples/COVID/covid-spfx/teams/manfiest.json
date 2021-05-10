@@ -1,0 +1,55 @@
+{
+  "$schema": "https://developer.microsoft.com/en-us/json-schemas/teams/v1.9/MicrosoftTeams.schema.json",
+  "version": "1.0.0",
+  "manifestVersion": "1.9",
+  "id": "3ab8fb75-8f80-4ff1-90a3-6f711ad27c1d",
+  "packageName": "CovidAttestation",
+  "name": {
+    "short": "Check-In",
+    "full": "COVID-19 Attestation Check-In"
+  },
+  "developer": {
+    "name": "Sympraxis Consulting",
+    "mpnId": "M365PNP",
+    "websiteUrl": "https://docs.microsoft.com/en-us/office365/customlearning/",
+    "privacyUrl": "https://privacy.microsoft.com/en-us/privacystatement",
+    "termsOfUseUrl": "https://www.microsoft.com/en-us/servicesagreement"
+  },
+  "description": {
+    "short": "COVID-19 Attestation Check-In Application",
+    "full": "COVID-19 Attestation Check-In Application is a solution to allow users and management to provide an easy way to communicate current health requirement to their organization."
+  },
+  "icons": {
+    "outline": "outline.png",
+    "color": "color.png"
+  },
+  "accentColor": "#F9F9FA",
+  "staticTabs": [
+    {
+      "entityId": "com.covidadmin.spfx",
+      "name": "COVID-19 Attestation",
+      "contentUrl": "https://{teamSiteDomain}/_layouts/15/TeamsLogon.aspx?SPFX=true&dest=/_layouts/15/teamshostedapp.aspx%3Fteams%26personal%26componentId=3ab8fb75-8f80-4ff1-90a3-6f711ad27c1d%26forceLocale={locale}",
+      "scopes": [
+        "personal"
+      ]
+    },
+    {
+      "entityId": "about",
+      "name": "",
+      "scopes": [
+        "personal"
+      ]
+    }
+  ],
+  "validDomains": [
+    "{teamSiteDomain}",
+    "*.login.microsoftonline.com",
+    "*.sharepoint.com",
+    "spoprod-a.akamaihd.net",
+    "resourceseng.blob.core.windows.net"
+  ],
+  "webApplicationInfo": {
+    "id": "00000003-0000-0ff1-ce00-000000000000",
+    "resource": "https://{teamSiteDomain}"
+  }
+}
