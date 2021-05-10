@@ -51,8 +51,6 @@ export default class TeamTimes extends React.Component<ITeamTimesProps, ITeamTim
   constructor(props: ITeamTimesProps) {
     super(props);
     try {
-      //TODO: Julie I need some help with the best way to do this.
-      //TODO: Fix the offset so that it is UTC based.
       let timeZoneView: any[];
       let needsConfig = false;
       if ((wc.Config.members.length > 20) && (wc.Config.views.length == 0)) {
@@ -102,11 +100,9 @@ export default class TeamTimes extends React.Component<ITeamTimesProps, ITeamTim
   }
 
   private _sortTimeZones(view: IWCView) {
+    let timeZoneView: any[];
     try {
       const currentTime: DateTime = this.state?.currentTime || DateTime.now().setLocale(wc.Locale).setZone(wc.IANATimeZone);
-      //TODO: Julie I need some help with the best way to do this.
-      let timeZoneView: any[];
-
       let members: IPerson[] = wc.GetTeamMembers(view.members);
       timeZoneView = chain(members).groupBy("offset").map((value, key) => ({ offset: parseInt(key.toString()), members: value })).sortBy("offset").value();
       let dayTimeArray: any[] = [];
@@ -125,11 +121,10 @@ export default class TeamTimes extends React.Component<ITeamTimesProps, ITeamTim
         dayTimeArray.push({ style: timeStyle, offset: timeZoneView[key].offset, members: timeZoneView[key].members });
       }
       timeZoneView = chain(dayTimeArray).groupBy("style").map((value, key) => ({ style: key, cardItems: value })).value();
-      //}
-      return timeZoneView;
     } catch (err) {
       Logger.write(`${this.LOG_SOURCE} (_sortTimeZones) - ${err}`, LogLevel.Error);
     }
+    return timeZoneView;
   }
   private _showProfile = (visible: boolean): void => {
     this.setState({ showProfile: visible });
@@ -172,6 +167,7 @@ export default class TeamTimes extends React.Component<ITeamTimesProps, ITeamTim
       Logger.write(`${this.LOG_SOURCE} (_cancelView) - ${err}`, LogLevel.Error);
     }
   }
+
   private _saveProfile = async (schedule: ISchedule): Promise<void> => {
     try {
       let success: boolean = false;
@@ -241,18 +237,22 @@ export default class TeamTimes extends React.Component<ITeamTimesProps, ITeamTim
               </div>);
             })}
           </div>
-          <Dialog
-            header={(this.state.needsConfig) ? strings.ConfigureViewsTitle : strings.ManageViewsTitle}
-            content={(this.state.needsConfig) ? strings.ConfigureViewsContent : strings.ManageViewsContent}
-            visible={this.state.manageViewsVisible}
-            onChange={this._changeManageViewsVisibility}
-            height={70}
-            width={60}>
-            <ManageViews save={this._saveView} cancel={this._cancelView} />
-          </Dialog>
-          <Dialog header={strings.EditProfileTitle} content={strings.EditProfileContent} visible={this.state.showProfile} onChange={this._showProfile} height={70} width={60}>
-            <Profile user={wc.CurrentUser} save={this._saveProfile} cancel={this._cancelProfile} />
-          </Dialog>
+          {this.state.manageViewsVisible &&
+            <Dialog
+              header={(this.state.needsConfig) ? strings.ConfigureViewsTitle : strings.ManageViewsTitle}
+              content={(this.state.needsConfig) ? strings.ConfigureViewsContent : strings.ManageViewsContent}
+              visible={this.state.manageViewsVisible}
+              onChange={this._changeManageViewsVisibility}
+              height={70}
+              width={60}>
+              <ManageViews save={this._saveView} cancel={this._cancelView} />
+            </Dialog>
+          }
+          {this.state.showProfile &&
+            <Dialog header={strings.EditProfileTitle} content={strings.EditProfileContent} visible={this.state.showProfile} onChange={this._showProfile} height={70} width={60}>
+              <Profile user={wc.CurrentUser} save={this._saveProfile} cancel={this._cancelProfile} />
+            </Dialog>
+          }
         </div>
       );
     } catch (err) {

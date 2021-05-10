@@ -124,6 +124,7 @@ export class WorldClockService implements IWorldClockService {
 
   private async _getConfig(): Promise<void> {
     try {
+      let newFile: boolean = false;
       if (this._configType === CONFIG_TYPE.Team) {
         try {
           this._currentConfig = await sp.web.getFileByServerRelativeUrl(`${this._siteUrl}/SiteAssets/${this.CONFIG_FILE_NAME}`).getJSON();
@@ -143,6 +144,7 @@ export class WorldClockService implements IWorldClockService {
 
       const wcm = new WorldClockMemberService();
       if (this._currentConfig == undefined) {
+        newFile = true;
         this._currentConfig = await wcm.GenerateConfig();
       } else {
         wcm.UpdateTimezones(this._currentConfig.members).then((hasUpdate) => {
@@ -162,7 +164,7 @@ export class WorldClockService implements IWorldClockService {
           }
         });
       }
-      this.updateConfig(undefined, true);
+      this.updateConfig(undefined, newFile);
     } catch (err) {
       Logger.write(`${this.LOG_SOURCE} (_getConfig) - ${err} - `, LogLevel.Error);
     }

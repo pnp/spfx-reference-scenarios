@@ -19,6 +19,7 @@ export interface IManageViewsProps {
 
 export interface IManageViewsState {
   searchMembers: IPerson[];
+  selectedView: string;
   currentView: IWCView;
   isDefault: boolean;
   searchString: string;
@@ -29,11 +30,12 @@ export interface IManageViewsState {
 export class ManageViewsState implements IManageViewsState {
   constructor(
     public searchMembers: IPerson[] = [],
+    public selectedView: string = "",
     public currentView: IWCView = new WCView(),
     public isDefault: boolean = false,
     public searchString: string = "",
     public errors: boolean = false,
-    public errorMessage: string = "",
+    public errorMessage: string = ""
   ) { }
 }
 
@@ -44,7 +46,6 @@ export default class ManageViews extends React.Component<IManageViewsProps, IMan
   constructor(props: IManageViewsProps) {
     super(props);
     try {
-
       let defaultView: IWCView = new WCView();
       if (wc.Config.views.length == 0) {
         defaultView.viewId = "0";
@@ -56,7 +57,9 @@ export default class ManageViews extends React.Component<IManageViewsProps, IMan
       if (wc.Config.defaultViewId == defaultView.viewId) {
         isDefault = true;
       }
-      this.state = new ManageViewsState(wc.Config.members, defaultView, isDefault);
+      this.state = new ManageViewsState(wc.Config.members, defaultView.viewName, defaultView, isDefault);
+      this._viewOptions = wc.Config.views.map((v) => { return { key: v.viewName, text: v.viewName }; });
+      this._viewOptions.unshift({ key: -1, text: strings.NewViewTitle });
     } catch (err) {
       Logger.write(`${this.LOG_SOURCE} (constructor) - ${err}`, LogLevel.Error);
     }
@@ -97,7 +100,7 @@ export default class ManageViews extends React.Component<IManageViewsProps, IMan
           isDefault = true;
         }
       }
-      this.setState({ currentView: currentView, isDefault: isDefault });
+      this.setState({ currentView: currentView, selectedView: currentView.viewName, isDefault: isDefault });
     } catch (err) {
       Logger.write(`${this.LOG_SOURCE} (_onDropDownChange) - ${err}`, LogLevel.Error);
     }
@@ -122,8 +125,6 @@ export default class ManageViews extends React.Component<IManageViewsProps, IMan
           this.setState({ errors: true, errorMessage: strings.MaxMembersError });
         }
       }
-
-
       this.setState({ currentView: currentView });
     } catch (err) {
       Logger.write(`${this.LOG_SOURCE} (_onMemberCheckBoxChange) - ${err}`, LogLevel.Error);
@@ -146,15 +147,10 @@ export default class ManageViews extends React.Component<IManageViewsProps, IMan
 
   public render(): React.ReactElement<IManageViewsProps> {
     try {
-      //TODO: Make it so that the drop down value doesn't change when we change the New View Name
-      //TODO: Julie - Wire up search box to graph search
-      this._viewOptions = wc.Config.views.map((v) => { return { key: v.viewName, text: v.viewName }; });
-      this._viewOptions.unshift({ key: -1, text: strings.NewViewTitle });
       return (
         <div data-component={this.LOG_SOURCE} className={styles.manageViews}>
           <div className={styles.textLabel}>{strings.SelectAViewHeader}</div>
-          <DropDown onChange={this._onDropDownChange} value={this.state.currentView.viewName} options={this._viewOptions} id="views" />
-
+          <DropDown onChange={this._onDropDownChange} value={this.state.selectedView} options={this._viewOptions} id="views" />
           <div className={styles.viewForm}>
             <div className={styles.textLabel}>{strings.ViewTitleHeader}</div>
             <TextBox name="viewName" value={this.state.currentView.viewName} onChange={this._onTextChange} />

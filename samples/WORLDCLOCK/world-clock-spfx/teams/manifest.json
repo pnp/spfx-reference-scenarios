@@ -3,15 +3,15 @@
   "version": "1.0.0",
   "manifestVersion": "1.9",
   "id": "772bec53-bf4b-4ff6-928d-629d38d1717a",
-  "packageName": "com.package.name",
+  "packageName": "WorldClock",
   "name": {
     "short": "World Clock",
-    "full": "World Clock Scheduling Application"
+    "full": "World Clock Scheduling"
   },
   "developer": {
     "name": "Sympraxis Consulting",
     "mpnId": "M365PNP",
-    "websiteUrl": "https://sympraxisconsulting.com",
+    "websiteUrl": "https://www.microsoft.com",
     "privacyUrl": "https://privacy.microsoft.com/en-us/privacystatement",
     "termsOfUseUrl": "https://www.microsoft.com/en-us/servicesagreement"
   },
@@ -20,8 +20,8 @@
     "full": "World Clock Scheduling Application is a teams or personal solution to allow teams or users to coordinate scheduling meetings with users across the globe."
   },
   "icons": {
-    "outline": "outline.png",
-    "color": "color.png"
+    "outline": "2c3960eb-ca53-4e0e-8e90-e3258f788999_outline.png",
+    "color": "2c3960eb-ca53-4e0e-8e90-e3258f788999_color.png"
   },
   "accentColor": "#FFFFFF",
   "configurableTabs": [

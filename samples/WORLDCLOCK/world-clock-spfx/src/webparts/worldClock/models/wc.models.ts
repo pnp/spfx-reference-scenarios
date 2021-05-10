@@ -60,6 +60,7 @@ export interface IPerson {
   windowsTimeZone: string;
   IANATimeZone: string;
   offset?: number;
+  timeStyle?: string;
 }
 
 export class Person implements IPerson {
@@ -74,7 +75,8 @@ export class Person implements IPerson {
     public windowsTimeZone: string = null,
     public IANATimeZone: string = null,
     public offset: number = 0,
-    public schedule: ISchedule = new Schedule()
+    public schedule: ISchedule = new Schedule(),
+    public timeStyle: string = null
   ) { }
 }
 
