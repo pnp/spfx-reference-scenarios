@@ -42,14 +42,6 @@
     }
   ],
   "validDomains": [
-    "{teamSiteDomain}",
-    "*.login.microsoftonline.com",
-    "*.sharepoint.com",
-    "spoprod-a.akamaihd.net",
-    "resourceseng.blob.core.windows.net"
-  ],
-  "webApplicationInfo": {
-    "id": "00000003-0000-0ff1-ce00-000000000000",
-    "resource": "https://{teamSiteDomain}"
-  }
+    "{teamSiteDomain}"
+  ]
 }
