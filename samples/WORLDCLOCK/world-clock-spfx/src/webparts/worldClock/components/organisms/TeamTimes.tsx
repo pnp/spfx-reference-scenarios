@@ -149,7 +149,7 @@ export default class TeamTimes extends React.Component<ITeamTimesProps, ITeamTim
       if (isDefault) {
         config.defaultViewId = view.viewId;
       }
-      success = await wc.updateConfig(config);
+      success = await wc.UpdateConfig(config);
       if (success) {
         let timeZoneView = this._sortTimeZones(view);
         let options: IButtonOption[] = this._getManageViewOptions();

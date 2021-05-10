@@ -11,15 +11,16 @@ import "@pnp/graph/onedrive";
 import "@pnp/graph/groups";
 
 import { DateTime, IANAZone } from "luxon";
-import { findIana } from 'windows-iana';
 import { find, merge, forEach, findIndex, filter } from "lodash";
 
-import { IConfig, IPerson, Config, CONFIG_TYPE, Person, PERSON_TYPE } from "../models/wc.models";
-import { IDriveItem } from "@pnp/graph/onedrive";
+import { IConfig, IPerson, CONFIG_TYPE } from "../models/wc.models";
 import { WorldClockMemberService } from "./wcMember.service";
 
 export interface IWorldClockService {
+  Init(loginName: string, locale: string, siteUrl: string, groupId: string, teamName: string, configType: CONFIG_TYPE): Promise<void>;
+  UpdateConfig(config?: IConfig, newFile?: boolean): Promise<boolean>;
   GetTeamMembers(members: string[]): IPerson[];
+  RemoveTeamMember(member: IPerson): boolean;
 }
 
 export class WorldClockService implements IWorldClockService {
@@ -93,7 +94,7 @@ export class WorldClockService implements IWorldClockService {
     }
   }
 
-  public async init(loginName: string, locale: string, siteUrl: string, groupId: string, teamName: string, configType: CONFIG_TYPE): Promise<void> {
+  public async Init(loginName: string, locale: string, siteUrl: string, groupId: string, teamName: string, configType: CONFIG_TYPE): Promise<void> {
     try {
       this._userLogin = loginName;
       this._siteUrl = siteUrl;
@@ -105,21 +106,6 @@ export class WorldClockService implements IWorldClockService {
       this._ready = true;
     } catch (err) {
       Logger.write(`${this.LOG_SOURCE} (init) - ${err.message}`, LogLevel.Error);
-    }
-  }
-
-  private async _getConfigId(): Promise<void> {
-    try {
-      const drives = await graph.me.drives.get();
-      if (drives?.length > 0) {
-        this._configDriveId = drives[0].id;
-        const itemChildren: IDriveItem[] = await graph.me.drives.getById(this._configDriveId).root.search(this.CONFIG_FILE_NAME);
-        if (itemChildren?.length > 0) {
-          this._configItemId = itemChildren[0]["id"];
-        }
-      }
-    } catch (err) {
-      Logger.write(`${this.LOG_SOURCE} (_getConfigId) - ${err} - `, LogLevel.Error);
     }
   }
 
@@ -173,7 +159,7 @@ export class WorldClockService implements IWorldClockService {
         wcm.UpdateTimezones(this._currentConfig.members).then((hasUpdate) => {
           if (hasUpdate) {
             this._refresh = true;
-            this.updateConfig();
+            this.UpdateConfig();
           }
         });
       }
@@ -187,14 +173,13 @@ export class WorldClockService implements IWorldClockService {
           }
         });
       }
-      this.updateConfig(undefined, newFile);
+      this.UpdateConfig(undefined, newFile);
     } catch (err) {
       Logger.write(`${this.LOG_SOURCE} (_getConfig) - ${err} - `, LogLevel.Error);
     }
   }
 
-
-  public async updateConfig(config?: IConfig, newFile: boolean = false): Promise<boolean> {
+  public async UpdateConfig(config?: IConfig, newFile: boolean = false): Promise<boolean> {
     let retVal: boolean = false;
     try {
       if (config != undefined) {
@@ -224,7 +209,7 @@ export class WorldClockService implements IWorldClockService {
         }
       }
     } catch (err) {
-      Logger.write(`${this.LOG_SOURCE} (addCheckIn) - ${err.message}`, LogLevel.Error);
+      Logger.write(`${this.LOG_SOURCE} (UpdateConfig) - ${err.message}`, LogLevel.Error);
     }
     return retVal;
   }
@@ -237,6 +222,26 @@ export class WorldClockService implements IWorldClockService {
       });
     } catch (err) {
       Logger.write(`${this.LOG_SOURCE} (GetTeamMembers) - ${err.message}`, LogLevel.Error);
+    }
+    return retVal;
+  }
+
+  public RemoveTeamMember(member: IPerson): boolean {
+    let retVal: boolean = false;
+    try {
+      forEach(this._currentConfig.views, (v) => {
+        const memberIdx = v.members.indexOf(member.personId);
+        if (memberIdx > -1) {
+          v.members.splice(memberIdx, 1);
+        }
+      });
+      const memberIdx = findIndex(this._currentConfig.members, { personId: member.personId });
+      if (memberIdx > -1) {
+        this._currentConfig.members.splice(memberIdx, 1);
+      }
+      this.UpdateConfig();
+    } catch (err) {
+      Logger.write(`${this.LOG_SOURCE} (RemoveTeamMember) - ${err.message}`, LogLevel.Error);
     }
     return retVal;
   }

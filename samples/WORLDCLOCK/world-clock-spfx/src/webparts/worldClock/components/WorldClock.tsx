@@ -69,7 +69,7 @@ export default class WorldClock extends React.Component<IWorldClockProps, IWorld
       if (user) {
         user.schedule = schedule;
       }
-      success = await wc.updateConfig(config);
+      success = await wc.UpdateConfig(config);
       if (success) {
         let currentUserInMeeting = find(this.state.meetingMembers, { personId: wc.CurrentUser.personId });
         if (currentUserInMeeting) {
