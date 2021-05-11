@@ -31,6 +31,7 @@ export interface IDropDownProps {
 }
 
 export interface IDropDownState {
+  currentValue: string | number;
   ddState: DDState;
   open: boolean;
   optionsLength: number;
@@ -38,6 +39,7 @@ export interface IDropDownState {
 
 export class DropDownState implements IDropDownState {
   constructor(
+    public currentValue: string | number = null,
     public optionsLength: number = 0,
     public ddState: DDState = DDState.Initial,
     public open: boolean = false
@@ -48,17 +50,28 @@ export default class DropDown extends React.Component<IDropDownProps, IDropDownS
   private LOG_SOURCE: string = "🔶DropDown";
   private _optionElements = [];
   private _inputElement: React.RefObject<HTMLInputElement>;
+  private _valueChanged: boolean = false;
 
   constructor(props: IDropDownProps) {
     super(props);
-    this.state = new DropDownState(props.options.length);
+    this.state = new DropDownState(props.value, props.options.length);
     this._inputElement = React.createRef<HTMLInputElement>();
   }
 
   public shouldComponentUpdate(nextProps: IDropDownProps, nextState: IDropDownState) {
     if ((isEqual(nextState, this.state) && isEqual(nextProps, this.props)))
       return false;
+    if (this.props.value != nextProps.value) {
+      this._valueChanged = true;
+    }
     return true;
+  }
+
+  public componentDidUpdate() {
+    if (this._valueChanged) {
+      this._valueChanged = false;
+      this.setState({ currentValue: this.props.value, ddState: DDState.Initial });
+    }
   }
 
   private _onChange = (newValue: any, fieldName: string) => {
@@ -297,7 +310,7 @@ export default class DropDown extends React.Component<IDropDownProps, IDropDownS
           <div id={`${this.props.id}-status`} className="hidden-visually" aria-live="polite">
             {this.props.options.length} options available. Arrow down to browse or start typing to filter.
           </div>
-          <input ref={this._inputElement} type="text" id={`${this.props.id}-input`} value={this.props.value} className="hoo-select-text" aria-autocomplete="both" autoComplete="off" aria-controls={`${this.props.id}-list`} />
+          <input ref={this._inputElement} type="text" id={`${this.props.id}-input`} value={this.state.currentValue} className="hoo-select-text" aria-autocomplete="both" autoComplete="off" aria-controls={`${this.props.id}-list`} onChange={(e) => { this.setState({ currentValue: e.currentTarget.value }); }} />
           <button className="hoo-buttonicon" aria-label="">
             <div className="hoo-icon">
               <span className={`hoo-icon-svg ${Icons.DownArrow.Class}`} aria-hidden="true" dangerouslySetInnerHTML={{ "__html": Icons.DownArrow.SVG }} >
