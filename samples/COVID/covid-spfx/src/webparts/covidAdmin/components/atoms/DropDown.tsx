@@ -70,7 +70,9 @@ export default class DropDown extends React.Component<IDropDownProps, IDropDownS
   public componentDidUpdate() {
     if (this._valueChanged) {
       this._valueChanged = false;
-      this.setState({ currentValue: this.props.value, ddState: DDState.Initial });
+      this.setState({ currentValue: this.props.value, ddState: DDState.Initial }, () => {
+        this._doFilter();
+      });
     }
   }
 
@@ -228,7 +230,8 @@ export default class DropDown extends React.Component<IDropDownProps, IDropDownS
     try {
       let optionsLength = this.state.optionsLength;
       let ddState = this.state.ddState;
-      const terms = this._inputElement.current.value;
+      //const terms = this._inputElement.current.value;
+      const terms = (this.state.currentValue === this.props.value) ? "" : this.state.currentValue as string;
       const aFilteredOptions = this._optionElements.filter((option) => {
         if (option.innerText.toUpperCase().substring(0, terms.length) == (terms.toUpperCase())) {
           return true;
@@ -238,7 +241,9 @@ export default class DropDown extends React.Component<IDropDownProps, IDropDownS
       aFilteredOptions.forEach((option) => {
         option.style.display = "";
       });
-      ddState = DDState.Filtered;
+      if (aFilteredOptions.length < this._optionElements.length) {
+        ddState = DDState.Filtered;
+      }
       optionsLength = aFilteredOptions.length;
       this.setState({ ddState: ddState, optionsLength: optionsLength });
     } catch (err) {
