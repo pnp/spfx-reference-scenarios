@@ -95,7 +95,7 @@ export default class DropDown extends React.Component<IDropDownProps, IDropDownS
           ddState = DDState.Open;
           break;
         case DDState.Open:
-          if (focus == this._inputElement.current) {
+          if ((focus == this._inputElement.current) || (focus.tagName == "BUTTON")) {
             open = false;
             ddState = DDState.Initial;
           } else if (focus.tagName == "LI") {
