@@ -179,6 +179,8 @@ export class WorldClockService implements IWorldClockService {
         forEach(this._currentConfig.members, (o) => {
           if (o.IANATimeZone?.length > 0) {
             o.offset = IANAZone.create(o.IANATimeZone).offset(now);
+          } else {
+            o.offset = 0;
           }
         });
       }
