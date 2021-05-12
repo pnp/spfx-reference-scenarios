@@ -11,7 +11,7 @@ import "@pnp/graph/onedrive";
 import "@pnp/graph/groups";
 
 import { DateTime, IANAZone } from "luxon";
-import { find, merge, forEach, findIndex, filter } from "lodash";
+import { find, merge, forEach, findIndex, filter, sortBy } from "lodash";
 
 import { IConfig, IPerson, CONFIG_TYPE, Person, PERSON_TYPE, ITimeZone } from "../models/wc.models";
 import { WorldClockMemberService, IWorldClockMemberService } from "./wcMember.service";
@@ -275,11 +275,13 @@ export class WorldClockService implements IWorldClockService {
           .select("id,displayName,jobTitle,userPrincipalName,scoredEmailAddresses,personType")
           .filter("startswith(displayName,'${query}')")
           .get<{ id: string, userPrincipalName: string, displayName: string, jobTitle: string, scoredEmailAddresses: { address: string }[], personType: { class: string, subclass: string } }[]>();
-        members = people.map((o) => { return { id: o.id, userPrincipalName: o.userPrincipalName, displayName: o.displayName, jobTitle: o.jobTitle, mail: o.scoredEmailAddresses[0].address, userType: (o.personType.subclass === 'OrganizationUser') ? "Member" : "Guest" } });
-        // members = await graph.users.top(20)
-        //   .select("id,displayName,jobTitle,mail,userPrincipalName,userType")
-        //   .filter("startswith(displayName,'${query}')")
-        //   .get<{ id: string, userPrincipalName: string, displayName: string, jobTitle: string, mail: string, userType: string }[]>();
+        const peopleMembers = people.map((o) => { return { id: o.id, userPrincipalName: o.userPrincipalName, displayName: o.displayName, jobTitle: o.jobTitle, mail: o.scoredEmailAddresses[0].address, userType: (o.personType.subclass === 'OrganizationUser') ? "Member" : "Guest" } });
+        const userMembers = await graph.users.top(20)
+          .select("id,displayName,jobTitle,mail,userPrincipalName,userType")
+          .filter("startswith(displayName,'${query}')")
+          .get<{ id: string, userPrincipalName: string, displayName: string, jobTitle: string, mail: string, userType: string }[]>();
+        members = userMembers.concat(peopleMembers);
+        members = sortBy(members, "displayName");
       }
       if (members?.length > 0) {
         forEach(members, (o) => {
