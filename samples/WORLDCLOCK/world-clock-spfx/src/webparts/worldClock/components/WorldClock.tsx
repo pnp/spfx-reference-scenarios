@@ -61,29 +61,22 @@ export default class WorldClock extends React.Component<IWorldClockProps, IWorld
     this.setState({ meetingMembers: meetingMembers });
   }
 
-  private _saveProfile = async (schedule: ISchedule): Promise<boolean> => {
+  private _saveProfile = async (person: IPerson): Promise<boolean> => {
     let success: boolean = false;
     try {
-      const config = cloneDeep(wc.Config);
-      let user = find(config.members, { personId: wc.CurrentUser.personId });
-      if (user) {
-        user.schedule = schedule;
-      }
-      success = await wc.UpdateConfig(config);
+
+      success = await wc.UpdateMember(person);
       if (success) {
         let currentUserInMeeting = find(this.state.meetingMembers, { personId: wc.CurrentUser.personId });
         if (currentUserInMeeting) {
           const meetingMembers = cloneDeep(this.state.meetingMembers);
           meetingMembers.map((m, index) => {
             if (m.personId == currentUserInMeeting.personId) {
-              meetingMembers[index] = user;
+              meetingMembers[index] = person;
             }
           });
           this.setState({ meetingMembers: meetingMembers });
         }
-        // } else {
-        //   this.setState({ currentUser: user });
-        // }
       }
     } catch (err) {
       Logger.write(`${this.LOG_SOURCE} (_saveProfile) - ${err}`, LogLevel.Error);

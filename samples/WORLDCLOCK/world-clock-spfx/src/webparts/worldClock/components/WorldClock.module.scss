@@ -12,7 +12,7 @@
 
 .worldClock {
   font-size: px2rem(16px);
-  padding: 0 px2rem(16px);
+  //padding: 0 px2rem(16px);
 
   :global {
     //Import hTWOo styles so they are available to our controls
@@ -31,23 +31,24 @@
       overflow: auto;
     }
 
-    .hoo-select {
+    .hoo-select,
+    .hoo-input-text {
       width: 100%;
     }
 
-    //Override for form to make it 100%
-    .hoo-input-text {
-      width: 100%;
+    .hoo-avatar-32 {
+      margin-top: auto;
+      margin-bottom: auto;
+    }
+
+    .is-flex {
+      display: flex;
     }
 
     .hoo-dtsentry {
       display: flex;
       flex-direction: row;
       margin-bottom: .5rem;
-
-      // &:hover {
-      //   background-color: silver;
-      // }
 
       &.no-hover {
         background-color: transparent;
@@ -151,7 +152,7 @@
       //color: white;
       // background: rgb(2, 0, 36);
       // background: linear-gradient(180deg, rgba(2, 0, 36, 0) 0%, rgba(2, 0, 36, 15%) 60%, rgba(0, 0, 0, 25%) 100%);
-      border: 0.5rem white solid;
+      border: .5rem solid var(--bodyBackground);
       font-weight: 700;
 
       .hoo-buttonicon:hover {
@@ -365,9 +366,45 @@
     }
 
     .is-hidden {
-      visibility: hidden;
+      display: none;
     }
 
+    .date-picker input {
+      font-family: "Segoe UI",
+        "Segoe UI Web (West European)",
+        "Segoe UI",
+        -apple-system,
+        system-ui,
+        Roboto,
+        "Helvetica Neue",
+        sans-serif;
+      color: $bodyText;
+    }
+
+    .center-vertical {
+      margin-top: auto;
+      margin-bottom: auto;
+    }
+
+    .gap {
+      gap: px2rem(16px);
+    }
+
+    .memberPersona {
+      display: flex;
+    }
+
+    .hoo-grid {
+      border: none;
+    }
+
+    .col1 {
+      @include gridSpan(3, 1);
+    }
+
+    .col2 {
+      @include gridSpan(9, 4);
+    }
 
   }
 
@@ -382,12 +419,6 @@
   color: $bodyText;
 
 
-  .grid {
-    @include gridBase();
-
-
-
-  }
 
   .buttons {
     display: flex;
@@ -411,9 +442,13 @@
       //justify-content: space-between;
       padding-top: px2rem(16px);
       max-width: 1000px;
-      margin: 0 auto;
+      //margin: 0 auto;
       column-width: 12em;
       column-gap: px2rem(32px);
+
+      &.twoColumn {
+        column-width: 16em;
+      }
 
       .textLabel {
         column-span: all;
@@ -436,10 +471,7 @@
 
     }
 
-    .memberPersona {
-      display: flex;
 
-    }
 
     .memberSearch {
       column-span: all;
@@ -450,6 +482,8 @@
 
 
   }
+
+
 
 
   .textLabel,
@@ -465,10 +499,10 @@
 
   .isRight {
     display: flex;
+    padding-top: px2rem(16px);
 
     .managebutton {
       margin-left: auto;
-      padding-top: px2rem(16px)
     }
   }
 

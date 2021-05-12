@@ -4,6 +4,8 @@ declare interface IWorldClockWebPartStrings {
   ManageViewsTitle: string;
   NewViewTitle: string;
   ManageViewsContent: string;
+  ManageMembersTitle: string;
+  ManageMembersContent: string;
   SelectAViewHeader: string;
   ViewTitleHeader: string;
   ViewMembersHeader: string;
@@ -13,6 +15,7 @@ declare interface IWorldClockWebPartStrings {
   MaxMembersError: string;
   EditProfileTitle: string;
   EditProfileContent: string;
+  EditTimeZoneLabel: string;
   AddToMeetingLabel: string;
   EditProfileLabel: string;
   SaveLabel: string;

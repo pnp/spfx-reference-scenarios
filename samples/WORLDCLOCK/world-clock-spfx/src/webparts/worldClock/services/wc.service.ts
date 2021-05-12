@@ -13,7 +13,7 @@ import "@pnp/graph/groups";
 import { DateTime, IANAZone } from "luxon";
 import { find, merge, forEach, findIndex, filter } from "lodash";
 
-import { IConfig, IPerson, CONFIG_TYPE, Person, PERSON_TYPE } from "../models/wc.models";
+import { IConfig, IPerson, CONFIG_TYPE, Person, PERSON_TYPE, ITimeZone } from "../models/wc.models";
 import { WorldClockMemberService, IWorldClockMemberService } from "./wcMember.service";
 
 export interface IWorldClockService {
@@ -23,6 +23,7 @@ export interface IWorldClockService {
   RemoveTeamMember(member: IPerson): boolean;
   SearchMember(query: string): Promise<IPerson[]>;
   AddMember(newMember: IPerson): boolean;
+  UpdateMember(member: IPerson): boolean;
 }
 
 export class WorldClockService implements IWorldClockService {
@@ -43,6 +44,7 @@ export class WorldClockService implements IWorldClockService {
   private _teamName: string = "";
   private _currentIANATimeZone: string;
   private _currentConfig: IConfig = null;
+  private _availableTimeZones: ITimeZone[] = [];
 
   constructor() {
     this._currentIANATimeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
@@ -97,6 +99,10 @@ export class WorldClockService implements IWorldClockService {
     }
   }
 
+  public get AvailableTimeZones(): ITimeZone[] {
+    return this._availableTimeZones;
+  }
+
   public async Init(loginName: string, locale: string, siteUrl: string, groupId: string, teamName: string, configType: CONFIG_TYPE): Promise<void> {
     try {
       this._userLogin = loginName;
@@ -106,6 +112,7 @@ export class WorldClockService implements IWorldClockService {
       this._locale = locale.substr(0, 2);
       this._configType = configType;
       await this._getConfig();
+      await this._getAvailableTimeZones();
       this._ready = true;
     } catch (err) {
       Logger.write(`${this.LOG_SOURCE} (init) - ${err.message}`, LogLevel.Error);
@@ -123,7 +130,7 @@ export class WorldClockService implements IWorldClockService {
       reader.onerror = reject;
 
       reader.readAsArrayBuffer(file);
-    })
+    });
   }
 
   private _arrayBufferToString(arrayBuffer, decoderType = 'utf-8') {
@@ -242,6 +249,7 @@ export class WorldClockService implements IWorldClockService {
         this._currentConfig.members.splice(memberIdx, 1);
       }
       this.UpdateConfig();
+      retVal = true;
     } catch (err) {
       Logger.write(`${this.LOG_SOURCE} (RemoveTeamMember) - ${err.message}`, LogLevel.Error);
     }
@@ -253,8 +261,11 @@ export class WorldClockService implements IWorldClockService {
     try {
       let members: { id: string, userPrincipalName: string, displayName: string, jobTitle: string, mail: string, userType: string }[] = null;
       if (this._configType === CONFIG_TYPE.Team && this._groupId.length > 0) {
+        //TODO: Julie can you please double check this. I had to make changes to the call and the graph setup to make this work.
+        //https://graph.microsoft.com/v1.0/groups/2832d349-ef5e-4a71-b780-5b663d151890/members/microsoft.graph.user?$count=true&$orderby=displayName&$search="displayName:ca"&$select=displayName,id
+
         members = await graphGet<{ id: string, userPrincipalName: string, displayName: string, jobTitle: string, mail: string, userType: string }[]>(
-          GraphQueryable(graph.groups.getById(wc.GroupId).toUrl(), `members?$select=id,displayName,jobTitle,mail,userPrincipalName,userType&$filter=startswith(displayName,'${query}')`)
+          GraphQueryable(graph.groups.getById(wc.GroupId).toUrl(), `members/microsoft.graph.user?$count=true&$orderby=displayName&$search="displayName:${query}"&$select=id,displayName,jobTitle,mail,userPrincipalName,userType`)
         );
       } else if (this._configType === CONFIG_TYPE.Personal) {
         members = await graph.users.top(20)
@@ -283,10 +294,12 @@ export class WorldClockService implements IWorldClockService {
       const memberIdx = findIndex(this._currentConfig.members, { personId: newMember.personId });
       if (memberIdx === -1) {
         this._currentConfig.members.push(newMember);
+        retVal = true;
         this._wcm.UpdateTimezones(this._currentConfig.members).then((hasUpdate) => {
           if (hasUpdate) {
             this._refresh = true;
             this.UpdateConfig();
+
           }
         });
       }
@@ -295,6 +308,39 @@ export class WorldClockService implements IWorldClockService {
     }
     return retVal;
   }
+
+  public UpdateMember(member: IPerson): boolean {
+    let retVal: boolean = false;
+    try {
+      //Validate if exists
+      this._currentConfig.members.map((m, index) => {
+        if (m.personId == member.personId) {
+          this._currentConfig.members[index] = member;
+          retVal = true;
+        }
+      });
+      //TODO: Not sure we want to do this twice but we need to do it when the record is updated.
+      this._refresh = true;
+      this.UpdateConfig();
+      this._wcm.UpdateTimezones(this._currentConfig.members).then((hasUpdate) => {
+        if (hasUpdate) {
+          this._refresh = true;
+          this.UpdateConfig();
+
+        }
+      });
+    } catch (err) {
+      Logger.write(`${this.LOG_SOURCE} (UpdateMember) - ${err.message}`, LogLevel.Error);
+    }
+    return retVal;
+  }
+
+  private async _getAvailableTimeZones(): Promise<void> {
+    const wcm = new WorldClockMemberService();
+    this._availableTimeZones = await wcm.GetAvailableTimeZones();
+  }
+
+
 }
 
 export const wc = new WorldClockService();

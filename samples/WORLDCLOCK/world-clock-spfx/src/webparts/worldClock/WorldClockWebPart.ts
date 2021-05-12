@@ -43,7 +43,13 @@ export default class WorldClockWebPart extends BaseClientSideWebPart<IWorldClock
 
       //Initialize PnPJs
       sp.setup({ spfxContext: this.context });
-      graph.setup({ spfxContext: this.context });
+      //TODO: Julie can you please double check this. I had to make changes for the search members to work.
+      graph.setup({
+        graph: {
+          headers: { ConsistencyLevel: "eventual" }
+        },
+        spfxContext: this.context
+      });
 
       // const siteValid = await wcc.isValid();
       // if (siteValid) {
@@ -73,7 +79,10 @@ export default class WorldClockWebPart extends BaseClientSideWebPart<IWorldClock
       this._themeProvider.themeChangedEvent.add(this, this._handleThemeChangedEvent);
 
       if (this._microsoftTeams) {
-        if (this._microsoftTeams.context.theme !== "default") {
+        if (this._microsoftTeams.context.theme == "default") {
+          this.domElement.style.setProperty("--bodyBackground", "whitesmoke");
+        }
+        else {
           this.domElement.style.setProperty("--bodyText", "white");
           this.domElement.style.setProperty("--bodyBackground", "#333");
           this.domElement.style.setProperty("--buttonBackgroundHovered", "#555");

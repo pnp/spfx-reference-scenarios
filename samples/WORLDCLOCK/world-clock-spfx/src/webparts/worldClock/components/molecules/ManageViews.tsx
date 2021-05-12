@@ -164,7 +164,7 @@ export default class ManageViews extends React.Component<IManageViewsProps, IMan
                 const member = find(wc.Config.members, { personId: m });
                 return (
                   <div className={`${styles.memberContainer}`}>
-                    <div className={styles.memberPersona}>
+                    <div className="memberPersona">
                       <CheckBox
                         name={m}
                         label={member.displayName}
@@ -200,7 +200,7 @@ export default class ManageViews extends React.Component<IManageViewsProps, IMan
                 }
                 return ((!isChecked) &&
                   <div className={`${styles.memberContainer}`}>
-                    <div className={styles.memberPersona}>
+                    <div className="memberPersona">
                       <CheckBox
                         name={m.personId}
                         label={m.displayName}
