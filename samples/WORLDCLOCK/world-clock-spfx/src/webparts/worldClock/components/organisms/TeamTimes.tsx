@@ -296,8 +296,8 @@ export default class TeamTimes extends React.Component<ITeamTimesProps, ITeamTim
               content={(this.state.needsConfig) ? strings.ConfigureViewsContent : strings.ManageViewsContent}
               visible={this.state.showManageViews}
               onChange={this._changeManageViewsVisibility}
-              height={70}
-              width={60}>
+              height={90}
+              width={90}>
               <ManageViews save={this._saveView} cancel={this._cancelView} />
             </Dialog>
           }
