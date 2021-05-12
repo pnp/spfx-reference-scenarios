@@ -46,6 +46,7 @@ export default class ManageViews extends React.Component<IManageViewsProps, IMan
   constructor(props: IManageViewsProps) {
     super(props);
     try {
+      //TODO: Do we need this? We are creating the view when we create the config.
       let defaultView: IWCView = new WCView();
       if (wc.Config.views.length == 0) {
         defaultView.viewId = "0";
@@ -157,14 +158,11 @@ export default class ManageViews extends React.Component<IManageViewsProps, IMan
             <div className={styles.membersList}>
               <div className={styles.textLabel}>{strings.ViewMembersHeader}</div>
               {sortBy(this.state.currentView.members, 'firstName').map((m) => {
-                let isChecked: boolean = false;
-                if (this.state.currentView.members.length > 0) {
-                  isChecked = find(this.state.currentView.members, { personId: m }) > -1;
-                }
+                let isChecked: boolean = true;
                 const member = find(wc.Config.members, { personId: m });
                 return (
                   <div className={`${styles.memberContainer}`}>
-                    <div className={styles.memberPersona}>
+                    <div className="memberPersona">
                       <CheckBox
                         name={m}
                         label={member.displayName}
@@ -193,14 +191,15 @@ export default class ManageViews extends React.Component<IManageViewsProps, IMan
               {sortBy(this.state.searchMembers, 'firstName').map((m) => {
                 let isChecked: boolean = false;
                 if (this.state.currentView.members.length > 0) {
-                  let member = find(this.state.currentView.members, { personId: m.personId });
-                  if (member) {
-                    isChecked = true;
-                  }
+                  this.state.currentView.members.map((o, index) => {
+                    if (m.personId == o) {
+                      isChecked = true;
+                    }
+                  });
                 }
-                return ((!isChecked) &&
+                return ((isChecked == false) &&
                   <div className={`${styles.memberContainer}`}>
-                    <div className={styles.memberPersona}>
+                    <div className="memberPersona">
                       <CheckBox
                         name={m.personId}
                         label={m.displayName}

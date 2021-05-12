@@ -12,36 +12,42 @@ import Profile from "../molecules/Profile";
 import { Icons } from "../../models/wc.Icons";
 import styles from "../WorldClock.module.scss";
 import ButtonSplitPrimary, { IButtonOption } from "../atoms/ButtonSplitPrimary";
+import ManageMembers from "../molecules/ManageMembers";
+import Button from "../atoms/Button";
 
 export interface ITeamTimesProps {
   //currentUser: IPerson;
   //currentTime: DateTime;
   addToMeeting: (IPerson) => void;
   meetingMembers: IPerson[];
-  saveProfile: (schedule: ISchedule) => Promise<boolean>;
+  saveProfile: (person: IPerson) => Promise<boolean>;
 }
 
 export interface ITeamTimesState {
   needsConfig: boolean;
-  manageViewsVisible: boolean;
+  showManageViews: boolean;
   views: IWCView[];
   currentView: string;
   timeZoneView: any[];
   viewOptions: IButtonOption[];
   showProfile: boolean;
   currentTime: DateTime;
+  showManageMembers: boolean;
+  profileUser: IPerson;
 }
 
 export class TeamTimesState implements ITeamTimesState {
   constructor(
     public needsConfig: boolean = false,
-    public manageViewsVisible: boolean = false,
+    public showManageViews: boolean = false,
     public views: IWCView[] = [],
     public currentView: string = null,
     public timeZoneView: any[] = [],
     public viewOptions: IButtonOption[] = [],
     public showProfile: boolean = false,
     public currentTime: DateTime = DateTime.now().setLocale(wc.Locale).setZone(wc.IANATimeZone),
+    public showManageMembers: boolean = false,
+    public profileUser: IPerson = wc.CurrentUser,
   ) { }
 }
 
@@ -96,7 +102,7 @@ export default class TeamTimes extends React.Component<ITeamTimesProps, ITeamTim
   }
 
   private _changeManageViewsVisibility = (visible: boolean): void => {
-    this.setState({ manageViewsVisible: visible, needsConfig: false });
+    this.setState({ showManageViews: visible, needsConfig: false });
   }
 
   private _sortTimeZones(view: IWCView) {
@@ -126,6 +132,9 @@ export default class TeamTimes extends React.Component<ITeamTimesProps, ITeamTim
     }
     return timeZoneView;
   }
+  private _showManageMembers = (visible: boolean): void => {
+    this.setState({ showManageMembers: visible });
+  }
   private _showProfile = (visible: boolean): void => {
     this.setState({ showProfile: visible });
   }
@@ -153,7 +162,7 @@ export default class TeamTimes extends React.Component<ITeamTimesProps, ITeamTim
       if (success) {
         let timeZoneView = this._sortTimeZones(view);
         let options: IButtonOption[] = this._getManageViewOptions();
-        this.setState({ manageViewsVisible: false, views: config.views, timeZoneView: timeZoneView, viewOptions: options });
+        this.setState({ showManageViews: false, views: config.views, timeZoneView: timeZoneView, viewOptions: options });
       }
     } catch (err) {
       Logger.write(`${this.LOG_SOURCE} (_saveView) - ${err}`, LogLevel.Error);
@@ -168,15 +177,53 @@ export default class TeamTimes extends React.Component<ITeamTimesProps, ITeamTim
     }
   }
 
-  private _saveProfile = async (schedule: ISchedule): Promise<void> => {
+  private _addMember = async (person: IPerson): Promise<void> => {
     try {
       let success: boolean = false;
-      success = await this.props.saveProfile(schedule);
+      success = await wc.AddMember(person);
       if (success) {
-        this.setState({ showProfile: false });
+        wc.Refresh = true;
+        this._updateCurrentView();
       }
     } catch (err) {
       Logger.write(`${this.LOG_SOURCE} (_saveView) - ${err}`, LogLevel.Error);
+    }
+  }
+
+  private _saveMember = async (person: IPerson): Promise<void> => {
+    try {
+      let success: boolean = false;
+      success = await this.props.saveProfile(person);
+      if (success) {
+        wc.Refresh = true;
+        this._updateCurrentView();
+      }
+    } catch (err) {
+      Logger.write(`${this.LOG_SOURCE} (_saveView) - ${err}`, LogLevel.Error);
+    }
+  }
+
+  private _removeMember = async (person: IPerson): Promise<void> => {
+    try {
+      let success: boolean = false;
+      success = wc.RemoveTeamMember(person);
+      if (success) {
+        wc.Refresh = true;
+        this._updateCurrentView();
+      }
+    } catch (err) {
+      Logger.write(`${this.LOG_SOURCE} (_saveView) - ${err}`, LogLevel.Error);
+    }
+  }
+
+  private _updateCurrentView = () => {
+    try {
+      const config = cloneDeep(wc.Config);
+      let v = find(config.views, { viewId: this.state.currentView });
+      let timeZoneView = this._sortTimeZones(v);
+      this.setState({ timeZoneView: timeZoneView, showProfile: false });
+    } catch (err) {
+      Logger.write(`${this.LOG_SOURCE} (_updateCurrentView) - ${err}`, LogLevel.Error);
     }
   }
 
@@ -213,11 +260,17 @@ export default class TeamTimes extends React.Component<ITeamTimesProps, ITeamTim
       Logger.write(`${this.LOG_SOURCE} (_changeView) - ${err}`, LogLevel.Error);
     }
   }
+
+  private _editProfile = (person: IPerson) => {
+    this.setState({ profileUser: person, showManageMembers: false, showProfile: true });
+  }
+
   public render(): React.ReactElement<ITeamTimesProps> {
     try {
       return (
         <div data-component={this.LOG_SOURCE}>
           <div className={styles.isRight}>
+            <Button className="hoo-button-primary" disabled={false} label={strings.ManageMembersTitle} onClick={() => this._showManageMembers(true)} />
             <ButtonSplitPrimary className={styles.managebutton} label={strings.ManageViewsLabel} options={this.state.viewOptions} />
           </div>
           <div className="hoo-wcs">
@@ -237,22 +290,28 @@ export default class TeamTimes extends React.Component<ITeamTimesProps, ITeamTim
               </div>);
             })}
           </div>
-          {this.state.manageViewsVisible &&
+          {this.state.showManageViews &&
             <Dialog
               header={(this.state.needsConfig) ? strings.ConfigureViewsTitle : strings.ManageViewsTitle}
               content={(this.state.needsConfig) ? strings.ConfigureViewsContent : strings.ManageViewsContent}
-              visible={this.state.manageViewsVisible}
+              visible={this.state.showManageViews}
               onChange={this._changeManageViewsVisibility}
-              height={70}
-              width={60}>
+              height={90}
+              width={90}>
               <ManageViews save={this._saveView} cancel={this._cancelView} />
             </Dialog>
           }
           {this.state.showProfile &&
-            <Dialog header={strings.EditProfileTitle} content={strings.EditProfileContent} visible={this.state.showProfile} onChange={this._showProfile} height={70} width={60}>
-              <Profile user={wc.CurrentUser} save={this._saveProfile} cancel={this._cancelProfile} />
+            <Dialog header={strings.EditProfileTitle} content={strings.EditProfileContent} visible={this.state.showProfile} onChange={this._showProfile} height={90} width={90}>
+              <Profile user={this.state.profileUser} save={this._saveMember} cancel={this._cancelProfile} />
             </Dialog>
           }
+          {this.state.showManageMembers &&
+            <Dialog header={strings.ManageMembersTitle} content={strings.ManageMembersContent} visible={this.state.showManageMembers} onChange={this._showManageMembers} height={90} width={90}>
+              <ManageMembers save={this._saveMember} remove={this._removeMember} add={this._addMember} edit={this._editProfile} />
+            </Dialog>
+          }
+
         </div>
       );
     } catch (err) {

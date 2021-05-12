@@ -355,3 +355,15 @@ export class Hour implements IHour {
   ) { }
 
 }
+
+export interface ITimeZone {
+  alias: string;
+  displayName: string;
+}
+
+export class TimeZone implements ITimeZone {
+  constructor(
+    public alias: string = "",
+    public displayName: string = ""
+  ) { }
+}
