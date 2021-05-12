@@ -131,7 +131,7 @@ export default class ManageMembers extends React.Component<IManageMembersProps, 
       return (
         <div data-component={this.LOG_SOURCE} className={styles.manageViews}>
           <div className={`${(this.state.showTimeZoneSelect || this.state.showAddMember) ? "is-hidden" : ""}`}>
-            <SearchBox name="Search" placeholder="Search" value={this.state.searchString} onChange={this._onSearchChange} />
+            <SearchBox name="Search" placeholder="Filter" value={this.state.searchString} onChange={this._onSearchChange} />
             <div className={`${styles.membersList} ${styles.twoColumn}`}>
               {sortBy(this.state.searchCurrentMembers, 'firstName').map((m) => {
                 return (
@@ -164,7 +164,7 @@ export default class ManageMembers extends React.Component<IManageMembersProps, 
               <span className="center-vertical">{this.state.currentPerson.displayName}</span>
             </div>
             <div className="col2 center-vertical">
-              <DropDown options={this._availableTimeZones} id="timeZone" value={this.state.currentPerson.IANATimeZone} onChange={this._onDropDownChange} />
+              <DropDown containsTypeAhead={true} options={this._availableTimeZones} id="timeZone" value={this.state.currentPerson.IANATimeZone} onChange={this._onDropDownChange} />
             </div>
             <Button className="hoo-button-primary" disabled={false} label={strings.SaveLabel} onClick={() => this._savePerson()} />
             <Button className="hoo-button" disabled={false} label={strings.CancelLabel} onClick={() => this._showTimeZoneChange(!this.state.showTimeZoneSelect, new Person())} />

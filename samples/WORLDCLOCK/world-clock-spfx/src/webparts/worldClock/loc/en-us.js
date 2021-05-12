@@ -5,7 +5,7 @@ define([], function () {
   "ManageViewsTitle": "Manage Views",
   "NewViewTitle": "New View",
   "ManageViewsContent": "This application is best suited to manage groups of less than 20. Create, edit, and manage views of team members.",
-  "ManageMembersTitle": "Manage Members",
+  "ManageMembersTitle": "Manage World Clock Users",
   "ManageMembersContent": "Manage the timezones for members or guests.",
   "SelectAViewHeader": "Select a view", 
   "ViewTitleHeader": "View Title", 
@@ -24,6 +24,7 @@ define([], function () {
   "ManageViewsLabel": "Select View", 
   "AddEditViewLabel": "Add/Edit View", 
   "TrashLabel": "Remove from meeting", 
+  "DeleteViewLabel": "Delete this view", 
   "ScheduleMeetingLabel": "Schedule Meeting", 
   "DropDownAvailableOptions": "options available. Arrow down to browse or start typing to filter.", 
 }

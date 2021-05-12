@@ -143,8 +143,7 @@ export default class Scheduler extends React.Component<ISchedulerProps, ISchedul
         attendees += ",";
       }
     });
-    const meetingURL = `https://teams.microsoft.com/l/meeting/new?subject=New%20Meeting&attendees=${attendees}&startTime=${this.state.selectedTime.toISO({ includeOffset: true })}`;
-
+    const meetingURL = `https://teams.microsoft.com/l/meeting/new?subject=New%20Meeting&attendees=${attendees}&startTime=${this.state.selectedTime.toISODate()}T${this.state.selectedTime.toFormat('HH:00:00ZZ')}`;
     if (this.props.teamsContext) {
       this.props.teamsContext.teamsJs.executeDeepLink(meetingURL); //.tasks.startTask(taskModuleInfo);
     }

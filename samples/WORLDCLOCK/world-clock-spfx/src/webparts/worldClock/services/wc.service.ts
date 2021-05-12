@@ -275,7 +275,7 @@ export class WorldClockService implements IWorldClockService {
           .select("id,displayName,jobTitle,userPrincipalName,scoredEmailAddresses,personType")
           .filter("startswith(displayName,'${query}')")
           .get<{ id: string, userPrincipalName: string, displayName: string, jobTitle: string, scoredEmailAddresses: { address: string }[], personType: { class: string, subclass: string } }[]>();
-        const peopleMembers = people.map((o) => { return { id: o.id, userPrincipalName: o.userPrincipalName, displayName: o.displayName, jobTitle: o.jobTitle, mail: o.scoredEmailAddresses[0].address, userType: (o.personType.subclass === 'OrganizationUser') ? "Member" : "Guest" } });
+        const peopleMembers = people.map((o) => { return { id: o.id, userPrincipalName: o.userPrincipalName, displayName: o.displayName, jobTitle: o.jobTitle, mail: o.scoredEmailAddresses[0].address, userType: (o.personType.subclass === 'OrganizationUser') ? "Member" : "Guest" }; });
         const userMembers = await graph.users.top(20)
           .select("id,displayName,jobTitle,mail,userPrincipalName,userType")
           .filter("startswith(displayName,'${query}')")
