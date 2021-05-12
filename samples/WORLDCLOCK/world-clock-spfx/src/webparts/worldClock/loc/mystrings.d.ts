@@ -3,8 +3,10 @@ declare interface IWorldClockWebPartStrings {
   ConfigureViewsContent: string;
   ManageViewsTitle: string;
   NewViewTitle: string;
+  DefaultViewTitle: string;
   ManageViewsContent: string;
   ManageMembersTitle: string;
+  ManageMembersFilterPlaceholder: string;
   ManageMembersContent: string;
   SelectAViewHeader: string;
   ViewTitleHeader: string;
@@ -23,9 +25,13 @@ declare interface IWorldClockWebPartStrings {
   ManageViewsLabel: string;
   AddEditViewLabel: string;
   TrashLabel: string;
+  RemoveFromTeamLabel: string;
+  AddMemberLabel: string;
   DeleteViewLabel: string;
   ScheduleMeetingLabel: string;
   DropDownAvailableOptions: string;
+  PAManageMembersFilterPlaceholder: string;
+  PAManageMembersSearchPlaceholder: string;
 
 }
 

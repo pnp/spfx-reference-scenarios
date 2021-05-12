@@ -1,10 +1,10 @@
 import * as React from "react";
 import { Logger, LogLevel } from "@pnp/logging";
-import { chain, cloneDeep, cloneWith, Dictionary, find, groupBy, isEqual, merge, remove, sortBy } from "lodash";
+import { chain, cloneDeep, find, isEqual, remove } from "lodash";
 import Dialog from "../molecules/Dialog";
 import strings from "WorldClockWebPartStrings";
 import ManageViews from "../molecules/ManageViews";
-import { IPerson, ISchedule, IWCView, WCView } from "../../models/wc.models";
+import { IPerson, IWCView } from "../../models/wc.models";
 import { wc } from "../../services/wc.service";
 import TimeCard from "../molecules/TimeCard";
 import { DateTime } from "luxon";
@@ -239,7 +239,7 @@ export default class TeamTimes extends React.Component<ITeamTimesProps, ITeamTim
         this._updateCurrentView();
       }
     } catch (err) {
-      Logger.write(`${this.LOG_SOURCE} (_saveView) - ${err}`, LogLevel.Error);
+      Logger.write(`${this.LOG_SOURCE} (_removeMember) - ${err}`, LogLevel.Error);
     }
   }
 
@@ -289,7 +289,7 @@ export default class TeamTimes extends React.Component<ITeamTimesProps, ITeamTim
   }
 
   private _editProfile = (person: IPerson) => {
-    this.setState({ profileUser: person, showManageMembers: false, showProfile: true });
+    this.setState({ profileUser: person, showProfile: true });
   }
 
   public render(): React.ReactElement<ITeamTimesProps> {
@@ -331,20 +331,6 @@ export default class TeamTimes extends React.Component<ITeamTimesProps, ITeamTim
                 delete={this._deleteView} />
             </Dialog>
           }
-          {this.state.showProfile &&
-            <Dialog
-              header={strings.EditProfileTitle}
-              content={strings.EditProfileContent}
-              visible={this.state.showProfile}
-              onChange={this._showProfile}
-              height={95}
-              width={95}>
-              <Profile
-                user={this.state.profileUser}
-                save={this._saveMember}
-                cancel={this._cancelProfile} />
-            </Dialog>
-          }
           {this.state.showManageMembers &&
             <Dialog
               header={strings.ManageMembersTitle}
@@ -360,6 +346,21 @@ export default class TeamTimes extends React.Component<ITeamTimesProps, ITeamTim
                 edit={this._editProfile} />
             </Dialog>
           }
+          {this.state.showProfile &&
+            <Dialog
+              header={strings.EditProfileTitle}
+              content={strings.EditProfileContent}
+              visible={this.state.showProfile}
+              onChange={this._showProfile}
+              height={95}
+              width={95}>
+              <Profile
+                user={this.state.profileUser}
+                save={this._saveMember}
+                cancel={this._cancelProfile} />
+            </Dialog>
+          }
+
 
         </div>
       );

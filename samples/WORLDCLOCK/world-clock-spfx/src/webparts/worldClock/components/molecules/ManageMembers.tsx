@@ -2,7 +2,7 @@ import * as React from "react";
 import { Logger, LogLevel } from "@pnp/logging";
 import { cloneDeep, filter, isEqual, sortBy } from "lodash";
 import styles from "../WorldClock.module.scss";
-import { IPerson, ITimeZone, Person } from "../../models/wc.models";
+import { CONFIG_TYPE, IPerson, Person } from "../../models/wc.models";
 import strings from "WorldClockWebPartStrings";
 import SearchBox from "../atoms/SearchBox";
 import ButtonIcon from "../atoms/ButtonIcon";
@@ -20,10 +20,8 @@ export interface IManageMembersProps {
 }
 
 export interface IManageMembersState {
-  searchCurrentMembers: IPerson[];
-  searchAllMembers: IPerson[];
+  searchMembers: IPerson[];
   searchString: string;
-  searchAllString: string;
   showTimeZoneSelect: boolean;
   showAddMember: boolean;
   currentPerson: IPerson;
@@ -31,10 +29,8 @@ export interface IManageMembersState {
 
 export class ManageMembersState implements IManageMembersState {
   constructor(
-    public searchCurrentMembers: IPerson[] = [],
-    public searchAllMembers: IPerson[] = [],
+    public searchMembers: IPerson[] = [],
     public searchString: string = "",
-    public searchAllString: string = "",
     public showTimeZoneSelect: boolean = false,
     public showAddMember: boolean = false,
     public currentPerson: IPerson = new Person(),
@@ -50,8 +46,9 @@ export default class ManageMembers extends React.Component<IManageMembersProps, 
     try {
       this._availableTimeZones = wc.AvailableTimeZones.map((tz) => { return { key: tz.alias, text: tz.displayName }; });
       this._availableTimeZones.unshift({ key: "", text: "" });
+      let currentMembers = sortBy(wc.Config.members, (o) => { return o.displayName; });
 
-      this.state = new ManageMembersState(wc.Config.members);
+      this.state = new ManageMembersState(currentMembers);
     } catch (err) {
       Logger.write(`${this.LOG_SOURCE} (constructor) - ${err}`, LogLevel.Error);
     }
@@ -65,15 +62,14 @@ export default class ManageMembers extends React.Component<IManageMembersProps, 
 
   private _onSearchChange = async (fieldValue: string, fieldName: string) => {
     try {
+      let members: IPerson[] = [];
       if (fieldName == "Search") {
-        const members = cloneDeep(wc.Config.members);
-        let searchCurrentMembers = filter(members, (m) => { return m.displayName.toLowerCase().indexOf(fieldValue.toLowerCase()) > -1; });
-        this.setState({ searchCurrentMembers: searchCurrentMembers, searchString: fieldValue });
+        members = sortBy(filter(wc.Config.members, (m) => { return m.displayName.toLowerCase().indexOf(fieldValue.toLowerCase()) > -1; }), (o) => { return o.displayName; });
       } else if (fieldName == "SearchAllMembers") {
-        let members = await wc.SearchMember(fieldValue);
-        this.setState({ searchAllMembers: members, searchAllString: fieldValue });
-
+        members = await wc.SearchMember(fieldValue);
+        members = sortBy(members, (o) => { return o.displayName; });
       }
+      this.setState({ searchMembers: members, searchString: fieldValue });
 
     } catch (err) {
       Logger.write(`${this.LOG_SOURCE} (_onTextChange) - ${err}`, LogLevel.Error);
@@ -84,7 +80,11 @@ export default class ManageMembers extends React.Component<IManageMembersProps, 
     this.setState({ showTimeZoneSelect: visible, currentPerson: person });
   }
   private _showAddMemberChange = (visible: boolean, person: IPerson): void => {
-    this.setState({ showAddMember: visible, showTimeZoneSelect: false, currentPerson: person });
+    let members: IPerson[] = [];
+    if (!visible) {
+      members = sortBy(wc.Config.members, (o) => { return o.displayName; });
+    }
+    this.setState({ showAddMember: visible, showTimeZoneSelect: false, currentPerson: person, searchMembers: members, searchString: "" });
   }
 
   private _onDropDownChange = (fieldValue: string, fieldName: string) => {
@@ -106,7 +106,8 @@ export default class ManageMembers extends React.Component<IManageMembersProps, 
   private _removeMember = async (person: IPerson) => {
     try {
       await this.props.remove(person);
-      this.setState({ searchCurrentMembers: wc.Config.members });
+      let members = sortBy(wc.Config.members, (o) => { return o.displayName; });
+      this.setState({ searchMembers: members });
 
     } catch (err) {
       Logger.write(`${this.LOG_SOURCE} (_removeMember) - ${err}`, LogLevel.Error);
@@ -116,10 +117,11 @@ export default class ManageMembers extends React.Component<IManageMembersProps, 
   private _addMember = async (person: IPerson) => {
     try {
       await this.props.add(person);
-      this.setState({ searchCurrentMembers: wc.Config.members, searchAllMembers: [], searchAllString: "" });
+      let members = sortBy(wc.Config.members, (o) => { return o.displayName; });
+      this.setState({ searchMembers: members, searchString: "", showAddMember: false });
 
     } catch (err) {
-      Logger.write(`${this.LOG_SOURCE} (_removeMember) - ${err}`, LogLevel.Error);
+      Logger.write(`${this.LOG_SOURCE} (_addMember) - ${err}`, LogLevel.Error);
     }
   }
 
@@ -130,62 +132,86 @@ export default class ManageMembers extends React.Component<IManageMembersProps, 
 
       return (
         <div data-component={this.LOG_SOURCE} className={styles.manageViews}>
-          <div className={`${(this.state.showTimeZoneSelect || this.state.showAddMember) ? "is-hidden" : ""}`}>
-            <SearchBox name="Search" placeholder="Filter" value={this.state.searchString} onChange={this._onSearchChange} />
+          <div className={`${(this.state.showTimeZoneSelect) ? "is-hidden" : ""}`}>
+            <div className="hoo-grid">
+              <div className="two-thirds center-vertical">
+                {(!this.state.showAddMember) ?
+                  <SearchBox
+                    name="Search"
+                    placeholder={(wc.ConfigType === CONFIG_TYPE.Personal) ? strings.PAManageMembersFilterPlaceholder : strings.ManageMembersFilterPlaceholder}
+                    value={this.state.searchString}
+                    onChange={this._onSearchChange} /> :
+                  <SearchBox
+                    name="SearchAllMembers"
+                    placeholder={strings.PAManageMembersSearchPlaceholder}
+                    value={this.state.searchString}
+                    onChange={this._onSearchChange} />
+                }
+              </div>
+              {(wc.ConfigType == CONFIG_TYPE.Personal) &&
+                <div className="one-third">
+                  {(!this.state.showAddMember) ?
+                    <Button
+                      className="hoo-button"
+                      disabled={false}
+                      label={strings.AddMemberLabel}
+                      onClick={() => this._showAddMemberChange(true, new Person())} /> :
+                    <Button
+                      className="hoo-button"
+                      disabled={false}
+                      label={strings.CancelLabel}
+                      onClick={() => this._showAddMemberChange(false, new Person())} />
+                  }
+                </div>
+              }
+
+            </div>
             <div className={`${styles.membersList} ${styles.twoColumn}`}>
-              {sortBy(this.state.searchCurrentMembers, 'firstName').map((m) => {
+              {this.state.searchMembers.map((m) => {
                 return (
                   <div className={`${styles.memberContainer} is-flex`}>
                     <div className="memberPersona">
                       <Avatar size={Size.ThirtyTwo} name={m.displayName} src={m.photoUrl} />
                       <span className="center-vertical">{m.displayName}</span>
-                      <ButtonIcon
-                        iconType={Icons.Profile}
-                        onClick={() => this.props.edit(m)}
-                        altText={strings.EditProfileLabel} />
-                      <ButtonIcon
-                        iconType={Icons.TimeZone}
-                        onClick={() => this._showTimeZoneChange(true, m)}
-                        altText={strings.EditTimeZoneLabel} />
-                      <ButtonIcon
-                        iconType={Icons.Trash}
-                        onClick={() => this._removeMember(m)}
-                        altText="Remove from Team" />
+                      {(wc.ConfigType === CONFIG_TYPE.Personal) &&
+                        <ButtonIcon
+                          iconType={Icons.Profile}
+                          onClick={() => this.props.edit(m)}
+                          altText={strings.EditProfileLabel} />
+                      }
+                      {(this.state.showAddMember) ?
+                        <ButtonIcon
+                          iconType={Icons.PlusPerson}
+                          onClick={() => this._addMember(m)}
+                          altText={strings.EditProfileLabel} /> :
+                        <ButtonIcon
+                          iconType={Icons.TimeZone}
+                          onClick={() => this._showTimeZoneChange(true, m)}
+                          altText={strings.EditTimeZoneLabel} />
+                      }
+
+                      {(wc.ConfigType === CONFIG_TYPE.Personal) &&
+                        <ButtonIcon
+                          iconType={Icons.Trash}
+                          onClick={() => this._removeMember(m)}
+                          altText={strings.RemoveFromTeamLabel} />
+                      }
                     </div>
                   </div>);
               })}
             </div>
-            <Button className="hoo-button-primary" disabled={false} label="Add Member" onClick={() => this._showAddMemberChange(true, new Person())} />
           </div>
 
           <div className={`${(!this.state.showTimeZoneSelect) ? "is-hidden" : ""} ${styles.viewForm} hoo-grid`}>
-            <div className="col1 center-vertical">
+            <div className="one-third center-vertical is-flex">
               <Avatar size={Size.ThirtyTwo} name={this.state.currentPerson.displayName} src={this.state.currentPerson.photoUrl} />
               <span className="center-vertical">{this.state.currentPerson.displayName}</span>
             </div>
-            <div className="col2 center-vertical">
+            <div className="two-thirds center-vertical">
               <DropDown containsTypeAhead={true} options={this._availableTimeZones} id="timeZone" value={this.state.currentPerson.IANATimeZone} onChange={this._onDropDownChange} />
             </div>
             <Button className="hoo-button-primary" disabled={false} label={strings.SaveLabel} onClick={() => this._savePerson()} />
             <Button className="hoo-button" disabled={false} label={strings.CancelLabel} onClick={() => this._showTimeZoneChange(!this.state.showTimeZoneSelect, new Person())} />
-          </div>
-          <div className={`${(!this.state.showAddMember) ? "is-hidden" : ""}`}>
-            <SearchBox name="SearchAllMembers" placeholder="Search" value={this.state.searchAllString} onChange={this._onSearchChange} />
-            <div className={`${styles.membersList} ${styles.twoColumn}`}>
-              {sortBy(this.state.searchAllMembers, 'firstName').map((m) => {
-                return (
-                  <div className={`${styles.memberContainer} is-flex`}>
-                    <div className="memberPersona">
-                      <Avatar size={Size.ThirtyTwo} name={m.displayName} src={m.photoUrl} />
-                      <span className="center-vertical">{m.displayName}</span>
-                      <ButtonIcon
-                        iconType={Icons.PlusPerson}
-                        onClick={() => this._addMember(m)}
-                        altText={strings.EditProfileLabel} />
-                    </div>
-                  </div>);
-              })}
-            </div>
           </div>
         </div>
       );
