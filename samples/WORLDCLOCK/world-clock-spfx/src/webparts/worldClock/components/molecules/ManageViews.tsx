@@ -150,7 +150,7 @@ export default class ManageViews extends React.Component<IManageViewsProps, IMan
       return (
         <div data-component={this.LOG_SOURCE} className={styles.manageViews}>
           <div className={styles.textLabel}>{strings.SelectAViewHeader}</div>
-          <DropDown onChange={this._onDropDownChange} value={this.state.selectedView} options={this._viewOptions} id="views" />
+          <DropDown onChange={this._onDropDownChange} value={this.state.selectedView} options={this._viewOptions} id="views" containsTypeAhead={false} />
           <div className={styles.viewForm}>
             <div className={styles.textLabel}>{strings.ViewTitleHeader}</div>
             <TextBox name="viewName" value={this.state.currentView.viewName} onChange={this._onTextChange} />

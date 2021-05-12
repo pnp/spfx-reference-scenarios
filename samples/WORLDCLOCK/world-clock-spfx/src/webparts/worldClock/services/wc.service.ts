@@ -257,10 +257,16 @@ export class WorldClockService implements IWorldClockService {
           GraphQueryable(graph.groups.getById(wc.GroupId).toUrl(), `members?$select=id,displayName,jobTitle,mail,userPrincipalName,userType&$filter=startswith(displayName,'${query}')`)
         );
       } else if (this._configType === CONFIG_TYPE.Personal) {
-        members = await graph.users.top(20)
-          .select("id,displayName,jobTitle,mail,userPrincipalName,userType")
+
+        const people = await graph.me.people.top(20)
+          .select("id,displayName,jobTitle,userPrincipalName,scoredEmailAddresses,personType")
           .filter("startswith(displayName,'${query}')")
-          .get<{ id: string, userPrincipalName: string, displayName: string, jobTitle: string, mail: string, userType: string }[]>();
+          .get<{ id: string, userPrincipalName: string, displayName: string, jobTitle: string, scoredEmailAddresses: { address: string }[], personType: { class: string, subclass: string } }[]>();
+        members = people.map((o) => { return { id: o.id, userPrincipalName: o.userPrincipalName, displayName: o.displayName, jobTitle: o.jobTitle, mail: o.scoredEmailAddresses[0].address, userType: (o.personType.subclass === 'OrganizationUser') ? "Member" : "Guest" } });
+        // members = await graph.users.top(20)
+        //   .select("id,displayName,jobTitle,mail,userPrincipalName,userType")
+        //   .filter("startswith(displayName,'${query}')")
+        //   .get<{ id: string, userPrincipalName: string, displayName: string, jobTitle: string, mail: string, userType: string }[]>();
       }
       if (members?.length > 0) {
         forEach(members, (o) => {

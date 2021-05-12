@@ -26,6 +26,7 @@ export interface IDropDownProps {
   options: IDropDownOption[];
   id: string;
   value: string | number;
+  containsTypeAhead: boolean;
   onChange: (fieldValue: string, fieldName: string) => void;
 }
 
@@ -231,8 +232,12 @@ export default class DropDown extends React.Component<IDropDownProps, IDropDownS
       let ddState = this.state.ddState;
       const terms = (this.state.currentValue === this.props.value) ? "" : this.state.currentValue as string;
       const aFilteredOptions = this._optionElements.filter((option) => {
-        if (option.innerText.toUpperCase().substring(0, terms.length) == (terms.toUpperCase())) {
-          return true;
+        if (this.props.containsTypeAhead) {
+          return (option.innerText.toLowerCase().indexOf(terms.toLowerCase()) > -1);
+        } else {
+          if (option.innerText.toLowerCase().substring(0, terms.length) == (terms.toLowerCase())) {
+            return true;
+          }
         }
       });
       this._optionElements.forEach(option => option.style.display = "none");
