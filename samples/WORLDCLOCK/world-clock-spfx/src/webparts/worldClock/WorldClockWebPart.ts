@@ -114,7 +114,7 @@ export default class WorldClockWebPart extends BaseClientSideWebPart<IWorldClock
       let element;
       if (wc.Ready) {
         const props: IWorldClockProps = {
-          userId: this._userId
+          teamsContext: this._microsoftTeams
         };
         element = React.createElement(WorldClock, props);
       } else {

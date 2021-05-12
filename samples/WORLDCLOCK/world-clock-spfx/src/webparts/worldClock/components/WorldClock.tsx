@@ -8,9 +8,10 @@ import { DateTime } from "luxon";
 import { wc } from "../services/wc.service";
 import { IPerson, ISchedule, Person } from "../models/wc.models";
 import { chain, cloneDeep, find, reduce, remove, uniqBy } from "lodash";
+import { IMicrosoftTeams } from "@microsoft/sp-webpart-base";
 
 export interface IWorldClockProps {
-  //userId: string;
+  teamsContext: IMicrosoftTeams;
 }
 
 export interface IWorldClockState {
@@ -98,7 +99,8 @@ export default class WorldClock extends React.Component<IWorldClockProps, IWorld
             <MeetingScheduler
               meetingMembers={this.state.meetingMembers}
               currentUser={wc.CurrentUser}
-              removeFromMeeting={this._removefromMeeting} />
+              removeFromMeeting={this._removefromMeeting}
+              teamsContext={this.props.teamsContext} />
           }
         </div>
       );
