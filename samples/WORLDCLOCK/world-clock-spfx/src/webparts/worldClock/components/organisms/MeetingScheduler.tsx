@@ -3,14 +3,12 @@ import { Logger, LogLevel } from "@pnp/logging";
 import { isEqual } from "lodash";
 import { IPerson } from "../../models/wc.models";
 import Scheduler from "../molecules/Scheduler";
-import { IMicrosoftTeams } from "@microsoft/sp-webpart-base";
 
 
 export interface IMeetingSchedulerProps {
   meetingMembers: IPerson[];
   currentUser: IPerson;
   removeFromMeeting: (IPerson) => void;
-  teamsContext: IMicrosoftTeams;
 }
 
 export interface IMeetingSchedulerState {
@@ -40,8 +38,7 @@ export default class MeetingScheduler extends React.Component<IMeetingSchedulerP
         <div data-component={this.LOG_SOURCE}>
           <Scheduler
             meetingMembers={this.props.meetingMembers}
-            removeFromMeeting={this.props.removeFromMeeting}
-            teamsContext={this.props.teamsContext} />
+            removeFromMeeting={this.props.removeFromMeeting} />
         </div>
       );
     } catch (err) {

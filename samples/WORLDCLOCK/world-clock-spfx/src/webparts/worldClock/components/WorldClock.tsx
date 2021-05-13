@@ -7,11 +7,8 @@ import styles from "./WorldClock.module.scss";
 import { wc } from "../services/wc.service";
 import { IPerson } from "../models/wc.models";
 import { chain, cloneDeep, find, remove } from "lodash";
-import { IMicrosoftTeams } from "@microsoft/sp-webpart-base";
 
-export interface IWorldClockProps {
-  teamsContext: IMicrosoftTeams;
-}
+export interface IWorldClockProps { }
 
 export interface IWorldClockState {
   meetingMembers: IPerson[];
@@ -100,8 +97,7 @@ export default class WorldClock extends React.Component<IWorldClockProps, IWorld
             <MeetingScheduler
               meetingMembers={this.state.meetingMembers}
               currentUser={wc.CurrentUser}
-              removeFromMeeting={this._removefromMeeting}
-              teamsContext={this.props.teamsContext} />
+              removeFromMeeting={this._removefromMeeting} />
           }
         </div>
       );

@@ -8,12 +8,10 @@ import ButtonIcon from "../atoms/ButtonIcon";
 import { Icons } from "../../models/wc.Icons";
 import strings from "WorldClockWebPartStrings";
 import Button from "../atoms/Button";
-import { IMicrosoftTeams } from "@microsoft/sp-webpart-base";
 
 export interface ISchedulerProps {
   meetingMembers: IPerson[];
   removeFromMeeting: (IPerson) => void;
-  teamsContext: IMicrosoftTeams;
 }
 
 export interface ISchedulerState {
@@ -144,10 +142,7 @@ export default class Scheduler extends React.Component<ISchedulerProps, ISchedul
       }
     });
     const meetingURL = `https://teams.microsoft.com/l/meeting/new?subject=New%20Meeting&attendees=${attendees}&startTime=${this.state.selectedTime.toISODate()}T${this.state.selectedTime.toFormat('HH:00:00ZZ')}`;
-    if (this.props.teamsContext) {
-      this.props.teamsContext.teamsJs.executeDeepLink(meetingURL); //.tasks.startTask(taskModuleInfo);
-    }
-
+    wc.ExecuteDeepLink(meetingURL);
   }
 
   public render(): React.ReactElement<ISchedulerProps> {

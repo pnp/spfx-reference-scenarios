@@ -36,6 +36,7 @@ export class WorldClockService implements IWorldClockService {
   private _ready: boolean = false;
   private _needsConfigRefresh: boolean = false;
   private _configRefresh: () => void;
+  private _executeDeepLink: (meetingUrl: string) => void;
   private _configType: CONFIG_TYPE = CONFIG_TYPE.Team;
   private _userLogin: string = "";
   private _siteUrl: string = "";
@@ -95,6 +96,16 @@ export class WorldClockService implements IWorldClockService {
     }
   }
 
+  public set HandleExecuteDeepLink(value: (meetingUrl: string) => void) {
+    this._executeDeepLink = value;
+  }
+
+  public ExecuteDeepLink(meetingUrl: string): void {
+    if (typeof this._executeDeepLink == "function") {
+      this._executeDeepLink(meetingUrl);
+    }
+  }
+
   public get CurrentUser(): IPerson {
     try {
       if (this._configType === CONFIG_TYPE.Team) {
@@ -150,7 +161,7 @@ export class WorldClockService implements IWorldClockService {
       let newFile: boolean = false;
       if (this._configType === CONFIG_TYPE.Team) {
         try {
-          this._currentConfig = await sp.web.getFileByServerRelativeUrl(`${this._siteUrl}/SiteAssets/${this.CONFIG_FILE_NAME}`).getJSON();
+          this._currentConfig = await sp.web.getFileByServerRelativeUrl(`${this._siteUrl}/SiteAssets/${this.CONFIG_FOLDER}/${this.CONFIG_FILE_NAME}`).getJSON();
         } catch (e) {
           //Do Nothing as it'll just create the new config.
         }
@@ -212,9 +223,15 @@ export class WorldClockService implements IWorldClockService {
       let configFile;
       if (wc.ConfigType === CONFIG_TYPE.Team) {
         if (newFile) {
-          configFile = await sp.web.getFolderByServerRelativeUrl(`${serverRelUrl.ServerRelativeUrl}/SiteAssets/`).files.addUsingPath(this.CONFIG_FILE_NAME, JSON.stringify(this._currentConfig));
+          //Validate folder
+          try {
+            const folder = await sp.web.getFolderByServerRelativeUrl(`${serverRelUrl.ServerRelativeUrl}/SiteAssets/${this.CONFIG_FOLDER}`)();
+          } catch (e) {
+            const folder2 = await sp.web.getFolderByServerRelativeUrl(`${serverRelUrl.ServerRelativeUrl}/SiteAssets`).addSubFolderUsingPath(`${this.CONFIG_FOLDER}`);
+          }
+          configFile = await sp.web.getFolderByServerRelativeUrl(`${serverRelUrl.ServerRelativeUrl}/SiteAssets/${this.CONFIG_FOLDER}`).files.addUsingPath(`${this.CONFIG_FILE_NAME}`, JSON.stringify(this._currentConfig));
         } else {
-          configFile = await sp.web.getFileByServerRelativeUrl(`${serverRelUrl.ServerRelativeUrl}/SiteAssets/${this.CONFIG_FILE_NAME}`).setContent(JSON.stringify(this._currentConfig));
+          configFile = await sp.web.getFileByServerRelativeUrl(`${serverRelUrl.ServerRelativeUrl}/SiteAssets/${this.CONFIG_FOLDER}/${this.CONFIG_FILE_NAME}`).setContent(JSON.stringify(this._currentConfig));
         }
         if (configFile.data)
           retVal = true;
