@@ -167,7 +167,7 @@ export default class ManageMembers extends React.Component<IManageMembersProps, 
 
             </div>
             <div className={`${styles.membersList}`}>
-              {(this.state.searchMembers.length == 0) &&
+              {(this.state.searchMembers.length == 0 && this.state.searchString.length > 0) &&
                 <span className={`hoo-fontsize-18 hoo-error`} id="">{strings.NoResultsLabel}</span>
               }
               {this.state.searchMembers.map((m) => {
