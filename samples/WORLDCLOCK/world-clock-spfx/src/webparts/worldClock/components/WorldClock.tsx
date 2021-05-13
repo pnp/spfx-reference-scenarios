@@ -65,7 +65,6 @@ export default class WorldClock extends React.Component<IWorldClockProps, IWorld
   private _saveProfile = async (person: IPerson): Promise<boolean> => {
     let success: boolean = false;
     try {
-
       success = await wc.UpdateMember(person);
       if (success) {
         let currentUserInMeeting = find(this.state.meetingMembers, { personId: wc.CurrentUser.personId });
@@ -90,8 +89,6 @@ export default class WorldClock extends React.Component<IWorldClockProps, IWorld
       return (
         <div data-component={this.LOG_SOURCE} className={styles.worldClock}>
           <TeamTimes
-            //currentUser={wc.CurrentUser}
-            //currentTime={this.state.currentTime}
             addToMeeting={this._addToMeeting}
             meetingMembers={this.state.meetingMembers}
             saveProfile={this._saveProfile} />

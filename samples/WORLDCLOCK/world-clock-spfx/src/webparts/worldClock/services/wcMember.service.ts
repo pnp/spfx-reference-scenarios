@@ -8,7 +8,7 @@ import { findIana } from 'windows-iana';
 
 import { wc } from './wc.service';
 import { IConfig, IPerson, Config, CONFIG_TYPE, Person, PERSON_TYPE, WCView, Team, ITimeZone, TimeZone } from "../models/wc.models";
-import { forEach, flatMap } from "lodash";
+import { forEach, flatMap, includes, findIndex, filter } from "lodash";
 import { IANAZone, DateTime } from "luxon";
 import strings from "WorldClockWebPartStrings";
 
@@ -16,7 +16,7 @@ export interface IWorldClockMemberService {
   GenerateConfig: () => Promise<IConfig>;
   UpdateTimezones: (members: IPerson[]) => Promise<boolean>;
   GetAvailableTimeZones: () => Promise<ITimeZone[]>;
-
+  UpdateTeamMembers(members: IPerson[]): Promise<boolean>;
 }
 
 export class WorldClockMemberService implements IWorldClockMemberService {
@@ -36,8 +36,7 @@ export class WorldClockMemberService implements IWorldClockMemberService {
         wcConfig.configPerson = new Person(current.id, current.userPrincipalName, PERSON_TYPE.Employee, current.displayName, current.jobTitle, current.mail, "", wc.IANATimeZone);
       }
       wcConfig.members = await this._getTeamMembers();
-      //TODO: Julie - wcConfig.configPerson was returning null and passing into this statement causing an error in the default view.
-      if ((wcConfig.configPerson !== undefined) && (wcConfig.configPerson !== null)) {
+      if (wcConfig.configPerson != undefined) {
         wcConfig.members.unshift(wcConfig.configPerson);
       }
       if (wcConfig.members.length <= 20) {
@@ -46,7 +45,6 @@ export class WorldClockMemberService implements IWorldClockMemberService {
         wcConfig.defaultViewId = "0";
         wcConfig.views.push(view);
       }
-      this.UpdateTimezones(wcConfig.members);
     } catch (err) {
       Logger.write(`${this.LOG_SOURCE} (GenerateConfig) - ${err} - `, LogLevel.Error);
     }
@@ -61,13 +59,19 @@ export class WorldClockMemberService implements IWorldClockMemberService {
         members = await graphGet<{ id: string, userPrincipalName: string, displayName: string, jobTitle: string, mail: string, userType: string }[]>(
           GraphQueryable(graph.groups.getById(wc.GroupId).toUrl(), "members?$select=id,displayName,jobTitle,mail,userPrincipalName,userType")
         );
-
       } else if (wc.ConfigType === CONFIG_TYPE.Personal) {
         const people = await graph.me.people.top(20)
           .select("id,displayName,jobTitle,userPrincipalName,scoredEmailAddresses,personType")
-          //.filter("personType/subclass eq 'OrganizationUser'")
           .get<{ id: string, userPrincipalName: string, displayName: string, jobTitle: string, scoredEmailAddresses: { address: string }[], personType: { class: string, subclass: string } }[]>();
-        members = people.map((o) => { return { id: o.id, userPrincipalName: o.userPrincipalName, displayName: o.displayName, jobTitle: o.jobTitle, mail: o.scoredEmailAddresses[0].address, userType: (o.personType.subclass === 'OrganizationUser') ? "Member" : "Guest" }; });
+        if (people.length > 0) {
+          members = [];
+          forEach(people, (o) => {
+            const memberIdx = findIndex(members, { id: o.id });
+            if (memberIdx === -1) {
+              members.push({ id: o.id, userPrincipalName: o.userPrincipalName, displayName: o.displayName, jobTitle: o.jobTitle, mail: o.scoredEmailAddresses[0].address, userType: (o.personType.subclass === 'OrganizationUser') ? "Member" : "Guest" });
+            }
+          });
+        }
       }
       if (members?.length > 0) {
         forEach(members, (o) => {
@@ -81,6 +85,31 @@ export class WorldClockMemberService implements IWorldClockMemberService {
       Logger.write(`${this.LOG_SOURCE} (_getTeamMembers) - ${err} - `, LogLevel.Error);
     }
     return retVal;
+  }
+
+  public async UpdateTeamMembers(members: IPerson[]): Promise<boolean> {
+    if (wc.ConfigType === CONFIG_TYPE.Personal) { return false; }
+    let hasChanged: boolean = false;
+    try {
+      const currentTeamMembers = await this._getTeamMembers();
+      //Missing Team Members
+      forEach(currentTeamMembers, (o) => {
+        const exists = findIndex(members, { personId: o.personId });
+        if (exists === -1) {
+          hasChanged = true;
+          members.push(o);
+        }
+      });
+      //Remove Deleted Members
+      members = filter(members, (o) => {
+        const exists = findIndex(currentTeamMembers, { personId: o.personId });
+        if (exists === -1) { hasChanged = true; }
+        return (exists > -1);
+      });
+    } catch (err) {
+      Logger.write(`${this.LOG_SOURCE} (UpdateTeamMembers) - ${err} - `, LogLevel.Error);
+    }
+    return hasChanged;
   }
 
   public async GetAvailableTimeZones(): Promise<ITimeZone[]> {

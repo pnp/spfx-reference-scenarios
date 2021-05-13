@@ -43,18 +43,9 @@ export default class WorldClockWebPart extends BaseClientSideWebPart<IWorldClock
 
       //Initialize PnPJs
       sp.setup({ spfxContext: this.context });
-      //TODO: Julie can you please double check this. I had to make changes for the search members to work.
-      graph.setup({
-        graph: {
-          headers: { ConsistencyLevel: "eventual" }
-        },
-        spfxContext: this.context
-      });
+      graph.setup({ spfxContext: this.context });
 
-      // const siteValid = await wcc.isValid();
-      // if (siteValid) {
       await this._init();
-      //}
     } catch (err) {
       Logger.write(`${this.LOG_SOURCE} (onInit) - ${err}`, LogLevel.Error);
     }
@@ -63,7 +54,6 @@ export default class WorldClockWebPart extends BaseClientSideWebPart<IWorldClock
   private async _init(): Promise<void> {
     try {
       this._microsoftTeams = this.context.sdks?.microsoftTeams;
-      //TODO: CLEAN UP AFTER TESTED IN TEAMS
       const configType: CONFIG_TYPE = (this._microsoftTeams?.context?.groupId) ? CONFIG_TYPE.Team : CONFIG_TYPE.Personal;
       await wc.Init(this.context.pageContext.user.loginName, this.context.pageContext.cultureInfo.currentUICultureName, this.context.pageContext.site.serverRelativeUrl, this._microsoftTeams?.context?.groupId, this._microsoftTeams?.context?.teamName, configType);
       // Consume the new ThemeProvider service
