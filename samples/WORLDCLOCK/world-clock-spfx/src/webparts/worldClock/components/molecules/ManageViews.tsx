@@ -157,7 +157,6 @@ export default class ManageViews extends React.Component<IManageViewsProps, IMan
     try {
       return (
         <div data-component={this.LOG_SOURCE} className={`${styles.manageViews} hoo-grid`}>
-
           <div className="full-width">
             <div className="hoo-fontsize-18">{strings.ViewTitleHeader}</div>
             <TextBox name="viewName" value={this.state.currentView.viewName} onChange={this._onTextChange} />
@@ -168,7 +167,6 @@ export default class ManageViews extends React.Component<IManageViewsProps, IMan
             <SearchBox name="Search" placeholder={strings.ManageMembersFilterPlaceholder} value={this.state.searchString} onChange={this._onSearchChange} />
           </div>
           <div className={`${styles.membersList} full-width`}>
-
             {this.state.searchMembers.map((m) => {
               let isChecked: boolean = false;
               if (this.state.currentView.members.length > 0) {
@@ -187,7 +185,7 @@ export default class ManageViews extends React.Component<IManageViewsProps, IMan
                       onChange={this._onMemberCheckBoxChange}
                       showLabel={false} />
                     <Avatar size={Size.ThirtyTwo} name={m.displayName} src={m.photoUrl} />
-                    <span className="center-vertical">{m.displayName}</span>
+                    <span className="check-box-center">{m.displayName}</span>
                   </div>
                 </div>);
             })}
@@ -203,9 +201,21 @@ export default class ManageViews extends React.Component<IManageViewsProps, IMan
           </div>
 
           <div className="is-flex gap full-width" >
-            <Button className="hoo-button-primary" disabled={false} label={strings.SaveLabel} onClick={() => this.props.save(this.state.currentView, this.state.isDefault)} />
-            <Button className="hoo-button" disabled={false} label={strings.CancelLabel} onClick={() => this.props.cancel()} />
-            <Button className="hoo-button" disabled={false} label={strings.DeleteViewLabel} onClick={() => this.props.delete(this.state.currentView)} />
+            <Button
+              className="hoo-button-primary"
+              disabled={false}
+              label={strings.SaveLabel}
+              onClick={() => this.props.save(this.state.currentView, this.state.isDefault)} />
+            <Button
+              className="hoo-button"
+              disabled={false}
+              label={strings.CancelLabel}
+              onClick={() => this.props.cancel()} />
+            <Button
+              className="hoo-button"
+              disabled={false}
+              label={strings.DeleteViewLabel}
+              onClick={() => this.props.delete(this.state.currentView)} />
           </div>
         </div>
       );

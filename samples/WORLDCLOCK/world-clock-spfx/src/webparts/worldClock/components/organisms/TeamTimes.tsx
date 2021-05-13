@@ -345,7 +345,7 @@ export default class TeamTimes extends React.Component<ITeamTimesProps, ITeamTim
                         addToMeeting={this.props.addToMeeting}
                         meetingMembers={this.props.meetingMembers}
                         editProfile={this._showProfile} />
-                    )
+                    );
                   })}
                 </div>
               );
