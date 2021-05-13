@@ -98,8 +98,8 @@ export default class ManageMembers extends React.Component<IManageMembersProps, 
     }
   }
 
-  private _savePerson() {
-    this.props.save(this.state.currentPerson);
+  private async _savePerson() {
+    await this.props.save(this.state.currentPerson);
     this._showTimeZoneChange(!this.state.showTimeZoneSelect, new Person());
   }
 
@@ -166,53 +166,78 @@ export default class ManageMembers extends React.Component<IManageMembersProps, 
               }
 
             </div>
-            <div className={`${styles.membersList} ${styles.twoColumn}`}>
+            <div className={`${styles.membersList}`}>
+              {(this.state.searchMembers.length == 0) &&
+                <span className={`hoo-fontsize-18 hoo-error`} id="">{strings.NoResultsLabel}</span>
+              }
               {this.state.searchMembers.map((m) => {
                 return (
                   <div className={`${styles.memberContainer} is-flex`}>
                     <div className="memberPersona">
                       <Avatar size={Size.ThirtyTwo} name={m.displayName} src={m.photoUrl} />
-                      <span className="center-vertical">{m.displayName}</span>
-                      {(wc.ConfigType === CONFIG_TYPE.Personal) &&
-                        <ButtonIcon
-                          iconType={Icons.Profile}
-                          onClick={() => this.props.edit(m)}
-                          altText={strings.EditProfileLabel} />
-                      }
-                      {(this.state.showAddMember) ?
-                        <ButtonIcon
-                          iconType={Icons.PlusPerson}
-                          onClick={() => this._addMember(m)}
-                          altText={strings.EditProfileLabel} /> :
-                        <ButtonIcon
-                          iconType={Icons.TimeZone}
-                          onClick={() => this._showTimeZoneChange(true, m)}
-                          altText={strings.EditTimeZoneLabel} />
-                      }
+                      <div>
+                        <span>{m.displayName}</span>
 
-                      {(wc.ConfigType === CONFIG_TYPE.Personal) &&
-                        <ButtonIcon
-                          iconType={Icons.Trash}
-                          onClick={() => this._removeMember(m)}
-                          altText={strings.RemoveFromTeamLabel} />
-                      }
+                        {(wc.ConfigType === CONFIG_TYPE.Personal) &&
+                          <ButtonIcon
+                            iconType={Icons.Profile}
+                            onClick={() => this.props.edit(m)}
+                            altText={strings.EditProfileLabel} />
+                        }
+                        {(this.state.showAddMember) ?
+                          <ButtonIcon
+                            iconType={Icons.PlusPerson}
+                            onClick={() => this._addMember(m)}
+                            altText={strings.AddMemberLabel} /> :
+                          <ButtonIcon
+                            iconType={Icons.TimeZone}
+                            onClick={() => this._showTimeZoneChange(true, m)}
+                            altText={strings.EditTimeZoneLabel} />
+                        }
+
+                        {(wc.ConfigType === CONFIG_TYPE.Personal) &&
+                          <ButtonIcon
+                            iconType={Icons.Trash}
+                            onClick={() => this._removeMember(m)}
+                            altText={strings.RemoveFromTeamLabel} />
+                        }
+
+                      </div>
                     </div>
                   </div>);
               })}
             </div>
           </div>
+          {this.state.showTimeZoneSelect &&
+            <div className={`${(!this.state.showTimeZoneSelect) ? "is-hidden" : ""} ${styles.viewForm} hoo-grid`}>
+              <div className="one-third center-vertical is-flex">
+                <Avatar
+                  size={Size.ThirtyTwo}
+                  name={this.state.currentPerson.displayName}
+                  src={this.state.currentPerson.photoUrl} />
+                <span className="check-box-center">{this.state.currentPerson.displayName}</span>
+              </div>
+              <div className="two-thirds">
+                <DropDown
+                  containsTypeAhead={true}
+                  options={this._availableTimeZones}
+                  id="timeZone"
+                  value={this.state.currentPerson.IANATimeZone}
+                  onChange={this._onDropDownChange} />
+              </div>
+              <Button
+                className="hoo-button-primary"
+                disabled={false}
+                label={strings.SaveLabel}
+                onClick={() => this._savePerson()} />
+              <Button
+                className="hoo-button"
+                disabled={false}
+                label={strings.CancelLabel}
+                onClick={() => this._showTimeZoneChange(!this.state.showTimeZoneSelect, new Person())} />
+            </div>
+          }
 
-          <div className={`${(!this.state.showTimeZoneSelect) ? "is-hidden" : ""} ${styles.viewForm} hoo-grid`}>
-            <div className="one-third center-vertical is-flex">
-              <Avatar size={Size.ThirtyTwo} name={this.state.currentPerson.displayName} src={this.state.currentPerson.photoUrl} />
-              <span className="center-vertical">{this.state.currentPerson.displayName}</span>
-            </div>
-            <div className="two-thirds center-vertical">
-              <DropDown containsTypeAhead={true} options={this._availableTimeZones} id="timeZone" value={this.state.currentPerson.IANATimeZone} onChange={this._onDropDownChange} />
-            </div>
-            <Button className="hoo-button-primary" disabled={false} label={strings.SaveLabel} onClick={() => this._savePerson()} />
-            <Button className="hoo-button" disabled={false} label={strings.CancelLabel} onClick={() => this._showTimeZoneChange(!this.state.showTimeZoneSelect, new Person())} />
-          </div>
         </div>
       );
     } catch (err) {

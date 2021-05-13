@@ -44,7 +44,7 @@ export default class CheckBox extends React.Component<ICheckBoxProps, ICheckBoxS
   public render(): React.ReactElement<ICheckBoxProps> {
     try {
       return (
-        <div data-component={this.LOG_SOURCE} className={styles.item} onChange={(newValue) => { this._onChange(newValue.target, this.props.name); }}>
+        <div data-component={this.LOG_SOURCE} onChange={(newValue) => { this._onChange(newValue.target, this.props.name); }}>
           <input type="checkbox" name={this.props.name} id={this.props.name} checked={this.props.value} className="hoo-checkbox" /><label htmlFor={this.props.name}>{(this.props.showLabel == undefined || this.props.showLabel == true) ? this.props.label : ""}</label>
         </div>
       );

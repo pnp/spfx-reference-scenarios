@@ -37,8 +37,8 @@
     }
 
     .hoo-avatar-32 {
-      margin-top: auto;
-      margin-bottom: auto;
+      //margin-top: auto;
+      //margin-bottom: auto;
     }
 
     .is-flex {
@@ -385,12 +385,17 @@
       margin-bottom: auto;
     }
 
+    .check-box-center {
+      margin-top: px2rem(6px);
+    }
+
     .gap {
       gap: px2rem(16px);
     }
 
     .memberPersona {
       display: flex;
+      width: 20em;
     }
 
     .hoo-grid {
@@ -445,23 +450,13 @@
       //flex-wrap: wrap;
       //justify-content: space-between;
       padding-top: px2rem(16px);
-      max-width: 1000px;
+      max-width: 2000px;
       //margin: 0 auto;
-      column-width: 12em;
+      column-width: 20em;
       column-gap: px2rem(32px);
-
-      &.twoColumn {
-        column-width: 16em;
-      }
 
       .textLabel {
         column-span: all;
-      }
-
-      .item {
-        //width: 25%;
-        margin-top: auto;
-        margin-bottom: auto;
       }
     }
 

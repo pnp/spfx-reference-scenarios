@@ -1,7 +1,7 @@
 define([], function () {
   return {
   "ConfigureViewsTitle": "Configure Views",
-  "ConfigureViewsContent": "This application is best suited to manage groups of less than 20. Your team has more than 20 members. Please create at least one view of users less than 20.",
+  "ConfigureViewsContent": "Create views to organize groups of people that work together.",
   "ManageViewsTitle": "Manage Views",
   "NewViewTitle": "New View",
   "DefaultViewTitle": "Default View",
@@ -28,7 +28,8 @@ define([], function () {
   "RemoveFromTeamLabel": "Remove from member list", 
   "AddMemberLabel": "Add Member", 
   "DeleteViewLabel": "Delete this view", 
-  "ScheduleMeetingLabel": "Schedule Meeting", 
+  "ScheduleMeetingLabel": "Schedule Meeting",
+  "NoResultsLabel": "Your search returned no results", 
   "DropDownAvailableOptions": "options available. Arrow down to browse or start typing to filter.", 
   "PAManageMembersFilterPlaceholder": "Filter My Team Members or guests",
   "PAManageMembersSearchPlaceholder": "Search for new members or guests",

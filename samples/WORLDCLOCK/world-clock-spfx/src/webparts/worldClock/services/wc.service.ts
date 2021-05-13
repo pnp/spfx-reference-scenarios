@@ -13,7 +13,7 @@ import "@pnp/graph/groups";
 import { DateTime, IANAZone } from "luxon";
 import { find, merge, forEach, findIndex, filter, sortBy } from "lodash";
 
-import { IConfig, IPerson, CONFIG_TYPE, Person, PERSON_TYPE, ITimeZone } from "../models/wc.models";
+import { IConfig, IPerson, CONFIG_TYPE, Person, PERSON_TYPE, ITimeZone, TimeZone } from "../models/wc.models";
 import { WorldClockMemberService, IWorldClockMemberService } from "./wcMember.service";
 
 export interface IWorldClockService {
@@ -345,9 +345,22 @@ export class WorldClockService implements IWorldClockService {
     return retVal;
   }
 
-  private async _getAvailableTimeZones(): Promise<void> {
-    const wcm = new WorldClockMemberService();
-    this._availableTimeZones = await wcm.GetAvailableTimeZones();
+  public async _getAvailableTimeZones(): Promise<void> {
+    let retVal: ITimeZone[] = [];
+    try {
+      const timezones = await graphGet<{ alias: string, displayName: string }[]>(
+        GraphQueryable(graph.me.toUrl(), "outlook/supportedTimeZones(TimeZoneStandard=microsoft.graph.timeZoneStandard'Iana')")
+      );
+      if (timezones?.length > 0) {
+        forEach(timezones, (tz) => {
+          const t = new TimeZone(tz.alias, tz.displayName);
+          retVal.push(t);
+        });
+      }
+    } catch (err) {
+      Logger.write(`${this.LOG_SOURCE} (_getAvailableTimeZones) - ${err} - `, LogLevel.Error);
+    }
+    this._availableTimeZones = retVal;
   }
 
 

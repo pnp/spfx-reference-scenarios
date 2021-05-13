@@ -104,9 +104,17 @@ export default class Profile extends React.Component<IProfileProps, IProfileStat
             </div>);
           })}
 
-          <div className={styles.buttons} >
-            <Button className="hoo-button-primary" disabled={false} label={strings.SaveLabel} onClick={() => this.props.save(this.state.currentPerson)} />
-            <Button className="hoo-button" disabled={false} label={strings.CancelLabel} onClick={() => this.props.cancel()} />
+          <div className="is-flex gap" >
+            <Button
+              className="hoo-button-primary"
+              disabled={false}
+              label={strings.SaveLabel}
+              onClick={() => this.props.save(this.state.currentPerson)} />
+            <Button
+              className="hoo-button"
+              disabled={false}
+              label={strings.CancelLabel}
+              onClick={() => this.props.cancel()} />
           </div>
         </div>
       );

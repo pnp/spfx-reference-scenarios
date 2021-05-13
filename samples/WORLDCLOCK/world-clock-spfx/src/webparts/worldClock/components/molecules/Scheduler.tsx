@@ -155,27 +155,51 @@ export default class Scheduler extends React.Component<ISchedulerProps, ISchedul
       return (
         <div data-component={this.LOG_SOURCE} className="schedule" >
           <div className="date-picker">
-            <input className="hoo-input-text" id="startDate" type="date" value={this.state.dateInput.toISO().substr(0, 10)} onChange={(newValue) => { this._onDateChange(newValue.target.value); }} />
-            <Button className="hoo-button-primary" disabled={this.state.scheduleDisabled} label={strings.ScheduleMeetingLabel} onClick={() => this._scheduleMeeting()} />
+            <input
+              className="hoo-input-text"
+              id="startDate"
+              type="date"
+              value={this.state.dateInput.toISO().substr(0, 10)}
+              onChange={(newValue) => { this._onDateChange(newValue.target.value); }} />
+            <Button
+              className="hoo-button-primary"
+              disabled={this.state.scheduleDisabled}
+              label={strings.ScheduleMeetingLabel}
+              onClick={() => this._scheduleMeeting()} />
           </div>
           <div className="hoo-dtstable">
-
             <div data-dow="" className="hoo-dtsentry no-hover">
               <label htmlFor="" className="hoo-dtsday"></label>
               <div className={`hoo-dtshours-label`}></div>
               {this.state.meetingTimes.map((h) => {
-                return (<div className={`hoo-dtshours-label ${(this.state.selectedTime && (h.hour == this.state.selectedTime.hour)) ? "isSelected" : ""}`} data-time="" onClick={() => this._setSelectedTime(h)}>{replace(h.toLocaleString(DateTime.TIME_SIMPLE), ":00", "")}</div>);
+                return (
+                  <div
+                    className={`hoo-dtshours-label ${(this.state.selectedTime && (h.hour == this.state.selectedTime.hour)) ? "isSelected" : ""}`}
+                    data-time=""
+                    onClick={() => this._setSelectedTime(h)}>{replace(h.toLocaleString(DateTime.TIME_SIMPLE), ":00", "")}
+                  </div>);
               })}
             </div>
 
             {this.props.meetingMembers.map((m) => {
-              return (<div data-dow="" className="hoo-dtsentry"><label htmlFor="" className="hoo-dtsday">{m.displayName}</label>
-                <div className={`hoo-dtshours no-bg`} data-time=""><ButtonIcon iconType={Icons.Trash} altText={strings.TrashLabel} onClick={() => this.props.removeFromMeeting(m)} /></div>
-                {this.state.meetingTimes.map((h) => {
-                  return (<div className={`hoo-dtshours ${this._setBlockStyle(m, h)}`} title={this._getDateTimeString(m, h)} data-time="" onClick={() => { }}></div>);
-                })}
-
-              </div>);
+              return (
+                <div data-dow="" className="hoo-dtsentry">
+                  <label htmlFor="" className="hoo-dtsday">{m.displayName}</label>
+                  <div className={`hoo-dtshours no-bg`} data-time="">
+                    <ButtonIcon
+                      iconType={Icons.Trash}
+                      altText={strings.TrashLabel}
+                      onClick={() => this.props.removeFromMeeting(m)} />
+                  </div>
+                  {this.state.meetingTimes.map((h) => {
+                    return (
+                      <div
+                        className={`hoo-dtshours ${this._setBlockStyle(m, h)}`}
+                        title={this._getDateTimeString(m, h)}
+                        data-time=""
+                        onClick={() => { }}></div>);
+                  })}
+                </div>);
             })}
           </div>
         </div>
