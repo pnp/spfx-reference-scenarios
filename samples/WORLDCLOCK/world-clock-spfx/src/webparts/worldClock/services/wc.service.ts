@@ -180,7 +180,7 @@ export class WorldClockService implements IWorldClockService {
               }
               this.UpdateConfig();
             }
-          })
+          });
         });
       }
 
