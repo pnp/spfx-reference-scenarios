@@ -348,6 +348,7 @@ export interface IHour {
   hourId: number;
   workingType: HOUR_TYPE;
 }
+
 export class Hour implements IHour {
   constructor(
     public hourId: number = 0,
@@ -366,4 +367,14 @@ export class TimeZone implements ITimeZone {
     public alias: string = "",
     public displayName: string = ""
   ) { }
+}
+
+export interface IOffsetGroup {
+  offset: number;
+  members: IPerson[];
+}
+
+export interface ITimeZoneView {
+  style: string;
+  offsetGroup: IOffsetGroup[];
 }

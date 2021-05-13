@@ -4,10 +4,9 @@ import isEqual from "lodash/isEqual";
 import TeamTimes from "./organisms/TeamTimes";
 import MeetingScheduler from "./organisms/MeetingScheduler";
 import styles from "./WorldClock.module.scss";
-import { DateTime } from "luxon";
 import { wc } from "../services/wc.service";
-import { IPerson, ISchedule, Person } from "../models/wc.models";
-import { chain, cloneDeep, find, reduce, remove, uniqBy } from "lodash";
+import { IPerson } from "../models/wc.models";
+import { chain, cloneDeep, find, remove } from "lodash";
 import { IMicrosoftTeams } from "@microsoft/sp-webpart-base";
 
 export interface IWorldClockProps {
@@ -15,14 +14,11 @@ export interface IWorldClockProps {
 }
 
 export interface IWorldClockState {
-  //currentUser: IPerson;
-  //currentTime: DateTime;
   meetingMembers: IPerson[];
 }
 
 export class WorldClockState implements IWorldClockState {
   constructor(
-    //public currentUser: IPerson = new Person,
     public meetingMembers: IPerson[] = [],
   ) { }
 }
@@ -42,24 +38,32 @@ export default class WorldClock extends React.Component<IWorldClockProps, IWorld
   }
 
   private _addToMeeting = (person: IPerson) => {
-    let meetingMembers = cloneDeep(this.state.meetingMembers);
-    if (meetingMembers.length == 0) {
-      //let user: IPerson = find(wc.Config.members, { personId: this.state.currentUser.personId });
-      meetingMembers.push(wc.CurrentUser);
-    }
-    meetingMembers.push(person);
-    meetingMembers = chain(meetingMembers).uniqBy("personId").sortBy("offset").value();
-    this.setState({ meetingMembers: meetingMembers });
-  }
-  private _removefromMeeting = (person: IPerson) => {
-    let meetingMembers = cloneDeep(this.state.meetingMembers);
-    meetingMembers.map((m) => {
-      if (m.personId == person.personId) {
-        remove(meetingMembers, person);
+    try {
+      let meetingMembers = cloneDeep(this.state.meetingMembers);
+      if (meetingMembers.length == 0) {
+        meetingMembers.push(wc.CurrentUser);
       }
-    });
-    meetingMembers = chain(meetingMembers).uniqBy("personId").sortBy("offset").value();
-    this.setState({ meetingMembers: meetingMembers });
+      meetingMembers.push(person);
+      meetingMembers = chain(meetingMembers).uniqBy("personId").sortBy("offset").value();
+      this.setState({ meetingMembers: meetingMembers });
+    } catch (err) {
+      Logger.write(`${this.LOG_SOURCE} (_addToMeeting) - ${err}`, LogLevel.Error);
+    }
+  }
+
+  private _removefromMeeting = (person: IPerson) => {
+    try {
+      let meetingMembers = cloneDeep(this.state.meetingMembers);
+      meetingMembers.map((m) => {
+        if (m.personId == person.personId) {
+          remove(meetingMembers, person);
+        }
+      });
+      meetingMembers = chain(meetingMembers).uniqBy("personId").sortBy("offset").value();
+      this.setState({ meetingMembers: meetingMembers });
+    } catch (err) {
+      Logger.write(`${this.LOG_SOURCE} (_removefromMeeting) - ${err}`, LogLevel.Error);
+    }
   }
 
   private _saveProfile = async (person: IPerson): Promise<boolean> => {

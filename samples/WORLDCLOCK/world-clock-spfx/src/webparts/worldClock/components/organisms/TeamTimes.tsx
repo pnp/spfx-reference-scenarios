@@ -1,10 +1,10 @@
 import * as React from "react";
 import { Logger, LogLevel } from "@pnp/logging";
-import { chain, cloneDeep, find, isEqual, remove } from "lodash";
+import { chain, cloneDeep, find, isEqual, remove, forEach } from "lodash";
 import Dialog from "../molecules/Dialog";
 import strings from "WorldClockWebPartStrings";
 import ManageViews from "../molecules/ManageViews";
-import { IPerson, IWCView } from "../../models/wc.models";
+import { IPerson, IWCView, ITimeZoneView } from "../../models/wc.models";
 import { wc } from "../../services/wc.service";
 import TimeCard from "../molecules/TimeCard";
 import { DateTime } from "luxon";
@@ -16,8 +16,8 @@ import ManageMembers from "../molecules/ManageMembers";
 import Button from "../atoms/Button";
 
 export interface ITeamTimesProps {
-  addToMeeting: (IPerson) => void;
   meetingMembers: IPerson[];
+  addToMeeting: (IPerson) => void;
   saveProfile: (person: IPerson) => Promise<boolean>;
 }
 
@@ -26,7 +26,7 @@ export interface ITeamTimesState {
   showManageViews: boolean;
   views: IWCView[];
   currentView: string;
-  timeZoneView: any[];
+  timeZoneView: ITimeZoneView[];
   viewOptions: IButtonOption[];
   showProfile: boolean;
   currentTime: DateTime;
@@ -51,14 +51,13 @@ export class TeamTimesState implements ITeamTimesState {
 
 export default class TeamTimes extends React.Component<ITeamTimesProps, ITeamTimesState> {
   private LOG_SOURCE: string = "🔶 TeamTimes";
+  private _ready: boolean = false;
 
   constructor(props: ITeamTimesProps) {
     super(props);
     try {
       let timeZoneView: any[];
       let needsConfig = false;
-
-      wc.ConfigRefresh = this._handleRefresh;
 
       if ((wc.Config.members.length > 20) && (wc.Config.views.length == 0)) {
         needsConfig = true;
@@ -74,6 +73,10 @@ export default class TeamTimes extends React.Component<ITeamTimesProps, ITeamTim
     }
   }
 
+  public componentDidMount() {
+    wc.ConfigRefresh = this._handleRefresh;
+  }
+
   public shouldComponentUpdate(nextProps: Readonly<ITeamTimesProps>, nextState: Readonly<ITeamTimesState>) {
     if ((isEqual(nextState, this.state) && isEqual(nextProps, this.props)))
       return false;
@@ -81,13 +84,17 @@ export default class TeamTimes extends React.Component<ITeamTimesProps, ITeamTim
   }
 
   private _handleRefresh(newState?: any) {
-    const timeZoneView = this._sortTimeZones(wc.Config.views[this.state.currentView]);
-    if (newState == undefined) {
-      newState = { timeZoneView };
-    } else {
-      newState.timeZoneView = timeZoneView;
+    try {
+      const timeZoneView = this._sortTimeZones(wc.Config.views[this.state.currentView]);
+      if (newState == undefined) {
+        newState = { timeZoneView };
+      } else {
+        newState.timeZoneView = timeZoneView;
+      }
+      this.setState(newState);
+    } catch (err) {
+      Logger.write(`${this.LOG_SOURCE} (_handleRefresh) - ${err}`, LogLevel.Error);
     }
-    this.setState(newState);
   }
 
   private async delay(ms: number): Promise<any> {
@@ -95,11 +102,20 @@ export default class TeamTimes extends React.Component<ITeamTimesProps, ITeamTim
   }
 
   public async updateCurrentTime(): Promise<void> {
-    while (true) {
-      const delay: number = (60000);
-      await this.delay(delay);
-      let now: DateTime = await DateTime.now().setLocale(wc.Locale).setZone(wc.IANATimeZone);
-      this.setState({ currentTime: now });
+    try {
+      while (true) {
+        const delay: number = (60000);
+        await this.delay(delay);
+        let now: DateTime = await DateTime.now().setLocale(wc.Locale).setZone(wc.IANATimeZone);
+        if (!this._ready && wc.Ready) {
+          this._ready = true;
+          this._handleRefresh({ currentTime: now });
+        } else {
+          this.setState({ currentTime: now });
+        }
+      }
+    } catch (err) {
+      Logger.write(`${this.LOG_SOURCE} (updateCurrentTime) - ${err}`, LogLevel.Error);
     }
   }
 
@@ -108,15 +124,13 @@ export default class TeamTimes extends React.Component<ITeamTimesProps, ITeamTim
   }
 
   private _sortTimeZones(view: IWCView) {
-    let timeZoneView: any[];
+    let timeZoneView: ITimeZoneView[] = [];
     try {
       const currentTime: DateTime = this.state?.currentTime || DateTime.now().setLocale(wc.Locale).setZone(wc.IANATimeZone);
       let members: IPerson[] = wc.GetTeamMembers(view.members);
-      timeZoneView = chain(members).groupBy("offset").map((value, key) => ({ offset: parseInt(key.toString()), members: value })).sortBy("offset").value();
-      let dayTimeArray: any[] = [];
-      for (let key in timeZoneView) {
-        let groupMembers: IPerson[] = timeZoneView[key].members as IPerson[];
-        let tzCurrentTime: DateTime = currentTime.setZone(groupMembers[0].IANATimeZone);
+
+      forEach(members, (o) => {
+        let tzCurrentTime: DateTime = currentTime.setZone(o.IANATimeZone);
         let timeStyle: string = "";
         if (tzCurrentTime.hour > 6 && tzCurrentTime.hour <= 7) {
           timeStyle = "hoo-wcs-day";
@@ -126,17 +140,31 @@ export default class TeamTimes extends React.Component<ITeamTimesProps, ITeamTim
         else {
           timeStyle = "hoo-wcs-night";
         }
-        dayTimeArray.push({ style: timeStyle, offset: timeZoneView[key].offset, members: timeZoneView[key].members });
-      }
-      timeZoneView = chain(dayTimeArray).groupBy("style").map((value, key) => ({ style: key, cardItems: value })).value();
+        o.timeStyle = timeStyle;
+      });
+
+      const offsetGroups = chain(members).groupBy("offset").map((value, key) => ({ offset: parseInt(key.toString()), members: value })).sortBy("offset").value();
+      let styleGroup = "";
+      let currentGroup = null;
+      forEach(offsetGroups, (o) => {
+        const timeStyle = o.members[0]?.timeStyle;
+        if (styleGroup != timeStyle || currentGroup == null) {
+          timeZoneView.push({ style: timeStyle, offsetGroup: [o] });
+          currentGroup = timeZoneView[timeZoneView.length - 1];
+        } else {
+          currentGroup.offsetGroup.push(o);
+        }
+      });
     } catch (err) {
       Logger.write(`${this.LOG_SOURCE} (_sortTimeZones) - ${err}`, LogLevel.Error);
     }
     return timeZoneView;
   }
+
   private _showManageMembers = (visible: boolean): void => {
     this.setState({ showManageMembers: visible });
   }
+
   private _showProfile = (visible: boolean): void => {
     this.setState({ showProfile: visible });
   }
@@ -190,11 +218,9 @@ export default class TeamTimes extends React.Component<ITeamTimesProps, ITeamTim
         } else {
           this.setState({ showManageViews: false, views: config.views, timeZoneView: [], viewOptions: options, currentView: "" });
         }
-
-
       }
     } catch (err) {
-      Logger.write(`${this.LOG_SOURCE} (_saveView) - ${err}`, LogLevel.Error);
+      Logger.write(`${this.LOG_SOURCE} (_deleteView) - ${err}`, LogLevel.Error);
     }
   }
 
@@ -214,7 +240,7 @@ export default class TeamTimes extends React.Component<ITeamTimesProps, ITeamTim
         this._handleRefresh({ showProfile: false });
       }
     } catch (err) {
-      Logger.write(`${this.LOG_SOURCE} (_saveView) - ${err}`, LogLevel.Error);
+      Logger.write(`${this.LOG_SOURCE} (_addMember) - ${err}`, LogLevel.Error);
     }
   }
 
@@ -226,7 +252,7 @@ export default class TeamTimes extends React.Component<ITeamTimesProps, ITeamTim
         this.setState({ showProfile: false });
       }
     } catch (err) {
-      Logger.write(`${this.LOG_SOURCE} (_saveView) - ${err}`, LogLevel.Error);
+      Logger.write(`${this.LOG_SOURCE} (_saveMember) - ${err}`, LogLevel.Error);
     }
   }
 
@@ -242,34 +268,28 @@ export default class TeamTimes extends React.Component<ITeamTimesProps, ITeamTim
     }
   }
 
-  // private _updateCurrentView = () => {
-  //   try {
-  //     const config = cloneDeep(wc.Config);
-  //     let v = find(config.views, { viewId: this.state.currentView });
-  //     let timeZoneView = this._sortTimeZones(v);
-  //     this.setState({ timeZoneView: timeZoneView, showProfile: false });
-  //   } catch (err) {
-  //     Logger.write(`${this.LOG_SOURCE} (_updateCurrentView) - ${err}`, LogLevel.Error);
-  //   }
-  // }
-
   private _cancelProfile = () => {
     try {
       this._showProfile(false);
     } catch (err) {
-      Logger.write(`${this.LOG_SOURCE} (_cancelView) - ${err}`, LogLevel.Error);
+      Logger.write(`${this.LOG_SOURCE} (_cancelProfile) - ${err}`, LogLevel.Error);
     }
   }
 
   private _getManageViewOptions() {
     let options: IButtonOption[] = [];
-    wc.Config.views.map((v) => {
-      options.push({ iconType: Icons.TeamView, label: v.viewName, onClick: this._changeView });
-    });
-    options.push({ iconType: Icons.Edit, label: strings.EditCurrentViewLabel, onClick: this._addNewView });
-    options.push({ iconType: Icons.Plus, label: strings.AddNewViewLabel, onClick: this._addNewView });
+    try {
+      wc.Config.views.map((v) => {
+        options.push({ iconType: Icons.TeamView, label: v.viewName, onClick: this._changeView });
+      });
+      options.push({ iconType: Icons.Edit, label: strings.EditCurrentViewLabel, onClick: this._addNewView });
+      options.push({ iconType: Icons.Plus, label: strings.AddNewViewLabel, onClick: this._addNewView });
+    } catch (err) {
+      Logger.write(`${this.LOG_SOURCE} (_getManageViewOptions) - ${err}`, LogLevel.Error);
+    }
     return options;
   }
+
   private _changeView = (viewName: string) => {
     try {
       const views = cloneDeep(this.state.views);
@@ -280,6 +300,7 @@ export default class TeamTimes extends React.Component<ITeamTimesProps, ITeamTim
       Logger.write(`${this.LOG_SOURCE} (_changeView) - ${err}`, LogLevel.Error);
     }
   }
+
   private _addNewView = (viewName: string) => {
     try {
       if (viewName == strings.AddNewViewLabel) {
@@ -287,7 +308,7 @@ export default class TeamTimes extends React.Component<ITeamTimesProps, ITeamTim
       }
       this._changeManageViewsVisibility(true);
     } catch (err) {
-      Logger.write(`${this.LOG_SOURCE} (_changeView) - ${err}`, LogLevel.Error);
+      Logger.write(`${this.LOG_SOURCE} (_addNewView) - ${err}`, LogLevel.Error);
     }
   }
 
@@ -311,7 +332,26 @@ export default class TeamTimes extends React.Component<ITeamTimesProps, ITeamTim
               onClick={() => this._showManageMembers(true)} />
           </div>
           <div className="hoo-wcs">
-            {this.state.timeZoneView.map((m, index) => {
+            {this.state.timeZoneView.map((styleGroup, index) => {
+              return (
+                <div className={`${styleGroup.style}`}>
+                  {styleGroup.offsetGroup.map((offsetGroup) => {
+                    return (
+                      <TimeCard
+                        userId={wc.CurrentUser.personId}
+                        members={offsetGroup.members}
+                        currentTimeZone={wc.IANATimeZone}
+                        currentTime={this.state.currentTime}
+                        addToMeeting={this.props.addToMeeting}
+                        meetingMembers={this.props.meetingMembers}
+                        editProfile={this._showProfile} />
+                    )
+                  })}
+                </div>
+              );
+            })}
+          </div>
+          {/* {this.state.timeZoneView.map((m, index) => {
               return (<div className={`${m.style} ${(index == 0) ? "first" : (index == this.state.timeZoneView.length - 1) ? "last" : ""}`}>
                 {m.cardItems.map((ci) => {
                   let members: IPerson[] = ci.members as IPerson[];
@@ -325,8 +365,7 @@ export default class TeamTimes extends React.Component<ITeamTimesProps, ITeamTim
                     editProfile={this._showProfile} />);
                 })}
               </div>);
-            })}
-          </div>
+            })} */}
           {this.state.showManageViews &&
             <Dialog
               header={(this.state.needsConfig) ? strings.ConfigureViewsTitle : strings.ManageViewsTitle}

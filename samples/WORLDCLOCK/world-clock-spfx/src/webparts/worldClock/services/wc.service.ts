@@ -34,7 +34,7 @@ export class WorldClockService implements IWorldClockService {
 
   private _wcm: IWorldClockMemberService = new WorldClockMemberService();
   private _ready: boolean = false;
-  //private _refresh: boolean = false;
+  private _needsConfigRefresh: boolean = false;
   private _configRefresh: () => void;
   private _configType: CONFIG_TYPE = CONFIG_TYPE.Team;
   private _userLogin: string = "";
@@ -85,6 +85,10 @@ export class WorldClockService implements IWorldClockService {
 
   public set ConfigRefresh(value: () => void) {
     this._configRefresh = value;
+    if (this._needsConfigRefresh) {
+      this._configRefresh();
+      this._needsConfigRefresh = false;
+    }
   }
 
   // public get Refresh(): boolean {
@@ -168,6 +172,8 @@ export class WorldClockService implements IWorldClockService {
         this._wcm.UpdateTimezones(this._currentConfig.members).then(() => {
           if (typeof this._configRefresh === "function") {
             this._configRefresh();
+          } else {
+            this._needsConfigRefresh = true;
           }
           this.UpdateConfig(undefined, newFile);
         });
@@ -177,8 +183,11 @@ export class WorldClockService implements IWorldClockService {
             if (updateTeam || updateTimezones) {
               if (typeof this._configRefresh === "function") {
                 this._configRefresh();
+              } else {
+                this._needsConfigRefresh = true;
               }
               this.UpdateConfig();
+              this._ready = true;
             }
           });
         });
