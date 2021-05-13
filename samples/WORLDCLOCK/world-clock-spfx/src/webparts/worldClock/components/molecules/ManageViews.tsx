@@ -1,6 +1,6 @@
 import * as React from "react";
 import { Logger, LogLevel } from "@pnp/logging";
-import { cloneDeep, filter, find, includes, isEqual, remove, sortBy, startsWith } from "lodash";
+import { cloneDeep, filter, find, indexOf, isEqual, sortBy } from "lodash";
 import styles from "../WorldClock.module.scss";
 import DropDown, { IDropDownOption } from "../atoms/DropDown";
 import { IPerson, IWCView, WCView } from "../../models/wc.models";
@@ -9,12 +9,13 @@ import CheckBox from "../atoms/CheckBox";
 import TextBox from "../atoms/TextBox";
 import Button from "../atoms/Button";
 import strings from "WorldClockWebPartStrings";
-import Persona, { Presence, Size } from "./Persona";
 import SearchBox from "../atoms/SearchBox";
+import Avatar, { Size } from "../atoms/Avatar";
 
 export interface IManageViewsProps {
   save: (currentView: IWCView, isDefault: boolean) => void;
   cancel: () => void;
+  delete: (currentView: IWCView) => void;
 }
 
 export interface IManageViewsState {
@@ -58,7 +59,8 @@ export default class ManageViews extends React.Component<IManageViewsProps, IMan
       if (wc.Config.defaultViewId == defaultView.viewId) {
         isDefault = true;
       }
-      this.state = new ManageViewsState(wc.Config.members, defaultView.viewName, defaultView, isDefault);
+      let currentMembers = sortBy(wc.Config.members, (o) => { return o.displayName; });
+      this.state = new ManageViewsState(currentMembers, defaultView.viewName, defaultView, isDefault);
       this._viewOptions = wc.Config.views.map((v) => { return { key: v.viewName, text: v.viewName }; });
       this._viewOptions.unshift({ key: -1, text: strings.NewViewTitle });
     } catch (err) {
@@ -84,7 +86,7 @@ export default class ManageViews extends React.Component<IManageViewsProps, IMan
   private _onSearchChange = (fieldValue: string, fieldName: string) => {
     try {
       const members = cloneDeep(wc.Config.members);
-      let searchMembers = filter(members, (m) => { return m.displayName.toLowerCase().indexOf(fieldValue.toLowerCase()) > -1; });
+      let searchMembers = sortBy(filter(members, (m) => { return m.displayName.toLowerCase().indexOf(fieldValue.toLowerCase()) > -1; }), (o) => { return o.displayName; });
       this.setState({ searchMembers: searchMembers, searchString: fieldValue });
     } catch (err) {
       Logger.write(`${this.LOG_SOURCE} (_onTextChange) - ${err}`, LogLevel.Error);
@@ -157,7 +159,7 @@ export default class ManageViews extends React.Component<IManageViewsProps, IMan
             <TextBox name="viewName" value={this.state.currentView.viewName} onChange={this._onTextChange} />
             <div className={styles.membersList}>
               <div className={styles.textLabel}>{strings.ViewMembersHeader}</div>
-              {sortBy(this.state.currentView.members, 'firstName').map((m) => {
+              {this.state.currentView.members.map((m) => {
                 let isChecked: boolean = true;
                 const member = find(wc.Config.members, { personId: m });
                 return (
@@ -169,14 +171,8 @@ export default class ManageViews extends React.Component<IManageViewsProps, IMan
                         value={isChecked}
                         onChange={this._onMemberCheckBoxChange}
                         showLabel={false} />
-                      <Persona
-                        size={Size.FortyEight}
-                        src={member.photoUrl}
-                        showPresence={false}
-                        presence={Presence.PresenceUnknown}
-                        status={""}
-                        name={member.displayName}
-                        jobTitle={""} />
+                      <Avatar size={Size.ThirtyTwo} name={member.displayName} src={member.photoUrl} />
+                      <span className="center-vertical">{member.displayName}</span>
                     </div>
                   </div>);
               })}
@@ -188,16 +184,15 @@ export default class ManageViews extends React.Component<IManageViewsProps, IMan
                 <div className={styles.textLabel}>{strings.AddViewMembersHeader}</div>
                 <SearchBox name="Search" value={this.state.searchString} onChange={this._onSearchChange} />
               </div>
-              {sortBy(this.state.searchMembers, 'firstName').map((m) => {
+              {this.state.searchMembers.map((m) => {
                 let isChecked: boolean = false;
                 if (this.state.currentView.members.length > 0) {
-                  this.state.currentView.members.map((o, index) => {
-                    if (m.personId == o) {
-                      isChecked = true;
-                    }
-                  });
+                  let found = indexOf(this.state.currentView.members, m.personId);
+                  if (found > -1) {
+                    isChecked = true;
+                  }
                 }
-                return ((isChecked == false) &&
+                return ((!isChecked) &&
                   <div className={`${styles.memberContainer}`}>
                     <div className="memberPersona">
                       <CheckBox
@@ -206,14 +201,8 @@ export default class ManageViews extends React.Component<IManageViewsProps, IMan
                         value={isChecked}
                         onChange={this._onMemberCheckBoxChange}
                         showLabel={false} />
-                      <Persona
-                        size={Size.FortyEight}
-                        src={m.photoUrl}
-                        showPresence={false}
-                        presence={Presence.PresenceUnknown}
-                        status={""}
-                        name={m.displayName}
-                        jobTitle={""} />
+                      <Avatar size={Size.ThirtyTwo} name={m.displayName} src={m.photoUrl} />
+                      <span className="center-vertical">{m.displayName}</span>
                     </div>
                   </div>);
               })}
@@ -223,6 +212,7 @@ export default class ManageViews extends React.Component<IManageViewsProps, IMan
             <div className={styles.buttons} >
               <Button className="hoo-button-primary" disabled={false} label={strings.SaveLabel} onClick={() => this.props.save(this.state.currentView, this.state.isDefault)} />
               <Button className="hoo-button" disabled={false} label={strings.CancelLabel} onClick={() => this.props.cancel()} />
+              <Button className="hoo-button" disabled={false} label={strings.DeleteViewLabel} onClick={() => this.props.delete(this.state.currentView)} />
             </div>
           </div>
         </div>

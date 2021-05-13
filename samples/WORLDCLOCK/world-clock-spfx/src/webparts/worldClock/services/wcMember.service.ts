@@ -10,6 +10,7 @@ import { wc } from './wc.service';
 import { IConfig, IPerson, Config, CONFIG_TYPE, Person, PERSON_TYPE, WCView, Team, ITimeZone, TimeZone } from "../models/wc.models";
 import { forEach, flatMap, includes, findIndex, filter } from "lodash";
 import { IANAZone, DateTime } from "luxon";
+import strings from "WorldClockWebPartStrings";
 
 export interface IWorldClockMemberService {
   GenerateConfig: () => Promise<IConfig>;
@@ -40,7 +41,7 @@ export class WorldClockMemberService implements IWorldClockMemberService {
       }
       if (wcConfig.members.length <= 20) {
         //Create Default View     
-        const view = new WCView("0", "Default", flatMap(wcConfig.members, (o) => { return o.personId; }));
+        const view = new WCView("0", strings.DefaultViewTitle, flatMap(wcConfig.members, (o) => { return o.personId; }));
         wcConfig.defaultViewId = "0";
         wcConfig.views.push(view);
       }

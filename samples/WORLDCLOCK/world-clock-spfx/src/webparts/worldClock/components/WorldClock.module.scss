@@ -405,6 +405,14 @@
       @include gridSpan(9, 4);
     }
 
+    .two-thirds {
+      @include gridSpan(9);
+    }
+
+    .one-third {
+      @include gridSpan(3);
+    }
+
   }
 
   font-family: "Segoe UI",
