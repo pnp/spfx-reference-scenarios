@@ -413,6 +413,10 @@
       @include gridSpan(3);
     }
 
+    .full-width {
+      @include gridSpan(12);
+    }
+
   }
 
   font-family: "Segoe UI",
@@ -425,13 +429,6 @@
   sans-serif;
   color: $bodyText;
 
-
-
-  .buttons {
-    display: flex;
-    gap: px2rem(16px);
-
-  }
 
   .textbox {
     width: 100%;

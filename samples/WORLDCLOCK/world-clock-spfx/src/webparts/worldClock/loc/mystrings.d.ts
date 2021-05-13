@@ -8,9 +8,7 @@ declare interface IWorldClockWebPartStrings {
   ManageMembersTitle: string;
   ManageMembersFilterPlaceholder: string;
   ManageMembersContent: string;
-  SelectAViewHeader: string;
   ViewTitleHeader: string;
-  ViewMembersHeader: string;
   AddViewMembersHeader: string;
   MakeDefaultViewHeader: string;
   MakeDefaultViewLabel: string;
@@ -23,7 +21,8 @@ declare interface IWorldClockWebPartStrings {
   SaveLabel: string;
   CancelLabel: string;
   ManageViewsLabel: string;
-  AddEditViewLabel: string;
+  AddNewViewLabel: string;
+  EditCurrentViewLabel: string;
   TrashLabel: string;
   RemoveFromTeamLabel: string;
   AddMemberLabel: string;
