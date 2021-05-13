@@ -83,7 +83,7 @@ export default class TeamTimes extends React.Component<ITeamTimesProps, ITeamTim
     return true;
   }
 
-  private _handleRefresh(newState?: any) {
+  private _handleRefresh = (newState?: any) => {
     try {
       const timeZoneView = this._sortTimeZones(wc.Config.views[this.state.currentView]);
       if (newState == undefined) {

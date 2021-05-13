@@ -84,27 +84,28 @@ export class WorldClockService implements IWorldClockService {
   }
 
   public set ConfigRefresh(value: () => void) {
-    this._configRefresh = value;
-    if (this._needsConfigRefresh) {
-      this._configRefresh();
-      this._needsConfigRefresh = false;
+    try {
+      this._configRefresh = value;
+      if (this._needsConfigRefresh) {
+        this._configRefresh();
+        this._needsConfigRefresh = false;
+      }
+    } catch (err) {
+      Logger.write(`${this.LOG_SOURCE} (ConfigRefresh) - ${err.message}`, LogLevel.Error);
     }
   }
 
-  // public get Refresh(): boolean {
-  //   return this._refresh;
-  // }
-
-  // public set Refresh(value: boolean) {
-  //   this._refresh = value;
-  // }
-
   public get CurrentUser(): IPerson {
-    if (this._configType === CONFIG_TYPE.Team) {
-      const currentUser = find(this._currentConfig.members, { userPrincipal: this._userLogin });
-      return currentUser;
-    } else {
-      return this._currentConfig.configPerson;
+    try {
+      if (this._configType === CONFIG_TYPE.Team) {
+        const currentUser = find(this._currentConfig.members, { userPrincipal: this._userLogin });
+        return currentUser;
+      } else {
+        return this._currentConfig.configPerson;
+      }
+    } catch (err) {
+      Logger.write(`${this.LOG_SOURCE} (CurrentUser) - ${err.message}`, LogLevel.Error);
+      return null;
     }
   }
 
@@ -169,27 +170,19 @@ export class WorldClockService implements IWorldClockService {
       if (this._currentConfig == undefined) {
         newFile = true;
         this._currentConfig = await this._wcm.GenerateConfig();
-        this._wcm.UpdateTimezones(this._currentConfig.members).then(() => {
-          if (typeof this._configRefresh === "function") {
-            this._configRefresh();
-          } else {
-            this._needsConfigRefresh = true;
-          }
-          this.UpdateConfig(undefined, newFile);
-        });
+        this._wcm.UpdateTimezones(this._currentConfig.members);
+        this.UpdateConfig(undefined, newFile);
       } else {
         this._wcm.UpdateTeamMembers(this._currentConfig.members).then((updateTeam) => {
-          this._wcm.UpdateTimezones(this._currentConfig.members).then((updateTimezones) => {
-            if (updateTeam || updateTimezones) {
-              if (typeof this._configRefresh === "function") {
-                this._configRefresh();
-              } else {
-                this._needsConfigRefresh = true;
-              }
-              this.UpdateConfig();
-              this._ready = true;
+          const updateTimezones = this._wcm.UpdateTimezones(this._currentConfig.members);
+          if (updateTeam || updateTimezones) {
+            if (typeof this._configRefresh === "function") {
+              this._configRefresh();
+            } else {
+              this._needsConfigRefresh = true;
             }
-          });
+            this.UpdateConfig();
+          }
         });
       }
 
@@ -302,10 +295,11 @@ export class WorldClockService implements IWorldClockService {
 
         if (members?.length > 0) {
           forEach(members, (o) => {
-            if (o.userPrincipalName?.toLowerCase() === wc.UserLogin.toLowerCase()) { return; }
-            const ext = (o.userType.toLowerCase() == "member") ? false : true;
-            const p = new Person(o.id, o.userPrincipalName, (ext) ? PERSON_TYPE.LocGuest : PERSON_TYPE.Employee, o.displayName, o.jobTitle, o.mail, null, null);
-            retVal.push(p);
+            if (o.userPrincipalName?.toLowerCase() !== wc.UserLogin.toLowerCase()) {
+              const ext = (o.userType.toLowerCase() == "member") ? false : true;
+              const p = new Person(o.id, o.userPrincipalName, (ext) ? PERSON_TYPE.LocGuest : PERSON_TYPE.Employee, o.displayName, o.jobTitle, o.mail);
+              retVal.push(p);
+            }
           });
         }
       }
@@ -323,12 +317,8 @@ export class WorldClockService implements IWorldClockService {
       if (memberIdx === -1) {
         this._currentConfig.members.push(newMember);
         retVal = true;
-        this._wcm.UpdateTimezones(this._currentConfig.members).then(() => {
-          // if (typeof this._configRefresh === "function") {
-          //   this._configRefresh();
-          // }
-          this.UpdateConfig();
-        });
+        this._wcm.UpdateTimezones(this._currentConfig.members);
+        this.UpdateConfig();
       }
     } catch (err) {
       Logger.write(`${this.LOG_SOURCE} (AddMember) - ${err.message}`, LogLevel.Error);
@@ -342,12 +332,11 @@ export class WorldClockService implements IWorldClockService {
       const memberIdx = findIndex(this._currentConfig.members, { personId: member.personId });
       if (memberIdx > -1) {
         this._currentConfig.members[memberIdx] = member;
-        this._wcm.UpdateTimezones(this._currentConfig.members).then(() => {
-          if (typeof this._configRefresh === "function") {
-            this._configRefresh();
-          }
-          this.UpdateConfig();
-        });
+        this._wcm.UpdateTimezones(this._currentConfig.members);
+        if (typeof this._configRefresh === "function") {
+          this._configRefresh();
+        }
+        this.UpdateConfig();
         retVal = true;
       }
     } catch (err) {

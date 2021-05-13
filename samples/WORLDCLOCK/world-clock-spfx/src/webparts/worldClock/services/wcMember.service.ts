@@ -14,7 +14,7 @@ import strings from "WorldClockWebPartStrings";
 
 export interface IWorldClockMemberService {
   GenerateConfig: () => Promise<IConfig>;
-  UpdateTimezones: (members: IPerson[]) => Promise<boolean>;
+  UpdateTimezones: (members: IPerson[]) => boolean;
   GetAvailableTimeZones: () => Promise<ITimeZone[]>;
   UpdateTeamMembers(members: IPerson[]): Promise<boolean>;
 }
@@ -33,7 +33,7 @@ export class WorldClockMemberService implements IWorldClockMemberService {
         wcConfig.configTeam = new Team(wc.GroupId, wc.TeamName);
       } else {
         const current = await graph.me.select("id,userPrincipalName,displayName,jobTitle,user").get<{ id: string, userPrincipalName: string, displayName: string, jobTitle: string, mail: string }>();
-        wcConfig.configPerson = new Person(current.id, current.userPrincipalName, PERSON_TYPE.Employee, current.displayName, current.jobTitle, current.mail, "", wc.IANATimeZone);
+        wcConfig.configPerson = new Person(current.id, current.userPrincipalName, PERSON_TYPE.Employee, current.displayName, current.jobTitle, current.mail, "", null, wc.IANATimeZone);
       }
       wcConfig.members = await this._getTeamMembers();
       if (wcConfig.configPerson != undefined) {
@@ -66,9 +66,12 @@ export class WorldClockMemberService implements IWorldClockMemberService {
         if (people.length > 0) {
           members = [];
           forEach(people, (o) => {
-            const memberIdx = findIndex(members, { id: o.id });
-            if (memberIdx === -1) {
-              members.push({ id: o.id, userPrincipalName: o.userPrincipalName, displayName: o.displayName, jobTitle: o.jobTitle, mail: o.scoredEmailAddresses[0].address, userType: (o.personType.subclass === 'OrganizationUser') ? "Member" : "Guest" });
+            const skip = (o.userPrincipalName == undefined) ? false : (o.userPrincipalName.toLowerCase() === wc.UserLogin.toLowerCase());
+            if (!skip) {
+              const memberIdx = findIndex(members, { id: o.id });
+              if (memberIdx === -1) {
+                members.push({ id: o.id, userPrincipalName: o.userPrincipalName, displayName: o.displayName, jobTitle: o.jobTitle, mail: o.scoredEmailAddresses[0].address, userType: (o.personType.subclass === 'OrganizationUser') ? "Member" : "Guest" });
+              }
             }
           });
         }
@@ -77,7 +80,7 @@ export class WorldClockMemberService implements IWorldClockMemberService {
         forEach(members, (o) => {
           const ext = (o.userType.toLowerCase() == "member") ? false : true;
           const currentZone = (o.userPrincipalName?.toLowerCase() === wc.UserLogin.toLowerCase()) ? wc.IANATimeZone : null;
-          const p = new Person(o.id, o.userPrincipalName, (ext) ? PERSON_TYPE.LocGuest : PERSON_TYPE.Employee, o.displayName, o.jobTitle, o.mail, null, currentZone);
+          const p = new Person(o.id, o.userPrincipalName, (ext) ? PERSON_TYPE.LocGuest : PERSON_TYPE.Employee, o.displayName, o.jobTitle, o.mail, null, null, currentZone);
           retVal.push(p);
         });
       }
@@ -130,7 +133,7 @@ export class WorldClockMemberService implements IWorldClockMemberService {
     return retVal;
   }
 
-  public async UpdateTimezones(members: IPerson[]): Promise<boolean> {
+  public UpdateTimezones(members: IPerson[]): boolean {
     let hasChanged: boolean = false;
     try {
       const now = DateTime.utc().millisecond;
