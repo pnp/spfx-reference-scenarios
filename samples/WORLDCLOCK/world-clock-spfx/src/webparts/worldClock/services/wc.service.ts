@@ -282,25 +282,26 @@ export class WorldClockService implements IWorldClockService {
           .select("id,displayName,jobTitle,mail,userPrincipalName,userType")
           .filter(`startswith(displayName,'${query}')`)
           .get<{ id: string, userPrincipalName: string, displayName: string, jobTitle: string, mail: string, userType: string }[]>();
-        const people = await graph.me.people.top(20)
-          .select("id,displayName,jobTitle,userPrincipalName,scoredEmailAddresses,personType")
-          .filter(`startswith(displayName,'${query}')`)
-          .get<{ id: string, userPrincipalName: string, displayName: string, jobTitle: string, scoredEmailAddresses: { address: string }[], personType: { class: string, subclass: string } }[]>();
-        forEach(people, (o) => {
-          if (find(members, { personId: o.id }) == null) {
-            members.push({ id: o.id, userPrincipalName: o.userPrincipalName, displayName: o.displayName, jobTitle: o.jobTitle, mail: o.scoredEmailAddresses[0].address, userType: (o.personType.subclass === 'OrganizationUser') ? "Member" : "Guest" });
-          }
-        });
-        members = sortBy(members, "displayName");
-
-        if (members?.length > 0) {
-          forEach(members, (o) => {
-            if (o.userPrincipalName?.toLowerCase() !== wc.UserLogin.toLowerCase()) {
-              const ext = (o.userType.toLowerCase() == "member") ? false : true;
-              const p = new Person(o.id, o.userPrincipalName, (ext) ? PERSON_TYPE.LocGuest : PERSON_TYPE.Employee, o.displayName, o.jobTitle, o.mail);
-              retVal.push(p);
+        const people = await graphGet<{ id: string, userPrincipalName: string, displayName: string, jobTitle: string, scoredEmailAddresses: { address: string }[], personType: { class: string, subclass: string } }[]>(
+          GraphQueryable(graph.me.toUrl(), `people?$search="${query}"&$select=id,displayName,jobTitle,userPrincipalName,scoredEmailAddresses,personType`)
+        );
+        if (people.length > 0) {
+          forEach(people, (o) => {
+            if (find(members, { personId: o.id }) == null) {
+              members.push({ id: o.id, userPrincipalName: o.userPrincipalName, displayName: o.displayName, jobTitle: o.jobTitle, mail: o.scoredEmailAddresses[0].address, userType: (o.personType.subclass === 'OrganizationUser') ? "Member" : "Guest" });
             }
           });
+          members = sortBy(members, "displayName");
+
+          if (members?.length > 0) {
+            forEach(members, (o) => {
+              if (o.userPrincipalName?.toLowerCase() !== wc.UserLogin.toLowerCase()) {
+                const ext = (o.userType.toLowerCase() == "member") ? false : true;
+                const p = new Person(o.id, o.userPrincipalName, (ext) ? PERSON_TYPE.LocGuest : PERSON_TYPE.Employee, o.displayName, o.jobTitle, o.mail);
+                retVal.push(p);
+              }
+            });
+          }
         }
       }
     } catch (err) {
