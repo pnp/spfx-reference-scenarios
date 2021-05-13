@@ -17,6 +17,7 @@ import { IConfig, IPerson, CONFIG_TYPE, Person, PERSON_TYPE, ITimeZone } from ".
 import { WorldClockMemberService, IWorldClockMemberService } from "./wcMember.service";
 
 export interface IWorldClockService {
+  ConfigRefresh(value: () => void);
   Init(loginName: string, locale: string, siteUrl: string, groupId: string, teamName: string, configType: CONFIG_TYPE): Promise<void>;
   UpdateConfig(config?: IConfig, newFile?: boolean): Promise<boolean>;
   GetTeamMembers(members: string[]): IPerson[];
@@ -33,12 +34,12 @@ export class WorldClockService implements IWorldClockService {
 
   private _wcm: IWorldClockMemberService = new WorldClockMemberService();
   private _ready: boolean = false;
-  private _refresh: boolean = false;
+  //private _refresh: boolean = false;
+  private _configRefresh: () => void;
   private _configType: CONFIG_TYPE = CONFIG_TYPE.Team;
   private _userLogin: string = "";
   private _siteUrl: string = "";
   private _locale: string = "us";
-  private _configDriveId: string = "";
   private _configItemId: string = "";
   private _groupId: string = "";
   private _teamName: string = "";
@@ -82,13 +83,17 @@ export class WorldClockService implements IWorldClockService {
     return this._teamName;
   }
 
-  public get Refresh(): boolean {
-    return this._refresh;
+  public set ConfigRefresh(value: () => void) {
+    this._configRefresh = value;
   }
 
-  public set Refresh(value: boolean) {
-    this._refresh = value;
-  }
+  // public get Refresh(): boolean {
+  //   return this._refresh;
+  // }
+
+  // public set Refresh(value: boolean) {
+  //   this._refresh = value;
+  // }
 
   public get CurrentUser(): IPerson {
     if (this._configType === CONFIG_TYPE.Team) {
@@ -122,13 +127,10 @@ export class WorldClockService implements IWorldClockService {
   private _readFileAsync(file) {
     return new Promise((resolve, reject) => {
       const reader = new FileReader();
-
       reader.onload = () => {
         resolve(reader.result);
       };
-
       reader.onerror = reject;
-
       reader.readAsArrayBuffer(file);
     });
   }
@@ -149,7 +151,6 @@ export class WorldClockService implements IWorldClockService {
         }
       } else {
         try {
-          ///me/drive/root:/{item-path}:/content
           const file = await graphGet(GraphQueryable(graph.me.drive.toUrl(), `root:/${this.CONFIG_FOLDER}/${this.CONFIG_FILE_NAME}:/`));
           this._configItemId = file.id;
           const fileContents = await graph.me.drive.getItemById(this._configItemId).getContent();
@@ -164,12 +165,22 @@ export class WorldClockService implements IWorldClockService {
       if (this._currentConfig == undefined) {
         newFile = true;
         this._currentConfig = await this._wcm.GenerateConfig();
-      } else {
-        this._wcm.UpdateTimezones(this._currentConfig.members).then((hasUpdate) => {
-          if (hasUpdate) {
-            this._refresh = true;
-            this.UpdateConfig();
+        this._wcm.UpdateTimezones(this._currentConfig.members).then(() => {
+          if (typeof this._configRefresh === "function") {
+            this._configRefresh();
           }
+          this.UpdateConfig(undefined, newFile);
+        });
+      } else {
+        this._wcm.UpdateTeamMembers(this._currentConfig.members).then((updateTeam) => {
+          this._wcm.UpdateTimezones(this._currentConfig.members).then((updateTimezones) => {
+            if (updateTeam || updateTimezones) {
+              if (typeof this._configRefresh === "function") {
+                this._configRefresh();
+              }
+              this.UpdateConfig();
+            }
+          })
         });
       }
 
@@ -184,7 +195,6 @@ export class WorldClockService implements IWorldClockService {
           }
         });
       }
-      this.UpdateConfig(undefined, newFile);
     } catch (err) {
       Logger.write(`${this.LOG_SOURCE} (_getConfig) - ${err} - `, LogLevel.Error);
     }
@@ -241,15 +251,18 @@ export class WorldClockService implements IWorldClockService {
     let retVal: boolean = false;
     try {
       forEach(this._currentConfig.views, (v) => {
-        const memberIdx = v.members.indexOf(member.personId);
-        if (memberIdx > -1) {
-          v.members.splice(memberIdx, 1);
+        const viewIdx = v.members.indexOf(member.personId);
+        if (viewIdx > -1) {
+          v.members.splice(viewIdx, 1);
         }
       });
       const memberIdx = findIndex(this._currentConfig.members, { personId: member.personId });
       if (memberIdx > -1) {
         this._currentConfig.members.splice(memberIdx, 1);
       }
+      // if (typeof this._configRefresh === "function") {
+      //   this._configRefresh();
+      // }
       this.UpdateConfig();
       retVal = true;
     } catch (err) {
@@ -262,34 +275,30 @@ export class WorldClockService implements IWorldClockService {
     let retVal: IPerson[] = [];
     try {
       let members: { id: string, userPrincipalName: string, displayName: string, jobTitle: string, mail: string, userType: string }[] = null;
-      if (this._configType === CONFIG_TYPE.Team && this._groupId.length > 0) {
-        //TODO: Julie can you please double check this. I had to make changes to the call and the graph setup to make this work.
-        //https://graph.microsoft.com/v1.0/groups/2832d349-ef5e-4a71-b780-5b663d151890/members/microsoft.graph.user?$count=true&$orderby=displayName&$search="displayName:ca"&$select=displayName,id
-
-        members = await graphGet<{ id: string, userPrincipalName: string, displayName: string, jobTitle: string, mail: string, userType: string }[]>(
-          GraphQueryable(graph.groups.getById(wc.GroupId).toUrl(), `members/microsoft.graph.user?$count=true&$orderby=displayName&$search="displayName:${query}"&$select=id,displayName,jobTitle,mail,userPrincipalName,userType`)
-        );
-      } else if (this._configType === CONFIG_TYPE.Personal) {
-
+      if (this._configType === CONFIG_TYPE.Personal) {
+        members = await graph.users.top(20)
+          .select("id,displayName,jobTitle,mail,userPrincipalName,userType")
+          .filter(`startswith(displayName,'${query}')`)
+          .get<{ id: string, userPrincipalName: string, displayName: string, jobTitle: string, mail: string, userType: string }[]>();
         const people = await graph.me.people.top(20)
           .select("id,displayName,jobTitle,userPrincipalName,scoredEmailAddresses,personType")
-          .filter("startswith(displayName,'${query}')")
+          .filter(`startswith(displayName,'${query}')`)
           .get<{ id: string, userPrincipalName: string, displayName: string, jobTitle: string, scoredEmailAddresses: { address: string }[], personType: { class: string, subclass: string } }[]>();
-        const peopleMembers = people.map((o) => { return { id: o.id, userPrincipalName: o.userPrincipalName, displayName: o.displayName, jobTitle: o.jobTitle, mail: o.scoredEmailAddresses[0].address, userType: (o.personType.subclass === 'OrganizationUser') ? "Member" : "Guest" } });
-        const userMembers = await graph.users.top(20)
-          .select("id,displayName,jobTitle,mail,userPrincipalName,userType")
-          .filter("startswith(displayName,'${query}')")
-          .get<{ id: string, userPrincipalName: string, displayName: string, jobTitle: string, mail: string, userType: string }[]>();
-        members = userMembers.concat(peopleMembers);
-        members = sortBy(members, "displayName");
-      }
-      if (members?.length > 0) {
-        forEach(members, (o) => {
-          if (o.userPrincipalName?.toLowerCase() === wc.UserLogin.toLowerCase()) { return; }
-          const ext = (o.userType.toLowerCase() == "member") ? false : true;
-          const p = new Person(o.id, o.userPrincipalName, (ext) ? PERSON_TYPE.LocGuest : PERSON_TYPE.Employee, o.displayName, o.jobTitle, o.mail, null, null);
-          retVal.push(p);
+        forEach(people, (o) => {
+          if (find(members, { personId: o.id }) == null) {
+            members.push({ id: o.id, userPrincipalName: o.userPrincipalName, displayName: o.displayName, jobTitle: o.jobTitle, mail: o.scoredEmailAddresses[0].address, userType: (o.personType.subclass === 'OrganizationUser') ? "Member" : "Guest" });
+          }
         });
+        members = sortBy(members, "displayName");
+
+        if (members?.length > 0) {
+          forEach(members, (o) => {
+            if (o.userPrincipalName?.toLowerCase() === wc.UserLogin.toLowerCase()) { return; }
+            const ext = (o.userType.toLowerCase() == "member") ? false : true;
+            const p = new Person(o.id, o.userPrincipalName, (ext) ? PERSON_TYPE.LocGuest : PERSON_TYPE.Employee, o.displayName, o.jobTitle, o.mail, null, null);
+            retVal.push(p);
+          });
+        }
       }
     } catch (err) {
       Logger.write(`${this.LOG_SOURCE} (SearchMember) - ${err.message}`, LogLevel.Error);
@@ -305,12 +314,11 @@ export class WorldClockService implements IWorldClockService {
       if (memberIdx === -1) {
         this._currentConfig.members.push(newMember);
         retVal = true;
-        this._wcm.UpdateTimezones(this._currentConfig.members).then((hasUpdate) => {
-          if (hasUpdate) {
-            this._refresh = true;
-            this.UpdateConfig();
-
-          }
+        this._wcm.UpdateTimezones(this._currentConfig.members).then(() => {
+          // if (typeof this._configRefresh === "function") {
+          //   this._configRefresh();
+          // }
+          this.UpdateConfig();
         });
       }
     } catch (err) {
@@ -322,23 +330,17 @@ export class WorldClockService implements IWorldClockService {
   public UpdateMember(member: IPerson): boolean {
     let retVal: boolean = false;
     try {
-      //Validate if exists
-      this._currentConfig.members.map((m, index) => {
-        if (m.personId == member.personId) {
-          this._currentConfig.members[index] = member;
-          retVal = true;
-        }
-      });
-      //TODO: Not sure we want to do this twice but we need to do it when the record is updated.
-      this._refresh = true;
-      this.UpdateConfig();
-      this._wcm.UpdateTimezones(this._currentConfig.members).then((hasUpdate) => {
-        if (hasUpdate) {
-          this._refresh = true;
+      const memberIdx = findIndex(this._currentConfig.members, { personId: member.personId });
+      if (memberIdx > -1) {
+        this._currentConfig.members[memberIdx] = member;
+        this._wcm.UpdateTimezones(this._currentConfig.members).then(() => {
+          if (typeof this._configRefresh === "function") {
+            this._configRefresh();
+          }
           this.UpdateConfig();
-
-        }
-      });
+        });
+        retVal = true;
+      }
     } catch (err) {
       Logger.write(`${this.LOG_SOURCE} (UpdateMember) - ${err.message}`, LogLevel.Error);
     }

@@ -1,10 +1,10 @@
 import * as React from "react";
 import { Logger, LogLevel } from "@pnp/logging";
-import { chain, cloneDeep, Dictionary, find, groupBy, isEqual, merge, sortBy } from "lodash";
+import { chain, cloneDeep, find, isEqual } from "lodash";
 import Dialog from "../molecules/Dialog";
 import strings from "WorldClockWebPartStrings";
 import ManageViews from "../molecules/ManageViews";
-import { IPerson, ISchedule, IWCView, WCView } from "../../models/wc.models";
+import { IPerson, IWCView } from "../../models/wc.models";
 import { wc } from "../../services/wc.service";
 import TimeCard from "../molecules/TimeCard";
 import { DateTime } from "luxon";
@@ -16,8 +16,6 @@ import ManageMembers from "../molecules/ManageMembers";
 import Button from "../atoms/Button";
 
 export interface ITeamTimesProps {
-  //currentUser: IPerson;
-  //currentTime: DateTime;
   addToMeeting: (IPerson) => void;
   meetingMembers: IPerson[];
   saveProfile: (person: IPerson) => Promise<boolean>;
@@ -59,6 +57,9 @@ export default class TeamTimes extends React.Component<ITeamTimesProps, ITeamTim
     try {
       let timeZoneView: any[];
       let needsConfig = false;
+
+      wc.ConfigRefresh = this._handleRefresh;
+
       if ((wc.Config.members.length > 20) && (wc.Config.views.length == 0)) {
         needsConfig = true;
       } else {
@@ -71,7 +72,6 @@ export default class TeamTimes extends React.Component<ITeamTimesProps, ITeamTim
     } catch (err) {
       Logger.write(`${this.LOG_SOURCE} (constructor) - ${err}`, LogLevel.Error);
     }
-
   }
 
   public shouldComponentUpdate(nextProps: Readonly<ITeamTimesProps>, nextState: Readonly<ITeamTimesState>) {
@@ -80,12 +80,14 @@ export default class TeamTimes extends React.Component<ITeamTimesProps, ITeamTim
     return true;
   }
 
-  public componentDidUpdate() {
-    if (wc.Refresh) {
-      wc.Refresh = false;
-      const timeZoneView = this._sortTimeZones(wc.Config.views[this.state.currentView]);
-      this.setState({ timeZoneView });
+  private _handleRefresh(newState?: any) {
+    const timeZoneView = this._sortTimeZones(wc.Config.views[this.state.currentView]);
+    if (newState == undefined) {
+      newState = { timeZoneView };
+    } else {
+      newState.timeZoneView = timeZoneView;
     }
+    this.setState(newState);
   }
 
   private async delay(ms: number): Promise<any> {
@@ -182,8 +184,7 @@ export default class TeamTimes extends React.Component<ITeamTimesProps, ITeamTim
       let success: boolean = false;
       success = await wc.AddMember(person);
       if (success) {
-        wc.Refresh = true;
-        this._updateCurrentView();
+        this._handleRefresh({ showProfile: false });
       }
     } catch (err) {
       Logger.write(`${this.LOG_SOURCE} (_saveView) - ${err}`, LogLevel.Error);
@@ -195,8 +196,7 @@ export default class TeamTimes extends React.Component<ITeamTimesProps, ITeamTim
       let success: boolean = false;
       success = await this.props.saveProfile(person);
       if (success) {
-        wc.Refresh = true;
-        this._updateCurrentView();
+        this.setState({ showProfile: false });
       }
     } catch (err) {
       Logger.write(`${this.LOG_SOURCE} (_saveView) - ${err}`, LogLevel.Error);
@@ -208,24 +208,23 @@ export default class TeamTimes extends React.Component<ITeamTimesProps, ITeamTim
       let success: boolean = false;
       success = wc.RemoveTeamMember(person);
       if (success) {
-        wc.Refresh = true;
-        this._updateCurrentView();
+        this._handleRefresh({ showProfile: false });
       }
     } catch (err) {
       Logger.write(`${this.LOG_SOURCE} (_saveView) - ${err}`, LogLevel.Error);
     }
   }
 
-  private _updateCurrentView = () => {
-    try {
-      const config = cloneDeep(wc.Config);
-      let v = find(config.views, { viewId: this.state.currentView });
-      let timeZoneView = this._sortTimeZones(v);
-      this.setState({ timeZoneView: timeZoneView, showProfile: false });
-    } catch (err) {
-      Logger.write(`${this.LOG_SOURCE} (_updateCurrentView) - ${err}`, LogLevel.Error);
-    }
-  }
+  // private _updateCurrentView = () => {
+  //   try {
+  //     const config = cloneDeep(wc.Config);
+  //     let v = find(config.views, { viewId: this.state.currentView });
+  //     let timeZoneView = this._sortTimeZones(v);
+  //     this.setState({ timeZoneView: timeZoneView, showProfile: false });
+  //   } catch (err) {
+  //     Logger.write(`${this.LOG_SOURCE} (_updateCurrentView) - ${err}`, LogLevel.Error);
+  //   }
+  // }
 
   private _cancelProfile = () => {
     try {

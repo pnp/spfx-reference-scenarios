@@ -164,7 +164,7 @@ export default class ManageMembers extends React.Component<IManageMembersProps, 
               <span className="center-vertical">{this.state.currentPerson.displayName}</span>
             </div>
             <div className="col2 center-vertical">
-              <DropDown options={this._availableTimeZones} id="timeZone" value={this.state.currentPerson.IANATimeZone} onChange={this._onDropDownChange} />
+              <DropDown options={this._availableTimeZones} id="timeZone" value={this.state.currentPerson.IANATimeZone} onChange={this._onDropDownChange} containsTypeAhead={true} />
             </div>
             <Button className="hoo-button-primary" disabled={false} label={strings.SaveLabel} onClick={() => this._savePerson()} />
             <Button className="hoo-button" disabled={false} label={strings.CancelLabel} onClick={() => this._showTimeZoneChange(!this.state.showTimeZoneSelect, new Person())} />
