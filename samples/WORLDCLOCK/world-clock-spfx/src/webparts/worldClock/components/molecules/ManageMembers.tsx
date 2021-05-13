@@ -40,6 +40,7 @@ export class ManageMembersState implements IManageMembersState {
 export default class ManageMembers extends React.Component<IManageMembersProps, IManageMembersState> {
   private LOG_SOURCE: string = "🔶 ManageMembers";
   private _availableTimeZones: IDropDownOption[] = [];
+  private _timeOutId: any;
 
   constructor(props: IManageMembersProps) {
     super(props);
@@ -60,19 +61,51 @@ export default class ManageMembers extends React.Component<IManageMembersProps, 
     return true;
   }
 
+  private debounceTypeahead = (fn: () => {}, delay: number) => {
+    try {
+      if (this._timeOutId) {
+        clearTimeout(this._timeOutId);
+      }
+      this._timeOutId = setTimeout(() => {
+        fn();
+      }, delay);
+    } catch (err) {
+      console.error(`${err} - ${this.LOG_SOURCE} (debounceTypeahead)`);
+    }
+  }
+
   private _onSearchChange = async (fieldValue: string, fieldName: string) => {
     try {
-      let members: IPerson[] = [];
-      if (fieldName == "Search") {
-        members = sortBy(filter(wc.Config.members, (m) => { return m.displayName.toLowerCase().indexOf(fieldValue.toLowerCase()) > -1; }), (o) => { return o.displayName; });
-      } else if (fieldName == "SearchAllMembers") {
-        members = await wc.SearchMember(fieldValue);
-        members = sortBy(members, (o) => { return o.displayName; });
-      }
-      this.setState({ searchMembers: members, searchString: fieldValue });
-
+      //let members: IPerson[] = [];
+      // if (fieldName == "Search") {
+      //   members = sortBy(filter(wc.Config.members, (m) => { return m.displayName.toLowerCase().indexOf(fieldValue.toLowerCase()) > -1; }), (o) => { return o.displayName; });
+      // } else if (fieldName == "SearchAllMembers") {
+      //   members = await wc.SearchMember(fieldValue);
+      //   members = sortBy(members, (o) => { return o.displayName; });
+      // }
+      this.setState({
+        searchString: fieldValue
+      }, () => {
+        if (fieldValue.length > 0)
+          this.debounceTypeahead(this.doTypeahead, 500);
+      });
     } catch (err) {
       Logger.write(`${this.LOG_SOURCE} (_onTextChange) - ${err}`, LogLevel.Error);
+    }
+  }
+
+  private doTypeahead = async () => {
+    try {
+      let members: IPerson[] = [];
+      if (!this.state.showAddMember) {
+        members = sortBy(filter(wc.Config.members, (m) => { return m.displayName.toLowerCase().indexOf(this.state.searchString.toLowerCase()) > -1; }), (o) => { return o.displayName; });
+      } else {
+        members = await wc.SearchMember(this.state.searchString);
+        members = sortBy(members, (o) => { return o.displayName; });
+      }
+      this.setState({ searchMembers: members });
+    } catch (err) {
+      console.error(`${err} - ${this.LOG_SOURCE} (doTypeahead)`);
     }
   }
 
