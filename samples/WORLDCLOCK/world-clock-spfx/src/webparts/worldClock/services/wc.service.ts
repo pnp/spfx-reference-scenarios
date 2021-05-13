@@ -287,7 +287,7 @@ export class WorldClockService implements IWorldClockService {
         );
         if (people.length > 0) {
           forEach(people, (o) => {
-            if (find(members, { personId: o.id }) == null) {
+            if (find(members, { id: o.id }) == null) {
               members.push({ id: o.id, userPrincipalName: o.userPrincipalName, displayName: o.displayName, jobTitle: o.jobTitle, mail: o.scoredEmailAddresses[0].address, userType: (o.personType.subclass === 'OrganizationUser') ? "Member" : "Guest" });
             }
           });
