@@ -267,7 +267,8 @@ export default class TeamTimes extends React.Component<ITeamTimesProps, ITeamTim
     wc.Config.views.map((v) => {
       options.push({ iconType: Icons.TeamView, label: v.viewName, onClick: this._changeView });
     });
-    options.push({ iconType: Icons.Plus, label: strings.AddEditViewLabel, onClick: this._addNewView });
+    options.push({ iconType: Icons.Edit, label: strings.EditCurrentViewLabel, onClick: this._addNewView });
+    options.push({ iconType: Icons.Plus, label: strings.AddNewViewLabel, onClick: this._addNewView });
     return options;
   }
   private _changeView = (viewName: string) => {
@@ -282,6 +283,9 @@ export default class TeamTimes extends React.Component<ITeamTimesProps, ITeamTim
   }
   private _addNewView = (viewName: string) => {
     try {
+      if (viewName == strings.AddNewViewLabel) {
+        this.setState({ currentView: "" });
+      }
       this._changeManageViewsVisibility(true);
     } catch (err) {
       Logger.write(`${this.LOG_SOURCE} (_changeView) - ${err}`, LogLevel.Error);
@@ -296,9 +300,16 @@ export default class TeamTimes extends React.Component<ITeamTimesProps, ITeamTim
     try {
       return (
         <div data-component={this.LOG_SOURCE}>
-          <div className={styles.isRight}>
-            <Button className="hoo-button-primary" disabled={false} label={strings.ManageMembersTitle} onClick={() => this._showManageMembers(true)} />
-            <ButtonSplitPrimary className={styles.managebutton} label={(this.state.currentView) ? this.state.views[this.state.currentView].viewName : strings.ManageViewsLabel} options={this.state.viewOptions} />
+          <div className="is-flex gap">
+            <ButtonSplitPrimary
+              className={styles.managebutton}
+              label={(this.state.currentView) ? this.state.views[this.state.currentView].viewName : strings.ManageViewsLabel}
+              options={this.state.viewOptions} />
+            <Button
+              className="hoo-button-primary"
+              disabled={false}
+              label={strings.ManageMembersTitle}
+              onClick={() => this._showManageMembers(true)} />
           </div>
           <div className="hoo-wcs">
             {this.state.timeZoneView.map((m, index) => {
@@ -328,7 +339,8 @@ export default class TeamTimes extends React.Component<ITeamTimesProps, ITeamTim
               <ManageViews
                 save={this._saveView}
                 cancel={this._cancelView}
-                delete={this._deleteView} />
+                delete={this._deleteView}
+                viewId={this.state.currentView} />
             </Dialog>
           }
           {this.state.showManageMembers &&
