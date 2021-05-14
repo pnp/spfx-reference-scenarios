@@ -164,7 +164,7 @@ export default class Scheduler extends React.Component<ISchedulerProps, ISchedul
           </div>
           <div className="hoo-dtstable">
             <div data-dow="" className="hoo-dtsentry no-hover">
-              <label htmlFor="" className="hoo-dtsday"></label>
+              <label htmlFor="" className="hoo-dtsday "></label>
               <div className={`hoo-dtshours-label`}></div>
               {this.state.meetingTimes.map((h) => {
                 return (
@@ -180,6 +180,7 @@ export default class Scheduler extends React.Component<ISchedulerProps, ISchedul
               return (
                 <div data-dow="" className="hoo-dtsentry">
                   <label htmlFor="" className="hoo-dtsday">{m.displayName}</label>
+
                   <div className={`hoo-dtshours no-bg`} data-time="">
                     <ButtonIcon
                       iconType={Icons.Trash}

@@ -86,7 +86,7 @@ export default class Profile extends React.Component<IProfileProps, IProfileStat
     try {
       var today = DateTime.now().setLocale(wc.Locale);
       return (
-        <div data-component={this.LOG_SOURCE} className="hoo-dtstable">
+        <div data-component={this.LOG_SOURCE} className="hoo-dtstable profile">
 
           <div data-dow="" className="hoo-dtsentry no-hover">
             <label htmlFor="" className="hoo-dtsday"></label>

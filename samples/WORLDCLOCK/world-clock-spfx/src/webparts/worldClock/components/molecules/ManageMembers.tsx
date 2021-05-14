@@ -199,58 +199,64 @@ export default class ManageMembers extends React.Component<IManageMembersProps, 
               }
 
             </div>
-            <div className={`${styles.membersList}`}>
+            <div className={`${styles.membersList} members`}>
               {(this.state.searchMembers.length == 0 && this.state.searchString.length > 0) &&
                 <span className={`hoo-fontsize-18 hoo-error`} id="">{strings.NoResultsLabel}</span>
               }
               {this.state.searchMembers.map((m) => {
                 return (
-                  <div className={`${styles.memberContainer} is-flex`}>
-                    <div className="memberPersona">
-                      <Avatar size={Size.ThirtyTwo} name={m.displayName} src={m.photoUrl} />
-                      <div>
-                        <span>{m.displayName}</span>
 
-                        {(wc.ConfigType === CONFIG_TYPE.Personal) &&
+                  <div className={`${styles.memberContainer}`}>
+                    <div className="hoo-persona-40">
+                      <div className="hoo-avatar-pres">
+                        <Avatar src={m.photoUrl} name={m.displayName} />
+                      </div>
+                      <div className="hoo-persona-data">
+                        <div className="hoo-persona-name" title={m.displayName}>{m.displayName} </div>
+                        <div className="hoo-persona-function"><span>{((wc.ConfigType === CONFIG_TYPE.Personal) && (!this.state.showAddMember)) &&
                           <ButtonIcon
                             iconType={Icons.Profile}
                             onClick={() => this.props.edit(m)}
                             altText={strings.EditProfileLabel} />
                         }
-                        {(this.state.showAddMember) ?
-                          <ButtonIcon
-                            iconType={Icons.PlusPerson}
-                            onClick={() => this._addMember(m)}
-                            altText={strings.AddMemberLabel} /> :
-                          <ButtonIcon
-                            iconType={Icons.TimeZone}
-                            onClick={() => this._showTimeZoneChange(true, m)}
-                            altText={strings.EditTimeZoneLabel} />
-                        }
+                          {(this.state.showAddMember) ?
+                            <ButtonIcon
+                              iconType={Icons.PlusPerson}
+                              onClick={() => this._addMember(m)}
+                              altText={strings.AddMemberLabel} /> :
+                            <ButtonIcon
+                              iconType={Icons.TimeZone}
+                              onClick={() => this._showTimeZoneChange(true, m)}
+                              altText={strings.EditTimeZoneLabel} />
+                          }
 
-                        {(wc.ConfigType === CONFIG_TYPE.Personal) &&
-                          <ButtonIcon
-                            iconType={Icons.Trash}
-                            onClick={() => this._removeMember(m)}
-                            altText={strings.RemoveFromTeamLabel} />
-                        }
-
+                          {((wc.ConfigType === CONFIG_TYPE.Personal) && (!this.state.showAddMember)) &&
+                            <ButtonIcon
+                              iconType={Icons.Trash}
+                              onClick={() => this._removeMember(m)}
+                              altText={strings.RemoveFromTeamLabel} />
+                          }</span></div>
                       </div>
                     </div>
-                  </div>);
+                  </div>
+
+                );
               })}
             </div>
           </div>
           {this.state.showTimeZoneSelect &&
             <div className={`${(!this.state.showTimeZoneSelect) ? "is-hidden" : ""} ${styles.viewForm} hoo-grid`}>
               <div className="one-third center-vertical is-flex">
-                <Avatar
-                  size={Size.ThirtyTwo}
-                  name={this.state.currentPerson.displayName}
-                  src={this.state.currentPerson.photoUrl} />
-                <span className="check-box-center">{this.state.currentPerson.displayName}</span>
+                <div className="hoo-persona-40">
+                  <div className="hoo-avatar-pres">
+                    <Avatar src={this.state.currentPerson.photoUrl} name={this.state.currentPerson.displayName} />
+                  </div>
+                  <div className="hoo-persona-data">
+                    <div className="hoo-persona-name">{this.state.currentPerson.displayName}</div>
+                  </div>
+                </div>
               </div>
-              <div className="two-thirds">
+              <div className="two-thirds center-vertical">
                 <DropDown
                   containsTypeAhead={true}
                   options={this._availableTimeZones}

@@ -177,17 +177,22 @@ export default class ManageViews extends React.Component<IManageViewsProps, IMan
               }
               return (
                 <div className={`${styles.memberContainer}`}>
-                  <div className="memberPersona">
+                  <div className="hoo-persona-40">
                     <CheckBox
                       name={m.personId}
                       label={m.displayName}
                       value={isChecked}
                       onChange={this._onMemberCheckBoxChange}
                       showLabel={false} />
-                    <Avatar size={Size.ThirtyTwo} name={m.displayName} src={m.photoUrl} />
-                    <span className="check-box-center">{m.displayName}</span>
+                    <div className="hoo-avatar-pres">
+                      <Avatar src={m.photoUrl} name={m.displayName} />
+                    </div>
+                    <div className="hoo-persona-data">
+                      <div className="hoo-persona-name" title={m.displayName}>{m.displayName} </div>
+                    </div>
                   </div>
-                </div>);
+                </div>
+              );
             })}
           </div>
 

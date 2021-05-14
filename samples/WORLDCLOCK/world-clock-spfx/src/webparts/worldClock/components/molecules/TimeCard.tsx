@@ -56,7 +56,7 @@ export default class TimeCard extends React.Component<ITimeCardProps, ITimeCardS
           <div className="hoo-wc-peoples">
             {this.props.members.map((m) => {
               let inMeeting: IPerson = find(this.props.meetingMembers, { personId: m.personId });
-              return (<div className="hoo-wc-people" title={strings.AddToMeetingLabel}>
+              return (<div className="hoo-wc-people" title={m.displayName}>
                 <span className="hoo-wc-people-name">{m.displayName}</span>
                 {((this.props.userId != m.personId) && (!inMeeting)) &&
 
