@@ -136,7 +136,12 @@ export default class Scheduler extends React.Component<ISchedulerProps, ISchedul
 
     let attendees: string = "";
     this.props.meetingMembers.map((m, index) => {
-      attendees += m.mail;
+      if (m.mail) {
+        attendees += m.mail;
+      } else {
+        attendees += m.userPrincipal;
+      }
+
       if (index < this.props.meetingMembers.length - 1) {
         attendees += ",";
       }
@@ -164,14 +169,14 @@ export default class Scheduler extends React.Component<ISchedulerProps, ISchedul
           </div>
           <div className="hoo-dtstable">
             <div data-dow="" className="hoo-dtsentry no-hover">
-              <label htmlFor="" className="hoo-dtsday "></label>
+              <label htmlFor="" className="hoo-dtsday "><div className="overflow"></div></label>
               <div className={`hoo-dtshours-label`}></div>
               {this.state.meetingTimes.map((h) => {
                 return (
                   <div
                     className={`hoo-dtshours-label ${(this.state.selectedTime && (h.hour == this.state.selectedTime.hour)) ? "isSelected" : ""}`}
                     data-time=""
-                    onClick={() => this._setSelectedTime(h)}>{replace(h.toLocaleString(DateTime.TIME_SIMPLE), ":00", "")}
+                    onClick={() => this._setSelectedTime(h)}><span>{replace(h.toLocaleString(DateTime.TIME_SIMPLE), ":00", "")}</span>
                   </div>);
               })}
             </div>
@@ -179,7 +184,9 @@ export default class Scheduler extends React.Component<ISchedulerProps, ISchedul
             {this.props.meetingMembers.map((m) => {
               return (
                 <div data-dow="" className="hoo-dtsentry">
-                  <label htmlFor="" className="hoo-dtsday">{m.displayName}</label>
+                  <label htmlFor="" className="hoo-dtsday" title={m.displayName}>
+                    <div className="overflow">{m.displayName}</div>
+                  </label>
 
                   <div className={`hoo-dtshours no-bg`} data-time="">
                     <ButtonIcon

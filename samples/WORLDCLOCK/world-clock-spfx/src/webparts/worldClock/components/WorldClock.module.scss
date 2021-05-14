@@ -78,12 +78,15 @@
       align-content: center;
       margin-top: auto;
       margin-bottom: auto;
+      flex: 1;
 
+      min-width: px2rem(150px);
+    }
+
+    .overflow {
       overflow: hidden;
       text-overflow: ellipsis;
       white-space: nowrap;
-      flex: 1;
-      min-width: px2rem(150px);
     }
 
     .hoo-dtshours {
@@ -287,6 +290,10 @@
     .schedule {
       .hoo-dtshours {
         width: 3rem;
+
+        span {
+          max-width: 2rem;
+        }
       }
     }
 
