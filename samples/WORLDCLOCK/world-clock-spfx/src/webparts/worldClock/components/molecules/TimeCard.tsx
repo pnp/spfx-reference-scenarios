@@ -6,6 +6,7 @@ import { IPerson } from "../../models/wc.models";
 import ButtonIcon from "../atoms/ButtonIcon";
 import { Icons } from "../../models/wc.Icons";
 import strings from "WorldClockWebPartStrings";
+import { IOverflowResizer, OverflowResizer } from "../../services/OverflowResizer";
 
 export interface ITimeCardProps {
   currentTime: DateTime;
@@ -27,11 +28,25 @@ export class TimeCardState implements ITimeCardState {
 export default class TimeCard extends React.Component<ITimeCardProps, ITimeCardState> {
   private LOG_SOURCE: string = "🔶 TimeCard";
   private _IANATimeZone: string = "";
+  private _overFlowResizer: IOverflowResizer;
+  private _peopleContainer: React.RefObject<HTMLDivElement>;
 
   constructor(props: ITimeCardProps) {
     super(props);
     (this.props.members.length > 0) ? this._IANATimeZone = this.props.members[0].IANATimeZone : this._IANATimeZone = this.props.currentTimeZone;
     this.state = new TimeCardState();
+    this._peopleContainer = React.createRef<HTMLDivElement>();
+    this._overFlowResizer = new OverflowResizer(`TC-${props.currentTime.hour}`);
+  }
+
+  public componentDidMount() {
+    try {
+      if (this._peopleContainer.current != undefined) {
+        this._overFlowResizer.ObserveElement = this._peopleContainer.current;
+      }
+    } catch (err) {
+      Logger.write(`${this.LOG_SOURCE} (componentDidMount) - ${err}`, LogLevel.Error);
+    }
   }
 
   public shouldComponentUpdate(nextProps: Readonly<ITimeCardProps>, nextState: Readonly<ITimeCardState>) {
@@ -40,6 +55,9 @@ export default class TimeCard extends React.Component<ITimeCardProps, ITimeCardS
     return true;
   }
 
+  private _expandMenu = () => {
+    Logger.write(`${this.LOG_SOURCE} (_expandMenu) - FIRED`, LogLevel.Info);
+  }
 
   public render(): React.ReactElement<ITimeCardProps> {
     try {
@@ -53,7 +71,7 @@ export default class TimeCard extends React.Component<ITimeCardProps, ITimeCardS
       return (
         <div data-component={this.LOG_SOURCE} className={`hoo-wc-clock ${(this.props.currentTimeZone == this._IANATimeZone) ? "is-current-me" : ""}`}>
           <div className="hoo-wc-time">{currentTime}<span className="hoo-wc-ampm">{(showAMPM) ? this.props.currentTime.setZone(this._IANATimeZone).toFormat("a") : ""}</span></div>
-          <div className="hoo-wc-peoples">
+          <div ref={this._peopleContainer} className="hoo-wc-peoples hoo-overflow">
             {this.props.members.map((m) => {
               let inMeeting: IPerson = find(this.props.meetingMembers, { personId: m.personId });
               return (<div className="hoo-wc-people" title={strings.AddToMeetingLabel}>
@@ -75,6 +93,11 @@ export default class TimeCard extends React.Component<ITimeCardProps, ITimeCardS
               </div>);
             })
             }
+            <div className="hoo-buttonicon-overflow" aria-haspopup="true">
+              <ButtonIcon className="hoo-buttonicon-overflow" iconType={Icons.DownArrow} onClick={this._expandMenu} altText={strings.ExpandPeopleList} />
+              <ul className="hoo-buttonflyout" role="menu">
+              </ul>
+            </div>
           </div>
         </div>
       );

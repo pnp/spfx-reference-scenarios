@@ -7,6 +7,7 @@ export interface IButtonIconProps {
   iconType: IIconType;
   onClick: React.MouseEventHandler<HTMLButtonElement>;
   altText: string;
+  className?: string;
 }
 
 export interface IButtonIconState {
@@ -18,10 +19,14 @@ export class ButtonIconState implements IButtonIconState {
 
 export default class ButtonIcon extends React.Component<IButtonIconProps, IButtonIconState> {
   private LOG_SOURCE: string = "🔶ButtonIcon";
+  private _className: string = "hoo-buttonicon";
 
   constructor(props: IButtonIconProps) {
     super(props);
     this.state = new ButtonIconState();
+    if (props.className != undefined) {
+      this._className = props.className;
+    }
   }
 
   public shouldComponentUpdate(nextProps: IButtonIconProps, nextState: IButtonIconState) {
@@ -33,7 +38,7 @@ export default class ButtonIcon extends React.Component<IButtonIconProps, IButto
   public render(): React.ReactElement<IButtonIconProps> {
     try {
       return (
-        <button className="hoo-buttonicon" aria-label="" onClick={this.props.onClick}>
+        <button className={this._className} aria-label="" onClick={this.props.onClick}>
           <div className="hoo-icon" title={this.props.altText}>
             <span className={`hoo-icon-svg ${this.props.iconType.Class}`} aria-hidden="true" dangerouslySetInnerHTML={{ "__html": this.props.iconType.SVG }} >
             </span>

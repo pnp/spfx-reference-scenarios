@@ -32,7 +32,7 @@ declare interface IWorldClockWebPartStrings {
   DropDownAvailableOptions: string;
   PAManageMembersFilterPlaceholder: string;
   PAManageMembersSearchPlaceholder: string;
-
+  ExpandPeopleList: string;
 }
 
 declare module 'WorldClockWebPartStrings' {
