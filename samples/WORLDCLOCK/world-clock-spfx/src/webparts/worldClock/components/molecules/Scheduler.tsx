@@ -1,7 +1,7 @@
 import * as React from "react";
 import { Logger, LogLevel } from "@pnp/logging";
-import { find, isEqual, replace } from "lodash";
-import { HOUR_TYPE, IPerson, Schedule } from "../../models/wc.models";
+import { endsWith, find, isEqual, remove, replace, round, trim } from "lodash";
+import { HOUR_TYPE, IPerson, PERSON_TYPE, Schedule } from "../../models/wc.models";
 import { DateTime } from "luxon";
 import { wc } from "../../services/wc.service";
 import ButtonIcon from "../atoms/ButtonIcon";
@@ -35,6 +35,7 @@ export class SchedulerState implements ISchedulerState {
 export default class Scheduler extends React.Component<ISchedulerProps, ISchedulerState> {
   private LOG_SOURCE: string = "🔶 Scheduler";
   private _maxDays: number = 1;
+  private _now: DateTime = DateTime.local().setLocale(wc.Locale).setZone(wc.IANATimeZone);
   private _scheduleResize: ResizeObserver;
   private _scheduleContainer: React.RefObject<HTMLDivElement>;
 
@@ -65,7 +66,9 @@ export default class Scheduler extends React.Component<ISchedulerProps, ISchedul
   private _resizeObserverHandler: ResizeObserverCallback = () => {
     try {
       const scheduleContainerWidth = this._scheduleContainer.current.clientWidth;
-      this.setState({ scheduleContainerWidth });
+      this.setState({ scheduleContainerWidth: scheduleContainerWidth });
+      let meetingTimes = this._getMeetingTimes(DateTime.local().setLocale(wc.Locale).setZone(wc.IANATimeZone));
+      this.setState({ meetingTimes: meetingTimes });
     } catch (err) {
       Logger.write(`${this.LOG_SOURCE} (_resizeObserverHandler) - ${err}`, LogLevel.Error);
     }
@@ -80,7 +83,7 @@ export default class Scheduler extends React.Component<ISchedulerProps, ISchedul
       } else {
         date = date.setZone(wc.IANATimeZone);
       }
-      this.setState({ selectedTime: date, scheduleDisabled: scheduleDisabled });
+      this.setState({ selectedTime: date, scheduleDisabled: scheduleDisabled, dateInput: date });
     } catch (err) {
       Logger.write(`${this.LOG_SOURCE} (_setSelectedTime) - ${err}`, LogLevel.Error);
     }
@@ -131,8 +134,6 @@ export default class Scheduler extends React.Component<ISchedulerProps, ISchedul
       if (isNextDay) {
         retVal += " " + "is-nextday";
       }
-
-
     } catch (err) {
       Logger.write(`${this.LOG_SOURCE} (_getAvailability) - ${err}`, LogLevel.Error);
       return null;
@@ -142,16 +143,23 @@ export default class Scheduler extends React.Component<ISchedulerProps, ISchedul
 
   private _getMeetingTimes(date: DateTime) {
     let meetingTimes: DateTime[] = [];
+    let maxHours: number = 24;
     try {
       let meetingTime: DateTime = date.setLocale(wc.Locale);
       for (let i = 0; i < this._maxDays; i++) {
         meetingTime = meetingTime.plus({ days: i });
         meetingTime = meetingTime.set({ minute: 0 });
-        for (let h = 0; h < 24; h++) {
+
+        if (this.state != undefined) {
+          maxHours = round(this.state.scheduleContainerWidth / 50);
+        }
+        meetingTimes.push(meetingTime.set({ minute: 0 }));
+        for (let h = 1; h < maxHours; h++) {
           meetingTime = meetingTime.plus({ hours: 1 });
           meetingTimes.push(meetingTime.set({ minute: 0 }));
         }
       }
+
     } catch (err) {
       Logger.write(`${this.LOG_SOURCE} (_getMeetingTimes) - ${err}`, LogLevel.Error);
     }
@@ -168,17 +176,35 @@ export default class Scheduler extends React.Component<ISchedulerProps, ISchedul
       Logger.write(`${this.LOG_SOURCE} (_onDateChange) - ${err}`, LogLevel.Error);
     }
   }
+  private _updateHours = (hour: number) => {
+    try {
+
+      const newDate = this.state.meetingTimes[0].plus({ hours: hour });
+      let meetingTimes = this._getMeetingTimes(newDate);
+      this.setState({ dateInput: newDate, meetingTimes: meetingTimes });
+    } catch (err) {
+      Logger.write(`${this.LOG_SOURCE} (_updateHours) - ${err}`, LogLevel.Error);
+    }
+  }
 
   private _scheduleMeeting() {
     try {
       let attendees: string = "";
+      let contents: string = strings.MeetingContents;
       this.props.meetingMembers.map((m, index) => {
-        attendees += m.mail;
-        if (index < this.props.meetingMembers.length - 1) {
-          attendees += ",";
+        if (m.personType == PERSON_TYPE.Employee) {
+          attendees += m.mail + ",";
+        } else {
+          contents += m.mail + ",";
         }
       });
-      const meetingURL = `https://teams.microsoft.com/l/meeting/new?subject=New%20Meeting&attendees=${attendees}&startTime=${this.state.selectedTime.toISODate()}T${this.state.selectedTime.toFormat('HH:00:00ZZ')}`;
+      if (endsWith(attendees, ",")) {
+        attendees = trim(attendees, ",");
+      }
+      if (endsWith(contents, ",")) {
+        contents = trim(contents, ",") + ".";
+      }
+      const meetingURL = `https://teams.microsoft.com/l/meeting/new?subject=${strings.MeetingSubject}&attendees=${attendees}&startTime=${this.state.selectedTime.toISODate()}T${this.state.selectedTime.toFormat('HH:00:00ZZ')}&content=${contents}`;
       wc.ExecuteDeepLink(meetingURL);
     } catch (err) {
       Logger.write(`${this.LOG_SOURCE} (_scheduleMeeting) - ${err}`, LogLevel.Error);
@@ -205,7 +231,14 @@ export default class Scheduler extends React.Component<ISchedulerProps, ISchedul
           <div ref={this._scheduleContainer} className="hoo-dtstable">
             <div data-dow="" className="hoo-dtsentry no-hover">
               <label htmlFor="" className="hoo-dtsday "><div className="overflow"></div></label>
-              <div className={`hoo-dtshours-label`}></div>
+              <div className={`hoo-dtshours-label`}>
+                {(this.state.meetingTimes[0].hour > this._now.hour) &&
+                  <ButtonIcon
+                    iconType={Icons.LeftArrow}
+                    altText={strings.TrashLabel}
+                    onClick={() => this._updateHours(-1)} />
+                }
+              </div>
               {this.state.meetingTimes.map((h) => {
                 return (
                   <div
@@ -214,6 +247,14 @@ export default class Scheduler extends React.Component<ISchedulerProps, ISchedul
                     onClick={() => this._setSelectedTime(h)}><span>{replace(h.toLocaleString(DateTime.TIME_SIMPLE), ":00", "")}</span>
                   </div>);
               })}
+              <div className={`hoo-dtshours-label`}>
+
+                <ButtonIcon
+                  iconType={Icons.RightArrow}
+                  altText={strings.TrashLabel}
+                  onClick={() => this._updateHours(1)} />
+
+              </div>
             </div>
 
             {this.props.meetingMembers.map((m) => {
@@ -237,6 +278,9 @@ export default class Scheduler extends React.Component<ISchedulerProps, ISchedul
                         data-time=""
                         onClick={() => { }}></div>);
                   })}
+                  <div className={`hoo-dtshours no-bg`} data-time="">
+
+                  </div>
                 </div>);
             })}
           </div>

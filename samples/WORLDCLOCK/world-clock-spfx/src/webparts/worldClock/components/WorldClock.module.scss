@@ -64,6 +64,14 @@
       &.no-hover {
         background-color: transparent;
       }
+
+      :last-child() {
+        border: none;
+
+        &:hover {
+          border: none;
+        }
+      }
     }
 
     .hoo-dtsday {
