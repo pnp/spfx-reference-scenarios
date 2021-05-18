@@ -28,7 +28,9 @@ declare interface IWorldClockWebPartStrings {
   AddMemberLabel: string;
   DeleteViewLabel: string;
   ScheduleMeetingLabel: string;
-  NoResultsLabel: string
+  NoResultsLabel: string;
+  MeetingSubject: string;
+  MeetingContents: string;
   DropDownAvailableOptions: string;
   PAManageMembersFilterPlaceholder: string;
   PAManageMembersSearchPlaceholder: string;

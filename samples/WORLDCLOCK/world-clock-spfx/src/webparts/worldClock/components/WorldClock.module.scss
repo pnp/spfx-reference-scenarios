@@ -12,7 +12,7 @@
 
 .worldClock {
   font-size: px2rem(16px);
-  //padding: 0 px2rem(16px);
+  padding: px2rem(16px) 0;
 
   :global {
     //Import hTWOo styles so they are available to our controls
@@ -36,13 +36,24 @@
       width: 100%;
     }
 
-    .hoo-avatar-32 {
-      //margin-top: auto;
-      //margin-bottom: auto;
+    .members {
+      .hoo-persona-40 {
+        height: 3.5rem;
+        width: 18em;
+      }
     }
+
+    .hoo-persona-40 {
+      width: 15em;
+    }
+
 
     .is-flex {
       display: flex;
+    }
+
+    .hoo-dtstable.profile {
+      max-width: px2rem(930px);
     }
 
     .hoo-dtsentry {
@@ -52,6 +63,17 @@
 
       &.no-hover {
         background-color: transparent;
+      }
+
+      :last-child(),
+      :first-child(),
+      .arrow {
+        border: none;
+
+        &:hover {
+          border: none;
+          background-color: transparent;
+        }
       }
     }
 
@@ -67,6 +89,15 @@
       align-content: center;
       margin-top: auto;
       margin-bottom: auto;
+      flex: 1;
+
+      min-width: px2rem(150px);
+    }
+
+    .overflow {
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
     }
 
     .hoo-dtshours {
@@ -247,17 +278,33 @@
       white-space: nowrap;
       display: flex;
       justify-content: space-between;
+      max-width: 12em;
 
       .hoo-wc-people-name {
         padding-bottom: 4px;
+        overflow: hidden;
+        text-overflow: ellipsis;
 
       }
 
     }
 
+    .dtsname {
+      width: px2rem(500px);
+
+      label {
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+    }
+
     .schedule {
       .hoo-dtshours {
         width: 3rem;
+
+        span {
+          max-width: 2rem;
+        }
       }
     }
 
@@ -395,7 +442,7 @@
 
     .memberPersona {
       display: flex;
-      width: 20em;
+      width: 18em;
     }
 
     .hoo-grid {

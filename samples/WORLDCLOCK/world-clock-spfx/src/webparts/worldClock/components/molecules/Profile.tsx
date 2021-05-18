@@ -1,11 +1,10 @@
 import * as React from "react";
 import { Logger, LogLevel } from "@pnp/logging";
-import { cloneDeep, find, isEqual, merge, replace } from "lodash";
+import { cloneDeep, find, isEqual, replace } from "lodash";
 import { DateTime } from "luxon";
 import { wc } from "../../services/wc.service";
-import { HOUR_TYPE, IPerson, ISchedule, Person, Schedule } from "../../models/wc.models";
+import { HOUR_TYPE, IPerson, Person, Schedule } from "../../models/wc.models";
 import Button from "../atoms/Button";
-import styles from "../WorldClock.module.scss";
 import strings from "WorldClockWebPartStrings";
 
 export interface IProfileProps {
@@ -86,7 +85,7 @@ export default class Profile extends React.Component<IProfileProps, IProfileStat
     try {
       var today = DateTime.now().setLocale(wc.Locale);
       return (
-        <div data-component={this.LOG_SOURCE} className="hoo-dtstable">
+        <div data-component={this.LOG_SOURCE} className="hoo-dtstable profile">
 
           <div data-dow="" className="hoo-dtsentry no-hover">
             <label htmlFor="" className="hoo-dtsday"></label>

@@ -10,7 +10,7 @@ import { Icons } from "../../models/wc.Icons";
 import { wc } from "../../services/wc.service";
 import DropDown, { IDropDownOption } from "../atoms/DropDown";
 import Button from "../atoms/Button";
-import Avatar, { Size } from "../atoms/Avatar";
+import Avatar from "../atoms/Avatar";
 
 export interface IManageMembersProps {
   save: (person: IPerson) => void;
@@ -76,13 +76,6 @@ export default class ManageMembers extends React.Component<IManageMembersProps, 
 
   private _onSearchChange = async (fieldValue: string, fieldName: string) => {
     try {
-      //let members: IPerson[] = [];
-      // if (fieldName == "Search") {
-      //   members = sortBy(filter(wc.Config.members, (m) => { return m.displayName.toLowerCase().indexOf(fieldValue.toLowerCase()) > -1; }), (o) => { return o.displayName; });
-      // } else if (fieldName == "SearchAllMembers") {
-      //   members = await wc.SearchMember(fieldValue);
-      //   members = sortBy(members, (o) => { return o.displayName; });
-      // }
       this.setState({
         searchString: fieldValue
       }, () => {
@@ -90,7 +83,7 @@ export default class ManageMembers extends React.Component<IManageMembersProps, 
           this.debounceTypeahead(this.doTypeahead, 500);
       });
     } catch (err) {
-      Logger.write(`${this.LOG_SOURCE} (_onTextChange) - ${err}`, LogLevel.Error);
+      Logger.write(`${this.LOG_SOURCE} (_onSearchChange) - ${err}`, LogLevel.Error);
     }
   }
 
@@ -113,11 +106,16 @@ export default class ManageMembers extends React.Component<IManageMembersProps, 
     this.setState({ showTimeZoneSelect: visible, currentPerson: person });
   }
   private _showAddMemberChange = (visible: boolean, person: IPerson): void => {
-    let members: IPerson[] = [];
-    if (!visible) {
-      members = sortBy(wc.Config.members, (o) => { return o.displayName; });
+    try {
+      let members: IPerson[] = [];
+      if (!visible) {
+        members = sortBy(wc.Config.members, (o) => { return o.displayName; });
+      }
+      this.setState({ showAddMember: visible, showTimeZoneSelect: false, currentPerson: person, searchMembers: members, searchString: "" });
+    } catch (err) {
+      Logger.write(`${this.LOG_SOURCE} (_showTimeZoneChange) - ${err}`, LogLevel.Error);
     }
-    this.setState({ showAddMember: visible, showTimeZoneSelect: false, currentPerson: person, searchMembers: members, searchString: "" });
+
   }
 
   private _onDropDownChange = (fieldValue: string, fieldName: string) => {
@@ -132,8 +130,13 @@ export default class ManageMembers extends React.Component<IManageMembersProps, 
   }
 
   private async _savePerson() {
-    await this.props.save(this.state.currentPerson);
-    this._showTimeZoneChange(!this.state.showTimeZoneSelect, new Person());
+    try {
+      await this.props.save(this.state.currentPerson);
+      this._showTimeZoneChange(!this.state.showTimeZoneSelect, new Person());
+    } catch (err) {
+      Logger.write(`${this.LOG_SOURCE} (_savePerson) - ${err}`, LogLevel.Error);
+    }
+
   }
 
   private _removeMember = async (person: IPerson) => {
@@ -157,8 +160,6 @@ export default class ManageMembers extends React.Component<IManageMembersProps, 
       Logger.write(`${this.LOG_SOURCE} (_addMember) - ${err}`, LogLevel.Error);
     }
   }
-
-
 
   public render(): React.ReactElement<IManageMembersProps> {
     try {
@@ -199,58 +200,64 @@ export default class ManageMembers extends React.Component<IManageMembersProps, 
               }
 
             </div>
-            <div className={`${styles.membersList}`}>
+            <div className={`${styles.membersList} members`}>
               {(this.state.searchMembers.length == 0 && this.state.searchString.length > 0) &&
                 <span className={`hoo-fontsize-18 hoo-error`} id="">{strings.NoResultsLabel}</span>
               }
               {this.state.searchMembers.map((m) => {
                 return (
-                  <div className={`${styles.memberContainer} is-flex`}>
-                    <div className="memberPersona">
-                      <Avatar size={Size.ThirtyTwo} name={m.displayName} src={m.photoUrl} />
-                      <div>
-                        <span>{m.displayName}</span>
 
-                        {(wc.ConfigType === CONFIG_TYPE.Personal) &&
+                  <div className={`${styles.memberContainer}`}>
+                    <div className="hoo-persona-40">
+                      <div className="hoo-avatar-pres">
+                        <Avatar src={m.photoUrl} name={m.displayName} />
+                      </div>
+                      <div className="hoo-persona-data">
+                        <div className="hoo-persona-name" title={m.displayName}>{m.displayName} </div>
+                        <div className="hoo-persona-function"><span>{((wc.ConfigType === CONFIG_TYPE.Personal) && (!this.state.showAddMember)) &&
                           <ButtonIcon
                             iconType={Icons.Profile}
                             onClick={() => this.props.edit(m)}
                             altText={strings.EditProfileLabel} />
                         }
-                        {(this.state.showAddMember) ?
-                          <ButtonIcon
-                            iconType={Icons.PlusPerson}
-                            onClick={() => this._addMember(m)}
-                            altText={strings.AddMemberLabel} /> :
-                          <ButtonIcon
-                            iconType={Icons.TimeZone}
-                            onClick={() => this._showTimeZoneChange(true, m)}
-                            altText={strings.EditTimeZoneLabel} />
-                        }
+                          {(this.state.showAddMember) ?
+                            <ButtonIcon
+                              iconType={Icons.PlusPerson}
+                              onClick={() => this._addMember(m)}
+                              altText={strings.AddMemberLabel} /> :
+                            <ButtonIcon
+                              iconType={Icons.TimeZone}
+                              onClick={() => this._showTimeZoneChange(true, m)}
+                              altText={strings.EditTimeZoneLabel} />
+                          }
 
-                        {(wc.ConfigType === CONFIG_TYPE.Personal) &&
-                          <ButtonIcon
-                            iconType={Icons.Trash}
-                            onClick={() => this._removeMember(m)}
-                            altText={strings.RemoveFromTeamLabel} />
-                        }
-
+                          {((wc.ConfigType === CONFIG_TYPE.Personal) && (!this.state.showAddMember)) &&
+                            <ButtonIcon
+                              iconType={Icons.Trash}
+                              onClick={() => this._removeMember(m)}
+                              altText={strings.RemoveFromTeamLabel} />
+                          }</span></div>
                       </div>
                     </div>
-                  </div>);
+                  </div>
+
+                );
               })}
             </div>
           </div>
           {this.state.showTimeZoneSelect &&
             <div className={`${(!this.state.showTimeZoneSelect) ? "is-hidden" : ""} ${styles.viewForm} hoo-grid`}>
               <div className="one-third center-vertical is-flex">
-                <Avatar
-                  size={Size.ThirtyTwo}
-                  name={this.state.currentPerson.displayName}
-                  src={this.state.currentPerson.photoUrl} />
-                <span className="check-box-center">{this.state.currentPerson.displayName}</span>
+                <div className="hoo-persona-40">
+                  <div className="hoo-avatar-pres">
+                    <Avatar src={this.state.currentPerson.photoUrl} name={this.state.currentPerson.displayName} />
+                  </div>
+                  <div className="hoo-persona-data">
+                    <div className="hoo-persona-name">{this.state.currentPerson.displayName}</div>
+                  </div>
+                </div>
               </div>
-              <div className="two-thirds">
+              <div className="two-thirds center-vertical">
                 <DropDown
                   containsTypeAhead={true}
                   options={this._availableTimeZones}
