@@ -19,6 +19,7 @@ export interface ISchedulerState {
   selectedTime: DateTime;
   dateInput: DateTime;
   scheduleDisabled: boolean;
+  scheduleContainerWidth: number;
 }
 
 export class SchedulerState implements ISchedulerState {
@@ -27,17 +28,32 @@ export class SchedulerState implements ISchedulerState {
     public selectedTime: DateTime = null,
     public dateInput: DateTime = DateTime.local().setLocale(wc.Locale).setZone(wc.IANATimeZone),
     public scheduleDisabled: boolean = true,
+    public scheduleContainerWidth: number = null
   ) { }
 }
 
 export default class Scheduler extends React.Component<ISchedulerProps, ISchedulerState> {
   private LOG_SOURCE: string = "🔶 Scheduler";
   private _maxDays: number = 1;
+  private _scheduleResize: ResizeObserver;
+  private _scheduleContainer: React.RefObject<HTMLDivElement>;
 
   constructor(props: ISchedulerProps) {
     super(props);
     let meetingTimes = this._getMeetingTimes(DateTime.local().setLocale(wc.Locale).setZone(wc.IANATimeZone));
     this.state = new SchedulerState(meetingTimes);
+    this._scheduleResize = new ResizeObserver(this._resizeObserverHandler);
+    this._scheduleContainer = React.createRef<HTMLDivElement>();
+  }
+
+  public componentDidMount() {
+    try {
+      if (this._scheduleContainer.current != undefined) {
+        this._scheduleResize.observe(this._scheduleContainer.current, { box: "border-box" });
+      }
+    } catch (err) {
+      Logger.write(`${this.LOG_SOURCE} (componentDidMount) - ${err}`, LogLevel.Error);
+    }
   }
 
   public shouldComponentUpdate(nextProps: Readonly<ISchedulerProps>, nextState: Readonly<ISchedulerState>) {
@@ -46,21 +62,38 @@ export default class Scheduler extends React.Component<ISchedulerProps, ISchedul
     return true;
   }
 
-  private _setSelectedTime(date: DateTime) {
-    let scheduleDisabled = false;
-    if (date == this.state.selectedTime) {
-      date = null;
-      scheduleDisabled = true;
-    } else {
-      date = date.setZone(wc.IANATimeZone);
+  private _resizeObserverHandler: ResizeObserverCallback = () => {
+    try {
+      const scheduleContainerWidth = this._scheduleContainer.current.clientWidth;
+      this.setState({ scheduleContainerWidth });
+    } catch (err) {
+      Logger.write(`${this.LOG_SOURCE} (_resizeObserverHandler) - ${err}`, LogLevel.Error);
     }
-    this.setState({ selectedTime: date, scheduleDisabled: scheduleDisabled });
+  }
+
+  private _setSelectedTime(date: DateTime) {
+    try {
+      let scheduleDisabled = false;
+      if (date == this.state.selectedTime) {
+        date = null;
+        scheduleDisabled = true;
+      } else {
+        date = date.setZone(wc.IANATimeZone);
+      }
+      this.setState({ selectedTime: date, scheduleDisabled: scheduleDisabled });
+    } catch (err) {
+      Logger.write(`${this.LOG_SOURCE} (_setSelectedTime) - ${err}`, LogLevel.Error);
+    }
   }
 
   private _getDateTimeString(person: IPerson, date: DateTime) {
-    date = date.setZone(person.IANATimeZone);
-    let dateTime: string = date.toLocaleString(DateTime.DATETIME_SHORT);
-    return dateTime;
+    try {
+      date = date.setZone(person.IANATimeZone);
+      const dateTime: string = date.toLocaleString(DateTime.DATETIME_SHORT);
+      return dateTime;
+    } catch (err) {
+      Logger.write(`${this.LOG_SOURCE} (_getDateTimeString) - ${err}`, LogLevel.Error);
+    }
   }
 
   private _setBlockStyle(person: IPerson, date: DateTime) {
@@ -109,14 +142,18 @@ export default class Scheduler extends React.Component<ISchedulerProps, ISchedul
 
   private _getMeetingTimes(date: DateTime) {
     let meetingTimes: DateTime[] = [];
-    let meetingTime: DateTime = date.setLocale(wc.Locale);
-    for (let i = 0; i < this._maxDays; i++) {
-      meetingTime = meetingTime.plus({ days: i });
-      meetingTime = meetingTime.set({ minute: 0 });
-      for (let h = 0; h < 24; h++) {
-        meetingTime = meetingTime.plus({ hours: 1 });
-        meetingTimes.push(meetingTime.set({ minute: 0 }));
+    try {
+      let meetingTime: DateTime = date.setLocale(wc.Locale);
+      for (let i = 0; i < this._maxDays; i++) {
+        meetingTime = meetingTime.plus({ days: i });
+        meetingTime = meetingTime.set({ minute: 0 });
+        for (let h = 0; h < 24; h++) {
+          meetingTime = meetingTime.plus({ hours: 1 });
+          meetingTimes.push(meetingTime.set({ minute: 0 }));
+        }
       }
+    } catch (err) {
+      Logger.write(`${this.LOG_SOURCE} (_getMeetingTimes) - ${err}`, LogLevel.Error);
     }
     return meetingTimes;
   }
@@ -133,16 +170,19 @@ export default class Scheduler extends React.Component<ISchedulerProps, ISchedul
   }
 
   private _scheduleMeeting() {
-
-    let attendees: string = "";
-    this.props.meetingMembers.map((m, index) => {
-      attendees += m.mail;
-      if (index < this.props.meetingMembers.length - 1) {
-        attendees += ",";
-      }
-    });
-    const meetingURL = `https://teams.microsoft.com/l/meeting/new?subject=New%20Meeting&attendees=${attendees}&startTime=${this.state.selectedTime.toISODate()}T${this.state.selectedTime.toFormat('HH:00:00ZZ')}`;
-    wc.ExecuteDeepLink(meetingURL);
+    try {
+      let attendees: string = "";
+      this.props.meetingMembers.map((m, index) => {
+        attendees += m.mail;
+        if (index < this.props.meetingMembers.length - 1) {
+          attendees += ",";
+        }
+      });
+      const meetingURL = `https://teams.microsoft.com/l/meeting/new?subject=New%20Meeting&attendees=${attendees}&startTime=${this.state.selectedTime.toISODate()}T${this.state.selectedTime.toFormat('HH:00:00ZZ')}`;
+      wc.ExecuteDeepLink(meetingURL);
+    } catch (err) {
+      Logger.write(`${this.LOG_SOURCE} (_scheduleMeeting) - ${err}`, LogLevel.Error);
+    }
   }
 
   public render(): React.ReactElement<ISchedulerProps> {
@@ -162,7 +202,7 @@ export default class Scheduler extends React.Component<ISchedulerProps, ISchedul
               label={strings.ScheduleMeetingLabel}
               onClick={() => this._scheduleMeeting()} />
           </div>
-          <div className="hoo-dtstable">
+          <div ref={this._scheduleContainer} className="hoo-dtstable">
             <div data-dow="" className="hoo-dtsentry no-hover">
               <label htmlFor="" className="hoo-dtsday"></label>
               <div className={`hoo-dtshours-label`}></div>
