@@ -44,12 +44,10 @@ export class ManageViewsState implements IManageViewsState {
 export default class ManageViews extends React.Component<IManageViewsProps, IManageViewsState> {
   private LOG_SOURCE: string = "🔶 ManageViews";
   private _maxMembers: number = 100;
-  //private _viewOptions: IDropDownOption[] = [];
 
   constructor(props: IManageViewsProps) {
     super(props);
     try {
-      //TODO: Do we need this? We are creating the view when we create the config.
       let defaultView: IWCView = new WCView();
       if (wc.Config.views.length == 0) {
         defaultView.viewId = "0";
@@ -66,8 +64,6 @@ export default class ManageViews extends React.Component<IManageViewsProps, IMan
       }
       let currentMembers = sortBy(wc.Config.members, (o) => { return o.displayName; });
       this.state = new ManageViewsState(currentMembers, defaultView.viewName, defaultView, isDefault);
-      //this._viewOptions = wc.Config.views.map((v) => { return { key: v.viewName, text: v.viewName }; });
-      //this._viewOptions.unshift({ key: -1, text: strings.NewViewTitle });
     } catch (err) {
       Logger.write(`${this.LOG_SOURCE} (constructor) - ${err}`, LogLevel.Error);
     }
@@ -97,22 +93,7 @@ export default class ManageViews extends React.Component<IManageViewsProps, IMan
       Logger.write(`${this.LOG_SOURCE} (_onTextChange) - ${err}`, LogLevel.Error);
     }
   }
-  // private _onDropDownChange = (fieldValue: string, fieldName: string) => {
-  //   try {
-  //     let currentView = new WCView();
-  //     let isDefault: boolean = false;
-  //     currentView.viewName = strings.NewViewTitle;
-  //     if (fieldValue != "-1") {
-  //       currentView = find(wc.Config.views, { viewName: fieldValue });
-  //       if (wc.Config.defaultViewId == currentView.viewId) {
-  //         isDefault = true;
-  //       }
-  //     }
-  //     this.setState({ currentView: currentView, selectedView: currentView.viewName, isDefault: isDefault });
-  //   } catch (err) {
-  //     Logger.write(`${this.LOG_SOURCE} (_onDropDownChange) - ${err}`, LogLevel.Error);
-  //   }
-  // }
+
   private _onMemberCheckBoxChange = (fieldValue: any, fieldName: string) => {
     try {
       const currentView = cloneDeep(this.state.currentView);

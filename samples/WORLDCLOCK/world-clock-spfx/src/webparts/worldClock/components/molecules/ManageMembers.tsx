@@ -10,7 +10,7 @@ import { Icons } from "../../models/wc.Icons";
 import { wc } from "../../services/wc.service";
 import DropDown, { IDropDownOption } from "../atoms/DropDown";
 import Button from "../atoms/Button";
-import Avatar, { Size } from "../atoms/Avatar";
+import Avatar from "../atoms/Avatar";
 
 export interface IManageMembersProps {
   save: (person: IPerson) => void;
@@ -76,13 +76,6 @@ export default class ManageMembers extends React.Component<IManageMembersProps, 
 
   private _onSearchChange = async (fieldValue: string, fieldName: string) => {
     try {
-      //let members: IPerson[] = [];
-      // if (fieldName == "Search") {
-      //   members = sortBy(filter(wc.Config.members, (m) => { return m.displayName.toLowerCase().indexOf(fieldValue.toLowerCase()) > -1; }), (o) => { return o.displayName; });
-      // } else if (fieldName == "SearchAllMembers") {
-      //   members = await wc.SearchMember(fieldValue);
-      //   members = sortBy(members, (o) => { return o.displayName; });
-      // }
       this.setState({
         searchString: fieldValue
       }, () => {
@@ -90,7 +83,7 @@ export default class ManageMembers extends React.Component<IManageMembersProps, 
           this.debounceTypeahead(this.doTypeahead, 500);
       });
     } catch (err) {
-      Logger.write(`${this.LOG_SOURCE} (_onTextChange) - ${err}`, LogLevel.Error);
+      Logger.write(`${this.LOG_SOURCE} (_onSearchChange) - ${err}`, LogLevel.Error);
     }
   }
 
@@ -113,11 +106,16 @@ export default class ManageMembers extends React.Component<IManageMembersProps, 
     this.setState({ showTimeZoneSelect: visible, currentPerson: person });
   }
   private _showAddMemberChange = (visible: boolean, person: IPerson): void => {
-    let members: IPerson[] = [];
-    if (!visible) {
-      members = sortBy(wc.Config.members, (o) => { return o.displayName; });
+    try {
+      let members: IPerson[] = [];
+      if (!visible) {
+        members = sortBy(wc.Config.members, (o) => { return o.displayName; });
+      }
+      this.setState({ showAddMember: visible, showTimeZoneSelect: false, currentPerson: person, searchMembers: members, searchString: "" });
+    } catch (err) {
+      Logger.write(`${this.LOG_SOURCE} (_showTimeZoneChange) - ${err}`, LogLevel.Error);
     }
-    this.setState({ showAddMember: visible, showTimeZoneSelect: false, currentPerson: person, searchMembers: members, searchString: "" });
+
   }
 
   private _onDropDownChange = (fieldValue: string, fieldName: string) => {
@@ -132,8 +130,13 @@ export default class ManageMembers extends React.Component<IManageMembersProps, 
   }
 
   private async _savePerson() {
-    await this.props.save(this.state.currentPerson);
-    this._showTimeZoneChange(!this.state.showTimeZoneSelect, new Person());
+    try {
+      await this.props.save(this.state.currentPerson);
+      this._showTimeZoneChange(!this.state.showTimeZoneSelect, new Person());
+    } catch (err) {
+      Logger.write(`${this.LOG_SOURCE} (_savePerson) - ${err}`, LogLevel.Error);
+    }
+
   }
 
   private _removeMember = async (person: IPerson) => {
@@ -157,8 +160,6 @@ export default class ManageMembers extends React.Component<IManageMembersProps, 
       Logger.write(`${this.LOG_SOURCE} (_addMember) - ${err}`, LogLevel.Error);
     }
   }
-
-
 
   public render(): React.ReactElement<IManageMembersProps> {
     try {
