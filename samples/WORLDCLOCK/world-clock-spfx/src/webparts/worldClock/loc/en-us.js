@@ -30,6 +30,8 @@ define([], function () {
     "DeleteViewLabel": "Delete this view",
     "ScheduleMeetingLabel": "Schedule Meeting",
     "NoResultsLabel": "Your search returned no results",
+    "MeetingSubject": "New Meeting",
+    "MeetingContents": "The following users were not able to be added to to the meeting automatically. Please add them manually. ",
     "DropDownAvailableOptions": "options available. Arrow down to browse or start typing to filter.",
     "PAManageMembersFilterPlaceholder": "Filter My Team Members or guests",
     "PAManageMembersSearchPlaceholder": "Search for new members or guests",
