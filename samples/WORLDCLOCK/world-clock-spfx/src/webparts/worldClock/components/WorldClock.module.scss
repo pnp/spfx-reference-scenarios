@@ -65,11 +65,14 @@
         background-color: transparent;
       }
 
-      :last-child() {
+      :last-child(),
+      :first-child(),
+      .arrow {
         border: none;
 
         &:hover {
           border: none;
+          background-color: transparent;
         }
       }
     }

@@ -231,7 +231,7 @@ export default class Scheduler extends React.Component<ISchedulerProps, ISchedul
           <div ref={this._scheduleContainer} className="hoo-dtstable">
             <div data-dow="" className="hoo-dtsentry no-hover">
               <label htmlFor="" className="hoo-dtsday "><div className="overflow"></div></label>
-              <div className={`hoo-dtshours-label`}>
+              <div className={`hoo-dtshours-label arrow`}>
                 {(this.state.meetingTimes[0].hour > this._now.hour) &&
                   <ButtonIcon
                     iconType={Icons.LeftArrow}
@@ -247,7 +247,7 @@ export default class Scheduler extends React.Component<ISchedulerProps, ISchedul
                     onClick={() => this._setSelectedTime(h)}><span>{replace(h.toLocaleString(DateTime.TIME_SIMPLE), ":00", "")}</span>
                   </div>);
               })}
-              <div className={`hoo-dtshours-label`}>
+              <div className={`hoo-dtshours-label arrow`}>
 
                 <ButtonIcon
                   iconType={Icons.RightArrow}
