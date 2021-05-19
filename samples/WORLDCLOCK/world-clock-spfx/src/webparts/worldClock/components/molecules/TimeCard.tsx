@@ -93,11 +93,11 @@ export default class TimeCard extends React.Component<ITimeCardProps, ITimeCardS
               </div>);
             })
             }
-            <div className="hoo-buttonicon-overflow" aria-haspopup="true">
+            {/*<div className="hoo-buttonicon-overflow" aria-haspopup="true">
               <ButtonIcon className="hoo-buttonicon-overflow" iconType={Icons.DownArrow} onClick={this._expandMenu} altText={strings.ExpandPeopleList} />
               <ul className="hoo-buttonflyout" role="menu">
               </ul>
-            </div>
+          </div>*/}
           </div>
         </div>
       );

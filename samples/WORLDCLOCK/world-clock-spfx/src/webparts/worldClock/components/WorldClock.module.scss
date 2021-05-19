@@ -61,10 +61,6 @@
       flex-direction: row;
       margin-bottom: .5rem;
 
-      &.no-hover {
-        background-color: transparent;
-      }
-
       :last-child(),
       :first-child(),
       .arrow {
@@ -74,6 +70,23 @@
           border: none;
           background-color: transparent;
         }
+      }
+    }
+
+    .new-date-row {
+      display: flex;
+      flex-direction: row;
+      margin-bottom: .5rem;
+
+
+      .hoo-dtshours-label {
+        height: 1rem;
+        border-right: none;
+      }
+
+      &:hover {
+        border: none;
+        background-color: transparent;
       }
     }
 
@@ -178,7 +191,7 @@
       flex-direction: column;
 
       box-sizing: border-box;
-      min-width: 200px;
+      width: px2rem(225px);
       padding: .5rem 1.25rem 1rem;
       //color: white;
       // background: rgb(2, 0, 36);
@@ -186,18 +199,24 @@
       border: .5rem solid var(--bodyBackground);
       font-weight: 700;
 
+      min-height: 300px;
+
       .hoo-buttonicon:hover {
         background: transparent;
       }
 
     }
 
-    .hoo-wcs>div:first-child>div {
-      border-left: none;
+    .hoo-wcs>div:first-child {
+      >div {
+        border-left: none;
+        width: px2rem(217px);
+      }
     }
 
     .hoo-wcs>div:last-child>div {
       border-right: none;
+      width: px2rem(217px);
     }
 
     .hoo-wc-ampm {
@@ -278,7 +297,7 @@
       white-space: nowrap;
       display: flex;
       justify-content: space-between;
-      max-width: 12em;
+      max-width: 11em;
 
       .hoo-wc-people-name {
         padding-bottom: 4px;

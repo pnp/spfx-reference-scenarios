@@ -1,6 +1,6 @@
 import * as React from "react";
 import { Logger, LogLevel } from "@pnp/logging";
-import { chain, cloneDeep, find, isEqual, remove, forEach } from "lodash";
+import { chain, cloneDeep, find, isEqual, remove, forEach, round } from "lodash";
 import Dialog from "../molecules/Dialog";
 import strings from "WorldClockWebPartStrings";
 import ManageViews from "../molecules/ManageViews";
@@ -32,6 +32,7 @@ export interface ITeamTimesState {
   currentTime: DateTime;
   showManageMembers: boolean;
   profileUser: IPerson;
+  timeCardContainerWidth: number;
 }
 
 export class TeamTimesState implements ITeamTimesState {
@@ -46,16 +47,22 @@ export class TeamTimesState implements ITeamTimesState {
     public currentTime: DateTime = DateTime.now().setLocale(wc.Locale).setZone(wc.IANATimeZone),
     public showManageMembers: boolean = false,
     public profileUser: IPerson = wc.CurrentUser,
+    public timeCardContainerWidth: number = null,
   ) { }
 }
 
 export default class TeamTimes extends React.Component<ITeamTimesProps, ITeamTimesState> {
   private LOG_SOURCE: string = "🔶 TeamTimes";
   private _ready: boolean = false;
+  private _timeCardResize: ResizeObserver;
+  private _timeCardContainer: React.RefObject<HTMLDivElement>;
 
   constructor(props: ITeamTimesProps) {
     super(props);
     try {
+      this._timeCardResize = new ResizeObserver(this._resizeObserverHandler);
+      this._timeCardContainer = React.createRef<HTMLDivElement>();
+
       let timeZoneView: any[];
       let needsConfig = false;
 
@@ -74,13 +81,32 @@ export default class TeamTimes extends React.Component<ITeamTimesProps, ITeamTim
   }
 
   public componentDidMount() {
-    wc.ConfigRefresh = this._handleRefresh;
+    try {
+      wc.ConfigRefresh = this._handleRefresh;
+      if (this._timeCardContainer.current != undefined) {
+        this._timeCardResize.observe(this._timeCardContainer.current, { box: "border-box" });
+      }
+    } catch (err) {
+      Logger.write(`${this.LOG_SOURCE} (componentDidMount) - ${err}`, LogLevel.Error);
+    }
+
   }
 
   public shouldComponentUpdate(nextProps: Readonly<ITeamTimesProps>, nextState: Readonly<ITeamTimesState>) {
     if ((isEqual(nextState, this.state) && isEqual(nextProps, this.props)))
       return false;
     return true;
+  }
+
+  private _resizeObserverHandler: ResizeObserverCallback = () => {
+    try {
+      const timeCardContainerWidth = this._timeCardContainer.current.clientWidth;
+      this.setState({ timeCardContainerWidth: timeCardContainerWidth });
+      const timeZoneView = this._sortTimeZones(wc.Config.views[this.state.currentView]);
+      this.setState({ timeZoneView: timeZoneView });
+    } catch (err) {
+      Logger.write(`${this.LOG_SOURCE} (_resizeObserverHandler) - ${err}`, LogLevel.Error);
+    }
   }
 
   private _handleRefresh = (newState?: any) => {
@@ -146,15 +172,21 @@ export default class TeamTimes extends React.Component<ITeamTimesProps, ITeamTim
       const offsetGroups = chain(members).groupBy("offset").map((value, key) => ({ offset: parseInt(key.toString()), members: value })).sortBy("offset").value();
       let styleGroup = "";
       let currentGroup = null;
-      forEach(offsetGroups, (o) => {
-        const timeStyle = o.members[0]?.timeStyle;
+      let maxOffsets: number = offsetGroups.length;
+      if (this.state != undefined) {
+        maxOffsets = round(this.state.timeCardContainerWidth / 250);
+      }
+
+      for (let o = 0; o < maxOffsets; o++) {
+        let offset = offsetGroups[o];
+        const timeStyle = offset.members[0]?.timeStyle;
         if (styleGroup != timeStyle || currentGroup == null) {
-          timeZoneView.push({ style: timeStyle, offsetGroup: [o] });
+          timeZoneView.push({ style: timeStyle, offsetGroup: [offset] });
           currentGroup = timeZoneView[timeZoneView.length - 1];
         } else {
           currentGroup.offsetGroup.push(o);
         }
-      });
+      }
     } catch (err) {
       Logger.write(`${this.LOG_SOURCE} (_sortTimeZones) - ${err}`, LogLevel.Error);
     }
@@ -319,7 +351,7 @@ export default class TeamTimes extends React.Component<ITeamTimesProps, ITeamTim
   public render(): React.ReactElement<ITeamTimesProps> {
     try {
       return (
-        <div data-component={this.LOG_SOURCE}>
+        <div data-component={this.LOG_SOURCE} ref={this._timeCardContainer}>
           <div className="is-flex gap">
             <ButtonSplitPrimary
               className={styles.managebutton}

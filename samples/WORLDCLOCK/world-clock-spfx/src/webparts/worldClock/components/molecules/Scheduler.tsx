@@ -41,7 +41,7 @@ export default class Scheduler extends React.Component<ISchedulerProps, ISchedul
 
   constructor(props: ISchedulerProps) {
     super(props);
-    let meetingTimes = this._getMeetingTimes(DateTime.local().setLocale(wc.Locale).setZone(wc.IANATimeZone));
+    let meetingTimes = this._getMeetingTimes(this._now);
     this.state = new SchedulerState(meetingTimes);
     this._scheduleResize = new ResizeObserver(this._resizeObserverHandler);
     this._scheduleContainer = React.createRef<HTMLDivElement>();
@@ -107,7 +107,7 @@ export default class Scheduler extends React.Component<ISchedulerProps, ISchedul
         schedule = new Schedule();
       }
       if (this.state.selectedTime) {
-        if ((date.weekday == this.state.selectedTime.weekday) && (date.hour == this.state.selectedTime.hour)) {
+        if (date.toLocaleString(DateTime.DATETIME_SHORT) == this.state.selectedTime.toLocaleString(DateTime.DATETIME_SHORT)) {
           retVal += " " + "is-selected";
         }
       }
@@ -195,14 +195,14 @@ export default class Scheduler extends React.Component<ISchedulerProps, ISchedul
         if (m.personType == PERSON_TYPE.Employee) {
           attendees += m.mail + ",";
         } else {
-          contents += m.mail + ",";
+          contents += m.mail + ", ";
         }
       });
       if (endsWith(attendees, ",")) {
         attendees = trim(attendees, ",");
       }
       if (endsWith(contents, ",")) {
-        contents = trim(contents, ",") + ".";
+        contents = trim(contents, ", ") + ".";
       }
       const meetingURL = `https://teams.microsoft.com/l/meeting/new?subject=${strings.MeetingSubject}&attendees=${attendees}&startTime=${this.state.selectedTime.toISODate()}T${this.state.selectedTime.toFormat('HH:00:00ZZ')}&content=${contents}`;
       wc.ExecuteDeepLink(meetingURL);
@@ -229,10 +229,32 @@ export default class Scheduler extends React.Component<ISchedulerProps, ISchedul
               onClick={() => this._scheduleMeeting()} />
           </div>
           <div ref={this._scheduleContainer} className="hoo-dtstable">
+            <div data-dow="" className="new-date-row">
+              <label htmlFor="" className="hoo-dtsday "><div className="overflow"></div></label>
+              <div className={`hoo-dtshours-label`}>
+
+              </div>
+              {this.state.meetingTimes.map((h) => {
+                let newDate: boolean = false;
+                if (h.hour == 0) newDate = true;
+                return (
+                  <div
+                    className={`hoo-dtshours-label`}
+                    data-time="">
+                    {(newDate) &&
+                      <span>{h.toLocaleString(DateTime.DATE_SHORT)}</span>
+                    }
+                  </div>
+                );
+              })}
+              <div className={`hoo-dtshours-label`}>
+
+              </div>
+            </div>
             <div data-dow="" className="hoo-dtsentry no-hover">
               <label htmlFor="" className="hoo-dtsday "><div className="overflow"></div></label>
               <div className={`hoo-dtshours-label arrow`}>
-                {(this.state.meetingTimes[0].hour > this._now.hour) &&
+                {(this.state.meetingTimes[0] > this._now) &&
                   <ButtonIcon
                     iconType={Icons.LeftArrow}
                     altText={strings.TrashLabel}
