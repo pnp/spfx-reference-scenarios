@@ -1,6 +1,6 @@
 import * as React from "react";
 import { Logger, LogLevel } from "@pnp/logging";
-import { chain, cloneDeep, find, isEqual, remove, forEach, round } from "lodash";
+import { chain, cloneDeep, find, isEqual, remove, forEach, round, indexOf } from "lodash";
 import Dialog from "../molecules/Dialog";
 import strings from "WorldClockWebPartStrings";
 import ManageViews from "../molecules/ManageViews";
@@ -14,6 +14,8 @@ import styles from "../WorldClock.module.scss";
 import ButtonSplitPrimary, { IButtonOption } from "../atoms/ButtonSplitPrimary";
 import ManageMembers from "../molecules/ManageMembers";
 import Button from "../atoms/Button";
+import ButtonIcon from "../atoms/ButtonIcon";
+import TimeCardArrow, { Direction } from "../molecules/TimeCardArrow";
 
 export interface ITeamTimesProps {
   meetingMembers: IPerson[];
@@ -33,6 +35,11 @@ export interface ITeamTimesState {
   showManageMembers: boolean;
   profileUser: IPerson;
   timeCardContainerWidth: number;
+  timeCardIndex: number;
+  totalTimeCards: number;
+  maxTimeCards: number;
+  nextTime: string;
+  previousTime: string;
 }
 
 export class TeamTimesState implements ITeamTimesState {
@@ -48,6 +55,11 @@ export class TeamTimesState implements ITeamTimesState {
     public showManageMembers: boolean = false,
     public profileUser: IPerson = wc.CurrentUser,
     public timeCardContainerWidth: number = null,
+    public timeCardIndex: number = 0,
+    public totalTimeCards: number = 0,
+    public maxTimeCards: number = 0,
+    public nextTime: string = "",
+    public previousTime: string = "",
   ) { }
 }
 
@@ -63,17 +75,13 @@ export default class TeamTimes extends React.Component<ITeamTimesProps, ITeamTim
       this._timeCardResize = new ResizeObserver(this._resizeObserverHandler);
       this._timeCardContainer = React.createRef<HTMLDivElement>();
 
-      let timeZoneView: any[];
       let needsConfig = false;
 
       if ((wc.Config.members.length > 20) && (wc.Config.views.length == 0)) {
         needsConfig = true;
-      } else {
-        let defaultView: IWCView = wc.Config.views[wc.Config.defaultViewId];
-        timeZoneView = this._sortTimeZones(defaultView);
       }
       let options: IButtonOption[] = this._getManageViewOptions();
-      this.state = new TeamTimesState(needsConfig, needsConfig, wc.Config.views, (needsConfig) ? null : wc.Config.defaultViewId, timeZoneView, options);
+      this.state = new TeamTimesState(needsConfig, needsConfig, wc.Config.views, (needsConfig) ? null : wc.Config.defaultViewId, [], options);
       this.updateCurrentTime();
     } catch (err) {
       Logger.write(`${this.LOG_SOURCE} (constructor) - ${err}`, LogLevel.Error);
@@ -101,9 +109,10 @@ export default class TeamTimes extends React.Component<ITeamTimesProps, ITeamTim
   private _resizeObserverHandler: ResizeObserverCallback = () => {
     try {
       const timeCardContainerWidth = this._timeCardContainer.current.clientWidth;
+      const maxTimeCards = round(timeCardContainerWidth / 250);
       this.setState({ timeCardContainerWidth: timeCardContainerWidth });
-      const timeZoneView = this._sortTimeZones(wc.Config.views[this.state.currentView]);
-      this.setState({ timeZoneView: timeZoneView });
+      const [timeZoneView, totalTimeCards] = this._sortTimeZones(wc.Config.views[this.state.currentView], this.state.timeCardIndex, maxTimeCards);
+      this.setState({ timeZoneView: timeZoneView, totalTimeCards: totalTimeCards, maxTimeCards: maxTimeCards });
     } catch (err) {
       Logger.write(`${this.LOG_SOURCE} (_resizeObserverHandler) - ${err}`, LogLevel.Error);
     }
@@ -111,7 +120,7 @@ export default class TeamTimes extends React.Component<ITeamTimesProps, ITeamTim
 
   private _handleRefresh = (newState?: any) => {
     try {
-      const timeZoneView = this._sortTimeZones(wc.Config.views[this.state.currentView]);
+      const [timeZoneView, totalTimeCards] = this._sortTimeZones(wc.Config.views[this.state.currentView], this.state.timeCardIndex, this.state.maxTimeCards);
       if (newState == undefined) {
         newState = { timeZoneView };
       } else {
@@ -149,8 +158,9 @@ export default class TeamTimes extends React.Component<ITeamTimesProps, ITeamTim
     this.setState({ showManageViews: visible, needsConfig: false });
   }
 
-  private _sortTimeZones(view: IWCView) {
+  private _sortTimeZones(view: IWCView, startIndex: number = 0, maxCards: number): [ITimeZoneView[], number] {
     let timeZoneView: ITimeZoneView[] = [];
+    let totalTimeCards: number = 0;
     try {
       const currentTime: DateTime = this.state?.currentTime || DateTime.now().setLocale(wc.Locale).setZone(wc.IANATimeZone);
       let members: IPerson[] = wc.GetTeamMembers(view.members);
@@ -172,25 +182,43 @@ export default class TeamTimes extends React.Component<ITeamTimesProps, ITeamTim
       const offsetGroups = chain(members).groupBy("offset").map((value, key) => ({ offset: parseInt(key.toString()), members: value })).sortBy("offset").value();
       let styleGroup = "";
       let currentGroup = null;
-      let maxOffsets: number = offsetGroups.length;
-      if (this.state != undefined) {
-        maxOffsets = round(this.state.timeCardContainerWidth / 250);
-      }
+      totalTimeCards = offsetGroups.length;
 
-      for (let o = 0; o < maxOffsets; o++) {
+      if (startIndex > 0) {
+        this.setState({ previousTime: offsetGroups[startIndex - 1].members[0]?.timeStyle });
+      }
+      if ((offsetGroups.length > maxCards) && (maxCards + startIndex < offsetGroups.length - 1)) {
+        let offset = offsetGroups[maxCards + startIndex];
+        const timeStyle = offset.members[0]?.timeStyle;
+        this.setState({ nextTime: timeStyle });
+      }
+      for (let o = startIndex; o < maxCards + startIndex; o++) {
         let offset = offsetGroups[o];
         const timeStyle = offset.members[0]?.timeStyle;
         if (styleGroup != timeStyle || currentGroup == null) {
+          styleGroup = timeStyle;
           timeZoneView.push({ style: timeStyle, offsetGroup: [offset] });
           currentGroup = timeZoneView[timeZoneView.length - 1];
         } else {
-          currentGroup.offsetGroup.push(o);
+          currentGroup.offsetGroup.push(offset);
         }
       }
     } catch (err) {
       Logger.write(`${this.LOG_SOURCE} (_sortTimeZones) - ${err}`, LogLevel.Error);
     }
-    return timeZoneView;
+    return [timeZoneView, totalTimeCards];
+  }
+
+  private _shiftTimeCards = (cardIndex: number) => {
+    try {
+      const timeCardIndex = this.state.timeCardIndex + cardIndex;
+
+      //const maxCards = round(this.state.timeCardContainerWidth / 250);
+      const [timeZoneView, totalTimeCards] = this._sortTimeZones(wc.Config.views[this.state.currentView], timeCardIndex, this.state.maxTimeCards);
+      this.setState({ timeCardIndex: timeCardIndex, timeZoneView: timeZoneView, totalTimeCards: totalTimeCards });
+    } catch (err) {
+      Logger.write(`${this.LOG_SOURCE} (_updateTimeCard) - ${err}`, LogLevel.Error);
+    }
   }
 
   private _showManageMembers = (visible: boolean): void => {
@@ -222,9 +250,9 @@ export default class TeamTimes extends React.Component<ITeamTimesProps, ITeamTim
       }
       success = await wc.UpdateConfig(config);
       if (success) {
-        let timeZoneView = this._sortTimeZones(view);
+        let [timeZoneView, totalTimeCards] = this._sortTimeZones(view, 0, this.state.maxTimeCards);
         let options: IButtonOption[] = this._getManageViewOptions();
-        this.setState({ showManageViews: false, views: config.views, timeZoneView: timeZoneView, viewOptions: options, currentView: view.viewId });
+        this.setState({ showManageViews: false, views: config.views, timeZoneView: timeZoneView, totalTimeCards: totalTimeCards, viewOptions: options, currentView: view.viewId, timeCardIndex: 0 });
       }
     } catch (err) {
       Logger.write(`${this.LOG_SOURCE} (_saveView) - ${err}`, LogLevel.Error);
@@ -245,10 +273,10 @@ export default class TeamTimes extends React.Component<ITeamTimesProps, ITeamTim
       if (success) {
         let options: IButtonOption[] = this._getManageViewOptions();
         if (wc.Config.views.length > 0) {
-          let timeZoneView = this._sortTimeZones(a);
-          this.setState({ showManageViews: false, views: config.views, timeZoneView: timeZoneView, viewOptions: options, currentView: a.viewId });
+          let [timeZoneView, totalTimeCards] = this._sortTimeZones(a, 0, this.state.maxTimeCards);
+          this.setState({ showManageViews: false, views: config.views, timeZoneView: timeZoneView, totalTimeCards: totalTimeCards, viewOptions: options, currentView: a.viewId, timeCardIndex: 0 });
         } else {
-          this.setState({ showManageViews: false, views: config.views, timeZoneView: [], viewOptions: options, currentView: "" });
+          this.setState({ showManageViews: false, views: config.views, timeZoneView: [], viewOptions: options, currentView: "", timeCardIndex: 0 });
         }
       }
     } catch (err) {
@@ -326,8 +354,8 @@ export default class TeamTimes extends React.Component<ITeamTimesProps, ITeamTim
     try {
       const views = cloneDeep(this.state.views);
       let v = find(views, { viewName: viewName });
-      let timeZoneView = this._sortTimeZones(v);
-      this.setState({ timeZoneView: timeZoneView, currentView: v.viewId });
+      let [timeZoneView, totalTimeCards] = this._sortTimeZones(v, 0, this.state.maxTimeCards);
+      this.setState({ timeZoneView: timeZoneView, totalTimeCards: totalTimeCards, currentView: v.viewId, timeCardIndex: 0 });
     } catch (err) {
       Logger.write(`${this.LOG_SOURCE} (_changeView) - ${err}`, LogLevel.Error);
     }
@@ -364,40 +392,57 @@ export default class TeamTimes extends React.Component<ITeamTimesProps, ITeamTim
               onClick={() => this._showManageMembers(true)} />
           </div>
           <div className="hoo-wcs">
+
             {this.state.timeZoneView.map((styleGroup, index) => {
+              //if index = 0 then check if state startindex > 0
               return (
-                <div className={`${styleGroup.style}`}>
-                  {styleGroup.offsetGroup.map((offsetGroup) => {
-                    return (
-                      <TimeCard
-                        userId={wc.CurrentUser.personId}
-                        members={offsetGroup.members}
-                        currentTimeZone={wc.IANATimeZone}
-                        currentTime={this.state.currentTime}
-                        addToMeeting={this.props.addToMeeting}
-                        meetingMembers={this.props.meetingMembers}
-                        editProfile={this._showProfile} />
-                    );
-                  })}
-                </div>
+                <>
+                  {((index == 0) && (this.state.timeCardIndex > 0)) &&
+
+                    <TimeCardArrow
+                      currentTimeZone={this.state.previousTime}
+                      iconType={Icons.LeftArrow}
+                      altText={"Previous"}
+                      direction={Direction.Backward}
+                      onClick={this._shiftTimeCards} />}
+
+                  <div className={`${styleGroup.style}`}>
+                    {
+                      styleGroup.offsetGroup.map((offsetGroup) => {
+                        return (
+                          <TimeCard
+                            userId={wc.CurrentUser.personId}
+                            members={offsetGroup.members}
+                            currentTimeZone={wc.IANATimeZone}
+                            currentTime={this.state.currentTime}
+                            addToMeeting={this.props.addToMeeting}
+                            meetingMembers={this.props.meetingMembers}
+                            editProfile={this._showProfile} />
+                        );
+                      })
+
+                    }
+
+                  </div>
+
+                  {((index == this.state.timeZoneView.length - 1) && ((this.state.maxTimeCards + this.state.timeCardIndex) < this.state.totalTimeCards)) &&
+
+                    <TimeCardArrow
+                      currentTimeZone={this.state.nextTime}
+                      iconType={Icons.RightArrow}
+                      altText={"Next"}
+                      direction={Direction.Forward}
+                      onClick={this._shiftTimeCards} />}
+                </>
+
+
               );
+
+
             })}
+
+
           </div>
-          {/* {this.state.timeZoneView.map((m, index) => {
-              return (<div className={`${m.style} ${(index == 0) ? "first" : (index == this.state.timeZoneView.length - 1) ? "last" : ""}`}>
-                {m.cardItems.map((ci) => {
-                  let members: IPerson[] = ci.members as IPerson[];
-                  return (<TimeCard
-                    userId={wc.CurrentUser.personId}
-                    members={members}
-                    currentTimeZone={wc.IANATimeZone}
-                    currentTime={this.state.currentTime}
-                    addToMeeting={this.props.addToMeeting}
-                    meetingMembers={this.props.meetingMembers}
-                    editProfile={this._showProfile} />);
-                })}
-              </div>);
-            })} */}
           {this.state.showManageViews &&
             <Dialog
               header={(this.state.needsConfig) ? strings.ConfigureViewsTitle : strings.ManageViewsTitle}

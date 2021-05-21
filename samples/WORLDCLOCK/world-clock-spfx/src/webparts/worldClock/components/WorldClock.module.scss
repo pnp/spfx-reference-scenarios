@@ -208,15 +208,15 @@
     }
 
     .hoo-wcs>div:first-child {
-      >div {
+      >div:first-child {
         border-left: none;
-        width: px2rem(217px);
+        //width: px2rem(217px);
       }
     }
 
-    .hoo-wcs>div:last-child>div {
+    .hoo-wcs>div:last-child>div:last-child {
       border-right: none;
-      width: px2rem(217px);
+      //width: px2rem(217px);
     }
 
     .hoo-wc-ampm {
@@ -272,6 +272,14 @@
       .hoo-wc-ampm {
         border-left: 1px white solid;
       }
+    }
+
+    .hoo-wc-clock.partial {
+      width: px2rem(35px);
+
+      padding: 0;
+
+
     }
 
     .hoo-wc-time {
