@@ -39,7 +39,7 @@ export class WorldClockMemberService implements IWorldClockMemberService {
       if (wcConfig.configPerson != undefined) {
         wcConfig.members.unshift(wcConfig.configPerson);
       }
-      if (wcConfig.members.length <= 20) {
+      if (wcConfig.members.length > 0 && wcConfig.members.length <= 20) {
         //Create Default View     
         const view = new WCView("0", strings.DefaultViewTitle, flatMap(wcConfig.members, (o) => { return o.personId; }));
         wcConfig.defaultViewId = "0";
