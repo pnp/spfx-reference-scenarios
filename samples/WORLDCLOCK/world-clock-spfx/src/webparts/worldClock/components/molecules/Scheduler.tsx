@@ -264,7 +264,7 @@ export default class Scheduler extends React.Component<ISchedulerProps, ISchedul
               {this.state.meetingTimes.map((h) => {
                 return (
                   <div
-                    className={`hoo-dtshours-label ${(this.state.selectedTime && (h.hour == this.state.selectedTime.hour)) ? "isSelected" : ""}`}
+                    className={`hoo-dtshours-label ${(this.state.selectedTime && (h == this.state.selectedTime)) ? "isSelected" : ""}`}
                     data-time=""
                     onClick={() => this._setSelectedTime(h)}><span>{replace(h.toLocaleString(DateTime.TIME_SIMPLE), ":00", "")}</span>
                   </div>);
