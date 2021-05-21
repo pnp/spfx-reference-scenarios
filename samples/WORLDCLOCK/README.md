@@ -2,10 +2,14 @@
 
 ## Summary
 
-Short summary on functionality and used technologies.
+The World Clock solution helps teams and managers deal with geographically dispersed team members helping make it easier to reconcile working times and meeting schedules with all the members. The solution can be added as a Teams tab to help members of a Team work together but also as a Personal App to help you manage your personal "teams" who may live in various time zones.
 
-TODO: PICTURE
-[picture of the solution in action, if possible]
+### For Teams
+
+The solution automatically loads each team member into the solution. You can then set your own working schedule, indicating working, possibly working, and not working times. The solution will attempt to determine you IANA time zone when it loads for you, but you can also manage what timezone the solution associates with you to help your co-workers schedule meetings and communicate with you. You can also set the timezone for other team members, including guests so that you can get the solution up and running faster. They can always adjust the values for themselves when they visit the tab.
+
+Once all team members update their working hours (if they're different from the 9:00 to 5/:00 default values) and set their timezones you are ready to start scheduling meetings. By selecting the team members you will see a schedule solution show you the working hour availability for each of the selected teammates. Once you have settled on, and selected the best meeting time, you can click `Schedule Meeting` which deep links into the Microsoft Teams meeting scheduler allowing you to set up any specific meeting settings and a description and schedule the meeting.
+>Note: Due to limitations with the Microsoft Teams deep linking feature we are unable to include the guests in the meeting invite through the link, they can be added to the meeting manually once you're in the schedule screen. For convenience the members that couldn't be added will be noted in the description field.
 
 ## Used SharePoint Framework Version
 

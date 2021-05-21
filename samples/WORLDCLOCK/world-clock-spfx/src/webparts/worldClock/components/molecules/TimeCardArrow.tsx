@@ -6,7 +6,6 @@ import { isEqual } from "lodash";
 
 
 export interface ITimeCardArrowProps {
-  currentTimeZone: string;
   iconType: IIconType;
   altText: string;
   onClick: (shift: number) => void;
@@ -42,8 +41,8 @@ export default class TimeCardArrow extends React.Component<ITimeCardArrowProps, 
     try {
 
       return (
-        <div data-component={this.LOG_SOURCE} className={this.props.currentTimeZone}>
-          <div className={`hoo-wc-clock partial`}>
+        <div data-component={this.LOG_SOURCE}>
+          <div className="hoo-wc-clock partial">
             <div className="center-vertical">
               <ButtonIcon
                 iconType={this.props.iconType}
