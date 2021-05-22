@@ -405,7 +405,7 @@ export default class TeamTimes extends React.Component<ITeamTimesProps, ITeamTim
                           <TimeCard
                             userId={wc.CurrentUser.personId}
                             members={offsetGroup.members}
-                            currentTimeZone={wc.IANATimeZone}
+                            currentTimeZone={offsetGroup.members[0]?.IANATimeZone || wc.IANATimeZone}
                             currentTime={this.state.currentTime}
                             addToMeeting={this.props.addToMeeting}
                             meetingMembers={this.props.meetingMembers}
