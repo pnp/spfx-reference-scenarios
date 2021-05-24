@@ -393,32 +393,34 @@ export default class TeamTimes extends React.Component<ITeamTimesProps, ITeamTim
                 <div className={`${styleGroup.style}`}>
                   {
                     styleGroup.offsetGroup.map((offsetGroup, offsetIndex) => {
-                      return (
-                        <>
-                          {((styleIndex == 0) && (offsetIndex == 0) && (this.state.startTimeCardIndex > 0)) &&
-                            <TimeCardArrow
-                              iconType={Icons.LeftArrow}
-                              altText={"Previous"}
-                              direction={Direction.Backward}
-                              onClick={this._shiftTimeCards} />
-                          }
-                          <TimeCard
-                            userId={wc.CurrentUser.personId}
-                            members={offsetGroup.members}
-                            currentTimeZone={offsetGroup.members[0]?.IANATimeZone || wc.IANATimeZone}
-                            currentTime={this.state.currentTime}
-                            addToMeeting={this.props.addToMeeting}
-                            meetingMembers={this.props.meetingMembers}
-                            editProfile={this._showProfile} />
-                          {(styleIndex == this.state.timeZoneView.length - 1) && (offsetIndex == styleGroup.offsetGroup.length - 1) && (moreCards) &&
-                            <TimeCardArrow
-                              iconType={Icons.RightArrow}
-                              altText={"Next"}
-                              direction={Direction.Forward}
-                              onClick={this._shiftTimeCards} />
-                          }
-                        </>
-                      );
+                      if (offsetGroup.members?.length > 0) {
+                        return (
+                          <>
+                            {((styleIndex == 0) && (offsetIndex == 0) && (this.state.startTimeCardIndex > 0)) &&
+                              <TimeCardArrow
+                                iconType={Icons.LeftArrow}
+                                altText={"Previous"}
+                                direction={Direction.Backward}
+                                onClick={this._shiftTimeCards} />
+                            }
+                            <TimeCard
+                              members={offsetGroup.members}
+                              currentTime={this.state.currentTime}
+                              addToMeeting={this.props.addToMeeting}
+                              meetingMembers={this.props.meetingMembers}
+                              editProfile={this._showProfile} />
+                            {(styleIndex == this.state.timeZoneView.length - 1) && (offsetIndex == styleGroup.offsetGroup.length - 1) && (moreCards) &&
+                              <TimeCardArrow
+                                iconType={Icons.RightArrow}
+                                altText={"Next"}
+                                direction={Direction.Forward}
+                                onClick={this._shiftTimeCards} />
+                            }
+                          </>
+                        );
+                      } else {
+                        return null;
+                      }
                     })
                   }
                 </div>

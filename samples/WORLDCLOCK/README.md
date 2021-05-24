@@ -38,6 +38,10 @@ Version|Date|Comments
 -------|----|--------
 1.0|January 29, 2021|Initial release
 
+## Known Issue
+
+The Teams Desktop client doesn't recognize `US/Hawaii` as a valid timezone, this does work in the web client.
+
 ## Disclaimer
 
 **THIS CODE IS PROVIDED *AS IS* WITHOUT WARRANTY OF ANY KIND, EITHER EXPRESS OR IMPLIED, INCLUDING ANY IMPLIED WARRANTIES OF FITNESS FOR A PARTICULAR PURPOSE, MERCHANTABILITY, OR NON-INFRINGEMENT.**

@@ -78,7 +78,9 @@ export default class DropDown extends React.Component<IDropDownProps, IDropDownS
 
   private _onChange = (newValue: any, fieldName: string) => {
     try {
-      this.props.onChange(newValue.value, fieldName);
+      this.setState({ currentValue: newValue }, () => {
+        this.props.onChange(newValue, fieldName);
+      });
     } catch (err) {
       Logger.write(`${this.LOG_SOURCE} (_onChange) - ${err}`, LogLevel.Error);
     }
@@ -324,10 +326,17 @@ export default class DropDown extends React.Component<IDropDownProps, IDropDownS
           </button>
           <ul
             role="listbox"
-            className={`hoo-select-dropdown ${(this.state.open) ? "" : "hidden-all"}`}
-            onChange={(newValue) => { this._onChange(newValue.target, this.props.id); }}>
+            className={`hoo-select-dropdown ${(this.state.open) ? "" : "hidden-all"}`}>
             {this.props.options.map((o, index) => {
-              return (<li ref={element => this._optionElements[index] = element} key={o.key} className="hoo-option" role="option" data-value={o.key} tabIndex={-1}>{o.text}</li>);
+              return (
+                <li ref={element => this._optionElements[index] = element}
+                  key={o.key}
+                  className="hoo-option" role="option"
+                  data-value={o.key}
+                  tabIndex={-1}
+                  onClick={() => { this._onChange(o.key, this.props.id); }}
+                >{o.text}</li>
+              );
             })}
           </ul>
         </div>
