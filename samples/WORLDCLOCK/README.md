@@ -6,10 +6,20 @@ The World Clock solution helps teams and managers deal with geographically dispe
 
 ### For Teams
 
-The solution automatically loads each team member into the solution. You can then set your own working schedule, indicating working, possibly working, and not working times. The solution will attempt to determine you IANA time zone when it loads for you, but you can also manage what timezone the solution associates with you to help your co-workers schedule meetings and communicate with you. You can also set the timezone for other team members, including guests so that you can get the solution up and running faster. They can always adjust the values for themselves when they visit the tab.
+The solution automatically loads each team member into the solution. You can then set your own working schedule, indicating working, possibly working, and not working times. The solution will attempt to determine you IANA timezone when it loads for you, but you can also manage what timezone the solution associates with you to help your co-workers schedule meetings and communicate with you. You can also set the timezone for other team members, including guests so that you can get the solution up and running faster. They can always adjust the values for themselves when they visit the tab.
 
-Once all team members update their working hours (if they're different from the 9:00 to 5/:00 default values) and set their timezones you are ready to start scheduling meetings. By selecting the team members you will see a schedule solution show you the working hour availability for each of the selected teammates. Once you have settled on, and selected the best meeting time, you can click `Schedule Meeting` which deep links into the Microsoft Teams meeting scheduler allowing you to set up any specific meeting settings and a description and schedule the meeting.
+Once all team members update their working hours (if they're different from the 9:00 to 5:00 default values) and set their timezones you are ready to start scheduling meetings. By selecting the team members you will see a schedule solution show you the working hour availability for each of the selected teammates. Once you have settled on, and selected the best meeting time, you can click `Schedule Meeting` which deep links into the Microsoft Teams meeting scheduler allowing you to set up any specific meeting settings and a description and schedule the meeting.
 >Note: Due to limitations with the Microsoft Teams deep linking feature we are unable to include the guests in the meeting invite through the link, they can be added to the meeting manually once you're in the schedule screen. For convenience the members that couldn't be added will be noted in the description field.
+
+The configurations for the team solution is stored in a file in the Team's SharePoint Site Assets library in a folder called `WorldClockApp`.
+
+### For Personal Teams
+
+The solution when used as a personal app will automatically load, and create a default view of, the top 20 _people_ related to you based on the Microsoft Graph algorithm, see [person resource type](https://docs.microsoft.com/en-us/graph/api/resources/person?view=graph-rest-1.0) for more information. Because the team members are personal to you you will be able to set the working schedule, if different than the default, and the timezone for all the users in your view.
+
+Once all the team members are set up, you can start using the solution in the same manner as the Teams tab version.
+
+The configurations for the personal solution are stored in a file in your personal OneDrive in a folder called `WorldClockApp`.
 
 ## Used SharePoint Framework Version
 
@@ -40,7 +50,7 @@ Version|Date|Comments
 
 ## Known Issue
 
-The Teams Desktop client doesn't recognize `US/Hawaii` as a valid timezone, this does work in the web client.
+The Teams Desktop client doesn't recognize `US/Hawaii` as a valid timezone, this does work in the web client. Using `US/Aleutian` will give you the same result (GMT-10).
 
 ## Disclaimer
 
@@ -65,11 +75,15 @@ Steps for deployment:
 
     ![Deploy SPPKG](./images/DeploySPPKG.png)
 
+1. After the solution has deployed you will need to authorize the Graph API permissions requested. To see, and approve, them navigate to the SharePoint Admin Center and then to the `API access` section under `Advanced` menu item. This will show you a list of pending permissions requests. By selecting each request and then selecting `Approve` the permissions will be granted to allow the solution to access the information it needs through the Microsoft Graph. For more information on the individual permissions this solution is requesting please see the [Microsoft Graph REST API v1.0 reference](https://docs.microsoft.com/en-us/graph/api/overview?toc=.%2Fref%2Ftoc.json&view=graph-rest-1.0)
+
+    ![Approve API Permissions](./images/ApproveAPIPermissions.png)
+
 1. After the solution has deployed you will need to sync the solution into your Teams app store. To do so, select the solution in the app catalog and then under the files tab in the ribbon the `Sync to Teams` option will be enabled, select it.
 
     ![Sync App Manifest To Teams](./images/SyncToTeams.png)
 
-1. Assuming you received no errors while the solution during the Teams sync, you should now be able to add it into your Teams App Bar as a personal tab. You may want to consider adding the app as a custom pinned site baed on the Teams setup policies, you can learn more about doing so by visiting [Manage app setup policies in Microsoft Teams](https://docs.microsoft.com/en-us/MicrosoftTeams/teams-app-setup-policies). Further, for more information on changing the permissions on who has access to the app, you can read more [View app permissions and grant admin consent in the Microsoft Teams admin center](https://docs.microsoft.com/en-us/microsoftteams/app-permissions-admin-center).
+1. Assuming you received no errors while the solution during the Teams sync, and you've approved the API permissions, you should now be able to add it into your Teams App Bar as a personal tab. You may want to consider adding the app as a custom pinned site based on the Teams setup policies, you can learn more about doing so by visiting [Manage app setup policies in Microsoft Teams](https://docs.microsoft.com/en-us/MicrosoftTeams/teams-app-setup-policies). Further, for more information on changing the permissions on who has access to the app, you can read more [View app permissions and grant admin consent in the Microsoft Teams admin center](https://docs.microsoft.com/en-us/microsoftteams/app-permissions-admin-center).
 
 1. (Optional) You may also want to add the App to one or more Teams as a new tab in a channel. To do so, navigate to the Team and Channel you want to add the App to. Select the (+) to add a new tab and search for `World Clock`. Once you have added the App as a tab it will load all the team members into the configuration allowing you to use the solution.
 
@@ -80,20 +94,6 @@ Steps for deployment:
     ![Select World Clock App from Search Results](./images/SelectWorldClock-TEMP.png)
 
     ![Configure World Clock Tab](./images/ConfigureWorldClock-TEMP.png)
-
-## Features
-
-Description of the extension that expands upon high-level summary above.
-
-This extension illustrates the following concepts:
-
-- topic 1
-- topic 2
-- topic 3
-
-> Notice that better pictures and documentation will increase the sample usage and the value you are providing for others. Thanks for your submissions advance.
-
-> Share your web part with others through Microsoft 365 Patterns and Practices program to get visibility and exposure. More details on the community, open-source projects and other activities from http://aka.ms/m365pnp.
 
 ## References
 
