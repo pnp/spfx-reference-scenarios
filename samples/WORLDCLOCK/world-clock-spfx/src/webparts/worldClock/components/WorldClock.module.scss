@@ -210,13 +210,19 @@
     .hoo-wcs>div:first-child {
       >div:first-child {
         border-left: none;
-        //width: px2rem(217px);
+
+        &>div:first-child {
+          border-left: none;
+        }
       }
     }
 
     .hoo-wcs>div:last-child>div:last-child {
       border-right: none;
-      //width: px2rem(217px);
+
+      &>div:last-child {
+        border-right: none;
+      }
     }
 
     .hoo-wc-ampm {
@@ -275,7 +281,7 @@
     }
 
     .hoo-wc-clock.partial {
-      width: px2rem(35px);
+      width: px2rem(40px);
 
       padding: 0;
       height: 100%;
