@@ -2,10 +2,7 @@
 
 ## Summary
 
-Short summary on functionality and used technologies.
-
-TODO: PICTURE
-[picture of the solution in action, if possible]
+This solution depicts how you can build a teams based custom form that collects information from users and provides a custom dashboard for working with the results. In this case we've built a solution that allows an administrator to define a set of questions to verify the health of an individual entering an office space during the pandemic. Their entry will be added to a central list that then is displayed on a dashboard that a receptionist or security station can review when people enter the building. The solution also allows someone to enter the answers for a guest entering the building. Later if needed a search can be performed across a time frame to ascertain who was in contact with each other and might need to be warned of an outbreak.
 
 ## Used SharePoint Framework Version
 
@@ -17,10 +14,6 @@ TODO: PICTURE
 - [Microsoft 365 tenant](https://docs.microsoft.com/en-us/sharepoint/dev/spfx/set-up-your-developer-tenant)
 
 > Get your own free development tenant by subscribing to [Microsoft 365 developer program](http://aka.ms/o365devprogram)
-
-## Prerequisites
-
-> Any special pre-requisites?
 
 ## Solution
 
@@ -92,20 +85,6 @@ The one drawback of a pre-packaged solution is the inability to target a specifi
     ```
 
 1. Zip the two image files plus the manifest.json file, and upload the package into your Teams Admin center, for detail about this process please refer to [Publish a custom app by uploading an app package](https://docs.microsoft.com/en-us/microsoftteams/upload-custom-apps).
-
-## Features
-
-Description of the extension that expands upon high-level summary above.
-
-This extension illustrates the following concepts:
-
-- topic 1
-- topic 2
-- topic 3
-
-> Notice that better pictures and documentation will increase the sample usage and the value you are providing for others. Thanks for your submissions advance.
-
-> Share your web part with others through Microsoft 365 Patterns and Practices program to get visibility and exposure. More details on the community, open-source projects and other activities from http://aka.ms/m365pnp.
 
 ## References
 
