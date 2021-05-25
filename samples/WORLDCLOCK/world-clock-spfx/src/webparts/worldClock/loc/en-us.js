@@ -5,7 +5,7 @@ define([], function () {
     "ManageViewsTitle": "Manage Views",
     "NewViewTitle": "New View",
     "DefaultViewTitle": "Default View",
-    "ManageViewsContent": "This application is best suited to manage groups of less than 20. Create, edit, and manage views of team members.",
+    "ManageViewsContent": "This application is best suited to manage groups of less than 50. Create, edit, and manage views of team members.",
     "ManageMembersTitle": "Manage World Clock Members",
     "ManageMembersFilterPlaceholder": "Filter Team Members or guests",
     "ManageMembersContent": "Set the timezone for members of this team for use in scheduling.",
@@ -13,7 +13,7 @@ define([], function () {
     "AddViewMembersHeader": "Add Additional Members to View",
     "MakeDefaultViewHeader": "Make Default View",
     "MakeDefaultViewLabel": "Make this view the default view for all users.",
-    "MaxMembersError": "You can only have up to 20 members in a view.",
+    "MaxMembersError": "You can only have up to 100 members in a view.",
     "EditProfileTitle": "Edit Profile",
     "EditProfileContent": "Edit your profile to show your working days and hours",
     "EditTimeZoneLabel": "Edit Timezone",
@@ -35,6 +35,7 @@ define([], function () {
     "DropDownAvailableOptions": "options available. Arrow down to browse or start typing to filter.",
     "PAManageMembersFilterPlaceholder": "Filter My Team Members or guests",
     "PAManageMembersSearchPlaceholder": "Search for new members or guests",
+    "PAManageMembersContent": "Set the timezone and availability for people you work with.",
     "ExpandPeopleList": "Expand the people in this TimeZone"
   }
 });

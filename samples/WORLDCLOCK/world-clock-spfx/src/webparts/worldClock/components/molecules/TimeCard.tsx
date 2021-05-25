@@ -92,7 +92,7 @@ export default class TimeCard extends React.Component<ITimeCardProps, ITimeCardS
               const _isCurrentUser: boolean = wc.CurrentUser.personId == m.personId;
               return (<div className="hoo-wc-people" title={m.displayName}>
                 <span className="hoo-wc-people-name">{m.displayName}</span>
-                {((_isCurrentUser) && (!_inMeeting)) &&
+                {((!_isCurrentUser) && (!_inMeeting)) &&
                   <ButtonIcon
                     iconType={Icons.PlusPerson}
                     onClick={() => this.props.addToMeeting(m)}

@@ -1,6 +1,6 @@
 import * as React from "react";
 import { Logger, LogLevel } from "@pnp/logging";
-import { endsWith, find, isEqual, remove, replace, round, trim } from "lodash";
+import { endsWith, find, isEmpty, isEqual, remove, replace, round, trim } from "lodash";
 import { HOUR_TYPE, IPerson, PERSON_TYPE, Schedule } from "../../models/wc.models";
 import { DateTime } from "luxon";
 import { wc } from "../../services/wc.service";
@@ -190,7 +190,7 @@ export default class Scheduler extends React.Component<ISchedulerProps, ISchedul
   private _scheduleMeeting() {
     try {
       let attendees: string = "";
-      let contents: string = strings.MeetingContents;
+      let contents: string = "";
       this.props.meetingMembers.map((m, index) => {
         if (m.personType == PERSON_TYPE.Employee) {
           attendees += m.mail + ",";
@@ -201,9 +201,13 @@ export default class Scheduler extends React.Component<ISchedulerProps, ISchedul
       if (endsWith(attendees, ",")) {
         attendees = trim(attendees, ",");
       }
-      if (endsWith(contents, ",")) {
-        contents = trim(contents, ", ") + ".";
+      if (!isEmpty(contents)) {
+        if (endsWith(contents, ", ")) {
+          contents = trim(contents, ", ");
+        }
+        contents = `${strings.MeetingContents} ${contents}.`;
       }
+
       const meetingURL = `https://teams.microsoft.com/l/meeting/new?subject=${strings.MeetingSubject}&attendees=${attendees}&startTime=${this.state.selectedTime.toISODate()}T${this.state.selectedTime.toFormat('HH:00:00ZZ')}&content=${contents}`;
       wc.ExecuteDeepLink(meetingURL);
     } catch (err) {

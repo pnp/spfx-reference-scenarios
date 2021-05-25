@@ -4,7 +4,7 @@ import { chain, cloneDeep, find, isEqual, remove, forEach, round, indexOf } from
 import Dialog from "../molecules/Dialog";
 import strings from "WorldClockWebPartStrings";
 import ManageViews from "../molecules/ManageViews";
-import { IPerson, IWCView, ITimeZoneView } from "../../models/wc.models";
+import { IPerson, IWCView, ITimeZoneView, CONFIG_TYPE } from "../../models/wc.models";
 import { wc } from "../../services/wc.service";
 import TimeCard from "../molecules/TimeCard";
 import { DateTime } from "luxon";
@@ -446,7 +446,7 @@ export default class TeamTimes extends React.Component<ITeamTimesProps, ITeamTim
           {this.state.showManageMembers &&
             <Dialog
               header={strings.ManageMembersTitle}
-              content={strings.ManageMembersContent}
+              content={(wc.ConfigType === CONFIG_TYPE.Personal) ? strings.PAManageMembersContent : strings.ManageMembersContent}
               visible={this.state.showManageMembers}
               onChange={this._showManageMembers}
               height={90}

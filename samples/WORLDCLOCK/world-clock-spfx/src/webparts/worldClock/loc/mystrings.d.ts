@@ -34,6 +34,8 @@ declare interface IWorldClockWebPartStrings {
   DropDownAvailableOptions: string;
   PAManageMembersFilterPlaceholder: string;
   PAManageMembersSearchPlaceholder: string;
+  PAManageMembersSearchPlaceholder: string;
+  PAManageMembersContent: string;
   ExpandPeopleList: string;
 }
 
