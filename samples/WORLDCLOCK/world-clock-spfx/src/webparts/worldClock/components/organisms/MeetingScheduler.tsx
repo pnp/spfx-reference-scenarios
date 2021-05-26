@@ -36,7 +36,9 @@ export default class MeetingScheduler extends React.Component<IMeetingSchedulerP
     try {
       return (
         <div data-component={this.LOG_SOURCE}>
-          <Scheduler meetingMembers={this.props.meetingMembers} removeFromMeeting={this.props.removeFromMeeting} />
+          <Scheduler
+            meetingMembers={this.props.meetingMembers}
+            removeFromMeeting={this.props.removeFromMeeting} />
         </div>
       );
     } catch (err) {

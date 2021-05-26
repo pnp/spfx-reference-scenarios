@@ -1,77 +1,109 @@
 import * as React from "react";
 import { Logger, LogLevel } from "@pnp/logging";
-import { endsWith, find, isEqual, replace } from "lodash";
+import { cloneDeep, endsWith, find, isEqual, replace } from "lodash";
 import { DateTime } from "luxon";
 import { IPerson } from "../../models/wc.models";
 import ButtonIcon from "../atoms/ButtonIcon";
 import { Icons } from "../../models/wc.Icons";
 import strings from "WorldClockWebPartStrings";
+import { wc } from "../../services/wc.service";
 
 export interface ITimeCardProps {
   currentTime: DateTime;
   members: IPerson[];
-  currentTimeZone: string;
-  userId: string;
   addToMeeting: (IPerson) => void;
   meetingMembers: IPerson[];
   editProfile: (boolean) => void;
 }
 
 export interface ITimeCardState {
+  showAMPM: string;
+  currentTimeString: string;
+  currentTimeZone: string;
 }
 
 export class TimeCardState implements ITimeCardState {
-  constructor() { }
+  constructor(
+    public showAMPM: string = "",
+    public currentTimeString: string = "",
+    public currentTimeZone: string = ""
+  ) { }
 }
 
 export default class TimeCard extends React.Component<ITimeCardProps, ITimeCardState> {
   private LOG_SOURCE: string = "🔶 TimeCard";
-  private _IANATimeZone: string = "";
+  private _timeChanged: boolean = false;
 
   constructor(props: ITimeCardProps) {
     super(props);
-    (this.props.members.length > 0) ? this._IANATimeZone = this.props.members[0].IANATimeZone : this._IANATimeZone = this.props.currentTimeZone;
     this.state = new TimeCardState();
+  }
+
+  public componentDidMount() {
+    this._updateTime();
   }
 
   public shouldComponentUpdate(nextProps: Readonly<ITimeCardProps>, nextState: Readonly<ITimeCardState>) {
     if ((isEqual(nextState, this.state) && isEqual(nextProps, this.props)))
       return false;
+    if (!isEqual(nextProps.currentTime, this.props.currentTime)) {
+      this._timeChanged = true;
+    }
     return true;
   }
 
+  public componentDidUpdate() {
+    try {
+      if (this._timeChanged) {
+        this._timeChanged = false;
+        this._updateTime();
+      }
+    } catch (err) {
+      Logger.write(`${this.LOG_SOURCE} (componentDidUpdate) - ${err}`, LogLevel.Error);
+    }
+  }
+
+  private _updateTime = () => {
+    try {
+      const currentTimeZone: string = this.props.members[0]?.IANATimeZone || wc.IANATimeZone;
+      let showAMPM: string = "";
+      let currentTime: DateTime = cloneDeep(this.props.currentTime);
+      currentTime = currentTime.setZone(currentTimeZone);
+      let currentTimeString: string = currentTime.toLocaleString(DateTime.TIME_SIMPLE);
+      if ((endsWith(currentTimeString.toLocaleLowerCase(), "am")) || (endsWith(currentTimeString.toLocaleLowerCase(), "pm"))) {
+        showAMPM = currentTime.toFormat("a");
+        currentTimeString = replace(currentTimeString, ` ${showAMPM}`, "");
+      }
+      this.setState({ showAMPM, currentTimeString, currentTimeZone });
+    } catch (err) {
+      Logger.write(`${this.LOG_SOURCE} (_updateTime) - ${err}`, LogLevel.Error);
+    }
+  }
 
   public render(): React.ReactElement<ITimeCardProps> {
     try {
-      let showAMPM: boolean = false;
-      let currentTime: string = this.props.currentTime.setZone(this._IANATimeZone).toLocaleString(DateTime.TIME_SIMPLE);
-      if ((endsWith(currentTime.toLocaleLowerCase(), "am")) || (endsWith(currentTime.toLocaleLowerCase(), "pm"))) {
-        currentTime = replace(currentTime, this.props.currentTime.setZone(this._IANATimeZone).toFormat("a"), "");
-        showAMPM = true;
-      }
-
+      if (this.state.currentTimeString == "") { return null; }
       return (
-        <div data-component={this.LOG_SOURCE} className={`hoo-wc-clock ${(this.props.currentTimeZone == this._IANATimeZone) ? "is-current-me" : ""}`}>
-          <div className="hoo-wc-time">{currentTime}<span className="hoo-wc-ampm">{(showAMPM) ? this.props.currentTime.setZone(this._IANATimeZone).toFormat("a") : ""}</span></div>
-          <div className="hoo-wc-peoples">
+        <div data-component={this.LOG_SOURCE} className={`hoo-wc-clock ${(this.state.currentTimeZone == wc.IANATimeZone) ? "is-current-me" : ""}`}>
+          <div className="hoo-wc-time">{this.state.currentTimeString}<span className="hoo-wc-ampm">{this.state.showAMPM}</span></div>
+          <div className="hoo-wc-peoples hoo-overflow">
             {this.props.members.map((m) => {
-              let inMeeting: IPerson = find(this.props.meetingMembers, { personId: m.personId });
-              return (<div className="hoo-wc-people" title={strings.AddToMeetingLabel}>
+              const _inMeeting: IPerson = find(this.props.meetingMembers, { personId: m.personId });
+              const _isCurrentUser: boolean = wc.CurrentUser.personId == m.personId;
+              return (<div className="hoo-wc-people" title={m.displayName}>
                 <span className="hoo-wc-people-name">{m.displayName}</span>
-                {((this.props.userId != m.personId) && (!inMeeting)) &&
-
+                {((!_isCurrentUser) && (!_inMeeting)) &&
                   <ButtonIcon
                     iconType={Icons.PlusPerson}
                     onClick={() => this.props.addToMeeting(m)}
                     altText={strings.AddToMeetingLabel} />
                 }
-                {(this.props.userId == m.personId) &&
+                {(_isCurrentUser) &&
                   <ButtonIcon
                     iconType={Icons.Profile}
                     onClick={() => this.props.editProfile(true)}
                     altText={strings.EditProfileLabel} />
                 }
-
               </div>);
             })
             }

@@ -1,7 +1,7 @@
 import * as React from "react";
 import { Logger, LogLevel } from "@pnp/logging";
-import { find, isEqual, replace } from "lodash";
-import { HOUR_TYPE, IPerson, Schedule } from "../../models/wc.models";
+import { endsWith, find, isEmpty, isEqual, remove, replace, round, trim } from "lodash";
+import { HOUR_TYPE, IPerson, PERSON_TYPE, Schedule } from "../../models/wc.models";
 import { DateTime } from "luxon";
 import { wc } from "../../services/wc.service";
 import ButtonIcon from "../atoms/ButtonIcon";
@@ -19,6 +19,7 @@ export interface ISchedulerState {
   selectedTime: DateTime;
   dateInput: DateTime;
   scheduleDisabled: boolean;
+  scheduleContainerWidth: number;
 }
 
 export class SchedulerState implements ISchedulerState {
@@ -27,17 +28,33 @@ export class SchedulerState implements ISchedulerState {
     public selectedTime: DateTime = null,
     public dateInput: DateTime = DateTime.local().setLocale(wc.Locale).setZone(wc.IANATimeZone),
     public scheduleDisabled: boolean = true,
+    public scheduleContainerWidth: number = null
   ) { }
 }
 
 export default class Scheduler extends React.Component<ISchedulerProps, ISchedulerState> {
   private LOG_SOURCE: string = "🔶 Scheduler";
   private _maxDays: number = 1;
+  private _now: DateTime = DateTime.local().setLocale(wc.Locale).setZone(wc.IANATimeZone);
+  private _scheduleResize: ResizeObserver;
+  private _scheduleContainer: React.RefObject<HTMLDivElement>;
 
   constructor(props: ISchedulerProps) {
     super(props);
-    let meetingTimes = this._getMeetingTimes(DateTime.local().setLocale(wc.Locale).setZone(wc.IANATimeZone));
+    let meetingTimes = this._getMeetingTimes(this._now);
     this.state = new SchedulerState(meetingTimes);
+    this._scheduleResize = new ResizeObserver(this._resizeObserverHandler);
+    this._scheduleContainer = React.createRef<HTMLDivElement>();
+  }
+
+  public componentDidMount() {
+    try {
+      if (this._scheduleContainer.current != undefined) {
+        this._scheduleResize.observe(this._scheduleContainer.current, { box: "border-box" });
+      }
+    } catch (err) {
+      Logger.write(`${this.LOG_SOURCE} (componentDidMount) - ${err}`, LogLevel.Error);
+    }
   }
 
   public shouldComponentUpdate(nextProps: Readonly<ISchedulerProps>, nextState: Readonly<ISchedulerState>) {
@@ -46,33 +63,51 @@ export default class Scheduler extends React.Component<ISchedulerProps, ISchedul
     return true;
   }
 
-  private _setSelectedTime(date: DateTime) {
-    let scheduleDisabled = false;
-    if (date == this.state.selectedTime) {
-      date = null;
-      scheduleDisabled = true;
-    } else {
-      date = date.setZone(wc.IANATimeZone);
+  private _resizeObserverHandler: ResizeObserverCallback = () => {
+    try {
+      const scheduleContainerWidth = this._scheduleContainer.current.clientWidth;
+      this.setState({ scheduleContainerWidth: scheduleContainerWidth });
+      let meetingTimes = this._getMeetingTimes(DateTime.local().setLocale(wc.Locale).setZone(wc.IANATimeZone));
+      this.setState({ meetingTimes: meetingTimes });
+    } catch (err) {
+      Logger.write(`${this.LOG_SOURCE} (_resizeObserverHandler) - ${err}`, LogLevel.Error);
     }
-    this.setState({ selectedTime: date, scheduleDisabled: scheduleDisabled });
+  }
+
+  private _setSelectedTime(date: DateTime) {
+    try {
+      let scheduleDisabled = false;
+      if (date == this.state.selectedTime) {
+        date = null;
+        scheduleDisabled = true;
+      } else {
+        date = date.setZone(wc.IANATimeZone);
+      }
+      this.setState({ selectedTime: date, scheduleDisabled: scheduleDisabled, dateInput: date });
+    } catch (err) {
+      Logger.write(`${this.LOG_SOURCE} (_setSelectedTime) - ${err}`, LogLevel.Error);
+    }
   }
 
   private _getDateTimeString(person: IPerson, date: DateTime) {
-    date = date.setZone(person.IANATimeZone);
-    let dateTime: string = date.toLocaleString(DateTime.DATETIME_SHORT);
-    return dateTime;
+    try {
+      date = date.setZone(person.IANATimeZone);
+      const dateTime: string = date.toLocaleString(DateTime.DATETIME_SHORT);
+      return dateTime;
+    } catch (err) {
+      Logger.write(`${this.LOG_SOURCE} (_getDateTimeString) - ${err}`, LogLevel.Error);
+    }
   }
 
   private _setBlockStyle(person: IPerson, date: DateTime) {
     let retVal: string = "";
     try {
       let schedule = person.schedule;
-      //TODO: How do we ensure that everyone has a schedule even if it is the default.
       if (!schedule) {
         schedule = new Schedule();
       }
       if (this.state.selectedTime) {
-        if ((date.weekday == this.state.selectedTime.weekday) && (date.hour == this.state.selectedTime.hour)) {
+        if (date.toLocaleString(DateTime.DATETIME_SHORT) == this.state.selectedTime.toLocaleString(DateTime.DATETIME_SHORT)) {
           retVal += " " + "is-selected";
         }
       }
@@ -99,8 +134,6 @@ export default class Scheduler extends React.Component<ISchedulerProps, ISchedul
       if (isNextDay) {
         retVal += " " + "is-nextday";
       }
-
-
     } catch (err) {
       Logger.write(`${this.LOG_SOURCE} (_getAvailability) - ${err}`, LogLevel.Error);
       return null;
@@ -110,14 +143,25 @@ export default class Scheduler extends React.Component<ISchedulerProps, ISchedul
 
   private _getMeetingTimes(date: DateTime) {
     let meetingTimes: DateTime[] = [];
-    let meetingTime: DateTime = date.setLocale(wc.Locale);
-    for (let i = 0; i < this._maxDays; i++) {
-      meetingTime = meetingTime.plus({ days: i });
-      meetingTime = meetingTime.set({ minute: 0 });
-      for (let h = 0; h < 24; h++) {
-        meetingTime = meetingTime.plus({ hours: 1 });
+    let maxHours: number = 24;
+    try {
+      let meetingTime: DateTime = date.setLocale(wc.Locale);
+      for (let i = 0; i < this._maxDays; i++) {
+        meetingTime = meetingTime.plus({ days: i });
+        meetingTime = meetingTime.set({ minute: 0 });
+
+        if (this.state != undefined) {
+          maxHours = round(this.state.scheduleContainerWidth / 50);
+        }
         meetingTimes.push(meetingTime.set({ minute: 0 }));
+        for (let h = 1; h < maxHours; h++) {
+          meetingTime = meetingTime.plus({ hours: 1 });
+          meetingTimes.push(meetingTime.set({ minute: 0 }));
+        }
       }
+
+    } catch (err) {
+      Logger.write(`${this.LOG_SOURCE} (_getMeetingTimes) - ${err}`, LogLevel.Error);
     }
     return meetingTimes;
   }
@@ -132,13 +176,43 @@ export default class Scheduler extends React.Component<ISchedulerProps, ISchedul
       Logger.write(`${this.LOG_SOURCE} (_onDateChange) - ${err}`, LogLevel.Error);
     }
   }
+  private _updateHours = (hour: number) => {
+    try {
+
+      const newDate = this.state.meetingTimes[0].plus({ hours: hour });
+      let meetingTimes = this._getMeetingTimes(newDate);
+      this.setState({ dateInput: newDate, meetingTimes: meetingTimes });
+    } catch (err) {
+      Logger.write(`${this.LOG_SOURCE} (_updateHours) - ${err}`, LogLevel.Error);
+    }
+  }
 
   private _scheduleMeeting() {
-    let meetingURL = "https://teams.microsoft.com/l/meeting/new?subject=New%20Meeting&attendees=__ATTENDEES__&startTime=__STARTTIME__";
-    let attendees: string = "";
-    // this.props.meetingMembers.map((m) => {
-    //   attendees += m.email + ","
-    // });
+    try {
+      let attendees: string = "";
+      let contents: string = "";
+      this.props.meetingMembers.map((m, index) => {
+        if (m.personType == PERSON_TYPE.Employee) {
+          attendees += m.mail + ",";
+        } else {
+          contents += m.mail + ", ";
+        }
+      });
+      if (endsWith(attendees, ",")) {
+        attendees = trim(attendees, ",");
+      }
+      if (!isEmpty(contents)) {
+        if (endsWith(contents, ", ")) {
+          contents = trim(contents, ", ");
+        }
+        contents = `${strings.MeetingContents} ${contents}.`;
+      }
+
+      const meetingURL = `https://teams.microsoft.com/l/meeting/new?subject=${strings.MeetingSubject}&attendees=${attendees}&startTime=${this.state.selectedTime.toISODate()}T${this.state.selectedTime.toFormat('HH:00:00ZZ')}&content=${contents}`;
+      wc.ExecuteDeepLink(meetingURL);
+    } catch (err) {
+      Logger.write(`${this.LOG_SOURCE} (_scheduleMeeting) - ${err}`, LogLevel.Error);
+    }
   }
 
   public render(): React.ReactElement<ISchedulerProps> {
@@ -146,27 +220,94 @@ export default class Scheduler extends React.Component<ISchedulerProps, ISchedul
       return (
         <div data-component={this.LOG_SOURCE} className="schedule" >
           <div className="date-picker">
-            <input className="hoo-input-text" id="startDate" type="date" value={this.state.dateInput.toISO().substr(0, 10)} onChange={(newValue) => { this._onDateChange(newValue.target.value); }} />
-            <Button className="hoo-button-primary" disabled={this.state.scheduleDisabled} label={strings.ScheduleMeetingLabel} onClick={() => this._scheduleMeeting()} />
+            <input
+              className="hoo-input-text"
+              id="startDate"
+              type="date"
+              value={this.state.dateInput.toISO().substr(0, 10)}
+              onChange={(newValue) => { this._onDateChange(newValue.target.value); }} />
+            <Button
+              className="hoo-button-primary"
+              disabled={this.state.scheduleDisabled}
+              label={strings.ScheduleMeetingLabel}
+              onClick={() => this._scheduleMeeting()} />
           </div>
-          <div className="hoo-dtstable">
+          <div ref={this._scheduleContainer} className="hoo-dtstable">
+            <div data-dow="" className="new-date-row">
+              <label htmlFor="" className="hoo-dtsday "><div className="overflow"></div></label>
+              <div className={`hoo-dtshours-label`}>
 
-            <div data-dow="" className="hoo-dtsentry no-hover">
-              <label htmlFor="" className="hoo-dtsday"></label>
-              <div className={`hoo-dtshours-label`}></div>
+              </div>
               {this.state.meetingTimes.map((h) => {
-                return (<div className={`hoo-dtshours-label ${(this.state.selectedTime && (h.hour == this.state.selectedTime.hour)) ? "isSelected" : ""}`} data-time="" onClick={() => this._setSelectedTime(h)}>{replace(h.toLocaleString(DateTime.TIME_SIMPLE), ":00", "")}</div>);
+                let newDate: boolean = false;
+                if (h.hour == 0) newDate = true;
+                return (
+                  <div
+                    className={`hoo-dtshours-label`}
+                    data-time="">
+                    {(newDate) &&
+                      <span>{h.toLocaleString(DateTime.DATE_SHORT)}</span>
+                    }
+                  </div>
+                );
               })}
+              <div className={`hoo-dtshours-label`}>
+
+              </div>
+            </div>
+            <div data-dow="" className="hoo-dtsentry no-hover">
+              <label htmlFor="" className="hoo-dtsday "><div className="overflow"></div></label>
+              <div className={`hoo-dtshours-label arrow`}>
+                {(this.state.meetingTimes[0] > this._now) &&
+                  <ButtonIcon
+                    iconType={Icons.LeftArrow}
+                    altText={strings.TrashLabel}
+                    onClick={() => this._updateHours(-1)} />
+                }
+              </div>
+              {this.state.meetingTimes.map((h) => {
+                return (
+                  <div
+                    className={`hoo-dtshours-label ${(this.state.selectedTime && (h == this.state.selectedTime)) ? "isSelected" : ""}`}
+                    data-time=""
+                    onClick={() => this._setSelectedTime(h)}><span>{replace(h.toLocaleString(DateTime.TIME_SIMPLE), ":00", "")}</span>
+                  </div>);
+              })}
+              <div className={`hoo-dtshours-label arrow`}>
+
+                <ButtonIcon
+                  iconType={Icons.RightArrow}
+                  altText={strings.TrashLabel}
+                  onClick={() => this._updateHours(1)} />
+
+              </div>
             </div>
 
             {this.props.meetingMembers.map((m) => {
-              return (<div data-dow="" className="hoo-dtsentry"><label htmlFor="" className="hoo-dtsday">{m.displayName}</label>
-                <div className={`hoo-dtshours no-bg`} data-time=""><ButtonIcon iconType={Icons.Trash} altText={strings.TrashLabel} onClick={() => this.props.removeFromMeeting(m)} /></div>
-                {this.state.meetingTimes.map((h) => {
-                  return (<div className={`hoo-dtshours ${this._setBlockStyle(m, h)}`} title={this._getDateTimeString(m, h)} data-time="" onClick={() => { }}></div>);
-                })}
+              return (
+                <div data-dow="" className="hoo-dtsentry">
+                  <label htmlFor="" className="hoo-dtsday" title={m.displayName}>
+                    <div className="overflow">{m.displayName}</div>
+                  </label>
 
-              </div>);
+                  <div className={`hoo-dtshours no-bg`} data-time="">
+                    <ButtonIcon
+                      iconType={Icons.Trash}
+                      altText={strings.TrashLabel}
+                      onClick={() => this.props.removeFromMeeting(m)} />
+                  </div>
+                  {this.state.meetingTimes.map((h) => {
+                    return (
+                      <div
+                        className={`hoo-dtshours ${this._setBlockStyle(m, h)}`}
+                        title={this._getDateTimeString(m, h)}
+                        data-time=""
+                        onClick={() => { }}></div>);
+                  })}
+                  <div className={`hoo-dtshours no-bg`} data-time="">
+
+                  </div>
+                </div>);
             })}
           </div>
         </div>

@@ -60,6 +60,7 @@ export interface IPerson {
   windowsTimeZone: string;
   IANATimeZone: string;
   offset?: number;
+  timeStyle?: string;
 }
 
 export class Person implements IPerson {
@@ -74,7 +75,8 @@ export class Person implements IPerson {
     public windowsTimeZone: string = null,
     public IANATimeZone: string = null,
     public offset: number = 0,
-    public schedule: ISchedule = new Schedule()
+    public schedule: ISchedule = new Schedule(),
+    public timeStyle: string = null
   ) { }
 }
 
@@ -346,10 +348,33 @@ export interface IHour {
   hourId: number;
   workingType: HOUR_TYPE;
 }
+
 export class Hour implements IHour {
   constructor(
     public hourId: number = 0,
     public workingType: HOUR_TYPE = HOUR_TYPE.NotWorking
   ) { }
 
+}
+
+export interface ITimeZone {
+  alias: string;
+  displayName: string;
+}
+
+export class TimeZone implements ITimeZone {
+  constructor(
+    public alias: string = "",
+    public displayName: string = ""
+  ) { }
+}
+
+export interface IOffsetGroup {
+  offset: number;
+  members: IPerson[];
+}
+
+export interface ITimeZoneView {
+  style: string;
+  offsetGroup: IOffsetGroup[];
 }

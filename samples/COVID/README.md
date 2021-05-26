@@ -2,14 +2,11 @@
 
 ## Summary
 
-Short summary on functionality and used technologies.
-
-TODO: PICTURE
-[picture of the solution in action, if possible]
+This solution depicts how you can build a teams based custom form that collects information from users and provides a custom dashboard for working with the results. In this case we've built a solution that allows an administrator to define a set of questions to verify the health of an individual entering an office space during the pandemic. Their entry will be added to a central list that then is displayed on a dashboard that a receptionist or security station can review when people enter the building. The solution also allows someone to enter the answers for a guest entering the building. Later if needed a search can be performed across a time frame to ascertain who was in contact with each other and might need to be warned of an outbreak.
 
 ## Used SharePoint Framework Version
 
-![version](https://img.shields.io/badge/version-1.11-green.svg)
+![version](https://img.shields.io/badge/version-1.12.1-green.svg)
 
 ## Applies to
 
@@ -17,10 +14,6 @@ TODO: PICTURE
 - [Microsoft 365 tenant](https://docs.microsoft.com/en-us/sharepoint/dev/spfx/set-up-your-developer-tenant)
 
 > Get your own free development tenant by subscribing to [Microsoft 365 developer program](http://aka.ms/o365devprogram)
-
-## Prerequisites
-
-> Any special pre-requisites?
 
 ## Solution
 
@@ -61,11 +54,15 @@ Steps for deployment:
 
     ![Deploy SPPKG](./images/DeploySPPKG.png)
 
+1. After the solution has deployed you will need to authorize the Graph API permissions requested. To see, and approve, them navigate to the SharePoint Admin Center and then to the `API access` section under `Advanced` menu item. This will show you a list of pending permissions requests. By selecting each request and then selecting `Approve` the permissions will be granted to allow the solution to access the information it needs through the Microsoft Graph. For more information on the individual permissions this solution is requesting please see the [Microsoft Graph REST API v1.0 reference](https://docs.microsoft.com/en-us/graph/api/overview?toc=.%2Fref%2Ftoc.json&view=graph-rest-1.0)
+
+    ![Approve API Permissions](./images/ApproveAPIPermissions.png)
+
 1. After the solution has deployed you will need to sync the solution into your Teams app store. To do so, select the solution in the app catalog and then under the files tab in the ribbon the `Sync to Teams` option will be enabled, select it.
 
     ![Sync App Manifest To Teams](./images/SyncToTeams.png)
 
-1. Assuming you received no errors while the solution during the Teams sync, you should now be able to add it into your Teams App Bar as a personal tab. You may want to consider adding the app as a custom pinned site baed on the Teams setup policies, you can learn more about doing so by visiting [Manage app setup policies in Microsoft Teams](https://docs.microsoft.com/en-us/MicrosoftTeams/teams-app-setup-policies). Further, for more information on changing the permissions on who has access to the app, you can read more [View app permissions and grant admin consent in the Microsoft Teams admin center](https://docs.microsoft.com/en-us/microsoftteams/app-permissions-admin-center).
+1. Assuming you received no errors while the solution during the Teams sync, and you've approved the API permissions, you should now be able to add it into your Teams App Bar as a personal tab. You may want to consider adding the app as a custom pinned site based on the Teams setup policies, you can learn more about doing so by visiting [Manage app setup policies in Microsoft Teams](https://docs.microsoft.com/en-us/MicrosoftTeams/teams-app-setup-policies). Further, for more information on changing the permissions on who has access to the app, you can read more [View app permissions and grant admin consent in the Microsoft Teams admin center](https://docs.microsoft.com/en-us/microsoftteams/app-permissions-admin-center).
 
 ### Custom Manifest
 
@@ -88,20 +85,6 @@ The one drawback of a pre-packaged solution is the inability to target a specifi
     ```
 
 1. Zip the two image files plus the manifest.json file, and upload the package into your Teams Admin center, for detail about this process please refer to [Publish a custom app by uploading an app package](https://docs.microsoft.com/en-us/microsoftteams/upload-custom-apps).
-
-## Features
-
-Description of the extension that expands upon high-level summary above.
-
-This extension illustrates the following concepts:
-
-- topic 1
-- topic 2
-- topic 3
-
-> Notice that better pictures and documentation will increase the sample usage and the value you are providing for others. Thanks for your submissions advance.
-
-> Share your web part with others through Microsoft 365 Patterns and Practices program to get visibility and exposure. More details on the community, open-source projects and other activities from http://aka.ms/m365pnp.
 
 ## References
 

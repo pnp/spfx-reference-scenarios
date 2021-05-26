@@ -4,24 +4,18 @@ import isEqual from "lodash/isEqual";
 import TeamTimes from "./organisms/TeamTimes";
 import MeetingScheduler from "./organisms/MeetingScheduler";
 import styles from "./WorldClock.module.scss";
-import { DateTime } from "luxon";
 import { wc } from "../services/wc.service";
-import { IPerson, ISchedule, Person } from "../models/wc.models";
-import { chain, cloneDeep, find, reduce, remove, uniqBy } from "lodash";
+import { IPerson } from "../models/wc.models";
+import { chain, cloneDeep, find, remove } from "lodash";
 
-export interface IWorldClockProps {
-  //userId: string;
-}
+export interface IWorldClockProps { }
 
 export interface IWorldClockState {
-  //currentUser: IPerson;
-  //currentTime: DateTime;
   meetingMembers: IPerson[];
 }
 
 export class WorldClockState implements IWorldClockState {
   constructor(
-    //public currentUser: IPerson = new Person,
     public meetingMembers: IPerson[] = [],
   ) { }
 }
@@ -41,49 +35,49 @@ export default class WorldClock extends React.Component<IWorldClockProps, IWorld
   }
 
   private _addToMeeting = (person: IPerson) => {
-    let meetingMembers = cloneDeep(this.state.meetingMembers);
-    if (meetingMembers.length == 0) {
-      //let user: IPerson = find(wc.Config.members, { personId: this.state.currentUser.personId });
-      meetingMembers.push(wc.CurrentUser);
-    }
-    meetingMembers.push(person);
-    meetingMembers = chain(meetingMembers).uniqBy("personId").sortBy("offset").value();
-    this.setState({ meetingMembers: meetingMembers });
-  }
-  private _removefromMeeting = (person: IPerson) => {
-    let meetingMembers = cloneDeep(this.state.meetingMembers);
-    meetingMembers.map((m) => {
-      if (m.personId == person.personId) {
-        remove(meetingMembers, person);
+    try {
+      let meetingMembers = cloneDeep(this.state.meetingMembers);
+      if (meetingMembers.length == 0) {
+        meetingMembers.push(wc.CurrentUser);
       }
-    });
-    meetingMembers = chain(meetingMembers).uniqBy("personId").sortBy("offset").value();
-    this.setState({ meetingMembers: meetingMembers });
+      meetingMembers.push(person);
+      meetingMembers = chain(meetingMembers).uniqBy("personId").sortBy("offset").value();
+      this.setState({ meetingMembers: meetingMembers });
+    } catch (err) {
+      Logger.write(`${this.LOG_SOURCE} (_addToMeeting) - ${err}`, LogLevel.Error);
+    }
   }
 
-  private _saveProfile = async (schedule: ISchedule): Promise<boolean> => {
+  private _removefromMeeting = (person: IPerson) => {
+    try {
+      let meetingMembers = cloneDeep(this.state.meetingMembers);
+      meetingMembers.map((m) => {
+        if (m.personId == person.personId) {
+          remove(meetingMembers, person);
+        }
+      });
+      meetingMembers = chain(meetingMembers).uniqBy("personId").sortBy("offset").value();
+      this.setState({ meetingMembers: meetingMembers });
+    } catch (err) {
+      Logger.write(`${this.LOG_SOURCE} (_removefromMeeting) - ${err}`, LogLevel.Error);
+    }
+  }
+
+  private _saveProfile = async (person: IPerson): Promise<boolean> => {
     let success: boolean = false;
     try {
-      const config = cloneDeep(wc.Config);
-      let user = find(config.members, { personId: wc.CurrentUser.personId });
-      if (user) {
-        user.schedule = schedule;
-      }
-      success = await wc.updateConfig(config);
+      success = await wc.UpdateMember(person);
       if (success) {
         let currentUserInMeeting = find(this.state.meetingMembers, { personId: wc.CurrentUser.personId });
         if (currentUserInMeeting) {
           const meetingMembers = cloneDeep(this.state.meetingMembers);
           meetingMembers.map((m, index) => {
             if (m.personId == currentUserInMeeting.personId) {
-              meetingMembers[index] = user;
+              meetingMembers[index] = person;
             }
           });
           this.setState({ meetingMembers: meetingMembers });
         }
-        // } else {
-        //   this.setState({ currentUser: user });
-        // }
       }
     } catch (err) {
       Logger.write(`${this.LOG_SOURCE} (_saveProfile) - ${err}`, LogLevel.Error);
@@ -96,8 +90,6 @@ export default class WorldClock extends React.Component<IWorldClockProps, IWorld
       return (
         <div data-component={this.LOG_SOURCE} className={styles.worldClock}>
           <TeamTimes
-            //currentUser={wc.CurrentUser}
-            //currentTime={this.state.currentTime}
             addToMeeting={this._addToMeeting}
             meetingMembers={this.state.meetingMembers}
             saveProfile={this._saveProfile} />

@@ -3,26 +3,40 @@ declare interface IWorldClockWebPartStrings {
   ConfigureViewsContent: string;
   ManageViewsTitle: string;
   NewViewTitle: string;
+  DefaultViewTitle: string;
   ManageViewsContent: string;
-  SelectAViewHeader: string;
+  ManageMembersTitle: string;
+  ManageMembersFilterPlaceholder: string;
+  ManageMembersContent: string;
   ViewTitleHeader: string;
-  ViewMembersHeader: string;
   AddViewMembersHeader: string;
   MakeDefaultViewHeader: string;
   MakeDefaultViewLabel: string;
   MaxMembersError: string;
   EditProfileTitle: string;
   EditProfileContent: string;
+  EditTimeZoneLabel: string;
   AddToMeetingLabel: string;
   EditProfileLabel: string;
   SaveLabel: string;
   CancelLabel: string;
   ManageViewsLabel: string;
-  AddEditViewLabel: string;
+  AddNewViewLabel: string;
+  EditCurrentViewLabel: string;
   TrashLabel: string;
+  RemoveFromTeamLabel: string;
+  AddMemberLabel: string;
+  DeleteViewLabel: string;
   ScheduleMeetingLabel: string;
+  NoResultsLabel: string;
+  MeetingSubject: string;
+  MeetingContents: string;
   DropDownAvailableOptions: string;
-
+  PAManageMembersFilterPlaceholder: string;
+  PAManageMembersSearchPlaceholder: string;
+  PAManageMembersSearchPlaceholder: string;
+  PAManageMembersContent: string;
+  ExpandPeopleList: string;
 }
 
 declare module 'WorldClockWebPartStrings' {

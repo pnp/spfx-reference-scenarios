@@ -7,6 +7,7 @@ import { Icons } from "../../models/wc.Icons";
 export interface ISearchBoxProps {
   name: string;
   value: string;
+  placeholder?: string;
   onChange: (fieldValue: string, fieldName: string) => void;
 }
 
@@ -49,7 +50,7 @@ export default class SearchBox extends React.Component<ISearchBoxProps, ISearchB
             name={this.props.name}
             type="text"
             value={this.props.value}
-            placeholder={this.props.name}
+            placeholder={this.props.placeholder}
             autoComplete="off"
             onChange={(newValue) => { this._onChange(newValue.target.value, this.props.name); }} />
         </div>

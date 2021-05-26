@@ -45,10 +45,7 @@ export default class WorldClockWebPart extends BaseClientSideWebPart<IWorldClock
       sp.setup({ spfxContext: this.context });
       graph.setup({ spfxContext: this.context });
 
-      // const siteValid = await wcc.isValid();
-      // if (siteValid) {
       await this._init();
-      //}
     } catch (err) {
       Logger.write(`${this.LOG_SOURCE} (onInit) - ${err}`, LogLevel.Error);
     }
@@ -57,8 +54,9 @@ export default class WorldClockWebPart extends BaseClientSideWebPart<IWorldClock
   private async _init(): Promise<void> {
     try {
       this._microsoftTeams = this.context.sdks?.microsoftTeams;
-      //TODO: CLEAN UP AFTER TESTED IN TEAMS
-      await wc.init(this.context.pageContext.user.loginName, this.context.pageContext.cultureInfo.currentUICultureName, this.context.pageContext.site.serverRelativeUrl, this._microsoftTeams?.context?.groupId, this._microsoftTeams?.context?.teamName, CONFIG_TYPE.Team);
+      const configType: CONFIG_TYPE = (this._microsoftTeams?.context?.groupId) ? CONFIG_TYPE.Team : CONFIG_TYPE.Personal;
+      await wc.Init(this.context.pageContext.user.loginName, this.context.pageContext.cultureInfo.currentUICultureName, this.context.pageContext.site.serverRelativeUrl, this._microsoftTeams?.context?.groupId, this._microsoftTeams?.context?.teamName, configType);
+      wc.HandleExecuteDeepLink = this._handleExecuteDeepLink;
       // Consume the new ThemeProvider service
       this._themeProvider = this.context.serviceScope.consume(ThemeProvider.serviceKey);
       this._themeVariant = this._themeProvider.tryGetTheme();
@@ -72,7 +70,10 @@ export default class WorldClockWebPart extends BaseClientSideWebPart<IWorldClock
       this._themeProvider.themeChangedEvent.add(this, this._handleThemeChangedEvent);
 
       if (this._microsoftTeams) {
-        if (this._microsoftTeams.context.theme !== "default") {
+        if (this._microsoftTeams.context.theme == "default") {
+          this.domElement.style.setProperty("--bodyBackground", "whitesmoke");
+        }
+        else {
           this.domElement.style.setProperty("--bodyText", "white");
           this.domElement.style.setProperty("--bodyBackground", "#333");
           this.domElement.style.setProperty("--buttonBackgroundHovered", "#555");
@@ -83,6 +84,15 @@ export default class WorldClockWebPart extends BaseClientSideWebPart<IWorldClock
     }
   }
 
+  private _handleExecuteDeepLink = (meetingUrl: string): void => {
+    try {
+      if (this._microsoftTeams) {
+        this._microsoftTeams.teamsJs.executeDeepLink(meetingUrl);
+      }
+    } catch (err) {
+      Logger.write(`${this.LOG_SOURCE} (_handleExecuteDeepLink) - ${err}`, LogLevel.Error);
+    }
+  }
   private _handleThemeChangedEvent(args: ThemeChangedEventArgs): void {
     this._themeVariant = args.theme;
     this._setCSSVariables(this._themeVariant.semanticColors);
@@ -103,9 +113,7 @@ export default class WorldClockWebPart extends BaseClientSideWebPart<IWorldClock
     try {
       let element;
       if (wc.Ready) {
-        const props: IWorldClockProps = {
-          userId: this._userId
-        };
+        const props: IWorldClockProps = {};
         element = React.createElement(WorldClock, props);
       } else {
         //TODO: Render error

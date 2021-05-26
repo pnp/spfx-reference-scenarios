@@ -1,24 +1,27 @@
 import * as React from "react";
 import { Logger, LogLevel } from "@pnp/logging";
-import { cloneDeep, filter, find, includes, isEqual, remove, sortBy, startsWith } from "lodash";
+import { cloneDeep, filter, find, indexOf, isEmpty, isEqual, sortBy } from "lodash";
 import styles from "../WorldClock.module.scss";
-import DropDown, { IDropDownOption } from "../atoms/DropDown";
+//import DropDown, { IDropDownOption } from "../atoms/DropDown";
 import { IPerson, IWCView, WCView } from "../../models/wc.models";
 import { wc } from "../../services/wc.service";
 import CheckBox from "../atoms/CheckBox";
 import TextBox from "../atoms/TextBox";
 import Button from "../atoms/Button";
 import strings from "WorldClockWebPartStrings";
-import Persona, { Presence, Size } from "./Persona";
 import SearchBox from "../atoms/SearchBox";
+import Avatar, { Size } from "../atoms/Avatar";
 
 export interface IManageViewsProps {
   save: (currentView: IWCView, isDefault: boolean) => void;
   cancel: () => void;
+  delete: (currentView: IWCView) => void;
+  viewId?: string;
 }
 
 export interface IManageViewsState {
   searchMembers: IPerson[];
+  selectedView: string;
   currentView: IWCView;
   isDefault: boolean;
   searchString: string;
@@ -29,34 +32,38 @@ export interface IManageViewsState {
 export class ManageViewsState implements IManageViewsState {
   constructor(
     public searchMembers: IPerson[] = [],
+    public selectedView: string = "",
     public currentView: IWCView = new WCView(),
     public isDefault: boolean = false,
     public searchString: string = "",
     public errors: boolean = false,
-    public errorMessage: string = "",
+    public errorMessage: string = ""
   ) { }
 }
 
 export default class ManageViews extends React.Component<IManageViewsProps, IManageViewsState> {
   private LOG_SOURCE: string = "🔶 ManageViews";
-  private _viewOptions: IDropDownOption[] = [];
+  private _maxMembers: number = 100;
 
   constructor(props: IManageViewsProps) {
     super(props);
     try {
-
       let defaultView: IWCView = new WCView();
       if (wc.Config.views.length == 0) {
         defaultView.viewId = "0";
-        defaultView.viewName = strings.NewViewTitle;
+        defaultView.viewName = strings.DefaultViewTitle;
       } else {
-        defaultView = wc.Config.views[wc.Config.defaultViewId];
+        if (!isEmpty(this.props.viewId)) {
+          defaultView = find(wc.Config.views, { viewId: this.props.viewId });
+        }
+
       }
       let isDefault = false;
       if (wc.Config.defaultViewId == defaultView.viewId) {
         isDefault = true;
       }
-      this.state = new ManageViewsState(wc.Config.members, defaultView, isDefault);
+      let currentMembers = sortBy(wc.Config.members, (o) => { return o.displayName; });
+      this.state = new ManageViewsState(currentMembers, defaultView.viewName, defaultView, isDefault);
     } catch (err) {
       Logger.write(`${this.LOG_SOURCE} (constructor) - ${err}`, LogLevel.Error);
     }
@@ -80,28 +87,13 @@ export default class ManageViews extends React.Component<IManageViewsProps, IMan
   private _onSearchChange = (fieldValue: string, fieldName: string) => {
     try {
       const members = cloneDeep(wc.Config.members);
-      let searchMembers = filter(members, (m) => { return m.displayName.toLowerCase().indexOf(fieldValue.toLowerCase()) > -1; });
+      let searchMembers = sortBy(filter(members, (m) => { return m.displayName.toLowerCase().indexOf(fieldValue.toLowerCase()) > -1; }), (o) => { return o.displayName; });
       this.setState({ searchMembers: searchMembers, searchString: fieldValue });
     } catch (err) {
       Logger.write(`${this.LOG_SOURCE} (_onTextChange) - ${err}`, LogLevel.Error);
     }
   }
-  private _onDropDownChange = (fieldValue: string, fieldName: string) => {
-    try {
-      let currentView = new WCView();
-      let isDefault: boolean = false;
-      currentView.viewName = strings.NewViewTitle;
-      if (fieldValue != "-1") {
-        currentView = find(wc.Config.views, { viewName: fieldValue });
-        if (wc.Config.defaultViewId == currentView.viewId) {
-          isDefault = true;
-        }
-      }
-      this.setState({ currentView: currentView, isDefault: isDefault });
-    } catch (err) {
-      Logger.write(`${this.LOG_SOURCE} (_onDropDownChange) - ${err}`, LogLevel.Error);
-    }
-  }
+
   private _onMemberCheckBoxChange = (fieldValue: any, fieldName: string) => {
     try {
       const currentView = cloneDeep(this.state.currentView);
@@ -111,19 +103,17 @@ export default class ManageViews extends React.Component<IManageViewsProps, IMan
         if (!fieldValue.checked) {
           currentView.members.splice(memberIdx, 1);
         }
-        if (currentView.members.length < 19) {
+        if (currentView.members.length < this._maxMembers) {
           this.setState({ errors: false, errorMessage: "" });
         }
       } else {
-        if (currentView.members.length < 19) {
+        if (currentView.members.length < this._maxMembers) {
           let newMember = find(wc.Config.members, { personId: fieldName });
           currentView.members.push(newMember.personId);
         } else {
           this.setState({ errors: true, errorMessage: strings.MaxMembersError });
         }
       }
-
-
       this.setState({ currentView: currentView });
     } catch (err) {
       Logger.write(`${this.LOG_SOURCE} (_onMemberCheckBoxChange) - ${err}`, LogLevel.Error);
@@ -146,89 +136,72 @@ export default class ManageViews extends React.Component<IManageViewsProps, IMan
 
   public render(): React.ReactElement<IManageViewsProps> {
     try {
-      //TODO: Make it so that the drop down value doesn't change when we change the New View Name
-      //TODO: Julie - Wire up search box to graph search
-      this._viewOptions = wc.Config.views.map((v) => { return { key: v.viewName, text: v.viewName }; });
-      this._viewOptions.unshift({ key: -1, text: strings.NewViewTitle });
       return (
-        <div data-component={this.LOG_SOURCE} className={styles.manageViews}>
-          <div className={styles.textLabel}>{strings.SelectAViewHeader}</div>
-          <DropDown onChange={this._onDropDownChange} value={this.state.currentView.viewName} options={this._viewOptions} id="views" />
-
-          <div className={styles.viewForm}>
-            <div className={styles.textLabel}>{strings.ViewTitleHeader}</div>
+        <div data-component={this.LOG_SOURCE} className={`${styles.manageViews} hoo-grid`}>
+          <div className="full-width">
+            <div className="hoo-fontsize-18">{strings.ViewTitleHeader}</div>
             <TextBox name="viewName" value={this.state.currentView.viewName} onChange={this._onTextChange} />
-            <div className={styles.membersList}>
-              <div className={styles.textLabel}>{strings.ViewMembersHeader}</div>
-              {sortBy(this.state.currentView.members, 'firstName').map((m) => {
-                let isChecked: boolean = false;
-                if (this.state.currentView.members.length > 0) {
-                  isChecked = find(this.state.currentView.members, { personId: m }) > -1;
+          </div>
+          <span className={`hoo-fontsize-18 full-width hoo-error ${(!this.state.errors) && "is-hidden"}`} id="">{this.state.errorMessage}</span>
+          <div className="full-width center-vertical">
+            <div className={`hoo-fontsize-18 center-vertical`}>{strings.AddViewMembersHeader}</div>
+            <SearchBox name="Search" placeholder={strings.ManageMembersFilterPlaceholder} value={this.state.searchString} onChange={this._onSearchChange} />
+          </div>
+          <div className={`${styles.membersList} full-width`}>
+            {this.state.searchMembers.map((m) => {
+              let isChecked: boolean = false;
+              if (this.state.currentView.members.length > 0) {
+                let found = indexOf(this.state.currentView.members, m.personId);
+                if (found > -1) {
+                  isChecked = true;
                 }
-                const member = find(wc.Config.members, { personId: m });
-                return (
-                  <div className={`${styles.memberContainer}`}>
-                    <div className={styles.memberPersona}>
-                      <CheckBox
-                        name={m}
-                        label={member.displayName}
-                        value={isChecked}
-                        onChange={this._onMemberCheckBoxChange}
-                        showLabel={false} />
-                      <Persona
-                        size={Size.FortyEight}
-                        src={member.photoUrl}
-                        showPresence={false}
-                        presence={Presence.PresenceUnknown}
-                        status={""}
-                        name={member.displayName}
-                        jobTitle={""} />
+              }
+              return (
+                <div className={`${styles.memberContainer}`}>
+                  <div className="hoo-persona-40">
+                    <CheckBox
+                      name={m.personId}
+                      label={m.displayName}
+                      value={isChecked}
+                      onChange={this._onMemberCheckBoxChange}
+                      showLabel={false} />
+                    <div className="hoo-avatar-pres">
+                      <Avatar src={m.photoUrl} name={m.displayName} />
                     </div>
-                  </div>);
-              })}
-            </div>
-            <span className={`${styles.textLabel} hoo-error ${(!this.state.errors) && "is-hidden"}`} id="">{this.state.errorMessage}</span>
-            <div className={styles.membersList}>
+                    <div className="hoo-persona-data">
+                      <div className="hoo-persona-name" title={m.displayName}>{m.displayName} </div>
+                    </div>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
 
-              <div className={styles.memberSearch}>
-                <div className={styles.textLabel}>{strings.AddViewMembersHeader}</div>
-                <SearchBox name="Search" value={this.state.searchString} onChange={this._onSearchChange} />
-              </div>
-              {sortBy(this.state.searchMembers, 'firstName').map((m) => {
-                let isChecked: boolean = false;
-                if (this.state.currentView.members.length > 0) {
-                  let member = find(this.state.currentView.members, { personId: m.personId });
-                  if (member) {
-                    isChecked = true;
-                  }
-                }
-                return ((!isChecked) &&
-                  <div className={`${styles.memberContainer}`}>
-                    <div className={styles.memberPersona}>
-                      <CheckBox
-                        name={m.personId}
-                        label={m.displayName}
-                        value={isChecked}
-                        onChange={this._onMemberCheckBoxChange}
-                        showLabel={false} />
-                      <Persona
-                        size={Size.FortyEight}
-                        src={m.photoUrl}
-                        showPresence={false}
-                        presence={Presence.PresenceUnknown}
-                        status={""}
-                        name={m.displayName}
-                        jobTitle={""} />
-                    </div>
-                  </div>);
-              })}
-            </div>
-            <div className={styles.textLabel}>{strings.MakeDefaultViewHeader}</div>
-            <CheckBox name="defaultView" label={strings.MakeDefaultViewLabel} value={this.state.isDefault} onChange={this._onDefaultViewChange} />
-            <div className={styles.buttons} >
-              <Button className="hoo-button-primary" disabled={false} label={strings.SaveLabel} onClick={() => this.props.save(this.state.currentView, this.state.isDefault)} />
-              <Button className="hoo-button" disabled={false} label={strings.CancelLabel} onClick={() => this.props.cancel()} />
-            </div>
+          <div className="full-width">
+            <div className="hoo-fontsize-18">{strings.MakeDefaultViewHeader}</div>
+            <CheckBox
+              name="defaultView"
+              label={strings.MakeDefaultViewLabel}
+              value={this.state.isDefault}
+              onChange={this._onDefaultViewChange} />
+          </div>
+
+          <div className="is-flex gap full-width" >
+            <Button
+              className="hoo-button-primary"
+              disabled={false}
+              label={strings.SaveLabel}
+              onClick={() => this.props.save(this.state.currentView, this.state.isDefault)} />
+            <Button
+              className="hoo-button"
+              disabled={false}
+              label={strings.CancelLabel}
+              onClick={() => this.props.cancel()} />
+            <Button
+              className="hoo-button"
+              disabled={false}
+              label={strings.DeleteViewLabel}
+              onClick={() => this.props.delete(this.state.currentView)} />
           </div>
         </div>
       );
