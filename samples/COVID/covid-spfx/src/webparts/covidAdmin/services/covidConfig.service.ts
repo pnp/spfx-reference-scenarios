@@ -18,7 +18,7 @@ export interface ICovidConfigService {
 }
 
 export class CovidConfigService implements ICovidConfigService {
-  private LOG_SOURCE: string = "CovidConfigService";
+  private LOG_SOURCE: string = "🔶CovidConfigService";
 
   private _valid: boolean = false;
 

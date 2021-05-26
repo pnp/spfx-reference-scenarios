@@ -2,8 +2,7 @@ import * as React from "react";
 import { Logger, LogLevel } from "@pnp/logging";
 import isEqual from "lodash/isEqual";
 import findIndex from "lodash/findIndex";
-
-import { Icons } from "../../models/enums";
+import { Icons } from "../../models/wc.Icons";
 
 export enum DDState {
   "Initial",
@@ -27,6 +26,7 @@ export interface IDropDownProps {
   options: IDropDownOption[];
   id: string;
   value: string | number;
+  containsTypeAhead: boolean;
   onChange: (fieldValue: string, fieldName: string) => void;
 }
 
@@ -232,11 +232,14 @@ export default class DropDown extends React.Component<IDropDownProps, IDropDownS
     try {
       let optionsLength = this.state.optionsLength;
       let ddState = this.state.ddState;
-      //const terms = this._inputElement.current.value;
       const terms = (this.state.currentValue === this.props.value) ? "" : this.state.currentValue as string;
       const aFilteredOptions = this._optionElements.filter((option) => {
-        if (option.innerText.toUpperCase().substring(0, terms.length) == (terms.toUpperCase())) {
-          return true;
+        if (this.props.containsTypeAhead) {
+          return (option.innerText.toLowerCase().indexOf(terms.toLowerCase()) > -1);
+        } else {
+          if (option.innerText.toLowerCase().substring(0, terms.length) == (terms.toLowerCase())) {
+            return true;
+          }
         }
       });
       this._optionElements.forEach(option => option.style.display = "none");

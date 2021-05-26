@@ -1,0 +1,224 @@
+{
+  "configType": 2,
+  "configPerson": null,
+  "configTeam": {
+    "teamId": "",
+    "teamName": ""
+  },
+  "defaultViewId": 0,
+  "members": [{
+      "personId": "24",
+      "personType": 1,
+      "displayName": "Derek Cash-Peterson",
+      "workDays": "",
+      "workHours": "",
+      "firstName": "Derek",
+      "lastName": "Cash-Peterson",
+      "photoUrl": "",
+      "IANATimeZone": "America/New_York"
+    },
+    {
+      "personId": "11",
+      "personType": 1,
+      "displayName": "Julie Turner",
+      "workDays": "",
+      "workHours": "",
+      "firstName": "Julie",
+      "lastName": "Turner",
+      "photoUrl": "",
+      "IANATimeZone": "America/New_York"
+    }, {
+      "personId": "23",
+      "personType": 1,
+      "displayName": "Stefan Bauer",
+      "workDays": "",
+      "workHours": "",
+      "firstName": "Stefan",
+      "lastName": "Bauer",
+      "photoUrl": "",
+      "IANATimeZone": "Europe/Vienna"
+    },
+    {
+      "personId": "5",
+      "personType": 1,
+      "displayName": "Josh West Coast",
+      "workDays": "",
+      "workHours": "",
+      "firstName": "Josh",
+      "lastName": "West Coast",
+      "photoUrl": "",
+      "IANATimeZone": "America/Los_Angeles"
+    }, {
+      "personId": "9",
+      "personType": 1,
+      "displayName": "Kendall Drew",
+      "workDays": "",
+      "workHours": "",
+      "firstName": "Kendall",
+      "lastName": "Drew",
+      "photoUrl": "",
+      "IANATimeZone": "America/Los_Angeles"
+    }, {
+      "personId": "6",
+      "personType": 1,
+      "displayName": "Jane Aust",
+      "workDays": "",
+      "workHours": "",
+      "firstName": "Jane",
+      "lastName": "Aust",
+      "photoUrl": "",
+      "IANATimeZone": "Australia/Melbourne"
+    }, {
+      "personId": "7",
+      "personType": 1,
+      "displayName": "Riley Hawaii",
+      "workDays": "",
+      "workHours": "",
+      "firstName": "Riley",
+      "lastName": "Hawaii",
+      "photoUrl": "",
+      "IANATimeZone": "Pacific/Honolulu"
+    }, {
+      "personId": "8",
+      "personType": 1,
+      "displayName": "Jaime Alaska",
+      "workDays": "",
+      "workHours": "",
+      "firstName": "Jaime",
+      "lastName": "Alaska",
+      "photoUrl": "",
+      "IANATimeZone": "America/Adak"
+    }, {
+      "personId": "9",
+      "personType": 1,
+      "displayName": "Emery Blake",
+      "workDays": "",
+      "workHours": "",
+      "firstName": "Emery",
+      "lastName": "Blake",
+      "photoUrl": "",
+      "IANATimeZone": "Europe/Helsinki"
+    }, {
+      "personId": "10",
+      "personType": 1,
+      "displayName": "Vesa Juvonen",
+      "workDays": "",
+      "workHours": "",
+      "firstName": "Vesa",
+      "lastName": "Juvonen",
+      "photoUrl": "",
+      "IANATimeZone": "Europe/Helsinki"
+    }, {
+      "personId": "22",
+      "personType": 1,
+      "displayName": "Todd Klindt",
+      "workDays": "",
+      "workHours": "",
+      "firstName": "Todd",
+      "lastName": "Klindt",
+      "photoUrl": "",
+      "IANATimeZone": "America/Chicago"
+    }, {
+      "personId": "12",
+      "personType": 1,
+      "displayName": "Emily Mancini",
+      "workDays": "",
+      "workHours": "",
+      "firstName": "Emily",
+      "lastName": "Mancini",
+      "photoUrl": "",
+      "IANATimeZone": "America/New_York"
+    }, {
+      "personId": "13",
+      "personType": 1,
+      "displayName": "Taylor Graff",
+      "workDays": "",
+      "workHours": "",
+      "firstName": "Taylor",
+      "lastName": "Graff",
+      "photoUrl": "",
+      "IANATimeZone": "Africa/Johannesburg"
+    }, {
+      "personId": "14",
+      "personType": 1,
+      "displayName": "Morgan Farr",
+      "workDays": "",
+      "workHours": "",
+      "firstName": "Morgan",
+      "lastName": "Farr",
+      "photoUrl": "",
+      "IANATimeZone": "Africa/Cairo"
+    }, {
+      "personId": "15",
+      "personType": 1,
+      "displayName": "Rowan Berlin",
+      "workDays": "",
+      "workHours": "",
+      "firstName": "Rowan",
+      "lastName": "Berlin",
+      "photoUrl": "",
+      "IANATimeZone": "Europe/Berlin"
+    }, {
+      "personId": "16",
+      "personType": 1,
+      "displayName": "Jordan Carr",
+      "workDays": "",
+      "workHours": "",
+      "firstName": "Jordan",
+      "lastName": "Carr",
+      "photoUrl": "",
+      "IANATimeZone": "Europe/Luxembourg"
+    }, {
+      "personId": "17",
+      "personType": 1,
+      "displayName": "Jaime Alaska",
+      "workDays": "",
+      "workHours": "",
+      "firstName": "Jaime",
+      "lastName": "Alaska",
+      "photoUrl": "",
+      "IANATimeZone": "America/Adak"
+    }, {
+      "personId": "18",
+      "personType": 1,
+      "displayName": "Drew Taylor",
+      "workDays": "",
+      "workHours": "",
+      "firstName": "Drew",
+      "lastName": "Taylor",
+      "photoUrl": "",
+      "IANATimeZone": "Europe/Luxembourg"
+    }, {
+      "personId": "19",
+      "personType": 1,
+      "displayName": "Karter Ellis",
+      "workDays": "",
+      "workHours": "",
+      "firstName": "Karter",
+      "lastName": "Ellis",
+      "photoUrl": "",
+      "IANATimeZone": "Asia/Seoul"
+    }, {
+      "personId": "20",
+      "personType": 1,
+      "displayName": "Thor Ironsides",
+      "workDays": "",
+      "workHours": "",
+      "firstName": "Thor",
+      "lastName": "Ironsides",
+      "photoUrl": "",
+      "IANATimeZone": "Atlantic/Reykjavik"
+    }, {
+      "personId": "21",
+      "personType": 1,
+      "displayName": "Alex Barnes",
+      "workDays": "",
+      "workHours": "",
+      "firstName": "Alex",
+      "lastName": "Barnes",
+      "photoUrl": "",
+      "IANATimeZone": "Pacific/Guam"
+    }
+  ],
+  "views": []
+}

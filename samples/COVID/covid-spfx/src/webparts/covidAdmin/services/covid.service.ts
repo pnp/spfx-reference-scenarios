@@ -14,6 +14,7 @@ import * as lodash from "lodash";
 import { sp } from "@pnp/sp";
 import { Logger, LogLevel } from "@pnp/logging";
 import "@pnp/sp/webs";
+import { Web } from "@pnp/sp/webs";
 import "@pnp/sp/lists/web";
 import "@pnp/sp/items/list";
 import "@pnp/sp/site-users/web";
@@ -105,13 +106,6 @@ export class CovidService implements ICovidService {
       this._questionListUrl = `${this._siteUrl}/Lists/${Tables.QUESTIONLIST}/AllItems.aspx`;
       let p: Promise<any>[] = [];
       p.push(this._loadUserRole());
-      // await this._loadUserRole();
-      // let success: boolean[] = [];
-      // success.push(await this._getLocations());
-      // success.push(await this._getQuestions());
-      // if (success.indexOf(false) == -1) {
-      //   this._ready = true;
-      // }
       p.push(this._getLocations());
       p.push(this._getQuestions());
       const pResults = await Promise.all(p);
@@ -188,6 +182,7 @@ export class CovidService implements ICovidService {
           retVal = true;
         }
       } else {
+        //Configured so that it can be called by external components (Viva Dashboard - ACE)
         const web = Web((siteUrl != undefined) ? siteUrl : this._siteUrl);
         const checkIns = await web.lists.getByTitle(Tables.COVIDCHECKINLIST).items
           .top(1)

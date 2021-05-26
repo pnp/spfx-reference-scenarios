@@ -1,0 +1,68 @@
+{
+  "$schema": "https://developer.microsoft.com/en-us/json-schemas/teams/v1.9/MicrosoftTeams.schema.json",
+  "manifestVersion": "1.9",
+  "version": "1.0.0",
+  "id": "772bec53-bf4b-4ff6-928d-629d38d1717a",
+  "packageName": "WorldClock",
+  "developer": {
+    "name": "Sympraxis Consulting",
+    "websiteUrl": "https://sympraxisconsulting.com",
+    "privacyUrl": "https://privacy.microsoft.com/en-us/privacystatement",
+    "termsOfUseUrl": "https://www.microsoft.com/en-us/servicesagreement",
+    "mpnId": "M365PNP"
+  },
+  "icons": {
+    "color": "2c3960eb-ca53-4e0e-8e90-e3258f788999_color.png",
+    "outline": "2c3960eb-ca53-4e0e-8e90-e3258f788999_outline.png"
+  },
+  "name": {
+    "short": "World Clock",
+    "full": "World Clock Scheduling Application"
+  },
+  "description": {
+    "short": "World Clock Scheduling Application",
+    "full": "World Clock Scheduling Application is a teams or personal solution to allow teams or users to coordinate scheduling meetings with users across the globe."
+  },
+  "accentColor": "#FFFFFF",
+  "configurableTabs": [
+    {
+      "configurationUrl": "https://{teamSiteDomain}/_layouts/15/TeamsLogon.aspx?SPFX=true&dest={teamSitePath}/_layouts/15/teamshostedapp.aspx%3FopenPropertyPane=true%26teams%26componentId=2c3960eb-ca53-4e0e-8e90-e3258f788999%26forceLocale={locale}",
+      "canUpdateConfiguration": false,
+      "scopes": [
+        "team"
+      ],
+      "context": [
+        "channelTab"
+      ],
+      "supportedSharePointHosts": [
+        "sharePointFullPage"
+      ]
+    }
+  ],
+  "staticTabs": [
+    {
+      "entityId": "30db8732-26be-4927-8457-71474812319c",
+      "name": "World Clock",
+      "contentUrl": "https://{teamSiteDomain}/_layouts/15/TeamsLogon.aspx?SPFX=true&dest=/_layouts/15/teamshostedapp.aspx%3Fteams%26personal%26componentId=2c3960eb-ca53-4e0e-8e90-e3258f788999%26forceLocale={locale}",
+      "scopes": [
+        "personal"
+      ]
+    },
+    {
+      "entityId": "about",
+      "scopes": [
+        "personal"
+      ]
+    }
+  ],
+  "permissions": [
+    "identity",
+    "messageTeamMembers"
+  ],
+  "validDomains": [
+    "{teamSiteDomain}",
+    "resourceseng.blob.core.windows.net",
+    "spoprod-a.akamaihd.net",
+    "*.login.microsoftonline.com"
+  ]
+}
