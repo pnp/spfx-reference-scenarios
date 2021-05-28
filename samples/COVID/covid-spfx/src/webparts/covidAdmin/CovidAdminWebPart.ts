@@ -21,6 +21,7 @@ import { cs } from './services/covid.service';
 import { ccs } from './services/covidConfig.service';
 import Configure, { IConfigureProps } from './components/molecules/Configure';
 import { SECURITY } from './models/covid.model';
+import { darkModeTheme, highContrastTheme, lightModeTheme } from './models/covid.themes';
 
 export interface ICovidAdminWebPartProps {
   moveCheckingRate: number;
@@ -75,19 +76,47 @@ export default class CovidAdminWebPart extends BaseClientSideWebPart<ICovidAdmin
       this._themeProvider = this.context.serviceScope.consume(ThemeProvider.serviceKey);
       this._themeVariant = this._themeProvider.tryGetTheme();
       if (this._themeVariant) {
-        // we set transfer semanticColors into CSS variables
+        // transfer semanticColors into CSS variables
         this._setCSSVariables(this._themeVariant.semanticColors);
+
+        // transfer fonts into CSS variables
+        this._setCSSVariables(this._themeVariant.fonts);
+
+        // transfer color palette into CSS variables
+        this._setCSSVariables(this._themeVariant.palette);
+
+        // transfer color palette into CSS variables
+        this._setCSSVariables(this._themeVariant["effects"]);
       } else if (window["__themeState__"].theme) {
         // we set transfer semanticColors into CSS variables
         this._setCSSVariables(window["__themeState__"].theme);
       }
       this._themeProvider.themeChangedEvent.add(this, this._handleThemeChangedEvent);
 
+      // if (this._microsoftTeams) {
+      //   if (this._microsoftTeams.context.theme !== "default") {
+      //     this.domElement.style.setProperty("--bodyText", "white");
+      //     this.domElement.style.setProperty("--bodyBackground", "#333");
+      //     this.domElement.style.setProperty("--buttonBackgroundHovered", "#555");
+      //   }
+      // }
+
       if (this._microsoftTeams) {
-        if (this._microsoftTeams.context.theme !== "default") {
-          this.domElement.style.setProperty("--bodyText", "white");
-          this.domElement.style.setProperty("--bodyBackground", "#333");
-          this.domElement.style.setProperty("--buttonBackgroundHovered", "#555");
+        switch (this._microsoftTeams.context.theme) {
+          case "dark": {
+            this.domElement.classList.add("dark-mode");
+            this._setCSSVariables(darkModeTheme);
+            break;
+          }
+          case "contrast": {
+            this.domElement.classList.add("contrast-mode");
+            this._setCSSVariables(highContrastTheme);
+            break;
+          }
+          default: {
+            this._setCSSVariables(lightModeTheme);
+            break;
+          }
         }
       }
     } catch (err) {
@@ -141,7 +170,7 @@ export default class CovidAdminWebPart extends BaseClientSideWebPart<ICovidAdmin
       } else {
         //TODO: Render error
       }
-      this.domElement.className = styles.appPartPage;
+      this.domElement.classList.add(styles.appPartPage);
       ReactDom.render(element, this.domElement);
     } catch (err) {
       Logger.write(`${this.LOG_SOURCE} (render) - ${err}`, LogLevel.Error);

@@ -121,6 +121,10 @@
       }
 
     }
+
+    .hoo-radio+label {
+      padding-right: 1rem;
+    }
   }
 
   font-family: "Segoe UI",
@@ -151,7 +155,16 @@
 
     .buttons {
       display: flex;
-      gap: px2rem(16px);
+      //gap: px2rem(16px);
+
+      &>div {
+        margin-right: 1rem;
+      }
+
+      &>button {
+        margin-right: 1rem;
+      }
+
     }
   }
 
@@ -276,4 +289,156 @@
   }
 
 
+}
+
+:global {
+  .dark-mode {
+    :local {
+      .covidAdmin {
+        :global {
+          .hoo-input-search {
+            background-color: var(--primaryButtonBackground);
+
+            .icon {
+              color: var(--bodyText);
+
+              svg {
+                fill: currentColor;
+              }
+            }
+          }
+
+          .hoo-button:hover {
+            --buttonBackgroundCheckedHovered: #292929;
+          }
+
+          .hoo-buttonflyout {
+            --bodyBackground: #292929;
+
+            .hoo-buttonaction:hover {
+              --buttonBackgroundHovered: #3b3a39;
+            }
+          }
+
+          .hoo-wcs-day {
+            color: var(--bodyBackground);
+
+            svg {
+              fill: var(--bodyBackground);
+            }
+          }
+
+          .date-picker input {
+            --bodyText: var(--bodyBackground);
+          }
+
+          .hoo-mdldialog,
+          .hoo-optgroup-items,
+          .hoo-select-dropdown,
+          .hoo-buttonflyout,
+          .hoo-button-primary:disabled,
+          .hoo-button-primary[disabled] {
+            border: 1px solid white;
+          }
+        }
+      }
+    }
+  }
+
+  .contrast-mode {
+    :local {
+      .covidAdmin {
+        :global {
+
+          .hoo-button-primary,
+          .hoo-buttoncomp-primary,
+          a.hoo-button-primary,
+          .hoo-buttonsplit-standard,
+          .hoo-buttonsplit-carret,
+          .hoo-buttonsplit-primary.show-flyout .hoo-buttonsplit-carret {
+            border-color: white;
+          }
+
+          .hoo-mdldialog,
+          .hoo-optgroup-items,
+          .hoo-select-dropdown {
+            border: 1px solid white;
+          }
+
+          .hoo-wc-clock .hoobuttonicon,
+          .hoo-dtshours.no-bg .hoo-buttonicon:hover,
+          .hoo-buttonicon,
+          .hoo-buttonaction {
+            svg {
+              fill: currentColor;
+            }
+
+            &:hover {
+              background-color: var(--buttonBackgroundHovered);
+
+              svg {
+                fill: var(--buttonTextHovered);
+              }
+            }
+          }
+
+          .hoo-dtshours-label.isSelected,
+          .hoo-dtshours.is-selected,
+          .is-selected.hoo-dtshours-label .hoo-dtshours-label:hover {
+            background-color: var(--buttonBackgroundHovered);
+          }
+
+          .hoo-buttonflyout {
+            --bodyBackground: black;
+            border: 1px solid var(--buttonBorder);
+
+            .hoo-buttonaction:hover {
+              .hoo-button-label {
+                color: var(--buttonTextHovered);
+              }
+            }
+          }
+
+          .hoo-input-search {
+            background-color: var(--primaryButtonBackground);
+
+            .icon {
+              color: var(--bodyText);
+
+              svg {
+                fill: currentColor;
+              }
+            }
+          }
+
+          .date-picker input {
+            --bodyText: black;
+          }
+
+          .hoo-checkbox:checked+label:after {
+            --inputIcon: black;
+          }
+
+          .hoo-option:hover {
+            --buttonBackgroundHovered: white;
+            --buttonText: black;
+          }
+
+          .hoo-wcs-night,
+          .hoo-wcs-day {
+            background-image: none;
+            color: var(--bodyText);
+
+            svg {
+              fill: var(--bodyText);
+            }
+          }
+
+          .hoo-wc-clock {
+            border: .1rem solid var(--bodyText) !important;
+          }
+        }
+      }
+    }
+  }
 }
