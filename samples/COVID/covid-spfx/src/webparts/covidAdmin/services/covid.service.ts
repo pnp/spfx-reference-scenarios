@@ -22,7 +22,6 @@ import { IItemAddResult } from "@pnp/sp/items/types";
 
 import { ILocations, IQuestion, ICheckIns, ISelfCheckIn, SelfCheckInLI, CheckInLI, ISelfCheckInLI, IAnswer, Tables, IPerson, IQuery, Person, SECURITY } from "../models/covid.model";
 import { eq } from "lodash";
-import { Web } from "@pnp/sp/webs";
 
 export interface ICovidService {
   Security: SECURITY;

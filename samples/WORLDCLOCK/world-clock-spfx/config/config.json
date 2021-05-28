@@ -9,10 +9,19 @@
           "manifest": "./src/webparts/worldClock/WorldClockWebPart.manifest.json"
         }
       ]
+    },
+    "ace-team-timezone-adaptive-card-extension": {
+      "components": [
+        {
+          "entrypoint": "./lib/adaptiveCardExtensions/aceTeamTimezone/AceTeamTimezoneAdaptiveCardExtension.js",
+          "manifest": "./src/adaptiveCardExtensions/aceTeamTimezone/AceTeamTimezoneAdaptiveCardExtension.manifest.json"
+        }
+      ]
     }
   },
   "externals": {},
   "localizedResources": {
-    "WorldClockWebPartStrings": "lib/webparts/worldClock/loc/{locale}.js"
+    "WorldClockWebPartStrings": "lib/webparts/worldClock/loc/{locale}.js",
+    "AceTeamTimezoneAdaptiveCardExtensionStrings": "lib/adaptiveCardExtensions/aceTeamTimezone/loc/{locale}.js"
   }
 }

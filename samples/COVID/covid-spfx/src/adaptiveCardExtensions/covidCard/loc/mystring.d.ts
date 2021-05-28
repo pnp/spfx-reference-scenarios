@@ -10,6 +10,7 @@ declare interface ICovidCardAdaptiveCardExtensionStrings {
   PrimaryText: string;
   CanCheckIn: string;
   AlreadyCheckedIn: string;
+  QuickViewTitle: string;
   QuickViewButton: string;
   HomeSite: string;
 }

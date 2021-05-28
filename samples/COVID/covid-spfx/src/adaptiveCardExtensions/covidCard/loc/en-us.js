@@ -12,6 +12,7 @@ define([], function () {
     "CanCheckIn": "You have not checked in today.",
     "AlreadyCheckedIn": "You have already checked in today",
     "QuickViewButton": "CheckIn",
+    "QuickViewTitle": "Check-In Covid-19",
     "HomeSite": "Enter the URL for the site collection where COVID-19 solution is running."
   }
 });
