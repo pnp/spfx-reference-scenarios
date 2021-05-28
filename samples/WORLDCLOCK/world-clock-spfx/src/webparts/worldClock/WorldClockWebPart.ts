@@ -15,11 +15,10 @@ import {
 import { BaseClientSideWebPart, IMicrosoftTeams } from '@microsoft/sp-webpart-base';
 
 import styles from "./components/WorldClock.module.scss";
-import * as strings from 'WorldClockWebPartStrings';
 import WorldClock, { IWorldClockProps } from './components/WorldClock';
 import { wc } from './services/wc.service';
-import { IWebEnsureUserResult } from "@pnp/sp/site-users/";
 import { CONFIG_TYPE } from './models/wc.models';
+import { darkModeTheme, highContrastTheme, lightModeTheme } from './models/wc.themes';
 
 export interface IWorldClockWebPartProps {
   description: string;
@@ -61,8 +60,17 @@ export default class WorldClockWebPart extends BaseClientSideWebPart<IWorldClock
       this._themeProvider = this.context.serviceScope.consume(ThemeProvider.serviceKey);
       this._themeVariant = this._themeProvider.tryGetTheme();
       if (this._themeVariant) {
-        // we set transfer semanticColors into CSS variables
+        // transfer semanticColors into CSS variables
         this._setCSSVariables(this._themeVariant.semanticColors);
+
+        // transfer fonts into CSS variables
+        this._setCSSVariables(this._themeVariant.fonts);
+
+        // transfer color palette into CSS variables
+        this._setCSSVariables(this._themeVariant.palette);
+
+        // transfer color palette into CSS variables
+        this._setCSSVariables(this._themeVariant["effects"]);
       } else if (window["__themeState__"].theme) {
         // we set transfer semanticColors into CSS variables
         this._setCSSVariables(window["__themeState__"].theme);
@@ -70,13 +78,21 @@ export default class WorldClockWebPart extends BaseClientSideWebPart<IWorldClock
       this._themeProvider.themeChangedEvent.add(this, this._handleThemeChangedEvent);
 
       if (this._microsoftTeams) {
-        if (this._microsoftTeams.context.theme == "default") {
-          this.domElement.style.setProperty("--bodyBackground", "whitesmoke");
-        }
-        else {
-          this.domElement.style.setProperty("--bodyText", "white");
-          this.domElement.style.setProperty("--bodyBackground", "#333");
-          this.domElement.style.setProperty("--buttonBackgroundHovered", "#555");
+        switch (this._microsoftTeams.context.theme) {
+          case "dark": {
+            this.domElement.classList.add("dark-mode");
+            this._setCSSVariables(darkModeTheme);
+            break;
+          }
+          case "contrast": {
+            this.domElement.classList.add("contrast-mode");
+            this._setCSSVariables(highContrastTheme);
+            break;
+          }
+          default: {
+            this._setCSSVariables(lightModeTheme);
+            break;
+          }
         }
       }
     } catch (err) {
@@ -118,7 +134,7 @@ export default class WorldClockWebPart extends BaseClientSideWebPart<IWorldClock
       } else {
         //TODO: Render error
       }
-      this.domElement.className = styles.appPartPage;
+      this.domElement.classList.add(styles.appPartPage);
       ReactDom.render(element, this.domElement);
     } catch (err) {
       Logger.write(`${this.LOG_SOURCE} (render) - ${err}`, LogLevel.Error);

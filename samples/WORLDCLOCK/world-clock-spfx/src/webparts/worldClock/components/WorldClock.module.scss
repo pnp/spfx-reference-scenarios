@@ -26,6 +26,10 @@
       }
     }
 
+    .hoo-buttonflyout {
+      --bodyBackground: white;
+    }
+
     //Override to make the dialog have a scroll if necessary
     .hoo-mdldialog {
       overflow: auto;
@@ -181,7 +185,7 @@
       flex-direction: row;
       justify-content: flex-start;
 
-      //margin-top: 2rem;
+      margin-top: .5rem;
       margin-bottom: 2rem;
       flex-wrap: nowrap;
     }
@@ -251,7 +255,11 @@
       /* background-clip: content-box; */
       /* object-fit: contain; */
       background-size: cover;
-      color: black;
+      color: var(--bodyText);
+
+      svg {
+        fill: currentColor;
+      }
     }
 
     .hoo-wcs-night {
@@ -458,6 +466,7 @@
         "Helvetica Neue",
         sans-serif;
       color: $bodyText;
+      margin-right: 1rem;
     }
 
     .center-vertical {
@@ -470,7 +479,13 @@
     }
 
     .gap {
-      gap: px2rem(16px);
+      &>div {
+        margin-right: 1rem;
+      }
+
+      &>button {
+        margin-right: 1rem;
+      }
     }
 
     .memberPersona {
@@ -501,6 +516,7 @@
     .full-width {
       @include gridSpan(12);
     }
+
 
   }
 
@@ -610,6 +626,162 @@
 
     100% {
       transform: rotate(360deg);
+    }
+  }
+}
+
+:global {
+  .dark-mode {
+    :local {
+      .worldClock {
+        :global {
+
+          .hoo-button-primary:disabled,
+          .hoo-button-primary[disabled] {
+            border: 1px solid white;
+          }
+
+          .hoo-input-search {
+            background-color: var(--primaryButtonBackground);
+
+            .icon {
+              color: var(--bodyText);
+
+              svg {
+                fill: currentColor;
+              }
+            }
+          }
+
+          .hoo-button:hover {
+            --buttonBackgroundCheckedHovered: #292929;
+          }
+
+          .hoo-buttonflyout {
+            --bodyBackground: #292929;
+
+            .hoo-buttonaction:hover {
+              --buttonBackgroundHovered: #3b3a39;
+            }
+          }
+
+          .hoo-wcs-day {
+            color: var(--bodyBackground);
+
+            svg {
+              fill: var(--bodyBackground);
+            }
+          }
+
+          .date-picker input {
+            --bodyText: var(--bodyBackground);
+          }
+
+          .hoo-mdldialog,
+          .hoo-optgroup-items,
+          .hoo-select-dropdown,
+          .hoo-buttonflyout {
+            border: 1px solid white;
+          }
+        }
+      }
+    }
+  }
+
+  .contrast-mode {
+    :local {
+      .worldClock {
+        :global {
+
+          .hoo-button-primary,
+          .hoo-buttoncomp-primary,
+          a.hoo-button-primary,
+          .hoo-buttonsplit-standard,
+          .hoo-buttonsplit-carret,
+          .hoo-buttonsplit-primary.show-flyout .hoo-buttonsplit-carret {
+            border-color: white;
+          }
+
+          .hoo-mdldialog,
+          .hoo-optgroup-items,
+          .hoo-select-dropdown {
+            border: 1px solid white;
+          }
+
+          .hoo-wc-clock .hoobuttonicon,
+          .hoo-dtshours.no-bg .hoo-buttonicon:hover,
+          .hoo-buttonicon,
+          .hoo-buttonaction {
+            svg {
+              fill: currentColor;
+            }
+
+            &:hover {
+              background-color: var(--buttonBackgroundHovered);
+
+              svg {
+                fill: var(--buttonTextHovered);
+              }
+            }
+          }
+
+          .hoo-dtshours-label.isSelected,
+          .hoo-dtshours.is-selected,
+          .is-selected.hoo-dtshours-label .hoo-dtshours-label:hover {
+            background-color: var(--buttonBackgroundHovered);
+          }
+
+          .hoo-buttonflyout {
+            --bodyBackground: black;
+            border: 1px solid var(--buttonBorder);
+
+            .hoo-buttonaction:hover {
+              .hoo-button-label {
+                color: var(--buttonTextHovered);
+              }
+            }
+          }
+
+          .hoo-input-search {
+            background-color: var(--primaryButtonBackground);
+
+            .icon {
+              color: var(--bodyText);
+
+              svg {
+                fill: currentColor;
+              }
+            }
+          }
+
+          .date-picker input {
+            --bodyText: black;
+          }
+
+          .hoo-checkbox:checked+label:after {
+            --inputIcon: black;
+          }
+
+          .hoo-option:hover {
+            --buttonBackgroundHovered: white;
+            --buttonText: black;
+          }
+
+          .hoo-wcs-night,
+          .hoo-wcs-day {
+            background-image: none;
+            color: var(--bodyText);
+
+            svg {
+              fill: var(--bodyText);
+            }
+          }
+
+          .hoo-wc-clock {
+            border: .1rem solid var(--bodyText) !important;
+          }
+        }
+      }
     }
   }
 }
