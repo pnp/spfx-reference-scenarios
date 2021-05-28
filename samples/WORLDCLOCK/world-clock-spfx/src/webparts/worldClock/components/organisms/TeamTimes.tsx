@@ -408,7 +408,7 @@ export default class TeamTimes extends React.Component<ITeamTimesProps, ITeamTim
                               currentTime={this.state.currentTime}
                               addToMeeting={this.props.addToMeeting}
                               meetingMembers={this.props.meetingMembers}
-                              editProfile={this._showProfile} />
+                              editProfile={this._showProfile} key={offsetGroup.offset} />
                             {(styleIndex == this.state.timeZoneView.length - 1) && (offsetIndex == styleGroup.offsetGroup.length - 1) && (moreCards) &&
                               <TimeCardArrow
                                 iconType={Icons.RightArrow}
