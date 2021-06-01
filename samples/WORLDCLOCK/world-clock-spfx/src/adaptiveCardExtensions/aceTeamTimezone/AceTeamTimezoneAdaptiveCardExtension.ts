@@ -51,7 +51,7 @@ export default class AceTeamTimezoneAdaptiveCardExtension extends BaseAdaptiveCa
       this.state = {
         currentConfig: wc.Config,
         currentView: wc.Config.defaultViewId,
-        teamsUrl: ""
+        teamsUrl: "https://bing.com"
       };
     } catch (err) {
       Logger.write(`${this.LOG_SOURCE} (onInit) - ${err.message} - `, LogLevel.Error);

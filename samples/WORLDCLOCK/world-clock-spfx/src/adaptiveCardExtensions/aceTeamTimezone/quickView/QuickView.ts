@@ -24,13 +24,9 @@ export class QuickView extends BaseAdaptiveCardView<
   private _getTime(member: IPerson): string {
     let retVal: string = "unknown";
     try {
-      const currentTimeZone: string = member.IANATimeZone || wc.IANATimeZone;
-      let showAMPM: string = "";
-      let currentTime: DateTime = new DateTime().setZone(currentTimeZone);
-      retVal = currentTime.toLocaleString(DateTime.TIME_SIMPLE);
-      if ((endsWith(retVal.toLocaleLowerCase(), "am")) || (endsWith(retVal.toLocaleLowerCase(), "pm"))) {
-        showAMPM = currentTime.toFormat("a");
-        retVal = replace(retVal, ` ${showAMPM}`, "");
+      if (member.IANATimeZone != undefined) {
+        //const currentTimeZone: string = member.IANATimeZone || wc.IANATimeZone;
+        retVal = DateTime.now().setZone(member.IANATimeZone).toLocaleString(DateTime.TIME_SIMPLE);
       }
     } catch (err) {
       Logger.write(`${this.LOG_SOURCE} (_getTime) - ${err}`, LogLevel.Error);
