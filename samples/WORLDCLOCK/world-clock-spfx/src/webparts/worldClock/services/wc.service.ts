@@ -173,12 +173,11 @@ export class WorldClockService implements IWorldClockService {
           const content = await this._readFileAsync(fileContents);
           this._currentConfig = JSON.parse(this._arrayBufferToString(content));
         } catch (e) {
-          console.log(e);
           //Do nothing as it'll just create the new config.
         }
       }
 
-      if (this._currentConfig == undefined) {
+      if (this._currentConfig == undefined || (this._currentConfig.members.length < 1 && this._currentConfig.defaultViewId == null)) {
         newFile = true;
         this._currentConfig = await this._wcm.GenerateConfig();
         this._wcm.UpdateTimezones(this._currentConfig.members);

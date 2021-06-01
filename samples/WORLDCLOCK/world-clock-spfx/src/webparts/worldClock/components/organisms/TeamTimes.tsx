@@ -137,7 +137,7 @@ export default class TeamTimes extends React.Component<ITeamTimesProps, ITeamTim
       while (true) {
         const delay: number = (60000);
         await this.delay(delay);
-        let now: DateTime = await DateTime.now().setLocale(wc.Locale).setZone(wc.IANATimeZone);
+        let now: DateTime = DateTime.now().setLocale(wc.Locale).setZone(wc.IANATimeZone);
         if (!this._ready && wc.Ready) {
           this._ready = true;
           this._handleRefresh({ currentTime: now });
