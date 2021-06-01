@@ -140,7 +140,8 @@ export class CovidService implements ICovidService {
   private async _getLocations(): Promise<boolean> {
     let retVal: boolean = false;
     try {
-      this._locations = await sp.web.lists.getByTitle(Tables.LOCATIONLIST).items
+      const web = Web(this._siteUrl);
+      this._locations = await web.lists.getByTitle(Tables.LOCATIONLIST).items
         .top(5000)
         .select("Id, Title")
         .get<ILocations[]>();
@@ -154,7 +155,8 @@ export class CovidService implements ICovidService {
   private async _getQuestions(): Promise<boolean> {
     let retVal: boolean = false;
     try {
-      this._questions = await sp.web.lists.getByTitle(Tables.QUESTIONLIST).items
+      const web = Web(this._siteUrl);
+      this._questions = await web.lists.getByTitle(Tables.QUESTIONLIST).items
         .top(5000)
         .select("Id, Title, ToolTip, QuestionType, Order")
         .filter("Enabled eq 1")
@@ -446,7 +448,8 @@ export class CovidService implements ICovidService {
         }
       });
       this.SKIPADDFIELDS.forEach(f => { delete selfCheckInLI[f]; });
-      const addSelfCheckIn = await sp.web.lists.getByTitle(Tables.SELFCHECKINLIST).items.add(selfCheckInLI);
+      const web = Web(this._siteUrl);
+      const addSelfCheckIn = await web.lists.getByTitle(Tables.SELFCHECKINLIST).items.add(selfCheckInLI);
       if (addSelfCheckIn.item)
         retVal = true;
     } catch (err) {
