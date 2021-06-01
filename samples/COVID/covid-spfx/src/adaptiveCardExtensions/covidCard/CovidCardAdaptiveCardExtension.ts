@@ -18,6 +18,8 @@ export interface ICovidCardAdaptiveCardExtensionProps {
 
 export interface ICovidCardAdaptiveCardExtensionState {
   canCheckIn: boolean;
+  userId: number;
+  displayName: string;
 }
 
 const CARD_VIEW_REGISTRY_ID: string = 'CovidCard_CARD_VIEW';
@@ -30,6 +32,7 @@ export default class CovidCardAdaptiveCardExtension extends BaseAdaptiveCardExte
 
   private LOG_SOURCE: string = "🔶CovidCardAdaptiveCardExtension";
   private _userId: number = 0;
+  private _displayName: string = "";
   private _userCanCheckIn: boolean = false;
 
   private _deferredPropertyPane: CovidCardPropertyPane | undefined;
@@ -52,14 +55,20 @@ export default class CovidCardAdaptiveCardExtension extends BaseAdaptiveCardExte
 
 
       this._userId = this.context.pageContext.legacyPageContext.userId;
+      this._displayName = this.context.pageContext.legacyPageContext.userDisplayName;
       if (this._userId == undefined) {
         const user = await sp.web.ensureUser(this.context.pageContext.user.loginName);
         this._userId = user.data.Id;
       }
       this._userCanCheckIn = await cs.userCanCheckIn(this._userId, this.properties.homeSite);
+      if (this._userCanCheckIn) {
+        await cs.init(this.properties.homeSite, false, false);
+      }
 
       this.state = {
-        canCheckIn: this._userCanCheckIn
+        canCheckIn: this._userCanCheckIn,
+        userId: this._userId,
+        displayName: this._displayName
       };
     } catch (err) {
       Logger.write(`${this.LOG_SOURCE} (onInit) - ${err.message} - `, LogLevel.Error);

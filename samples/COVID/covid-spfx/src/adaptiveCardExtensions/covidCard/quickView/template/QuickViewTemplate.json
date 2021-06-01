@@ -11,6 +11,25 @@
     {
       "type": "Container",
       "items": []
+    },
+    {
+      "type": "ActionSet",
+      "actions": [
+        {
+          "type": "Action.Submit",
+          "title": "Submit",
+          "data": {
+            "id": "submit"
+          }
+        },
+        {
+          "type": "Action.Submit",
+          "title": "Cancel",
+          "data": {
+            "id": "cancel"
+          }
+        }
+      ]
     }
   ]
 }

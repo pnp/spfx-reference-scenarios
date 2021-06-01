@@ -13,6 +13,7 @@ declare interface ICovidCardAdaptiveCardExtensionStrings {
   QuickViewTitle: string;
   QuickViewButton: string;
   HomeSite: string;
+  CovidFormOfficeLabel: string;
 }
 
 declare module 'CovidCardAdaptiveCardExtensionStrings' {

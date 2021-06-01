@@ -48,10 +48,11 @@ export default class AceTeamTimezoneAdaptiveCardExtension extends BaseAdaptiveCa
       const configType: CONFIG_TYPE = CONFIG_TYPE.Personal;
       await wc.Init(this.context.pageContext.user.loginName, this.context.pageContext.cultureInfo.currentUICultureName, "", null, null, configType);
 
+      //TODO: Get Teams URL
       this.state = {
         currentConfig: wc.Config,
         currentView: wc.Config.defaultViewId,
-        teamsUrl: "https://bing.com"
+        teamsUrl: "https://teams.microsoft.com/l/entity/2c3960eb-ca53-4e0e-8e90-e3258f788999/0"
       };
     } catch (err) {
       Logger.write(`${this.LOG_SOURCE} (onInit) - ${err.message} - `, LogLevel.Error);
