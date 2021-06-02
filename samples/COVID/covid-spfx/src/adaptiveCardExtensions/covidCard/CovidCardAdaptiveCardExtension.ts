@@ -77,12 +77,12 @@ export default class CovidCardAdaptiveCardExtension extends BaseAdaptiveCardExte
     return Promise.resolve();
   }
 
-  public get title(): string {
-    return this.properties.title;
-  }
+  // public get title(): string {
+  //   return this.properties.title;
+  // }
 
   protected get iconProperty(): string {
-    return this.properties.iconProperty || require('../../../teams/3ab8fb75-8f80-4ff1-90a3-6f711ad27c1d_color.png');
+    return require('../../../teams/3ab8fb75-8f80-4ff1-90a3-6f711ad27c1d_color.png');
   }
 
   protected loadPropertyPaneResources(): Promise<void> {

@@ -6,6 +6,8 @@
     {
       "type": "TextBlock",
       "text": "",
+      "size": "Medium",
+      "weight": "Bolder",
       "wrap": true
     },
     {

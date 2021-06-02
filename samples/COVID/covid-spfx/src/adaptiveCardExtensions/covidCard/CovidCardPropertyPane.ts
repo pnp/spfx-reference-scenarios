@@ -14,9 +14,6 @@ export class CovidCardPropertyPane {
                 PropertyPaneTextField('title', {
                   label: strings.TitleFieldLabel
                 }),
-                PropertyPaneTextField('iconProperty', {
-                  label: strings.IconPropertyFieldLabel
-                }),
                 PropertyPaneTextField('homeSite', {
                   label: strings.HomeSite
                 })

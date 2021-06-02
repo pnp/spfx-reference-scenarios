@@ -14,6 +14,9 @@
     "Dashboard",
     "SharePointWebPart"
   ],
+  "experimentalData": {
+    "ACE": true
+  },
   "preconfiguredEntries": [
     {
       "groupId": "bd067b1e-3ad5-4d5d-a5fe-505f07d7f59c", // Dashboard
@@ -26,7 +29,7 @@
       "description": {
         "default": "Team Timezone World Clock Card"
       },
-      "officeFabricIconFontName": "SharePointLogo",
+      "iconImageUrl": "",
       "properties": {}
     }
   ]

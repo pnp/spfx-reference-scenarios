@@ -70,7 +70,7 @@ export class QuickView extends BaseAdaptiveCardView<
   public get template(): ISPFxAdaptiveCard {
     let template: ISPFxAdaptiveCard = require('./template/QuickViewTemplate.json');
     try {
-      template.body[0].text = strings.QuickViewTitle;
+      template.body[0].text = `${this.state.displayName} ${strings.PrimaryText}`;
       const locationOptions = cs.Locations.map((l) => { return { title: l.Title, value: l.Title }; });
       const items = [];
       items.push(new TextBox(`LabelLocation`, strings.CovidFormOfficeLabel));

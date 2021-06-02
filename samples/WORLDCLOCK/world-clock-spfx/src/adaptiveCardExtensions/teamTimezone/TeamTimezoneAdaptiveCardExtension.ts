@@ -65,9 +65,9 @@ export default class TeamTimezoneAdaptiveCardExtension extends BaseAdaptiveCardE
   //   return this.properties.teamsUrl;
   // }
 
-  // protected get iconProperty(): string {
-  //   return this.properties.iconProperty || require('./assets/SharePointLogo.svg');
-  // }
+  protected get iconProperty(): string {
+    return require('../../../teams/2c3960eb-ca53-4e0e-8e90-e3258f788999_color.png');
+  }
 
   protected loadPropertyPaneResources(): Promise<void> {
     return import(
