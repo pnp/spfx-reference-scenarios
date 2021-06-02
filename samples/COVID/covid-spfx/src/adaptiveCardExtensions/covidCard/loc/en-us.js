@@ -14,6 +14,7 @@ define([], function () {
     "QuickViewButton": "CheckIn",
     "QuickViewTitle": "Check-In Covid-19",
     "HomeSite": "Enter the URL for the site collection where COVID-19 solution is running.",
-    "CovidFormOfficeLabel": "Office"
+    "CovidFormOfficeLabel": "Office",
+    "NotConfigured": "Please configure the ACE properties."
   }
 });

@@ -7,30 +7,30 @@ import { Logger, LogLevel, ConsoleListener } from "@pnp/logging";
 
 import { CardView } from './cardView/CardView';
 import { QuickView } from './quickView/QuickView';
-import { AceTeamTimezonePropertyPane } from './AceTeamTimezonePropertyPane';
+import { TeamTimezonePropertyPane } from './TeamTimezonePropertyPane';
 import { CONFIG_TYPE, IConfig } from '../../webparts/worldClock/models/wc.models';
 import { wc } from '../../webparts/worldClock/services/wc.service';
 
-export interface IAceTeamTimezoneAdaptiveCardExtensionProps {
+export interface ITeamTimezoneAdaptiveCardExtensionProps {
 
 }
 
-export interface IAceTeamTimezoneAdaptiveCardExtensionState {
+export interface ITeamTimezoneAdaptiveCardExtensionState {
   currentConfig: IConfig;
   currentView: string;
   teamsUrl: string;
 }
 
-const CARD_VIEW_REGISTRY_ID: string = 'AceTeamTimezone_CARD_VIEW';
-export const QUICK_VIEW_REGISTRY_ID: string = 'AceTeamTimezone_QUICK_VIEW';
+const CARD_VIEW_REGISTRY_ID: string = 'TEAMTIMEZONE_CARD_VIEW';
+export const QUICK_VIEW_REGISTRY_ID: string = 'TEAMTIMEZONE_QUICK_VIEW';
 
-export default class AceTeamTimezoneAdaptiveCardExtension extends BaseAdaptiveCardExtension<
-  IAceTeamTimezoneAdaptiveCardExtensionProps,
-  IAceTeamTimezoneAdaptiveCardExtensionState
+export default class TeamTimezoneAdaptiveCardExtension extends BaseAdaptiveCardExtension<
+  ITeamTimezoneAdaptiveCardExtensionProps,
+  ITeamTimezoneAdaptiveCardExtensionState
 > {
-  private LOG_SOURCE: string = "🔶AceTeamTimezoneAdaptiveCardExtension";
+  private LOG_SOURCE: string = "🔶TeamTimezoneAdaptiveCardExtension";
 
-  private _deferredPropertyPane: AceTeamTimezonePropertyPane | undefined;
+  private _deferredPropertyPane: TeamTimezonePropertyPane | undefined;
 
   public async onInit(): Promise<void> {
     try {
@@ -71,12 +71,12 @@ export default class AceTeamTimezoneAdaptiveCardExtension extends BaseAdaptiveCa
 
   protected loadPropertyPaneResources(): Promise<void> {
     return import(
-      /* webpackChunkName: 'AceTeamTimezone-property-pane'*/
-      './AceTeamTimezonePropertyPane'
+      /* webpackChunkName: 'TeamTimezone-property-pane'*/
+      './TeamTimezonePropertyPane'
     )
       .then(
         (component) => {
-          this._deferredPropertyPane = new component.AceTeamTimezonePropertyPane();
+          this._deferredPropertyPane = new component.TeamTimezonePropertyPane();
         }
       );
   }

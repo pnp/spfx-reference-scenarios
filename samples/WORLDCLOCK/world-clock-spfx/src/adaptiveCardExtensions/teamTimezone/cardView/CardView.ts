@@ -5,11 +5,11 @@ import {
   BaseBasicCardView,
   IBasicCardParameters
 } from '@microsoft/sp-adaptive-card-extension-base';
-import * as strings from 'AceTeamTimezoneAdaptiveCardExtensionStrings';
+import * as strings from 'TeamTimezoneAdaptiveCardExtensionStrings';
 import { wc } from '../../../webparts/worldClock/services/wc.service';
-import { IAceTeamTimezoneAdaptiveCardExtensionProps, IAceTeamTimezoneAdaptiveCardExtensionState, QUICK_VIEW_REGISTRY_ID } from '../AceTeamTimezoneAdaptiveCardExtension';
+import { ITeamTimezoneAdaptiveCardExtensionProps, ITeamTimezoneAdaptiveCardExtensionState, QUICK_VIEW_REGISTRY_ID } from '../TeamTimezoneAdaptiveCardExtension';
 
-export class CardView extends BaseBasicCardView<IAceTeamTimezoneAdaptiveCardExtensionProps, IAceTeamTimezoneAdaptiveCardExtensionState> {
+export class CardView extends BaseBasicCardView<ITeamTimezoneAdaptiveCardExtensionProps, ITeamTimezoneAdaptiveCardExtensionState> {
   public get cardButtons(): [ICardButton] | [ICardButton, ICardButton] | undefined {
     return [
       {

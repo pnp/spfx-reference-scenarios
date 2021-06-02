@@ -6,6 +6,7 @@ import {
   ICardButton
 } from '@microsoft/sp-adaptive-card-extension-base';
 import * as strings from 'CovidCardAdaptiveCardExtensionStrings';
+import { cs } from '../../../webparts/covidAdmin/services/covid.service';
 import { ICovidCardAdaptiveCardExtensionProps, ICovidCardAdaptiveCardExtensionState, QUICK_VIEW_REGISTRY_ID } from '../CovidCardAdaptiveCardExtension';
 
 export class CardView extends BasePrimaryTextCardView<ICovidCardAdaptiveCardExtensionProps, ICovidCardAdaptiveCardExtensionState> {
@@ -19,13 +20,14 @@ export class CardView extends BasePrimaryTextCardView<ICovidCardAdaptiveCardExte
         }
       }
     };
-    return (this.state.canCheckIn) ? [register] : undefined;
+    return (this.state.canCheckIn && cs.Questions?.length > 0 && cs.Locations?.length > 0) ? [register] : undefined;
   }
 
   public get data(): IPrimaryTextCardParameters {
+    const description = (cs.Questions?.length > 0 && cs.Locations?.length > 0) ? (this.state.canCheckIn ? strings.CanCheckIn : strings.AlreadyCheckedIn) : strings.NotConfigured;
     return {
       primaryText: strings.PrimaryText,
-      description: this.state.canCheckIn ? strings.CanCheckIn : strings.AlreadyCheckedIn
+      description: description
     };
   }
 
@@ -37,6 +39,6 @@ export class CardView extends BasePrimaryTextCardView<ICovidCardAdaptiveCardExte
         target: 'https://teams.microsoft.com/l/entity/3ab8fb75-8f80-4ff1-90a3-6f711ad27c1d/0'
       }
     };
-    return (this.state.canCheckIn) ? action : undefined;
+    return action;
   }
 }

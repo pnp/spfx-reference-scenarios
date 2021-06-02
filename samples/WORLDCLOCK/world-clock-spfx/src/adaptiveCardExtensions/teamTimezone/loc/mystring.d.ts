@@ -1,4 +1,4 @@
-declare interface IAceTeamTimezoneAdaptiveCardExtensionStrings {
+declare interface ITeamTimezoneAdaptiveCardExtensionStrings {
   PropertyPaneDescription: string;
   BasicGroupName: string;
   DescriptionFieldLabel: string;
@@ -11,7 +11,7 @@ declare interface IAceTeamTimezoneAdaptiveCardExtensionStrings {
   QuickViewButton: string;
 }
 
-declare module 'AceTeamTimezoneAdaptiveCardExtensionStrings' {
-  const strings: IAceTeamTimezoneAdaptiveCardExtensionStrings;
+declare module 'TeamTimezoneAdaptiveCardExtensionStrings' {
+  const strings: ITeamTimezoneAdaptiveCardExtensionStrings;
   export = strings;
 }

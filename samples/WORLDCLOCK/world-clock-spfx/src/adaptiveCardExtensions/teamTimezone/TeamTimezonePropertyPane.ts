@@ -1,7 +1,7 @@
 import { IPropertyPaneConfiguration, PropertyPaneTextField } from '@microsoft/sp-property-pane';
-import * as strings from 'AceTeamTimezoneAdaptiveCardExtensionStrings';
+import * as strings from 'TeamTimezoneAdaptiveCardExtensionStrings';
 
-export class AceTeamTimezonePropertyPane {
+export class TeamTimezonePropertyPane {
   public getPropertyPaneConfiguration(): IPropertyPaneConfiguration {
     return {
       pages: [

@@ -1,9 +1,9 @@
 import { ISPFxAdaptiveCard, BaseAdaptiveCardView } from '@microsoft/sp-adaptive-card-extension-base';
-import { IAceTeamTimezoneAdaptiveCardExtensionProps, IAceTeamTimezoneAdaptiveCardExtensionState } from '../AceTeamTimezoneAdaptiveCardExtension';
+import { ITeamTimezoneAdaptiveCardExtensionProps, ITeamTimezoneAdaptiveCardExtensionState } from '../TeamTimezoneAdaptiveCardExtension';
 
 import { Logger, LogLevel } from "@pnp/logging";
 
-import { endsWith, find, forEach, replace } from 'lodash';
+import { forEach } from 'lodash';
 import { DateTime } from 'luxon';
 import { IPerson, IWCView } from '../../../webparts/worldClock/models/wc.models';
 import { wc } from '../../../webparts/worldClock/services/wc.service';
@@ -15,8 +15,8 @@ export interface IQuickViewData {
 }
 
 export class QuickView extends BaseAdaptiveCardView<
-  IAceTeamTimezoneAdaptiveCardExtensionProps,
-  IAceTeamTimezoneAdaptiveCardExtensionState,
+  ITeamTimezoneAdaptiveCardExtensionProps,
+  ITeamTimezoneAdaptiveCardExtensionState,
   IQuickViewData
 > {
   private LOG_SOURCE: string = "🔶 QuickView";
@@ -25,7 +25,6 @@ export class QuickView extends BaseAdaptiveCardView<
     let retVal: string = "unknown";
     try {
       if (member.IANATimeZone != undefined) {
-        //const currentTimeZone: string = member.IANATimeZone || wc.IANATimeZone;
         retVal = DateTime.now().setZone(member.IANATimeZone).toLocaleString(DateTime.TIME_SIMPLE);
       }
     } catch (err) {

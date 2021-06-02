@@ -13,8 +13,8 @@
     "ace-team-timezone-adaptive-card-extension": {
       "components": [
         {
-          "entrypoint": "./lib/adaptiveCardExtensions/aceTeamTimezone/AceTeamTimezoneAdaptiveCardExtension.js",
-          "manifest": "./src/adaptiveCardExtensions/aceTeamTimezone/AceTeamTimezoneAdaptiveCardExtension.manifest.json"
+          "entrypoint": "./lib/adaptiveCardExtensions/teamTimezone/TeamTimezoneAdaptiveCardExtension.js",
+          "manifest": "./src/adaptiveCardExtensions/teamTimezone/TeamTimezoneAdaptiveCardExtension.manifest.json"
         }
       ]
     }
@@ -22,6 +22,6 @@
   "externals": {},
   "localizedResources": {
     "WorldClockWebPartStrings": "lib/webparts/worldClock/loc/{locale}.js",
-    "AceTeamTimezoneAdaptiveCardExtensionStrings": "lib/adaptiveCardExtensions/aceTeamTimezone/loc/{locale}.js"
+    "TeamTimezoneAdaptiveCardExtensionStrings": "lib/adaptiveCardExtensions/teamTimezone/loc/{locale}.js"
   }
 }
