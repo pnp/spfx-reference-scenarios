@@ -62,7 +62,7 @@ export default class CovidCardAdaptiveCardExtension extends BaseAdaptiveCardExte
       }
       this._userCanCheckIn = await cs.userCanCheckIn(this._userId, this.properties.homeSite);
       if (this._userCanCheckIn) {
-        await cs.init(this.properties.homeSite, false, false);
+        await cs.init(this.properties.homeSite, this.context.pageContext.user.loginName, false, false, this.context.pageContext.site.absoluteUrl);
       }
 
       this.state = {
