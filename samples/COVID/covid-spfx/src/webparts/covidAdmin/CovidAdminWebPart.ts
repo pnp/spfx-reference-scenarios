@@ -59,7 +59,7 @@ export default class CovidAdminWebPart extends BaseClientSideWebPart<ICovidAdmin
   private async _init(): Promise<void> {
     try {
       this._microsoftTeams = this.context.sdks?.microsoftTeams;
-      await cs.init(this.context.pageContext.site.absoluteUrl, this.context.pageContext.legacyPageContext.isSiteAdmin, this.context.pageContext.legacyPageContext.isSiteOwner);
+      await cs.init(this.context.pageContext.site.absoluteUrl, this.context.pageContext.user.loginName, this.context.pageContext.legacyPageContext.isSiteAdmin, this.context.pageContext.legacyPageContext.isSiteOwner);
       this._userId = this.context.pageContext.legacyPageContext.userId;
       if (this._userId == undefined) {
         const user = await sp.web.ensureUser(this.context.pageContext.user.loginName);
