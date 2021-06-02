@@ -463,8 +463,11 @@ export class CovidService implements ICovidService {
         }
       }
       const addSelfCheckIn = await web.lists.getByTitle(Tables.SELFCHECKINLIST).items.add(selfCheckInLI);
-      if (addSelfCheckIn.item)
+      if (addSelfCheckIn.item) {
         retVal = true;
+        let lastCheckInDate: Date = new Date();
+        localStorage.setItem("checkInDate", lastCheckInDate.toString());
+      }
     } catch (err) {
       Logger.write(`${this.LOG_SOURCE} (addSelfCheckIn) - ${err.message}`, LogLevel.Error);
     }
