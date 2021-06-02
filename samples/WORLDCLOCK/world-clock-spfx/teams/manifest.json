@@ -2,7 +2,7 @@
   "$schema": "https://developer.microsoft.com/en-us/json-schemas/teams/v1.9/MicrosoftTeams.schema.json",
   "manifestVersion": "1.9",
   "version": "1.0.0",
-  "id": "772bec53-bf4b-4ff6-928d-629d38d1717a",
+  "id": "2c3960eb-ca53-4e0e-8e90-e3258f788999",
   "packageName": "WorldClock",
   "developer": {
     "name": "Sympraxis Consulting",
@@ -41,7 +41,7 @@
   ],
   "staticTabs": [
     {
-      "entityId": "30db8732-26be-4927-8457-71474812319c",
+      "entityId": "com.worldclock.spfx",
       "name": "World Clock",
       "contentUrl": "https://{teamSiteDomain}/_layouts/15/TeamsLogon.aspx?SPFX=true&dest=/_layouts/15/teamshostedapp.aspx%3Fteams%26personal%26componentId=2c3960eb-ca53-4e0e-8e90-e3258f788999%26forceLocale={locale}",
       "scopes": [
