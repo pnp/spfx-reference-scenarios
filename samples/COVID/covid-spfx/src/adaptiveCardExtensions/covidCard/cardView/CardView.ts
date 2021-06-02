@@ -24,7 +24,12 @@ export class CardView extends BasePrimaryTextCardView<ICovidCardAdaptiveCardExte
   }
 
   public get data(): IPrimaryTextCardParameters {
-    const description = (cs.Questions?.length > 0 && cs.Locations?.length > 0) ? (this.state.canCheckIn ? strings.CanCheckIn : strings.AlreadyCheckedIn) : strings.NotConfigured;
+    let description: string = "";
+    if (this.state.canCheckIn && cs.Questions?.length > 0 && cs.Locations?.length > 0) {
+      description = strings.CanCheckIn;
+    } else {
+      description = this.state.canCheckIn ? strings.NotConfigured : strings.AlreadyCheckedIn;
+    }
     return {
       primaryText: strings.PrimaryText,
       description: description
