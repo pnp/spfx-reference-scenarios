@@ -24,7 +24,8 @@
     "color": "3ab8fb75-8f80-4ff1-90a3-6f711ad27c1d_color.png"
   },
   "accentColor": "#F9F9FA",
-  "staticTabs": [{
+  "staticTabs": [
+    {
       "entityId": "com.covidadmin.spfx",
       "name": "COVID-19 Attestation",
       "contentUrl": "https://{teamSiteDomain}/_layouts/15/TeamsLogon.aspx?SPFX=true&dest=/_layouts/15/teamshostedapp.aspx%3Fteams%26personal%26componentId=3ab8fb75-8f80-4ff1-90a3-6f711ad27c1d%26forceLocale={locale}",
