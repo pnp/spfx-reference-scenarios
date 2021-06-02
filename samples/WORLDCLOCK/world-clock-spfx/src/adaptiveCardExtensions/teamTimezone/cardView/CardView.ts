@@ -28,8 +28,6 @@ export class CardView extends BaseBasicCardView<ITeamTimezoneAdaptiveCardExtensi
     const viewName: string = wc.Config.views[wc.Config.defaultViewId].viewName;
     const description: string = strings.CardDescription.replace("${viewName}", viewName);
     return {
-      title: "",
-      iconProperty: "",
       primaryText: description
     };
   }
