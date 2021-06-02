@@ -53,7 +53,7 @@ export default class TeamTimezoneAdaptiveCardExtension extends BaseAdaptiveCardE
       this.state = {
         currentConfig: wc.Config,
         currentView: wc.Config.defaultViewId,
-        teamsUrl: "https://teams.microsoft.com/l/entity/772bec53-bf4b-4ff6-928d-629d38d1717a/0"
+        teamsUrl: "https://teams.microsoft.com/l/entity/2c3960eb-ca53-4e0e-8e90-e3258f788999/0"
       };
     } catch (err) {
       Logger.write(`${this.LOG_SOURCE} (onInit) - ${err.message} - `, LogLevel.Error);
