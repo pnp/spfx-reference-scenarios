@@ -20,7 +20,7 @@ import "@pnp/sp/items/list";
 import "@pnp/sp/site-users/web";
 import { IItemAddResult } from "@pnp/sp/items/types";
 
-import { ILocations, IQuestion, ICheckIns, ISelfCheckIn, SelfCheckInLI, CheckInLI, ISelfCheckInLI, IAnswer, Tables, IPerson, IQuery, Person, SECURITY } from "../models/covid.model";
+import { ILocations, IQuestion, ICheckIns, ISelfCheckIn, SelfCheckInLI, CheckInLI, ISelfCheckInLI, Tables, IPerson, IQuery, SECURITY } from "../models/covid.model";
 import { eq } from "lodash";
 
 export interface ICovidService {
@@ -30,7 +30,7 @@ export interface ICovidService {
   CheckIns: ICheckIns[];
   QuestionListUrl: string;
   LocationListUrl: string;
-  init: (siteUrl: string, isAdmin: boolean, isOwner: boolean) => Promise<void>;
+  init: (siteUrl: string, loginName: string, isAdmin: boolean, isOwner: boolean, currentSiteUrl?: string) => Promise<void>;
   CheckInsRefresh: (selectedDate: Date) => void;
   userCanCheckIn: (userId: number) => Promise<boolean>;
   getCheckIns: (d: Date) => Promise<boolean>;
@@ -50,6 +50,7 @@ export class CovidService implements ICovidService {
   private _security: SECURITY = SECURITY.VISITOR;
   private _isOwner: boolean;
   private _isAdmin: boolean;
+  private _loginName: string;
   private _ready: boolean = false;
   private _locations: ILocations[];
   private _questions: IQuestion[];
@@ -57,6 +58,7 @@ export class CovidService implements ICovidService {
   private _users: IPerson[] = [];
   private _currentDate: Date;
   private _siteUrl: string;
+  private _currentSiteUrl: string;
   private _questionListUrl: string;
   private _locationListUrl: string;
 
@@ -96,15 +98,19 @@ export class CovidService implements ICovidService {
     this._checkInsRefresh = value;
   }
 
-  public async init(siteUrl: string, isAdmin: boolean, isOwner: boolean): Promise<void> {
+  public async init(siteUrl: string, loginName: string, isAdmin: boolean, isOwner: boolean, currentSiteUrl?: string): Promise<void> {
     try {
       this._siteUrl = siteUrl;
+      this._currentSiteUrl = currentSiteUrl || siteUrl;
+      this._loginName = loginName;
       this._isAdmin = isAdmin;
       this._isOwner = isOwner;
       this._locationListUrl = `${this._siteUrl}/Lists/${Tables.LOCATIONLIST}/AllItems.aspx`;
       this._questionListUrl = `${this._siteUrl}/Lists/${Tables.QUESTIONLIST}/AllItems.aspx`;
       let p: Promise<any>[] = [];
-      p.push(this._loadUserRole());
+      if (this._siteUrl === this._currentSiteUrl) {
+        p.push(this._loadUserRole());
+      }
       p.push(this._getLocations());
       p.push(this._getQuestions());
       const pResults = await Promise.all(p);
@@ -449,6 +455,13 @@ export class CovidService implements ICovidService {
       });
       this.SKIPADDFIELDS.forEach(f => { delete selfCheckInLI[f]; });
       const web = Web(this._siteUrl);
+      //Correct EmployeeId for different site collection
+      if (this._siteUrl != this._currentSiteUrl) {
+        const user = await web.ensureUser(this._loginName);
+        if (user?.data.Id) {
+          selfCheckInLI.EmployeeId = user.data.Id;
+        }
+      }
       const addSelfCheckIn = await web.lists.getByTitle(Tables.SELFCHECKINLIST).items.add(selfCheckInLI);
       if (addSelfCheckIn.item)
         retVal = true;
