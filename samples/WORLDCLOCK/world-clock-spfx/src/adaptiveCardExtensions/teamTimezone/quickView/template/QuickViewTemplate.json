@@ -2,49 +2,59 @@
   "type": "AdaptiveCard",
   "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
   "version": "1.2",
-  "body": [{
+  "body": [
+    {
       "type": "ColumnSet",
-      "columns": [{
+      "columns": [
+        {
           "type": "Column",
           "width": "20px",
-          "items": [{
-            "type": "Image",
-            "color": "Light",
-            "url": "data:image/svg+xml;utf8,<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 2048 2048\"><path d=\"M1443 2045L421 1024 1443 3l90 90-930 931 930 931-90 90z\"></path></svg>",
-            "selectAction": {
-              "type": "Action.OpenUrl",
-              "title": "Previous",
-              "id": "previous",
-              "url": "#"
+          "items": [
+            {
+              "type": "Image",
+              "color": "Light",
+              "url": "data:image/svg+xml;utf8,<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 2048 2048\"><path d=\"M1443 2045L421 1024 1443 3l90 90-930 931 930 931-90 90z\"></path></svg>",
+              "selectAction": {
+                "type": "Action.Submit",
+                "title": "Previous",
+                "data": {
+                  "id": "previous"
+                }
+              }
             }
-          }],
+          ],
           "verticalContentAlignment": "Center",
           "style": "default"
         },
         {
           "type": "Column",
           "width": "stretch",
-          "items": [{
-            "type": "TextBlock",
-            "text": "${title}",
-            "wrap": true,
-            "size": "Large",
-            "horizontalAlignment": "Center"
-          }]
+          "items": [
+            {
+              "type": "TextBlock",
+              "text": "${title}",
+              "wrap": true,
+              "size": "Large",
+              "horizontalAlignment": "Center"
+            }
+          ]
         },
         {
           "type": "Column",
           "width": "20px",
-          "items": [{
-            "type": "Image",
-            "url": "data:image/svg+xml;utf8,<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 2048 2048\"><path d=\"M515 1955l930-931L515 93l90-90 1022 1021L605 2045l-90-90z\"></path></svg>",
-            "selectAction": {
-              "type": "Action.OpenUrl",
-              "id": "next",
-              "title": "Next",
-              "url": "#"
+          "items": [
+            {
+              "type": "Image",
+              "url": "data:image/svg+xml;utf8,<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 2048 2048\"><path d=\"M515 1955l930-931L515 93l90-90 1022 1021L605 2045l-90-90z\"></path></svg>",
+              "selectAction": {
+                "type": "Action.Submit",
+                "title": "Next",
+                "data": {
+                  "id": "next"
+                }
+              }
             }
-          }],
+          ],
           "verticalContentAlignment": "Center"
         }
       ]
@@ -53,70 +63,78 @@
       "type": "Container",
       "$data": "${members}",
       "separator": true,
-      "items": [{
-        "type": "ColumnSet",
-        "columns": [{
-            "type": "Column",
-            "width": "stretch",
-            "items": [{
-              "type": "TextBlock",
-              "text": "${displayName}",
-              "size": "Medium",
-              "weight": "Bolder",
-              "color": "Dark"
-            }],
-            "verticalContentAlignment": "Center"
-          },
-          {
-            "type": "Column",
-            "width": "75px",
-            "items": [{
-              "type": "TextBlock",
-              "text": "${currentTime}",
-              "spacing": "None",
-              "size": "Medium",
-              "color": "Dark"
-            }],
-            "verticalContentAlignment": "Center"
-          },
-          {
-            "type": "Column",
-            "width": "20px",
-            "$when": "${iconName == 'day'}",
-            "items": [{
-              "type": "Image",
-              "url": "data:image/svg+xml;utf8,<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 2048 2048\"><path d=\"M960 512q93 0 174 35t143 96 96 142 35 175q0 93-35 174t-96 143-142 96-175 35q-93 0-174-35t-143-96-96-142-35-175q0-93 35-174t96-143 142-96 175-35zm0 768q66 0 124-25t101-68 69-102 26-125q0-66-25-124t-69-101-102-69-124-26q-66 0-124 25t-102 69-69 102-25 124q0 66 25 124t68 102 102 69 125 25zm64-896H896V0h128v384zM896 1536h128v384H896v-384zm1024-640v128h-384V896h384zM384 1024H0V896h384v128zm123-426L236 326l90-90 272 271-91 91zm906 724l271 272-90 90-272-271 91-91zm0-724l-91-91 272-271 90 90-271 272zm-906 724l91 91-272 271-90-90 271-272z\" ></path></svg>",
-              "width": "20px"
-
-            }],
-            "verticalContentAlignment": "Center"
-
-          },
-          {
-            "type": "Column",
-            "width": "20px",
-            "$when": "${iconName == 'night'}",
-            "items": [{
-              "type": "Image",
-              "url": "data:image/svg+xml;utf8,<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 2048 2048\"><path d=\"M128 1536q141 0 272-36t244-104 207-160 161-207 103-245 37-272q0-133-34-261T1019 8q128 16 245 61t217 115 181 161 138 199 89 229 31 251q0 141-36 272t-104 244-160 207-207 161-245 103-272 37q-138 0-269-36t-246-103-212-164T5 1528q31 4 61 6t62 2zm768 384q124 0 238-32t214-90 181-140 140-181 91-214 32-239q0-136-40-263t-112-236-176-194-229-136q45 155 45 317 0 146-35 282t-100 258-157 225-205 182-244 129-277 68q128 128 290 196t344 68z\"></path></svg>",
-              "width": "20px"
-
-            }],
-            "verticalContentAlignment": "Center"
-
-          }
-        ],
-        "height": "stretch"
-      }]
-
+      "items": [
+        {
+          "type": "ColumnSet",
+          "columns": [
+            {
+              "type": "Column",
+              "width": "stretch",
+              "items": [
+                {
+                  "type": "TextBlock",
+                  "text": "${displayName}",
+                  "size": "Medium",
+                  "weight": "Bolder",
+                  "color": "Dark"
+                }
+              ],
+              "verticalContentAlignment": "Center"
+            },
+            {
+              "type": "Column",
+              "width": "75px",
+              "items": [
+                {
+                  "type": "TextBlock",
+                  "text": "${currentTime}",
+                  "spacing": "None",
+                  "size": "Medium",
+                  "color": "Dark"
+                }
+              ],
+              "verticalContentAlignment": "Center"
+            },
+            {
+              "type": "Column",
+              "width": "20px",
+              "$when": "${iconName == 'day'}",
+              "items": [
+                {
+                  "type": "Image",
+                  "url": "data:image/svg+xml;utf8,<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 2048 2048\"><path d=\"M960 512q93 0 174 35t143 96 96 142 35 175q0 93-35 174t-96 143-142 96-175 35q-93 0-174-35t-143-96-96-142-35-175q0-93 35-174t96-143 142-96 175-35zm0 768q66 0 124-25t101-68 69-102 26-125q0-66-25-124t-69-101-102-69-124-26q-66 0-124 25t-102 69-69 102-25 124q0 66 25 124t68 102 102 69 125 25zm64-896H896V0h128v384zM896 1536h128v384H896v-384zm1024-640v128h-384V896h384zM384 1024H0V896h384v128zm123-426L236 326l90-90 272 271-91 91zm906 724l271 272-90 90-272-271 91-91zm0-724l-91-91 272-271 90 90-271 272zm-906 724l91 91-272 271-90-90 271-272z\" ></path></svg>",
+                  "width": "20px"
+                }
+              ],
+              "verticalContentAlignment": "Center"
+            },
+            {
+              "type": "Column",
+              "width": "20px",
+              "$when": "${iconName == 'night'}",
+              "items": [
+                {
+                  "type": "Image",
+                  "url": "data:image/svg+xml;utf8,<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 2048 2048\"><path d=\"M128 1536q141 0 272-36t244-104 207-160 161-207 103-245 37-272q0-133-34-261T1019 8q128 16 245 61t217 115 181 161 138 199 89 229 31 251q0 141-36 272t-104 244-160 207-207 161-245 103-272 37q-138 0-269-36t-246-103-212-164T5 1528q31 4 61 6t62 2zm768 384q124 0 238-32t214-90 181-140 140-181 91-214 32-239q0-136-40-263t-112-236-176-194-229-136q45 155 45 317 0 146-35 282t-100 258-157 225-205 182-244 129-277 68q128 128 290 196t344 68z\"></path></svg>",
+                  "width": "20px"
+                }
+              ],
+              "verticalContentAlignment": "Center"
+            }
+          ],
+          "height": "stretch"
+        }
+      ]
     },
     {
       "type": "ActionSet",
-      "actions": [{
-        "type": "Action.OpenUrl",
-        "title": "Schedule A Meeting",
-        "url": "${url}"
-      }]
+      "actions": [
+        {
+          "type": "Action.OpenUrl",
+          "title": "Schedule A Meeting",
+          "url": "${url}"
+        }
+      ]
     }
   ]
 }

@@ -1,9 +1,9 @@
-import { ISPFxAdaptiveCard, BaseAdaptiveCardView } from '@microsoft/sp-adaptive-card-extension-base';
+import { ISPFxAdaptiveCard, BaseAdaptiveCardView, IActionArguments } from '@microsoft/sp-adaptive-card-extension-base';
 import { ITeamTimezoneAdaptiveCardExtensionProps, ITeamTimezoneAdaptiveCardExtensionState } from '../TeamTimezoneAdaptiveCardExtension';
 
 import { Logger, LogLevel } from "@pnp/logging";
 
-import { forEach, sortBy } from 'lodash';
+import { findIndex, forEach, sortBy } from 'lodash';
 import { DateTime } from 'luxon';
 import { IPerson, IWCView } from '../../../webparts/worldClock/models/wc.models';
 import { wc } from '../../../webparts/worldClock/services/wc.service';
@@ -27,7 +27,7 @@ export class QuickView extends BaseAdaptiveCardView<
   private LOG_SOURCE: string = "🔶 QuickView";
 
   private _getTime(member: IPerson): IMemberTime {
-    let retVal: IMemberTime = { currentTime: "unknown", dayNight: "night" }
+    let retVal: IMemberTime = { currentTime: "unknown", dayNight: "night" };
     try {
       if (member.IANATimeZone != undefined) {
         const userTime: DateTime = DateTime.now().setZone(member.IANATimeZone);
@@ -63,5 +63,32 @@ export class QuickView extends BaseAdaptiveCardView<
 
   public get template(): ISPFxAdaptiveCard {
     return require('./template/QuickViewTemplate.json');
+  }
+
+  public async onAction(action: IActionArguments): Promise<void> {
+    if (action.type === 'Submit') {
+      const { id, newIndex } = action.data;
+      if (id === 'previous') {
+        let idx = findIndex(this.state.currentConfig.views, { viewId: this.state.currentView });
+        let newViewId: string = this.state.currentView;
+        idx--;
+        if (idx < 0) {
+          newViewId = this.state.currentConfig.views[this.state.currentConfig.views.length - 1].viewId;
+        } else {
+          newViewId = this.state.currentConfig.views[idx].viewId;
+        }
+        this.setState({ currentView: newViewId });
+      } else if (id === 'next') {
+        let idx = findIndex(this.state.currentConfig.views, { viewId: this.state.currentView });
+        let newViewId: string = this.state.currentView;
+        idx++;
+        if (idx < this.state.currentConfig.views.length) {
+          newViewId = this.state.currentConfig.views[idx].viewId;
+        } else {
+          newViewId = this.state.currentConfig.views[0].viewId;
+        }
+        this.setState({ currentView: newViewId });
+      }
+    }
   }
 }
