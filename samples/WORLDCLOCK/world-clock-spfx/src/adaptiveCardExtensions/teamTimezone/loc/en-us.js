@@ -7,8 +7,8 @@ define([], function () {
     "IconPropertyFieldLabel": "Card Icon",
     "Title": "Adaptive Card Extension",
     "SubTitle": "Quick View",
-    "PrimaryText": "World Clock",
-    "CardDescription": "Get current time for ${viewName} members.",
-    "QuickViewButton": "Quick View"
+    "PrimaryText": "Team Time Clock",
+    "CardDescription": "Get current time for team members.",
+    "QuickViewButton": "View Team"
   }
 });

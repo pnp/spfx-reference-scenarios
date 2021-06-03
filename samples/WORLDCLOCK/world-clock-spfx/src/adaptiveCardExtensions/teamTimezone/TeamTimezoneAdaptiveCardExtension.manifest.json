@@ -17,20 +17,18 @@
   "experimentalData": {
     "ACE": true
   },
-  "preconfiguredEntries": [
-    {
-      "groupId": "bd067b1e-3ad5-4d5d-a5fe-505f07d7f59c", // Dashboard
-      "group": {
-        "default": "Dashboard"
-      },
-      "title": {
-        "default": "Team Timezone"
-      },
-      "description": {
-        "default": "Team Timezone World Clock Card"
-      },
-      "iconImageUrl": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAACXBIWXMAABJ0AAASdAHeZh94AAAAB3RJTUUH5QYCExE1tB7noAAABC1JREFUWIXFl1lonUUUx3+3JBWpG7FgMdIWYhdTB4vGTCKolWDUSSW+WEqr4EpUFNeggWoDBa1V7CLqgxZ9UHxwqdpkoDv6Uqc2KoxUE1yiISJaUKS1LrHHh2++ZPLd+937KYp/+LgzZ5lz5tw558yURIT/E3V/U/4CoBtoU9pcHjO8s98Ch4D9wNvAUJEFSwUiUAdcBzyktFlU1FPv7AjwGPAK8Mc/daAN2Kq0aY4W/hQYBD4ExoGfgVOARuBCYLnSZkEkPwzcSBKZcohI3vfAua1XSfqJyFsi0lJFPv6uFpGPM/q9lWRn5Ox8i9LmibCDce/sDuAnYLRauAJmAD8A+2Ki0mYDsLlIBNZGXo+KyJyYFui3iUgpZ/f3R3IvBP2hiLamWgQ6lTb9kdfzgFXA9ZndPAecmROBX6Lx08CPQE+kuw7oSOfxIZwFDCttGnMWBsA7eyuwFah6epU2uXzv7DiwADgWR+CuAsbfJMnxSosvARZHst1VnGsE7oapCNQpbXJzNSzYQXKwKhk/XWlzOMhdCrwX6PuVNm1V1qxPK2FnDeMbgL057Hrg9Wg+En5nVzMecEXqQFfG4PPA9yQHainwYJVFNiltlgW9FuC74NRrNYwDdKUOtEbGnwHujIQWk48epc0dQW8VU/V/Y+pUDbSWRKTsxHpne4CFwLPACYAmKS6fAV8EsUuUNu8G+fVAX6CvVNq8WsA4EA5h7IB3drnSZiCaz6S8mcxT2owG/gBJhzweeLOBd5Q27YH/NfBrXiOrVIoHvbMl72wpzF8miUKKWSSpmGJ1ZBzgMHCRd3aud/YkYD7Q7J1dUdSBSQQnHifZYYrLlDbnBf4nQEOO+hhwNIyPk3TOcoSafDCq/dnaXi8i+0RkaUTryPSGjoJdcldG74M0AgdgsvZnq+HFSptlSpuPgGsCbY93tsk764PebuCeatEMeD8zP5A6MBgRV2aEvkkHSpttQD9QAr4k+a/fCLyNwEskNSAPczPzwdSBHRHxdqbfFT/3zh6MnFgLbANOBo4A13pnHwnsBuDPKg5ksTN1YMI72xcMNAG3ZAQ3xROlTTdJOM8m6Q3rvLOdlGdEFmPpINibiNvxicCI0uasINBEEmaAmUqb3yqt6J29kukRzMN8pc1XQWccWAQcjdPwGHBDNN8OnBbGv3tn49yPcW8B46cCA9H8JkKKZuvAHu/swwDhJrwbOCPw8mrGozWMzwH2Km2WAHhn+4Gdk9ycfN0c5eqYiJg4fwP9PhFpq5H3nSIyFulsycpUexf0hptsRXhnG0jue5XQAqwJhzWV7wWezArWepi0Ay9mG4l3dgh4iqRGHGHqYXI+0KW0OSeSPQTcTHkRKuQAJIVlNdCntFlYSzgyPAysJ2lmE3lyRRyIkT5O24Fmpc20q7l3dhfJTv/Vx+l/ir8A+4LD75eolDMAAAAASUVORK5CYII=",
-      "properties": {}
-    }
-  ]
+  "preconfiguredEntries": [{
+    "groupId": "bd067b1e-3ad5-4d5d-a5fe-505f07d7f59c", // Dashboard
+    "group": {
+      "default": "Dashboard"
+    },
+    "title": {
+      "default": "Team Time Zone"
+    },
+    "description": {
+      "default": "Team Time Zone World Clock Card"
+    },
+    "iconImageUrl": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACQAAAAjCAYAAAD8BaggAAAACXBIWXMAAAsSAAALEgHS3X78AAADUElEQVRYha1Y3Y3UMBAezs4bEumAUMHmidcNFRAquHRAqIC9DkIHew1A6CDXAMp2EKggPMfSolnGy+wwdhzESFa0iT0ef/P3rZ+dz2fYItZmOQBUNEpauqfnCQBmAJgAYMDh3DJt0Z9skLUZGtAAwP2mEwA8AcDRueX4XwyyNitQIUNByndCBAXR20Xmtc4tfXRDNCg0jLGtMfYsxmyM7YyxVWRdSXMmZX1vjM1Da2PGHBVD2pgyRUdOhkmjxpCeu4CbjiJWMFhfIOQAUJAb11yN7qtxvvIZ3TrRnLjLFGR6ei/hH4yxxQZ3V8bYZg2pNSXeVQflPY4u0aAhskevGoSnpc21jeUYYkEtDGtofkx3rcXQgeIkRbDgDaHYUWJjv6K7u4khQicFmXEl3XOaM/L4UuJSGw1HqE6BxbmlDCHDTrqj0bH3Y4L6hiM0JiBTrsQKD/zJZw+hphVIbRSW/C3L/SfWJBG90bkleEprM5zzkX7+xDXOLTP9xlbxMgEhlMqyju3lybmlZZt9A4DXEWNK6nVX6L3x1mZdpAdqUmgG7UkRykw04jlV7x8A8JltmJMxPoMefPMk1N5vMAY8QjxFTwRxS5s8ouucWzr4Q0FmNr9n7v7q3HJg3wZyX2opuYjsZbj5wbkFjXxDmw/kFsyyK+ES7jhds4SEYgj72AdEjp6vAOAdGh+0SGTHoGRPS1lSs3d1qNImVm+tRV32v2PkCoT7LoLucm4pBAIDoeLli7VZI9dGJFTLJqAuzK38i6cwTtOJ97ICHzegpFXvg/84x+Cn5qgyPoVSDCkkLkDcKv+xj51SWXxTuYmy8kNNMa6kHPJCc3gv44XtXmGEkpjvKPuwDADVpZLF1SzKQ4r8toFZzPtNr5wo1O9a0e27tb6n9L6zR1QSqWAqK99vgvkfyP+shUnMr7igFEpinXpLho1inzxkkKSxo8iomEGrbgqk+40ntAUyY2Z6F2OVq+gwNnlTd+S80OJaIeW9YkhqzdH0qf9YYkokUkEeHNHRKPUmui562cD4ztvAlAfqhfyyoaRRKdTjxAmcKomBWAVOmjqmNTSTEFIQw5NjV8fTh65dvCA5wwrfr17BMNl8g8aM8+7xTxTvvmnrzdlFAOAX5biDGWeahp8AAAAASUVORK5CYII=",
+    "properties": {}
+  }]
 }

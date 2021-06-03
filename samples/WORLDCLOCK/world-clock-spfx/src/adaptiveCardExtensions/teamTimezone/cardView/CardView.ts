@@ -7,6 +7,7 @@ import {
 } from '@microsoft/sp-adaptive-card-extension-base';
 import * as strings from 'TeamTimezoneAdaptiveCardExtensionStrings';
 import { wc } from '../../../webparts/worldClock/services/wc.service';
+import { iconBW } from '../assets/images';
 import { ITeamTimezoneAdaptiveCardExtensionProps, ITeamTimezoneAdaptiveCardExtensionState, QUICK_VIEW_REGISTRY_ID } from '../TeamTimezoneAdaptiveCardExtension';
 
 export class CardView extends BaseBasicCardView<ITeamTimezoneAdaptiveCardExtensionProps, ITeamTimezoneAdaptiveCardExtensionState> {
@@ -28,6 +29,8 @@ export class CardView extends BaseBasicCardView<ITeamTimezoneAdaptiveCardExtensi
     const viewName: string = wc.Config.views[wc.Config.defaultViewId].viewName;
     const description: string = strings.CardDescription.replace("${viewName}", viewName);
     return {
+      title: strings.PrimaryText,
+      iconProperty: iconBW,
       primaryText: description
     };
   }
