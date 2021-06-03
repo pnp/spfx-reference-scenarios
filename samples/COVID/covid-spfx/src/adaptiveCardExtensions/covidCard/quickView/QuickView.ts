@@ -25,7 +25,8 @@ export class YesNoAnswer implements IYesNoAnswer {
     public id: string = "",
     public title: string = "",
     public value: string = "${value}",
-    public type: string = "Input.Toggle"
+    public type: string = "Input.Toggle",
+    public wrap: boolean = true,
   ) { }
 }
 
@@ -70,25 +71,29 @@ export class QuickView extends BaseAdaptiveCardView<
   public get template(): ISPFxAdaptiveCard {
     let template: ISPFxAdaptiveCard = require('./template/QuickViewTemplate.json');
     try {
-      template.body[0].text = `${this.state.displayName} ${strings.PrimaryText}`;
+      template.body[0].text = `${strings.PrimaryText} for ${this.state.displayName}`;
       const locationOptions = cs.Locations.map((l) => { return { title: l.Title, value: l.Title }; });
       const items = [];
-      items.push(new TextBox(`LabelLocation`, strings.CovidFormOfficeLabel));
-      items.push({
-        type: "Input.ChoiceSet",
-        choices: locationOptions,
-        value: "${location}",
-        id: "location"
-      });
+      template.body[1].text = `${strings.CovidFormOfficeLabel}`;
+      template.body[2].choices = locationOptions;
+      template.body[2].value = "${location}";
+
+      // items.push({
+      //   type: "Input.ChoiceSet",
+      //   choices: locationOptions,
+      //   value: "${location}",
+      //   id: "location"
+      // });
       forEach(this._questions, (q) => {
         if (q.QuestionType === QuestionType.YesNo) {
+
           items.push(new YesNoAnswer(q.Id.toString(), q.Title, "${" + q.Id.toString() + "}"));
         } else {
           items.push(new TextBox(`Label${q.Id}`, q.Title));
           items.push(new TextAnswer(q.Id.toString(), "${" + q.Id.toString() + "}"));
         }
       });
-      template.body[1].items = items;
+      template.body[3].items = items;
     } catch (err) {
       Logger.write(`${this.LOG_SOURCE} (template) - ${err}`, LogLevel.Error);
     }

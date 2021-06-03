@@ -31,6 +31,7 @@ export class CardView extends BasePrimaryTextCardView<ICovidCardAdaptiveCardExte
       description = this.state.canCheckIn ? strings.NotConfigured : strings.AlreadyCheckedIn;
     }
     return {
+      title: strings.PrimaryText,
       primaryText: strings.PrimaryText,
       description: description
     };
