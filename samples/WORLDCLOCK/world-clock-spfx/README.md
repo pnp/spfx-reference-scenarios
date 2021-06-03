@@ -6,7 +6,7 @@ See root sample [README](../README.md)
 
 ## Used SharePoint Framework Version
 
-![version](https://img.shields.io/badge/version-1.12-1-green.svg)
+![version](https://img.shields.io/badge/version-1.12.1-green.svg)
 
 ## Applies to
 
@@ -19,18 +19,6 @@ See root sample [README](../README.md)
 
 None
 
-## Solution
-
-Solution|Author(s)
---------|---------
-folder name | Author details (name, company, twitter alias with link)
-
-## Version history
-
-Version|Date|Comments
--------|----|--------
-1.0|January 29, 2021|Initial release
-
 ## Disclaimer
 
 **THIS CODE IS PROVIDED *AS IS* WITHOUT WARRANTY OF ANY KIND, EITHER EXPRESS OR IMPLIED, INCLUDING ANY IMPLIED WARRANTIES OF FITNESS FOR A PARTICULAR PURPOSE, MERCHANTABILITY, OR NON-INFRINGEMENT.**
@@ -41,8 +29,7 @@ Version|Date|Comments
 
 ### Deploy Default Build
 
-For details on deploying the default package supplied with this sample, please see the 
-root sample [README](../README.md)
+For details on deploying the default package supplied with this sample, please see the root sample [README](../README.md)
 
 ### Custom Build
 
@@ -51,8 +38,6 @@ root sample [README](../README.md)
 - in the command-line run:
   - **npm install**
   - **gulp serve**
-
-TODO: Include any additional steps as needed.
 
 ## References
 

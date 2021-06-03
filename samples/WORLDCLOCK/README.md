@@ -36,7 +36,7 @@ The configurations for the personal solution are stored in a file in your person
 
 Solution|Author(s)
 --------|---------
-folder name | Author details (name, company, twitter alias with link)
+world-clock-spfx | Sympraxis Consulting (@SympraxisC)
 
 ## Version history
 

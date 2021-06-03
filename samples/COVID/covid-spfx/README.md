@@ -6,7 +6,7 @@ See root sample [README](../README.md)
 
 ## Used SharePoint Framework Version
 
-![version](https://img.shields.io/badge/version-1.11-green.svg)
+![version](https://img.shields.io/badge/version-1.12.1-green.svg)
 
 ## Applies to
 
@@ -52,7 +52,24 @@ root sample [README](../README.md)
   - **npm install**
   - **gulp serve**
 
-TODO: Include any additional steps as needed.
+#### Change Site Collection For Microsoft Teams Personal App
+
+To change the location where the Microsoft Teams Personal App looks for the lists that contain the data for the Covid-19 Attestation App you can modify the manifest.json file in the [teams](./teams) folder to point to that site collection and then replace the updated manifest in the TeamsSPFxApp.zip file.
+
+Under the `staticTabs` element, change the `contentUrl` element to include the relative site collection url in the `dest` property, in the example below replace `MyCovidSite` with your site collection.
+
+  ```json
+  "contentUrl": "https://{teamSiteDomain}/_layouts/15/TeamsLogon.aspx?SPFX=true&dest=/sites/MyCovidSite/_layouts/15/teamshostedapp.aspx%3Fteams%26personal%26componentId=3ab8fb75-8f80-4ff1-90a3-6f711ad27c1d%26forceLocale={locale}",
+      
+  ```
+
+Once you do that you can then repackage and deploy the resulting sppkg solution to your tenant app catalog. In the command-line run the following commands and then follow the `Steps for deployment` in the root [README](../README.md#Steps-for-deployment).
+
+  ```cmd
+  gulp clean
+  gulp bundle --ship
+  gulp package-solution --ship
+  ```
 
 ## References
 
