@@ -19,7 +19,7 @@ This solution depicts how you can build a teams based custom form that collects 
 
 Solution|Author(s)
 --------|---------
-folder name | Author details (name, company, twitter alias with link)
+covid-spfx | Sympraxis Consulting (@SympraxisC)
 
 ## Version history
 
@@ -43,7 +43,7 @@ When complete the solution will be running in the root site collection and so th
 
 For even more details about alternate deployment options please review [Custom Build](./covid-spfx/README.md#Custom_Build) documentation for details.
 
-Steps for deployment:
+#### Steps for deployment
 
 1. Download the SPPKG file, navigate to the [covid-spfx.sppkg](./deployment/covid-spfx.sppkg) file in the [deployment](./deployment) folder of this repository. Select `Download` to save the file to your computer.
 1. Upload the sppkg file into the tenant's app catalog by selecting upload, finding the file, and then selecting `OK`.
