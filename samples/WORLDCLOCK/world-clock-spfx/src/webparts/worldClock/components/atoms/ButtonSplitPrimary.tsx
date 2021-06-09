@@ -52,6 +52,7 @@ export default class ButtonSplitPrimary extends React.Component<IButtonSplitPrim
 
   private _handleChange = (value: string, handler: (value: string) => void) => {
     handler(value);
+    this.setState({ open: false });
     this._open();
   }
 

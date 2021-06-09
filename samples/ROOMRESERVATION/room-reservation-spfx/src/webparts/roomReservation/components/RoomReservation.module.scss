@@ -1,0 +1,137 @@
+@import 'node_modules/@n8d/htwoo-core/lib/components/base';
+//Globally add in Segoe UI Font - for Teams support
+@import './fonts';
+
+.appPartPage {
+  box-sizing: border-box;
+  max-width: 1268px;
+  margin: 0 auto;
+  padding: 0 1em;
+  position: relative;
+}
+
+.roomReservation {
+  :global {
+    //Import hTWOo styles so they are available to our controls
+    @import "node_modules/@n8d/htwoo-core/lib/sass/style";
+  }
+
+}
+
+:global {
+  .dark-mode {
+    :local {
+      .roomReservation {
+        :global {
+
+          .hoo-button-primary:disabled,
+          .hoo-button-primary[disabled] {
+            border: 1px solid white;
+          }
+
+          .hoo-input-search {
+            background-color: var(--primaryButtonBackground);
+
+            .icon {
+              color: var(--bodyText);
+
+              svg {
+                fill: currentColor;
+              }
+            }
+          }
+
+          .hoo-button:hover {
+            --buttonBackgroundCheckedHovered: #292929;
+          }
+
+          .hoo-buttonflyout {
+            --bodyBackground: #292929;
+
+            .hoo-buttonaction:hover {
+              --buttonBackgroundHovered: #3b3a39;
+            }
+          }
+
+          .hoo-mdldialog,
+          .hoo-optgroup-items,
+          .hoo-select-dropdown,
+          .hoo-buttonflyout {
+            border: 1px solid white;
+          }
+        }
+      }
+    }
+  }
+
+  .contrast-mode {
+    :local {
+      .roomReservation {
+        :global {
+
+          .hoo-button-primary,
+          .hoo-buttoncomp-primary,
+          a.hoo-button-primary,
+          .hoo-buttonsplit-standard,
+          .hoo-buttonsplit-carret,
+          .hoo-buttonsplit-primary.show-flyout .hoo-buttonsplit-carret {
+            border-color: white;
+          }
+
+          .hoo-mdldialog,
+          .hoo-optgroup-items,
+          .hoo-select-dropdown {
+            border: 1px solid white;
+          }
+
+          .hoo-buttonicon,
+          .hoo-buttonaction {
+            svg {
+              fill: currentColor;
+            }
+
+            &:hover {
+              background-color: var(--buttonBackgroundHovered);
+
+              svg {
+                fill: var(--buttonTextHovered);
+              }
+            }
+          }
+
+          .hoo-buttonflyout {
+            --bodyBackground: black;
+            border: 1px solid var(--buttonBorder);
+
+            .hoo-buttonaction:hover {
+              .hoo-button-label {
+                color: var(--buttonTextHovered);
+              }
+            }
+          }
+
+          .hoo-input-search {
+            background-color: var(--primaryButtonBackground);
+
+            .icon {
+              color: var(--bodyText);
+
+              svg {
+                fill: currentColor;
+              }
+            }
+          }
+
+          .hoo-checkbox:checked+label:after {
+            --inputIcon: black;
+          }
+
+          .hoo-option:hover {
+            --buttonBackgroundHovered: white;
+            --buttonText: black;
+          }
+        }
+      }
+    }
+  }
+}
