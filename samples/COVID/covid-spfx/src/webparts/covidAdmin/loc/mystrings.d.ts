@@ -1,6 +1,7 @@
 declare interface ICovidWebPartStrings {
   ConfigurationNeeded: string;
   ConfigureNow: string;
+  ConfigureNowData: string;
   CovidFormSelfCheckInTitle: string;
   CovidFormIntro: string;
   CovidFormErrors: string;

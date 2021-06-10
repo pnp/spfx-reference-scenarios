@@ -10,6 +10,8 @@ import "@pnp/sp/security";
 import { Tables, IFieldList, QUESTIONLISTFields, SELFCHECKINLISTFields, COVIDCHECKINLISTFields } from "../models/covid.model";
 import { DateTimeFieldFormatType, CalendarType, DateTimeFieldFriendlyFormatType, UrlFieldFormatType, FieldUserSelectionMode, IFieldCreationProperties } from "@pnp/sp/fields/types";
 import { IList } from "@pnp/sp/lists";
+import forEach from "lodash/forEach";
+import { IItemAddResult } from "@pnp/sp/items/types";
 
 export interface ICovidConfigService {
   Valid: boolean;
@@ -39,7 +41,7 @@ export class CovidConfigService implements ICovidConfigService {
     return this._valid;
   }
 
-  public async configure(): Promise<boolean> {
+  public async configure(demoData: boolean = false): Promise<boolean> {
     try {
       const siteVisitorsPermissions = await this._getRoleInformation();
       const successLocations = await this._createList(Tables.LOCATIONLIST, []);
@@ -65,11 +67,46 @@ export class CovidConfigService implements ICovidConfigService {
           return false;
         }
       }
-      this._valid = (successCheckin != null && successLocations != null && successQuestions != null && successSelfCheckin != null);
+      let successDemoData: boolean = !demoData;
+      if (demoData) {
+        successDemoData = await this._createDemoData();
+      }
+      this._valid = (successCheckin != null && successLocations != null && successQuestions != null && successSelfCheckin != null && successDemoData);
     } catch (err) {
       Logger.write(`${this.LOG_SOURCE} (configure) - ${err} - `, LogLevel.Error);
     }
     return this._valid;
+  }
+
+  private async _createDemoData(): Promise<boolean> {
+    return new Promise((resolve) => {
+      try {
+        let p = [];
+        const batch = sp.createBatch();
+        p.push(sp.web.lists.getByTitle(Tables.QUESTIONLIST).items.inBatch(batch).add({ Title: "Had a fever (100.4 F or higher) or used medicine that reduces fevers?", QuestionType: "Yes/No", Order: 100 }));
+        p.push(sp.web.lists.getByTitle(Tables.QUESTIONLIST).items.inBatch(batch).add({ Title: "Enter Your Temperature", QuestionType: "Text", Order: 200 }));
+        p.push(sp.web.lists.getByTitle(Tables.QUESTIONLIST).items.inBatch(batch).add({ Title: "Cough", QuestionType: "Yes/No", Order: 300 }));
+        p.push(sp.web.lists.getByTitle(Tables.QUESTIONLIST).items.inBatch(batch).add({ Title: "Shortness of breath", QuestionType: "Yes/No", Order: 400 }));
+        p.push(sp.web.lists.getByTitle(Tables.QUESTIONLIST).items.inBatch(batch).add({ Title: "Loss of smell or taste", QuestionType: "Yes/No", Order: 500 }));
+        p.push(sp.web.lists.getByTitle(Tables.QUESTIONLIST).items.inBatch(batch).add({ Title: "Sore Throat", QuestionType: "Yes/No", Order: 600 }));
+        p.push(sp.web.lists.getByTitle(Tables.QUESTIONLIST).items.inBatch(batch).add({ Title: "Close contact with person infected with COVID-19?", QuestionType: "Yes/No", Order: 700 }));
+        p.push(sp.web.lists.getByTitle(Tables.LOCATIONLIST).items.inBatch(batch).add({ Title: "Japan: Tokyo" }));
+        p.push(sp.web.lists.getByTitle(Tables.LOCATIONLIST).items.inBatch(batch).add({ Title: "UK: England: London" }));
+        p.push(sp.web.lists.getByTitle(Tables.LOCATIONLIST).items.inBatch(batch).add({ Title: "USA: MA-Boston" }));
+        p.push(sp.web.lists.getByTitle(Tables.LOCATIONLIST).items.inBatch(batch).add({ Title: "USA: WA-Seattle" }));
+        batch.execute().then(async () => {
+          let result: boolean = true;
+          forEach(p, (item: IItemAddResult) => {
+            if (item == null)
+              result = false;
+          });
+          resolve(result);
+        });
+      } catch (err) {
+        Logger.write(`${this.LOG_SOURCE} (_createDemoData) - ${err} - `, LogLevel.Error);
+        resolve(false);
+      }
+    });
   }
 
   private async _createList(listName: string, fieldList: IFieldList[]): Promise<IList> {
