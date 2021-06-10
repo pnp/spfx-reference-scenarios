@@ -7,7 +7,7 @@ import Button from "../atoms/Button";
 import styles from "../CovidAdmin.module.scss";
 
 export interface IConfigureProps {
-  startConfigure: () => void;
+  startConfigure: (demoData: boolean) => void;
 }
 
 export interface IConfigureState {
@@ -34,9 +34,9 @@ export default class Configure extends React.Component<IConfigureProps, IConfigu
     return true;
   }
 
-  private _startConfigure = () => {
+  private _startConfigure = (demoData: boolean) => {
     this.setState({ working: true }, () => {
-      this.props.startConfigure();
+      this.props.startConfigure(demoData);
     });
   }
 
@@ -45,7 +45,8 @@ export default class Configure extends React.Component<IConfigureProps, IConfigu
       return (
         <div data-component={this.LOG_SOURCE} className={styles.covidAdmin}>
           <p>{strings.ConfigurationNeeded}</p>
-          <Button className="hoo-button-primary" disabled={this.state.working} label={strings.ConfigureNow} onClick={this._startConfigure} />
+          <Button className="hoo-button-primary" disabled={this.state.working} label={strings.ConfigureNow} onClick={() => this._startConfigure(false)} />
+          <Button className="hoo-button-primary" disabled={this.state.working} label={strings.ConfigureNowData} onClick={() => this._startConfigure(true)} />
           {this.state.working &&
             <div className={styles.loaderContainer}><div className={styles.loader}></div></div>
           }

@@ -177,9 +177,9 @@ export default class CovidAdminWebPart extends BaseClientSideWebPart<ICovidAdmin
     }
   }
 
-  private _configure = async (): Promise<void> => {
+  private _configure = async (demoData: boolean): Promise<void> => {
     try {
-      const success = await ccs.configure();
+      const success = await ccs.configure(demoData);
       if (success) {
         await this._init();
         this.render();
