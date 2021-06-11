@@ -109,7 +109,7 @@ export class WorldClockService implements IWorldClockService {
   public get CurrentUser(): IPerson {
     try {
       if (this._configType === CONFIG_TYPE.Team) {
-        const currentUser = find(this._currentConfig.members, { userPrincipal: this._userLogin });
+        const currentUser = find(this._currentConfig.members, { userPrincipal: this._userLogin.toLowerCase() });
         return currentUser;
       } else {
         return this._currentConfig.configPerson;
@@ -313,7 +313,7 @@ export class WorldClockService implements IWorldClockService {
             forEach(members, (o) => {
               if (o.userPrincipalName?.toLowerCase() !== wc.UserLogin.toLowerCase()) {
                 const ext = (o.userType.toLowerCase() == "member") ? false : true;
-                const p = new Person(o.id, o.userPrincipalName, (ext) ? PERSON_TYPE.LocGuest : PERSON_TYPE.Employee, o.displayName, o.jobTitle, o.mail);
+                const p = new Person(o.id, o.userPrincipalName.toLowerCase(), (ext) ? PERSON_TYPE.LocGuest : PERSON_TYPE.Employee, o.displayName, o.jobTitle, o.mail);
                 retVal.push(p);
               }
             });
