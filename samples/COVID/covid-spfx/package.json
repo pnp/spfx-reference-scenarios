@@ -15,7 +15,7 @@
     "@microsoft/sp-office-ui-fabric-core": "1.12.1",
     "@microsoft/sp-property-pane": "1.12.1",
     "@microsoft/sp-webpart-base": "1.12.1",
-    "@n8d/htwoo-core": "^0.3.0",
+    "@n8d/htwoo-core": "^0.3.1",
     "@pnp/graph": "^2.6.0",
     "@pnp/sp": "^2.6.0",
     "lodash": "^4.17.21",
