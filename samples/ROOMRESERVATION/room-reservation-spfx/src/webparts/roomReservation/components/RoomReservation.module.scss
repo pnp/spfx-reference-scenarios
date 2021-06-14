@@ -14,6 +14,169 @@
   :global {
     //Import hTWOo styles so they are available to our controls
     @import "node_modules/@n8d/htwoo-core/lib/sass/style";
+
+    .meeting-grid {}
+
+    .meeting-headline {
+      grid-column: auto / span 12;
+    }
+
+    .meeting-datelist {
+      @extend %listReset;
+      // @include gridBase();
+      @include gridBase();
+
+      margin-top: 1rem;
+      margin-bottom: 2rem;
+      margin-left: 0;
+      margin-right: 0;
+    }
+
+    .meeting-date {
+      grid-column: auto / span 3;
+    }
+
+    .date-details {
+      @include elevation(4);
+
+      display: flex;
+      flex-direction: column;
+
+      padding: .75rem 1rem .95rem;
+
+      border: 1px $neutralTertiary solid;
+      border-radius: px2rem(4px);
+    }
+
+    .date-day {
+      font-size: 1.25rem;
+      font-weight: bolder;
+    }
+
+    .date-title {
+      font-weight: bolder;
+      line-height: 1.75;
+    }
+
+    .meeting-room-selector {
+      box-sizing: border-box;
+      padding: 1rem 0;
+    }
+
+    .meeting-rooms {
+      @include gridBase();
+    }
+
+    .hoo-meetingcard {
+      @extend .hoo-doccard;
+
+      grid-column: auto / span 3;
+    }
+
+    .hoo-meetingcard {
+      .hoo-cardimage {
+        width: 100%;
+        height: auto;
+
+        img {
+          width: 100%;
+          height: auto;
+        }
+      }
+    }
+
+    .meetingroom-selection {
+      @include gridBase();
+      // transform: rotateY(45deg);
+      // transform-origin: 100% 0;
+    }
+
+    .meetingroom-closeup {
+      grid-column: auto / span 6;
+      grid-row: 1;
+    }
+
+    .meetingroom-floorplan {
+      grid-column: auto / span 6;
+      grid-row: 2;
+    }
+
+    .meetingroom-closeup-img {
+      width: 100%;
+      height: auto;
+
+      aspect-ratio: 19/9;
+    }
+
+    .meetingroom-info {
+      display: flex;
+      flex-direction: row;
+
+      align-content: flex-start;
+      flex-wrap: wrap;
+      gap: 1rem;
+      grid-column: auto / span 6;
+      grid-row: 1 / span 2;
+    }
+
+    .meetingroom-name {
+      font-size: 200%;
+
+      margin-top: 0;
+
+      flex-basis: 100%;
+    }
+
+    .meetingroon-address {
+      font-style: normal;
+
+      width: calc(50% - .5rem);
+    }
+
+    .meetingroom-phone {
+      display: flex;
+      flex-direction: row;
+
+      margin-top: .5rem;
+
+      gap: 16px;
+    }
+
+    .meetingroom-actions {
+      display: flex;
+      flex-direction: column;
+
+      width: calc(50% - .5rem);
+
+      gap: .5rem;
+    }
+
+    .meetingroom-action {
+      text-align: right;
+    }
+
+    .meetingroom-map {
+      position: relative;
+
+      display: none;
+
+      width: 100%;
+      padding-bottom: 56.25%;
+
+      iframe {
+        position: absolute;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+
+        width: 100%;
+        width: 100%;
+        height: 100%;
+
+        aspect-ratio: 16 / 9;
+      }
+    }
   }
 
 }

@@ -1,7 +1,8 @@
 define([], function() {
   return {
-    "PropertyPaneDescription": "Description",
-    "BasicGroupName": "Group Name",
-    "DescriptionFieldLabel": "Description Field"
+    "MyMeetingsHeader": "My Upcoming Meetings:",
+    "AttendeesLabel": "attendees",
+    "SelectRoomLabel": "Select a Room",
+    "AvailableRoomsLabel": "Available Meeting Rooms"
   }
 });

@@ -18,6 +18,8 @@ import styles from "./components/RoomReservation.module.scss";
 import * as strings from 'RoomReservationWebPartStrings';
 import RoomReservation, { IRoomReservationProps } from './components/RoomReservation';
 import { darkModeTheme, highContrastTheme, lightModeTheme } from './models/rr.themes';
+import { rr } from './services/rr.service';
+
 
 export interface IRoomReservationWebPartProps {
   description: string;
@@ -50,7 +52,7 @@ export default class RoomReservationWebPart extends BaseClientSideWebPart<IRoomR
   private async _init(): Promise<void> {
     try {
       this._microsoftTeams = this.context.sdks?.microsoftTeams;
-      //await wc.Init(this.context.pageContext.user.loginName, this.context.pageContext.cultureInfo.currentUICultureName, this.context.pageContext.site.serverRelativeUrl, this._microsoftTeams?.context?.groupId, this._microsoftTeams?.context?.teamName, configType);
+      await rr.Init(this.context.pageContext.cultureInfo.currentUICultureName);
       // Consume the new ThemeProvider service
       this._themeProvider = this.context.serviceScope.consume(ThemeProvider.serviceKey);
       this._themeVariant = this._themeProvider.tryGetTheme();
@@ -114,12 +116,12 @@ export default class RoomReservationWebPart extends BaseClientSideWebPart<IRoomR
   public render(): void {
     try {
       let element;
-      //if (wc.Ready) {
-      const props: IRoomReservationProps = {};
-      element = React.createElement(RoomReservation, props);
-      //} else {
-      //TODO: Render error
-      //}
+      if (rr.Ready) {
+        const props: IRoomReservationProps = {};
+        element = React.createElement(RoomReservation, props);
+      } else {
+        //TODO: Render error
+      }
       this.domElement.classList.add(styles.appPartPage);
       ReactDom.render(element, this.domElement);
     } catch (err) {
