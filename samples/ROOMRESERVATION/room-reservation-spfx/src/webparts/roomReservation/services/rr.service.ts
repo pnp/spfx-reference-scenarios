@@ -1,10 +1,21 @@
 import { Logger, LogLevel } from "@pnp/logging";
-import { includes, sortBy } from "lodash";
-import { IConfig, IMeeting } from "../models/rr.models";
+
+import includes from "lodash/includes";
+import sortBy from "lodash/sortBy";
+import filter from "lodash/filter";
+import forEach from "lodash/forEach";
+import remove from "lodash/remove";
+
+import { IBuilding, IConfig, ILocation, IMeeting, IRoom, IRoomResults, RoomResult } from "../models/rr.models";
 import { DateTime } from "luxon";
 
 export interface IRoomReservationService {
-
+  Ready: boolean;
+  Locale: string;
+  Config: IConfig;
+  Meetings: IMeeting[];
+  Init(locale: string): Promise<void>;
+  GetAvailableRooms(startTime: DateTime, endTime: DateTime, attendeeCount: number): IRoomResults[];
 }
 
 export class RoomReservationService implements IRoomReservationService {
@@ -32,8 +43,6 @@ export class RoomReservationService implements IRoomReservationService {
   public get Meetings(): IMeeting[] {
     return this._meetings;
   }
-
-
 
   public async Init(locale: string): Promise<void> {
     try {
@@ -81,10 +90,33 @@ export class RoomReservationService implements IRoomReservationService {
     }
   }
 
-
-
-
-
+  public GetAvailableRooms(startTime: DateTime, endTime: DateTime, attendeeCount: number): IRoomResults[] {
+    let retVal: IRoomResults[] = [];
+    try {
+      //Get rooms that meet size requirement
+      forEach(this._currentConfig.locations, (location: ILocation) => {
+        forEach(location.buildings, (building: IBuilding) => {
+          forEach(building.rooms, (room: IRoom) => {
+            if (room.maxOccupancy >= attendeeCount) {
+              retVal.push(new RoomResult(location.locationId, building.buildingId, room.roomId, room.displayName, room.maxOccupancy, room.imagePath));
+            }
+          });
+        });
+      });
+      //Remove rooms already reserved for time period
+      const notAvailable = filter(this._meetings, (m: IMeeting) => {
+        return (startTime <= m.endTime && endTime >= m.startTime);
+      });
+      if (notAvailable.length > 0) {
+        forEach(notAvailable, (o: IMeeting) => {
+          remove(retVal, { roomId: o.roomId });
+        });
+      }
+    } catch (err) {
+      Logger.write(`${this.LOG_SOURCE} (GetAvailableRooms) - ${err} - `, LogLevel.Error);
+    }
+    return retVal;
+  }
 }
 
 export const rr = new RoomReservationService();

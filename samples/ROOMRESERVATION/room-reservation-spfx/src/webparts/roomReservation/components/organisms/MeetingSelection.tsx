@@ -1,6 +1,6 @@
 import * as React from "react";
 import { Logger, LogLevel } from "@pnp/logging";
-import { isEqual } from "lodash";
+import isEqual from "lodash/isEqual";
 import strings from "RoomReservationWebPartStrings";
 
 export interface IMeetingSelectionProps {
@@ -41,8 +41,8 @@ export default class MeetingSelection extends React.Component<IMeetingSelectionP
             <h2 className="meetingroom-name">Southern Ocean</h2>
             <address className="meetingroon-address">
               <strong>Microsoft HQ</strong><br />
-                    One Microsoft Way, Redmond,<br />
-                      WA 98052, United States<br />
+              One Microsoft Way, Redmond,<br />
+              WA 98052, United States<br />
               <div className="meetingroom-phone">
                 <strong>Phone:</strong> <a href="tel://+1 425-882-8080">+1 425-882-8080</a>
               </div>
@@ -69,9 +69,9 @@ export default class MeetingSelection extends React.Component<IMeetingSelectionP
               </iframe>
               <div >
                 <a id="largeMapLink" target="_blank" href="https://www.bing.com/maps?cp=47.639481407051086~-122.1458888053894&amp;sty=r&amp;lvl=14&amp;FORM=MBEDLD">View
-              Larger Map</a> &nbsp; | &nbsp;
-            <a id="dirMapLink" target="_blank" href="https://www.bing.com/maps/directions?cp=47.639481407051086~-122.1458888053894&amp;sty=r&amp;lvl=14&amp;rtp=~pos.47.639481407051086_-122.1458888053894____&amp;FORM=MBEDLD">Get
-              Directions</a>
+                  Larger Map</a> &nbsp; | &nbsp;
+                <a id="dirMapLink" target="_blank" href="https://www.bing.com/maps/directions?cp=47.639481407051086~-122.1458888053894&amp;sty=r&amp;lvl=14&amp;rtp=~pos.47.639481407051086_-122.1458888053894____&amp;FORM=MBEDLD">Get
+                  Directions</a>
               </div>
             </div>
           </div>
