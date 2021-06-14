@@ -1,0 +1,66 @@
+{
+  "locations": [{
+    "locationId": 0,
+    "displayName": "Sympraxis HQ",
+    "buildings": [{
+      "buildingId": 0,
+      "displayName": "Main House",
+      "rooms": [{
+          "roomId": 0,
+          "displayName": "Arctic",
+          "maxOccupancy": 6,
+          "imagePath": ""
+        },
+        {
+          "roomId": 1,
+          "displayName": "Baltic",
+          "maxOccupancy": 4,
+          "imagePath": ""
+        }
+      ]
+    }]
+  }],
+  "meetings": [{
+      "meetingId": "0",
+      "subject": "Office Party",
+      "startTime": "7/4/2021 8:00 PM",
+      "endTime": "7/4/2021 10:00 PM",
+      "displayTime": "July 4, 2021 8pm-10pm",
+      "locationId": "0",
+      "buildingId": "0",
+      "roomId": "0",
+      "attendees": [{
+        "emailaddress": "derekcp@sympraxisconsulting.com"
+      }, {
+        "emailaddress": "julie@julieturner.net"
+      }]
+    },
+    {
+      "meetingId": "1",
+      "subject": "SPFx Teams Samples Meeting",
+      "startTime": "6/10/2021 9:00 AM",
+      "endTime": "6/10/2021 9:55 AM",
+      "displayTime": "June 10, 2021 9am-9:55am",
+      "locationId": "0",
+      "buildingId": "0",
+      "roomId": "1",
+      "attendees": [{
+        "emailaddress": "derekcp@sympraxisconsulting.com"
+      }, {
+        "emailaddress": "julie@julieturner.net"
+      }, {
+        "emailaddress": "Stafan@julieturner.net"
+      }]
+    }, {
+      "meetingId": "2",
+      "subject": "Executive Briefing",
+      "startTime": "7/12/2021 9:00 AM",
+      "endTime": "7/12/2021 12:00 PM",
+      "displayTime": "July 12, 2021 9am-12pm",
+      "locationId": "0",
+      "buildingId": "0",
+      "roomId": "",
+      "attendees": []
+    }
+  ]
+}

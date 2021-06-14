@@ -71,6 +71,8 @@ Steps for deployment:
 
     ![Deploy SPPKG](./images/DeploySPPKG.png)
 
+1. Once the solution has been added to the app catalog be sure to check in the file.
+
 1. After the solution has deployed you will need to authorize the Graph API permissions requested. To see, and approve, them navigate to the SharePoint Admin Center and then to the `API access` section under `Advanced` menu item. This will show you a list of pending permissions requests. By selecting each request and then selecting `Approve` the permissions will be granted to allow the solution to access the information it needs through the Microsoft Graph. For more information on the individual permissions this solution is requesting please see the [Microsoft Graph REST API v1.0 reference](https://docs.microsoft.com/en-us/graph/api/overview?toc=.%2Fref%2Ftoc.json&view=graph-rest-1.0)
 
     ![Approve API Permissions](./images/ApproveAPIPermissions.png)

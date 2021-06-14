@@ -1,7 +1,8 @@
 declare interface IRoomReservationWebPartStrings {
-  PropertyPaneDescription: string;
-  BasicGroupName: string;
-  DescriptionFieldLabel: string;
+  MyMeetingsHeader: string;
+  AttendeesLabel: string;
+  SelectRoomLabel: string;
+  AvailableRoomsLabel: string;
 }
 
 declare module 'RoomReservationWebPartStrings' {
