@@ -1,5 +1,11 @@
 import { Logger, LogLevel } from "@pnp/logging";
 
+import { Web } from "@pnp/sp/webs";
+import "@pnp/sp/lists/web";
+import "@pnp/sp/items/list";
+import "@pnp/sp/files";
+import "@pnp/sp/folders";
+
 import includes from "lodash/includes";
 import sortBy from "lodash/sortBy";
 import filter from "lodash/filter";
@@ -16,10 +22,16 @@ export interface IRoomReservationService {
   Meetings: IMeeting[];
   Init(locale: string): Promise<void>;
   GetAvailableRooms(startTime: DateTime, endTime: DateTime, attendeeCount: number): IRoomResults[];
+  UpdateConfig(config?: IConfig, newFile?: boolean): Promise<boolean>;
 }
 
 export class RoomReservationService implements IRoomReservationService {
   private LOG_SOURCE: string = "🔶 RoomReservationService";
+
+  private ROOT_WEB: string = document.location.origin;
+  private CONFIG_FOLDER: string = "RoomReservation";
+  private CONFIG_FILE_NAME: string = "roomresconfig.json";
+
   private _ready: boolean = false;
   private _currentConfig: IConfig = null;
   private _meetings: IMeeting[] = [];
@@ -57,10 +69,52 @@ export class RoomReservationService implements IRoomReservationService {
 
   private async _getConfig(): Promise<void> {
     try {
-      this._currentConfig = require("../mocks/config.json");
+      let newFile: boolean = false;
+
+      try {
+        const web = Web(this.ROOT_WEB);
+        this._currentConfig = await web.getFileByServerRelativeUrl(`SiteAssets/${this.CONFIG_FOLDER}/${this.CONFIG_FILE_NAME}`).getJSON();
+      } catch (e) {
+        //Do Nothing as it'll just create the new config.
+      }
+
+
+      if (this._currentConfig == undefined) {
+        newFile = true;
+        this._currentConfig = require("../mocks/config.json");
+        this.UpdateConfig(undefined, newFile);
+      }
     } catch (err) {
       Logger.write(`${this.LOG_SOURCE} (_getConfig) - ${err} - `, LogLevel.Error);
     }
+  }
+
+  public async UpdateConfig(config?: IConfig, newFile: boolean = false): Promise<boolean> {
+    let retVal: boolean = false;
+    try {
+      if (config != undefined) {
+        this._currentConfig = config;
+      }
+      const web = Web(this.ROOT_WEB);
+      let configFile;
+
+      if (newFile) {
+        //Validate folder
+        try {
+          const folder = await web.getFolderByServerRelativeUrl(`/SiteAssets/${this.CONFIG_FOLDER}`)();
+        } catch (e) {
+          const folder2 = await web.getFolderByServerRelativeUrl(`/SiteAssets`).addSubFolderUsingPath(`${this.CONFIG_FOLDER}`);
+        }
+        configFile = await web.getFolderByServerRelativeUrl(`/SiteAssets/${this.CONFIG_FOLDER}`).files.addUsingPath(`${this.CONFIG_FILE_NAME}`, JSON.stringify(this._currentConfig));
+      } else {
+        configFile = await web.getFileByServerRelativeUrl(`/SiteAssets/${this.CONFIG_FOLDER}/${this.CONFIG_FILE_NAME}`).setContent(JSON.stringify(this._currentConfig));
+      }
+      if (configFile.data)
+        retVal = true;
+    } catch (err) {
+      Logger.write(`${this.LOG_SOURCE} (UpdateConfig) - ${err.message}`, LogLevel.Error);
+    }
+    return retVal;
   }
 
   private _getMeetings() {
