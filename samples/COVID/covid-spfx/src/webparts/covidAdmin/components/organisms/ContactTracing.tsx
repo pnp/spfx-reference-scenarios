@@ -3,9 +3,9 @@ import { Logger, LogLevel } from "@pnp/logging";
 
 import cloneDeep from "lodash/cloneDeep";
 import isEqual from "lodash/isEqual";
-import { Dictionary } from "lodash";
 import find from "lodash/find";
 import forEach from "lodash/forEach";
+import { Dictionary } from "lodash/index";
 
 import strings from "CovidWebPartStrings";
 import { cs } from "../../services/covid.service";

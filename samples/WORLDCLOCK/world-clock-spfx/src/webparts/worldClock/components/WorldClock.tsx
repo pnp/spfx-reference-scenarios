@@ -1,12 +1,17 @@
 import * as React from "react";
 import { Logger, LogLevel } from "@pnp/logging";
+
 import isEqual from "lodash/isEqual";
+import chain from "lodash/chain";
+import cloneDeep from "lodash/cloneDeep";
+import find from "lodash/find";
+import remove from "lodash/remove";
+
 import TeamTimes from "./organisms/TeamTimes";
 import MeetingScheduler from "./organisms/MeetingScheduler";
 import styles from "./WorldClock.module.scss";
 import { wc } from "../services/wc.service";
 import { IPerson } from "../models/wc.models";
-import { chain, cloneDeep, find, remove } from "lodash";
 
 export interface IWorldClockProps { }
 

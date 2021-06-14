@@ -1,8 +1,11 @@
 import * as React from "react";
 import { Logger, LogLevel } from "@pnp/logging";
+
 import isEqual from "lodash/isEqual";
+import cloneDeep from "lodash/cloneDeep";
+
 import { Icons, IIconType } from "../../models/wc.Icons";
-import { cloneDeep } from "lodash";
+
 
 export interface IButtonOption {
   iconType: IIconType;

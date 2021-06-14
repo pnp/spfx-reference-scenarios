@@ -16,6 +16,9 @@
 
   :global {
     //Import hTWOo styles so they are available to our controls
+    //IMPORTANT NOTE: This is not best practice, for production solution you should 
+    //   import the styles for the individual components your using vs 
+    //   importing the global style definition.
     @import "node_modules/@n8d/htwoo-core/lib/sass/style";
 
     .hoo-buttonaction {

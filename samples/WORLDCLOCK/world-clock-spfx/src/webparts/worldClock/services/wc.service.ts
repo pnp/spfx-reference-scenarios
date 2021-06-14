@@ -10,8 +10,13 @@ import "@pnp/graph/users";
 import "@pnp/graph/onedrive";
 import "@pnp/graph/groups";
 
+import findIndex from "lodash/findIndex";
+import filter from "lodash/filter";
+import sortBy from "lodash/sortBy";
+import find from "lodash/find";
+import forEach from "lodash/forEach";
+
 import { DateTime, IANAZone } from "luxon";
-import { find, merge, forEach, findIndex, filter, sortBy } from "lodash";
 
 import { IConfig, IPerson, CONFIG_TYPE, Person, PERSON_TYPE, ITimeZone, TimeZone } from "../models/wc.models";
 import { WorldClockMemberService, IWorldClockMemberService } from "./wcMember.service";
