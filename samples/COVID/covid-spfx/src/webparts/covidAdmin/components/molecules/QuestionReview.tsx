@@ -1,6 +1,10 @@
 import * as React from "react";
 import { Logger, LogLevel } from "@pnp/logging";
-import { cloneDeep, find, isEmpty, isEqual } from "lodash";
+
+import cloneDeep from "lodash/cloneDeep";
+import isEqual from "lodash/isEqual";
+import find from "lodash/find";
+
 import styles from "../CovidAdmin.module.scss";
 import strings from "CovidWebPartStrings";
 import { ICheckIns, IQuestion } from "../../models/covid.model";

@@ -1,6 +1,13 @@
 import * as React from "react";
 import { Logger, LogLevel } from "@pnp/logging";
-import { cloneDeep, endsWith, find, isEqual, replace } from "lodash";
+
+import isEqual from "lodash/isEqual";
+import replace from "lodash/replace";
+import cloneDeep from "lodash/cloneDeep";
+import find from "lodash/find";
+import endsWith from "lodash/endsWith";
+
+
 import { DateTime } from "luxon";
 import { IPerson } from "../../models/wc.models";
 import ButtonIcon from "../atoms/ButtonIcon";

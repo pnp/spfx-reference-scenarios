@@ -4,6 +4,8 @@ import { Logger, LogLevel } from "@pnp/logging";
 import cloneDeep from "lodash/cloneDeep";
 import isEqual from "lodash/isEqual";
 import find from "lodash/find";
+import isEmpty from "lodash/isEmpty";
+import forEach from "lodash/forEach";
 
 import strings from "CovidWebPartStrings";
 import styles from '../CovidAdmin.module.scss';
@@ -14,7 +16,6 @@ import Button from "../atoms/Button";
 import TextBox from "../atoms/TextBox";
 import DropDown, { IDropDownOption } from "../atoms/DropDown";
 import Dialog from "../molecules/Dialog";
-import { forEach, isEmpty } from "lodash";
 
 export interface ICovidFormProps {
   microsoftTeams: IMicrosoftTeams;

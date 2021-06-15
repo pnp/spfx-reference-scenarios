@@ -1,6 +1,8 @@
 import * as React from "react";
 import { Logger, LogLevel } from "@pnp/logging";
-import { isEqual } from "lodash";
+
+import isEqual from "lodash/isEqual";
+
 import { IPerson } from "../../models/wc.models";
 import Scheduler from "../molecules/Scheduler";
 

@@ -1,6 +1,14 @@
 import * as React from "react";
 import { Logger, LogLevel } from "@pnp/logging";
-import { chain, cloneDeep, find, isEqual, remove, forEach, round, indexOf } from "lodash";
+
+import isEqual from "lodash/isEqual";
+import chain from "lodash/chain";
+import cloneDeep from "lodash/cloneDeep";
+import find from "lodash/find";
+import remove from "lodash/remove";
+import forEach from "lodash/forEach";
+import round from "lodash/round";
+
 import Dialog from "../molecules/Dialog";
 import strings from "WorldClockWebPartStrings";
 import ManageViews from "../molecules/ManageViews";

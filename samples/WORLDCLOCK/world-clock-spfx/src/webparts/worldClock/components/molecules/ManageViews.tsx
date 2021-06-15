@@ -1,6 +1,14 @@
 import * as React from "react";
 import { Logger, LogLevel } from "@pnp/logging";
-import { cloneDeep, filter, find, indexOf, isEmpty, isEqual, sortBy } from "lodash";
+
+import isEqual from "lodash/isEqual";
+import filter from "lodash/filter";
+import cloneDeep from "lodash/cloneDeep";
+import sortBy from "lodash/sortBy";
+import find from "lodash/find";
+import indexOf from "lodash/indexOf";
+import isEmpty from "lodash/isEmpty";
+
 import styles from "../WorldClock.module.scss";
 //import DropDown, { IDropDownOption } from "../atoms/DropDown";
 import { IPerson, IWCView, WCView } from "../../models/wc.models";

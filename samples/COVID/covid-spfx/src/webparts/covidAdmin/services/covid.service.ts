@@ -4,13 +4,14 @@ import cloneDeep from "lodash/cloneDeep";
 import find from "lodash/find";
 import indexOf from "lodash/indexOf";
 import groupBy from "lodash/groupBy";
+import eq from "lodash/eq";
+import { Dictionary } from "lodash/index";
 
 import { graph } from "@pnp/graph";
 import "@pnp/graph/users";
 import "@pnp/graph/photos";
 import "@pnp/graph/cloud-communications";
 
-import * as lodash from "lodash";
 import { sp } from "@pnp/sp";
 import { Logger, LogLevel } from "@pnp/logging";
 import "@pnp/sp/webs";
@@ -21,7 +22,7 @@ import "@pnp/sp/site-users/web";
 import { IItemAddResult } from "@pnp/sp/items/types";
 
 import { ILocations, IQuestion, ICheckIns, ISelfCheckIn, SelfCheckInLI, CheckInLI, ISelfCheckInLI, Tables, IPerson, IQuery, SECURITY } from "../models/covid.model";
-import { eq } from "lodash";
+
 
 export interface ICovidService {
   Security: SECURITY;
@@ -37,7 +38,7 @@ export interface ICovidService {
   moveSelfCheckIns: () => Promise<boolean>;
   addCheckIn: (checkIn: ICheckIns) => Promise<boolean>;
   addSelfCheckIn: (checkIn: ISelfCheckIn) => Promise<boolean>;
-  searchCheckIn: (query: IQuery) => Promise<lodash.Dictionary<ICheckIns[]>>;
+  searchCheckIn: (query: IQuery) => Promise<Dictionary<ICheckIns[]>>;
 }
 
 export class CovidService implements ICovidService {
@@ -474,8 +475,8 @@ export class CovidService implements ICovidService {
     return retVal;
   }
 
-  public async searchCheckIn(query: IQuery): Promise<lodash.Dictionary<ICheckIns[]>> {
-    let retVal: lodash.Dictionary<ICheckIns[]> = null;
+  public async searchCheckIn(query: IQuery): Promise<Dictionary<ICheckIns[]>> {
+    let retVal: Dictionary<ICheckIns[]> = null;
     try {
       let filter = [];
       if (query.startDate != null) {

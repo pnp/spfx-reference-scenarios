@@ -4,11 +4,15 @@ import "@pnp/graph/onedrive";
 import "@pnp/graph/groups";
 import { graph, graphGet, GraphQueryable } from "@pnp/graph";
 
+import findIndex from "lodash/findIndex";
+import filter from "lodash/filter";
+import flatMap from "lodash/flatMap";
+import forEach from "lodash/forEach";
+
 import { findIana } from 'windows-iana';
 
 import { wc } from './wc.service';
 import { IConfig, IPerson, Config, CONFIG_TYPE, Person, PERSON_TYPE, WCView, Team, ITimeZone, TimeZone } from "../models/wc.models";
-import { forEach, flatMap, includes, findIndex, filter } from "lodash";
 import { IANAZone, DateTime } from "luxon";
 import strings from "WorldClockWebPartStrings";
 
