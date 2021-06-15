@@ -1,5 +1,6 @@
 //Globally add in Segoe UI Font - for Teams support
 @import './fonts';
+@import 'node_modules/@n8d/htwoo-core/lib/sass/00-base/colors/colors';
 
 .appPartPage {
   box-sizing: border-box;
@@ -518,18 +519,17 @@
     .full-width {
       @include gridSpan(12);
     }
-
-
-    font-family: "Segoe UI",
-    "Segoe UI Web (West European)",
-    "Segoe UI",
-    -apple-system,
-    system-ui,
-    Roboto,
-    "Helvetica Neue",
-    sans-serif;
-    color: $bodyText;
   }
+
+  font-family: "Segoe UI",
+  "Segoe UI Web (West European)",
+  "Segoe UI",
+  -apple-system,
+  system-ui,
+  Roboto,
+  "Helvetica Neue",
+  sans-serif;
+  color: $bodyText;
 
   .textbox {
     width: 100%;

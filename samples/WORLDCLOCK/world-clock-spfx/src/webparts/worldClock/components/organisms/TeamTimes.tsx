@@ -8,6 +8,9 @@ import find from "lodash/find";
 import remove from "lodash/remove";
 import forEach from "lodash/forEach";
 import round from "lodash/round";
+import groupBy from "lodash/groupBy";
+import map from "lodash/map";
+import sortBy from "lodash/sortBy";
 
 import Dialog from "../molecules/Dialog";
 import strings from "WorldClockWebPartStrings";
@@ -183,7 +186,11 @@ export default class TeamTimes extends React.Component<ITeamTimesProps, ITeamTim
         o.timeStyle = timeStyle;
       });
 
-      const offsetGroups = chain(members).groupBy("offset").map((value, key) => ({ offset: parseInt(key.toString()), members: value })).sortBy("offset").value();
+      const offsetGroupBy = groupBy(members, "offset");
+      const offsetGroupMap = map(offsetGroupBy, (value, key) => ({ offset: parseInt(key.toString()), members: value }));
+      const offsetGroups = sortBy(offsetGroupMap, "offset");
+      //const offsetGroups = chain(members).groupBy("offset").map((value, key) => ({ offset: parseInt(key.toString()), members: value })).sortBy("offset").value();
+
       let styleGroup = "";
       let currentGroup = null;
       totalTimeCards = offsetGroups.length;

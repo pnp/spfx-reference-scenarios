@@ -44,7 +44,7 @@ export default class WorldClockWebPart extends BaseClientSideWebPart<IWorldClock
       sp.setup({ spfxContext: this.context });
       graph.setup({ spfxContext: this.context });
 
-      await this._init();
+      this._init();
     } catch (err) {
       Logger.write(`${this.LOG_SOURCE} (onInit) - ${err}`, LogLevel.Error);
     }
@@ -95,6 +95,7 @@ export default class WorldClockWebPart extends BaseClientSideWebPart<IWorldClock
           }
         }
       }
+      this.render();
     } catch (err) {
       Logger.write(`${this.LOG_SOURCE} (_init) - ${err}`, LogLevel.Error);
     }
@@ -129,10 +130,11 @@ export default class WorldClockWebPart extends BaseClientSideWebPart<IWorldClock
     try {
       let element;
       if (wc.Ready) {
-        const props: IWorldClockProps = {};
+        const props: IWorldClockProps = { loading: false };
         element = React.createElement(WorldClock, props);
       } else {
-        //TODO: Render error
+        const props: IWorldClockProps = { loading: true };
+        element = React.createElement(WorldClock, props);
       }
       this.domElement.classList.add(styles.appPartPage);
       ReactDom.render(element, this.domElement);

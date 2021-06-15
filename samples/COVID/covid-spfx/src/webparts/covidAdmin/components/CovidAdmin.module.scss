@@ -1,5 +1,6 @@
 //Globally add in Segoe UI Font - for Teams support
 @import './fonts';
+@import 'node_modules/@n8d/htwoo-core/lib/sass/00-base/colors/colors';
 
 .appPartPage {
   box-sizing: border-box;
@@ -127,15 +128,16 @@
     .hoo-radio+label {
       padding-right: 1rem;
     }
-
-    font-family: "Segoe UI",
-    -apple-system,
-    BlinkMacSystemFont,
-    Roboto,
-    "Helvetica Neue",
-    sans-serif;
-    color: $bodyText;
   }
+
+  font-family: "Segoe UI",
+  -apple-system,
+  BlinkMacSystemFont,
+  Roboto,
+  "Helvetica Neue",
+  sans-serif;
+  color: $bodyText;
+
 
   input {
     font-family: "Segoe UI",
