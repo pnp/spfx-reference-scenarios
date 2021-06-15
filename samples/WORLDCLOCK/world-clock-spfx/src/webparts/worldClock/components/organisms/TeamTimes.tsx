@@ -2,12 +2,14 @@ import * as React from "react";
 import { Logger, LogLevel } from "@pnp/logging";
 
 import isEqual from "lodash/isEqual";
-import chain from "lodash/chain";
 import cloneDeep from "lodash/cloneDeep";
 import find from "lodash/find";
 import remove from "lodash/remove";
 import forEach from "lodash/forEach";
 import round from "lodash/round";
+import groupBy from "lodash/groupBy";
+import map from "lodash/map";
+import sortBy from "lodash/sortBy";
 
 import Dialog from "../molecules/Dialog";
 import strings from "WorldClockWebPartStrings";
@@ -28,6 +30,7 @@ export interface ITeamTimesProps {
   meetingMembers: IPerson[];
   addToMeeting: (IPerson) => void;
   saveProfile: (person: IPerson) => Promise<boolean>;
+  view: string;
 }
 
 export interface ITeamTimesState {
@@ -84,7 +87,8 @@ export default class TeamTimes extends React.Component<ITeamTimesProps, ITeamTim
         needsConfig = true;
       }
       let options: IButtonOption[] = this._getManageViewOptions();
-      this.state = new TeamTimesState(needsConfig, needsConfig, wc.Config.views, (needsConfig) ? null : wc.Config.defaultViewId, [], options);
+      const view = (this.props.view?.length > 0) ? this.props.view : wc.Config.defaultViewId;
+      this.state = new TeamTimesState(needsConfig, needsConfig, wc.Config.views, (needsConfig) ? null : view, [], options);
       this.updateCurrentTime();
     } catch (err) {
       Logger.write(`${this.LOG_SOURCE} (constructor) - ${err}`, LogLevel.Error);
@@ -123,12 +127,12 @@ export default class TeamTimes extends React.Component<ITeamTimesProps, ITeamTim
 
   private _handleRefresh = (newState?: any) => {
     try {
-      const [timeZoneView, totalTimeCards] = this._sortTimeZones(wc.Config.views[this.state.currentView], this.state.startTimeCardIndex, this.state.maxTimeCards);
+      const sortTimeZones = this._sortTimeZones(wc.Config.views[this.state.currentView], this.state.startTimeCardIndex, this.state.maxTimeCards);
       if (newState == undefined) {
-        newState = { timeZoneView, totalTimeCards };
+        newState = { timeZoneView: sortTimeZones[0], totalTimeCards: sortTimeZones[1] };
       } else {
-        newState.timeZoneView = timeZoneView;
-        newState.totalTimeCards = totalTimeCards;
+        newState.timeZoneView = sortTimeZones[0];
+        newState.totalTimeCards = sortTimeZones[1];
       }
       this.setState(newState);
     } catch (err) {
@@ -183,7 +187,10 @@ export default class TeamTimes extends React.Component<ITeamTimesProps, ITeamTim
         o.timeStyle = timeStyle;
       });
 
-      const offsetGroups = chain(members).groupBy("offset").map((value, key) => ({ offset: parseInt(key.toString()), members: value })).sortBy("offset").value();
+      const offsetGroupBy = groupBy(members, "offset");
+      const offsetGroupMap = map(offsetGroupBy, (value, key) => ({ offset: parseInt(key.toString()), members: value }));
+      const offsetGroups = sortBy(offsetGroupMap, "offset");
+      //const offsetGroups = chain(members).groupBy("offset").map((value, key) => ({ offset: parseInt(key.toString()), members: value })).sortBy("offset").value();
       let styleGroup = "";
       let currentGroup = null;
       totalTimeCards = offsetGroups.length;
@@ -217,8 +224,8 @@ export default class TeamTimes extends React.Component<ITeamTimesProps, ITeamTim
         offsetWidth += 35;
       }
       const maxTimeCards = round((this.state.timeCardContainerWidth - offsetWidth) / 250);
-      const [timeZoneView, totalTimeCards] = this._sortTimeZones(wc.Config.views[this.state.currentView], startTimeCardIndex, maxTimeCards);
-      this.setState({ startTimeCardIndex: startTimeCardIndex, timeZoneView: timeZoneView, totalTimeCards: totalTimeCards, maxTimeCards: maxTimeCards });
+      const sortTimeZones = this._sortTimeZones(wc.Config.views[this.state.currentView], startTimeCardIndex, maxTimeCards);
+      this.setState({ startTimeCardIndex: startTimeCardIndex, timeZoneView: sortTimeZones[0], totalTimeCards: sortTimeZones[1], maxTimeCards: maxTimeCards });
     } catch (err) {
       Logger.write(`${this.LOG_SOURCE} (_updateTimeCard) - ${err}`, LogLevel.Error);
     }
@@ -253,9 +260,9 @@ export default class TeamTimes extends React.Component<ITeamTimesProps, ITeamTim
       }
       success = await wc.UpdateConfig(config);
       if (success) {
-        let [timeZoneView, totalTimeCards] = this._sortTimeZones(view, 0, this.state.maxTimeCards);
-        let options: IButtonOption[] = this._getManageViewOptions();
-        this.setState({ showManageViews: false, views: config.views, timeZoneView: timeZoneView, totalTimeCards: totalTimeCards, viewOptions: options, currentView: view.viewId, startTimeCardIndex: 0 });
+        const sortTimeZones = this._sortTimeZones(view, 0, this.state.maxTimeCards);
+        const options: IButtonOption[] = this._getManageViewOptions();
+        this.setState({ showManageViews: false, views: config.views, timeZoneView: sortTimeZones[0], totalTimeCards: sortTimeZones[1], viewOptions: options, currentView: view.viewId, startTimeCardIndex: 0 });
       }
     } catch (err) {
       Logger.write(`${this.LOG_SOURCE} (_saveView) - ${err}`, LogLevel.Error);
@@ -276,8 +283,8 @@ export default class TeamTimes extends React.Component<ITeamTimesProps, ITeamTim
       if (success) {
         let options: IButtonOption[] = this._getManageViewOptions();
         if (wc.Config.views.length > 0) {
-          let [timeZoneView, totalTimeCards] = this._sortTimeZones(a, 0, this.state.maxTimeCards);
-          this.setState({ showManageViews: false, views: config.views, timeZoneView: timeZoneView, totalTimeCards: totalTimeCards, viewOptions: options, currentView: a.viewId, startTimeCardIndex: 0 });
+          const sortTimeZones = this._sortTimeZones(a, 0, this.state.maxTimeCards);
+          this.setState({ showManageViews: false, views: config.views, timeZoneView: sortTimeZones[0], totalTimeCards: sortTimeZones[1], viewOptions: options, currentView: a.viewId, startTimeCardIndex: 0 });
         } else {
           this.setState({ showManageViews: false, views: config.views, timeZoneView: [], viewOptions: options, currentView: "", startTimeCardIndex: 0 });
         }
@@ -356,9 +363,9 @@ export default class TeamTimes extends React.Component<ITeamTimesProps, ITeamTim
   private _changeView = (viewName: string) => {
     try {
       const views = cloneDeep(this.state.views);
-      let v = find(views, { viewName: viewName });
-      let [timeZoneView, totalTimeCards] = this._sortTimeZones(v, 0, this.state.maxTimeCards);
-      this.setState({ timeZoneView: timeZoneView, totalTimeCards: totalTimeCards, currentView: v.viewId, startTimeCardIndex: 0 });
+      const v = find(views, { viewName: viewName });
+      const sortTimeZones = this._sortTimeZones(v, 0, this.state.maxTimeCards);
+      this.setState({ timeZoneView: sortTimeZones[0], totalTimeCards: sortTimeZones[1], currentView: v.viewId, startTimeCardIndex: 0 });
     } catch (err) {
       Logger.write(`${this.LOG_SOURCE} (_changeView) - ${err}`, LogLevel.Error);
     }

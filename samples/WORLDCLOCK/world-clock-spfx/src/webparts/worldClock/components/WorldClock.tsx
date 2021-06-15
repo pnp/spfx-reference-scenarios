@@ -2,10 +2,11 @@ import * as React from "react";
 import { Logger, LogLevel } from "@pnp/logging";
 
 import isEqual from "lodash/isEqual";
-import chain from "lodash/chain";
 import cloneDeep from "lodash/cloneDeep";
 import find from "lodash/find";
 import remove from "lodash/remove";
+import uniqBy from "lodash/uniqBy";
+import sortBy from "lodash/sortBy";
 
 import TeamTimes from "./organisms/TeamTimes";
 import MeetingScheduler from "./organisms/MeetingScheduler";
@@ -13,7 +14,9 @@ import styles from "./WorldClock.module.scss";
 import { wc } from "../services/wc.service";
 import { IPerson } from "../models/wc.models";
 
-export interface IWorldClockProps { }
+export interface IWorldClockProps {
+  view: string;
+}
 
 export interface IWorldClockState {
   meetingMembers: IPerson[];
@@ -46,7 +49,9 @@ export default class WorldClock extends React.Component<IWorldClockProps, IWorld
         meetingMembers.push(wc.CurrentUser);
       }
       meetingMembers.push(person);
-      meetingMembers = chain(meetingMembers).uniqBy("personId").sortBy("offset").value();
+      meetingMembers = uniqBy(meetingMembers, "personId");
+      meetingMembers = sortBy(meetingMembers, "offset");
+      //meetingMembers = chain(meetingMembers).uniqBy("personId").sortBy("offset").value();
       this.setState({ meetingMembers: meetingMembers });
     } catch (err) {
       Logger.write(`${this.LOG_SOURCE} (_addToMeeting) - ${err}`, LogLevel.Error);
@@ -61,7 +66,9 @@ export default class WorldClock extends React.Component<IWorldClockProps, IWorld
           remove(meetingMembers, person);
         }
       });
-      meetingMembers = chain(meetingMembers).uniqBy("personId").sortBy("offset").value();
+      meetingMembers = uniqBy(meetingMembers, "personId");
+      meetingMembers = sortBy(meetingMembers, "offset");
+      //meetingMembers = chain(meetingMembers).uniqBy("personId").sortBy("offset").value();
       this.setState({ meetingMembers: meetingMembers });
     } catch (err) {
       Logger.write(`${this.LOG_SOURCE} (_removefromMeeting) - ${err}`, LogLevel.Error);
@@ -97,7 +104,8 @@ export default class WorldClock extends React.Component<IWorldClockProps, IWorld
           <TeamTimes
             addToMeeting={this._addToMeeting}
             meetingMembers={this.state.meetingMembers}
-            saveProfile={this._saveProfile} />
+            saveProfile={this._saveProfile}
+            view={this.props.view} />
           {(this.state.meetingMembers.length > 0) &&
             <MeetingScheduler
               meetingMembers={this.state.meetingMembers}

@@ -28,7 +28,7 @@ export default class WorldClockWebPart extends BaseClientSideWebPart<IWorldClock
   private LOG_SOURCE: string = "🔶WorldClockWebPart";
 
   private _microsoftTeams: IMicrosoftTeams;
-  private _userId: string = "";
+  private _view: string = "";
 
   /** Used for theming */
   private _themeProvider: ThemeProvider;
@@ -53,6 +53,8 @@ export default class WorldClockWebPart extends BaseClientSideWebPart<IWorldClock
   private async _init(): Promise<void> {
     try {
       this._microsoftTeams = this.context.sdks?.microsoftTeams;
+      if (this._microsoftTeams)
+        this._getTeamsQueryString();
       const configType: CONFIG_TYPE = (this._microsoftTeams?.context?.groupId) ? CONFIG_TYPE.Team : CONFIG_TYPE.Personal;
       await wc.Init(this.context.pageContext.user.loginName, this.context.pageContext.cultureInfo.currentUICultureName, this.context.pageContext.site.serverRelativeUrl, this._microsoftTeams?.context?.groupId, this._microsoftTeams?.context?.teamName, configType);
       wc.HandleExecuteDeepLink = this._handleExecuteDeepLink;
@@ -100,6 +102,19 @@ export default class WorldClockWebPart extends BaseClientSideWebPart<IWorldClock
     }
   }
 
+  private _getTeamsQueryString(): void {
+    try {
+      // Get configuration from the Teams SDK
+      if (this.context.sdks.microsoftTeams.context) {
+        if (this.context.sdks.microsoftTeams.context?.subEntityId?.toString() != "") {
+          this._view = this.context.sdks.microsoftTeams.context.subEntityId.toString();
+        }
+      }
+    } catch (err) {
+      Logger.write(`${this.LOG_SOURCE} (_getTeamsQueryString) - ${err} -- Error loading query string parameters from teams context.`, LogLevel.Error);
+    }
+  }
+
   private _handleExecuteDeepLink = (meetingUrl: string): void => {
     try {
       if (this._microsoftTeams) {
@@ -109,6 +124,7 @@ export default class WorldClockWebPart extends BaseClientSideWebPart<IWorldClock
       Logger.write(`${this.LOG_SOURCE} (_handleExecuteDeepLink) - ${err}`, LogLevel.Error);
     }
   }
+
   private _handleThemeChangedEvent(args: ThemeChangedEventArgs): void {
     this._themeVariant = args.theme;
     this._setCSSVariables(this._themeVariant.semanticColors);
@@ -129,7 +145,7 @@ export default class WorldClockWebPart extends BaseClientSideWebPart<IWorldClock
     try {
       let element;
       if (wc.Ready) {
-        const props: IWorldClockProps = {};
+        const props: IWorldClockProps = { view: this._view };
         element = React.createElement(WorldClock, props);
       } else {
         //TODO: Render error

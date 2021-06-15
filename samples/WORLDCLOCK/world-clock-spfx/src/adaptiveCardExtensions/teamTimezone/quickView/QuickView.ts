@@ -53,7 +53,8 @@ export class QuickView extends BaseAdaptiveCardView<
           let memberTime: IMemberTime = this._getTime(vm);
           members.push({ displayName: vm.displayName, currentTime: memberTime.currentTime, iconName: memberTime.dayNight });
         });
-        retVal = { title: view.viewName, url: this.state.teamsUrl, members: members };
+        const url = `${this.state.teamsUrl}?context={"subEntityId":${view.viewId}}`;
+        retVal = { title: view.viewName, url: url, members: members };
       }
     } catch (err) {
       Logger.write(`${this.LOG_SOURCE} (data) - ${err}`, LogLevel.Error);
