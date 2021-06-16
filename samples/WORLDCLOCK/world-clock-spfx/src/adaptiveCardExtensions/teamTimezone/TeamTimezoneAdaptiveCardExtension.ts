@@ -49,7 +49,6 @@ export default class TeamTimezoneAdaptiveCardExtension extends BaseAdaptiveCardE
       const configType: CONFIG_TYPE = CONFIG_TYPE.Personal;
       await wc.Init(this.context.pageContext.user.loginName, this.context.pageContext.cultureInfo.currentUICultureName, "", null, null, configType);
 
-      //TODO: Get Teams URL
       this.state = {
         currentConfig: wc.Config,
         currentView: wc.Config.defaultViewId,
