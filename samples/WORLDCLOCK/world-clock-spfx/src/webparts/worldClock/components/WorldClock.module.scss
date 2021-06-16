@@ -1,6 +1,8 @@
 @import 'node_modules/@n8d/htwoo-core/lib/sass/00-base/colors/colors';
 //Globally add in Segoe UI Font - for Teams support
 @import './fonts';
+@import 'node_modules/@n8d/htwoo-core/lib/sass/00-base/colors/colors';
+@import 'node_modules/@n8d/htwoo-core/lib/sass/00-base/mixin/core.mixin';
 
 .appPartPage {
   box-sizing: border-box;
@@ -305,7 +307,7 @@
     }
 
     .hoo-wc-peoples {
-      display: flex;
+      display: contents;
       flex-direction: column;
       flex-basis: 100%;
       flex-wrap: wrap;
@@ -566,10 +568,7 @@
     .memberContainer {
       display: inline-block;
       padding-bottom: px2rem(16px);
-
     }
-
-
 
     .memberSearch {
       column-span: all;
@@ -577,8 +576,6 @@
       justify-content: space-between;
       padding-bottom: px2rem(16px);
     }
-
-
   }
 
 
