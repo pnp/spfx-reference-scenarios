@@ -32,10 +32,16 @@
       margin-bottom: 2rem;
       margin-left: 0;
       margin-right: 0;
+      cursor: pointer;
     }
 
     .meeting-date {
       grid-column: auto / span 3;
+    }
+
+    .new-reservation {
+      display: flex;
+      justify-content: space-between;
     }
 
     .date-details {
@@ -71,8 +77,10 @@
 
     .hoo-meetingcard {
       @extend .hoo-doccard;
+      min-width: auto;
 
       grid-column: auto / span 3;
+      cursor: pointer;
     }
 
     .hoo-meetingcard {
@@ -93,14 +101,19 @@
       // transform-origin: 100% 0;
     }
 
+    .meetingroom-title {
+      grid-column: auto / span 12;
+      grid-row: 1;
+    }
+
     .meetingroom-closeup {
       grid-column: auto / span 6;
-      grid-row: 1;
+      grid-row: 2;
     }
 
     .meetingroom-floorplan {
       grid-column: auto / span 6;
-      grid-row: 2;
+      grid-row: 3;
     }
 
     .meetingroom-closeup-img {
@@ -118,7 +131,7 @@
       flex-wrap: wrap;
       gap: 1rem;
       grid-column: auto / span 6;
-      grid-row: 1 / span 2;
+      grid-row: 2 / span 2;
     }
 
     .meetingroom-name {

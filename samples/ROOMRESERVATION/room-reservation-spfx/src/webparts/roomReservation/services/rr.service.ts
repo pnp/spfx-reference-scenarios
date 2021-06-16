@@ -11,9 +11,10 @@ import sortBy from "lodash/sortBy";
 import filter from "lodash/filter";
 import forEach from "lodash/forEach";
 import remove from "lodash/remove";
-
-import { IBuilding, IConfig, ILocation, IMeeting, IRoom, IRoomResults, RoomResult } from "../models/rr.models";
+import findIndex from "lodash/findIndex";
 import { DateTime } from "luxon";
+
+import { IBuilding, IConfig, ILocation, IMeeting, IMeetingResult, IRoom, IRoomResults, MeetingResult, RoomResult } from "../models/rr.models";
 
 export interface IRoomReservationService {
   Ready: boolean;
@@ -22,6 +23,7 @@ export interface IRoomReservationService {
   Meetings: IMeeting[];
   Init(locale: string): Promise<void>;
   GetAvailableRooms(startTime: DateTime, endTime: DateTime, attendeeCount: number): IRoomResults[];
+  GetAllRooms(): IRoomResults[];
   UpdateConfig(config?: IConfig, newFile?: boolean): Promise<boolean>;
 }
 
@@ -34,7 +36,7 @@ export class RoomReservationService implements IRoomReservationService {
 
   private _ready: boolean = false;
   private _currentConfig: IConfig = null;
-  private _meetings: IMeeting[] = [];
+  private _meetings: IMeetingResult[] = [];
   private _locale: string = "us";
 
   constructor() {
@@ -52,7 +54,7 @@ export class RoomReservationService implements IRoomReservationService {
     return this._currentConfig;
   }
 
-  public get Meetings(): IMeeting[] {
+  public get Meetings(): IMeetingResult[] {
     return this._meetings;
   }
 
@@ -117,31 +119,21 @@ export class RoomReservationService implements IRoomReservationService {
     return retVal;
   }
 
-  private _getMeetings() {
+  public GetAllRooms(): IRoomResults[] {
+    let retVal: IRoomResults[] = [];
     try {
-      this._currentConfig.meetings.map((m) => {
-        m.startTime = DateTime.fromFormat(m.startTime.toString(), "D t").setLocale(rr.Locale);
-        m.endTime = DateTime.fromFormat(m.endTime.toString(), "D t").setLocale(rr.Locale);
-
-        if (m.startTime.toISODate == m.endTime.toISODate) {
-          let startTime: string = m.startTime.toLocaleString(DateTime.TIME_SIMPLE);
-          let endTime: string = m.endTime.toLocaleString(DateTime.TIME_SIMPLE);
-
-          if (includes(startTime, ":00")) {
-            startTime = startTime.replace(":00", "");
-          }
-          if (includes(endTime, ":00")) {
-            endTime = endTime.replace(":00", "");
-          }
-          m.displayTime = `${m.startTime.toLocaleString(DateTime.DATE_MED)}  ${startTime}-${endTime}`;
-        } else {
-          m.displayTime = `${m.startTime.toLocaleString(DateTime.DATETIME_MED)}-${m.endTime.toLocaleString(DateTime.DATETIME_MED)}`;
-        }
+      //Get rooms that meet size requirement
+      forEach(this._currentConfig.locations, (location: ILocation) => {
+        forEach(location.buildings, (building: IBuilding) => {
+          forEach(building.rooms, (room: IRoom) => {
+            retVal.push(new RoomResult(location.locationId, building.buildingId, building.displayName, room.roomId, room.displayName, room.maxOccupancy, room.imagePath));
+          });
+        });
       });
-      this._meetings = sortBy(this._currentConfig.meetings, "startTime");
     } catch (err) {
-      Logger.write(`${this.LOG_SOURCE} (_getMeetings) - ${err} - `, LogLevel.Error);
+      Logger.write(`${this.LOG_SOURCE} (GetAvailableRooms) - ${err} - `, LogLevel.Error);
     }
+    return retVal;
   }
 
   public GetAvailableRooms(startTime: DateTime, endTime: DateTime, attendeeCount: number): IRoomResults[] {
@@ -152,7 +144,7 @@ export class RoomReservationService implements IRoomReservationService {
         forEach(location.buildings, (building: IBuilding) => {
           forEach(building.rooms, (room: IRoom) => {
             if (room.maxOccupancy >= attendeeCount) {
-              retVal.push(new RoomResult(location.locationId, building.buildingId, room.roomId, room.displayName, room.maxOccupancy, room.imagePath));
+              retVal.push(new RoomResult(location.locationId, building.buildingId, building.displayName, room.roomId, room.displayName, room.maxOccupancy, room.imagePath));
             }
           });
         });
@@ -171,6 +163,70 @@ export class RoomReservationService implements IRoomReservationService {
     }
     return retVal;
   }
+
+  private _getMeetings() {
+    let retVal: IMeetingResult[] = [];
+    try {
+      const now: DateTime = DateTime.now().setLocale(this._locale);
+      forEach(this._currentConfig.meetings, (meeting) => {
+        const start: DateTime = DateTime.fromFormat(meeting.startTime.toString(), "D t").setLocale(this._locale);
+        const end: DateTime = DateTime.fromFormat(meeting.endTime.toString(), "D t").setLocale(this._locale);
+        if (start.toISO() > now.toISO()) {
+          //Format the display of the meeting time
+
+          let displayTime: string = "";
+          if (meeting.startTime.toISODate == meeting.endTime.toISODate) {
+            let startTime: string = start.toLocaleString(DateTime.TIME_SIMPLE);
+            let endTime: string = end.toLocaleString(DateTime.TIME_SIMPLE);
+
+            if (includes(startTime, ":00")) {
+              startTime = startTime.replace(":00", "");
+            }
+            if (includes(endTime, ":00")) {
+              endTime = endTime.replace(":00", "");
+            }
+            displayTime = `${start.toLocaleString(DateTime.DATE_SHORT)}  ${startTime}-${endTime}`;
+          } else {
+            displayTime = `${start.toLocaleString(DateTime.DATETIME_SHORT)}-${end.toLocaleString(DateTime.DATETIME_SHORT)}`;
+          }
+
+          const building: IBuilding = this._currentConfig.locations[meeting.locationId].buildings[meeting.buildingId];
+          const room: IRoom = building.rooms[meeting.roomId];
+
+          let mr = new MeetingResult(
+            meeting.meetingId,
+            meeting.subject,
+            meeting.startTime,
+            meeting.endTime,
+            displayTime,
+            meeting.locationId,
+            building.buildingId,
+            building.displayName,
+            building.address,
+            building.city,
+            building.state,
+            building.postalcode,
+            building.country,
+            building.phone,
+            -1,
+            "",
+            meeting.attendees);
+
+          if (room) {
+            mr.roomId = room.roomId;
+            mr.roomName = room.displayName;
+          }
+
+          retVal.push(mr);
+        }
+      });
+      this._meetings = retVal;
+    } catch (err) {
+      Logger.write(`${this.LOG_SOURCE} (_getMeetings) - ${err} - `, LogLevel.Error);
+    }
+  }
 }
+
+
 
 export const rr = new RoomReservationService();

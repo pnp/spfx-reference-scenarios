@@ -5,6 +5,12 @@
     "buildings": [{
       "buildingId": 0,
       "displayName": "Main House",
+      "address": "1 Main Street",
+      "city": "Brookline",
+      "state": "MA",
+      "postalcode": "02111",
+      "country": "United States",
+      "phone": "+1 425-882-8080",
       "rooms": [{
           "roomId": 0,
           "displayName": "Arctic",
@@ -29,11 +35,7 @@
       "locationId": "0",
       "buildingId": "0",
       "roomId": "0",
-      "attendees": [{
-        "emailaddress": "derekcp@sympraxisconsulting.com"
-      }, {
-        "emailaddress": "julie@julieturner.net"
-      }]
+      "attendees": 2
     },
     {
       "meetingId": "1",
@@ -44,13 +46,7 @@
       "locationId": "0",
       "buildingId": "0",
       "roomId": "1",
-      "attendees": [{
-        "emailaddress": "derekcp@sympraxisconsulting.com"
-      }, {
-        "emailaddress": "julie@julieturner.net"
-      }, {
-        "emailaddress": "Stafan@julieturner.net"
-      }]
+      "attendees": 3
     }, {
       "meetingId": "2",
       "subject": "Executive Briefing",
@@ -60,7 +56,7 @@
       "locationId": "0",
       "buildingId": "0",
       "roomId": "",
-      "attendees": []
+      "attendees": 0
     }
   ]
 }

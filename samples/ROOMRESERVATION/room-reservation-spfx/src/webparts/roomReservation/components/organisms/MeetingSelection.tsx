@@ -1,9 +1,13 @@
 import * as React from "react";
 import { Logger, LogLevel } from "@pnp/logging";
+
 import isEqual from "lodash/isEqual";
-import strings from "RoomReservationWebPartStrings";
+
+import { IMeetingResult } from "../../models/rr.models";
+import Button from "../atoms/Button";
 
 export interface IMeetingSelectionProps {
+  meeting: IMeetingResult;
 }
 
 export interface IMeetingSelectionState {
@@ -29,22 +33,26 @@ export default class MeetingSelection extends React.Component<IMeetingSelectionP
 
   public render(): React.ReactElement<IMeetingSelectionProps> {
     try {
+      const imageSrc: any = require(`../assets/card-${this.props.meeting.roomId}.jpg`);
+      const floorPlanSrc: any = require(`../assets/floorplan-${this.props.meeting.roomId}.jpg`);
+
       return (
         <div className="meetingroom-selection">
+          <h2 className="meetingroom-title">{`${this.props.meeting.displayTime} - ${this.props.meeting.subject}`}</h2>
           <div className="meetingroom-closeup">
-            <img src="../../images/card-images/meeting-cards/card-4.jpg" alt="" className="meetingroom-closeup-img" />
+            <img src={imageSrc} alt="" className="meetingroom-closeup-img" />
           </div>
           <div className="meetingroom-floorplan">
-            <img src="../../images/card-images/meeting-cards/floorplan.jpg" alt="" className="meetingroom-closeup-img" />
+            <img src={floorPlanSrc} alt="" className="meetingroom-closeup-img" />
           </div>
           <div className="meetingroom-info">
-            <h2 className="meetingroom-name">Southern Ocean</h2>
+            <h2 className="meetingroom-name">{this.props.meeting.roomName}</h2>
             <address className="meetingroon-address">
-              <strong>Microsoft HQ</strong><br />
-              One Microsoft Way, Redmond,<br />
-              WA 98052, United States<br />
+              <strong>{this.props.meeting.buildingDisplayName}</strong><br />
+              {this.props.meeting.buildingAddress}<br />
+              {`${this.props.meeting.buildingState} ${this.props.meeting.buildingPostalCode}, ${this.props.meeting.buildingCountry}`}<br />
               <div className="meetingroom-phone">
-                <strong>Phone:</strong> <a href="tel://+1 425-882-8080">+1 425-882-8080</a>
+                <strong>Phone:</strong> <a href={`tel://${this.props.meeting.buildingPhone}`}>{this.props.meeting.buildingPhone}</a>
               </div>
             </address>
             <div className="meetingroom-actions">
@@ -74,8 +82,12 @@ export default class MeetingSelection extends React.Component<IMeetingSelectionP
                   Directions</a>
               </div>
             </div>
+            <div className="meetingroom-action">
+              <Button className="hoo-button-primary" disabled={false} label="Request this room" onClick={() => { }} />
+            </div>
           </div>
         </div>
+
       );
     } catch (err) {
       Logger.write(`${this.LOG_SOURCE} (render) - ${err}`, LogLevel.Error);

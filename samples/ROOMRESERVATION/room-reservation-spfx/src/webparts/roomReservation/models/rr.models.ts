@@ -29,6 +29,12 @@ export class Location implements ILocation {
 export interface IBuilding {
   buildingId: number;
   displayName: string;
+  address: string;
+  city: string;
+  state: string;
+  postalcode: string;
+  country: string;
+  phone: string;
   rooms: IRoom[];
 }
 
@@ -36,6 +42,12 @@ export class Building implements IBuilding {
   constructor(
     public buildingId: number = null,
     public displayName: string = "",
+    public address: string = "",
+    public city: string = "",
+    public state: string = "",
+    public postalcode: string = "",
+    public country: string = "",
+    public phone: string = "",
     public rooms: IRoom[] = []
   ) { }
 }
@@ -60,12 +72,14 @@ export class Room implements IRoom {
 export interface IRoomResults extends IRoom {
   locationId: number;
   buildingId: number;
+  buildingName: string;
 }
 
 export class RoomResult implements IRoomResults {
   constructor(
     public locationId: number = null,
     public buildingId: number = null,
+    public buildingName: string = "",
     public roomId: number = null,
     public displayName: string = "",
     public maxOccupancy: number = 0,
@@ -81,8 +95,9 @@ export interface IMeeting {
   displayTime: string;
   locationId: number;
   buildingId: number;
-  roomId: number;
-  attendees: string[];
+  roomId?: number;
+  roomName?: string;
+  attendees: number;
 }
 
 export class Meeting implements IMeeting {
@@ -95,7 +110,41 @@ export class Meeting implements IMeeting {
     public locationId: number = null,
     public buildingId: number = null,
     public roomId: number = null,
-    public attendees: string[] = [],
+    public roomName: string = "",
+    public attendees: number,
+
+  ) { }
+}
+
+export interface IMeetingResult extends IMeeting {
+  buildingDisplayName: string;
+  buildingAddress: string;
+  buildingCity: string;
+  buildingState: string;
+  buildingPostalCode: string;
+  buildingCountry: string;
+  buildingPhone: string;
+}
+
+export class MeetingResult implements IMeetingResult {
+  constructor(
+    public meetingId: number = null,
+    public subject: string = "",
+    public startTime: DateTime = DateTime.now(),
+    public endTime: DateTime = DateTime.now(),
+    public displayTime: string = "",
+    public locationId: number = null,
+    public buildingId: number = null,
+    public buildingDisplayName: string = "",
+    public buildingAddress: string = "",
+    public buildingCity: string = "",
+    public buildingState: string = "",
+    public buildingPostalCode: string = "",
+    public buildingCountry: string = "",
+    public buildingPhone: string = "",
+    public roomId: number = null,
+    public roomName: string = "",
+    public attendees: number,
 
   ) { }
 }

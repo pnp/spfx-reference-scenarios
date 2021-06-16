@@ -1,12 +1,13 @@
 import * as React from "react";
 import { Logger, LogLevel } from "@pnp/logging";
+
 import isEqual from "lodash/isEqual";
-import { IBuilding, IRoom, Room } from "../../models/rr.models";
-import { rr } from "../../services/rr.service";
+
+import { IMeetingResult, IRoomResults } from "../../models/rr.models";
 
 export interface IRoomCardProps {
-  room: IRoom;
-  building: IBuilding;
+  room: IRoomResults;
+  selectRoom: (room: IRoomResults) => void;
 }
 
 export interface IRoomCardState {
@@ -32,12 +33,13 @@ export default class RoomCard extends React.Component<IRoomCardProps, IRoomCardS
 
   public render(): React.ReactElement<IRoomCardProps> {
     try {
+      const imageSrc: any = require(`../assets/card-${this.props.room.roomId}.jpg`);
       return (
-        <div className="hoo-meetingcard" data-component={this.LOG_SOURCE}>
+        <div className="hoo-meetingcard" data-component={this.LOG_SOURCE} onClick={() => this.props.selectRoom(this.props.room)}>
           <div className="hoo-cardimage">
-            <img src="../../images/card-images/meeting-cards/card-1.jpg" width="320" height="180" alt="" />
+            <img src={imageSrc} width="320" height="180" alt={this.props.room.displayName} />
           </div>
-          <div className="hoo-cardlocation">{this.props.building.displayName}</div>
+          <div className="hoo-cardlocation">{this.props.room.buildingName}</div>
           <div className="hoo-cardtitle">{this.props.room.displayName}</div>
         </div>
       );
