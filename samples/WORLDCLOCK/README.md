@@ -36,7 +36,7 @@ The configurations for the personal solution are stored in a file in your person
 
 Solution|Author(s)
 --------|---------
-world-clock-spfx | Sympraxis Consulting (@SympraxisC)
+world-clock-spfx | Sympraxis Consulting (@SympraxisC) - Original concept, design, and development from [@Bob German](https://github.com/BobGerman)
 
 ## Version history
 

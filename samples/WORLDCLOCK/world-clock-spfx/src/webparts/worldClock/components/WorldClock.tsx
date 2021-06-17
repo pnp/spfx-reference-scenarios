@@ -15,8 +15,10 @@ import { wc } from "../services/wc.service";
 import { IPerson } from "../models/wc.models";
 
 export interface IWorldClockProps {
+  view: string;
   loading: boolean;
 }
+  
 
 export interface IWorldClockState {
   meetingMembers: IPerson[];

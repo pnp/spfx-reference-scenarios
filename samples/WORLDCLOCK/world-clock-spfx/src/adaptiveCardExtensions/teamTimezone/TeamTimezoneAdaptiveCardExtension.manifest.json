@@ -1,0 +1,34 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/spfx/client-side-web-part-manifest.schema.json",
+  "id": "b456a9f0-8881-4a9f-b6fc-f7a2ece115b5",
+  "alias": "TeamTimezoneAdaptiveCardExtension",
+  "componentType": "AdaptiveCardExtension",
+  // The "*" signifies that the version should be taken from the package.json
+  "version": "*",
+  "manifestVersion": 2,
+  // If true, the component can only be installed on sites where Custom Script is allowed.
+  // Components that allow authors to embed arbitrary script code should set this to true.
+  // https://support.office.com/en-us/article/Turn-scripting-capabilities-on-or-off-1f2c515f-5d7e-448a-9fd7-835da935584f
+  "requiresCustomScript": false,
+  "supportedHosts": [
+    "Dashboard",
+    "SharePointWebPart"
+  ],
+  "experimentalData": {
+    "ACE": true
+  },
+  "preconfiguredEntries": [{
+    "groupId": "bd067b1e-3ad5-4d5d-a5fe-505f07d7f59c", // Dashboard
+    "group": {
+      "default": "Dashboard"
+    },
+    "title": {
+      "default": "Team Time Zone"
+    },
+    "description": {
+      "default": "Team Time Zone World Clock Card"
+    },
+    "iconImageUrl": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACQAAAAjCAYAAAD8BaggAAAACXBIWXMAAAsSAAALEgHS3X78AAADUElEQVRYha1Y3Y3UMBAezs4bEumAUMHmidcNFRAquHRAqIC9DkIHew1A6CDXAMp2EKggPMfSolnGy+wwdhzESFa0iT0ef/P3rZ+dz2fYItZmOQBUNEpauqfnCQBmAJgAYMDh3DJt0Z9skLUZGtAAwP2mEwA8AcDRueX4XwyyNitQIUNByndCBAXR20Xmtc4tfXRDNCg0jLGtMfYsxmyM7YyxVWRdSXMmZX1vjM1Da2PGHBVD2pgyRUdOhkmjxpCeu4CbjiJWMFhfIOQAUJAb11yN7qtxvvIZ3TrRnLjLFGR6ei/hH4yxxQZ3V8bYZg2pNSXeVQflPY4u0aAhskevGoSnpc21jeUYYkEtDGtofkx3rcXQgeIkRbDgDaHYUWJjv6K7u4khQicFmXEl3XOaM/L4UuJSGw1HqE6BxbmlDCHDTrqj0bH3Y4L6hiM0JiBTrsQKD/zJZw+hphVIbRSW/C3L/SfWJBG90bkleEprM5zzkX7+xDXOLTP9xlbxMgEhlMqyju3lybmlZZt9A4DXEWNK6nVX6L3x1mZdpAdqUmgG7UkRykw04jlV7x8A8JltmJMxPoMefPMk1N5vMAY8QjxFTwRxS5s8ouucWzr4Q0FmNr9n7v7q3HJg3wZyX2opuYjsZbj5wbkFjXxDmw/kFsyyK+ES7jhds4SEYgj72AdEjp6vAOAdGh+0SGTHoGRPS1lSs3d1qNImVm+tRV32v2PkCoT7LoLucm4pBAIDoeLli7VZI9dGJFTLJqAuzK38i6cwTtOJ97ICHzegpFXvg/84x+Cn5qgyPoVSDCkkLkDcKv+xj51SWXxTuYmy8kNNMa6kHPJCc3gv44XtXmGEkpjvKPuwDADVpZLF1SzKQ4r8toFZzPtNr5wo1O9a0e27tb6n9L6zR1QSqWAqK99vgvkfyP+shUnMr7igFEpinXpLho1inzxkkKSxo8iomEGrbgqk+40ntAUyY2Z6F2OVq+gwNnlTd+S80OJaIeW9YkhqzdH0qf9YYkokUkEeHNHRKPUmui562cD4ztvAlAfqhfyyoaRRKdTjxAmcKomBWAVOmjqmNTSTEFIQw5NjV8fTh65dvCA5wwrfr17BMNl8g8aM8+7xTxTvvmnrzdlFAOAX5biDGWeahp8AAAAASUVORK5CYII=",
+    "properties": {}
+  }]
+}
