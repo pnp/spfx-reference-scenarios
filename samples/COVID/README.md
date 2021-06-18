@@ -2,7 +2,17 @@
 
 ## Summary
 
-This solution depicts how you can build a teams based custom form that collects information from users and provides a custom dashboard for working with the results. In this case we've built a solution that allows an administrator to define a set of questions to verify the health of an individual entering an office space during the pandemic. Their entry will be added to a central list that then is displayed on a dashboard that a receptionist or security station can review when people enter the building. The solution also allows someone to enter the answers for a guest entering the building. Later if needed a search can be performed across a time frame to ascertain who was in contact with each other and might need to be warned of an outbreak.
+This solution depicts how you can build a teams based custom form that collects information from users and provides a custom dashboard for working with the results. 
+
+![Check-In Process](./images/Check-In.gif)
+
+In this case we've built a solution that allows an administrator to define a set of questions to verify the health of an individual entering an office space during the pandemic. 
+
+![Administration](./images/Administration.gif)
+
+Their entry will be added to a central list that then is displayed on a dashboard that a receptionist or security station can review when people enter the building. The solution also allows someone to enter the answers for a guest entering the building. Later if needed a search can be performed across a time frame to ascertain who was in contact with each other and might need to be warned of an outbreak.
+
+![Front-Desk](./images/Front-Desk.gif)
 
 ## Used SharePoint Framework Version
 
