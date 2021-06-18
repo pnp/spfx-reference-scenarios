@@ -19,7 +19,8 @@
       "./node_modules/@microsoft"
     ],
     "types": [
-      "webpack-env"
+      "webpack-env",
+      "@types/resize-observer-browser"
     ],
     "lib": [
       "DOM",

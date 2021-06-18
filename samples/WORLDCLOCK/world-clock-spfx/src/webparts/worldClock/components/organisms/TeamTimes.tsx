@@ -2,7 +2,6 @@ import * as React from "react";
 import { Logger, LogLevel } from "@pnp/logging";
 
 import isEqual from "lodash/isEqual";
-import chain from "lodash/chain";
 import cloneDeep from "lodash/cloneDeep";
 import find from "lodash/find";
 import remove from "lodash/remove";
@@ -31,6 +30,7 @@ export interface ITeamTimesProps {
   meetingMembers: IPerson[];
   addToMeeting: (IPerson) => void;
   saveProfile: (person: IPerson) => Promise<boolean>;
+  view: string;
 }
 
 export interface ITeamTimesState {
@@ -87,7 +87,8 @@ export default class TeamTimes extends React.Component<ITeamTimesProps, ITeamTim
         needsConfig = true;
       }
       let options: IButtonOption[] = this._getManageViewOptions();
-      this.state = new TeamTimesState(needsConfig, needsConfig, wc.Config.views, (needsConfig) ? null : wc.Config.defaultViewId, [], options);
+      const view = (this.props.view?.length > 0) ? this.props.view : wc.Config.defaultViewId;
+      this.state = new TeamTimesState(needsConfig, needsConfig, wc.Config.views, (needsConfig) ? null : view, [], options);
       this.updateCurrentTime();
     } catch (err) {
       Logger.write(`${this.LOG_SOURCE} (constructor) - ${err}`, LogLevel.Error);
@@ -190,7 +191,6 @@ export default class TeamTimes extends React.Component<ITeamTimesProps, ITeamTim
       const offsetGroupMap = map(offsetGroupBy, (value, key) => ({ offset: parseInt(key.toString()), members: value }));
       const offsetGroups = sortBy(offsetGroupMap, "offset");
       //const offsetGroups = chain(members).groupBy("offset").map((value, key) => ({ offset: parseInt(key.toString()), members: value })).sortBy("offset").value();
-
       let styleGroup = "";
       let currentGroup = null;
       totalTimeCards = offsetGroups.length;
@@ -363,7 +363,7 @@ export default class TeamTimes extends React.Component<ITeamTimesProps, ITeamTim
   private _changeView = (viewName: string) => {
     try {
       const views = cloneDeep(this.state.views);
-      let v = find(views, { viewName: viewName });
+      const v = find(views, { viewName: viewName });
       const sortTimeZones = this._sortTimeZones(v, 0, this.state.maxTimeCards);
       this.setState({ timeZoneView: sortTimeZones[0], totalTimeCards: sortTimeZones[1], currentView: v.viewId, startTimeCardIndex: 0 });
     } catch (err) {
