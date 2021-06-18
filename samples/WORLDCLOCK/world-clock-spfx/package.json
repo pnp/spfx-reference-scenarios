@@ -36,7 +36,6 @@
     "@types/react-dom": "16.9.8",
     "@types/resize-observer-browser": "^0.1.5",
     "@types/webpack-env": "1.13.1",
-    "webpack-bundle-analyzer": "^4.4.2",
     "ajv": "~5.2.2",
     "gulp": "~4.0.2",
     "typescript": "^3.9.9",

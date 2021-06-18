@@ -18,7 +18,7 @@ export interface IWorldClockProps {
   view: string;
   loading: boolean;
 }
-  
+
 
 export interface IWorldClockState {
   meetingMembers: IPerson[];
@@ -104,8 +104,10 @@ export default class WorldClock extends React.Component<IWorldClockProps, IWorld
       return (
         <div data-component={this.LOG_SOURCE} className={styles.worldClock}>
           {this.props.loading &&
-            <div className="hoo-ph-primary">
-              <div className="hoo-ph-squared"></div>
+            <div className="hoo-wcs hoo-ph-primary">
+              <div className="hoo-wc-clock hoo-ph-squared"></div>
+              <div className="hoo-wc-clock hoo-ph-squared"></div>
+              <div className="hoo-wc-clock hoo-ph-squared"></div>
             </div>
           }
           {!this.props.loading &&
@@ -113,7 +115,8 @@ export default class WorldClock extends React.Component<IWorldClockProps, IWorld
               <TeamTimes
                 addToMeeting={this._addToMeeting}
                 meetingMembers={this.state.meetingMembers}
-                saveProfile={this._saveProfile} />
+                saveProfile={this._saveProfile}
+                view={this.props.view} />
               {(this.state.meetingMembers.length > 0) &&
                 <MeetingScheduler
                   meetingMembers={this.state.meetingMembers}
