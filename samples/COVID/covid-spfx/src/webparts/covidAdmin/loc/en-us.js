@@ -1,6 +1,7 @@
 define([], function () {
   return {
-    "ConfigurationNeeded": "It appears the COVID Attestation application has not been configured.",
+    "ConfigurationTitle": "Configuration Needed",
+    "ConfigurationNeeded": "It appears the COVID Attestation application has not been configured. Choose your configuration option below.",
     "ConfigureNow": "Configure Now",
     "ConfigureNowData": "Configure Now with Demo Data",
     "CovidFormSelfCheckInTitle": "COVID-19 Employee Self-Attestation Form",

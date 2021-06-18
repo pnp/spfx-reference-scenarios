@@ -104,10 +104,10 @@ export default class WorldClock extends React.Component<IWorldClockProps, IWorld
       return (
         <div data-component={this.LOG_SOURCE} className={styles.worldClock}>
           {this.props.loading &&
-            <div className="hoo-wcs hoo-ph-primary">
-              <div className="hoo-wc-clock hoo-ph-squared"></div>
-              <div className="hoo-wc-clock hoo-ph-squared"></div>
-              <div className="hoo-wc-clock hoo-ph-squared"></div>
+            <div className="hoo-wcs">
+              <div className="hoo-wc-clock hoo-ph-primary hoo-ph-squared"></div>
+              <div className="hoo-wc-clock hoo-ph-primary hoo-ph-squared"></div>
+              <div className="hoo-wc-clock hoo-ph-primary hoo-ph-squared"></div>
             </div>
           }
           {!this.props.loading &&

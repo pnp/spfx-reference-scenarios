@@ -23,7 +23,7 @@ The configurations for the personal solution are stored in a file in your person
 
 ## Used SharePoint Framework Version
 
-![version](https://img.shields.io/badge/version-1.12.1-green.svg)
+![version](https://img.shields.io/badge/version-1.13.0-green.svg)
 
 ## Applies to
 
@@ -77,7 +77,7 @@ Steps for deployment:
 
     ![Approve API Permissions](./images/ApproveAPIPermissions.png)
 
-1. After the solution has deployed you will need to sync the solution into your Teams app store. To do so, select the solution in the app catalog and then under the files tab in the ribbon the `Sync to Teams` option will be enabled, select it.
+1. After the solution has deployed you will need to sync the solution into your Teams app store. To do so, select the `SPFx Teams Samples - World Clock` solution in the app catalog and then under the files tab in the ribbon the `Sync to Teams` option will be enabled, select it. (Note: the screen shot in an example, please make sure to approve the API requests for for teh `SPFx Teams Samples - World Clock` Package)
 
     ![Sync App Manifest To Teams](./images/SyncToTeams.png)
 
