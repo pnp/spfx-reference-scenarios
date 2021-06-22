@@ -16,7 +16,7 @@ Their entry will be added to a central list that then is displayed on a dashboar
 
 ## Used SharePoint Framework Version
 
-![version](https://img.shields.io/badge/version-1.12.1-green.svg)
+![version](https://img.shields.io/badge/version-1.13.0-green.svg)
 
 ## Applies to
 

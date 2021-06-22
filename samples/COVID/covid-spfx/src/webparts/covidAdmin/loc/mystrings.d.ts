@@ -1,4 +1,5 @@
 declare interface ICovidWebPartStrings {
+  ConfigurationTitle: string;
   ConfigurationNeeded: string;
   ConfigureNow: string;
   ConfigureNowData: string;

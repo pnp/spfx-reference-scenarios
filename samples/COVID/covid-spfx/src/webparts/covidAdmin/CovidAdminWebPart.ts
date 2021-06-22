@@ -93,14 +93,6 @@ export default class CovidAdminWebPart extends BaseClientSideWebPart<ICovidAdmin
       }
       this._themeProvider.themeChangedEvent.add(this, this._handleThemeChangedEvent);
 
-      // if (this._microsoftTeams) {
-      //   if (this._microsoftTeams.context.theme !== "default") {
-      //     this.domElement.style.setProperty("--bodyText", "white");
-      //     this.domElement.style.setProperty("--bodyBackground", "#333");
-      //     this.domElement.style.setProperty("--buttonBackgroundHovered", "#555");
-      //   }
-      // }
-
       if (this._microsoftTeams) {
         switch (this._microsoftTeams.context.theme) {
           case "dark": {
@@ -119,6 +111,7 @@ export default class CovidAdminWebPart extends BaseClientSideWebPart<ICovidAdmin
           }
         }
       }
+      this.render();
     } catch (err) {
       Logger.write(`${this.LOG_SOURCE} (_init) - ${err}`, LogLevel.Error);
     }
@@ -158,8 +151,9 @@ export default class CovidAdminWebPart extends BaseClientSideWebPart<ICovidAdmin
       if (!ccs.Valid) {
         const props: IConfigureProps = { startConfigure: this._configure };
         element = React.createElement(Configure, props);
-      } else if (cs.Ready) {
+      } else if (!cs.Ready) {
         const props: ICovidAdminProps = {
+          loading: true,
           microsoftTeams: this._microsoftTeams,
           loginName: this.context.pageContext.user.loginName,
           displayName: this.context.pageContext.user.displayName,
@@ -168,7 +162,15 @@ export default class CovidAdminWebPart extends BaseClientSideWebPart<ICovidAdmin
         };
         element = React.createElement(CovidAdmin, props);
       } else {
-        //TODO: Render error
+        const props: ICovidAdminProps = {
+          loading: false,
+          microsoftTeams: this._microsoftTeams,
+          loginName: this.context.pageContext.user.loginName,
+          displayName: this.context.pageContext.user.displayName,
+          userId: this._userId,
+          userCanCheckIn: this._userCanCheckIn
+        };
+        element = React.createElement(CovidAdmin, props);
       }
       this.domElement.classList.add(styles.appPartPage);
       ReactDom.render(element, this.domElement);

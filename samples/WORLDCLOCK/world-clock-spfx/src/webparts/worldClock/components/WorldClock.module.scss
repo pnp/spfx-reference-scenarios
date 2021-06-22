@@ -1,7 +1,7 @@
 //Globally add in Segoe UI Font - for Teams support
 @import './fonts';
 @import 'node_modules/@n8d/htwoo-core/lib/sass/00-base/colors/colors';
-@import 'node_modules/@n8d/htwoo-core/lib/sass/00-base/mixin/core.mixin';
+@import 'node_modules/@n8d/htwoo-core/lib/sass/00-base/mixin/grid.mixin';
 
 .appPartPage {
   box-sizing: border-box;
@@ -11,16 +11,20 @@
   position: relative;
 }
 
+:global {
+  //Import hTWOo styles so they are available to our controls
+  //IMPORTANT NOTE: This is not best practice, for production solution you should 
+  //   import the styles for the individual components your using vs 
+  //   importing the global style definition.
+  @import "node_modules/@n8d/htwoo-core/lib/sass/style";
+}
+
 .worldClock {
   font-size: px2rem(16px);
   padding: px2rem(16px) 0;
 
   :global {
-    //Import hTWOo styles so they are available to our controls
-    //IMPORTANT NOTE: This is not best practice, for production solution you should 
-    //   import the styles for the individual components your using vs 
-    //   importing the global style definition.
-    @import "node_modules/@n8d/htwoo-core/lib/sass/style";
+    @use "node_modules/@n8d/htwoo-core/lib/sass/style";
 
     .hoo-buttonaction {
       cursor: pointer;

@@ -1,6 +1,7 @@
 //Globally add in Segoe UI Font - for Teams support
-@import './fonts';
+@use './fonts';
 @import 'node_modules/@n8d/htwoo-core/lib/sass/00-base/colors/colors';
+@import 'node_modules/@n8d/htwoo-core/lib/sass/00-base/mixin/grid.mixin';
 
 .appPartPage {
   box-sizing: border-box;
@@ -10,13 +11,28 @@
   position: relative;
 }
 
+:global {
+  //Import hTWOo styles so they are available to our controls
+  //IMPORTANT NOTE: This is not best practice, for production solution you should 
+  //   import the styles for the individual components your using vs 
+  //   importing the global style definition.
+  @import "node_modules/@n8d/htwoo-core/lib/sass/style";
+}
+
 .covidAdmin {
+
+  .shimmerContainer {
+    min-width: 90vw;
+
+    :global {
+      .hoo-ph-row {
+        height: 3em;
+      }
+    }
+  }
+
   :global {
-    //Import hTWOo styles so they are available to our controls
-    //IMPORTANT NOTE: This is not best practice, for production solution you should 
-    //   import the styles for the individual components your using vs 
-    //   importing the global style definition.
-    @import "node_modules/@n8d/htwoo-core/lib/sass/style";
+    @use 'node_modules/@n8d/htwoo-core/lib/sass/00-base/colors/colors';
 
     //Override for form to make it 100%
     .hoo-input-text {
@@ -137,7 +153,6 @@
   "Helvetica Neue",
   sans-serif;
   color: $bodyText;
-
 
   input {
     font-family: "Segoe UI",

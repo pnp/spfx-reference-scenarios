@@ -2,6 +2,7 @@ import * as React from "react";
 import { Logger, LogLevel } from "@pnp/logging";
 import isEqual from "lodash/isEqual";
 
+import { configureImage } from "../../assets/images";
 import strings from "CovidWebPartStrings";
 import Button from "../atoms/Button";
 import styles from "../CovidAdmin.module.scss";
@@ -43,10 +44,24 @@ export default class Configure extends React.Component<IConfigureProps, IConfigu
   public render(): React.ReactElement<IConfigureProps> {
     try {
       return (
-        <div data-component={this.LOG_SOURCE} className={styles.covidAdmin}>
-          <p>{strings.ConfigurationNeeded}</p>
-          <Button className="hoo-button-primary" disabled={this.state.working} label={strings.ConfigureNow} onClick={() => this._startConfigure(false)} />
-          <Button className="hoo-button-primary" disabled={this.state.working} label={strings.ConfigureNowData} onClick={() => this._startConfigure(true)} />
+        <div data-component={this.LOG_SOURCE} className={`${styles.covidAdmin} hoo-splashscr`}>
+          <div className="hoo-splashscr-content">
+            <article className="hoo-splashcard">
+              <header className="hoo-splashcard-header" role="presentation">
+                <img src={configureImage} className="hoo-splashcard-img" />
+              </header>
+              <h1 className="hoo-splashcard-title">
+                {strings.ConfigurationTitle}
+              </h1>
+              <p className="hoo-splashcard-desc">
+                {strings.ConfigurationNeeded}
+              </p>
+              <footer className="hoo-splashcard-footer">
+                <Button className="hoo-button-primary" disabled={this.state.working} label={strings.ConfigureNow} onClick={() => this._startConfigure(false)} />
+                <Button className="hoo-button" disabled={this.state.working} label={strings.ConfigureNowData} onClick={() => this._startConfigure(true)} />
+              </footer>
+            </article>
+          </div>
           {this.state.working &&
             <div className={styles.loaderContainer}><div className={styles.loader}></div></div>
           }

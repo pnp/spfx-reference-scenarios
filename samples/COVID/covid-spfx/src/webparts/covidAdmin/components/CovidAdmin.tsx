@@ -20,6 +20,7 @@ import Dialog from "./molecules/Dialog";
 import QuestionReview from "./molecules/QuestionReview";
 
 export interface ICovidAdminProps {
+  loading: boolean;
   microsoftTeams: IMicrosoftTeams;
   loginName: string;
   displayName: string;
@@ -159,29 +160,38 @@ export default class CovidAdmin extends React.Component<ICovidAdminProps, ICovid
     try {
       return (
         <div data-component={this.LOG_SOURCE} className={styles.covidAdmin}>
-          <PivotBar options={this._tabOptions} onClick={this._changeTab} activeTab={this.state.tab} />
-          {this.state.tab == ADMINTABS.SELFCHECKIN &&
-            <CovidForm microsoftTeams={this.props.microsoftTeams} checkInMode={CheckInMode.Self} displayName={this.props.displayName} userId={this.props.userId} userCanCheckIn={this.props.userCanCheckIn} />
+          {this.props.loading &&
+            <div className={styles.shimmerContainer}>
+              <div className="hoo-ph-primary hoo-ph-row"></div>
+            </div>
           }
-          {this.state.tab === ADMINTABS.TODAY &&
+          {!this.props.loading &&
             <>
-              <h1>{strings.TodayHeader}</h1>
-              <p>{strings.TodaySubHeader}</p>
-              <DatePicker selectedDate={this.state.selectedDate} onDateChange={this._changeDate} />
-              <Today data={this.state.checkIns} checkIn={this._openReview} />
-              <Dialog header={strings.ReviewCheckInHeader} content={strings.ReviewCheckInContent} visible={this.state.reviewFormVisible} onChange={this._changeReviewVisibility} height={90}>
-                <QuestionReview checkIn={this.state.currentCheckIn} save={this._checkInPerson} cancel={this._cancelCheckIn} />
-              </Dialog>
+              <PivotBar options={this._tabOptions} onClick={this._changeTab} activeTab={this.state.tab} />
+              {this.state.tab == ADMINTABS.SELFCHECKIN &&
+                <CovidForm microsoftTeams={this.props.microsoftTeams} checkInMode={CheckInMode.Self} displayName={this.props.displayName} userId={this.props.userId} userCanCheckIn={this.props.userCanCheckIn} />
+              }
+              {this.state.tab === ADMINTABS.TODAY &&
+                <>
+                  <h1>{strings.TodayHeader}</h1>
+                  <p>{strings.TodaySubHeader}</p>
+                  <DatePicker selectedDate={this.state.selectedDate} onDateChange={this._changeDate} />
+                  <Today data={this.state.checkIns} checkIn={this._openReview} />
+                  <Dialog header={strings.ReviewCheckInHeader} content={strings.ReviewCheckInContent} visible={this.state.reviewFormVisible} onChange={this._changeReviewVisibility} height={90}>
+                    <QuestionReview checkIn={this.state.currentCheckIn} save={this._checkInPerson} cancel={this._cancelCheckIn} />
+                  </Dialog>
+                </>
+              }
+              {this.state.tab === ADMINTABS.GUEST &&
+                <CovidForm microsoftTeams={this.props.microsoftTeams} displayName={strings.CovidFormGuestValue} userId={this.props.userId} checkInMode={CheckInMode.Guest} close={this._closeGuestForm} />
+              }
+              {this.state.tab === ADMINTABS.CONTACTTRACING &&
+                <ContactTracing />
+              }
+              {this.state.tab === ADMINTABS.ADMINISTRATION &&
+                <CovidAdministration />
+              }
             </>
-          }
-          {this.state.tab === ADMINTABS.GUEST &&
-            <CovidForm microsoftTeams={this.props.microsoftTeams} displayName={strings.CovidFormGuestValue} userId={this.props.userId} checkInMode={CheckInMode.Guest} close={this._closeGuestForm} />
-          }
-          {this.state.tab === ADMINTABS.CONTACTTRACING &&
-            <ContactTracing />
-          }
-          {this.state.tab === ADMINTABS.ADMINISTRATION &&
-            <CovidAdministration />
           }
         </div>
       );
