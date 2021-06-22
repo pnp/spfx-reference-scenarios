@@ -20,10 +20,10 @@ export interface IRoomReservationService {
   Ready: boolean;
   Locale: string;
   Config: IConfig;
-  Meetings: IMeeting[];
   Init(locale: string): Promise<void>;
   GetAvailableRooms(startTime: DateTime, endTime: DateTime, attendeeCount: number): IRoomResults[];
   GetAllRooms(): IRoomResults[];
+  GetMeetings(): IMeetingResult[];
   UpdateConfig(config?: IConfig, newFile?: boolean): Promise<boolean>;
 }
 
@@ -33,6 +33,7 @@ export class RoomReservationService implements IRoomReservationService {
   private ROOT_WEB: string = document.location.origin;
   private CONFIG_FOLDER: string = "RoomReservation";
   private CONFIG_FILE_NAME: string = "roomresconfig.json";
+  private _executeDeepLink: (meetingUrl: string) => void;
 
   private _ready: boolean = false;
   private _currentConfig: IConfig = null;
@@ -54,15 +55,10 @@ export class RoomReservationService implements IRoomReservationService {
     return this._currentConfig;
   }
 
-  public get Meetings(): IMeetingResult[] {
-    return this._meetings;
-  }
-
   public async Init(locale: string): Promise<void> {
     try {
       this._locale = locale.substr(0, 2);
       await this._getConfig();
-      await this._getMeetings();
       this._ready = true;
     } catch (err) {
       Logger.write(`${this.LOG_SOURCE} (init) - ${err.message}`, LogLevel.Error);
@@ -163,8 +159,7 @@ export class RoomReservationService implements IRoomReservationService {
     }
     return retVal;
   }
-
-  private _getMeetings() {
+  public GetMeetings(): IMeetingResult[] {
     let retVal: IMeetingResult[] = [];
     try {
       const now: DateTime = DateTime.now().setLocale(this._locale);
@@ -207,6 +202,8 @@ export class RoomReservationService implements IRoomReservationService {
             building.state,
             building.postalcode,
             building.country,
+            building.latitude,
+            building.longitude,
             building.phone,
             -1,
             "",
@@ -220,9 +217,19 @@ export class RoomReservationService implements IRoomReservationService {
           retVal.push(mr);
         }
       });
-      this._meetings = retVal;
     } catch (err) {
       Logger.write(`${this.LOG_SOURCE} (_getMeetings) - ${err} - `, LogLevel.Error);
+    }
+    return retVal;
+  }
+
+  public set HandleExecuteDeepLink(value: (meetingUrl: string) => void) {
+    this._executeDeepLink = value;
+  }
+
+  public ExecuteDeepLink(meetingUrl: string): void {
+    if (typeof this._executeDeepLink == "function") {
+      this._executeDeepLink(meetingUrl);
     }
   }
 }

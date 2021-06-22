@@ -11,6 +11,8 @@
       "postalcode": "02111",
       "country": "United States",
       "phone": "+1 425-882-8080",
+      "latitude": "42.342731",
+      "longitude": "-71.122459",
       "rooms": [{
           "roomId": 0,
           "displayName": "Arctic",

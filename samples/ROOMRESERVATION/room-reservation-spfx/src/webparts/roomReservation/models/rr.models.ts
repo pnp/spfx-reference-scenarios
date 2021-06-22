@@ -34,6 +34,8 @@ export interface IBuilding {
   state: string;
   postalcode: string;
   country: string;
+  latitude?: string;
+  longitude?: string;
   phone: string;
   rooms: IRoom[];
 }
@@ -46,6 +48,8 @@ export class Building implements IBuilding {
     public city: string = "",
     public state: string = "",
     public postalcode: string = "",
+    public latitude: string = "",
+    public longitude: string = "",
     public country: string = "",
     public phone: string = "",
     public rooms: IRoom[] = []
@@ -123,6 +127,8 @@ export interface IMeetingResult extends IMeeting {
   buildingState: string;
   buildingPostalCode: string;
   buildingCountry: string;
+  buildingLat?: string;
+  buildingLong?: string;
   buildingPhone: string;
 }
 
@@ -141,6 +147,8 @@ export class MeetingResult implements IMeetingResult {
     public buildingState: string = "",
     public buildingPostalCode: string = "",
     public buildingCountry: string = "",
+    public buildingLat: string = "",
+    public buildingLong: string = "",
     public buildingPhone: string = "",
     public roomId: number = null,
     public roomName: string = "",

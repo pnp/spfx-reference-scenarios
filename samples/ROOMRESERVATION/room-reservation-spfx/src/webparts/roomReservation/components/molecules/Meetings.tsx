@@ -28,12 +28,6 @@ export default class Meetings extends React.Component<IMeetingsProps, IMeetingsS
     this.state = new MeetingsState();
   }
 
-  public shouldComponentUpdate(nextProps: Readonly<IMeetingsProps>, nextState: Readonly<IMeetingsState>) {
-    if ((isEqual(nextState, this.state) && isEqual(nextProps, this.props)))
-      return false;
-    return true;
-  }
-
   public render(): React.ReactElement<IMeetingsProps> {
     try {
       return (

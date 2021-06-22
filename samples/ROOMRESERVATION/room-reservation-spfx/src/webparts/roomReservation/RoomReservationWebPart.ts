@@ -53,6 +53,7 @@ export default class RoomReservationWebPart extends BaseClientSideWebPart<IRoomR
     try {
       this._microsoftTeams = this.context.sdks?.microsoftTeams;
       await rr.Init(this.context.pageContext.cultureInfo.currentUICultureName);
+      rr.HandleExecuteDeepLink = this._handleExecuteDeepLink;
       // Consume the new ThemeProvider service
       this._themeProvider = this.context.serviceScope.consume(ThemeProvider.serviceKey);
       this._themeVariant = this._themeProvider.tryGetTheme();
@@ -94,6 +95,16 @@ export default class RoomReservationWebPart extends BaseClientSideWebPart<IRoomR
       }
     } catch (err) {
       Logger.write(`${this.LOG_SOURCE} (_init) - ${err}`, LogLevel.Error);
+    }
+  }
+
+  private _handleExecuteDeepLink = (meetingUrl: string): void => {
+    try {
+      if (this._microsoftTeams) {
+        this._microsoftTeams.teamsJs.executeDeepLink(meetingUrl);
+      }
+    } catch (err) {
+      Logger.write(`${this.LOG_SOURCE} (_handleExecuteDeepLink) - ${err}`, LogLevel.Error);
     }
   }
 

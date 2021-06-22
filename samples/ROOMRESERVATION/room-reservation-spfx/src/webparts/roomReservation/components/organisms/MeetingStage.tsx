@@ -9,9 +9,12 @@ import MeetingSelection from "./MeetingSelection";
 
 
 export interface IMeetingStageProps {
+  bookRoom: (selectedMeeting: IMeetingResult) => void;
   rooms: IRoomResults[];
   selectedMeeting: IMeetingResult;
+  selectedRoom: IRoomResults;
   selectRoom: (room: IRoomResults) => void;
+  scheduled: boolean;
 }
 
 export interface IMeetingStageState {
@@ -39,9 +42,15 @@ export default class MeetingStage extends React.Component<IMeetingStageProps, IM
     try {
       return (
         <div className="meeting-stage" data-component={this.LOG_SOURCE}>
-          { (!this.props.selectedMeeting || this.props.selectedMeeting.roomId == -1) ?
-            <MeetingRooms rooms={this.props.rooms} selectRoom={this.props.selectRoom} /> :
-            <MeetingSelection meeting={this.props.selectedMeeting} />
+          {(this.props.selectedMeeting.roomId == -1 && !this.props.scheduled) &&
+            <MeetingRooms rooms={this.props.rooms} selectRoom={this.props.selectRoom} />
+          }
+          { (this.props.selectedMeeting && this.props.selectRoom) &&
+            <MeetingSelection
+              meeting={this.props.selectedMeeting}
+              room={this.props.selectedRoom}
+              scheduled={this.props.scheduled}
+              bookRoom={this.props.bookRoom} />
           }
         </div>
       );

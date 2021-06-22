@@ -25,7 +25,6 @@
 
     .meeting-datelist {
       @extend %listReset;
-      // @include gridBase();
       @include gridBase();
 
       margin-top: 1rem;
@@ -168,12 +167,17 @@
 
     .meetingroom-action {
       text-align: right;
+
+      a {
+        color: var(--buttonText);
+        text-decoration: none;
+      }
     }
 
     .meetingroom-map {
       position: relative;
 
-      display: none;
+      //display: none;
 
       width: 100%;
       padding-bottom: 56.25%;
@@ -191,6 +195,35 @@
 
         aspect-ratio: 16 / 9;
       }
+    }
+
+    .meetingroom-request {
+      flex-basis: 100%;
+
+      h2 {
+
+        border-bottom: 1px solid var(--bodyText);
+        font-size: 200%;
+
+        margin-top: 0;
+        margin-bottom: 1rem;
+
+        flex-basis: 100%;
+      }
+
+      .booking-info {
+        display: flex;
+        margin-bottom: 1rem;
+
+        label,
+        input {
+          width: calc(50% - .5rem);
+        }
+      }
+    }
+
+    .textbox {
+      width: 100%;
     }
   }
 
