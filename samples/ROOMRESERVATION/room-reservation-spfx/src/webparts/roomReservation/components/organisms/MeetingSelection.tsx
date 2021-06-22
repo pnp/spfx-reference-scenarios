@@ -2,14 +2,15 @@ import * as React from "react";
 import { Logger, LogLevel } from "@pnp/logging";
 
 import isEqual from "lodash/isEqual";
+import cloneDeep from "lodash/cloneDeep";
 
+import { rr } from "../../services/rr.service";
 import { IMeetingResult, IRoomResults } from "../../models/rr.models";
 import Button from "../atoms/Button";
-import { cloneDeep } from "lodash";
-import { rr } from "../../services/rr.service";
 import LinkButton from "../atoms/LinkButton";
 import Label from "../atoms/Label";
 import TextBox from "../atoms/TextBox";
+import strings from "RoomReservationWebPartStrings";
 
 export interface IMeetingSelectionProps {
   meeting: IMeetingResult;
@@ -53,7 +54,6 @@ export default class MeetingSelection extends React.Component<IMeetingSelectionP
     this.setState({ mapVisibility: !mapVisibility, directionsVisibility: false });
   }
   private _toggleDirectionsVisibility() {
-    rr.ExecuteDeepLink("https://www.bing.com/maps?cp=47.677797~-122.122013&toWww=1&redig=A9C4177289EC47A7BD49B4E69EC09585");
     const directionsVisibility: boolean = cloneDeep(this.state.directionsVisibility);
     this.setState({ directionsVisibility: !directionsVisibility, mapVisibility: false });
   }
@@ -77,10 +77,10 @@ export default class MeetingSelection extends React.Component<IMeetingSelectionP
         <div className="meetingroom-selection">
           <h2 className="meetingroom-title">{`${this.props.meeting.displayTime} - ${this.props.meeting.subject}`}</h2>
           <div className="meetingroom-closeup">
-            <img src={imageSrc} alt="" className="meetingroom-closeup-img" />
+            <img src={imageSrc} alt={`${this.props.room.displayName}`} className="meetingroom-closeup-img" />
           </div>
           <div className="meetingroom-floorplan">
-            <img src={floorPlanSrc} alt="" className="meetingroom-closeup-img" />
+            <img src={floorPlanSrc} alt={`${this.props.room.displayName} ${strings.FloorPlanLabel}`} className="meetingroom-closeup-img" />
           </div>
           <div className="meetingroom-info">
             <h2 className="meetingroom-name">{this.props.room.displayName}</h2>
@@ -89,12 +89,12 @@ export default class MeetingSelection extends React.Component<IMeetingSelectionP
               {this.props.meeting.buildingAddress}<br />
               {`${this.props.meeting.buildingCity} ${this.props.meeting.buildingState} ${this.props.meeting.buildingPostalCode}, ${this.props.meeting.buildingCountry}`}<br />
               <div className="meetingroom-phone">
-                <strong>Phone:</strong> <a href={`tel://${this.props.meeting.buildingPhone}`}>{this.props.meeting.buildingPhone}</a>
+                <strong>{strings.PhoneLabel}:</strong> <a href={`tel://${this.props.meeting.buildingPhone}`}>{this.props.meeting.buildingPhone}</a>
               </div>
             </address>
             <div className="meetingroom-actions">
               <div className="meetingroom-action">
-                <Button className="hoo-button" disabled={false} label={`${(this.state.mapVisibility) ? "Hide Map" : "Show Map"}`} onClick={() => this._toggleMapVisibility()} />
+                <Button className="hoo-button" disabled={false} label={`${(this.state.mapVisibility) ? strings.HideMap : strings.ShowMap}`} onClick={() => this._toggleMapVisibility()} />
               </div>
               <div className="meetingroom-action">
 
@@ -107,7 +107,7 @@ export default class MeetingSelection extends React.Component<IMeetingSelectionP
               </div>
               {(this.props.scheduled) &&
                 <div className="meetingroom-action">
-                  <Button className="hoo-button-primary" disabled={false} label="Fill Out Covid Form" onClick={() => { }} />
+                  <Button className="hoo-button-primary" disabled={false} label={strings.CovidFormButton} onClick={() => { }} />
                 </div>
               }
             </div>
@@ -120,18 +120,18 @@ export default class MeetingSelection extends React.Component<IMeetingSelectionP
 
             {(!this.props.scheduled) &&
               <div className="meetingroom-request">
-                <h2>Request Room</h2>
+                <h2>{strings.RequestRoom}</h2>
                 <div className="booking-info">
-                  <Label label="Primary Contact" labelFor="primaryContact" />
+                  <Label label={strings.PrimaryContactLabel} labelFor="primaryContact" />
                   <TextBox name="primaryContact" value={this.state.primaryContact} onChange={this._onTextChange} />
                 </div>
                 <div className="booking-info">
-                  <Label label="Secondary Contact" labelFor="secondaryContact" />
+                  <Label label={strings.SecondaryContactLabel} labelFor="secondaryContact" />
                   <TextBox name="secondaryContact" value={this.state.secondaryContact} onChange={this._onTextChange} />
                 </div>
 
                 <div className="meetingroom-action">
-                  <Button className="hoo-button-primary" disabled={false} label="Request this room" onClick={() => this.props.bookRoom(this.props.meeting)} />
+                  <Button className="hoo-button-primary" disabled={false} label={strings.RequestRoomButton} onClick={() => this.props.bookRoom(this.props.meeting)} />
                 </div>
               </div>
             }

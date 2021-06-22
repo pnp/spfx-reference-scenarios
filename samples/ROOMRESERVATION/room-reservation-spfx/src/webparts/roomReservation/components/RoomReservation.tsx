@@ -2,6 +2,8 @@ import * as React from 'react';
 import { Logger, LogLevel } from "@pnp/logging";
 
 import isEqual from "lodash/isEqual";
+import { cloneDeep } from 'lodash';
+import find from 'lodash/find';
 import { DateTime } from "luxon";
 
 import styles from './RoomReservation.module.scss';
@@ -11,10 +13,6 @@ import Meetings from './molecules/Meetings';
 import { IMeetingResult, IRoomResults, RoomResult } from '../models/rr.models';
 import NewReservation from './molecules/NewReservation';
 import MeetingStage from './organisms/MeetingStage';
-import { cloneDeep } from 'lodash';
-import find from 'lodash/find';
-
-
 
 export interface IRoomReservationProps { }
 
@@ -77,8 +75,7 @@ export default class RoomReservation extends React.Component<IRoomReservationPro
 
   private _getAvailableRooms = (start: DateTime, end: DateTime, participants: number) => {
     try {
-      let rooms: IRoomResults[] = [];
-      rooms = rr.GetAvailableRooms(start, end, participants);
+      const rooms: IRoomResults[] = rr.GetAvailableRooms(start, end, participants);
       this.setState({ rooms: rooms });
     } catch (err) {
       Logger.write(`${this.LOG_SOURCE} (_getAvailableRooms) - ${err}`, LogLevel.Error);
@@ -99,7 +96,6 @@ export default class RoomReservation extends React.Component<IRoomReservationPro
         const meetings: IMeetingResult[] = rr.GetMeetings();
         this.setState({ selectedMeeting: meeting, meetings: meetings, scheduled: true });
       }
-
     } catch (err) {
       Logger.write(`${this.LOG_SOURCE} (_bookRoom) - ${err}`, LogLevel.Error);
       return null;

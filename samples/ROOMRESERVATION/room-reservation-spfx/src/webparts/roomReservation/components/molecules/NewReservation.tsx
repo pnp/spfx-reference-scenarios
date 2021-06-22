@@ -7,8 +7,10 @@ import { DateTime } from "luxon";
 
 import { rr } from "../../services/rr.service";
 import { IRoomResults } from "../../models/rr.models";
+import strings from "RoomReservationWebPartStrings";
 import Label from "../atoms/Label";
 import DropDown, { IDropDownOption } from "../atoms/DropDown";
+
 
 export interface INewReservationProps {
   onChange: (start: DateTime, end: DateTime, participants: number) => void;
@@ -84,10 +86,10 @@ export default class NewReservation extends React.Component<INewReservationProps
     try {
       return (
         <div data-component={this.LOG_SOURCE}>
-          <h3>Check Availability</h3>
+          <h3>{strings.CheckAvailability}</h3>
           <div className="new-reservation">
             <div>
-              <Label label="Start: " labelFor="startDate" />
+              <Label label={`${strings.StartLabel}:`} labelFor="startDate" />
               <input
                 className="hoo-input-text"
                 id="startDate"
@@ -97,7 +99,7 @@ export default class NewReservation extends React.Component<INewReservationProps
 
             </div>
             <div>
-              <Label label="End: " labelFor="endDate" />
+              <Label label={`${strings.EndLabel}:`} labelFor="endDate" />
               <input
                 className="hoo-input-text"
                 id="endDate"
@@ -105,12 +107,16 @@ export default class NewReservation extends React.Component<INewReservationProps
                 value={this.state.end.toISO().substr(0, 16)}
                 onChange={(newValue) => { this._onDateChange(newValue.target.value, "end"); }} />
             </div>
-            <DropDown
-              containsTypeAhead={false}
-              options={this._participantOpts}
-              id="participants"
-              value={this.state.participants}
-              onChange={this._onDropDownChange} />
+            <div>
+              <Label label={`${strings.ParticipantsLabel}:`} labelFor="participants" />
+              <DropDown
+                containsTypeAhead={false}
+                options={this._participantOpts}
+                id="participants"
+                value={this.state.participants}
+                onChange={this._onDropDownChange} />
+            </div>
+
           </div>
         </div>
 

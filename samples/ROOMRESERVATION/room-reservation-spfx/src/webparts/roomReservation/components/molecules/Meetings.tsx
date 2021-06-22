@@ -4,8 +4,6 @@ import { Logger, LogLevel } from "@pnp/logging";
 import strings from "RoomReservationWebPartStrings";
 import { IMeetingResult } from "../../models/rr.models";
 
-
-
 export interface IMeetingsProps {
   meetings: IMeetingResult[];
   onSelect: (meeting: IMeetingResult) => void;
@@ -29,7 +27,6 @@ export default class Meetings extends React.Component<IMeetingsProps, IMeetingsS
   public render(): React.ReactElement<IMeetingsProps> {
     try {
       return (
-
         <ul className="meeting-datelist" data-component={this.LOG_SOURCE}>
           {this.props.meetings.map((m) => {
             return (
@@ -44,7 +41,6 @@ export default class Meetings extends React.Component<IMeetingsProps, IMeetingsS
             );
           })}
         </ul>
-
       );
     } catch (err) {
       Logger.write(`${this.LOG_SOURCE} (render) - ${err}`, LogLevel.Error);
