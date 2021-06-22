@@ -5,7 +5,7 @@ define([], function() {
     "SelectRoomLabel": "Select a Room",
     "AvailableRoomsLabel": "Available Meeting Rooms",
     "FloorPlanLabel": "Floor Plan",
-    "Phonelabel": "Phone",
+    "PhoneLabel": "Phone",
     "HideMap": "Hide Map",
     "ShowMap": "Show Map",
     "CovidFormButton": "Fill Out Covid Attestation",
@@ -17,5 +17,6 @@ define([], function() {
     "StartLabel": "Start",
     "EndLabel": "End",
     "ParticipantsLabel": "Participants",
+    "NoRooms": "No rooms meet this criteria",
   }
 });

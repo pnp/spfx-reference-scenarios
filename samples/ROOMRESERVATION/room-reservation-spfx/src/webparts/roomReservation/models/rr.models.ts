@@ -20,7 +20,7 @@ export interface ILocation {
 
 export class Location implements ILocation {
   constructor(
-    public locationId: number = 0,
+    public locationId: number = -1,
     public displayName: string = "",
     public buildings: IBuilding[] = [],
   ) { }
@@ -42,7 +42,7 @@ export interface IBuilding {
 
 export class Building implements IBuilding {
   constructor(
-    public buildingId: number = null,
+    public buildingId: number = -1,
     public displayName: string = "",
     public address: string = "",
     public city: string = "",
@@ -66,7 +66,7 @@ export interface IRoom {
 
 export class Room implements IRoom {
   constructor(
-    public roomId: number = null,
+    public roomId: number = -1,
     public displayName: string = "",
     public maxOccupancy: number = 0,
     public imagePath: string = ""
@@ -81,10 +81,10 @@ export interface IRoomResults extends IRoom {
 
 export class RoomResult implements IRoomResults {
   constructor(
-    public locationId: number = null,
-    public buildingId: number = null,
+    public locationId: number = -1,
+    public buildingId: number = -1,
     public buildingName: string = "",
-    public roomId: number = null,
+    public roomId: number = -1,
     public displayName: string = "",
     public maxOccupancy: number = 0,
     public imagePath: string = ""
@@ -106,14 +106,14 @@ export interface IMeeting {
 
 export class Meeting implements IMeeting {
   constructor(
-    public meetingId: number = null,
+    public meetingId: number = -1,
     public subject: string = "",
     public startTime: DateTime = DateTime.now(),
     public endTime: DateTime = DateTime.now(),
     public displayTime: string = "",
-    public locationId: number = null,
-    public buildingId: number = null,
-    public roomId: number = null,
+    public locationId: number = -1,
+    public buildingId: number = -1,
+    public roomId: number = -1,
     public roomName: string = "",
     public attendees: number,
 
@@ -134,13 +134,6 @@ export interface IMeetingResult extends IMeeting {
 
 export class MeetingResult implements IMeetingResult {
   constructor(
-    public meetingId: number = null,
-    public subject: string = "",
-    public startTime: DateTime = DateTime.now(),
-    public endTime: DateTime = DateTime.now(),
-    public displayTime: string = "",
-    public locationId: number = null,
-    public buildingId: number = null,
     public buildingDisplayName: string = "",
     public buildingAddress: string = "",
     public buildingCity: string = "",
@@ -150,10 +143,16 @@ export class MeetingResult implements IMeetingResult {
     public buildingLat: string = "",
     public buildingLong: string = "",
     public buildingPhone: string = "",
-    public roomId: number = null,
+    public meetingId: number = -1,
+    public subject: string = "",
+    public startTime: DateTime = DateTime.now(),
+    public endTime: DateTime = DateTime.now(),
+    public displayTime: string = "",
+    public locationId: number = -1,
+    public buildingId: number = -1,
+    public roomId: number = -1,
     public roomName: string = "",
-    public attendees: number,
-
+    public attendees: number
   ) { }
 }
 

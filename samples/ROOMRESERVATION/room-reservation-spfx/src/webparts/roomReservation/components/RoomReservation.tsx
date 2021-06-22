@@ -10,8 +10,7 @@ import styles from './RoomReservation.module.scss';
 import strings from "RoomReservationWebPartStrings";
 import { rr } from '../services/rr.service';
 import Meetings from './molecules/Meetings';
-import { IMeetingResult, IRoomResults, RoomResult } from '../models/rr.models';
-import NewReservation from './molecules/NewReservation';
+import { IMeetingResult, IRoomResults, MeetingResult, RoomResult } from '../models/rr.models';
 import MeetingStage from './organisms/MeetingStage';
 
 export interface IRoomReservationProps { }
@@ -29,7 +28,7 @@ export class RoomReservationState implements IRoomReservationState {
     public rooms: IRoomResults[] = [],
     public meetings: IMeetingResult[] = [],
     public selectedMeeting: IMeetingResult = null,
-    public selectedRoom: IRoomResults = null,
+    public selectedRoom: IRoomResults = new RoomResult(),
     public scheduled: boolean = false
   ) { }
 }
@@ -76,7 +75,9 @@ export default class RoomReservation extends React.Component<IRoomReservationPro
   private _getAvailableRooms = (start: DateTime, end: DateTime, participants: number) => {
     try {
       const rooms: IRoomResults[] = rr.GetAvailableRooms(start, end, participants);
-      this.setState({ rooms: rooms });
+      const selectedRoom: IRoomResults = new RoomResult();
+      const selectedMeeting: IMeetingResult = null;
+      this.setState({ rooms: rooms, selectedMeeting: selectedMeeting, selectedRoom: selectedRoom });
     } catch (err) {
       Logger.write(`${this.LOG_SOURCE} (_getAvailableRooms) - ${err}`, LogLevel.Error);
       return null;
@@ -108,8 +109,7 @@ export default class RoomReservation extends React.Component<IRoomReservationPro
         <div className={styles.roomReservation}>
           <div className="meeting-grid">
             <h2 className="meeting-headline">{strings.MyMeetingsHeader}</h2>
-            <Meetings meetings={this.state.meetings} onSelect={this._setSelectedMeeting} />
-            <NewReservation onChange={this._getAvailableRooms} />
+            <Meetings meetings={this.state.meetings} onSelect={this._setSelectedMeeting} checkAvailability={this._getAvailableRooms} />
             <MeetingStage
               bookRoom={this._bookRoom}
               selectedMeeting={this.state.selectedMeeting}

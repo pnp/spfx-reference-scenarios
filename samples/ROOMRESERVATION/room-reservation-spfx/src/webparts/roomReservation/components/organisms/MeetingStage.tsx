@@ -38,19 +38,23 @@ export default class MeetingStage extends React.Component<IMeetingStageProps, IM
     return true;
   }
 
+  private _display() {
+    let retVal: string = "";
+
+    return retVal;
+  }
+
   public render(): React.ReactElement<IMeetingStageProps> {
     try {
       return (
         <div className="meeting-stage" data-component={this.LOG_SOURCE}>
-          {(this.props.selectedMeeting.roomId == -1 && !this.props.scheduled) &&
-            <MeetingRooms rooms={this.props.rooms} selectRoom={this.props.selectRoom} />
-          }
-          { (this.props.selectedMeeting && this.props.selectRoom) &&
+          {(this.props.selectedMeeting && this.props.selectedRoom.roomId > -1) ?
             <MeetingSelection
               meeting={this.props.selectedMeeting}
               room={this.props.selectedRoom}
               scheduled={this.props.scheduled}
-              bookRoom={this.props.bookRoom} />
+              bookRoom={this.props.bookRoom} /> :
+            <MeetingRooms rooms={this.props.rooms} selectRoom={this.props.selectRoom} />
           }
         </div>
       );

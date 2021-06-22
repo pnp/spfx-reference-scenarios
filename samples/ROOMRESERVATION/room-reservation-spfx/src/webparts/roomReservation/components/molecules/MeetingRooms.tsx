@@ -39,11 +39,20 @@ export default class MeetingRooms extends React.Component<IMeetingRoomsProps, IM
         <div data-component={this.LOG_SOURCE}>
           <h2 className="meeting-headline">{strings.AvailableRoomsLabel}</h2>
           <div className="meeting-room-selector">
-            <div className="meeting-rooms">
-              {this.props.rooms.map((r) => {
-                return (<RoomCard room={r} selectRoom={this.props.selectRoom} />);
-              })}
-            </div>
+            {(this.props.rooms.length > 0) ?
+              <div className="meeting-rooms">
+                {
+                  this.props.rooms.map((r) => {
+                    return (<RoomCard room={r} selectRoom={this.props.selectRoom} />);
+                  })
+                }
+              </div>
+              :
+              <div className="meeting-rooms-none">
+                {strings.NoRooms}
+              </div>
+
+            }
           </div>
         </div>
       );

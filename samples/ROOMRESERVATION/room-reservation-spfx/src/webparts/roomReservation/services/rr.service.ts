@@ -189,13 +189,6 @@ export class RoomReservationService implements IRoomReservationService {
           const room: IRoom = building.rooms[meeting.roomId];
 
           let mr = new MeetingResult(
-            meeting.meetingId,
-            meeting.subject,
-            meeting.startTime,
-            meeting.endTime,
-            displayTime,
-            meeting.locationId,
-            building.buildingId,
             building.displayName,
             building.address,
             building.city,
@@ -205,6 +198,13 @@ export class RoomReservationService implements IRoomReservationService {
             building.latitude,
             building.longitude,
             building.phone,
+            meeting.meetingId,
+            meeting.subject,
+            meeting.startTime,
+            meeting.endTime,
+            displayTime,
+            meeting.locationId,
+            building.buildingId,
             -1,
             "",
             meeting.attendees);
