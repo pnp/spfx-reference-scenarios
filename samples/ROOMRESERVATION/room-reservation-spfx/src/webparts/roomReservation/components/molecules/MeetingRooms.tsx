@@ -4,7 +4,7 @@ import { Logger, LogLevel } from "@pnp/logging";
 import isEqual from "lodash/isEqual";
 
 import strings from "RoomReservationWebPartStrings";
-import { IMeetingResult, IRoomResults } from "../../models/rr.models";
+import { IRoomResults } from "../../models/rr.models";
 import RoomCard from "../atoms/RoomCard";
 
 export interface IMeetingRoomsProps {
