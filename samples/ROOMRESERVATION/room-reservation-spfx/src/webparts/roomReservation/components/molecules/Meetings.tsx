@@ -1,8 +1,6 @@
 import * as React from "react";
 import { Logger, LogLevel } from "@pnp/logging";
 
-import isEqual from "lodash/isEqual";
-
 import strings from "RoomReservationWebPartStrings";
 import { IMeetingResult } from "../../models/rr.models";
 
