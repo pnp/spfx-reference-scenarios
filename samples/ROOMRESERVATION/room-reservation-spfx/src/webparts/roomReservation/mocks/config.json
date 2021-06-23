@@ -22,7 +22,27 @@
         {
           "roomId": 1,
           "displayName": "Baltic",
+          "maxOccupancy": 20,
+          "imagePath": ""
+        }, {
+          "roomId": 2,
+          "displayName": "Pacific",
+          "maxOccupancy": 10,
+          "imagePath": ""
+        }, {
+          "roomId": 3,
+          "displayName": "Atlantic",
+          "maxOccupancy": 15,
+          "imagePath": ""
+        }, {
+          "roomId": 4,
+          "displayName": "Mediterranean",
           "maxOccupancy": 4,
+          "imagePath": ""
+        }, {
+          "roomId": 5,
+          "displayName": "Southern",
+          "maxOccupancy": 8,
           "imagePath": ""
         }
       ]
@@ -36,21 +56,41 @@
       "displayTime": "July 4, 2021 8pm-10pm",
       "locationId": "0",
       "buildingId": "0",
-      "roomId": "0",
-      "attendees": 2
+      "roomId": "1",
+      "attendees": 15
     },
     {
       "meetingId": "1",
       "subject": "SPFx Teams Samples Meeting",
-      "startTime": "6/10/2021 9:00 AM",
-      "endTime": "6/10/2021 9:55 AM",
+      "startTime": "7/10/2021 9:00 AM",
+      "endTime": "7/10/2021 9:55 AM",
       "displayTime": "June 10, 2021 9am-9:55am",
       "locationId": "0",
       "buildingId": "0",
-      "roomId": "1",
+      "roomId": "0",
       "attendees": 3
     }, {
       "meetingId": "2",
+      "subject": "Strategy Session",
+      "startTime": "7/18/2021 9:00 AM",
+      "endTime": "7/18/2021 2:00 PM",
+      "displayTime": "July 12, 2021 9am-12pm",
+      "locationId": "0",
+      "buildingId": "0",
+      "roomId": "",
+      "attendees": 15
+    }, {
+      "meetingId": "3",
+      "subject": "Leadership Team Meeting",
+      "startTime": "7/15/2021 9:00 AM",
+      "endTime": "7/15/2021 5:00 PM",
+      "displayTime": "",
+      "locationId": "0",
+      "buildingId": "0",
+      "roomId": "2",
+      "attendees": 10
+    }, {
+      "meetingId": "4",
       "subject": "Executive Briefing",
       "startTime": "7/12/2021 9:00 AM",
       "endTime": "7/12/2021 12:00 PM",
@@ -58,7 +98,17 @@
       "locationId": "0",
       "buildingId": "0",
       "roomId": "",
-      "attendees": 0
+      "attendees": 6
+    }, {
+      "meetingId": "5",
+      "subject": "Shareholder Quarterly Conference",
+      "startTime": "8/1/2021 9:00 AM",
+      "endTime": "8/1/2021 10:00 PM",
+      "displayTime": "July 12, 2021 9am-12pm",
+      "locationId": "0",
+      "buildingId": "0",
+      "roomId": "2",
+      "attendees": 8
     }
   ]
 }

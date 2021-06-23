@@ -2,6 +2,7 @@ import * as React from "react";
 import { Logger, LogLevel } from "@pnp/logging";
 
 import isEqual from "lodash/isEqual";
+import { DateTime } from "luxon";
 
 import { IMeetingResult, IRoomResults } from "../../models/rr.models";
 import MeetingRooms from "../molecules/MeetingRooms";
@@ -15,6 +16,7 @@ export interface IMeetingStageProps {
   selectedRoom: IRoomResults;
   selectRoom: (room: IRoomResults) => void;
   scheduled: boolean;
+  getAvailableRooms: (meeting: IMeetingResult) => void;
 }
 
 export interface IMeetingStageState {
@@ -48,12 +50,14 @@ export default class MeetingStage extends React.Component<IMeetingStageProps, IM
     try {
       return (
         <div className="meeting-stage" data-component={this.LOG_SOURCE}>
-          {(this.props.selectedMeeting && this.props.selectedRoom.roomId > -1) ?
+          {(this.props.selectedRoom.roomId > -1) ?
             <MeetingSelection
               meeting={this.props.selectedMeeting}
               room={this.props.selectedRoom}
               scheduled={this.props.scheduled}
-              bookRoom={this.props.bookRoom} /> :
+              bookRoom={this.props.bookRoom}
+              getAvailableRooms={this.props.getAvailableRooms}
+            /> :
             <MeetingRooms rooms={this.props.rooms} selectRoom={this.props.selectRoom} />
           }
         </div>

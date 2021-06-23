@@ -3,20 +3,23 @@ import { Logger, LogLevel } from "@pnp/logging";
 
 import isEqual from "lodash/isEqual";
 import cloneDeep from "lodash/cloneDeep";
+import { DateTime } from "luxon";
 
-import { rr } from "../../services/rr.service";
 import { IMeetingResult, IRoomResults } from "../../models/rr.models";
 import Button from "../atoms/Button";
 import LinkButton from "../atoms/LinkButton";
 import Label from "../atoms/Label";
 import TextBox from "../atoms/TextBox";
 import strings from "RoomReservationWebPartStrings";
+import CheckBox, { ICheckBoxOption } from "../atoms/CheckBox";
+import { rr } from "../../services/rr.service";
 
 export interface IMeetingSelectionProps {
   meeting: IMeetingResult;
   room: IRoomResults;
   scheduled: boolean;
   bookRoom: (selectedMeeting: IMeetingResult) => void;
+  getAvailableRooms: (meeting: IMeetingResult) => void;
 }
 
 export interface IMeetingSelectionState {
@@ -37,6 +40,8 @@ export class MeetingSelectionState implements IMeetingSelectionState {
 
 export default class MeetingSelection extends React.Component<IMeetingSelectionProps, IMeetingSelectionState> {
   private LOG_SOURCE: string = "🔶 MeetingSelection";
+  private _cateringOptions: ICheckBoxOption[] = [{ key: "bfast", text: "Breakfast" }, { key: "lunch", text: "Lunch" }, { key: "dinner", text: "Dinner" }, { key: "cocktails", text: "Cocktails" }];
+  private _avOptions: ICheckBoxOption[] = [{ key: "surfaceHub", text: "Surface Hub" }, { key: "computer", text: "Computer" }, { key: "projector", text: "Projector" }, { key: "mic", text: "Microphone" }];
 
   constructor(props: IMeetingSelectionProps) {
     super(props);
@@ -66,6 +71,15 @@ export default class MeetingSelection extends React.Component<IMeetingSelectionP
     } catch (err) {
       Logger.write(`${this.LOG_SOURCE} (_onTextChange) - ${err}`, LogLevel.Error);
     }
+  }
+
+  private _goToCovidApp() {
+    try {
+      rr.ExecuteDeepLink("https://teams.microsoft.com/l/entity/3ab8fb75-8f80-4ff1-90a3-6f711ad27c1d/0");
+    } catch (err) {
+      Logger.write(`${this.LOG_SOURCE} (_goToCovidApp) - ${err}`, LogLevel.Error);
+    }
+
   }
 
   public render(): React.ReactElement<IMeetingSelectionProps> {
@@ -107,7 +121,7 @@ export default class MeetingSelection extends React.Component<IMeetingSelectionP
               </div>
               {(this.props.scheduled) &&
                 <div className="meetingroom-action">
-                  <Button className="hoo-button-primary" disabled={false} label={strings.CovidFormButton} onClick={() => { }} />
+                  <Button className="hoo-button-primary" disabled={false} label={strings.CovidFormButton} onClick={() => this._goToCovidApp()} />
                 </div>
               }
             </div>
@@ -129,9 +143,21 @@ export default class MeetingSelection extends React.Component<IMeetingSelectionP
                   <Label label={strings.SecondaryContactLabel} labelFor="secondaryContact" />
                   <TextBox name="secondaryContact" value={this.state.secondaryContact} onChange={this._onTextChange} />
                 </div>
-
-                <div className="meetingroom-action">
-                  <Button className="hoo-button-primary" disabled={false} label={strings.RequestRoomButton} onClick={() => this.props.bookRoom(this.props.meeting)} />
+                <div className="booking-info">
+                  <Label label="Catering Options" labelFor="cateringOptions" />
+                  <CheckBox name="cateringOptions" value="" options={this._cateringOptions} onChange={() => { }} />
+                </div>
+                <div className="booking-info">
+                  <Label label="Audio/Visual Options" labelFor="avOptions" />
+                  <CheckBox name="avOptions" value="" options={this._avOptions} onChange={() => { }} />
+                </div>
+                <div className="meetingroom-actions">
+                  <div className="meetingroom-action">
+                    <Button className="hoo-button-primary" disabled={false} label={strings.RequestRoomButton} onClick={() => this.props.bookRoom(this.props.meeting)} />
+                  </div>
+                  <div className="meetingroom-action">
+                    <Button className="hoo-button-primary" disabled={false} label="Select a different room" onClick={() => this.props.getAvailableRooms(this.props.meeting)} />
+                  </div>
                 </div>
               </div>
             }

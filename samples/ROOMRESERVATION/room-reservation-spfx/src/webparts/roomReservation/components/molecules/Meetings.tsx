@@ -1,16 +1,12 @@
 import * as React from "react";
 import { Logger, LogLevel } from "@pnp/logging";
 
-import { DateTime } from "luxon";
-
 import strings from "RoomReservationWebPartStrings";
 import { IMeetingResult } from "../../models/rr.models";
-import NewReservation from "./NewReservation";
 
 export interface IMeetingsProps {
   meetings: IMeetingResult[];
   onSelect: (meeting: IMeetingResult) => void;
-  checkAvailability: (start: DateTime, end: DateTime, participants: number) => void;
 }
 
 export interface IMeetingsState {
@@ -39,18 +35,13 @@ export default class Meetings extends React.Component<IMeetingsProps, IMeetingsS
                   <div className="date-details">
                     <div className="date-day">{`${m.displayTime}`}</div>
                     <div className="date-title">{m.subject}</div>
-                    <div className="date-title">{m.roomName}</div>
+                    <div className="date-title">{(m.roomName == "") ? `No Room Selected` : m.roomName}</div>
                     <div className="date-persons">{(m.attendees > 0) ? `${m.attendees} ${strings.AttendeesLabel}` : ""}</div>
                   </div>
                 </li>
               );
             })
           }
-          <li className="meeting-date">
-            <div className="date-details">
-              <NewReservation onChange={this.props.checkAvailability} />
-            </div>
-          </li>
         </ul>
       );
     } catch (err) {

@@ -12,6 +12,7 @@ declare interface IRoomReservationWebPartStrings {
   PrimaryContactLabel: string;
   SecondaryContactLabel: string;
   RequestRoomButton: string;
+  SelectDifferentRoomButton: string;
   CheckAvailability: string;
   StartLabel: string;
   EndLabel: string;

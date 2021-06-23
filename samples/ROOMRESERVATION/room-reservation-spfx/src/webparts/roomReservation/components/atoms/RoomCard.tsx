@@ -41,6 +41,7 @@ export default class RoomCard extends React.Component<IRoomCardProps, IRoomCardS
           </div>
           <div className="hoo-cardlocation">{this.props.room.buildingName}</div>
           <div className="hoo-cardtitle">{this.props.room.displayName}</div>
+          <div className="hoo-cardcapacity">{`Capacity: ${this.props.room.maxOccupancy}`}</div>
         </div>
       );
     } catch (err) {

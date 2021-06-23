@@ -2,7 +2,7 @@ import * as React from 'react';
 import { Logger, LogLevel } from "@pnp/logging";
 
 import isEqual from "lodash/isEqual";
-import { cloneDeep } from 'lodash';
+import cloneDeep from 'lodash/cloneDeep';
 import find from 'lodash/find';
 import { DateTime } from "luxon";
 
@@ -10,8 +10,12 @@ import styles from './RoomReservation.module.scss';
 import strings from "RoomReservationWebPartStrings";
 import { rr } from '../services/rr.service';
 import Meetings from './molecules/Meetings';
-import { IMeetingResult, IRoomResults, MeetingResult, RoomResult } from '../models/rr.models';
+import { IMeeting, IMeetingResult, IRoomResults, RoomResult } from '../models/rr.models';
 import MeetingStage from './organisms/MeetingStage';
+import TeamsToolBar from './molecules/TeamsToolBar';
+import Panel from './molecules/Panel';
+import NewReservation from './molecules/NewReservation';
+
 
 export interface IRoomReservationProps { }
 
@@ -21,6 +25,7 @@ export interface IRoomReservationState {
   selectedMeeting: IMeetingResult;
   selectedRoom: IRoomResults;
   scheduled: boolean;
+  panelVisibility: boolean;
 }
 
 export class RoomReservationState implements IRoomReservationState {
@@ -29,11 +34,13 @@ export class RoomReservationState implements IRoomReservationState {
     public meetings: IMeetingResult[] = [],
     public selectedMeeting: IMeetingResult = null,
     public selectedRoom: IRoomResults = new RoomResult(),
-    public scheduled: boolean = false
+    public scheduled: boolean = false,
+    public panelVisibility: boolean = false
   ) { }
 }
 export default class RoomReservation extends React.Component<IRoomReservationProps, IRoomReservationState> {
   private LOG_SOURCE: string = "🔶 RoomReservation";
+  private _allRooms: IRoomResults[] = rr.GetAllRooms();
 
   constructor(props: IRoomReservationProps) {
     super(props);
@@ -55,7 +62,7 @@ export default class RoomReservation extends React.Component<IRoomReservationPro
         const blankSelectedRoom: IRoomResults = new RoomResult();
         this.setState({ selectedMeeting: meeting, rooms: rooms, selectedRoom: blankSelectedRoom, scheduled: false });
       } else {
-        const room = find(this.state.rooms, { roomId: meeting.roomId, displayName: meeting.roomName });
+        const room = find(this._allRooms, { roomId: meeting.roomId, displayName: meeting.roomName });
         this.setState({ selectedMeeting: meeting, selectedRoom: room, scheduled: true });
       }
     } catch (err) {
@@ -72,12 +79,11 @@ export default class RoomReservation extends React.Component<IRoomReservationPro
     }
   }
 
-  private _getAvailableRooms = (start: DateTime, end: DateTime, participants: number) => {
+  private _getAvailableRooms = (meeting: IMeetingResult) => {
     try {
-      const rooms: IRoomResults[] = rr.GetAvailableRooms(start, end, participants);
+      const rooms: IRoomResults[] = rr.GetAvailableRooms(meeting.startTime, meeting.endTime, meeting.attendees);
       const selectedRoom: IRoomResults = new RoomResult();
-      const selectedMeeting: IMeetingResult = null;
-      this.setState({ rooms: rooms, selectedMeeting: selectedMeeting, selectedRoom: selectedRoom });
+      this.setState({ rooms: rooms, selectedMeeting: meeting, selectedRoom: selectedRoom, panelVisibility: false });
     } catch (err) {
       Logger.write(`${this.LOG_SOURCE} (_getAvailableRooms) - ${err}`, LogLevel.Error);
       return null;
@@ -103,20 +109,30 @@ export default class RoomReservation extends React.Component<IRoomReservationPro
     }
   }
 
+  private _togglePanelVisibility = () => {
+    const panelVisibility: boolean = cloneDeep(this.state.panelVisibility);
+    this.setState({ panelVisibility: !panelVisibility });
+  }
+
   public render(): React.ReactElement<IRoomReservationProps> {
     try {
       return (
         <div className={styles.roomReservation}>
           <div className="meeting-grid">
+            <TeamsToolBar label="Check Availability" onClick={() => this._togglePanelVisibility()} />
             <h2 className="meeting-headline">{strings.MyMeetingsHeader}</h2>
-            <Meetings meetings={this.state.meetings} onSelect={this._setSelectedMeeting} checkAvailability={this._getAvailableRooms} />
+            <Meetings meetings={this.state.meetings} onSelect={this._setSelectedMeeting} />
             <MeetingStage
               bookRoom={this._bookRoom}
               selectedMeeting={this.state.selectedMeeting}
               selectedRoom={this.state.selectedRoom}
               selectRoom={this._setRoom}
               rooms={this.state.rooms}
-              scheduled={this.state.scheduled} />
+              scheduled={this.state.scheduled}
+              getAvailableRooms={this._getAvailableRooms} />
+            <Panel header={strings.CheckAvailability} content="" visible={this.state.panelVisibility} onChange={this._togglePanelVisibility}>
+              <NewReservation onChange={this._getAvailableRooms} />
+            </Panel>
           </div>
         </div>
       );

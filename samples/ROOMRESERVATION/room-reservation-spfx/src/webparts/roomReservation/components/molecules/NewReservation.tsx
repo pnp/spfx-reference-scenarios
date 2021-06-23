@@ -6,14 +6,15 @@ import cloneDeep from "lodash/cloneDeep";
 import { DateTime } from "luxon";
 
 import { rr } from "../../services/rr.service";
-import { IRoomResults } from "../../models/rr.models";
+import { IMeetingResult, IRoomResults, MeetingResult } from "../../models/rr.models";
 import strings from "RoomReservationWebPartStrings";
 import Label from "../atoms/Label";
 import DropDown, { IDropDownOption } from "../atoms/DropDown";
+import Button from "../atoms/Button";
 
 
 export interface INewReservationProps {
-  onChange: (start: DateTime, end: DateTime, participants: number) => void;
+  onChange: (meeting: IMeetingResult) => void;
 }
 
 export interface INewReservationState {
@@ -48,7 +49,7 @@ export default class NewReservation extends React.Component<INewReservationProps
     try {
       let participants: number = parseInt(fieldValue);
       this.setState({ participants: participants });
-      this._onChange();
+      //this._onChange();
     } catch (err) {
       Logger.write(`${this.LOG_SOURCE} (_onDropDownChange) - ${err}`, LogLevel.Error);
     }
@@ -61,7 +62,7 @@ export default class NewReservation extends React.Component<INewReservationProps
       state[fieldName] = start;
 
       this.setState(state);
-      this._onChange();
+      //this._onChange();
 
     } catch (err) {
       Logger.write(`${this.LOG_SOURCE} (_onDateChange) - ${err}`, LogLevel.Error);
@@ -70,7 +71,29 @@ export default class NewReservation extends React.Component<INewReservationProps
 
   private _onChange() {
     try {
-      this.props.onChange(this.state.start, this.state.end, this.state.participants);
+      const displayTime = rr.GetMeetingDisplayTime(this.state.start, this.state.end);
+      let meeting = new MeetingResult(
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        -1,
+        "New Meeting",
+        this.state.start,
+        this.state.end,
+        displayTime,
+        -1,
+        -1,
+        -1,
+        "",
+        this.state.participants
+      );
+      this.props.onChange(meeting);
     } catch (err) {
       Logger.write(`${this.LOG_SOURCE} (_onChange) - ${err}`, LogLevel.Error);
     }
@@ -86,7 +109,6 @@ export default class NewReservation extends React.Component<INewReservationProps
     try {
       return (
         <div data-component={this.LOG_SOURCE}>
-          <h3>{strings.CheckAvailability}</h3>
           <div className="new-reservation">
             <div>
               <Label label={`${strings.StartLabel}:`} labelFor="startDate" />
@@ -116,7 +138,7 @@ export default class NewReservation extends React.Component<INewReservationProps
                 value={this.state.participants}
                 onChange={this._onDropDownChange} />
             </div>
-
+            <Button className="hoo-button-primary" disabled={false} label="Check Room Availability" onClick={() => this._onChange()} />
           </div>
         </div>
 

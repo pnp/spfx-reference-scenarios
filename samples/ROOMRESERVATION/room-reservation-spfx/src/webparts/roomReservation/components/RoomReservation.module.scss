@@ -10,17 +10,27 @@
 }
 
 .roomReservation {
+  font-size: 16px;
+
   :global {
     //Import hTWOo styles so they are available to our controls
     //IMPORTANT NOTE: This is not best practice, for production solution you should 
     //   import the styles for the individual components your using vs 
     //   importing the global style definition.
-    @import "node_modules/@n8d/htwoo-core/lib/sass/style";
+    @import 'node_modules/@n8d/htwoo-core/lib/components/all';
 
     .meeting-grid {}
 
     .meeting-headline {
       grid-column: auto / span 12;
+    }
+
+    .hoo-buttoncmd button.hoo-buttoncmd .hoo-button-icon {
+      line-height: inherit;
+    }
+
+    .hoo-mdldialog-outer.is-visible[class*=is-sidebar] {
+      z-index: 100;
     }
 
     .meeting-datelist {
@@ -39,10 +49,17 @@
     }
 
     .new-reservation {
-      display: flex;
+      display: grid;
       justify-content: space-between;
       flex-direction: column;
       gap: 1rem;
+
+      >div {
+        grid-column: auto/span 12;
+        display: grid;
+      }
+
+
     }
 
     .date-details {
@@ -85,6 +102,10 @@
     }
 
     .hoo-meetingcard {
+      .hoo-cardtitle {
+        height: auto;
+      }
+
       .hoo-cardimage {
         width: 100%;
         height: auto;
@@ -93,6 +114,14 @@
           width: 100%;
           height: auto;
         }
+      }
+
+      .hoo-cardcapacity {
+        font-size: .75rem;
+        font-weight: 600px;
+        box-sizing: border-box;
+        padding: 0rem .75rem .5rem;
+        color: var(--bodyText);
       }
     }
 
@@ -217,15 +246,18 @@
         display: flex;
         margin-bottom: 1rem;
 
-        label,
-        input {
-          width: calc(50% - .5rem);
+        label {
+          width: calc(30% - .5rem);
         }
       }
     }
 
     .textbox {
-      width: 100%;
+      width: calc(70% - .5rem);
+
+      .hoo-input-text {
+        width: 100%;
+      }
     }
   }
 

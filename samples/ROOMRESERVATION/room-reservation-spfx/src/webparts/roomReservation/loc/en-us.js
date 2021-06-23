@@ -13,6 +13,7 @@ define([], function() {
     "PrimaryContactLabel": "Primary Contact",
     "SecondaryContactLabel": "Secondary Contact",
     "RequestRoomButton": "Request this room",
+    "SelectDifferentRoomButton": "Select a Different Room",
     "CheckAvailability": "Check Availability",
     "StartLabel": "Start",
     "EndLabel": "End",
