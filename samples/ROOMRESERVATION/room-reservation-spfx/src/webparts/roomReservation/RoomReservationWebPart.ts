@@ -15,7 +15,6 @@ import {
 import { BaseClientSideWebPart, IMicrosoftTeams } from '@microsoft/sp-webpart-base';
 
 import styles from "./components/RoomReservation.module.scss";
-import * as strings from 'RoomReservationWebPartStrings';
 import RoomReservation, { IRoomReservationProps } from './components/RoomReservation';
 import { darkModeTheme, highContrastTheme, lightModeTheme } from './models/rr.themes';
 import { rr } from './services/rr.service';
@@ -43,17 +42,6 @@ export default class RoomReservationWebPart extends BaseClientSideWebPart<IRoomR
       sp.setup({ spfxContext: this.context });
       graph.setup({ spfxContext: this.context });
 
-      await this._init();
-    } catch (err) {
-      Logger.write(`${this.LOG_SOURCE} (onInit) - ${err}`, LogLevel.Error);
-    }
-  }
-
-  private async _init(): Promise<void> {
-    try {
-      this._microsoftTeams = this.context.sdks?.microsoftTeams;
-      await rr.Init(this.context.pageContext.cultureInfo.currentUICultureName);
-      rr.HandleExecuteDeepLink = this._handleExecuteDeepLink;
       // Consume the new ThemeProvider service
       this._themeProvider = this.context.serviceScope.consume(ThemeProvider.serviceKey);
       this._themeVariant = this._themeProvider.tryGetTheme();
@@ -93,6 +81,20 @@ export default class RoomReservationWebPart extends BaseClientSideWebPart<IRoomR
           }
         }
       }
+
+      this._init();
+    } catch (err) {
+      Logger.write(`${this.LOG_SOURCE} (onInit) - ${err}`, LogLevel.Error);
+    }
+  }
+
+  private async _init(): Promise<void> {
+    try {
+      this._microsoftTeams = this.context.sdks?.microsoftTeams;
+      await rr.Init(this.context.pageContext.cultureInfo.currentUICultureName);
+      rr.HandleExecuteDeepLink = this._handleExecuteDeepLink;
+
+      this.render();
     } catch (err) {
       Logger.write(`${this.LOG_SOURCE} (_init) - ${err}`, LogLevel.Error);
     }
@@ -128,10 +130,11 @@ export default class RoomReservationWebPart extends BaseClientSideWebPart<IRoomR
     try {
       let element;
       if (rr.Ready) {
-        const props: IRoomReservationProps = {};
+        const props: IRoomReservationProps = { loading: false };
         element = React.createElement(RoomReservation, props);
       } else {
-        //TODO: Render error
+        const props: IRoomReservationProps = { loading: true };
+        element = React.createElement(RoomReservation, props);
       }
       this.domElement.classList.add(styles.appPartPage);
       ReactDom.render(element, this.domElement);

@@ -16,7 +16,9 @@ import Panel from './molecules/Panel';
 import NewReservation from './molecules/NewReservation';
 
 
-export interface IRoomReservationProps { }
+export interface IRoomReservationProps {
+  loading: boolean;
+}
 
 export interface IRoomReservationState {
   rooms: IRoomResults[];
@@ -69,11 +71,12 @@ export default class RoomReservation extends React.Component<IRoomReservationPro
       return null;
     }
   }
+
   private _setRoom = (room: IRoomResults) => {
     try {
       this.setState({ selectedRoom: room });
     } catch (err) {
-      Logger.write(`${this.LOG_SOURCE} (_setMe_setRoometing) - ${err}`, LogLevel.Error);
+      Logger.write(`${this.LOG_SOURCE} (_setRoom) - ${err}`, LogLevel.Error);
       return null;
     }
   }
@@ -122,26 +125,35 @@ export default class RoomReservation extends React.Component<IRoomReservationPro
     try {
       return (
         <div className={styles.roomReservation}>
-          <div className="meeting-grid">
-            <TeamsToolBar label="Check Availability" onClick={() => this._togglePanelVisibility()} />
-            <h2 className="meeting-headline">{strings.MyMeetingsHeader}</h2>
-            <Meetings meetings={this.state.meetings} onSelect={this._setSelectedMeeting} />
-            <MeetingStage
-              bookRoom={this._bookRoom}
-              selectedMeeting={this.state.selectedMeeting}
-              selectedRoom={this.state.selectedRoom}
-              selectRoom={this._setRoom}
-              rooms={this.state.rooms}
-              scheduled={this.state.scheduled}
-              getAvailableRooms={this._getAvailableRooms} />
-            <Panel
-              header={strings.CheckAvailability}
-              content=""
-              visible={this.state.panelVisibility}
-              onChange={this._togglePanelVisibility}>
-              <NewReservation onChange={this._getAvailableRooms} />
-            </Panel>
-          </div>
+          {this.props.loading &&
+            <div className="hoo-ph-primary">
+              <div className="hoo-ph-primary hoo-ph-squared"></div>
+              <div className="hoo-ph-primary hoo-ph-squared"></div>
+              <div className="hoo-ph-primary hoo-ph-squared"></div>
+            </div>
+          }
+          {!this.props.loading &&
+            <>
+              <TeamsToolBar label="Check Availability" onClick={() => this._togglePanelVisibility()} />
+              <h2 className="meeting-headline">{strings.MyMeetingsHeader}</h2>
+              <Meetings meetings={this.state.meetings} onSelect={this._setSelectedMeeting} />
+              <MeetingStage
+                bookRoom={this._bookRoom}
+                selectedMeeting={this.state.selectedMeeting}
+                selectedRoom={this.state.selectedRoom}
+                selectRoom={this._setRoom}
+                rooms={this.state.rooms}
+                scheduled={this.state.scheduled}
+                getAvailableRooms={this._getAvailableRooms} />
+              <Panel
+                header={strings.CheckAvailability}
+                content=""
+                visible={this.state.panelVisibility}
+                onChange={this._togglePanelVisibility}>
+                <NewReservation onChange={this._getAvailableRooms} />
+              </Panel>
+            </>
+          }
         </div>
       );
     } catch (err) {

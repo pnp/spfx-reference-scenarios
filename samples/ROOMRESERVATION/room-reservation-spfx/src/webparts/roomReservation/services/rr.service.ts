@@ -7,11 +7,9 @@ import "@pnp/sp/files";
 import "@pnp/sp/folders";
 
 import includes from "lodash/includes";
-import sortBy from "lodash/sortBy";
 import filter from "lodash/filter";
 import forEach from "lodash/forEach";
 import remove from "lodash/remove";
-import findIndex from "lodash/findIndex";
 import { DateTime } from "luxon";
 
 import { IBuilding, IConfig, ILocation, IMeeting, IMeetingResult, IRoom, IRoomResults, MeetingResult, RoomResult } from "../models/rr.models";
@@ -20,12 +18,14 @@ export interface IRoomReservationService {
   Ready: boolean;
   Locale: string;
   Config: IConfig;
+  HandleExecuteDeepLink: (meetingUrl: string) => void;
   Init(locale: string): Promise<void>;
   GetAvailableRooms(startTime: DateTime, endTime: DateTime, attendeeCount: number): IRoomResults[];
   GetAllRooms(): IRoomResults[];
   GetMeetings(): IMeetingResult[];
   UpdateConfig(config?: IConfig, newFile?: boolean): Promise<boolean>;
   GetMeetingDisplayTime(meetingStart: DateTime, meetingEnd: DateTime);
+  ExecuteDeepLink(meetingUrl: string);
 }
 
 export class RoomReservationService implements IRoomReservationService {
@@ -54,6 +54,10 @@ export class RoomReservationService implements IRoomReservationService {
 
   public get Config(): IConfig {
     return this._currentConfig;
+  }
+
+  public set HandleExecuteDeepLink(value: (meetingUrl: string) => void) {
+    this._executeDeepLink = value;
   }
 
   public async Init(locale: string): Promise<void> {
@@ -232,17 +236,11 @@ export class RoomReservationService implements IRoomReservationService {
     return retVal;
   }
 
-  public set HandleExecuteDeepLink(value: (meetingUrl: string) => void) {
-    this._executeDeepLink = value;
-  }
-
   public ExecuteDeepLink(meetingUrl: string): void {
     if (typeof this._executeDeepLink == "function") {
       this._executeDeepLink(meetingUrl);
     }
   }
 }
-
-
 
 export const rr = new RoomReservationService();

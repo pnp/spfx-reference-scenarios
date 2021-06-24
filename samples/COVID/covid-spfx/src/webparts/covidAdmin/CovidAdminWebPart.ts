@@ -47,31 +47,6 @@ export default class CovidAdminWebPart extends BaseClientSideWebPart<ICovidAdmin
       sp.setup({ spfxContext: this.context });
       graph.setup({ spfxContext: this.context });
 
-      const siteValid = await ccs.isValid();
-      if (siteValid) {
-        await this._init();
-      }
-    } catch (err) {
-      Logger.write(`${this.LOG_SOURCE} (onInit) - ${err}`, LogLevel.Error);
-    }
-  }
-
-  private async _init(): Promise<void> {
-    try {
-      this._microsoftTeams = this.context.sdks?.microsoftTeams;
-      await cs.init(this.context.pageContext.site.absoluteUrl, this.context.pageContext.user.loginName, this.context.pageContext.legacyPageContext.isSiteAdmin, this.context.pageContext.legacyPageContext.isSiteOwner);
-      this._userId = this.context.pageContext.legacyPageContext.userId;
-      if (this._userId == undefined) {
-        const user = await sp.web.ensureUser(this.context.pageContext.user.loginName);
-        this._userId = user.data.Id;
-      }
-      this._userCanCheckIn = await cs.userCanCheckIn(this._userId);
-      cs.getCheckIns(new Date());
-      if (cs.Security != SECURITY.VISITOR) {
-        this.processSelfCheckins();
-      }
-
-
       // Consume the new ThemeProvider service
       this._themeProvider = this.context.serviceScope.consume(ThemeProvider.serviceKey);
       this._themeVariant = this._themeProvider.tryGetTheme();
@@ -110,6 +85,30 @@ export default class CovidAdminWebPart extends BaseClientSideWebPart<ICovidAdmin
             break;
           }
         }
+      }
+
+      const siteValid = await ccs.isValid();
+      if (siteValid) {
+        this._init();
+      }
+    } catch (err) {
+      Logger.write(`${this.LOG_SOURCE} (onInit) - ${err}`, LogLevel.Error);
+    }
+  }
+
+  private async _init(): Promise<void> {
+    try {
+      this._microsoftTeams = this.context.sdks?.microsoftTeams;
+      await cs.init(this.context.pageContext.site.absoluteUrl, this.context.pageContext.user.loginName, this.context.pageContext.legacyPageContext.isSiteAdmin, this.context.pageContext.legacyPageContext.isSiteOwner);
+      this._userId = this.context.pageContext.legacyPageContext.userId;
+      if (this._userId == undefined) {
+        const user = await sp.web.ensureUser(this.context.pageContext.user.loginName);
+        this._userId = user.data.Id;
+      }
+      this._userCanCheckIn = await cs.userCanCheckIn(this._userId);
+      cs.getCheckIns(new Date());
+      if (cs.Security != SECURITY.VISITOR) {
+        this.processSelfCheckins();
       }
       this.render();
     } catch (err) {

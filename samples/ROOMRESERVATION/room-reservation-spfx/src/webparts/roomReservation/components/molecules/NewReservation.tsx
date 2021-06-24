@@ -45,6 +45,12 @@ export default class NewReservation extends React.Component<INewReservationProps
     this.state = new NewReservationState();
   }
 
+  public shouldComponentUpdate(nextProps: Readonly<INewReservationProps>, nextState: Readonly<INewReservationState>) {
+    if ((isEqual(nextState, this.state) && isEqual(nextProps, this.props)))
+      return false;
+    return true;
+  }
+
   private _onDropDownChange = (fieldValue: string, fieldName: string) => {
     try {
       let participants: number = parseInt(fieldValue);
@@ -53,6 +59,7 @@ export default class NewReservation extends React.Component<INewReservationProps
       Logger.write(`${this.LOG_SOURCE} (_onDropDownChange) - ${err}`, LogLevel.Error);
     }
   }
+
   private _onDateChange = (fieldValue: string, fieldName: string) => {
     try {
       const state = cloneDeep(this.state);
@@ -95,12 +102,6 @@ export default class NewReservation extends React.Component<INewReservationProps
     } catch (err) {
       Logger.write(`${this.LOG_SOURCE} (_onChange) - ${err}`, LogLevel.Error);
     }
-  }
-
-  public shouldComponentUpdate(nextProps: Readonly<INewReservationProps>, nextState: Readonly<INewReservationState>) {
-    if ((isEqual(nextState, this.state) && isEqual(nextProps, this.props)))
-      return false;
-    return true;
   }
 
   public render(): React.ReactElement<INewReservationProps> {
