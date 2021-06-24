@@ -14,9 +14,6 @@
 
   :global {
     //Import hTWOo styles so they are available to our controls
-    //IMPORTANT NOTE: This is not best practice, for production solution you should 
-    //   import the styles for the individual components your using vs 
-    //   importing the global style definition.
     @import 'node_modules/@n8d/htwoo-core/lib/components/all';
 
     .meeting-grid {}
@@ -127,8 +124,6 @@
 
     .meetingroom-selection {
       @include gridBase();
-      // transform: rotateY(45deg);
-      // transform-origin: 100% 0;
     }
 
     .meetingroom-title {
@@ -207,8 +202,6 @@
 
     .meetingroom-map {
       position: relative;
-
-      //display: none;
 
       width: 100%;
       padding-bottom: 56.25%;

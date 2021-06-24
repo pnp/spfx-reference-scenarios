@@ -18,6 +18,13 @@ declare interface IRoomReservationWebPartStrings {
   EndLabel: string;
   ParticipantsLabel: string;
   NoRooms: string;
+  CateringOptions: string[];
+  AVOptions: string[];
+  PlanTripLabel: string;
+  CateringLabel: string;
+  AVLabel: string;
+  SelectDifferentRoom: string;
+  NoRoomSelected: string;
 }
 
 declare module 'RoomReservationWebPartStrings' {

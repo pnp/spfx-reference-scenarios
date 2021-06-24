@@ -51,7 +51,6 @@ export default class MeetingRooms extends React.Component<IMeetingRoomsProps, IM
               <div className="meeting-rooms-none">
                 {strings.NoRooms}
               </div>
-
             }
           </div>
         </div>

@@ -13,6 +13,7 @@ import TextBox from "../atoms/TextBox";
 import strings from "RoomReservationWebPartStrings";
 import CheckBox, { ICheckBoxOption } from "../atoms/CheckBox";
 import { rr } from "../../services/rr.service";
+import { replace } from "lodash";
 
 export interface IMeetingSelectionProps {
   meeting: IMeetingResult;
@@ -40,11 +41,20 @@ export class MeetingSelectionState implements IMeetingSelectionState {
 
 export default class MeetingSelection extends React.Component<IMeetingSelectionProps, IMeetingSelectionState> {
   private LOG_SOURCE: string = "🔶 MeetingSelection";
-  private _cateringOptions: ICheckBoxOption[] = [{ key: "bfast", text: "Breakfast" }, { key: "lunch", text: "Lunch" }, { key: "dinner", text: "Dinner" }, { key: "cocktails", text: "Cocktails" }];
-  private _avOptions: ICheckBoxOption[] = [{ key: "surfaceHub", text: "Surface Hub" }, { key: "computer", text: "Computer" }, { key: "projector", text: "Projector" }, { key: "mic", text: "Microphone" }];
+  private _cateringOptions: ICheckBoxOption[] = [];
+  private _avOptions: ICheckBoxOption[] = [];
 
   constructor(props: IMeetingSelectionProps) {
     super(props);
+    strings.CateringOptions.map((o) => {
+      const key = replace(o, " ").toLowerCase();
+      this._cateringOptions.push({ key: key, text: o });
+    });
+    strings.AVOptions.map((o) => {
+      const key = replace(o, " ").toLowerCase();
+      this._avOptions.push({ key: key, text: o });
+    });
+
     this.state = new MeetingSelectionState();
   }
 
@@ -55,12 +65,21 @@ export default class MeetingSelection extends React.Component<IMeetingSelectionP
   }
 
   private _toggleMapVisibility() {
-    const mapVisibility: boolean = cloneDeep(this.state.mapVisibility);
-    this.setState({ mapVisibility: !mapVisibility, directionsVisibility: false });
+    try {
+      const mapVisibility: boolean = cloneDeep(this.state.mapVisibility);
+      this.setState({ mapVisibility: !mapVisibility, directionsVisibility: false });
+    } catch (err) {
+      Logger.write(`${this.LOG_SOURCE} (_toggleMapVisibility) - ${err}`, LogLevel.Error);
+    }
+
   }
   private _toggleDirectionsVisibility() {
-    const directionsVisibility: boolean = cloneDeep(this.state.directionsVisibility);
-    this.setState({ directionsVisibility: !directionsVisibility, mapVisibility: false });
+    try {
+      const directionsVisibility: boolean = cloneDeep(this.state.directionsVisibility);
+      this.setState({ directionsVisibility: !directionsVisibility, mapVisibility: false });
+    } catch (err) {
+      Logger.write(`${this.LOG_SOURCE} (_toggleDirectionsVisibility) - ${err}`, LogLevel.Error);
+    }
   }
 
   private _onTextChange = (fieldValue: string, fieldName: string) => {
@@ -117,7 +136,7 @@ export default class MeetingSelection extends React.Component<IMeetingSelectionP
                   newWindow={true}
                   className="hoo-button"
                   disabled={false}
-                  label={`Plan Trip`} onClick={() => this._toggleDirectionsVisibility()} />
+                  label={strings.PlanTripLabel} onClick={() => this._toggleDirectionsVisibility()} />
               </div>
               {(this.props.scheduled) &&
                 <div className="meetingroom-action">
@@ -144,11 +163,11 @@ export default class MeetingSelection extends React.Component<IMeetingSelectionP
                   <TextBox name="secondaryContact" value={this.state.secondaryContact} onChange={this._onTextChange} />
                 </div>
                 <div className="booking-info">
-                  <Label label="Catering Options" labelFor="cateringOptions" />
+                  <Label label={strings.CateringLabel} labelFor="cateringOptions" />
                   <CheckBox name="cateringOptions" value="" options={this._cateringOptions} onChange={() => { }} />
                 </div>
                 <div className="booking-info">
-                  <Label label="Audio/Visual Options" labelFor="avOptions" />
+                  <Label label={strings.AVLabel} labelFor="avOptions" />
                   <CheckBox name="avOptions" value="" options={this._avOptions} onChange={() => { }} />
                 </div>
                 <div className="meetingroom-actions">
@@ -156,7 +175,7 @@ export default class MeetingSelection extends React.Component<IMeetingSelectionP
                     <Button className="hoo-button-primary" disabled={false} label={strings.RequestRoomButton} onClick={() => this.props.bookRoom(this.props.meeting)} />
                   </div>
                   <div className="meetingroom-action">
-                    <Button className="hoo-button-primary" disabled={false} label="Select a different room" onClick={() => this.props.getAvailableRooms(this.props.meeting)} />
+                    <Button className="hoo-button-primary" disabled={false} label={strings.SelectDifferentRoom} onClick={() => this.props.getAvailableRooms(this.props.meeting)} />
                   </div>
                 </div>
               </div>
