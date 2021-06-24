@@ -8,7 +8,6 @@ import isEmpty from "lodash/isEmpty";
 import forEach from "lodash/forEach";
 
 import strings from "CovidWebPartStrings";
-import styles from '../CovidAdmin.module.scss';
 import { cs } from "../../services/covid.service";
 import { CheckInMode, IAnswer, IQuestion, ICheckIns, CheckIns } from "../../models/covid.model";
 import Question from "../molecules/Question";
@@ -159,30 +158,30 @@ export default class CovidForm extends React.Component<ICovidFormProps, ICovidFo
           <h1>{(this.props.checkInMode === CheckInMode.Guest) ? strings.AdminCheckInTitle : strings.CovidFormSelfCheckInTitle}</h1>
           <p>{(this.props.checkInMode === CheckInMode.Guest) ? strings.AdminCheckInIntro : strings.CovidFormIntro}</p>
           <p>{strings.CheckInHeader}</p>
-          <div className={`${styles.form} ${(this.state.formVisible) ? styles.isVisibleGrid : styles.isHidden}`}>
-            <div className={`${styles.formRow} ${styles.error} ${(this.state.errors) ? styles.isVisible : styles.isHidden}`}>
+          <div className={`form ${(this.state.formVisible) ? 'isVisibleGrid' : 'isHidden'}`}>
+            <div className={`formRow error ${(this.state.errors) ? 'isVisible' : 'isHidden'}`}>
               <p>{strings.CovidFormErrors}</p>
             </div>
             {this.props.checkInMode === CheckInMode.Guest ?
-              <div className={styles.formRow}>
-                <div className={styles.textLabel}>{strings.CovidFormGuestLabel}</div>
+              <div className='formRow'>
+                <div className='textLabel'>{strings.CovidFormGuestLabel}</div>
                 <TextBox name="Guest" value={this.state.checkInForm.Guest} onChange={this._onTextChange} />
               </div>
               : null}
-            <div className={styles.formRow}>
-              <div className={styles.textLabel}>{strings.CovidFormOfficeLabel}</div>
+            <div className='formRow'>
+              <div className='textLabel'>{strings.CovidFormOfficeLabel}</div>
               <DropDown onChange={this._onTextChange} value={this.state.checkInForm.CheckInOffice} options={this._locationOptions} id="CheckInOffice" />
             </div>
             {this._questions?.map((q) => {
               const a = find(this.state.checkInForm.QuestionsValue, { QuestionId: q.Id });
-              return (<div className={styles.formRow}><Question question={q} answer={a} onChange={this._onQuestionValueChange} /></div>);
+              return (<div className='formRow'><Question question={q} answer={a} onChange={this._onQuestionValueChange} /></div>);
             })}
-            <div className={`${styles.formRow} ${styles.buttons}`} >
+            <div className={`formRow buttons`} >
               <Button className="hoo-button-primary" disabled={false} label={strings.SaveLabel} onClick={this._save} />
               <Button className="hoo-button" disabled={false} label={strings.CancelLabel} onClick={this._cancel} />
             </div>
           </div>
-          <div className={`${(this.state.formVisible) ? styles.isHidden : styles.isVisible}`}>
+          <div className={`${(this.state.formVisible) ? 'isHidden' : 'isVisible'}`}>
             <p>{strings.CheckInConfirmation}</p>
           </div>
           <Dialog header={strings.CheckInSuccessHeader} content={strings.CheckInSuccessContent} visible={this.state.dialogVisible} onChange={this._changeVisibility} />

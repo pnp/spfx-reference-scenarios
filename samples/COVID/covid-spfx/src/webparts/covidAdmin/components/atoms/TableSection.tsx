@@ -2,7 +2,6 @@ import * as React from "react";
 import { Logger, LogLevel } from "@pnp/logging";
 import isEqual from "lodash/isEqual";
 
-import styles from "../CovidAdmin.module.scss";
 import { ICheckIns } from "../../models/covid.model";
 import Persona, { Size, Presence } from "../molecules/Persona";
 import ButtonIcon from "./ButtonIcon";
@@ -50,7 +49,7 @@ export default class TableSection extends React.Component<ITableSectionProps, IT
                 }
                 {this.props.fields.map((field) => {
                   return (
-                    <td className={((field == "Status" || field == "Check In")) ? styles.centered : ""}>
+                    <td className={((field == "Status" || field == "Check In")) ? 'centered' : ""}>
                       {field == "Name" &&
                         <Persona size={Size.FortyEight}
                           src={(o.Employee) ? o.Employee.PhotoBlobUrl : ""}
@@ -68,7 +67,7 @@ export default class TableSection extends React.Component<ITableSectionProps, IT
                         <>{o.SubmittedOn?.toLocaleString()}</>
                       }
                       {field == "Status" &&
-                        <span className={`${styles.checkIn} ${(o.CheckIn) ? styles.isCheckedIn : ''}`} />
+                        <span className={`checkIn ${(o.CheckIn) ? 'isCheckedIn' : ''}`} />
                       }
                       {field == "Check In Time" &&
                         <>{o.CheckIn?.toLocaleString()}</>

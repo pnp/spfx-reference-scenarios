@@ -5,7 +5,6 @@ import isEqual from "lodash/isEqual";
 import { configureImage } from "../../assets/images";
 import strings from "CovidWebPartStrings";
 import Button from "../atoms/Button";
-import styles from "../CovidAdmin.module.scss";
 
 export interface IConfigureProps {
   startConfigure: (demoData: boolean) => void;
@@ -44,7 +43,7 @@ export default class Configure extends React.Component<IConfigureProps, IConfigu
   public render(): React.ReactElement<IConfigureProps> {
     try {
       return (
-        <div data-component={this.LOG_SOURCE} className={`${styles.covidAdmin} hoo-splashscr`}>
+        <div data-component={this.LOG_SOURCE} className={`covidAdmin hoo-splashscr`}>
           <div className="hoo-splashscr-content">
             <article className="hoo-splashcard">
               <header className="hoo-splashcard-header" role="presentation">
@@ -63,7 +62,7 @@ export default class Configure extends React.Component<IConfigureProps, IConfigu
             </article>
           </div>
           {this.state.working &&
-            <div className={styles.loaderContainer}><div className={styles.loader}></div></div>
+            <div className="loaderContainer"><div className="loader"></div></div>
           }
         </div>
       );

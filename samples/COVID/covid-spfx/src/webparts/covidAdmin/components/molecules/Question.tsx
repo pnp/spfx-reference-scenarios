@@ -2,7 +2,6 @@ import * as React from "react";
 import { Logger, LogLevel } from "@pnp/logging";
 import isEqual from "lodash/isEqual";
 
-import styles from '../CovidAdmin.module.scss';
 import { IQuestion, QuestionType, IAnswer } from "../../models/covid.model";
 import TextBox from "../atoms/TextBox";
 import RadioButton from "../atoms/RadioButton";
@@ -38,7 +37,7 @@ export default class Question extends React.Component<IQuestionProps, IQuestionS
     try {
       return (
         <>
-          <div className={styles.textLabel}>{this.props.question.Title}</div>
+          <div className="textLabel">{this.props.question.Title}</div>
           {this.props.question.QuestionType === QuestionType.YesNo ?
             <RadioButton name={`question-${this.props.question.Id}`} value={this.props.answer.Answer} onChange={this.props.onChange} /> :
             <TextBox name={`question-${this.props.question.Id}`} value={this.props.answer.Answer} onChange={this.props.onChange} />

@@ -2,7 +2,6 @@ import * as React from "react";
 import { Logger, LogLevel } from "@pnp/logging";
 import isEqual from "lodash/isEqual";
 
-import styles from "../CovidAdmin.module.scss";
 import strings from "CovidWebPartStrings";
 import { cs } from "../../services/covid.service";
 import Dialog from "../molecules/Dialog";
@@ -51,18 +50,18 @@ export default class CovidAdministration extends React.Component<ICovidAdministr
   public render(): React.ReactElement<ICovidAdministrationProps> {
     try {
       return (
-        <div data-component={this.LOG_SOURCE} className={styles.componentGrid}>
+        <div data-component={this.LOG_SOURCE} className='componentGrid'>
           <h1>{strings.AdministrationHeader}</h1>
           <p>{strings.AdministrationSubHeader}</p>
-          <div className={`${styles.formRow} ${styles.buttons}`}>
+          <div className={`formRow buttons`}>
             <Button label={strings.ManageLocations} className="hoo-button-primary" disabled={false} onClick={() => { this._changeLocationVisibility(true); }} />
             <Button label={strings.ManageQuestions} className="hoo-button-primary" disabled={false} onClick={() => { this._changeQuestionsVisibility(true); }} />
           </div>
           <Dialog header={strings.ManageLocations} content="" visible={this.state.locationsVisible} onChange={this._changeLocationVisibility} width={60} height={80}>
-            <iframe src={cs.LocationListUrl} className={styles.adminIFrame} />
+            <iframe src={cs.LocationListUrl} className='adminIFrame' />
           </Dialog>
           <Dialog header={strings.ManageQuestions} content="" visible={this.state.questionsVisible} onChange={this._changeQuestionsVisibility} width={60} height={80}>
-            <iframe src={cs.QuestionListUrl} className={styles.adminIFrame} />
+            <iframe src={cs.QuestionListUrl} className='adminIFrame' />
           </Dialog>
         </div>
       );

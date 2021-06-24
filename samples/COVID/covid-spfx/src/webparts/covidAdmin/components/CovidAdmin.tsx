@@ -6,7 +6,6 @@ import cloneDeep from "lodash/cloneDeep";
 import isEqual from "lodash/isEqual";
 
 import strings from "CovidWebPartStrings";
-import styles from "./CovidAdmin.module.scss";
 import { cs } from "../services/covid.service";
 import { ICheckIns, CheckInMode, ADMINTABS, CheckIns, SECURITY } from "../models/covid.model";
 
@@ -18,6 +17,7 @@ import Today from "./molecules/Today";
 import PivotBar, { IPivotBarOption } from "./atoms/PivotBar";
 import Dialog from "./molecules/Dialog";
 import QuestionReview from "./molecules/QuestionReview";
+import styles from "./CovidAdmin.module.scss";
 
 export interface ICovidAdminProps {
   loading: boolean;
@@ -161,7 +161,7 @@ export default class CovidAdmin extends React.Component<ICovidAdminProps, ICovid
       return (
         <div data-component={this.LOG_SOURCE} className={styles.covidAdmin}>
           {this.props.loading &&
-            <div className={styles.shimmerContainer}>
+            <div className="shimmerContainer">
               <div className="hoo-ph-primary hoo-ph-row"></div>
             </div>
           }

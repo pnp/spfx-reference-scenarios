@@ -2,8 +2,6 @@ import * as React from "react";
 import { Logger, LogLevel } from "@pnp/logging";
 import isEqual from "lodash/isEqual";
 
-import styles from "../CovidAdmin.module.scss";
-
 export interface ITextBoxProps {
   name: string;
   value: string;
@@ -41,7 +39,7 @@ export default class TextBox extends React.Component<ITextBoxProps, ITextBoxStat
   public render(): React.ReactElement<ITextBoxProps> {
     try {
       return (
-        <div className={styles.textbox}>
+        <div className="textbox">
           <input
             className="hoo-input-text"
             name={this.props.name}

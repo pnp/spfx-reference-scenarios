@@ -2,8 +2,6 @@ import * as React from "react";
 import { Logger, LogLevel } from "@pnp/logging";
 import isEqual from "lodash/isEqual";
 
-import styles from '../CovidAdmin.module.scss';
-
 export interface IRadioButtonProps {
   name: string;
   value: string;
@@ -43,7 +41,7 @@ export default class RadioButton extends React.Component<IRadioButtonProps, IRad
   public render(): React.ReactElement<IRadioButtonProps> {
     try {
       return (
-        <div data-component={this.LOG_SOURCE} className={styles.radio} onChange={(newValue) => { this._onChange(newValue.target, this.props.name); }}>
+        <div data-component={this.LOG_SOURCE} className="radio" onChange={(newValue) => { this._onChange(newValue.target, this.props.name); }}>
           <input type="radio" name={this.props.name} id={`${this.props.name}-Yes`} value="Yes" className="hoo-radio" /><label htmlFor={`${this.props.name}-Yes`}>Yes</label>
           <input type="radio" name={this.props.name} id={`${this.props.name}-No`} value="No" className="hoo-radio" /><label htmlFor={`${this.props.name}-No`}>No</label>
         </div>

@@ -5,7 +5,6 @@ import cloneDeep from "lodash/cloneDeep";
 import isEqual from "lodash/isEqual";
 import find from "lodash/find";
 
-import styles from "../CovidAdmin.module.scss";
 import strings from "CovidWebPartStrings";
 import { ICheckIns, IQuestion } from "../../models/covid.model";
 import { cs } from "../../services/covid.service";
@@ -51,18 +50,18 @@ export default class QuestionReview extends React.Component<IQuestionReviewProps
       }
 
       return (
-        <div data-component={this.LOG_SOURCE} className={`${styles.componentGrid} ${styles.dialog}`}>
+        <div data-component={this.LOG_SOURCE} className={`componentGrid dialog`}>
           <div>
-            <span className={styles.textLabel}>{strings.CovidFormNameLabel}: </span>{name}
+            <span className="textLabel">{strings.CovidFormNameLabel}: </span>{name}
           </div>
           <div>
-            <span className={styles.textLabel}>{strings.CovidFormOfficeLabel}: </span>{this.props.checkIn.CheckInOffice}
+            <span className="textLabel">{strings.CovidFormOfficeLabel}: </span>{this.props.checkIn.CheckInOffice}
           </div>
           {this._questions.map((q) => {
             const a = find(this.props.checkIn.QuestionsValue, { QuestionId: q.Id });
-            return (<div><span className={styles.textLabel}>{q.Title}: </span>{a?.Answer || "Not Answered"}</div>);
+            return (<div><span className="textLabel">{q.Title}: </span>{a?.Answer || "Not Answered"}</div>);
           })}
-          <div className={styles.buttons} >
+          <div className="buttons" >
             <Button className="hoo-button-primary" disabled={false} label={strings.CheckInLabel} onClick={() => { this.props.save(this.props.checkIn); }} />
             <Button className="hoo-button" disabled={false} label={strings.CancelLabel} onClick={() => { this.props.cancel(); }} />
           </div>

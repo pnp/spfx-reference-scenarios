@@ -5,7 +5,6 @@ import isEqual from "lodash/isEqual";
 import find from "lodash/find";
 import isEmpty from "lodash/isEmpty";
 
-import styles from "../CovidAdmin.module.scss";
 import { IQuery, Query } from "../../models/covid.model";
 import { cs } from "../../services/covid.service";
 import DropDown, { IDropDownOption } from "../atoms/DropDown";
@@ -130,7 +129,7 @@ export default class Search extends React.Component<ISearchProps, ISearchState> 
   public render(): React.ReactElement<ISearchProps> {
     try {
       return (
-        <div className={styles.searchControls}>
+        <div className="searchControls">
           <div >
             <div >{strings.SearchStartDateLabel}</div>
             <input className="hoo-input-text" id="startDate" type="date" value={this.state.startDate.toISOString().substr(0, 10)} onChange={(newValue) => { this._onDateChange(newValue.target.value, "startDate"); }} />

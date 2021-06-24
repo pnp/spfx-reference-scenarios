@@ -2,7 +2,6 @@ import * as React from "react";
 import { Logger, LogLevel } from "@pnp/logging";
 import isEqual from "lodash/isEqual";
 
-import styles from "../CovidAdmin.module.scss";
 import ButtonIcon from "../atoms/ButtonIcon";
 import { Icons } from "../../models/enums";
 
@@ -35,7 +34,7 @@ export default class DatePicker extends React.Component<IDatePickerProps, IDateP
   public render(): React.ReactElement<IDatePickerProps> {
     try {
       return (
-        <div className={styles.dateSelector}>
+        <div className="dateSelector">
           <ButtonIcon iconType={Icons.LeftArrow} onClick={() => this.props.onDateChange(-1)} />
           <h2>{this.props.selectedDate.toDateString()}</h2>
           <ButtonIcon iconType={Icons.RightArrow} onClick={() => this.props.onDateChange(1)} />
