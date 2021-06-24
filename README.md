@@ -14,8 +14,8 @@ extensions:
 
 Samples targeted to showcase the power of SharePoint Framework in the Microsoft Teams and in Viva Connections. Notice that these are using preview version of the SharePoint Framework 1.13, which in currently planned to get released in early July. You will need to have access on the preview bits to be able to scaffoled these solutions.
 
-- [Covid Self-Attestiation Microsoft Teams personal app sample](samples/codid/readme.md) - with Viva Connections Card
-- [World Clock Reference Microsoft Teawms personal app](samples/codid/readme.md) - with Viva Connections Card
+- [Covid Self-Attestiation Microsoft Teams personal app sample](samples/COVID/README.md) - with Viva Connections Card
+- [World Clock Reference Microsoft Teawms personal app](samples/WORLDCLOCK/README.md) - with Viva Connections Card
 
 
 ## Have issues or questions?
