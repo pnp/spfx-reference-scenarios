@@ -73,11 +73,11 @@ Steps for deployment:
 
 1. Once the solution has been added to the app catalog be sure to check in the file.
 
-1. After the solution has deployed you will need to authorize the Graph API permissions requested. To see, and approve, them navigate to the SharePoint Admin Center and then to the `API access` section under `Advanced` menu item. This will show you a list of pending permissions requests. By selecting each request and then selecting `Approve` the permissions will be granted to allow the solution to access the information it needs through the Microsoft Graph. For more information on the individual permissions this solution is requesting please see the [Microsoft Graph REST API v1.0 reference](https://docs.microsoft.com/en-us/graph/api/overview?toc=.%2Fref%2Ftoc.json&view=graph-rest-1.0)
+1. After the solution has deployed you will need to authorize the Graph API permissions requested. To see, and approve, them navigate to the SharePoint Admin Center and then to the `API access` section under `Advanced` menu item. This will show you a list of pending permissions requests. By selecting each request and then selecting `Approve` the permissions will be granted to allow the solution to access the information it needs through the Microsoft Graph. For more information on the individual permissions this solution is requesting please see the [Microsoft Graph REST API v1.0 reference](https://docs.microsoft.com/en-us/graph/api/overview?toc=.%2Fref%2Ftoc.json&view=graph-rest-1.0) (Note: the screen shot in an example, please make sure to approve the API requests for for teh `SPFx Teams Samples - World Clock` Package)
 
     ![Approve API Permissions](./images/ApproveAPIPermissions.png)
 
-1. After the solution has deployed you will need to sync the solution into your Teams app store. To do so, select the `SPFx Teams Samples - World Clock` solution in the app catalog and then under the files tab in the ribbon the `Sync to Teams` option will be enabled, select it. (Note: the screen shot in an example, please make sure to approve the API requests for for teh `SPFx Teams Samples - World Clock` Package)
+1. After the solution has deployed you will need to sync the solution into your Teams app store. To do so, select the `SPFx Teams Samples - World Clock` solution in the app catalog and then under the files tab in the ribbon the `Sync to Teams` option will be enabled, select it. 
 
     ![Sync App Manifest To Teams](./images/SyncToTeams.png)
 

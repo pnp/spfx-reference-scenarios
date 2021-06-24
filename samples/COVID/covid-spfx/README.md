@@ -6,7 +6,7 @@ See root sample [README](../README.md)
 
 ## Used SharePoint Framework Version
 
-![version](https://img.shields.io/badge/version-1.12.1-green.svg)
+![version](https://img.shields.io/badge/version-1.13.0-green.svg)
 
 ## Applies to
 
