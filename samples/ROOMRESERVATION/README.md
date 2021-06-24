@@ -2,9 +2,9 @@
 
 ## Summary
 
-The Executive Room Reservation application demonstrates the ability to create a engaging Microsoft Teams based solution to help facilitate scheduling executive conference rooms for events.
+The Executive Room Reservation application is an executive scheduling application that allows users to see upcoming meetings, select and book a room based on availability dates and the number of participants. Users can see a photo of the room where the meeting is booked, get an address to the building to put in the meeting invite, and get directions to the building. It provides a seemless way for executive assistants to schedule meeting rooms for executive meetings. The application demonstrates the ability to create a visually engaging Microsoft Teams based solution. 
 
-The demo data for the personal app is stored in a JSON file in the root site collection `Site Assets` library in a folder called `RoomReservation`.
+This application uses demo data for the personal app is stored in a JSON file in the root site collection `Site Assets` library in a folder called `RoomReservation`. It can extended to integrate with the room scheduling software or APIs that are used by your organization.
 
 ## Used SharePoint Framework Version
 
