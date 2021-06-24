@@ -3,7 +3,7 @@ import { Logger, LogLevel } from "@pnp/logging";
 
 import isEqual from "lodash/isEqual";
 
-import { IMeetingResult, IRoomResults } from "../../models/rr.models";
+import { IRoomResults } from "../../models/rr.models";
 
 export interface IRoomCardProps {
   room: IRoomResults;

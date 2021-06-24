@@ -44,20 +44,6 @@ export default class WorldClockWebPart extends BaseClientSideWebPart<IWorldClock
       sp.setup({ spfxContext: this.context });
       graph.setup({ spfxContext: this.context });
 
-      this._init();
-    } catch (err) {
-      Logger.write(`${this.LOG_SOURCE} (onInit) - ${err}`, LogLevel.Error);
-    }
-  }
-
-  private async _init(): Promise<void> {
-    try {
-      this._microsoftTeams = this.context.sdks?.microsoftTeams;
-      if (this._microsoftTeams)
-        this._getTeamsQueryString();
-      const configType: CONFIG_TYPE = (this._microsoftTeams?.context?.groupId) ? CONFIG_TYPE.Team : CONFIG_TYPE.Personal;
-      await wc.Init(this.context.pageContext.user.loginName, this.context.pageContext.cultureInfo.currentUICultureName, this.context.pageContext.site.serverRelativeUrl, this._microsoftTeams?.context?.groupId, this._microsoftTeams?.context?.teamName, configType);
-      wc.HandleExecuteDeepLink = this._handleExecuteDeepLink;
       // Consume the new ThemeProvider service
       this._themeProvider = this.context.serviceScope.consume(ThemeProvider.serviceKey);
       this._themeVariant = this._themeProvider.tryGetTheme();
@@ -97,6 +83,21 @@ export default class WorldClockWebPart extends BaseClientSideWebPart<IWorldClock
           }
         }
       }
+
+      this._init();
+    } catch (err) {
+      Logger.write(`${this.LOG_SOURCE} (onInit) - ${err}`, LogLevel.Error);
+    }
+  }
+
+  private async _init(): Promise<void> {
+    try {
+      this._microsoftTeams = this.context.sdks?.microsoftTeams;
+      if (this._microsoftTeams)
+        this._getTeamsQueryString();
+      const configType: CONFIG_TYPE = (this._microsoftTeams?.context?.groupId) ? CONFIG_TYPE.Team : CONFIG_TYPE.Personal;
+      await wc.Init(this.context.pageContext.user.loginName, this.context.pageContext.cultureInfo.currentUICultureName, this.context.pageContext.site.serverRelativeUrl, this._microsoftTeams?.context?.groupId, this._microsoftTeams?.context?.teamName, configType);
+      wc.HandleExecuteDeepLink = this._handleExecuteDeepLink;
       this.render();
     } catch (err) {
       Logger.write(`${this.LOG_SOURCE} (_init) - ${err}`, LogLevel.Error);
