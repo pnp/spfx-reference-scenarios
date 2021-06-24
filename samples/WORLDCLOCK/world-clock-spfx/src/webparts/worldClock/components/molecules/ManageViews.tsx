@@ -9,8 +9,6 @@ import find from "lodash/find";
 import indexOf from "lodash/indexOf";
 import isEmpty from "lodash/isEmpty";
 
-import styles from "../WorldClock.module.scss";
-//import DropDown, { IDropDownOption } from "../atoms/DropDown";
 import { IPerson, IWCView, WCView } from "../../models/wc.models";
 import { wc } from "../../services/wc.service";
 import CheckBox from "../atoms/CheckBox";
@@ -18,7 +16,7 @@ import TextBox from "../atoms/TextBox";
 import Button from "../atoms/Button";
 import strings from "WorldClockWebPartStrings";
 import SearchBox from "../atoms/SearchBox";
-import Avatar, { Size } from "../atoms/Avatar";
+import Avatar from "../atoms/Avatar";
 
 export interface IManageViewsProps {
   save: (currentView: IWCView, isDefault: boolean) => void;
@@ -145,7 +143,7 @@ export default class ManageViews extends React.Component<IManageViewsProps, IMan
   public render(): React.ReactElement<IManageViewsProps> {
     try {
       return (
-        <div data-component={this.LOG_SOURCE} className={`${styles.manageViews} hoo-grid`}>
+        <div data-component={this.LOG_SOURCE} className={`manageViews hoo-grid`}>
           <div className="full-width">
             <div className="hoo-fontsize-18">{strings.ViewTitleHeader}</div>
             <TextBox name="viewName" value={this.state.currentView.viewName} onChange={this._onTextChange} />
@@ -155,7 +153,7 @@ export default class ManageViews extends React.Component<IManageViewsProps, IMan
             <div className={`hoo-fontsize-18 center-vertical`}>{strings.AddViewMembersHeader}</div>
             <SearchBox name="Search" placeholder={strings.ManageMembersFilterPlaceholder} value={this.state.searchString} onChange={this._onSearchChange} />
           </div>
-          <div className={`${styles.membersList} full-width`}>
+          <div className={`membersList full-width`}>
             {this.state.searchMembers.map((m) => {
               let isChecked: boolean = false;
               if (this.state.currentView.members.length > 0) {
@@ -165,7 +163,7 @@ export default class ManageViews extends React.Component<IManageViewsProps, IMan
                 }
               }
               return (
-                <div className={`${styles.memberContainer}`}>
+                <div className={`memberContainer`}>
                   <div className="hoo-persona-40">
                     <CheckBox
                       name={m.personId}

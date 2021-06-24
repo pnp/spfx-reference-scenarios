@@ -1,7 +1,5 @@
 //Globally add in Segoe UI Font - for Teams support
 @import './fonts';
-@import 'node_modules/@n8d/htwoo-core/lib/sass/00-base/colors/colors';
-@import 'node_modules/@n8d/htwoo-core/lib/sass/00-base/mixin/grid.mixin';
 
 .appPartPage {
   box-sizing: border-box;
@@ -11,20 +9,13 @@
   position: relative;
 }
 
-:global {
-  //Import hTWOo styles so they are available to our controls
-  //IMPORTANT NOTE: This is not best practice, for production solution you should 
-  //   import the styles for the individual components your using vs 
-  //   importing the global style definition.
-  @import "node_modules/@n8d/htwoo-core/lib/sass/style";
-}
-
 .worldClock {
   font-size: px2rem(16px);
   padding: px2rem(16px) 0;
 
   :global {
-    @use "node_modules/@n8d/htwoo-core/lib/sass/style";
+    //Import hTWOo styles so they are available to our controls
+    @import 'node_modules/@n8d/htwoo-core/lib/components/all';
 
     .hoo-buttonaction {
       cursor: pointer;
@@ -205,9 +196,6 @@
       box-sizing: border-box;
       width: px2rem(225px);
       padding: .5rem 1.25rem 1rem;
-      //color: white;
-      // background: rgb(2, 0, 36);
-      // background: linear-gradient(180deg, rgba(2, 0, 36, 0) 0%, rgba(2, 0, 36, 15%) 60%, rgba(0, 0, 0, 25%) 100%);
       border: .5rem solid var(--bodyBackground);
       font-weight: 700;
 
@@ -373,6 +361,7 @@
       justify-content: center;
       align-items: center;
       color: white;
+      border-radius: 50%;
 
       &.green10 {
         background-color: #498205;
@@ -515,119 +504,132 @@
 
     .two-thirds {
       @include gridSpan(9);
+      padding-bottom: px2rem(16px);
     }
 
     .one-third {
       @include gridSpan(3);
+      padding-bottom: px2rem(16px);
     }
 
     .full-width {
       @include gridSpan(12);
-    }
-  }
-
-  font-family: "Segoe UI",
-  "Segoe UI Web (West European)",
-  "Segoe UI",
-  -apple-system,
-  system-ui,
-  Roboto,
-  "Helvetica Neue",
-  sans-serif;
-  color: $bodyText;
-
-  .textbox {
-    width: 100%;
-  }
-
-  .manageViews {
-
-    .viewForm {
-      padding-top: px2rem(16px);
+      padding-bottom: px2rem(16px);
     }
 
-    .membersList {
-      //display: flex;
-      //flex-wrap: wrap;
-      //justify-content: space-between;
-      padding-top: px2rem(16px);
-      max-width: 2000px;
-      //margin: 0 auto;
-      column-width: 20em;
-      column-gap: px2rem(32px);
+    .textbox {
+      width: 100%;
+    }
 
-      .textLabel {
+    .manageViews {
+
+      .viewForm {
+        padding-top: px2rem(16px);
+
+        .one-third {
+          display: flex;
+          padding-bottom: px2rem(16px);
+          gap: px2rem(32px);
+        }
+      }
+
+      .membersList {
+        //display: flex;
+        //flex-wrap: wrap;
+        //justify-content: space-between;
+        padding-top: px2rem(16px);
+        max-width: 2000px;
+        //margin: 0 auto;
+        column-width: 20em;
+        column-gap: px2rem(32px);
+
+        .textLabel {
+          column-span: all;
+        }
+      }
+
+      .buttons {
+        padding-top: 1rem;
+      }
+
+      .memberContainer {
+        display: inline-block;
+        padding-bottom: px2rem(16px);
+      }
+
+      .memberSearch {
         column-span: all;
+        display: flex;
+        justify-content: space-between;
+        padding-bottom: px2rem(16px);
       }
     }
 
-    .buttons {
-      padding-top: 1rem;
+
+
+
+    .textLabel,
+    .errorTextLabel {
+      font-weight: 700;
+      line-height: 24px;
     }
 
-    .memberContainer {
-      display: inline-block;
-      padding-bottom: px2rem(16px);
+    .errorTextLabel {
+      font-weight: 700;
+      line-height: 24px;
     }
 
-    .memberSearch {
-      column-span: all;
+    .isRight {
       display: flex;
-      justify-content: space-between;
-      padding-bottom: px2rem(16px);
-    }
-  }
+      padding-top: px2rem(16px);
 
-
-
-
-  .textLabel,
-  .errorTextLabel {
-    font-weight: 700;
-    line-height: 24px;
-  }
-
-  .errorTextLabel {
-    font-weight: 700;
-    line-height: 24px;
-  }
-
-  .isRight {
-    display: flex;
-    padding-top: px2rem(16px);
-
-    .managebutton {
-      margin-left: auto;
-    }
-  }
-
-
-  //Configuration Loader
-  .loaderContainer {
-    padding-top: px2rem(24px);
-  }
-
-  .loader {
-    border: px2rem(8px) solid transparent;
-    /* Light grey */
-    border-top: px2rem(8px) solid var(--primaryButtonBackground);
-    ;
-    /* Blue */
-    border-radius: 50%;
-    width: px2rem(60px);
-    height: px2rem(60px);
-    animation: spin 2s linear infinite;
-  }
-
-  @keyframes spin {
-    0% {
-      transform: rotate(0deg);
+      .managebutton {
+        margin-left: auto;
+      }
     }
 
-    100% {
-      transform: rotate(360deg);
+
+    //Configuration Loader
+    .loaderContainer {
+      padding-top: px2rem(24px);
     }
+
+    .loader {
+      border: px2rem(8px) solid transparent;
+      /* Light grey */
+      border-top: px2rem(8px) solid var(--primaryButtonBackground);
+      ;
+      /* Blue */
+      border-radius: 50%;
+      width: px2rem(60px);
+      height: px2rem(60px);
+      animation: spin 2s linear infinite;
+    }
+
+    @keyframes spin {
+      0% {
+        transform: rotate(0deg);
+      }
+
+      100% {
+        transform: rotate(360deg);
+      }
+    }
+
+    font-family: "Segoe UI",
+    "Segoe UI Web (West European)",
+    "Segoe UI",
+    -apple-system,
+    system-ui,
+    Roboto,
+    "Helvetica Neue",
+    sans-serif;
+    color: $bodyText;
   }
+
+
+
+
 }
 
 :global {

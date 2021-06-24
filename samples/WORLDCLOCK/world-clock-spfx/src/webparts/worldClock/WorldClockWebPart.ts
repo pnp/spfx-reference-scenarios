@@ -82,6 +82,8 @@ export default class WorldClockWebPart extends BaseClientSideWebPart<IWorldClock
             break;
           }
         }
+      } else {
+        this._setCSSVariables(lightModeTheme);
       }
 
       this._init();

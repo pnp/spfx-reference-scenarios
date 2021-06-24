@@ -49,6 +49,7 @@ export const lightModeTheme = {
   "greenDark": "#004b1c",
   "green": "#107c10",
   "greenLight": "#bad80a",
+  "backgroundOverlay": "whitesmoke",
   "themeAccentTranslucent10": "rgba(135, 100, 184, 0.10)",
   "bodyBackground": "whitesmoke",
   "bodyFrameBackground": "whitesmoke",

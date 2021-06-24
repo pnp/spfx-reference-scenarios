@@ -6,7 +6,6 @@ import filter from "lodash/filter";
 import cloneDeep from "lodash/cloneDeep";
 import sortBy from "lodash/sortBy";
 
-import styles from "../WorldClock.module.scss";
 import { CONFIG_TYPE, IPerson, Person } from "../../models/wc.models";
 import strings from "WorldClockWebPartStrings";
 import SearchBox from "../atoms/SearchBox";
@@ -170,7 +169,7 @@ export default class ManageMembers extends React.Component<IManageMembersProps, 
     try {
 
       return (
-        <div data-component={this.LOG_SOURCE} className={styles.manageViews}>
+        <div data-component={this.LOG_SOURCE} className="manageViews">
           <div className={`${(this.state.showTimeZoneSelect) ? "is-hidden" : ""}`}>
             <div className="hoo-grid">
               <div className="two-thirds center-vertical">
@@ -205,14 +204,14 @@ export default class ManageMembers extends React.Component<IManageMembersProps, 
               }
 
             </div>
-            <div className={`${styles.membersList} members`}>
+            <div className={`membersList members`}>
               {(this.state.searchMembers.length == 0 && this.state.searchString.length > 0) &&
                 <span className={`hoo-fontsize-18 hoo-error`} id="">{strings.NoResultsLabel}</span>
               }
               {this.state.searchMembers.map((m) => {
                 return (
 
-                  <div className={`${styles.memberContainer}`}>
+                  <div className={`memberContainer`}>
                     <div className="hoo-persona-40">
                       <div className="hoo-avatar-pres">
                         <Avatar src={m.photoUrl} name={m.displayName} />
@@ -251,7 +250,7 @@ export default class ManageMembers extends React.Component<IManageMembersProps, 
             </div>
           </div>
           {this.state.showTimeZoneSelect &&
-            <div className={`${(!this.state.showTimeZoneSelect) ? "is-hidden" : ""} ${styles.viewForm} hoo-grid`}>
+            <div className={`${(!this.state.showTimeZoneSelect) ? "is-hidden" : ""} viewForm hoo-grid`}>
               <div className="one-third center-vertical is-flex">
                 <div className="hoo-persona-40">
                   <div className="hoo-avatar-pres">
@@ -270,16 +269,18 @@ export default class ManageMembers extends React.Component<IManageMembersProps, 
                   value={this.state.currentPerson.IANATimeZone}
                   onChange={this._onDropDownChange} />
               </div>
-              <Button
-                className="hoo-button-primary"
-                disabled={false}
-                label={strings.SaveLabel}
-                onClick={() => this._savePerson()} />
-              <Button
-                className="hoo-button"
-                disabled={false}
-                label={strings.CancelLabel}
-                onClick={() => this._showTimeZoneChange(!this.state.showTimeZoneSelect, new Person())} />
+              <div className="one-third">
+                <Button
+                  className="hoo-button-primary"
+                  disabled={false}
+                  label={strings.SaveLabel}
+                  onClick={() => this._savePerson()} />
+                <Button
+                  className="hoo-button"
+                  disabled={false}
+                  label={strings.CancelLabel}
+                  onClick={() => this._showTimeZoneChange(!this.state.showTimeZoneSelect, new Person())} />
+              </div>
             </div>
           }
 

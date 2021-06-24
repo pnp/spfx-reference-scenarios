@@ -20,7 +20,6 @@ import TimeCard from "../molecules/TimeCard";
 import { DateTime } from "luxon";
 import Profile from "../molecules/Profile";
 import { Icons } from "../../models/wc.Icons";
-import styles from "../WorldClock.module.scss";
 import ButtonSplitPrimary, { IButtonOption } from "../atoms/ButtonSplitPrimary";
 import ManageMembers from "../molecules/ManageMembers";
 import Button from "../atoms/Button";
@@ -393,7 +392,7 @@ export default class TeamTimes extends React.Component<ITeamTimesProps, ITeamTim
         <div data-component={this.LOG_SOURCE} ref={this._timeCardContainer}>
           <div className="is-flex gap">
             <ButtonSplitPrimary
-              className={styles.managebutton}
+              className="managebutton"
               label={(this.state.currentView) ? this.state.views[this.state.currentView].viewName : strings.ManageViewsLabel}
               options={this.state.viewOptions} />
             <Button
