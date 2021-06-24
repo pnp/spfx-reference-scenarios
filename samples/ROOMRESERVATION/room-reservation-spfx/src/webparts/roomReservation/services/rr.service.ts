@@ -192,22 +192,7 @@ export class RoomReservationService implements IRoomReservationService {
         const end: DateTime = DateTime.fromFormat(meeting.endTime.toString(), "D t").setLocale(this._locale);
         if (start.toISO() > now.toISO()) {
           //Format the display of the meeting time
-
           const displayTime = this.GetMeetingDisplayTime(start, end);
-          // if (meeting.startTime.toISODate == meeting.endTime.toISODate) {
-          //   let startTime: string = start.toLocaleString(DateTime.TIME_SIMPLE);
-          //   let endTime: string = end.toLocaleString(DateTime.TIME_SIMPLE);
-
-          //   if (includes(startTime, ":00")) {
-          //     startTime = startTime.replace(":00", "");
-          //   }
-          //   if (includes(endTime, ":00")) {
-          //     endTime = endTime.replace(":00", "");
-          //   }
-          //   displayTime = `${start.toLocaleString(DateTime.DATE_SHORT)}  ${startTime}-${endTime}`;
-          // } else {
-          //   displayTime = `${start.toLocaleString(DateTime.DATETIME_SHORT)}-${end.toLocaleString(DateTime.DATETIME_SHORT)}`;
-          // }
 
           const building: IBuilding = this._currentConfig.locations[meeting.locationId].buildings[meeting.buildingId];
           const room: IRoom = building.rooms[meeting.roomId];

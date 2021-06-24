@@ -49,7 +49,6 @@ export default class NewReservation extends React.Component<INewReservationProps
     try {
       let participants: number = parseInt(fieldValue);
       this.setState({ participants: participants });
-      //this._onChange();
     } catch (err) {
       Logger.write(`${this.LOG_SOURCE} (_onDropDownChange) - ${err}`, LogLevel.Error);
     }
@@ -62,7 +61,6 @@ export default class NewReservation extends React.Component<INewReservationProps
       state[fieldName] = start;
 
       this.setState(state);
-      //this._onChange();
 
     } catch (err) {
       Logger.write(`${this.LOG_SOURCE} (_onDateChange) - ${err}`, LogLevel.Error);

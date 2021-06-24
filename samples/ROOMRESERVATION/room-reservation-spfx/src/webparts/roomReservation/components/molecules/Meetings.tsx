@@ -35,7 +35,7 @@ export default class Meetings extends React.Component<IMeetingsProps, IMeetingsS
                   <div className="date-details">
                     <div className="date-day">{`${m.displayTime}`}</div>
                     <div className="date-title">{m.subject}</div>
-                    <div className="date-title">{(m.roomName == "") ? `No Room Selected` : m.roomName}</div>
+                    <div className="date-title">{(m.roomName == "") ? strings.NoRoomSelected : m.roomName}</div>
                     <div className="date-persons">{(m.attendees > 0) ? `${m.attendees} ${strings.AttendeesLabel}` : ""}</div>
                   </div>
                 </li>

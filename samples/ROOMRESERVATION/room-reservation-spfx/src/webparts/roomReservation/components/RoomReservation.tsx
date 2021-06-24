@@ -4,13 +4,12 @@ import { Logger, LogLevel } from "@pnp/logging";
 import isEqual from "lodash/isEqual";
 import cloneDeep from 'lodash/cloneDeep';
 import find from 'lodash/find';
-import { DateTime } from "luxon";
 
 import styles from './RoomReservation.module.scss';
 import strings from "RoomReservationWebPartStrings";
 import { rr } from '../services/rr.service';
 import Meetings from './molecules/Meetings';
-import { IMeeting, IMeetingResult, IRoomResults, RoomResult } from '../models/rr.models';
+import { IMeetingResult, IRoomResults, RoomResult } from '../models/rr.models';
 import MeetingStage from './organisms/MeetingStage';
 import TeamsToolBar from './molecules/TeamsToolBar';
 import Panel from './molecules/Panel';
@@ -74,7 +73,7 @@ export default class RoomReservation extends React.Component<IRoomReservationPro
     try {
       this.setState({ selectedRoom: room });
     } catch (err) {
-      Logger.write(`${this.LOG_SOURCE} (_setMeeting) - ${err}`, LogLevel.Error);
+      Logger.write(`${this.LOG_SOURCE} (_setMe_setRoometing) - ${err}`, LogLevel.Error);
       return null;
     }
   }
@@ -110,8 +109,13 @@ export default class RoomReservation extends React.Component<IRoomReservationPro
   }
 
   private _togglePanelVisibility = () => {
-    const panelVisibility: boolean = cloneDeep(this.state.panelVisibility);
-    this.setState({ panelVisibility: !panelVisibility });
+    try {
+      const panelVisibility: boolean = cloneDeep(this.state.panelVisibility);
+      this.setState({ panelVisibility: !panelVisibility });
+    } catch (err) {
+      Logger.write(`${this.LOG_SOURCE} (_togglePanelVisibility) - ${err}`, LogLevel.Error);
+      return null;
+    }
   }
 
   public render(): React.ReactElement<IRoomReservationProps> {
@@ -130,7 +134,11 @@ export default class RoomReservation extends React.Component<IRoomReservationPro
               rooms={this.state.rooms}
               scheduled={this.state.scheduled}
               getAvailableRooms={this._getAvailableRooms} />
-            <Panel header={strings.CheckAvailability} content="" visible={this.state.panelVisibility} onChange={this._togglePanelVisibility}>
+            <Panel
+              header={strings.CheckAvailability}
+              content=""
+              visible={this.state.panelVisibility}
+              onChange={this._togglePanelVisibility}>
               <NewReservation onChange={this._getAvailableRooms} />
             </Panel>
           </div>

@@ -2,7 +2,6 @@ import * as React from "react";
 import { Logger, LogLevel } from "@pnp/logging";
 
 import isEqual from "lodash/isEqual";
-import { DateTime } from "luxon";
 
 import { IMeetingResult, IRoomResults } from "../../models/rr.models";
 import MeetingRooms from "../molecules/MeetingRooms";
@@ -38,12 +37,6 @@ export default class MeetingStage extends React.Component<IMeetingStageProps, IM
     if ((isEqual(nextState, this.state) && isEqual(nextProps, this.props)))
       return false;
     return true;
-  }
-
-  private _display() {
-    let retVal: string = "";
-
-    return retVal;
   }
 
   public render(): React.ReactElement<IMeetingStageProps> {
