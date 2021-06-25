@@ -18,6 +18,7 @@ import styles from "./components/RoomReservation.module.scss";
 import RoomReservation, { IRoomReservationProps } from './components/RoomReservation';
 import { darkModeTheme, highContrastTheme, lightModeTheme } from './models/rr.themes';
 import { rr } from './services/rr.service';
+import Loading, { ILoadingProps } from './components/atoms/Loading';
 
 
 export interface IRoomReservationWebPartProps {
@@ -130,11 +131,11 @@ export default class RoomReservationWebPart extends BaseClientSideWebPart<IRoomR
     try {
       let element;
       if (rr.Ready) {
-        const props: IRoomReservationProps = { loading: false };
+        const props: IRoomReservationProps = {};
         element = React.createElement(RoomReservation, props);
       } else {
-        const props: IRoomReservationProps = { loading: true };
-        element = React.createElement(RoomReservation, props);
+        const props: ILoadingProps = {};
+        element = React.createElement(Loading, props);
       }
       this.domElement.classList.add(styles.appPartPage);
       ReactDom.render(element, this.domElement);

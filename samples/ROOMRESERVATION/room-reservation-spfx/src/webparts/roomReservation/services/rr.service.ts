@@ -76,7 +76,7 @@ export class RoomReservationService implements IRoomReservationService {
 
       try {
         const web = Web(this.ROOT_WEB);
-        this._currentConfig = await web.getFileByServerRelativeUrl(`SiteAssets/${this.CONFIG_FOLDER}/${this.CONFIG_FILE_NAME}`).getJSON();
+        this._currentConfig = await web.getFileByServerRelativeUrl(`/SiteAssets/${this.CONFIG_FOLDER}/${this.CONFIG_FILE_NAME}`).getJSON();
       } catch (e) {
         //Do Nothing as it'll just create the new config.
       }
@@ -132,7 +132,7 @@ export class RoomReservationService implements IRoomReservationService {
         });
       });
     } catch (err) {
-      Logger.write(`${this.LOG_SOURCE} (GetAvailableRooms) - ${err} - `, LogLevel.Error);
+      Logger.write(`${this.LOG_SOURCE} (GetAllRooms) - ${err} - `, LogLevel.Error);
     }
     return retVal;
   }
@@ -187,6 +187,7 @@ export class RoomReservationService implements IRoomReservationService {
     }
     return retVal;
   }
+
   public GetMeetings(): IMeetingResult[] {
     let retVal: IMeetingResult[] = [];
     try {
@@ -231,7 +232,7 @@ export class RoomReservationService implements IRoomReservationService {
         }
       });
     } catch (err) {
-      Logger.write(`${this.LOG_SOURCE} (_getMeetings) - ${err} - `, LogLevel.Error);
+      Logger.write(`${this.LOG_SOURCE} (GetMeetings) - ${err} - `, LogLevel.Error);
     }
     return retVal;
   }
