@@ -18,6 +18,7 @@ declare interface IRoomReservationWebPartStrings {
   EndLabel: string;
   ParticipantsLabel: string;
   NoRooms: string;
+  NoMeetings: string;
   CateringOptions: string[];
   AVOptions: string[];
   PlanTripLabel: string;

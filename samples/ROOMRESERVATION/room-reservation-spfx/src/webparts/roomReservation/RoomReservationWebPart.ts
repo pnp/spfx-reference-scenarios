@@ -81,6 +81,8 @@ export default class RoomReservationWebPart extends BaseClientSideWebPart<IRoomR
             break;
           }
         }
+      } else {
+        this._setCSSVariables(lightModeTheme);
       }
 
       this._init();
