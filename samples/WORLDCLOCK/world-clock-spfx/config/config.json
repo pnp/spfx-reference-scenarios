@@ -1,0 +1,27 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/spfx-build/config.2.0.schema.json",
+  "version": "2.0",
+  "bundles": {
+    "world-clock-web-part": {
+      "components": [
+        {
+          "entrypoint": "./lib/webparts/worldClock/WorldClockWebPart.js",
+          "manifest": "./src/webparts/worldClock/WorldClockWebPart.manifest.json"
+        }
+      ]
+    },
+    "ace-team-timezone-adaptive-card-extension": {
+      "components": [
+        {
+          "entrypoint": "./lib/adaptiveCardExtensions/teamTimezone/TeamTimezoneAdaptiveCardExtension.js",
+          "manifest": "./src/adaptiveCardExtensions/teamTimezone/TeamTimezoneAdaptiveCardExtension.manifest.json"
+        }
+      ]
+    }
+  },
+  "externals": {},
+  "localizedResources": {
+    "WorldClockWebPartStrings": "lib/webparts/worldClock/loc/{locale}.js",
+    "TeamTimezoneAdaptiveCardExtensionStrings": "lib/adaptiveCardExtensions/teamTimezone/loc/{locale}.js"
+  }
+}

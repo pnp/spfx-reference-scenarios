@@ -1,0 +1,27 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/spfx-build/config.2.0.schema.json",
+  "version": "2.0",
+  "bundles": {
+    "covid-admin-web-part": {
+      "components": [
+        {
+          "entrypoint": "./lib/webparts/covidAdmin/CovidAdminWebPart.js",
+          "manifest": "./src/webparts/covidAdmin/CovidAdminWebPart.manifest.json"
+        }
+      ]
+    },
+    "covid-card-adaptive-card-extension": {
+      "components": [
+        {
+          "entrypoint": "./lib/adaptiveCardExtensions/covidCard/CovidCardAdaptiveCardExtension.js",
+          "manifest": "./src/adaptiveCardExtensions/covidCard/CovidCardAdaptiveCardExtension.manifest.json"
+        }
+      ]
+    }
+  },
+  "externals": {},
+  "localizedResources": {
+    "CovidWebPartStrings": "lib/webparts/covidAdmin/loc/{locale}.js",
+    "CovidCardAdaptiveCardExtensionStrings": "lib/adaptiveCardExtensions/covidCard/loc/{locale}.js"
+  }
+}

@@ -1,0 +1,14 @@
+{
+  "@microsoft/generator-sharepoint": {
+    "plusBeta": true,
+    "isCreatingSolution": false,
+    "environment": "spo",
+    "version": "1.13.0-beta.5",
+    "libraryName": "covid-spfx",
+    "libraryId": "808fcd62-465e-4f00-bcf4-4f72a32b6837",
+    "packageManager": "npm",
+    "isDomainIsolated": false,
+    "templateType": "PrimaryText",
+    "componentType": "adaptiveCardExtension"
+  }
+}

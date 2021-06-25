@@ -1,0 +1,54 @@
+{
+  "$schema": "https://developer.microsoft.com/en-us/json-schemas/teams/v1.9/MicrosoftTeams.schema.json",
+  "manifestVersion": "1.9",
+  "version": "1.0.0",
+  "id": "a813fd59-485e-499d-9cb4-44fc70b10723",
+  "packageName": "RoomReservation",
+  "developer": {
+    "name": "Sympraxis Consulting",
+    "websiteUrl": "https://docs.microsoft.com/en-us/sharepoint/dev/spfx/sharepoint-framework-overview",
+    "privacyUrl": "https://privacy.microsoft.com/en-us/privacystatement",
+    "termsOfUseUrl": "https://www.microsoft.com/en-us/servicesagreement",
+    "mpnId": "M365PNP"
+  },
+  "icons": {
+    "color": "a813fd59-485e-499d-9cb4-44fc70b10723_color.png",
+    "outline": "a813fd59-485e-499d-9cb4-44fc70b10723_outline.png"
+  },
+  "name": {
+    "short": "Exec Meetings",
+    "full": "Executive Room Reservation"
+  },
+  "description": {
+    "short": "Executive Room Reservation Application",
+    "full": "Executive Room Reservation Application is a solution to allow users to create meetings for executive conference rooms."
+  },
+  "accentColor": "#FFFFFF",
+  "staticTabs": [
+    {
+      "entityId": "com.roomreservation.spfx",
+      "name": "Room Reservation",
+      "contentUrl": "https://{teamSiteDomain}/_layouts/15/TeamsLogon.aspx?SPFX=true&dest=/_layouts/15/teamshostedapp.aspx%3Fteams%26personal%26componentId=a813fd59-485e-499d-9cb4-44fc70b10723%26forceLocale={locale}",
+      "scopes": [
+        "personal"
+      ]
+    },
+    {
+      "entityId": "about",
+      "scopes": [
+        "personal"
+      ]
+    }
+  ],
+  "permissions": [
+    "identity",
+    "messageTeamMembers"
+  ],
+  "validDomains": [
+    "{teamSiteDomain}",
+    "*.login.microsoftonline.com",
+    "*.sharepoint.com",
+    "spoprod-a.akamaihd.net",
+    "resourceseng.blob.core.windows.net"
+  ]
+}

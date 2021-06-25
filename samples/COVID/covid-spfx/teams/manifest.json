@@ -1,0 +1,54 @@
+{
+  "$schema": "https://developer.microsoft.com/en-us/json-schemas/teams/v1.9/MicrosoftTeams.schema.json",
+  "manifestVersion": "1.9",
+  "version": "1.0.0",
+  "id": "3ab8fb75-8f80-4ff1-90a3-6f711ad27c1d",
+  "packageName": "CovidAttestation",
+  "developer": {
+    "name": "Sympraxis Consulting",
+    "websiteUrl": "https://docs.microsoft.com/en-us/sharepoint/dev/spfx/sharepoint-framework-overview",
+    "privacyUrl": "https://privacy.microsoft.com/en-us/privacystatement",
+    "termsOfUseUrl": "https://www.microsoft.com/en-us/servicesagreement",
+    "mpnId": "M365PNP"
+  },
+  "icons": {
+    "color": "3ab8fb75-8f80-4ff1-90a3-6f711ad27c1d_color.png",
+    "outline": "3ab8fb75-8f80-4ff1-90a3-6f711ad27c1d_outline.png"
+  },
+  "name": {
+    "short": "Check-In",
+    "full": "Covid Attestation Check-In"
+  },
+  "description": {
+    "short": "Covid Attestation Check-In Application",
+    "full": "Covid Attestation Check-In Application is a solution to allow users and management to provide an easy way to communicate current health requirement to their organization."
+  },
+  "accentColor": "#F9F9FA",
+  "staticTabs": [
+    {
+      "entityId": "com.covidadmin.spfx",
+      "name": "Covid Attestation",
+      "contentUrl": "https://{teamSiteDomain}/_layouts/15/TeamsLogon.aspx?SPFX=true&dest=/_layouts/15/teamshostedapp.aspx%3Fteams%26personal%26componentId=3ab8fb75-8f80-4ff1-90a3-6f711ad27c1d%26forceLocale={locale}",
+      "scopes": [
+        "personal"
+      ]
+    },
+    {
+      "entityId": "about",
+      "scopes": [
+        "personal"
+      ]
+    }
+  ],
+  "permissions": [
+    "identity",
+    "messageTeamMembers"
+  ],
+  "validDomains": [
+    "{teamSiteDomain}",
+    "*.login.microsoftonline.com",
+    "*.sharepoint.com",
+    "spoprod-a.akamaihd.net",
+    "resourceseng.blob.core.windows.net"
+  ]
+}
