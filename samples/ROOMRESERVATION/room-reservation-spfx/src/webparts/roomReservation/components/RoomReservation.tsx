@@ -73,7 +73,8 @@ export default class RoomReservation extends React.Component<IRoomReservationPro
 
   private _setRoom = (room: IRoomResults) => {
     try {
-      this.setState({ selectedRoom: room });
+      const meeting = rr.GetRoomDetailsForMeeting(room, this.state.selectedMeeting);
+      this.setState({ selectedRoom: room, selectedMeeting: meeting });
     } catch (err) {
       Logger.write(`${this.LOG_SOURCE} (_setRoom) - ${err}`, LogLevel.Error);
       return null;

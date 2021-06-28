@@ -41,6 +41,14 @@
 
     .meeting-date {
       grid-column: auto / span 3;
+      border: 1px $neutralTertiary solid;
+      border-radius: px2rem(4px);
+      min-height: px2rem(150px);
+      @include elevation(4);
+    }
+
+    .meeting-date.hoo-ph-primary {
+      min-width: px2rem(150px);
     }
 
     .new-reservation {
@@ -58,16 +66,14 @@
     }
 
     .date-details {
-      @include elevation(4);
+
 
       display: flex;
       flex-direction: column;
 
       padding: .75rem 1rem .95rem;
 
-      border: 1px $neutralTertiary solid;
-      border-radius: px2rem(4px);
-      min-height: px2rem(150px);
+
     }
 
     .date-title {

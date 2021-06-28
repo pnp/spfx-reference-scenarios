@@ -119,7 +119,8 @@ export default class MeetingSelection extends React.Component<IMeetingSelectionP
             <address className="meetingroon-address">
               <strong>{this.props.meeting.buildingDisplayName}</strong><br />
               {this.props.meeting.buildingAddress}<br />
-              {`${this.props.meeting.buildingCity} ${this.props.meeting.buildingState} ${this.props.meeting.buildingPostalCode}, ${this.props.meeting.buildingCountry}`}<br />
+              {`${this.props.meeting.buildingCity} ${this.props.meeting.buildingState} ${this.props.meeting.buildingPostalCode}`}<br />
+              {this.props.meeting.buildingCountry}<br />
               <div className="meetingroom-phone">
                 <strong>{strings.PhoneLabel}:</strong> <a href={`tel://${this.props.meeting.buildingPhone}`}>{this.props.meeting.buildingPhone}</a>
               </div>
