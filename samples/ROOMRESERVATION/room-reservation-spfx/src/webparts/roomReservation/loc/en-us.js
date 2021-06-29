@@ -1,6 +1,6 @@
 define([], function() {
   return {
-    "MyMeetingsHeader": "My Upcoming Meetings:",
+    "MyMeetingsHeader": "Upcoming Meetings:",
     "AttendeesLabel": "attendees",
     "SelectRoomLabel": "Select a Room",
     "AvailableRoomsLabel": "Available Meeting Rooms",
@@ -18,7 +18,8 @@ define([], function() {
     "StartLabel": "Start",
     "EndLabel": "End",
     "ParticipantsLabel": "Participants",
-    "NoRooms": "No rooms meet this criteria",
+    "NoRooms": "No rooms meet this criteria.",
+    "NoMeetings": "There are no upcoming meetings.",
     "CateringOptions": ['Breakfast','Lunch','Dinner','Cocktails'],
     "AVOptions": ['Surface Hub','Computer','Projector','Microphone'],
     "PlanTripLabel": "Plan Your Trip",

@@ -41,6 +41,14 @@
 
     .meeting-date {
       grid-column: auto / span 3;
+      border: 1px $neutralTertiary solid;
+      border-radius: px2rem(4px);
+      min-height: px2rem(150px);
+      @include elevation(4);
+    }
+
+    .meeting-date.hoo-ph-primary {
+      min-width: px2rem(150px);
     }
 
     .new-reservation {
@@ -58,25 +66,28 @@
     }
 
     .date-details {
-      @include elevation(4);
+
 
       display: flex;
       flex-direction: column;
 
       padding: .75rem 1rem .95rem;
 
-      border: 1px $neutralTertiary solid;
-      border-radius: px2rem(4px);
+
     }
 
-    .date-day {
+    .date-title {
       font-size: 1.25rem;
       font-weight: bolder;
     }
 
-    .date-title {
+    .date-day {
       font-weight: bolder;
       line-height: 1.75;
+    }
+
+    .date-room {
+      font-size: 1rem;
     }
 
     .meeting-room-selector {
@@ -143,7 +154,7 @@
       width: 100%;
       height: auto;
 
-      aspect-ratio: 19/9;
+      //aspect-ratio: 19/9;
     }
 
     .meetingroom-info {
@@ -249,6 +260,25 @@
       .hoo-input-text {
         width: 100%;
       }
+    }
+
+    font-family: "Segoe UI",
+    "Segoe UI Web (West European)",
+    "Segoe UI",
+    -apple-system,
+    system-ui,
+    Roboto,
+    "Helvetica Neue",
+    sans-serif;
+    color: $bodyText;
+
+    input {
+      font-family: "Segoe UI",
+        -apple-system,
+        BlinkMacSystemFont,
+        Roboto,
+        "Helvetica Neue",
+        sans-serif;
     }
   }
 

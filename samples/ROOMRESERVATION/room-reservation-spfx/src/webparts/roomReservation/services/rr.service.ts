@@ -10,6 +10,8 @@ import includes from "lodash/includes";
 import filter from "lodash/filter";
 import forEach from "lodash/forEach";
 import remove from "lodash/remove";
+import find from "lodash/find";
+import cloneDeep from "lodash/cloneDeep";
 import { DateTime } from "luxon";
 
 import { IBuilding, IConfig, ILocation, IMeeting, IMeetingResult, IRoom, IRoomResults, MeetingResult, RoomResult } from "../models/rr.models";
@@ -26,6 +28,7 @@ export interface IRoomReservationService {
   UpdateConfig(config?: IConfig, newFile?: boolean): Promise<boolean>;
   GetMeetingDisplayTime(meetingStart: DateTime, meetingEnd: DateTime);
   ExecuteDeepLink(meetingUrl: string);
+  GetRoomDetailsForMeeting(room: IRoomResults, meeting: IMeetingResult);
 }
 
 export class RoomReservationService implements IRoomReservationService {
@@ -76,7 +79,7 @@ export class RoomReservationService implements IRoomReservationService {
 
       try {
         const web = Web(this.ROOT_WEB);
-        this._currentConfig = await web.getFileByServerRelativeUrl(`SiteAssets/${this.CONFIG_FOLDER}/${this.CONFIG_FILE_NAME}`).getJSON();
+        this._currentConfig = await web.getFileByServerRelativeUrl(`/SiteAssets/${this.CONFIG_FOLDER}/${this.CONFIG_FILE_NAME}`).getJSON();
       } catch (e) {
         //Do Nothing as it'll just create the new config.
       }
@@ -132,7 +135,7 @@ export class RoomReservationService implements IRoomReservationService {
         });
       });
     } catch (err) {
-      Logger.write(`${this.LOG_SOURCE} (GetAvailableRooms) - ${err} - `, LogLevel.Error);
+      Logger.write(`${this.LOG_SOURCE} (GetAllRooms) - ${err} - `, LogLevel.Error);
     }
     return retVal;
   }
@@ -164,6 +167,29 @@ export class RoomReservationService implements IRoomReservationService {
     }
     return retVal;
   }
+  public GetRoomDetailsForMeeting(room: IRoomResults, meeting: IMeetingResult): IMeetingResult {
+    let retVal: IMeetingResult;
+    try {
+
+      const location = find(this._currentConfig.locations, { locationId: room.locationId });
+      const building = find(location.buildings, { buildingId: room.buildingId });
+      retVal = cloneDeep(meeting);
+      if (building) {
+        retVal.buildingLat = building.latitude;
+        retVal.buildingLong = building.longitude;
+        retVal.buildingDisplayName = building.displayName;
+        retVal.buildingAddress = building.address;
+        retVal.buildingCity = building.city;
+        retVal.buildingState = building.state;
+        retVal.buildingPostalCode = building.postalcode;
+        retVal.buildingCountry = building.country;
+        retVal.buildingPhone = building.phone;
+      }
+    } catch (err) {
+      Logger.write(`${this.LOG_SOURCE} (GetRoomDetailsForMeeting) - ${err} - `, LogLevel.Error);
+    }
+    return retVal;
+  }
   public GetMeetingDisplayTime(start: DateTime, end: DateTime): string {
     let retVal: string = "";
     try {
@@ -187,6 +213,7 @@ export class RoomReservationService implements IRoomReservationService {
     }
     return retVal;
   }
+
   public GetMeetings(): IMeetingResult[] {
     let retVal: IMeetingResult[] = [];
     try {
@@ -231,7 +258,7 @@ export class RoomReservationService implements IRoomReservationService {
         }
       });
     } catch (err) {
-      Logger.write(`${this.LOG_SOURCE} (_getMeetings) - ${err} - `, LogLevel.Error);
+      Logger.write(`${this.LOG_SOURCE} (GetMeetings) - ${err} - `, LogLevel.Error);
     }
     return retVal;
   }
