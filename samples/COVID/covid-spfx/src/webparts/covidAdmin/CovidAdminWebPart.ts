@@ -47,6 +47,8 @@ export default class CovidAdminWebPart extends BaseClientSideWebPart<ICovidAdmin
       sp.setup({ spfxContext: this.context });
       graph.setup({ spfxContext: this.context });
 
+      this._microsoftTeams = this.context.sdks?.microsoftTeams;
+
       // Consume the new ThemeProvider service
       this._themeProvider = this.context.serviceScope.consume(ThemeProvider.serviceKey);
       this._themeVariant = this._themeProvider.tryGetTheme();
@@ -98,7 +100,6 @@ export default class CovidAdminWebPart extends BaseClientSideWebPart<ICovidAdmin
 
   private async _init(): Promise<void> {
     try {
-      this._microsoftTeams = this.context.sdks?.microsoftTeams;
       await cs.init(this.context.pageContext.site.absoluteUrl, this.context.pageContext.user.loginName, this.context.pageContext.legacyPageContext.isSiteAdmin, this.context.pageContext.legacyPageContext.isSiteOwner);
       this._userId = this.context.pageContext.legacyPageContext.userId;
       if (this._userId == undefined) {
