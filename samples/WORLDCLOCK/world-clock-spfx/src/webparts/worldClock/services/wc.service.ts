@@ -316,9 +316,9 @@ export class WorldClockService implements IWorldClockService {
 
           if (members?.length > 0) {
             forEach(members, (o) => {
-              if (o.userPrincipalName?.toLowerCase() !== wc.UserLogin.toLowerCase()) {
+              if (o.userPrincipalName?.toLowerCase() !== wc.UserLogin?.toLowerCase()) {
                 const ext = (o.userType.toLowerCase() == "member") ? false : true;
-                const p = new Person(o.id, o.userPrincipalName.toLowerCase(), (ext) ? PERSON_TYPE.LocGuest : PERSON_TYPE.Employee, o.displayName, o.jobTitle, o.mail);
+                const p = new Person(o.id, o.userPrincipalName?.toLowerCase(), (ext) ? PERSON_TYPE.LocGuest : PERSON_TYPE.Employee, o.displayName, o.jobTitle, o.mail);
                 retVal.push(p);
               }
             });

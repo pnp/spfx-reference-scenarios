@@ -37,7 +37,7 @@ export class WorldClockMemberService implements IWorldClockMemberService {
         wcConfig.configTeam = new Team(wc.GroupId, wc.TeamName);
       } else {
         const current = await graph.me.select("id,userPrincipalName,displayName,jobTitle,user").get<{ id: string, userPrincipalName: string, displayName: string, jobTitle: string, mail: string }>();
-        wcConfig.configPerson = new Person(current.id, current.userPrincipalName.toLowerCase(), PERSON_TYPE.Employee, current.displayName, current.jobTitle, current.mail, "", null, wc.IANATimeZone);
+        wcConfig.configPerson = new Person(current.id, current.userPrincipalName?.toLowerCase(), PERSON_TYPE.Employee, current.displayName, current.jobTitle, current.mail, "", null, wc.IANATimeZone);
       }
       wcConfig.members = await this._getTeamMembers();
       if (wcConfig.configPerson != undefined) {
@@ -84,7 +84,7 @@ export class WorldClockMemberService implements IWorldClockMemberService {
         forEach(members, (o) => {
           const ext = (o.userType.toLowerCase() == "member") ? false : true;
           const currentZone = (o.userPrincipalName?.toLowerCase() === wc.UserLogin.toLowerCase()) ? wc.IANATimeZone : null;
-          const p = new Person(o.id, o.userPrincipalName.toLowerCase(), (ext) ? PERSON_TYPE.LocGuest : PERSON_TYPE.Employee, o.displayName, o.jobTitle, o.mail, null, null, currentZone);
+          const p = new Person(o.id, o.userPrincipalName?.toLowerCase(), (ext) ? PERSON_TYPE.LocGuest : PERSON_TYPE.Employee, o.displayName, o.jobTitle, o.mail, null, null, currentZone);
           retVal.push(p);
         });
       }
