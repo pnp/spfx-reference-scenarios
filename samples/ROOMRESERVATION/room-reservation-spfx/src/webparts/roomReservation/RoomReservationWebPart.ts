@@ -1,7 +1,6 @@
 import * as React from 'react';
 import * as ReactDom from 'react-dom';
 import { sp } from "@pnp/sp";
-import { graph } from "@pnp/graph";
 import { Logger, LogLevel, ConsoleListener } from "@pnp/logging";
 import {
   ThemeProvider,
@@ -41,7 +40,8 @@ export default class RoomReservationWebPart extends BaseClientSideWebPart<IRoomR
 
       //Initialize PnPJs
       sp.setup({ spfxContext: this.context });
-      graph.setup({ spfxContext: this.context });
+
+      this._microsoftTeams = this.context.sdks?.microsoftTeams;
 
       // Consume the new ThemeProvider service
       this._themeProvider = this.context.serviceScope.consume(ThemeProvider.serviceKey);
@@ -93,7 +93,6 @@ export default class RoomReservationWebPart extends BaseClientSideWebPart<IRoomR
 
   private async _init(): Promise<void> {
     try {
-      this._microsoftTeams = this.context.sdks?.microsoftTeams;
       await rr.Init(this.context.pageContext.cultureInfo.currentUICultureName);
       rr.HandleExecuteDeepLink = this._handleExecuteDeepLink;
 

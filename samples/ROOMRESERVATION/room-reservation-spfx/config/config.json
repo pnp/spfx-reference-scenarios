@@ -9,10 +9,19 @@
           "manifest": "./src/webparts/roomReservation/RoomReservationWebPart.manifest.json"
         }
       ]
+    },
+    "room-reservation-adaptive-card-extension": {
+      "components": [
+        {
+          "entrypoint": "./lib/adaptiveCardExtensions/roomReservation/RoomReservationAdaptiveCardExtension.js",
+          "manifest": "./src/adaptiveCardExtensions/roomReservation/RoomReservationAdaptiveCardExtension.manifest.json"
+        }
+      ]
     }
   },
   "externals": {},
   "localizedResources": {
-    "RoomReservationWebPartStrings": "lib/webparts/roomReservation/loc/{locale}.js"
+    "RoomReservationWebPartStrings": "lib/webparts/roomReservation/loc/{locale}.js",
+    "RoomReservationAdaptiveCardExtensionStrings": "lib/adaptiveCardExtensions/roomReservation/loc/{locale}.js"
   }
 }
