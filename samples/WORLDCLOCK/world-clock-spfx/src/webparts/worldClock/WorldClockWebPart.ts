@@ -44,6 +44,8 @@ export default class WorldClockWebPart extends BaseClientSideWebPart<IWorldClock
       sp.setup({ spfxContext: this.context });
       graph.setup({ spfxContext: this.context });
 
+      this._microsoftTeams = this.context.sdks?.microsoftTeams;
+
       // Consume the new ThemeProvider service
       this._themeProvider = this.context.serviceScope.consume(ThemeProvider.serviceKey);
       this._themeVariant = this._themeProvider.tryGetTheme();
@@ -94,7 +96,6 @@ export default class WorldClockWebPart extends BaseClientSideWebPart<IWorldClock
 
   private async _init(): Promise<void> {
     try {
-      this._microsoftTeams = this.context.sdks?.microsoftTeams;
       if (this._microsoftTeams)
         this._getTeamsQueryString();
       const configType: CONFIG_TYPE = (this._microsoftTeams?.context?.groupId) ? CONFIG_TYPE.Team : CONFIG_TYPE.Personal;
