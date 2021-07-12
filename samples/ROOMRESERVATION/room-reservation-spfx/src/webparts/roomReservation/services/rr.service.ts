@@ -219,8 +219,11 @@ export class RoomReservationService implements IRoomReservationService {
     try {
       const now: DateTime = DateTime.now().setLocale(this._locale);
       forEach(this._currentConfig.meetings, (meeting) => {
-        const start: DateTime = DateTime.fromFormat(meeting.startTime.toString(), "D t").setLocale(this._locale);
-        const end: DateTime = DateTime.fromFormat(meeting.endTime.toString(), "D t").setLocale(this._locale);
+        const start: DateTime = DateTime.fromISO(meeting.startTime.toString()).setLocale(this._locale);
+        const end: DateTime = DateTime.fromISO(meeting.endTime.toString()).setLocale(this._locale);
+
+        //const start: DateTime = DateTime.fromFormat(meeting.startTime.toString(), "D t").setLocale(this._locale);
+        //const end: DateTime = DateTime.fromFormat(meeting.endTime.toString(), "D t").setLocale(this._locale);
         if (start.toISO() > now.toISO()) {
           //Format the display of the meeting time
           const displayTime = this.GetMeetingDisplayTime(start, end);

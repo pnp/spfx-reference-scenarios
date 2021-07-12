@@ -6,6 +6,7 @@ import { IMeetingResult } from "../../models/rr.models";
 
 export interface IMeetingsProps {
   meetings: IMeetingResult[];
+  selectedMeetingId: number;
   onSelect: (meeting: IMeetingResult) => void;
 }
 
@@ -33,7 +34,7 @@ export default class Meetings extends React.Component<IMeetingsProps, IMeetingsS
               {
                 this.props.meetings.map((m) => {
                   return (
-                    <li className="meeting-date" onClick={() => this.props.onSelect(m)}>
+                    <li className={`meeting-date ${(m.meetingId === this.props.selectedMeetingId) ? "selected" : ""}`} onClick={() => this.props.onSelect(m)}>
                       <div className="date-details">
                         <div className="date-title">{`${m.subject}`}</div>
                         <div className="date-day">{`${m.displayTime}`}</div>

@@ -26,6 +26,7 @@ declare interface IRoomReservationWebPartStrings {
   AVLabel: string;
   SelectDifferentRoom: string;
   NoRoomSelected: string;
+  SubjectLabel: string;
 }
 
 declare module 'RoomReservationWebPartStrings' {

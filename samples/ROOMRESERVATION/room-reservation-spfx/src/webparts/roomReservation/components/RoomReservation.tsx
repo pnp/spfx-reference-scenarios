@@ -14,6 +14,7 @@ import MeetingStage from './organisms/MeetingStage';
 import TeamsToolBar from './molecules/TeamsToolBar';
 import Panel from './molecules/Panel';
 import NewReservation from './molecules/NewReservation';
+import { clone } from 'lodash';
 
 
 export interface IRoomReservationProps {
@@ -83,9 +84,11 @@ export default class RoomReservation extends React.Component<IRoomReservationPro
 
   private _getAvailableRooms = (meeting: IMeetingResult) => {
     try {
+      const meetings: IMeetingResult[] = cloneDeep(this.state.meetings);
+      meetings.push(meeting);
       const rooms: IRoomResults[] = rr.GetAvailableRooms(meeting.startTime, meeting.endTime, meeting.attendees);
       const selectedRoom: IRoomResults = new RoomResult();
-      this.setState({ rooms: rooms, selectedMeeting: meeting, selectedRoom: selectedRoom, panelVisibility: false });
+      this.setState({ meetings: meetings, rooms: rooms, selectedMeeting: meeting, selectedRoom: selectedRoom, panelVisibility: false });
     } catch (err) {
       Logger.write(`${this.LOG_SOURCE} (_getAvailableRooms) - ${err}`, LogLevel.Error);
       return null;
@@ -96,6 +99,10 @@ export default class RoomReservation extends React.Component<IRoomReservationPro
     try {
       const config = cloneDeep(rr.Config);
       let newMeeting = find(config.meetings, { meetingId: this.state.selectedMeeting.meetingId });
+      if (newMeeting == undefined) {
+        newMeeting = cloneDeep(this.state.selectedMeeting);
+        config.meetings.push(newMeeting);
+      }
       newMeeting.roomId = this.state.selectedRoom.roomId;
       newMeeting.roomName = this.state.selectedRoom.displayName;
       let success = await rr.UpdateConfig(config);
@@ -127,7 +134,7 @@ export default class RoomReservation extends React.Component<IRoomReservationPro
         <div className={styles.roomReservation}>
           <TeamsToolBar label="Check Availability" onClick={() => this._togglePanelVisibility()} />
           <h2 className="meeting-headline">{strings.MyMeetingsHeader}</h2>
-          <Meetings meetings={this.state.meetings} onSelect={this._setSelectedMeeting} />
+          <Meetings meetings={this.state.meetings} selectedMeetingId={this.state.selectedMeeting?.meetingId} onSelect={this._setSelectedMeeting} />
           <MeetingStage
             bookRoom={this._bookRoom}
             selectedMeeting={this.state.selectedMeeting}

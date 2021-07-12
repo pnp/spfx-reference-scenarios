@@ -1,4 +1,4 @@
-define([], function() {
+define([], function () {
   return {
     "MyMeetingsHeader": "Upcoming Meetings:",
     "AttendeesLabel": "attendees",
@@ -20,12 +20,13 @@ define([], function() {
     "ParticipantsLabel": "Participants",
     "NoRooms": "No rooms meet this criteria.",
     "NoMeetings": "There are no upcoming meetings.",
-    "CateringOptions": ['Breakfast','Lunch','Dinner','Cocktails'],
-    "AVOptions": ['Surface Hub','Computer','Projector','Microphone'],
+    "CateringOptions": ['Breakfast', 'Lunch', 'Dinner', 'Cocktails'],
+    "AVOptions": ['Surface Hub', 'Computer', 'Projector', 'Microphone'],
     "PlanTripLabel": "Plan Your Trip",
     "CateringLabel": "Catering Options",
     "AVLabel": "Audio/Visual Options",
     "SelectDifferentRoom": "Select a different room",
     "NoRoomSelected": "No Room Selected",
+    "SubjectLabel": "Subject"
   }
 });

@@ -45,6 +45,10 @@
       border-radius: px2rem(4px);
       min-height: px2rem(150px);
       @include elevation(4);
+
+      &.selected {
+        background-color: $neutralTertiary;
+      }
     }
 
     .meeting-date.hoo-ph-primary {
