@@ -51,7 +51,7 @@ export default class MeetingStage extends React.Component<IMeetingStageProps, IM
               bookRoom={this.props.bookRoom}
               getAvailableRooms={this.props.getAvailableRooms}
             /> :
-            <MeetingRooms rooms={this.props.rooms} selectRoom={this.props.selectRoom} />
+            <MeetingRooms subject={this.props.selectedMeeting?.subject} rooms={this.props.rooms} selectRoom={this.props.selectRoom} />
           }
         </div>
       );

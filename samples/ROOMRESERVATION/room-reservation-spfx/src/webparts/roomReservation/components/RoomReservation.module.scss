@@ -45,6 +45,11 @@
       border-radius: px2rem(4px);
       min-height: px2rem(150px);
       @include elevation(4);
+
+      &.selected {
+        background-color: $buttonBackgroundCheckedHovered;
+        box-shadow: 0 30px 40px 0 rgb(0 0 0 / 20%), 0 10px 15px 0 rgb(0 0 0 / 20%);
+      }
     }
 
     .meeting-date.hoo-ph-primary {
@@ -66,14 +71,9 @@
     }
 
     .date-details {
-
-
       display: flex;
       flex-direction: column;
-
       padding: .75rem 1rem .95rem;
-
-
     }
 
     .date-title {

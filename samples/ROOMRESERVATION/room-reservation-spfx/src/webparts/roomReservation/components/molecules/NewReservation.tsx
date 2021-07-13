@@ -21,6 +21,7 @@ export interface INewReservationState {
   start: DateTime;
   end: DateTime;
   participants: number;
+  subject: string;
 }
 
 export class NewReservationState implements INewReservationState {
@@ -28,7 +29,8 @@ export class NewReservationState implements INewReservationState {
     public rooms: IRoomResults[] = [],
     public start: DateTime = DateTime.local().setLocale(rr.Locale).plus({ hours: 1 }).set({ minute: 0 }),
     public end: DateTime = DateTime.local().setLocale(rr.Locale).plus({ hours: 2 }).set({ minute: 0 }),
-    public participants: number = 1
+    public participants: number = 1,
+    public subject: string = "New Meeting",
   ) { }
 }
 
@@ -74,6 +76,17 @@ export default class NewReservation extends React.Component<INewReservationProps
     }
   }
 
+  private _onTextChange = (fieldValue: string, fieldName: string) => {
+    try {
+      const state = cloneDeep(this.state);
+      state[fieldName] = fieldValue;
+
+      this.setState(state);
+    } catch (err) {
+      Logger.write(`${this.LOG_SOURCE} (_onTextChange) - ${err}`, LogLevel.Error);
+    }
+  }
+
   private _onChange() {
     try {
       const displayTime = rr.GetMeetingDisplayTime(this.state.start, this.state.end);
@@ -87,13 +100,13 @@ export default class NewReservation extends React.Component<INewReservationProps
         "",
         "",
         "",
-        -1,
-        "New Meeting",
+        rr.Config.meetings.length,
+        this.state.subject,
         this.state.start,
         this.state.end,
         displayTime,
-        -1,
-        -1,
+        0,
+        0,
         -1,
         "",
         this.state.participants
@@ -109,6 +122,16 @@ export default class NewReservation extends React.Component<INewReservationProps
       return (
         <div data-component={this.LOG_SOURCE}>
           <div className="new-reservation">
+            <div>
+              <Label label={`${strings.SubjectLabel}:`} labelFor="subject" />
+              <input
+                className="hoo-input-text"
+                type="text"
+                id="subject"
+                value={this.state.subject}
+                onChange={(newValue) => { this._onTextChange(newValue.target.value, "subject"); }} />
+
+            </div>
             <div>
               <Label label={`${strings.StartLabel}:`} labelFor="startDate" />
               <input

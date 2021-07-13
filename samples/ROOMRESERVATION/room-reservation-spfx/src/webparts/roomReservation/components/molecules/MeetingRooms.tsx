@@ -8,6 +8,7 @@ import { IRoomResults } from "../../models/rr.models";
 import RoomCard from "../atoms/RoomCard";
 
 export interface IMeetingRoomsProps {
+  subject: string;
   rooms: IRoomResults[];
   selectRoom: (room: IRoomResults) => void;
 }
@@ -37,7 +38,7 @@ export default class MeetingRooms extends React.Component<IMeetingRoomsProps, IM
     try {
       return (
         <div data-component={this.LOG_SOURCE}>
-          <h2 className="meeting-headline">{strings.AvailableRoomsLabel}</h2>
+          <h2 className="meeting-headline">{`${this.props.subject || ""} ${strings.AvailableRoomsLabel}`}</h2>
           <div className="meeting-room-selector">
             {(this.props.rooms.length > 0) ?
               <div className="meeting-rooms">
