@@ -47,7 +47,8 @@
       @include elevation(4);
 
       &.selected {
-        background-color: $neutralTertiary;
+        background-color: $buttonBackgroundCheckedHovered;
+        box-shadow: 0 30px 40px 0 rgb(0 0 0 / 20%), 0 10px 15px 0 rgb(0 0 0 / 20%);
       }
     }
 
@@ -70,14 +71,9 @@
     }
 
     .date-details {
-
-
       display: flex;
       flex-direction: column;
-
       padding: .75rem 1rem .95rem;
-
-
     }
 
     .date-title {
