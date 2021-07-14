@@ -1,9 +1,9 @@
 import { ISPFxAdaptiveCard, BaseAdaptiveCardView, IActionArguments } from '@microsoft/sp-adaptive-card-extension-base';
-
 import { Logger, LogLevel } from "@pnp/logging";
+import forEach from 'lodash/forEach';
 
 import * as strings from 'CovidCardAdaptiveCardExtensionStrings';
-import { find, forEach } from 'lodash';
+
 import { CheckIns, IAnswer, ICheckIns, IQuestion, QuestionType } from '../../../webparts/covidAdmin/models/covid.model';
 import { cs } from '../../../webparts/covidAdmin/services/covid.service';
 import { ICovidCardAdaptiveCardExtensionProps, ICovidCardAdaptiveCardExtensionState } from '../CovidCardAdaptiveCardExtension';
@@ -78,12 +78,6 @@ export class QuickView extends BaseAdaptiveCardView<
       template.body[2].choices = locationOptions;
       template.body[2].value = "${location}";
 
-      // items.push({
-      //   type: "Input.ChoiceSet",
-      //   choices: locationOptions,
-      //   value: "${location}",
-      //   id: "location"
-      // });
       forEach(this._questions, (q) => {
         if (q.QuestionType === QuestionType.YesNo) {
 
@@ -106,7 +100,7 @@ export class QuickView extends BaseAdaptiveCardView<
       if (id === 'submit') {
         const today = new Date();
         const title = `${this.state.displayName} - ${today.toLocaleDateString()}`;
-        let checkInForm: ICheckIns = new CheckIns(0, title, today, this.state.userId, null, action.data["location"], this._questions.map<IAnswer>((q) => { return { QuestionId: q.Id, Answer: action.data[q.Id.toString()] }; }), today);
+        let checkInForm: ICheckIns = new CheckIns(0, title, today, this.state.userId, null, action.data["office"], this._questions.map<IAnswer>((q) => { return { QuestionId: q.Id, Answer: action.data[q.Id.toString()] }; }), today);
         const success = await cs.addSelfCheckIn(checkInForm);
         if (success) {
           this.setState({ canCheckIn: false });
