@@ -11,9 +11,6 @@ export class CovidCardPropertyPane {
             {
               groupName: strings.BasicGroupName,
               groupFields: [
-                PropertyPaneTextField('title', {
-                  label: strings.TitleFieldLabel
-                }),
                 PropertyPaneTextField('homeSite', {
                   label: strings.HomeSite
                 })

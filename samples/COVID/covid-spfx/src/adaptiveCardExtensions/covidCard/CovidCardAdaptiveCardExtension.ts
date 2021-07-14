@@ -10,8 +10,6 @@ import { CovidCardPropertyPane } from './CovidCardPropertyPane';
 import { cs } from '../../webparts/covidAdmin/services/covid.service';
 
 export interface ICovidCardAdaptiveCardExtensionProps {
-  title: string;
-  description: string;
   iconProperty: string;
   homeSite: string;
 }
@@ -73,13 +71,7 @@ export default class CovidCardAdaptiveCardExtension extends BaseAdaptiveCardExte
     } catch (err) {
       Logger.write(`${this.LOG_SOURCE} (onInit) - ${err.message} - `, LogLevel.Error);
     }
-
-    return Promise.resolve();
   }
-
-  // public get title(): string {
-  //   return this.properties.title;
-  // }
 
   protected get iconProperty(): string {
     return require('../../../teams/3ab8fb75-8f80-4ff1-90a3-6f711ad27c1d_color.png');
@@ -104,11 +96,4 @@ export default class CovidCardAdaptiveCardExtension extends BaseAdaptiveCardExte
   protected getPropertyPaneConfiguration(): IPropertyPaneConfiguration {
     return this._deferredPropertyPane!.getPropertyPaneConfiguration();
   }
-
-  // tslint:disable-next-line: no-any
-  // protected onPropertyPaneFieldChanged(propertyPath: string, oldValue: any, newValue: any): void {
-  //   this.setState({
-  //     description: newValue
-  //   });
-  // }
 }
