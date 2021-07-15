@@ -24,6 +24,12 @@ Once all the team members are set up, you can start using the solution in the sa
 
 The configurations for the personal solution are stored in a file in your personal OneDrive in a folder called `WorldClockApp`.
 
+### Viva Dashboard Adaptive Card Extension (ACE)
+
+This solution also contains a Viva Desktop Adaptive Card Extension. As of this time the Dashboard page layout is not generally available so unless you were part of the private preview program you will not be able to add the extension to a page in SharePoint however, if you have access to SPFx 1.13 you can download the source code and serve the solution into the workbench to view the ACE.
+
+![World Clock ACE](./images/WorldClockACE.gif)
+
 ## Used SharePoint Framework Version
 
 ![version](https://img.shields.io/badge/version-1.13.0-green.svg)
