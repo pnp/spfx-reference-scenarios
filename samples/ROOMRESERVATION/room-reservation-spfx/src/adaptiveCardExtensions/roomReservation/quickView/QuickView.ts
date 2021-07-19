@@ -1,13 +1,19 @@
 import { ISPFxAdaptiveCard, BaseAdaptiveCardView, IActionArguments } from '@microsoft/sp-adaptive-card-extension-base';
 import * as strings from 'RoomReservationAdaptiveCardExtensionStrings';
-import { IMeeting } from '../../../webparts/roomReservation/models/rr.models';
-import { rr } from '../../../webparts/roomReservation/services/rr.service';
+import { IMeetingResult } from '../../../webparts/roomReservation/models/rr.models';
 import { IRoomReservationAdaptiveCardExtensionProps, IRoomReservationAdaptiveCardExtensionState } from '../RoomReservationAdaptiveCardExtension';
+import { Logger, LogLevel } from "@pnp/logging";
 
 export interface IQuickViewData {
   subTitle: string;
   title: string;
-  meeting: IMeeting;
+  meeting: IMeetingResult;
+  imageUrl: string;
+  teamsUrl: string;
+  covidAppUrl: string;
+  planTripButtonLabel: string;
+  covidFormButtonLabel: string;
+  meetingDetailsButtonLabel: string;
 }
 
 export class QuickView extends BaseAdaptiveCardView<
@@ -15,12 +21,33 @@ export class QuickView extends BaseAdaptiveCardView<
   IRoomReservationAdaptiveCardExtensionState,
   IQuickViewData
 > {
+  private LOG_SOURCE: string = "🔶 QuickView";
+
   public get data(): IQuickViewData {
-    return {
-      subTitle: strings.SubTitle,
-      title: strings.Title,
-      meeting: rr.Config.meetings[this.state.currentMeeting]
-    };
+    let retVal: IQuickViewData = null;
+    try {
+      const meeting = this.state.meetings[this.state.currentMeetingIndex];
+      if (meeting) {
+        let imageUrl: string = "";
+        if (meeting.roomId > -1) {
+          imageUrl = require(`../../../webparts/roomReservation/components/assets/card-${meeting.roomId}.jpg`);
+        }
+        retVal = {
+          title: strings.Title,
+          subTitle: strings.SubTitle,
+          meeting: meeting,
+          imageUrl: imageUrl,
+          teamsUrl: this.state.teamsUrl,
+          covidAppUrl: this.state.covidAppUrl,
+          planTripButtonLabel: strings.PlanTripButton,
+          covidFormButtonLabel: strings.CovidFormButton,
+          meetingDetailsButtonLabel: strings.MeetingDetailsButton
+        };
+      }
+    } catch (err) {
+      Logger.write(`${this.LOG_SOURCE} (data) - ${err}`, LogLevel.Error);
+    }
+    return retVal;
   }
 
   public get template(): ISPFxAdaptiveCard {
@@ -31,14 +58,24 @@ export class QuickView extends BaseAdaptiveCardView<
     if (action.type === 'Submit') {
       const { id, newIndex } = action.data;
       if (id === 'previous') {
-        let newMeetingId: number = this.state.currentMeeting;
-        newMeetingId = (newMeetingId = 0) ? (rr.Config.meetings.length - 1) : newMeetingId--;
-        this.setState({ currentMeeting: newMeetingId });
+        let newMeetingIndex: number = this.state.currentMeetingIndex;
+        newMeetingIndex = (newMeetingIndex = 0) ? (this.state.meetings.length - 1) : newMeetingIndex--;
+        this.setState({ currentMeetingIndex: newMeetingIndex });
       } else if (id === 'next') {
-        let newMeetingId: number = this.state.currentMeeting;
-        newMeetingId = (newMeetingId < rr.Config.meetings.length) ? newMeetingId++ : 0;
-        this.setState({ currentMeeting: newMeetingId });
+        let newMeetingIndex: number = this.state.currentMeetingIndex;
+        newMeetingIndex = (newMeetingIndex < this.state.meetings.length) ? newMeetingIndex + 1 : 0;
+        this.setState({ currentMeetingIndex: newMeetingIndex });
       }
+
+      // if (id === 'previous') {
+      //   let newMeetingIndex: number = this.state.currentMeetingIndex;
+      //   newMeetingIndex = (newMeetingIndex = 0) ? (meetings.length - 1) : newMeetingIndex--;
+      //   this.setState({ currentMeetingIndex: newMeetingIndex, currentMeeting: meetings[newMeetingIndex] });
+      // } else if (id === 'next') {
+      //   let newMeetingIndex: number = this.state.currentMeetingIndex;
+      //   newMeetingIndex = (newMeetingIndex < meetings.length) ? newMeetingIndex + 1 : 0;
+      //   this.setState({ currentMeetingIndex: newMeetingIndex, currentMeeting: meetings[newMeetingIndex] });
+      // }
     }
   }
 }

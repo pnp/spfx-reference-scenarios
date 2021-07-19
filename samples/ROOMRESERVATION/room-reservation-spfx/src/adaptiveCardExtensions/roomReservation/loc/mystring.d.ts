@@ -9,6 +9,9 @@ declare interface IRoomReservationAdaptiveCardExtensionStrings {
   Description: string;
   PrimaryText: string;
   QuickViewButton: string;
+  PlanTripButton: string;
+  CovidFormButton: string;
+  MeetingDetailsButton: string;
 }
 
 declare module 'RoomReservationAdaptiveCardExtensionStrings' {

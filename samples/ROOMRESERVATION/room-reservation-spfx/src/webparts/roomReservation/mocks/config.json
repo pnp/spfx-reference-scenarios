@@ -1,64 +1,58 @@
 {
-  "locations": [
-    {
-      "locationId": 0,
-      "displayName": "Sympraxis HQ",
-      "buildings": [
+  "locations": [{
+    "locationId": 0,
+    "displayName": "Sympraxis HQ",
+    "buildings": [{
+      "buildingId": 0,
+      "displayName": "Main House",
+      "address": "1 Main Street",
+      "city": "Brookline",
+      "state": "MA",
+      "postalcode": "02111",
+      "country": "United States",
+      "phone": "+1 425-882-8080",
+      "latitude": "42.342731",
+      "longitude": "-71.122459",
+      "rooms": [{
+          "roomId": 0,
+          "displayName": "Arctic",
+          "maxOccupancy": 6,
+          "imagePath": ""
+        },
         {
-          "buildingId": 0,
-          "displayName": "Main House",
-          "address": "1 Main Street",
-          "city": "Brookline",
-          "state": "MA",
-          "postalcode": "02111",
-          "country": "United States",
-          "phone": "+1 425-882-8080",
-          "latitude": "42.342731",
-          "longitude": "-71.122459",
-          "rooms": [
-            {
-              "roomId": 0,
-              "displayName": "Arctic",
-              "maxOccupancy": 6,
-              "imagePath": ""
-            },
-            {
-              "roomId": 1,
-              "displayName": "Baltic",
-              "maxOccupancy": 20,
-              "imagePath": ""
-            },
-            {
-              "roomId": 2,
-              "displayName": "Pacific",
-              "maxOccupancy": 10,
-              "imagePath": ""
-            },
-            {
-              "roomId": 3,
-              "displayName": "Atlantic",
-              "maxOccupancy": 15,
-              "imagePath": ""
-            },
-            {
-              "roomId": 4,
-              "displayName": "Mediterranean",
-              "maxOccupancy": 4,
-              "imagePath": ""
-            },
-            {
-              "roomId": 5,
-              "displayName": "Southern",
-              "maxOccupancy": 8,
-              "imagePath": ""
-            }
-          ]
+          "roomId": 1,
+          "displayName": "Baltic",
+          "maxOccupancy": 20,
+          "imagePath": ""
+        },
+        {
+          "roomId": 2,
+          "displayName": "Pacific",
+          "maxOccupancy": 10,
+          "imagePath": ""
+        },
+        {
+          "roomId": 3,
+          "displayName": "Atlantic",
+          "maxOccupancy": 15,
+          "imagePath": ""
+        },
+        {
+          "roomId": 4,
+          "displayName": "Mediterranean",
+          "maxOccupancy": 4,
+          "imagePath": ""
+        },
+        {
+          "roomId": 5,
+          "displayName": "Southern",
+          "maxOccupancy": 8,
+          "imagePath": ""
         }
       ]
-    }
-  ],
-  "meetings": [
-    {
+    }]
+  }],
+  "meetings": [{
       "meetingId": "0",
       "subject": "Office Party",
       "startTime": "2021-07-04T20:00:00-04:00",
@@ -72,9 +66,9 @@
     {
       "meetingId": "1",
       "subject": "SPFx Teams Samples Meeting",
-      "startTime": "2021-07-10T09:00:00-04:00",
-      "endTime": "2021-07-10T09:55:00-04:00",
-      "displayTime": "June 10, 2021 9am-9:55am",
+      "startTime": "2021-08-10T09:00:00-04:00",
+      "endTime": "2021-08-10T09:55:00-04:00",
+      "displayTime": "August 8, 2021 9am-9:55am",
       "locationId": "0",
       "buildingId": "0",
       "roomId": "0",
@@ -83,9 +77,9 @@
     {
       "meetingId": "2",
       "subject": "Strategy Session",
-      "startTime": "2021-07-18T09:00:00-04:00",
-      "endTime": "2021-07-18T14:00:00-04:00",
-      "displayTime": "July 12, 2021 9am-12pm",
+      "startTime": "2021-08-12T09:00:00-04:00",
+      "endTime": "2021-08-12T14:00:00-04:00",
+      "displayTime": "August 12, 2021 9am-12pm",
       "locationId": "0",
       "buildingId": "0",
       "roomId": "",
@@ -94,8 +88,8 @@
     {
       "meetingId": "3",
       "subject": "Leadership Team Meeting",
-      "startTime": "2021-07-15T09:00:00-04:00",
-      "endTime": "2021-07-15T17:00:00-04:00",
+      "startTime": "2021-08-15T09:00:00-04:00",
+      "endTime": "2021-08-15T17:00:00-04:00",
       "displayTime": "",
       "locationId": "0",
       "buildingId": "0",
@@ -105,9 +99,9 @@
     {
       "meetingId": "4",
       "subject": "Executive Briefing",
-      "startTime": "2021-07-12T09:00:00-04:00",
-      "endTime": "2021-07-12T12:00:00-04:00",
-      "displayTime": "July 12, 2021 9am-12pm",
+      "startTime": "2021-15-12T09:00:00-04:00",
+      "endTime": "2021-15-12T12:00:00-04:00",
+      "displayTime": "August 15, 2021 9am-12pm",
       "locationId": "0",
       "buildingId": "0",
       "roomId": "",
@@ -116,9 +110,9 @@
     {
       "meetingId": "5",
       "subject": "Shareholder Quarterly Conference",
-      "startTime": "2021-08-01T09:00:00-04:00",
-      "endTime": "2021-08-01T10:00:00-04:00",
-      "displayTime": "July 12, 2021 9am-12pm",
+      "startTime": "2021-09-01T09:00:00-04:00",
+      "endTime": "2021-09-01T10:00:00-04:00",
+      "displayTime": "September 01, 2021 9am-12pm",
       "locationId": "0",
       "buildingId": "0",
       "roomId": "2",
