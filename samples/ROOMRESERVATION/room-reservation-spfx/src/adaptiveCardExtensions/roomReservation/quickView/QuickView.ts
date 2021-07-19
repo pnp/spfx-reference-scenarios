@@ -66,16 +66,6 @@ export class QuickView extends BaseAdaptiveCardView<
         newMeetingIndex = (newMeetingIndex < this.state.meetings.length) ? newMeetingIndex + 1 : 0;
         this.setState({ currentMeetingIndex: newMeetingIndex });
       }
-
-      // if (id === 'previous') {
-      //   let newMeetingIndex: number = this.state.currentMeetingIndex;
-      //   newMeetingIndex = (newMeetingIndex = 0) ? (meetings.length - 1) : newMeetingIndex--;
-      //   this.setState({ currentMeetingIndex: newMeetingIndex, currentMeeting: meetings[newMeetingIndex] });
-      // } else if (id === 'next') {
-      //   let newMeetingIndex: number = this.state.currentMeetingIndex;
-      //   newMeetingIndex = (newMeetingIndex < meetings.length) ? newMeetingIndex + 1 : 0;
-      //   this.setState({ currentMeetingIndex: newMeetingIndex, currentMeeting: meetings[newMeetingIndex] });
-      // }
     }
   }
 }
