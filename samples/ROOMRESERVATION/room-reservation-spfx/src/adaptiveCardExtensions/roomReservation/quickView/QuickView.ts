@@ -58,12 +58,12 @@ export class QuickView extends BaseAdaptiveCardView<
     if (action.type === 'Submit') {
       const { id, newIndex } = action.data;
       if (id === 'previous') {
-        let newMeetingIndex: number = this.state.currentMeetingIndex;
-        newMeetingIndex = (newMeetingIndex = 0) ? (this.state.meetings.length - 1) : newMeetingIndex--;
+        let newMeetingIndex: number = this.state.currentMeetingIndex - 1;
+        newMeetingIndex = (newMeetingIndex < 0) ? (this.state.meetings.length - 1) : newMeetingIndex;
         this.setState({ currentMeetingIndex: newMeetingIndex });
       } else if (id === 'next') {
-        let newMeetingIndex: number = this.state.currentMeetingIndex;
-        newMeetingIndex = (newMeetingIndex < this.state.meetings.length) ? newMeetingIndex + 1 : 0;
+        let newMeetingIndex: number = this.state.currentMeetingIndex + 1;
+        newMeetingIndex = (newMeetingIndex < this.state.meetings.length) ? newMeetingIndex : 0;
         this.setState({ currentMeetingIndex: newMeetingIndex });
       }
     }

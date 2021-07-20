@@ -3,12 +3,14 @@ import { BaseAdaptiveCardExtension } from '@microsoft/sp-adaptive-card-extension
 
 import { Logger, LogLevel, ConsoleListener } from "@pnp/logging";
 import { sp } from "@pnp/sp";
+import remove from 'lodash/remove';
 
 import { CardView } from './cardView/CardView';
 import { QuickView } from './quickView/QuickView';
 import { RoomReservationPropertyPane } from './RoomReservationPropertyPane';
 import { rr } from '../../webparts/roomReservation/services/rr.service';
 import { IMeetingResult } from '../../webparts/roomReservation/models/rr.models';
+
 
 export interface IRoomReservationAdaptiveCardExtensionProps {
   iconProperty: string;
@@ -43,6 +45,7 @@ export default class RoomReservationAdaptiveCardExtension extends BaseAdaptiveCa
 
       await rr.Init(this.context.pageContext.cultureInfo.currentUICultureName);
       const meetings: IMeetingResult[] = rr.GetMeetings();
+      remove(meetings, { roomId: -1 });
 
       this.state = {
         currentMeetingIndex: 0,
