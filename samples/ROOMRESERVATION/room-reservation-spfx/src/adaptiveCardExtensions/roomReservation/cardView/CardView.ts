@@ -7,6 +7,7 @@ import {
 } from '@microsoft/sp-adaptive-card-extension-base';
 import * as strings from 'RoomReservationAdaptiveCardExtensionStrings';
 import { IRoomReservationAdaptiveCardExtensionProps, IRoomReservationAdaptiveCardExtensionState, QUICK_VIEW_REGISTRY_ID } from '../RoomReservationAdaptiveCardExtension';
+import { iconColor } from '../../../webparts/roomReservation/models/rr.Icons';
 
 export class CardView extends BaseImageCardView<IRoomReservationAdaptiveCardExtensionProps, IRoomReservationAdaptiveCardExtensionState> {
   public get cardButtons(): [ICardButton] | [ICardButton, ICardButton] | undefined {
@@ -24,17 +25,21 @@ export class CardView extends BaseImageCardView<IRoomReservationAdaptiveCardExte
   }
 
   public get data(): IImageCardParameters {
+    const meeting = this.state.meetings[this.state.currentMeetingIndex];
+    const imageSrc: any = require(`../../../webparts/roomReservation/components/assets/card-${meeting.roomId}.jpg`);
     return {
-      primaryText: strings.PrimaryText,
-      imageUrl: 'https://blogs.microsoft.com/uploads/2017/09/WR-Microsoft-logo.jpg'
+      title: strings.Title,
+      iconProperty: iconColor,
+      primaryText: `${meeting.subject} -  ${meeting.displayTime}`,
+      imageUrl: imageSrc
     };
   }
 
   public get onCardSelection(): IQuickViewCardAction | IExternalLinkCardAction | undefined {
     return {
-      type: 'ExternalLink',
+      type: 'QuickView',
       parameters: {
-        target: this.state.teamsUrl
+        view: QUICK_VIEW_REGISTRY_ID
       }
     };
   }

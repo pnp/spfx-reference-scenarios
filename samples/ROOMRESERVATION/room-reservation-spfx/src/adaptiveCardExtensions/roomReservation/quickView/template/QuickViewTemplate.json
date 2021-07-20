@@ -2,32 +2,150 @@
   "schema": "http://adaptivecards.io/schemas/adaptive-card.json",
   "type": "AdaptiveCard",
   "version": "1.2",
-  "body": [
-    {
-      "type": "TextBlock",
-      "weight": "Bolder",
-      "text": "${title}"
-    },
-    {
+  "body": [{
       "type": "ColumnSet",
-      "columns": [
+      "columns": [{
+          "type": "Column",
+          "width": "20px",
+          "items": [{
+            "type": "Image",
+            "color": "Light",
+            "url": "data:image/svg+xml;utf8,<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 2048 2048\"><path d=\"M1443 2045L421 1024 1443 3l90 90-930 931 930 931-90 90z\"></path></svg>",
+            "selectAction": {
+              "type": "Action.Submit",
+              "title": "Previous",
+              "data": {
+                "id": "previous"
+              }
+            }
+          }],
+          "verticalContentAlignment": "Center",
+          "style": "default"
+        },
         {
           "type": "Column",
-          "items": [
-            {
-              "type": "TextBlock",
-              "weight": "Bolder",
-              "text": "${subTitle}",
-              "wrap": true
+          "width": "stretch",
+          "items": [{
+            "type": "TextBlock",
+            "text": "${meeting.subject}",
+            "wrap": true,
+            "size": "Large",
+            "horizontalAlignment": "Center"
+          }]
+        },
+        {
+          "type": "Column",
+          "width": "20px",
+          "items": [{
+            "type": "Image",
+            "url": "data:image/svg+xml;utf8,<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 2048 2048\"><path d=\"M515 1955l930-931L515 93l90-90 1022 1021L605 2045l-90-90z\"></path></svg>",
+            "selectAction": {
+              "type": "Action.Submit",
+              "title": "Next",
+              "data": {
+                "id": "next"
+              }
             }
-          ]
+          }],
+          "verticalContentAlignment": "Center"
         }
       ]
     },
     {
+      "type": "Image",
+      "url": "${imageUrl}",
+      "altText": "${meeting.roomName}"
+    },
+    {
       "type": "TextBlock",
-      "text": "${description}",
-      "wrap": true
+      "size": "Medium",
+      "weight": "Bolder",
+      "text": "${meeting.displayTime}",
+      "spacing": "Padding",
+      "separator": true
+    },
+    {
+      "type": "ColumnSet",
+      "columns": [{
+          "type": "Column",
+          "items": [{
+              "type": "TextBlock",
+              "weight": "Bolder",
+              "text": "${meeting.roomName}",
+              "wrap": true
+            },
+            {
+              "type": "TextBlock",
+              "spacing": "None",
+              "text": "${meeting.buildingDisplayName}",
+              "isSubtle": true,
+              "wrap": true
+            },
+            {
+              "type": "TextBlock",
+              "spacing": "None",
+              "text": "${meeting.buildingAddress}",
+              "isSubtle": true,
+              "wrap": true
+            },
+            {
+              "type": "TextBlock",
+              "spacing": "None",
+              "text": "${meeting.buildingCity}, ${meeting.buildingState} ${meeting.buildingPostalCode}",
+              "isSubtle": true,
+              "wrap": true
+            },
+            {
+              "type": "TextBlock",
+              "spacing": "None",
+              "text": "${meeting.buildingCountry}",
+              "isSubtle": true,
+              "wrap": true
+            },
+            {
+              "type": "TextBlock",
+              "spacing": "None",
+              "text": "${meeting.buildingPhone}",
+              "isSubtle": true,
+              "wrap": true
+            }
+          ],
+          "width": 50
+        },
+        {
+          "type": "Column",
+          "items": [{
+              "type": "Container",
+              "items": [{
+                "type": "ActionSet",
+                "actions": [{
+                  "type": "Action.OpenUrl",
+                  "title": "${planTripButtonLabel}",
+                  "style": "positive",
+                  "url": "https://www.bing.com/maps?rtp=~pos.42.342731_-71.122459&rtop=0~1~0&lvl=15&toWww=1&redig=39849EBDA5DD4C168F8E728848046FFD"
+                }]
+              }]
+            },
+            {
+              "type": "ActionSet",
+              "actions": [{
+                "type": "Action.OpenUrl",
+                "title": "${covidFormButtonLabel}",
+                "style": "positive",
+                "url": "${covidAppUrl}"
+              }]
+            }, {
+              "type": "ActionSet",
+              "actions": [{
+                "type": "Action.OpenUrl",
+                "title": "${meetingDetailsButtonLabel}",
+                "url": "${teamsUrl}"
+              }]
+            }
+          ],
+          "width": 50
+        }
+      ]
     }
   ]
 }
