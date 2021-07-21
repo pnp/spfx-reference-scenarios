@@ -14,22 +14,22 @@ extensions:
 
 Samples targeted to showcase the power of SharePoint Framework in the Microsoft Teams and in Viva Connections. Notice that these are using preview version of the SharePoint Framework 1.13, which in currently planned to get released in early July. You will need to have access on the preview bits to be able to scaffoled these solutions.
 
-- [Covid Self-Attestiation Microsoft Teams personal app sample](samples/COVID/) - with Viva Connections Card
-- [World Clock Reference Microsoft Teawms personal app](samples/WORLDCLOCK/) - with Viva Connections Card
-
+- [Covid Self-Attestation Microsoft Teams personal app sample](samples/COVID/) - with Viva Connections Card
+- [World Clock Reference Microsoft Teams personal app/Teams tab](samples/WORLDCLOCK/) - with Viva Connections Card
+- [Executive Room Reservation Reference Microsoft Teams personal app](samples/ROOMRESERVATION/) - with Viva Connections Card
 
 ## Have issues or questions?
 
 Please use following logic on submitting your questions or issues to right location to ensure that they are noticed and addressed as soon as possible.
 
-* You have general question or challenge with SPFx - use [sp-dev-docs repository issue list](https://github.com/SharePoint/sp-dev-docs/issues).
-* You have issue on specific web part or sample - use [issue list in this repository](https://github.com/pnp/spfx-teams/issues).
+- You have general question or challenge with SPFx - use [sp-dev-docs repository issue list](https://github.com/SharePoint/sp-dev-docs/issues).
+- You have issue on specific web part or sample - use [issue list in this repository](https://github.com/pnp/spfx-teams/issues).
 
 ## Additional resources
 
-* [Overview of the SharePoint Framework](https://docs.microsoft.com/sharepoint/dev/spfx/sharepoint-framework-overview)
-* [SharePoint Framework development tools and libraries](https://docs.microsoft.com/sharepoint/dev/spfx/tools-and-libraries)
-* [Getting Started](https://docs.microsoft.com/en-us/sharepoint/dev/spfx/set-up-your-developer-tenant)
+- [Overview of the SharePoint Framework](https://docs.microsoft.com/sharepoint/dev/spfx/sharepoint-framework-overview)
+- [SharePoint Framework development tools and libraries](https://docs.microsoft.com/sharepoint/dev/spfx/tools-and-libraries)
+- [Getting Started](https://docs.microsoft.com/en-us/sharepoint/dev/spfx/set-up-your-developer-tenant)
 
 ## Using the samples
 
@@ -75,6 +75,7 @@ gulp serve
 ```
 
 ## Authors
+
 This repository's contributors are all community members who volunteered their time to share code samples. Work is done as an open source community project, with each sample contained in their own solution.
 
 ## Contributions
@@ -84,6 +85,7 @@ These samples are direct from the feature teams, SharePoint PnP core team (http:
 Please have a look on our [Contribution Guidance](./CONTRIBUTING.md) before submitting your pull requests, so that we can get your contribution processed as fast as possible.
 
 ## Code of Conduct
+
 This repository has adopted the [Microsoft Open Source Code of Conduct](https://opensource.microsoft.com/codeofconduct/). For more information see the [Code of Conduct FAQ](https://opensource.microsoft.com/codeofconduct/faq/) or contact [opencode@microsoft.com](mailto:opencode@microsoft.com) with any additional questions or comments.
 
 > Sharing is caring!
