@@ -2,6 +2,8 @@
 
 ## Summary
 
+> To see a video overview of this solution check out this resource on YouTube: https://youtu.be/LG8dx6Lsvy4
+
 This solution depicts how you can build a teams based custom form that collects information from users and provides a custom dashboard for working with the results.
 
 ![Check-In Process](./images/Check-In.gif)
