@@ -2,8 +2,9 @@
 
 ## Summary
 
-The World Clock solution helps teams and managers deal with geographically dispersed team members helping make it easier to reconcile working times and meeting schedules with all the members. The solution can be added as a Teams tab to help members of a Team work together but also as a Personal App to help you manage your personal "teams" who may live in various time zones.
+> To see a video overview of this solution check out this resource on YouTube: https://youtu.be/j7-u-sBc5qI
 
+The World Clock solution helps teams and managers deal with geographically dispersed team members helping make it easier to reconcile working times and meeting schedules with all the members. The solution can be added as a Teams tab to help members of a Team work together but also as a Personal App to help you manage your personal "teams" who may live in various time zones.
 
 ![Overview](./images/Overview.gif)
 

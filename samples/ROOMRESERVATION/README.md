@@ -2,15 +2,19 @@
 
 ## Summary
 
+> To see a video overview of this solution check out this resource on YouTube: https://youtu.be/5GJHlMCQMBo
+
 The Executive Room Reservation application is an executive scheduling application that allows users to see upcoming meetings, select and book a room based on availability dates and the number of participants. Users can see a photo of the room where the meeting is booked, get an address to the building to put in the meeting invite, and get directions to the building. It provides a seamless way for executive assistants to schedule meeting rooms for executive meetings. The application demonstrates the ability to create a visually engaging Microsoft Teams based solution.
 
-This application uses demo data for the personal app is stored in a JSON file in the root site collection `Site Assets` library in a folder called `RoomReservation`. It can extended to integrate with the room scheduling software or APIs that are used by your organization.
+This application uses demo data for the personal app that is stored in a JSON file in the root site collection `Site Assets` library in a folder called `RoomReservation`. It can extended to integrate with the room scheduling software or APIs that are used by your organization.
 
 ![Executive Meeting Demo](./images/ExecMeeting.gif)
 
 ### Viva Dashboard Adaptive Card Extension (ACE)
 
-This solution also contains a Viva Desktop Adaptive Card Extension. As of this time the Dashboard page layout is not generally available so unless you were part of the private preview program you will not be able to add the extension to a page in SharePoint however, if you have access to SPFx 1.13 you can download the source code and serve the solution into the workbench to view the ACE.
+This solution also contains a Viva Desktop Adaptive Card Extension. At this time the Dashboard page layout is not generally available so unless you were part of the private preview program you will not be able to add the extension to a page in SharePoint however, if you have access to SPFx 1.13 you can download the source code and serve the solution into the workbench to view the ACE.
+
+![Executive Meeting ACE](./images/ExecMeetingACE.gif)
 
 ## Used SharePoint Framework Version
 
