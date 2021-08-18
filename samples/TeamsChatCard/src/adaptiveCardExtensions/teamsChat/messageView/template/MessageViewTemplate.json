@@ -1,0 +1,76 @@
+{
+  "schema": "http://adaptivecards.io/schemas/adaptive-card.json",
+  "type": "AdaptiveCard",
+  "version": "1.2",
+  "body": [
+    {
+      "type": "Container",
+      "bleed": true,
+      "items": [
+        {
+          "type": "TextBlock",
+          "weight": "Bolder",
+          "size": "large",
+          "color": "accent",
+          "text": "${subject}",
+          "wrap": true,
+          "maxLines": 2
+        },
+        {
+          "type": "TextBlock",
+          "text": "From: ${from.user.displayName}",
+          "size": "small",
+          "isSubtle": true
+        },
+        {
+          "type": "TextBlock",
+          "text": "${body.content}"
+        }
+      ]
+    },
+    {
+      "type": "Container",
+      "$data": "${replies}",
+      "separator": true,
+      "bleed": true,
+      "height": "250px",
+      "items": [
+        {
+          "separator": true,
+          "type": "TextBlock",
+          "text": "${from.user.displayName}:",
+          "isSubtle": true
+        },
+        {
+          "type": "TextBlock",
+          "text": "${body.content}"
+        }
+      ]
+    },
+    {
+      "type": "Input.Text",
+      "id": "replyText",
+      "placeholder": "enter reply",
+      "separator": true,
+      "maxLength": 1024,
+      "isRequired": false,
+      "isMultiline": true,
+      "label": "Reply",
+      "errorMessage": "Please enter a reply",
+      "inlineAction": {
+        "type": "Action.Submit",
+        "iconUrl": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 2048 2048'%3E%3Cpath d='M1792 1152H475l466 467-90 90-621-621 621-621 90 90-466 467h1189V384h128v768z' fill='%23333333'%3E%3C/path%3E%3C/svg%3E",
+        "id": "reply",
+        "title": "Reply"
+      }
+    }
+  ],
+  "actions": [
+    {
+      "type": "Action.Submit",
+      "id": "close",
+      "title": "Close",
+      "associatedInputs": "none"
+    }
+  ]
+}
