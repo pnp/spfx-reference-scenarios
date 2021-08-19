@@ -12,11 +12,11 @@ Highlights:
 
 ### Screen Shots
 
-![Card View](./images/CardView.png)
+![Card View](./images/CardView.PNG)
 
 _Card View_
 
-![Settings](./images/Settings.png)
+![Settings](./images/Settings.PNG)
 
 _Settings showing link Url_
 
