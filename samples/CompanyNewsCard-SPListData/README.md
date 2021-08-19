@@ -16,11 +16,11 @@ Highlights:
 
 ### Screen Shots
 
-![Card View](./images/CardView.png)
+![Card View](./images/CardView.PNG)
 
 _Card View_
 
-![Quick View](./images/QuickView.png)
+![Quick View](./images/QuickView.PNG)
 
 _Quick View_
 
