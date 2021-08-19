@@ -5,7 +5,6 @@ import cloneDeep from "lodash/cloneDeep";
 import isEqual from "lodash/isEqual";
 import find from "lodash/find";
 import forEach from "lodash/forEach";
-import { Dictionary } from "lodash/index";
 
 import strings from "CovidWebPartStrings";
 import { cs } from "../../services/covid.service";
@@ -22,14 +21,14 @@ export interface IContactTracingProps {
 
 export interface IContactTracingState {
   allExpanded: boolean;
-  searchResults: Dictionary<ICheckIns[]>;
+  searchResults: { [key: string]: ICheckIns[] };
   sectionExpanded: { section: string, expanded: boolean; }[];
 }
 
 export class ContactTracingState implements IContactTracingState {
   constructor(
     public allExpanded: boolean = true,
-    public searchResults: Dictionary<ICheckIns[]> = null,
+    public searchResults: { [key: string]: ICheckIns[] } = null,
     public sectionExpanded: { section: string, expanded: boolean; }[] = [],
   ) { }
 }

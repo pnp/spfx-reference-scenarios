@@ -5,7 +5,6 @@ import find from "lodash/find";
 import indexOf from "lodash/indexOf";
 import groupBy from "lodash/groupBy";
 import eq from "lodash/eq";
-import { Dictionary } from "lodash/index";
 
 import { graph } from "@pnp/graph";
 import "@pnp/graph/users";
@@ -38,7 +37,7 @@ export interface ICovidService {
   moveSelfCheckIns: () => Promise<boolean>;
   addCheckIn: (checkIn: ICheckIns) => Promise<boolean>;
   addSelfCheckIn: (checkIn: ISelfCheckIn) => Promise<boolean>;
-  searchCheckIn: (query: IQuery) => Promise<Dictionary<ICheckIns[]>>;
+  searchCheckIn: (query: IQuery) => Promise<{ [key: string]: ICheckIns[] }>;
 }
 
 export class CovidService implements ICovidService {
@@ -475,8 +474,8 @@ export class CovidService implements ICovidService {
     return retVal;
   }
 
-  public async searchCheckIn(query: IQuery): Promise<Dictionary<ICheckIns[]>> {
-    let retVal: Dictionary<ICheckIns[]> = null;
+  public async searchCheckIn(query: IQuery): Promise<{ [key: string]: ICheckIns[] }> {
+    let retVal: { [key: string]: ICheckIns[] } = null;
     try {
       let filter = [];
       if (query.startDate != null) {
