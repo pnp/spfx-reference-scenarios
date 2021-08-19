@@ -1,11 +1,11 @@
 import { IMicrosoftTeams } from "@microsoft/sp-webpart-base";
 import * as React from "react";
 import { Logger, LogLevel } from "@pnp/logging";
-import cloneDeep from "lodash/cloneDeep";
-import isEqual from "lodash/isEqual";
-import find from "lodash/find";
-import isEmpty from "lodash/isEmpty";
-import forEach from "lodash/forEach";
+import cloneDeep from "lodash-es/cloneDeep";
+import isEqual from "lodash-es/isEqual";
+import find from "lodash-es/find";
+import isEmpty from "lodash-es/isEmpty";
+import forEach from "lodash-es/forEach";
 
 import strings from "CovidWebPartStrings";
 import { cs } from "../../services/covid.service";

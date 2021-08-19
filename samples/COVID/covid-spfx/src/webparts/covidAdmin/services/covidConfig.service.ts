@@ -10,7 +10,7 @@ import "@pnp/sp/security";
 import { Tables, IFieldList, QUESTIONLISTFields, SELFCHECKINLISTFields, COVIDCHECKINLISTFields } from "../models/covid.model";
 import { DateTimeFieldFormatType, CalendarType, DateTimeFieldFriendlyFormatType, UrlFieldFormatType, FieldUserSelectionMode, IFieldCreationProperties } from "@pnp/sp/fields/types";
 import { IList } from "@pnp/sp/lists";
-import forEach from "lodash/forEach";
+import forEach from "lodash-es/forEach";
 import { IItemAddResult } from "@pnp/sp/items/types";
 
 export interface ICovidConfigService {

@@ -1,10 +1,10 @@
-import forEach from "lodash/forEach";
-import findIndex from "lodash/findIndex";
-import cloneDeep from "lodash/cloneDeep";
-import find from "lodash/find";
-import indexOf from "lodash/indexOf";
-import groupBy from "lodash/groupBy";
-import eq from "lodash/eq";
+import forEach from "lodash-es/forEach";
+import findIndex from "lodash-es/findIndex";
+import cloneDeep from "lodash-es/cloneDeep";
+import find from "lodash-es/find";
+import indexOf from "lodash-es/indexOf";
+import groupBy from "lodash-es/groupBy";
+import eq from "lodash-es/eq";
 
 import { graph } from "@pnp/graph";
 import "@pnp/graph/users";
