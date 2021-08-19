@@ -1,0 +1,18 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/spfx-build/config.2.0.schema.json",
+  "version": "2.0",
+  "bundles": {
+    "teams-chat-adaptive-card-extension": {
+      "components": [
+        {
+          "entrypoint": "./lib/adaptiveCardExtensions/teamsChat/TeamsChatAdaptiveCardExtension.js",
+          "manifest": "./src/adaptiveCardExtensions/teamsChat/TeamsChatAdaptiveCardExtension.manifest.json"
+        }
+      ]
+    }
+  },
+  "externals": {},
+  "localizedResources": {
+    "TeamsChatAdaptiveCardExtensionStrings": "lib/adaptiveCardExtensions/teamsChat/loc/{locale}.js"
+  }
+}

@@ -1,0 +1,18 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/spfx-build/config.2.0.schema.json",
+  "version": "2.0",
+  "bundles": {
+    "company-news-adaptive-card-extension": {
+      "components": [
+        {
+          "entrypoint": "./lib/adaptiveCardExtensions/companyNews/CompanyNewsAdaptiveCardExtension.js",
+          "manifest": "./src/adaptiveCardExtensions/companyNews/CompanyNewsAdaptiveCardExtension.manifest.json"
+        }
+      ]
+    }
+  },
+  "externals": {},
+  "localizedResources": {
+    "CompanyNewsAdaptiveCardExtensionStrings": "lib/adaptiveCardExtensions/companyNews/loc/{locale}.js"
+  }
+}
