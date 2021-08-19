@@ -24,11 +24,11 @@ Highlights:
 
 _CardView listing message count_
 
-![MessageListView](./images/MessageListView.png)
+![MessageListView](./images/MessageListView.PNG)
 
 _MessageListView Quick View showing the list of messages in channel_
 
-![MessageDetailView](./images/MessageDetailView.png)
+![MessageDetailView](./images/MessageDetailView.PNG)
 
 _MessageDetailView Quick View showing list of replies with ability to reply_
 
