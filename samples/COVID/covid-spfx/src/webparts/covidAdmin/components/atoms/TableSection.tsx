@@ -1,6 +1,6 @@
 import * as React from "react";
 import { Logger, LogLevel } from "@pnp/logging";
-import isEqual from "lodash/isEqual";
+import isEqual from "lodash-es/isEqual";
 
 import { ICheckIns } from "../../models/covid.model";
 import Persona, { Size, Presence } from "../molecules/Persona";

@@ -1,13 +1,13 @@
 import * as React from "react";
 import { Logger, LogLevel } from "@pnp/logging";
 
-import isEqual from "lodash/isEqual";
-import replace from "lodash/replace";
-import round from "lodash/round";
-import trim from "lodash/trim";
-import find from "lodash/find";
-import endsWith from "lodash/endsWith";
-import isEmpty from "lodash/isEmpty";
+import isEqual from "lodash-es/isEqual";
+import replace from "lodash-es/replace";
+import round from "lodash-es/round";
+import trim from "lodash-es/trim";
+import find from "lodash-es/find";
+import endsWith from "lodash-es/endsWith";
+import isEmpty from "lodash-es/isEmpty";
 
 import { HOUR_TYPE, IPerson, PERSON_TYPE, Schedule } from "../../models/wc.models";
 import { DateTime } from "luxon";

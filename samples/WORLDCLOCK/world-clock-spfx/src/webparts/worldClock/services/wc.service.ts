@@ -10,11 +10,11 @@ import "@pnp/graph/users";
 import "@pnp/graph/onedrive";
 import "@pnp/graph/groups";
 
-import findIndex from "lodash/findIndex";
-import filter from "lodash/filter";
-import sortBy from "lodash/sortBy";
-import find from "lodash/find";
-import forEach from "lodash/forEach";
+import findIndex from "lodash-es/findIndex";
+import filter from "lodash-es/filter";
+import sortBy from "lodash-es/sortBy";
+import find from "lodash-es/find";
+import forEach from "lodash-es/forEach";
 
 import { DateTime, IANAZone } from "luxon";
 

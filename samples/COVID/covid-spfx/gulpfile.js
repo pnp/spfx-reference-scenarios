@@ -17,7 +17,6 @@ build.rig.getTasks = function () {
 // const bundleAnalyzer = require('webpack-bundle-analyzer');
 // const path = require('path');
 // build.configureWebpack.mergeConfig({
-
 //   additionalConfiguration: (generatedConfiguration) => {
 //     const lastDirName = path.basename(__dirname);
 //     const dropPath = path.join(__dirname, 'temp', 'stats');

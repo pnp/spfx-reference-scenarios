@@ -1,10 +1,10 @@
 import * as React from "react";
 import { Logger, LogLevel } from "@pnp/logging";
 
-import isEqual from "lodash/isEqual";
-import replace from "lodash/replace";
-import cloneDeep from "lodash/cloneDeep";
-import find from "lodash/find";
+import isEqual from "lodash-es/isEqual";
+import replace from "lodash-es/replace";
+import cloneDeep from "lodash-es/cloneDeep";
+import find from "lodash-es/find";
 
 import { DateTime } from "luxon";
 import { wc } from "../../services/wc.service";

@@ -4,10 +4,10 @@ import "@pnp/graph/onedrive";
 import "@pnp/graph/groups";
 import { graph, graphGet, GraphQueryable } from "@pnp/graph";
 
-import findIndex from "lodash/findIndex";
-import filter from "lodash/filter";
-import flatMap from "lodash/flatMap";
-import forEach from "lodash/forEach";
+import findIndex from "lodash-es/findIndex";
+import filter from "lodash-es/filter";
+import flatMap from "lodash-es/flatMap";
+import forEach from "lodash-es/forEach";
 
 import { findIana } from 'windows-iana';
 

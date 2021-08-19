@@ -6,12 +6,12 @@ import "@pnp/sp/items/list";
 import "@pnp/sp/files";
 import "@pnp/sp/folders";
 
-import includes from "lodash/includes";
-import filter from "lodash/filter";
-import forEach from "lodash/forEach";
-import remove from "lodash/remove";
-import find from "lodash/find";
-import cloneDeep from "lodash/cloneDeep";
+import includes from "lodash-es/includes";
+import filter from "lodash-es/filter";
+import forEach from "lodash-es/forEach";
+import remove from "lodash-es/remove";
+import find from "lodash-es/find";
+import cloneDeep from "lodash-es/cloneDeep";
 import { DateTime } from "luxon";
 
 import { IBuilding, IConfig, ILocation, IMeeting, IMeetingResult, IRoom, IRoomResults, MeetingResult, RoomResult } from "../models/rr.models";

@@ -1,6 +1,6 @@
 import { ISPFxAdaptiveCard, BaseAdaptiveCardView, IActionArguments } from '@microsoft/sp-adaptive-card-extension-base';
 import { Logger, LogLevel } from "@pnp/logging";
-import forEach from 'lodash/forEach';
+import forEach from "lodash-es/forEach";
 
 import * as strings from 'CovidCardAdaptiveCardExtensionStrings';
 

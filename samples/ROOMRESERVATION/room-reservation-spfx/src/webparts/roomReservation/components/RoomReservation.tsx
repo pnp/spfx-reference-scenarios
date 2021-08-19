@@ -1,9 +1,9 @@
 import * as React from 'react';
 import { Logger, LogLevel } from "@pnp/logging";
 
-import isEqual from "lodash/isEqual";
-import cloneDeep from 'lodash/cloneDeep';
-import find from 'lodash/find';
+import isEqual from "lodash-es/isEqual";
+import cloneDeep from "lodash-es/cloneDeep";
+import find from "lodash-es/find";
 
 import styles from './RoomReservation.module.scss';
 import strings from "RoomReservationWebPartStrings";

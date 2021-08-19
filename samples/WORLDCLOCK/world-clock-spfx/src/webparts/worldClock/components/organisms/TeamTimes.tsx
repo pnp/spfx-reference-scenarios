@@ -1,15 +1,15 @@
 import * as React from "react";
 import { Logger, LogLevel } from "@pnp/logging";
 
-import isEqual from "lodash/isEqual";
-import cloneDeep from "lodash/cloneDeep";
-import find from "lodash/find";
-import remove from "lodash/remove";
-import forEach from "lodash/forEach";
-import round from "lodash/round";
-import groupBy from "lodash/groupBy";
-import map from "lodash/map";
-import sortBy from "lodash/sortBy";
+import isEqual from "lodash-es/isEqual";
+import cloneDeep from "lodash-es/cloneDeep";
+import find from "lodash-es/find";
+import remove from "lodash-es/remove";
+import forEach from "lodash-es/forEach";
+import round from "lodash-es/round";
+import groupBy from "lodash-es/groupBy";
+import map from "lodash-es/map";
+import sortBy from "lodash-es/sortBy";
 
 import Dialog from "../molecules/Dialog";
 import strings from "WorldClockWebPartStrings";

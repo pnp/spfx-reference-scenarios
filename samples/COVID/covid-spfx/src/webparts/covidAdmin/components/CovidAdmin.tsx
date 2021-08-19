@@ -2,8 +2,8 @@ import { IMicrosoftTeams } from "@microsoft/sp-webpart-base";
 
 import * as React from "react";
 import { Logger, LogLevel } from "@pnp/logging";
-import cloneDeep from "lodash/cloneDeep";
-import isEqual from "lodash/isEqual";
+import cloneDeep from "lodash-es/cloneDeep";
+import isEqual from "lodash-es/isEqual";
 
 import strings from "CovidWebPartStrings";
 import { cs } from "../services/covid.service";
