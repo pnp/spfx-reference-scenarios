@@ -1,8 +1,8 @@
 import * as React from "react";
 import { Logger, LogLevel } from "@pnp/logging";
-import isEmpty from "lodash/isEmpty";
-import isEqual from "lodash/isEqual";
-import random from "lodash/random";
+import isEmpty from "lodash-es/isEmpty";
+import isEqual from "lodash-es/isEqual";
+import random from "lodash-es/random";
 
 declare module 'react' {
   interface HTMLAttributes<T> extends React.DOMAttributes<T> {

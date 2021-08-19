@@ -4,19 +4,18 @@ const gulp = require('gulp');
 const build = require('@microsoft/sp-build-web');
 
 build.configureWebpack.mergeConfig({
-    additionalConfiguration: (generatedConfiguration) => {
-        if (build.getConfig().production) {
-            var basePath = build.writeManifests.taskConfig.cdnBasePath;
-            if (!basePath.endsWith('/')) {
-                basePath += '/';
-            }
-            generatedConfiguration.output.publicPath = basePath;
-        }
-        else {
-            generatedConfiguration.output.publicPath = "/dist/";
-        }
-        return generatedConfiguration;
+  additionalConfiguration: (generatedConfiguration) => {
+    if (build.getConfig().production) {
+      var basePath = build.writeManifests.taskConfig.cdnBasePath;
+      if (!basePath.endsWith('/')) {
+        basePath += '/';
+      }
+      generatedConfiguration.output.publicPath = basePath;
+    } else {
+      generatedConfiguration.output.publicPath = "/dist/";
     }
+    return generatedConfiguration;
+  }
 });
 
 build.initialize(gulp);
@@ -32,25 +31,25 @@ build.rig.getTasks = function () {
   return result;
 };
 
-const bundleAnalyzer = require('webpack-bundle-analyzer');
-const path = require('path');
-build.configureWebpack.mergeConfig({
+// const bundleAnalyzer = require('webpack-bundle-analyzer');
+// const path = require('path');
+// build.configureWebpack.mergeConfig({
 
-  additionalConfiguration: (generatedConfiguration) => {
-    const lastDirName = path.basename(__dirname);
-    const dropPath = path.join(__dirname, 'temp', 'stats');
-    generatedConfiguration.plugins.push(new bundleAnalyzer.BundleAnalyzerPlugin({
-      openAnalyzer: false,
-      analyzerMode: 'static',
-      reportFilename: path.join(dropPath, `${lastDirName}.stats.html`),
-      generateStatsFile: true,
-      statsFilename: path.join(dropPath, `${lastDirName}.stats.json`),
-      logLevel: 'error'
-    }));
+//   additionalConfiguration: (generatedConfiguration) => {
+//     const lastDirName = path.basename(__dirname);
+//     const dropPath = path.join(__dirname, 'temp', 'stats');
+//     generatedConfiguration.plugins.push(new bundleAnalyzer.BundleAnalyzerPlugin({
+//       openAnalyzer: false,
+//       analyzerMode: 'static',
+//       reportFilename: path.join(dropPath, `${lastDirName}.stats.html`),
+//       generateStatsFile: true,
+//       statsFilename: path.join(dropPath, `${lastDirName}.stats.json`),
+//       logLevel: 'error'
+//     }));
 
-    return generatedConfiguration;
-  }
+//     return generatedConfiguration;
+//   }
 
-});
+// });
 
 build.initialize(require('gulp'));

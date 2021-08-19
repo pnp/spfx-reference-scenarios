@@ -1,10 +1,10 @@
 import * as React from "react";
 import { Logger, LogLevel } from "@pnp/logging";
 
-import isEqual from "lodash/isEqual";
-import filter from "lodash/filter";
-import cloneDeep from "lodash/cloneDeep";
-import sortBy from "lodash/sortBy";
+import isEqual from "lodash-es/isEqual";
+import filter from "lodash-es/filter";
+import cloneDeep from "lodash-es/cloneDeep";
+import sortBy from "lodash-es/sortBy";
 
 import { CONFIG_TYPE, IPerson, Person } from "../../models/wc.models";
 import strings from "WorldClockWebPartStrings";
