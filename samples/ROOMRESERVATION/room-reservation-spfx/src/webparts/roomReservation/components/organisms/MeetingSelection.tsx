@@ -1,8 +1,9 @@
 import * as React from "react";
 import { Logger, LogLevel } from "@pnp/logging";
 
-import isEqual from "lodash/isEqual";
-import cloneDeep from "lodash/cloneDeep";
+import isEqual from "lodash-es/isEqual";
+import cloneDeep from "lodash-es/cloneDeep";
+import replace from "lodash-es/replace";
 
 import { IMeetingResult, IRoomResults } from "../../models/rr.models";
 import Button from "../atoms/Button";
@@ -12,7 +13,6 @@ import TextBox from "../atoms/TextBox";
 import strings from "RoomReservationWebPartStrings";
 import CheckBox, { ICheckBoxOption } from "../atoms/CheckBox";
 import { rr } from "../../services/rr.service";
-import { replace } from "lodash";
 
 export interface IMeetingSelectionProps {
   meeting: IMeetingResult;

@@ -3,7 +3,7 @@ import { BaseAdaptiveCardExtension } from '@microsoft/sp-adaptive-card-extension
 
 import { Logger, LogLevel, ConsoleListener } from "@pnp/logging";
 import { sp } from "@pnp/sp";
-import remove from 'lodash/remove';
+import remove from "lodash-es/remove";
 
 import { CardView } from './cardView/CardView';
 import { QuickView } from './quickView/QuickView';

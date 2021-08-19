@@ -1,8 +1,8 @@
 import * as React from "react";
 import { Logger, LogLevel } from "@pnp/logging";
 
-import isEqual from "lodash/isEqual";
-import cloneDeep from "lodash/cloneDeep";
+import isEqual from "lodash-es/isEqual";
+import cloneDeep from "lodash-es/cloneDeep";
 import { DateTime } from "luxon";
 
 import { rr } from "../../services/rr.service";
