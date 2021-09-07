@@ -1,0 +1,31 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/spfx-build/package-solution.schema.json",
+  "solution": {
+    "name": "teams-chat-card-client-side-solution",
+    "id": "d9605059-cadc-49e3-a5f4-230f8f482fa5",
+    "version": "1.0.0.0",
+    "includeClientSideAssets": true,
+    "skipFeatureDeployment": true,
+    "isDomainIsolated": false,
+    "developer": {
+      "name": "",
+      "websiteUrl": "",
+      "privacyUrl": "",
+      "termsOfUseUrl": "",
+      "mpnId": ""
+    },
+    "webApiPermissionRequests": [
+      {
+        "resource": "Microsoft Graph",
+        "scope": "ChannelMessage.Send"
+      },
+      {
+        "resource": "Microsoft Graph",
+        "scope": "ChannelMessage.Read.All"
+      }
+    ]
+  },
+  "paths": {
+    "zippedPackage": "solution/teams-chat-card.sppkg"
+  }
+}
