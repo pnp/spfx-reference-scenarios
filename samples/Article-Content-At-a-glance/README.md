@@ -16,6 +16,10 @@ The idea is based of the *At a glance* section of a news in the BBC news app (be
 
 ![demo](./assets/demo.gif)
 
+## Screenshot of the article
+
+![demo](./assets/article-content.png)
+
 ## Used SharePoint Framework Version
 
 ![version](https://img.shields.io/badge/version-1.13.0-green.svg)
