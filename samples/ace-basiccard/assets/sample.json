@@ -1,0 +1,69 @@
+[
+  {
+    "name": "pnp-spfx-reference-scenarios-ace-basiccard",
+    "source": "pnp",
+    "title": "Teams Chat ACE",
+    "shortDescription": "This example shows a basic ACE with a single card view.",
+    "url": "https://github.com/pnp/spfx-reference-scenarios/tree/main/samples/ace-basiccard",
+    "longDescription": [
+      "This example shows a basic ACE with a single card view. The settings allow you to set the link launched by the card. You can set the URL to anything you like and the card will launch it. For Teams links, paste in the link from 'Get link to channel' and select the 'Is Teams Deep Link'."
+    ],
+    "creationDateTime": "2021-09-07",
+    "updateDateTime": "2021-09-07",
+    "products": [
+      "SharePoint",
+      "Microsoft Viva"
+    ],
+    "metadata": [
+      {
+        "key": "CLIENT-SIDE-DEV",
+        "value": "TypeScript"
+      },
+      {
+        "key": "SPFX-VERSION",
+        "value": "1.13.0"
+      }
+    ],
+    "thumbnails": [
+      {
+        "type": "image",
+        "order": 100,
+        "url": "https://github.com/pnp/spfx-reference-scenarios/raw/main/samples/ace-basiccard/assets/cardview.png",
+        "alt": "Basic ACE Card View"
+      },
+      {
+        "type": "image",
+        "order": 101,
+        "url": "https://github.com/pnp/spfx-reference-scenarios/raw/main/samples/ace-basiccard/assets/settings.png",
+        "alt": "Basic ACE Settings"
+      },
+      {
+        "type": "image",
+        "order": 102,
+        "url": "https://github.com/pnp/spfx-reference-scenarios/raw/main/samples/ace-basiccard/assets/messagedetailview.png",
+        "alt": "Teams Chat ACE Message Detail View"
+      }
+    ],
+    "authors": [
+      {
+        "gitHubAccount": "patrick-rodgers",
+        "company": "Microsoft",
+        "pictureUrl": "https://github.com/patrick-rodgers.png",
+        "name": "Patrick Rogers",
+        "twitter": "mediocrebowler"
+      }
+    ],
+    "references": [
+      {
+        "name": "Build your first SharePoint client-side web part",
+        "description": "Client-side web parts are client-side components that run in the context of a SharePoint page. Client-side web parts can be deployed to SharePoint environments that support the SharePoint Framework. You can also use modern JavaScript web frameworks, tools, and libraries to build them.",
+        "url": "https://docs.microsoft.com/en-us/sharepoint/dev/spfx/web-parts/get-started/build-a-hello-world-web-part"
+      },
+      {
+        "name": "Building Microsoft Teams Tabs using SharePoint Framework",
+        "description": "Starting with SharePoint Framework v1.8, you can build tabs for Microsoft Teams with the SharePoint Framework tooling and use SharePoint as a host for your solutions. As part of the SharePoint Framework v1.10 you can also publish your solution as Microsoft Teams personal app.",
+        "url": "https://docs.microsoft.com/en-us/sharepoint/dev/spfx/integrate-with-teams-introduction"
+      }
+    ]
+  }
+]

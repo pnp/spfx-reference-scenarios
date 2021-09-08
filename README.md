@@ -10,13 +10,25 @@ extensions:
   - SharePoint Framework
   createdDate: 6/24/2021 10:21:43 AM
 ---
-# SharePoint Framework sample solutions for Microsoft Teams
+# SharePoint Framework Reference Samples
 
-Samples targeted to showcase the power of SharePoint Framework in the Microsoft Teams and in Viva Connections. Notice that these are using preview version of the SharePoint Framework 1.13, which in currently planned to get released in early July. You will need to have access on the preview bits to be able to scaffoled these solutions.
+Samples targeted to showcase the power of SharePoint Framework in the Microsoft Teams and in Viva Connections. Notice that these are using preview version of the SharePoint Framework 1.13, which in currently planned to get released in mid September.
 
-- [Covid Self-Attestation Microsoft Teams personal app sample](samples/COVID/) - with Viva Connections Card
-- [World Clock Reference Microsoft Teams personal app/Teams tab](samples/WORLDCLOCK/) - with Viva Connections Card
-- [Executive Room Reservation Reference Microsoft Teams personal app](samples/ROOMRESERVATION/) - with Viva Connections Card
+## Legend
+
+All samples are prefixed with the following prefixes to indicate what type of solution they help illustrate. All prefixes have been added in alphabetically order.
+
+- ace: Viva Connections Adaptive Card Extension
+- teams: Custom Microsoft Teams manifest for personal apps and teams tabs.
+
+## Index
+
+- [Company News ACE](samples/ace-companynews/)
+- [Basic ACE](samples/ace-basiccard/)
+- [Teams Chat ACE](samples/ace-chat/)
+- [Covid Self-Attestation Microsoft Teams Personal App](samples/ace-teams-covid/)
+- [Executive Room Reservation Reference Microsoft Teams Personal App](samples/ace-teams-roomreservation/)
+- [World Clock Microsoft Teams Personal App/Teams Tab](samples/ace-teams-worldclock/)
 
 ## Have issues or questions?
 
@@ -38,26 +50,21 @@ To build and start using these projects, you'll need to clone and build the proj
 Clone this repository by executing the following command in your console:
 
 ```shell
-git clone https://github.com/pnp/sp-dev-fx-webparts.git
+git clone https://github.com/pnp/spfx-reference-scenarios.git
 ```
 
 Navigate to the cloned repository folder which should be the same as the repository name:
 
 ```shell
-cd sp-dev-fx-webparts
+cd spfx-reference-scenarios
 ```
 
-To access the samples use the following command, where you replace `sample-folder-name` with the name of the sample you want to access.
+To access the samples use the following command, where you replace `sample-folder-name` with the name of the sample you want to access and `sample-source` with the folder that contains the sample name ending in -spfx which is the source code.
 
 ```shell
 cd samples
 cd sample-folder-name
-```
-
-and for the tutorials, use the following command:
-
-```shell
-cd tutorials
+cd sample-source
 ```
 
 Now run the following command to install the npm packages:
@@ -80,9 +87,7 @@ This repository's contributors are all community members who volunteered their t
 
 ## Contributions
 
-These samples are direct from the feature teams, SharePoint PnP core team (http://aka.ms/m365pnp) or shared by the community. We welcome your input on issues and suggestions for new samples. We do also welcome community contributions around the client-side web parts. If you have any questions, just let us know.
-
-Please have a look on our [Contribution Guidance](./CONTRIBUTING.md) before submitting your pull requests, so that we can get your contribution processed as fast as possible.
+These are Microsoft sanctioned reference samples only and we are not accepting pull requests at this time. We absolutely want and welcome community contributions in one of our other samples repos. See [Samples & Solutions](https://pnp.github.io/#samples) for more information.
 
 ## Code of Conduct
 
