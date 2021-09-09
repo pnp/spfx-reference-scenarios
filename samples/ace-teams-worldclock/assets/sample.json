@@ -6,7 +6,7 @@
     "shortDescription": "The World Clock solution helps teams and managers deal with geographically dispersed team members.",
     "url": "https://github.com/pnp/spfx-reference-scenarios/tree/main/ace-teams-worldclock",
     "longDescription": [
-      "The World Clock solution helps teams and managers deal with geographically dispersed team members helping make it easier to reconcile working ties and meeting schedules with all the members. The solution can be added as a Teams tab to help members of a Team work together but also as a Personal App to help you manage your personal 'teams' who may live in various time zones."
+      "The World Clock solution helps teams and managers deal with geographically dispersed team members helping make it easier to reconcile working times and meeting schedules with all the members. The solution can be added as a Teams tab to help members of a Team work together but also as a Personal App to help you manage your personal 'teams' who may live in various time zones."
     ],
     "creationDateTime": "2021-09-07",
     "updateDateTime": "2021-09-07",
