@@ -32,19 +32,17 @@ export class LinesView extends BaseAdaptiveCardView<
     if (favouriteUpdated) {
       let { line, lines } = this.state;
 
-      line = lines.find(l => l.id === favouritedLineId);
-      lines = lines.map(l => {
-        if (l.isFavourite) {
-          return Object.assign({}, l, { isFavourite: false, favouriteIconSvg: star });
-        }
-        if (l.id === favouritedLineId) {
-          return Object.assign({}, l, { isFavourite: true, favouriteIconSvg: starFilled });
-        }
-        return l;
-      });
+      let currentFavouriteLine: Line = line;
+      let newFavouriteLine: Line = lines.find(l => l.id === favouritedLineId);
 
+      currentFavouriteLine.isFavourite = !currentFavouriteLine.isFavourite;
+      currentFavouriteLine.favouriteIconSvg = star;
+
+      newFavouriteLine.isFavourite = !newFavouriteLine.isFavourite;
+      newFavouriteLine.favouriteIconSvg = starFilled;
+      
       this.setState({
-        line,
+        line: newFavouriteLine,
         lines
       });
     } else {
