@@ -1,0 +1,36 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/spfx-build/config.2.0.schema.json",
+  "version": "2.0",
+  "bundles": {
+    "weather-adaptive-card-extension": {
+      "components": [
+        {
+          "entrypoint": "./lib/adaptiveCardExtensions/weather/WeatherAdaptiveCardExtension.js",
+          "manifest": "./src/adaptiveCardExtensions/weather/WeatherAdaptiveCardExtension.manifest.json"
+        }
+      ]
+    },
+    "image-rotator-adaptive-card-extension": {
+      "components": [
+        {
+          "entrypoint": "./lib/adaptiveCardExtensions/image-rotator/ImageRotatorAdaptiveCardExtension.js",
+          "manifest": "./src/adaptiveCardExtensions/image-rotator/ImageRotatorAdaptiveCardExtension.manifest.json"
+        }
+      ]
+    },
+    "companynews-adaptive-card-extension": {
+      "components": [
+        {
+          "entrypoint": "./lib/adaptiveCardExtensions/companynews/CompanynewsAdaptiveCardExtension.js",
+          "manifest": "./src/adaptiveCardExtensions/companynews/CompanynewsAdaptiveCardExtension.manifest.json"
+        }
+      ]
+    }
+  },
+  "externals": {},
+  "localizedResources": {
+    "WeatherAdaptiveCardExtensionStrings": "lib/adaptiveCardExtensions/weather/loc/{locale}.js",
+    "ImageRotatorAdaptiveCardExtensionStrings": "lib/adaptiveCardExtensions/image-rotator/loc/{locale}.js",
+    "CompanynewsAdaptiveCardExtensionStrings": "lib/adaptiveCardExtensions/companynews/loc/{locale}.js"
+  }
+}
