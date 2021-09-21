@@ -1,5 +1,5 @@
 import { Logger, LogLevel } from "@pnp/logging";
-import { Article, ILocation, Image, Tables } from "../models/cg.models";
+import { Article, ILocation, Image, Tables, Task, TaskList, Tweet } from "../models/cg.models";
 import { sp } from "@pnp/sp";
 import "@pnp/sp/webs";
 import { IWeb, Web } from "@pnp/sp/webs";
@@ -15,8 +15,10 @@ export interface ICardGalleryService {
   Init(locale: string): Promise<void>;
   ExecuteDeepLink(meetingUrl: string);
   GetLocations(): ILocation[];
-  GetImages: () => Promise<Image[]>;
-  GetArticles: () => Promise<Article[]>;
+  GetImages(): Image[];
+  GetArticles(): Article[];
+  GetTweets(): Tweet[];
+  GetTasks(): TaskList;
 }
 
 export class CardGalleryService implements ICardGalleryService {
@@ -57,89 +59,39 @@ export class CardGalleryService implements ICardGalleryService {
     return retVal;
   }
 
-  public async GetImages(): Promise<Image[]> {
+  public GetImages(): Image[] {
     let retVal: Image[] = [];
     try {
-      const web = Web(this._siteUrl);
-      const images = await web.lists.getByTitle(Tables.IMAGESLIST).items
-        .top(5000)
-        .select("SortOrder,Image, AltText,Title,ShortDescription")
-        .orderBy("SortOrder")
-        .get();
-      images.map((i, index) => {
-        const imgField = JSON.parse(i["Image"]);
-        const imgSrc = `${imgField.serverUrl}${imgField.serverRelativeUrl}`;
-        const img = new Image(index, i["SortOrder"], imgSrc, i["AltText"], i["Title"], (i["ShortDescription"]) ? i["ShortDescription"] : "");
-        retVal.push(img);
-      });
-      let x = 1;
+      retVal = require("../mocks/imageRotatorConfig.json");
     } catch (err) {
       Logger.write(`${this.LOG_SOURCE} (GetImages) - ${err.message}`, LogLevel.Error);
     }
     return retVal;
   }
-  private async _getCurrentGetCurrentUserId(): Promise<number> {
-    let retVal: number = null;
-    try {
-      const web = Web(this._siteUrl);
-      const user = await Web(web, "currentuser").select("Id")();
-      retVal = parseInt(user.Id, 10);
-
-    } catch (err) {
-      Logger.write(`${this.LOG_SOURCE} (_getCurrentGetCurrentUserId) - ${err.message}`, LogLevel.Error);
-    }
-    return retVal;
-  }
-
-  public async GetArticles(): Promise<Article[]> {
+  public GetArticles(): Article[] {
     let retVal: Article[] = [];
     try {
-      const web = Web(this._siteUrl);
-      const searchResults: SearchResults = await sp.search(<ISearchQuery>{
-        Querytext: "IsDocument:True AND FileExtension:aspx AND PromotedState:2",
-        RowLimit: 10,
-        EnableInterleaving: true,
-        SelectProperties: ["Title", "OriginalPath", "PictureThumbnailURL", "Description", "LikedByStringId"]
-      });
-      const userId = await this._getCurrentGetCurrentUserId();
-      searchResults.PrimarySearchResults.map((i, index) => {
-        let liked: boolean = false;
-        if (i["LikedByStringId"] == userId) {
-          liked = true;
-        }
-        const article = new Article(index, i["Title"], i["Description"], i["PictureThumbnailURL"], i["Title"], i["OriginalPath"], liked);
-        retVal.push(article);
-      });
+      retVal = require("../mocks/companyNewsConfig.json");
     } catch (err) {
       Logger.write(`${this.LOG_SOURCE} (GetArticles) - ${err.message}`, LogLevel.Error);
     }
     return retVal;
   }
-  public async Like(web: IWeb, id: number): Promise<boolean> {
-    let retVal: boolean = false;
+  public GetTweets(): Tweet[] {
+    let retVal: Tweet[] = [];
     try {
-      // if(){
-
-      // }else{
-      //   retVal =  this.lists.getByTitle().items
-      //     .getById(id)
-      //     .like();
-      // }
-
+      retVal = require("../mocks/twitterCardConfig.json");
     } catch (err) {
-      Logger.write(`${this.LOG_SOURCE} (GetArticles) - ${err.message}`, LogLevel.Error);
+      Logger.write(`${this.LOG_SOURCE} (GetTweets) - ${err.message}`, LogLevel.Error);
     }
     return retVal;
   }
-
-  public async GetLikeStatus(id: number): Promise<boolean> {
-    let retVal = false;
+  public GetTasks(): TaskList {
+    let retVal: TaskList = new TaskList();
     try {
-
-
-
+      retVal = require("../mocks/taskListConfig.json");
     } catch (err) {
-      Logger.write(`${this.LOG_SOURCE} (GetLikeStatus) - ${err.message}`, LogLevel.Error);
+      Logger.write(`${this.LOG_SOURCE} (GetTasks) - ${err.message}`, LogLevel.Error);
     }
     return retVal;
   }

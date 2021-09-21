@@ -66,6 +66,15 @@ export class QuickView extends BaseAdaptiveCardView<
           newViewId = this.state.articles[0].id;
         }
         this.setState({ currentArticleId: newViewId });
+      } else if (id === 'like') {
+        const { articles } = this.state;
+        const item = articles[this.state.currentArticleId];
+        if (item.liked) {
+          item.liked = false;
+        } else {
+          item.liked = true;
+        }
+        this.setState({ articles: articles });
       }
     }
   }

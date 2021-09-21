@@ -1,6 +1,6 @@
 define([], function() {
   return {
-    "PropertyPaneDescription": "Image Rotator Adaptive Card Extension Sample",
+    "PropertyPaneDescription": "Company News Adaptive Card Extension Sample",
     "BasicGroupName": "Configuration",
     "TitleFieldLabel": "Title",
     "Title": "Company Photos",

@@ -25,12 +25,30 @@
           "manifest": "./src/adaptiveCardExtensions/companynews/CompanynewsAdaptiveCardExtension.manifest.json"
         }
       ]
+    },
+    "twittercard-adaptive-card-extension": {
+      "components": [
+        {
+          "entrypoint": "./lib/adaptiveCardExtensions/twittercard/TwittercardAdaptiveCardExtension.js",
+          "manifest": "./src/adaptiveCardExtensions/twittercard/TwittercardAdaptiveCardExtension.manifest.json"
+        }
+      ]
+    },
+    "tasklist-adaptive-card-extension": {
+      "components": [
+        {
+          "entrypoint": "./lib/adaptiveCardExtensions/tasklist/TasklistAdaptiveCardExtension.js",
+          "manifest": "./src/adaptiveCardExtensions/tasklist/TasklistAdaptiveCardExtension.manifest.json"
+        }
+      ]
     }
   },
   "externals": {},
   "localizedResources": {
     "WeatherAdaptiveCardExtensionStrings": "lib/adaptiveCardExtensions/weather/loc/{locale}.js",
     "ImageRotatorAdaptiveCardExtensionStrings": "lib/adaptiveCardExtensions/image-rotator/loc/{locale}.js",
-    "CompanynewsAdaptiveCardExtensionStrings": "lib/adaptiveCardExtensions/companynews/loc/{locale}.js"
+    "CompanynewsAdaptiveCardExtensionStrings": "lib/adaptiveCardExtensions/companynews/loc/{locale}.js",
+    "TwittercardAdaptiveCardExtensionStrings": "lib/adaptiveCardExtensions/twittercard/loc/{locale}.js",
+    "TasklistAdaptiveCardExtensionStrings": "lib/adaptiveCardExtensions/tasklist/loc/{locale}.js"
   }
 }

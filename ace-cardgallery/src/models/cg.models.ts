@@ -72,3 +72,60 @@ export class Article implements IArticle {
     public liked: boolean = false,
   ) { }
 }
+
+export interface ITweet {
+  id: number;
+  date: string;
+  userAccount: string;
+  userDisplayName: string;
+  userPhoto: string;
+  imageSrc: string;
+  text: string;
+  linkUrl: string;
+  tweetUrl: string;
+  liked: boolean;
+}
+export class Tweet implements ITweet {
+  constructor(
+    public id: number = 0,
+    public date: string = "",
+    public userAccount: string = "",
+    public userDisplayName: string = "",
+    public userPhoto: string = "",
+    public imageSrc: string = "",
+    public text: string = "",
+    public linkUrl: string = "",
+    public tweetUrl: string = "",
+    public liked: boolean = false,
+  ) { }
+}
+
+export interface ITask {
+  id: number;
+  title: string;
+  assignedTo: string;
+  dueDate: string;
+}
+
+export class Task implements ITask {
+  constructor(
+    public id: number = 0,
+    public title: string = "",
+    public assignedTo: string = "",
+    public dueDate: string = "",
+  ) { }
+}
+
+export interface ITaskList {
+  userName: string;
+  userPhoto: string;
+  tasks: Task[];
+}
+
+export class TaskList implements ITaskList {
+  constructor(
+    public userName: string = "",
+    public userPhoto: string = "",
+    public tasks: Task[] = [],
+  ) { }
+}

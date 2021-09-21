@@ -68,7 +68,7 @@
         "type": "Action.Submit",
         "iconUrl": "${likedIcon}",
         "data": {
-          "id": "${itemId}"
+          "id": "like"
         }
       }, {
         "type": "Action.OpenUrl",
