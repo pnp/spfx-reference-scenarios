@@ -33,11 +33,8 @@ export default class ImageRotatorAdaptiveCardExtension extends BaseAdaptiveCardE
   private _deferredPropertyPane: ImageRotatorPropertyPane | undefined;
 
 
-  public async onInit(): Promise<void> {
+  public onInit(): Promise<void> {
     try {
-      if (this.properties.homeSite == undefined || this.properties.homeSite.length < 1) {
-        this.properties.homeSite = this.context.pageContext.site.absoluteUrl;
-      }
 
       //Initialize PnPLogger
       Logger.subscribe(new ConsoleListener());
@@ -46,9 +43,9 @@ export default class ImageRotatorAdaptiveCardExtension extends BaseAdaptiveCardE
       //Initialize PnPJs
       sp.setup({ spfxContext: this.context });
 
-      await cg.Init(this.properties.homeSite);
+      cg.Init();
 
-      const images: Image[] = await cg.GetImages();
+      const images: Image[] = cg.GetImages();
       const firstImageId = Math.floor((Math.random() * images.length - 1) + 1);
 
       this.state = {

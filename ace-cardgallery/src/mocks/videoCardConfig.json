@@ -1,0 +1,31 @@
+[{
+
+    "id": 0,
+    "thumbnailUrl": "https://adaptivecards.io/content/poster-video.png",
+    "title": "Divers - Future of Productivity",
+    "url": "https://adaptivecardsblob.blob.core.windows.net/assets/AdaptiveCardsOverviewVideo.mp4",
+    "description": "Here is the latest video for our latest product.",
+    "moreLinkText": "Learn More",
+    "moreLink": "https://adaptivecards.io"
+  },
+  {
+
+    "id": 1,
+    "thumbnailUrl": "https://adaptivecards.io/content/poster-video.png",
+    "title": "Introducing the MARK8",
+    "url": "http://eus-streaming-video-rt-microsoft-com.akamaized.net/4f7635ff-eeb5-43a5-9e52-9829c785c928/3767cecc-0c34-4d7d-9348-979fe424_1280x720_5162.mp4",
+    "description": "The easy-to-operate MARK8 is designed for high-quality aerial photography and cinematography. Fly, capture and share photos and videos directly from the mobile app.",
+    "moreLinkText": "Check Out the MARK8",
+    "moreLink": "https://adaptivecards.io"
+  },
+  {
+
+    "id": 2,
+    "thumbnailUrl": "https://adaptivecards.io/content/poster-video.png",
+    "title": "Introducing the MARK10",
+    "url": "http://eus-streaming-video-rt-microsoft-com.akamaized.net/4f7635ff-eeb5-43a5-9e52-9829c785c928/3767cecc-0c34-4d7d-9348-979fe424_1280x720_5162.mp4",
+    "description": "The easy-to-operate MARK10 is designed for high-quality aerial photography and cinematography. Fly, capture and share photos and videos directly from the mobile app.",
+    "moreLinkText": "Learn More",
+    "moreLink": "https://adaptivecards.io"
+  }
+]

@@ -32,7 +32,7 @@ export default class CompanynewsAdaptiveCardExtension extends BaseAdaptiveCardEx
 
   private _deferredPropertyPane: CompanynewsPropertyPane | undefined;
 
-  public async onInit(): Promise<void> {
+  public onInit(): Promise<void> {
     try {
       if (this.properties.homeSite == undefined || this.properties.homeSite.length < 1) {
         this.properties.homeSite = this.context.pageContext.site.absoluteUrl;
@@ -45,9 +45,9 @@ export default class CompanynewsAdaptiveCardExtension extends BaseAdaptiveCardEx
       //Initialize PnPJs
       sp.setup({ spfxContext: this.context });
 
-      await cg.Init(this.properties.homeSite);
+      cg.Init();
 
-      const articles: Article[] = await cg.GetArticles();
+      const articles: Article[] = cg.GetArticles();
 
       this.state = {
         currentArticleId: 0,
@@ -57,7 +57,7 @@ export default class CompanynewsAdaptiveCardExtension extends BaseAdaptiveCardEx
       this.cardNavigator.register(CARD_VIEW_REGISTRY_ID, () => new CardView());
       this.quickViewNavigator.register(QUICK_VIEW_REGISTRY_ID, () => new QuickView());
     } catch (err) {
-      Logger.write(`${this.LOG_SOURCE} (data) - ${err}`, LogLevel.Error);
+      Logger.write(`${this.LOG_SOURCE} (onInit) - ${err}`, LogLevel.Error);
     }
     return Promise.resolve();
   }

@@ -1,24 +1,21 @@
 import { Logger, LogLevel } from "@pnp/logging";
-import { Article, ILocation, Image, Tables, Task, TaskList, Tweet } from "../models/cg.models";
-import { sp } from "@pnp/sp";
-import "@pnp/sp/webs";
-import { IWeb, Web } from "@pnp/sp/webs";
-import "@pnp/sp/lists/web";
-import "@pnp/sp/items/list";
-import "@pnp/sp/search";
-import { ISearchQuery, SearchResults, SearchQueryBuilder } from "@pnp/sp/search";
+import { Article, Expense, ExpenseReport, FormSample, ILocation, Image, IVideo, Stock, TaskList, Tweet, Video } from "../models/cg.models";
 
 
 export interface ICardGalleryService {
   Ready: boolean;
   HandleExecuteDeepLink: (meetingUrl: string) => void;
-  Init(locale: string): Promise<void>;
+  Init(): void;
   ExecuteDeepLink(meetingUrl: string);
   GetLocations(): ILocation[];
   GetImages(): Image[];
   GetArticles(): Article[];
   GetTweets(): Tweet[];
   GetTasks(): TaskList;
+  GetStocks(): Stock;
+  GetExpenseReports(): ExpenseReport[];
+  GetFormSample(): FormSample;
+  GetVideos(): Video[];
 }
 
 export class CardGalleryService implements ICardGalleryService {
@@ -37,10 +34,8 @@ export class CardGalleryService implements ICardGalleryService {
     this._executeDeepLink = value;
   }
 
-  public async Init(siteUrl: string): Promise<void> {
+  public Init() {
     try {
-      this._siteUrl = siteUrl;
-      // await this._getConfig();
       this._ready = true;
     } catch (err) {
       Logger.write(`${this.LOG_SOURCE} (init) - ${err.message}`, LogLevel.Error);
@@ -92,6 +87,45 @@ export class CardGalleryService implements ICardGalleryService {
       retVal = require("../mocks/taskListConfig.json");
     } catch (err) {
       Logger.write(`${this.LOG_SOURCE} (GetTasks) - ${err.message}`, LogLevel.Error);
+    }
+    return retVal;
+  }
+  public GetStocks(): Stock {
+    let retVal: Stock = new Stock();
+    try {
+      retVal = require("../mocks/stockTickerConfig.json");
+      retVal.latestUpdate = (new Date().toUTCString());
+    } catch (err) {
+      Logger.write(`${this.LOG_SOURCE} (GetStocks) - ${err.message}`, LogLevel.Error);
+    }
+    return retVal;
+  }
+  public GetExpenseReports(): ExpenseReport[] {
+    let retVal: ExpenseReport[] = [];
+    try {
+      retVal = require("../mocks/expenseReportConfig.json");
+    } catch (err) {
+      Logger.write(`${this.LOG_SOURCE} (GetExpenseReports) - ${err.message}`, LogLevel.Error);
+    }
+    return retVal;
+  }
+
+  public GetFormSample(): FormSample {
+    let retVal: FormSample = null;
+    try {
+      retVal = require("../mocks/formSampleConfig.json");
+    } catch (err) {
+      Logger.write(`${this.LOG_SOURCE} (GetFormSample) - ${err.message}`, LogLevel.Error);
+    }
+    return retVal;
+  }
+
+  public GetVideos(): IVideo[] {
+    let retVal: Video[] = [];
+    try {
+      retVal = require("../mocks/videoCardConfig.json");
+    } catch (err) {
+      Logger.write(`${this.LOG_SOURCE} (GetVideos) - ${err.message}`, LogLevel.Error);
     }
     return retVal;
   }

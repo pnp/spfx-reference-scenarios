@@ -36,7 +36,7 @@ export default class TasklistAdaptiveCardExtension extends BaseAdaptiveCardExten
 
   private _deferredPropertyPane: TasklistPropertyPane | undefined;
 
-  public async onInit(): Promise<void> {
+  public onInit(): Promise<void> {
     try {
       //Initialize PnPLogger
       Logger.subscribe(new ConsoleListener());
@@ -45,9 +45,9 @@ export default class TasklistAdaptiveCardExtension extends BaseAdaptiveCardExten
       //Initialize PnPJs
       sp.setup({ spfxContext: this.context });
 
-      await cg.Init(this.context.pageContext.site.absoluteUrl);
+      cg.Init();
 
-      const taskList: TaskList = await cg.GetTasks();
+      const taskList: TaskList = cg.GetTasks();
 
       this.state = {
         taskList: taskList,

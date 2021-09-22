@@ -6,31 +6,30 @@ import { sp } from "@pnp/sp";
 
 import { CardView } from './cardView/CardView';
 import { QuickView } from './quickView/QuickView';
-import { TwittercardPropertyPane } from './TwittercardPropertyPane';
-import { Tweet } from '../../models/cg.models';
+import { VideocardPropertyPane } from './VideocardPropertyPane';
 import { cg } from '../../services/cg.service';
+import { Video } from '../../models/cg.models';
 
-export interface ITwittercardAdaptiveCardExtensionProps {
+export interface IVideocardAdaptiveCardExtensionProps {
   title: string;
   description: string;
+  iconProperty: string;
 }
 
-export interface ITwittercardAdaptiveCardExtensionState {
-  currentTweetId: number;
-  tweets: Tweet[];
+export interface IVideocardAdaptiveCardExtensionState {
+  currentIndex: number;
+  videos: Video[];
 }
 
-const CARD_VIEW_REGISTRY_ID: string = 'Twittercard_CARD_VIEW';
-export const QUICK_VIEW_REGISTRY_ID: string = 'Twittercard_QUICK_VIEW';
+const CARD_VIEW_REGISTRY_ID: string = 'Videocard_CARD_VIEW';
+export const QUICK_VIEW_REGISTRY_ID: string = 'Videocard_QUICK_VIEW';
 
-export default class TwittercardAdaptiveCardExtension extends BaseAdaptiveCardExtension<
-  ITwittercardAdaptiveCardExtensionProps,
-  ITwittercardAdaptiveCardExtensionState
+export default class VideocardAdaptiveCardExtension extends BaseAdaptiveCardExtension<
+  IVideocardAdaptiveCardExtensionProps,
+  IVideocardAdaptiveCardExtensionState
 > {
-
-  private LOG_SOURCE: string = "🔶 TwittercardAdaptiveCardExtension";
-
-  private _deferredPropertyPane: TwittercardPropertyPane | undefined;
+  private LOG_SOURCE: string = "🔶 VideocardAdaptiveCardExtension";
+  private _deferredPropertyPane: VideocardPropertyPane | undefined;
 
   public onInit(): Promise<void> {
     try {
@@ -43,19 +42,18 @@ export default class TwittercardAdaptiveCardExtension extends BaseAdaptiveCardEx
 
       cg.Init();
 
-      const tweets: Tweet[] = cg.GetTweets();
+      const videos: Video[] = cg.GetVideos();
 
       this.state = {
-        currentTweetId: 0,
-        tweets: tweets
+        currentIndex: 0,
+        videos: videos,
       };
 
       this.cardNavigator.register(CARD_VIEW_REGISTRY_ID, () => new CardView());
       this.quickViewNavigator.register(QUICK_VIEW_REGISTRY_ID, () => new QuickView());
     } catch (err) {
-      Logger.write(`${this.LOG_SOURCE} (data) - ${err}`, LogLevel.Error);
+      Logger.write(`${this.LOG_SOURCE} (onInit) - ${err}`, LogLevel.Error);
     }
-
     return Promise.resolve();
   }
 
@@ -63,14 +61,18 @@ export default class TwittercardAdaptiveCardExtension extends BaseAdaptiveCardEx
     return this.properties.title;
   }
 
+  protected get iconProperty(): string {
+    return this.properties.iconProperty || require('./assets/SharePointLogo.svg');
+  }
+
   protected loadPropertyPaneResources(): Promise<void> {
     return import(
-      /* webpackChunkName: 'Twittercard-property-pane'*/
-      './TwittercardPropertyPane'
+      /* webpackChunkName: 'Videocard-property-pane'*/
+      './VideocardPropertyPane'
     )
       .then(
         (component) => {
-          this._deferredPropertyPane = new component.TwittercardPropertyPane();
+          this._deferredPropertyPane = new component.VideocardPropertyPane();
         }
       );
   }

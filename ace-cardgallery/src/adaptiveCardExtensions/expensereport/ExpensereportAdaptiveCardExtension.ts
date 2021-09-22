@@ -6,31 +6,30 @@ import { sp } from "@pnp/sp";
 
 import { CardView } from './cardView/CardView';
 import { QuickView } from './quickView/QuickView';
-import { TwittercardPropertyPane } from './TwittercardPropertyPane';
-import { Tweet } from '../../models/cg.models';
+import { ExpensereportPropertyPane } from './ExpensereportPropertyPane';
+import { Expense, ExpenseReport } from '../../models/cg.models';
 import { cg } from '../../services/cg.service';
 
-export interface ITwittercardAdaptiveCardExtensionProps {
+export interface IExpensereportAdaptiveCardExtensionProps {
   title: string;
   description: string;
+  iconProperty: string;
 }
 
-export interface ITwittercardAdaptiveCardExtensionState {
-  currentTweetId: number;
-  tweets: Tweet[];
+export interface IExpensereportAdaptiveCardExtensionState {
+  expenseReports: ExpenseReport[];
+  currentIndex: number;
 }
 
-const CARD_VIEW_REGISTRY_ID: string = 'Twittercard_CARD_VIEW';
-export const QUICK_VIEW_REGISTRY_ID: string = 'Twittercard_QUICK_VIEW';
+const CARD_VIEW_REGISTRY_ID: string = 'Expensereport_CARD_VIEW';
+export const QUICK_VIEW_REGISTRY_ID: string = 'Expensereport_QUICK_VIEW';
 
-export default class TwittercardAdaptiveCardExtension extends BaseAdaptiveCardExtension<
-  ITwittercardAdaptiveCardExtensionProps,
-  ITwittercardAdaptiveCardExtensionState
+export default class ExpensereportAdaptiveCardExtension extends BaseAdaptiveCardExtension<
+  IExpensereportAdaptiveCardExtensionProps,
+  IExpensereportAdaptiveCardExtensionState
 > {
-
-  private LOG_SOURCE: string = "🔶 TwittercardAdaptiveCardExtension";
-
-  private _deferredPropertyPane: TwittercardPropertyPane | undefined;
+  private LOG_SOURCE: string = "🔶 ExpensereportAdaptiveCardExtension";
+  private _deferredPropertyPane: ExpensereportPropertyPane | undefined;
 
   public onInit(): Promise<void> {
     try {
@@ -43,19 +42,18 @@ export default class TwittercardAdaptiveCardExtension extends BaseAdaptiveCardEx
 
       cg.Init();
 
-      const tweets: Tweet[] = cg.GetTweets();
+      const expenseReports: ExpenseReport[] = cg.GetExpenseReports();
 
       this.state = {
-        currentTweetId: 0,
-        tweets: tweets
+        expenseReports: expenseReports,
+        currentIndex: 0
       };
 
       this.cardNavigator.register(CARD_VIEW_REGISTRY_ID, () => new CardView());
       this.quickViewNavigator.register(QUICK_VIEW_REGISTRY_ID, () => new QuickView());
     } catch (err) {
-      Logger.write(`${this.LOG_SOURCE} (data) - ${err}`, LogLevel.Error);
+      Logger.write(`${this.LOG_SOURCE} (onInit) - ${err}`, LogLevel.Error);
     }
-
     return Promise.resolve();
   }
 
@@ -63,14 +61,18 @@ export default class TwittercardAdaptiveCardExtension extends BaseAdaptiveCardEx
     return this.properties.title;
   }
 
+  protected get iconProperty(): string {
+    return this.properties.iconProperty || require('./assets/SharePointLogo.svg');
+  }
+
   protected loadPropertyPaneResources(): Promise<void> {
     return import(
-      /* webpackChunkName: 'Twittercard-property-pane'*/
-      './TwittercardPropertyPane'
+      /* webpackChunkName: 'Expensereport-property-pane'*/
+      './ExpensereportPropertyPane'
     )
       .then(
         (component) => {
-          this._deferredPropertyPane = new component.TwittercardPropertyPane();
+          this._deferredPropertyPane = new component.ExpensereportPropertyPane();
         }
       );
   }

@@ -5,11 +5,11 @@ import {
   IQuickViewCardAction,
   ICardButton
 } from '@microsoft/sp-adaptive-card-extension-base';
-import * as strings from 'TwittercardAdaptiveCardExtensionStrings';
-import { Tweet } from '../../../models/cg.models';
-import { ITwittercardAdaptiveCardExtensionProps, ITwittercardAdaptiveCardExtensionState, QUICK_VIEW_REGISTRY_ID } from '../TwittercardAdaptiveCardExtension';
+import * as strings from 'StocktickterAdaptiveCardExtensionStrings';
+import { Icons, LikedIcon } from '../../../icons/cg.icons';
+import { IStocktickterAdaptiveCardExtensionProps, IStocktickterAdaptiveCardExtensionState, QUICK_VIEW_REGISTRY_ID } from '../StocktickterAdaptiveCardExtension';
 
-export class CardView extends BasePrimaryTextCardView<ITwittercardAdaptiveCardExtensionProps, ITwittercardAdaptiveCardExtensionState> {
+export class CardView extends BasePrimaryTextCardView<IStocktickterAdaptiveCardExtensionProps, IStocktickterAdaptiveCardExtensionState> {
   public get cardButtons(): [ICardButton] | [ICardButton, ICardButton] | undefined {
     return [
       {
@@ -25,18 +25,18 @@ export class CardView extends BasePrimaryTextCardView<ITwittercardAdaptiveCardEx
   }
 
   public get data(): IPrimaryTextCardParameters {
-    const latestTweet: Tweet = this.state.tweets[this.state.currentTweetId];
+    let direction: string = "";
     return {
-      primaryText: `${this.state.tweets.length} ${strings.PrimaryText}`,
-      description: latestTweet.text
+      primaryText: this.state.stock.symbol,
+      description: strings.Description.replace("{__StockDirection__}", (this.state.stock.change > 0) ? strings.Up : strings.Down)
     };
   }
 
   public get onCardSelection(): IQuickViewCardAction | IExternalLinkCardAction | undefined {
     return {
-      type: 'ExternalLink',
+      type: 'QuickView',
       parameters: {
-        target: 'https://www.bing.com'
+        view: QUICK_VIEW_REGISTRY_ID
       }
     };
   }

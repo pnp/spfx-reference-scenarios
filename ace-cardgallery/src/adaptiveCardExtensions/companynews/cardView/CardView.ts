@@ -14,10 +14,6 @@ export class CardView extends BaseImageCardView<ICompanynewsAdaptiveCardExtensio
     if (!article) {
       article = new Article(0, "", "", "", "");
     }
-    // do {
-    //   const firstImageId = Math.floor((Math.random() * this.state.articles.length - 1) + 1);
-    //   article = this.state.articles[firstImageId];
-    // } while (article.imageSrc != "");
 
     return {
       primaryText: this.properties.description,
