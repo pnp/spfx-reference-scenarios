@@ -6,20 +6,20 @@
       "type": "Container",
       "items": [{
           "type": "TextBlock",
-          "text": "${companyName}",
+          "text": "${stock.companyName}",
           "size": "Large",
           "wrap": true
         },
         {
           "type": "TextBlock",
-          "text": "${primaryExchange}: ${symbol}",
+          "text": "${stock.primaryExchange}: ${stock.symbol}",
           "isSubtle": true,
           "spacing": "None",
           "wrap": true
         },
         {
           "type": "TextBlock",
-          "text": "${latestUpdate}",
+          "text": "${stock.latestUpdate}",
           "wrap": true
         }
       ]
@@ -34,14 +34,14 @@
             "width": "stretch",
             "items": [{
                 "type": "TextBlock",
-                "text": "${formatNumber(latestPrice, 2)} ",
+                "text": "${formatNumber(stock.latestPrice, 2)} ",
                 "size": "ExtraLarge",
                 "wrap": true
               },
               {
                 "type": "TextBlock",
-                "text": "${if(change >= 0, '▲', '▼')} ${formatNumber(change,2)} USD (${formatNumber(changePercent * 100, 2)}%)",
-                "color": "${if(change >= 0, 'good', 'attention')}",
+                "text": "${if(stock.change >= 0, '▲', '▼')} ${formatNumber(stock.change,2)} USD (${formatNumber(stock.changePercent * 100, 2)}%)",
+                "color": "${if(stock.change >= 0, 'good', 'attention')}",
                 "spacing": "None",
                 "wrap": true
               }
@@ -54,15 +54,15 @@
               "type": "FactSet",
               "facts": [{
                   "title": "Open",
-                  "value": "${open} "
+                  "value": "${stock.open} "
                 },
                 {
                   "title": "High",
-                  "value": "${high} "
+                  "value": "${stock.high} "
                 },
                 {
                   "title": "Low",
-                  "value": "${low} "
+                  "value": "${stock.low} "
                 }
               ]
             }]

@@ -6,31 +6,30 @@ import { sp } from "@pnp/sp";
 
 import { CardView } from './cardView/CardView';
 import { QuickView } from './quickView/QuickView';
-import { CompanynewsPropertyPane } from './CompanynewsPropertyPane';
-import { Article } from '../../models/cg.models';
+import { FlightItineraryPropertyPane } from './FlightItineraryPropertyPane';
 import { cg } from '../../services/cg.service';
+import { Reservation } from '../../models/cg.models';
 
-export interface ICompanynewsAdaptiveCardExtensionProps {
-  homeSite: string;
+export interface IFlightItineraryAdaptiveCardExtensionProps {
   title: string;
   description: string;
+  iconProperty: string;
 }
 
-export interface ICompanynewsAdaptiveCardExtensionState {
-  currentArticleId: number;
-  articles: Article[];
+export interface IFlightItineraryAdaptiveCardExtensionState {
+  reservations: Reservation[];
+  currentIndex: number;
 }
 
-const CARD_VIEW_REGISTRY_ID: string = 'Companynews_CARD_VIEW';
-export const QUICK_VIEW_REGISTRY_ID: string = 'Companynews_QUICK_VIEW';
+const CARD_VIEW_REGISTRY_ID: string = 'FlightItinerary_CARD_VIEW';
+export const QUICK_VIEW_REGISTRY_ID: string = 'FlightItinerary_QUICK_VIEW';
 
-export default class CompanynewsAdaptiveCardExtension extends BaseAdaptiveCardExtension<
-  ICompanynewsAdaptiveCardExtensionProps,
-  ICompanynewsAdaptiveCardExtensionState
+export default class FlightItineraryAdaptiveCardExtension extends BaseAdaptiveCardExtension<
+  IFlightItineraryAdaptiveCardExtensionProps,
+  IFlightItineraryAdaptiveCardExtensionState
 > {
-  private LOG_SOURCE: string = "🔶 CompanynewsAdaptiveCardExtension";
-
-  private _deferredPropertyPane: CompanynewsPropertyPane | undefined;
+  private LOG_SOURCE: string = "🔶 FlightItineraryAdaptiveCardExtension";
+  private _deferredPropertyPane: FlightItineraryPropertyPane | undefined;
 
   public onInit(): Promise<void> {
     try {
@@ -43,11 +42,11 @@ export default class CompanynewsAdaptiveCardExtension extends BaseAdaptiveCardEx
 
       cg.Init();
 
-      const articles: Article[] = cg.GetArticles();
+      const reservations: Reservation[] = cg.GetFlightItineraries();
 
       this.state = {
-        currentArticleId: 0,
-        articles: articles
+        reservations: reservations,
+        currentIndex: 0
       };
 
       this.cardNavigator.register(CARD_VIEW_REGISTRY_ID, () => new CardView());
@@ -62,14 +61,18 @@ export default class CompanynewsAdaptiveCardExtension extends BaseAdaptiveCardEx
     return this.properties.title;
   }
 
+  protected get iconProperty(): string {
+    return this.properties.iconProperty || require('./assets/SharePointLogo.svg');
+  }
+
   protected loadPropertyPaneResources(): Promise<void> {
     return import(
-      /* webpackChunkName: 'Companynews-property-pane'*/
-      './CompanynewsPropertyPane'
+      /* webpackChunkName: 'FlightItinerary-property-pane'*/
+      './FlightItineraryPropertyPane'
     )
       .then(
         (component) => {
-          this._deferredPropertyPane = new component.CompanynewsPropertyPane();
+          this._deferredPropertyPane = new component.FlightItineraryPropertyPane();
         }
       );
   }

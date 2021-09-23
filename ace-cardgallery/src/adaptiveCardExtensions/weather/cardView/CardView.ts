@@ -15,8 +15,7 @@ export class CardView extends BaseImageCardView<IWeatherAdaptiveCardExtensionPro
     return {
       primaryText: this.properties.description,
       imageUrl: imageUrl,
-      iconProperty: WeatherCardIcon,
-
+      iconProperty: WeatherCardIcon
     };
   }
 

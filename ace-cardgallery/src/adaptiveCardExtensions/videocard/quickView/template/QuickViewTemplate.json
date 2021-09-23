@@ -2,7 +2,6 @@
   "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
   "type": "AdaptiveCard",
   "version": "1.3",
-  "speak": "<s>The forecast for Seattle ${date} is mostly clear with a High of ${tempHi} degrees and Low of ${tempLow} degrees</s>",
   "body": [{
     "type": "ColumnSet",
     "columns": [{
@@ -27,20 +26,20 @@
         "width": "stretch",
         "items": [{
           "type": "Media",
-          "poster": "${thumbnailUrl}",
+          "poster": "${video.thumbnailUrl}",
           "sources": [{
             "mimeType": "video/mp4",
-            "url": "${url}"
+            "url": "${video.url}"
           }]
         }, {
           "type": "TextBlock",
-          "text": "${title}",
+          "text": "${video.title}",
           "weight": "bolder",
           "spacing": "None",
           "wrap": true
         }, {
           "type": "TextBlock",
-          "text": "${description}",
+          "text": "${video.description}",
           "spacing": "None",
           "wrap": true
         }, {
@@ -48,7 +47,7 @@
           "actions": [{
             "type": "Action.OpenUrl",
             "title": "Learn more",
-            "url": "${moreLink}"
+            "url": "${video.moreLink}"
           }]
         }]
       },

@@ -19,8 +19,8 @@
             "type": "Column",
             "items": [{
               "type": "Image",
-              "url": "${statusUrl}",
-              "altText": "${status}",
+              "url": "${expenseReport.statusUrl}",
+              "altText": "${expenseReport.status}",
               "height": "30px"
             }],
             "width": "auto"
@@ -38,7 +38,7 @@
               "items": [{
                 "type": "TextBlock",
                 "size": "ExtraLarge",
-                "text": "${purpose}",
+                "text": "${expenseReport.purpose}",
                 "wrap": true
               }],
               "width": "stretch"
@@ -63,34 +63,34 @@
           "size": "small",
           "weight": "bolder",
           "color": "accent",
-          "text": "[${code}](https://adaptivecards.io)"
+          "text": "[${expenseReport.code}](https://adaptivecards.io)"
         },
         {
           "type": "FactSet",
           "spacing": "large",
           "facts": [{
               "title": "Submitted By",
-              "value": "**${createdByName}**  ${createrEmail}"
+              "value": "**${expenseReport.createdByName}**  ${expenseReport.createrEmail}"
             },
             {
               "title": "Duration",
-              "value": "${formatTicks(min(select(expenses, x, int(x.createdBy))), 'MM-dd-yyyy')} - ${formatTicks(max(select(expenses, x, int(x.createdBy))), 'MM-dd-yyyy')}"
+              "value": "${formatTicks(min(select(expenseReport.expenses, x, int(x.createdBy))), 'MM-dd-yyyy')} - ${formatTicks(max(select(expenseReport.expenses, x, int(x.createdBy))), 'MM-dd-yyyy')}"
             },
             {
               "title": "Submitted On",
-              "value": "${formatDateTime(submittedDate, 'MM-dd-yyyy')}"
+              "value": "${formatDateTime(expenseReport.submittedDate, 'MM-dd-yyyy')}"
             },
             {
               "title": "Reimbursable Amount",
-              "value": "$${formatNumber(sum(select(expenses, x, if(x.isReimbursable, x.total, 0))), 2)}"
+              "value": "$${formatNumber(sum(select(expenseReport.expenses, x, if(x.isReimbursable, x.total, 0))), 2)}"
             },
             {
               "title": "Awaiting approval from",
-              "value": "**${approver}**  ${approverEmail}"
+              "value": "**${expenseReport.approver}**  ${expenseReport.approverEmail}"
             },
             {
               "title": "Submitted to",
-              "value": "**${otherSubmitter}**   ${otherSubmitterEmail}"
+              "value": "**${expenseReport.otherSubmitter}**   ${expenseReport.otherSubmitterEmail}"
             }
           ]
         }
@@ -135,7 +135,7 @@
       "bleed": true
     },
     {
-      "$data": "${expenses}",
+      "$data": "${expenseReport.expenses}",
       "type": "Container",
       "items": [{
           "type": "ColumnSet",
@@ -281,11 +281,11 @@
           "type": "Column",
           "items": [{
               "type": "TextBlock",
-              "text": "$${formatNumber(sum(select(expenses, x, x.total)), 2)}"
+              "text": "$${formatNumber(sum(select(expenseReport.expenses, x, x.total)), 2)}"
             },
             {
               "type": "TextBlock",
-              "text": "(-) $${formatNumber(sum(select(expenses, x, if(x.isReimbursable, 0, x.total))), 2)} \t"
+              "text": "(-) $${formatNumber(sum(select(expenseReport.expenses, x, if(x.isReimbursable, 0, x.total))), 2)} \t"
             },
             {
               "type": "TextBlock",
@@ -320,7 +320,7 @@
             "items": [{
               "type": "TextBlock",
               "weight": "bolder",
-              "text": "$${formatNumber(sum(select(expenses, x, if(x.isReimbursable, x.total, 0))), 2)}"
+              "text": "$${formatNumber(sum(select(expenseReport.expenses, x, if(x.isReimbursable, x.total, 0))), 2)}"
             }],
             "width": "auto"
           },
@@ -374,13 +374,13 @@
         "type": "Container",
         "items": [{
             "type": "TextBlock",
-            "text": "* Expense submitted by **${createdByName}** on {{DATE(${formatDateTime(createdDate, 'yyyy-MM-ddTHH:mm:ssZ')}, SHORT)}}",
+            "text": "* Expense submitted by **${expenseReport.createdByName}** on {{DATE(${formatDateTime(expenseReport.createdDate, 'yyyy-MM-ddTHH:mm:ssZ')}, SHORT)}}",
             "isSubtle": true,
             "wrap": true
           },
           {
             "type": "TextBlock",
-            "text": "* Expense ${status} by **${approver}** on {{DATE(${formatDateTime(approvalDate, 'yyyy-MM-ddTHH:mm:ssZ')}, SHORT)}}",
+            "text": "* Expense ${expenseReport.status} by **${expenseReport.approver}** on {{DATE(${formatDateTime(expenseReport.approvalDate, 'yyyy-MM-ddTHH:mm:ssZ')}, SHORT)}}",
             "isSubtle": true,
             "wrap": true
           }

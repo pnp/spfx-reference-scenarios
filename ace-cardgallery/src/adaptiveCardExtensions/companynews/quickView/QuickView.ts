@@ -1,16 +1,13 @@
 import { ISPFxAdaptiveCard, BaseAdaptiveCardView, IActionArguments } from '@microsoft/sp-adaptive-card-extension-base';
 import * as strings from 'CompanynewsAdaptiveCardExtensionStrings';
-import { ICompanynewsAdaptiveCardExtensionProps, ICompanynewsAdaptiveCardExtensionState } from '../CompanynewsAdaptiveCardExtension';
+
 import { Logger, LogLevel } from "@pnp/logging";
 
-import { findIndex } from 'lodash';
-import { Icons, LikedIcon, UnLikedIcon } from '../../../icons/cg.icons';
+import { ICompanynewsAdaptiveCardExtensionProps, ICompanynewsAdaptiveCardExtensionState } from '../CompanynewsAdaptiveCardExtension';
+import { LikedIcon, UnLikedIcon } from '../../../icons/cg.icons';
+import { Article } from '../../../models/cg.models';
 export interface IQuickViewData {
-  title: string;
-  description: string;
-  imgSrc: string;
-  imgAtlText: string;
-  url: string;
+  article: Article;
   seeMoreLabel: string;
   likedIcon: string;
 }
@@ -20,6 +17,7 @@ export class QuickView extends BaseAdaptiveCardView<
   ICompanynewsAdaptiveCardExtensionState,
   IQuickViewData
 > {
+  private LOG_SOURCE: string = "🔶 QuickView";
   public get data(): IQuickViewData {
     const article = this.state.articles[this.state.currentArticleId];
 
@@ -29,11 +27,7 @@ export class QuickView extends BaseAdaptiveCardView<
     }
 
     return {
-      title: article.title,
-      description: article.description,
-      imgSrc: article.imageSrc,
-      imgAtlText: article.altText,
-      url: article.url,
+      article: article,
       seeMoreLabel: strings.SeeMoreLabel,
       likedIcon: likedIcon
     };
@@ -44,38 +38,43 @@ export class QuickView extends BaseAdaptiveCardView<
   }
 
   public async onAction(action: IActionArguments): Promise<void> {
-    if (action.type === 'Submit') {
-      const { id, newIndex } = action.data;
-      if (id === 'previous') {
-        let idx = findIndex(this.state.articles, { id: this.state.currentArticleId });
-        let newViewId: number = this.state.currentArticleId;
-        idx--;
-        if (idx < 0) {
-          newViewId = this.state.articles[this.state.articles.length - 1].id;
-        } else {
-          newViewId = this.state.articles[idx].id;
+    try {
+
+      if (action.type === 'Submit') {
+        const { id, newIndex } = action.data;
+        if (id === 'previous') {
+          let idx = this.state.articles[this.state.currentArticleId].id;
+          let newViewId: number = this.state.currentArticleId;
+          idx--;
+          if (idx < 0) {
+            newViewId = this.state.articles[this.state.articles.length - 1].id;
+          } else {
+            newViewId = this.state.articles[idx].id;
+          }
+          this.setState({ currentArticleId: newViewId });
+        } else if (id === 'next') {
+          let idx = this.state.articles[this.state.currentArticleId].id;
+          let newViewId: number = this.state.currentArticleId;
+          idx++;
+          if (idx < this.state.articles.length) {
+            newViewId = this.state.articles[idx].id;
+          } else {
+            newViewId = this.state.articles[0].id;
+          }
+          this.setState({ currentArticleId: newViewId });
+        } else if (id === 'like') {
+          const { articles } = this.state;
+          const item = articles[this.state.currentArticleId];
+          if (item.liked) {
+            item.liked = false;
+          } else {
+            item.liked = true;
+          }
+          this.setState({ articles: articles });
         }
-        this.setState({ currentArticleId: newViewId });
-      } else if (id === 'next') {
-        let idx = findIndex(this.state.articles, { id: this.state.currentArticleId });
-        let newViewId: number = this.state.currentArticleId;
-        idx++;
-        if (idx < this.state.articles.length) {
-          newViewId = this.state.articles[idx].id;
-        } else {
-          newViewId = this.state.articles[0].id;
-        }
-        this.setState({ currentArticleId: newViewId });
-      } else if (id === 'like') {
-        const { articles } = this.state;
-        const item = articles[this.state.currentArticleId];
-        if (item.liked) {
-          item.liked = false;
-        } else {
-          item.liked = true;
-        }
-        this.setState({ articles: articles });
       }
+    } catch (err) {
+      Logger.write(`${this.LOG_SOURCE} (onAction) - ${err}`, LogLevel.Error);
     }
   }
 }

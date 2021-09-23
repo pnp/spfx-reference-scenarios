@@ -2,35 +2,38 @@ import { ISPFxAdaptiveCard, BaseAdaptiveCardView, IActionArguments } from '@micr
 
 import { Logger, LogLevel } from "@pnp/logging";
 
-import { IFormsampleAdaptiveCardExtensionProps, IFormsampleAdaptiveCardExtensionState } from '../FormsampleAdaptiveCardExtension';
+import * as strings from 'FlightItineraryAdaptiveCardExtensionStrings';
+import { Reservation } from '../../../models/cg.models';
+import { IFlightItineraryAdaptiveCardExtensionProps, IFlightItineraryAdaptiveCardExtensionState } from '../FlightItineraryAdaptiveCardExtension';
 
 export interface IQuickViewData {
-  formSample;
+  reservation: Reservation;
+  viewLabel: string;
 }
 
 export class QuickView extends BaseAdaptiveCardView<
-  IFormsampleAdaptiveCardExtensionProps,
-  IFormsampleAdaptiveCardExtensionState,
+  IFlightItineraryAdaptiveCardExtensionProps,
+  IFlightItineraryAdaptiveCardExtensionState,
   IQuickViewData
 > {
   private LOG_SOURCE: string = "🔶 QuickView";
   public get data(): IQuickViewData {
+    const reservation: Reservation = this.state.reservations[this.state.currentIndex];
     return {
-      formSample: this.state.formSample
+      reservation: reservation,
+      viewLabel: strings.ViewLabel
     };
   }
 
   public get template(): ISPFxAdaptiveCard {
     return require('./template/QuickViewTemplate.json');
   }
-
   public async onAction(action: IActionArguments): Promise<void> {
     try {
       if (action.type === 'Submit') {
         const { id, newIndex } = action.data;
-        if (id === 'submit') {
-          //This is where we could call a function in the service layer to
-          //save the data.
+        if (id === 'checkin') {
+          //Put your checkin logic here.
           this.quickViewNavigator.close();
         }
       }

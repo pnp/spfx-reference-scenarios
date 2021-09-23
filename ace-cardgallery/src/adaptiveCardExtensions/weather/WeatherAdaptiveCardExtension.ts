@@ -8,7 +8,7 @@ import { CardView } from './cardView/CardView';
 import { QuickView } from './quickView/QuickView';
 import { WeatherPropertyPane } from './WeatherPropertyPane';
 import { cg } from '../../services/cg.service';
-import { ILocation } from '../../models/cg.models';
+import { Location } from '../../models/cg.models';
 
 export interface IWeatherAdaptiveCardExtensionProps {
   title: string;
@@ -18,7 +18,7 @@ export interface IWeatherAdaptiveCardExtensionProps {
 
 export interface IWeatherAdaptiveCardExtensionState {
   currentLocationId: number;
-  locations: ILocation[];
+  locations: Location[];
 }
 
 const CARD_VIEW_REGISTRY_ID: string = 'Weather_CARD_VIEW';
@@ -31,7 +31,7 @@ export default class WeatherAdaptiveCardExtension extends BaseAdaptiveCardExtens
   private LOG_SOURCE: string = "🔶 WeatherAdaptiveCardExtension";
   private _deferredPropertyPane: WeatherPropertyPane | undefined;
 
-  public onInit(): Promise<void> {
+  public async onInit(): Promise<void> {
     try {
       //Initialize PnPLogger
       Logger.subscribe(new ConsoleListener());
@@ -40,9 +40,9 @@ export default class WeatherAdaptiveCardExtension extends BaseAdaptiveCardExtens
       //Initialize PnPJs
       sp.setup({ spfxContext: this.context });
 
-      cg.Init();
+      await cg.Init();
 
-      const locations: ILocation[] = cg.GetLocations();
+      const locations: Location[] = cg.GetLocations();
 
       this.state = {
         currentLocationId: 0,
@@ -52,7 +52,7 @@ export default class WeatherAdaptiveCardExtension extends BaseAdaptiveCardExtens
       this.cardNavigator.register(CARD_VIEW_REGISTRY_ID, () => new CardView());
       this.quickViewNavigator.register(QUICK_VIEW_REGISTRY_ID, () => new QuickView());
     } catch (err) {
-      Logger.write(`${this.LOG_SOURCE} (onInit) - ${err}`, LogLevel.Error);
+      Logger.write(`${this.LOG_SOURCE} (data) - ${err}`, LogLevel.Error);
     }
     return Promise.resolve();
   }

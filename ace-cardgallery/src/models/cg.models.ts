@@ -1,8 +1,3 @@
-export enum Tables {
-  IMAGESLIST = "Card Gallery Photos",
-  NEWSLIST = "Site Pages",
-}
-
 export interface ILocation {
   id: number;
   displayName: string;
@@ -309,6 +304,73 @@ export class Video implements IVideo {
     public description: string = "",
     public moreLinkText: string = "",
     public moreLink: string = ""
+  ) { }
+}
+
+export interface IReservation {
+  id: number;
+  reservationId: string;
+  flightNumber: string;
+  provider: string;
+  departureTime: string;
+  arrivalTime: string;
+  link: string;
+  passengers: Person[];
+  departureAirport: City;
+  arrivalAirport: City;
+}
+export class Reservation implements IReservation {
+  constructor(
+    public id: number = 0,
+    public reservationId: string = "",
+    public flightNumber: string = "",
+    public provider: string = "",
+    public departureTime: string = "",
+    public arrivalTime: string = "",
+    public link: string = "",
+    public passengers: Person[] = [],
+    public departureAirport: City = new City(),
+    public arrivalAirport: City = new City()
+  ) { }
+}
+export interface IPerson {
+  id: number;
+  firstName: string;
+  lastName: string;
+}
+export class Person implements IPerson {
+  constructor(
+    public id: number = 0,
+    public firstName: string = "",
+    public lastName: string = ""
+  ) { }
+}
+export interface ICity {
+  id: number;
+  city: string;
+  iataCode: string;
+  image: string;
+}
+export class City implements ICity {
+  constructor(
+    public id: number = 0,
+    public city: string = "",
+    public iataCode: string = "",
+    public image: string = ""
+  ) { }
+}
+
+export interface IAgenda {
+  id: number;
+  subject: string;
+  location: string;
+}
+
+export class Agenda implements IAgenda {
+  constructor(
+    public id: number = 0,
+    public subject: string = "",
+    public location: string = ""
   ) { }
 }
 

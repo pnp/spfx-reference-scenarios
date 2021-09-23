@@ -28,7 +28,7 @@
             "type": "TextBlock",
             "size": "Medium",
             "weight": "Bolder",
-            "text": "${userDisplayName}",
+            "text": "${tweet.userDisplayName}",
             "wrap": true
           },
           {
@@ -38,7 +38,7 @@
                 "items": [{
                   "type": "Image",
                   "style": "Person",
-                  "url": "${userPhoto}",
+                  "url": "${tweet.userPhoto}",
                   "size": "Small"
                 }],
                 "width": "auto"
@@ -48,7 +48,7 @@
                 "items": [{
                     "type": "TextBlock",
                     "weight": "Bolder",
-                    "text": "${userAccount}",
+                    "text": "${tweet.userAccount}",
                     "wrap": true
                   },
                   {
@@ -65,24 +65,24 @@
           },
           {
             "type": "TextBlock",
-            "text": "${text}",
+            "text": "${tweet.text}",
             "wrap": true
           },
           {
             "type": "Image",
-            "url": "${imageSrc}"
+            "url": "${tweet.imageSrc}"
           },
           {
             "type": "ActionSet",
             "actions": [{
                 "type": "Action.OpenUrl",
                 "title": "View In Twitter",
-                "url": "${tweetUrl}"
+                "url": "${tweet.tweetUrl}"
               },
               {
                 "type": "Action.OpenUrl",
                 "title": "View Link",
-                "url": "${linkUrl}"
+                "url": "${tweet.linkUrl}"
               }
             ]
           }

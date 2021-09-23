@@ -1,6 +1,6 @@
 import { BaseAdaptiveCardView, IActionArguments, ISPFxAdaptiveCard, IAction, ActionStyle, IAdaptiveCard, IShowCardAction } from '@microsoft/sp-adaptive-card-extension-base';
 
-import { Logger, LogLevel, ConsoleListener } from "@pnp/logging";
+import { Logger, LogLevel } from "@pnp/logging";
 
 import * as strings from 'TasklistAdaptiveCardExtensionStrings';
 import { ITasklistAdaptiveCardExtensionProps, ITasklistAdaptiveCardExtensionState } from '../TasklistAdaptiveCardExtension';

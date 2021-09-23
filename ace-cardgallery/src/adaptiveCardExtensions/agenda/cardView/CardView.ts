@@ -1,14 +1,15 @@
 import {
-  BasePrimaryTextCardView,
-  IPrimaryTextCardParameters,
+  BaseBasicCardView,
+  IBasicCardParameters,
   IExternalLinkCardAction,
   IQuickViewCardAction,
   ICardButton
 } from '@microsoft/sp-adaptive-card-extension-base';
-import * as strings from 'StocktickterAdaptiveCardExtensionStrings';
-import { IStocktickterAdaptiveCardExtensionProps, IStocktickterAdaptiveCardExtensionState, QUICK_VIEW_REGISTRY_ID } from '../StocktickterAdaptiveCardExtension';
+import * as strings from 'AgendaAdaptiveCardExtensionStrings';
+import { Agenda } from '../../../models/cg.models';
+import { IAgendaAdaptiveCardExtensionProps, IAgendaAdaptiveCardExtensionState, QUICK_VIEW_REGISTRY_ID } from '../AgendaAdaptiveCardExtension';
 
-export class CardView extends BasePrimaryTextCardView<IStocktickterAdaptiveCardExtensionProps, IStocktickterAdaptiveCardExtensionState> {
+export class CardView extends BaseBasicCardView<IAgendaAdaptiveCardExtensionProps, IAgendaAdaptiveCardExtensionState> {
   public get cardButtons(): [ICardButton] | [ICardButton, ICardButton] | undefined {
     return [
       {
@@ -23,10 +24,10 @@ export class CardView extends BasePrimaryTextCardView<IStocktickterAdaptiveCardE
     ];
   }
 
-  public get data(): IPrimaryTextCardParameters {
+  public get data(): IBasicCardParameters {
+    const agenda: Agenda = this.state.agendas[this.state.currentIndex];
     return {
-      primaryText: this.state.stock.symbol,
-      description: strings.Description.replace("{__StockDirection__}", (this.state.stock.change > 0) ? strings.Up : strings.Down)
+      primaryText: agenda.subject
     };
   }
 

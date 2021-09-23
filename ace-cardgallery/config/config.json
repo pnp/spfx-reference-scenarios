@@ -73,6 +73,22 @@
           "manifest": "./src/adaptiveCardExtensions/videocard/VideocardAdaptiveCardExtension.manifest.json"
         }
       ]
+    },
+    "flight-itinerary-adaptive-card-extension": {
+      "components": [
+        {
+          "entrypoint": "./lib/adaptiveCardExtensions/flightItinerary/FlightItineraryAdaptiveCardExtension.js",
+          "manifest": "./src/adaptiveCardExtensions/flightItinerary/FlightItineraryAdaptiveCardExtension.manifest.json"
+        }
+      ]
+    },
+    "agenda-adaptive-card-extension": {
+      "components": [
+        {
+          "entrypoint": "./lib/adaptiveCardExtensions/agenda/AgendaAdaptiveCardExtension.js",
+          "manifest": "./src/adaptiveCardExtensions/agenda/AgendaAdaptiveCardExtension.manifest.json"
+        }
+      ]
     }
   },
   "externals": {},
@@ -85,6 +101,8 @@
     "StocktickterAdaptiveCardExtensionStrings": "lib/adaptiveCardExtensions/stocktickter/loc/{locale}.js",
     "ExpensereportAdaptiveCardExtensionStrings": "lib/adaptiveCardExtensions/expensereport/loc/{locale}.js",
     "FormsampleAdaptiveCardExtensionStrings": "lib/adaptiveCardExtensions/formsample/loc/{locale}.js",
-    "VideocardAdaptiveCardExtensionStrings": "lib/adaptiveCardExtensions/videocard/loc/{locale}.js"
+    "VideocardAdaptiveCardExtensionStrings": "lib/adaptiveCardExtensions/videocard/loc/{locale}.js",
+    "FlightItineraryAdaptiveCardExtensionStrings": "lib/adaptiveCardExtensions/flightItinerary/loc/{locale}.js",
+    "AgendaAdaptiveCardExtensionStrings": "lib/adaptiveCardExtensions/agenda/loc/{locale}.js"
   }
 }

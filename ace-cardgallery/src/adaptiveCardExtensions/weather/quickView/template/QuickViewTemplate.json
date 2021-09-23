@@ -46,7 +46,7 @@
                 "width": "auto",
                 "items": [{
                   "type": "TextBlock",
-                  "text": "${tempCurrent} ",
+                  "text": "${location.tempCurrent} ",
                   "size": "ExtraLarge",
                   "weight": "Bolder",
                   "wrap": true
@@ -57,7 +57,7 @@
                 "width": "stretch",
                 "items": [{
                   "type": "TextBlock",
-                  "text": "°${tempMeasure}",
+                  "text": "°${location.tempMeasure}",
                   "weight": "Bolder",
                   "spacing": "Small",
                   "wrap": true
@@ -68,12 +68,12 @@
                 "width": "stretch",
                 "items": [{
                     "type": "TextBlock",
-                    "text": "Hi ${tempHi}",
+                    "text": "Hi ${location.tempHi}",
                     "wrap": true
                   },
                   {
                     "type": "TextBlock",
-                    "text": "Lo ${tempLow}",
+                    "text": "Lo ${location.tempLow}",
                     "spacing": "None",
                     "wrap": true
                   }
@@ -82,16 +82,16 @@
             ]
           }, {
             "type": "TextBlock",
-            "text": "${city}, ${state}",
+            "text": "${location.city}, ${location.state}",
             "size": "Large",
-            "$when": "${state != ''}",
+            "$when": "${location.state != ''}",
             "isSubtle": true,
             "wrap": true
           }, {
             "type": "TextBlock",
-            "text": "${city}, ${country}",
+            "text": "${location.city}, ${location.country}",
             "size": "Large",
-            "$when": "${state == ''}",
+            "$when": "${location.state == ''}",
             "isSubtle": true,
             "wrap": true
           }]

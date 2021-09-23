@@ -1,5 +1,5 @@
 import { Logger, LogLevel } from "@pnp/logging";
-import { Article, Expense, ExpenseReport, FormSample, ILocation, Image, IVideo, Stock, TaskList, Tweet, Video } from "../models/cg.models";
+import { Article, ExpenseReport, FormSample, Location, Image, IVideo, Reservation, Stock, TaskList, Tweet, Video, Agenda } from "../models/cg.models";
 
 
 export interface ICardGalleryService {
@@ -7,7 +7,7 @@ export interface ICardGalleryService {
   HandleExecuteDeepLink: (meetingUrl: string) => void;
   Init(): void;
   ExecuteDeepLink(meetingUrl: string);
-  GetLocations(): ILocation[];
+  GetLocations(): Location[];
   GetImages(): Image[];
   GetArticles(): Article[];
   GetTweets(): Tweet[];
@@ -16,6 +16,8 @@ export interface ICardGalleryService {
   GetExpenseReports(): ExpenseReport[];
   GetFormSample(): FormSample;
   GetVideos(): Video[];
+  GetFlightItineraries(): Reservation[];
+  GetAgendas(): Agenda[];
 }
 
 export class CardGalleryService implements ICardGalleryService {
@@ -42,14 +44,14 @@ export class CardGalleryService implements ICardGalleryService {
     }
   }
 
-  public GetLocations(): ILocation[] {
-    let retVal: ILocation[] = [];
+  public GetLocations(): Location[] {
+    let retVal: Location[] = [];
     try {
       //Sample pulls data from mock
       //To extend pull data from a list of your locations
       retVal = require("../mocks/locationsConfig.json");
     } catch (err) {
-      Logger.write(`${this.LOG_SOURCE} (GetLocations) - ${err} - `, LogLevel.Error);
+      Logger.write(`${this.LOG_SOURCE} (GetLocations) - ${err.message}`, LogLevel.Error);
     }
     return retVal;
   }
@@ -126,6 +128,26 @@ export class CardGalleryService implements ICardGalleryService {
       retVal = require("../mocks/videoCardConfig.json");
     } catch (err) {
       Logger.write(`${this.LOG_SOURCE} (GetVideos) - ${err.message}`, LogLevel.Error);
+    }
+    return retVal;
+  }
+
+  public GetFlightItineraries(): Reservation[] {
+    let retVal: Reservation[] = [];
+    try {
+      retVal = require("../mocks/filghtItineraryConfig.json");
+    } catch (err) {
+      Logger.write(`${this.LOG_SOURCE} (GetFlightItineraries) - ${err.message}`, LogLevel.Error);
+    }
+    return retVal;
+  }
+
+  public GetAgendas(): Agenda[] {
+    let retVal: Agenda[] = [];
+    try {
+      retVal = require("../mocks/agendaConfig.json");
+    } catch (err) {
+      Logger.write(`${this.LOG_SOURCE} (GetAgendas) - ${err.message}`, LogLevel.Error);
     }
     return retVal;
   }

@@ -3,17 +3,11 @@ import { IWeatherAdaptiveCardExtensionProps, IWeatherAdaptiveCardExtensionState 
 
 import { Logger, LogLevel } from "@pnp/logging";
 
-import { findIndex } from 'lodash';
+import { Location } from '../../../models/cg.models';
 
 export interface IQuickViewData {
-  city: string;
-  state: string;
-  country: string;
+  location: Location;
   date: string;
-  tempCurrent: number;
-  tempHi: number;
-  tempLow: number;
-  tempMeasure: string;
 }
 
 export class QuickView extends BaseAdaptiveCardView<
@@ -23,55 +17,45 @@ export class QuickView extends BaseAdaptiveCardView<
 > {
   private LOG_SOURCE: string = "🔶 QuickView";
   public get data(): IQuickViewData {
-    let retVal: IQuickViewData = null;
-    try {
-      const location = this.state.locations[this.state.currentLocationId];
-      const date = new Date();
-      if (location) {
-        retVal = {
-          city: location.city,
-          state: location.state,
-          country: location.country,
-          date: date.toUTCString(),
-          tempHi: location.tempHi,
-          tempLow: location.tempLow,
-          tempMeasure: location.tempMeasure,
-          tempCurrent: location.tempCurrent,
-        };
-      }
-    } catch (err) {
-      Logger.write(`${this.LOG_SOURCE} (data) - ${err}`, LogLevel.Error);
-    }
-    return retVal;
+    const location: Location = this.state.locations[this.state.currentLocationId];
+    const date = new Date();
+    return {
+      location: location,
+      date: new Date().toUTCString()
+    };
   }
 
   public get template(): ISPFxAdaptiveCard {
     return require('./template/QuickViewTemplate.json');
   }
   public async onAction(action: IActionArguments): Promise<void> {
-    if (action.type === 'Submit') {
-      const { id, newIndex } = action.data;
-      if (id === 'previous') {
-        let idx = findIndex(this.state.locations, { id: this.state.currentLocationId });
-        let newViewId: number = this.state.currentLocationId;
-        idx--;
-        if (idx < 0) {
-          newViewId = this.state.locations[this.state.locations.length - 1].id;
-        } else {
-          newViewId = this.state.locations[idx].id;
+    try {
+      if (action.type === 'Submit') {
+        const { id, newIndex } = action.data;
+        if (id === 'previous') {
+          let idx = this.state.locations[this.state.currentLocationId].id;
+          let newViewId: number = this.state.currentLocationId;
+          idx--;
+          if (idx < 0) {
+            newViewId = this.state.locations[this.state.locations.length - 1].id;
+          } else {
+            newViewId = this.state.locations[idx].id;
+          }
+          this.setState({ currentLocationId: newViewId });
+        } else if (id === 'next') {
+          let idx = this.state.locations[this.state.currentLocationId].id;
+          let newViewId: number = this.state.currentLocationId;
+          idx++;
+          if (idx < this.state.locations.length) {
+            newViewId = this.state.locations[idx].id;
+          } else {
+            newViewId = this.state.locations[0].id;
+          }
+          this.setState({ currentLocationId: newViewId });
         }
-        this.setState({ currentLocationId: newViewId });
-      } else if (id === 'next') {
-        let idx = findIndex(this.state.locations, { id: this.state.currentLocationId });
-        let newViewId: number = this.state.currentLocationId;
-        idx++;
-        if (idx < this.state.locations.length) {
-          newViewId = this.state.locations[idx].id;
-        } else {
-          newViewId = this.state.locations[0].id;
-        }
-        this.setState({ currentLocationId: newViewId });
       }
+    } catch (err) {
+      Logger.write(`${this.LOG_SOURCE} (onAction) - ${err}`, LogLevel.Error);
     }
   }
 }
