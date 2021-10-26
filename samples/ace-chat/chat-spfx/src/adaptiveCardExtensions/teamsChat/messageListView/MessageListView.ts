@@ -1,5 +1,5 @@
 import { ItemBody } from '@microsoft/microsoft-graph-types';
-import { ISPFxAdaptiveCard, BaseAdaptiveCardView, IActionArguments, ISubmitAction, ISubmitActionArguments } from '@microsoft/sp-adaptive-card-extension-base';
+import { ISPFxAdaptiveCard, BaseAdaptiveCardView, IActionArguments, ISubmitActionArguments } from '@microsoft/sp-adaptive-card-extension-base';
 import * as strings from 'TeamsChatAdaptiveCardExtensionStrings';
 import { ITeamsChatAdaptiveCardExtensionProps, ITeamsChatAdaptiveCardExtensionState, MESSAGE_REGISTRY_ID } from '../TeamsChatAdaptiveCardExtension';
 import { PickedChatMessage } from "../types";

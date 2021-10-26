@@ -3,7 +3,7 @@
     "plusBeta": true,
     "isCreatingSolution": true,
     "environment": "spo",
-    "version": "1.13.0-beta.13",
+    "version": "1.13.0",
     "libraryName": "teams-chat-card",
     "libraryId": "d9605059-cadc-49e3-a5f4-230f8f482fa5",
     "packageManager": "npm",

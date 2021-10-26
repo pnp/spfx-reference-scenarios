@@ -1,0 +1,58 @@
+{
+  "id": "c22daae8-a689-4a2d-86d1-edc971de31b4",
+  "alias": "BasicCardDeepLinkAdaptiveCardExtension",
+  "componentType": "AdaptiveCardExtension",
+  "version": "0.0.1",
+  "manifestVersion": 2,
+  "requiresCustomScript": false,
+  "supportedHosts": [
+    "Dashboard",
+    "SharePointWebPart"
+  ],
+  "preconfiguredEntries": [
+    {
+      "groupId": "bd067b1e-3ad5-4d5d-a5fe-505f07d7f59c",
+      "group": {
+        "default": "Dashboard"
+      },
+      "title": {
+        "default": "BasicCardDeepLink"
+      },
+      "description": {
+        "default": "BasicCardDeepLink description"
+      },
+      "officeFabricIconFontName": "SharePointLogo",
+      "properties": {
+        "title": "BasicCardDeepLink",
+        "description": "BasicCardDeepLink description",
+        "iconProperty": ""
+      }
+    }
+  ],
+  "loaderConfig": {
+    "internalModuleBaseUrls": [
+      "<!-- PATH TO CDN -->"
+    ],
+    "entryModuleId": "basic-card-deep-link-adaptive-card-extension",
+    "scriptResources": {
+      "basic-card-deep-link-adaptive-card-extension": {
+        "type": "path",
+        "path": "basic-card-deep-link-adaptive-card-extension_c22d48a11c365134fd68.js"
+      },
+      "BasicCardDeepLinkAdaptiveCardExtensionStrings": {
+        "type": "path",
+        "path": "BasicCardDeepLinkAdaptiveCardExtensionStrings_en-us_c9f2500e3fc9889fa3e001fd61598421.js"
+      },
+      "@microsoft/sp-loader": {
+        "type": "component",
+        "id": "1c6c9123-7aac-41f3-a376-3caea41ed83f",
+        "version": "1.13.0"
+      },
+      "@microsoft/sp-adaptive-card-extension-base": {
+        "type": "component",
+        "id": "eeec822e-c28a-46b4-affc-7058e4c1aa80",
+        "version": "1.13.0"
+      }
+    }
+  }
+}

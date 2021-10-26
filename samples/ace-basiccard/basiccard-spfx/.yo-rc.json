@@ -3,7 +3,7 @@
     "plusBeta": true,
     "isCreatingSolution": true,
     "environment": "spo",
-    "version": "1.13.0-beta.13",
+    "version": "1.13.0",
     "libraryName": "basic-card-deep-link",
     "libraryId": "2db3ca14-5793-4f5a-8259-ae2f76f8392c",
     "packageManager": "npm",
