@@ -69,7 +69,7 @@ export class QuickView extends BaseAdaptiveCardView<
   }
 
   public get template(): ISPFxAdaptiveCard {
-    let template: ISPFxAdaptiveCard = require('./template/QuickViewTemplate.json');
+    let template = require('./template/QuickViewTemplate.json');
     try {
       template.body[0].text = `${strings.PrimaryText} for ${this.state.displayName}`;
       const locationOptions = cs.Locations.map((l) => { return { title: l.Title, value: l.Title }; });

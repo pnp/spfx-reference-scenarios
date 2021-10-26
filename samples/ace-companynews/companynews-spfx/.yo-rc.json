@@ -3,7 +3,7 @@
     "plusBeta": true,
     "isCreatingSolution": true,
     "environment": "spo",
-    "version": "1.13.0-beta.13",
+    "version": "1.13.0",
     "libraryName": "company-news",
     "libraryId": "23ffa167-f9f1-4df1-9b17-1c55c13d2c84",
     "packageManager": "npm",
