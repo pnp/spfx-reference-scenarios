@@ -1,4 +1,4 @@
-# Contoso Orders - Demo
+# Consume a multi-tenant API within a set of Microsoft Viva Connections Adaptive Card Extensions (ACEs) 
 
 ## Summary
 
