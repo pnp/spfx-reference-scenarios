@@ -1,0 +1,81 @@
+{
+  "schema": "http://adaptivecards.io/schemas/adaptive-card.json",
+  "type": "AdaptiveCard",
+  "version": "1.2",
+  "body": [
+    {
+      "type": "Container",
+      "items": [
+        {
+          "type": "Input.Text",
+          "id": "id",
+          "label": "Order ID",
+          "isRequired": true,
+          "errorMessage": "Required field",
+          "placeholder": "${orderIdPlaceholder}"
+        },
+        {
+          "type": "Input.Text",
+          "id": "customerId",
+          "label": "Customer ID",
+          "isRequired": true,
+          "errorMessage": "Required field",
+          "placeholder": "${customerIdPlaceholder}"
+        },
+        {
+          "type": "Input.Date",
+          "id": "date",
+          "label": "Date",
+          "isRequired": true,
+          "errorMessage": "Required field"
+        },
+        {
+          "type": "Input.ChoiceSet",
+          "id": "status",
+          "label": "Status",
+          "style": "compact",
+          "isMultiSelect": false,
+          "isRequired": true,
+          "errorMessage": "Required field",
+          "value": "Inserted",
+          "choices": [
+            {
+              "title": "Inserted",
+              "value": "Inserted"
+            },
+            {
+              "title": "Processing",
+              "value": "Processing"
+            },
+            {
+              "title": "Processed",
+              "value": "Processed"
+            },
+            {
+              "title": "Shipped",
+              "value": "Shipped"
+            },
+            {
+              "title": "Delivered",
+              "value": "Delivered"
+            },
+            {
+              "title": "Closed",
+              "value": "Closed"
+            },
+            {
+              "title": "Cancelled",
+              "value": "Cancelled"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "actions": [
+    {
+      "type": "Action.Submit",
+      "title": "Insert Order"
+    }
+  ]
+}

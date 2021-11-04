@@ -1,0 +1,27 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/spfx-build/package-solution.schema.json",
+  "solution": {
+    "name": "contoso-orders-client-side-solution",
+    "id": "093eebef-9dbb-4b13-ba09-4da180bceb6d",
+    "version": "1.0.0.0",
+    "includeClientSideAssets": true,
+    "skipFeatureDeployment": true,
+    "isDomainIsolated": false,
+    "developer": {
+      "name": "Microsoft 365 PnP",
+      "websiteUrl": "https://aka.ms/m365pnp",
+      "privacyUrl": "",
+      "termsOfUseUrl": "",
+      "mpnId": "Undefined-1.13.0"
+    },
+    "webApiPermissionRequests": [
+      {
+        "resource": "PnP.Contoso.Orders",
+        "scope": "Orders.FullControl"
+      }
+    ]
+  },
+  "paths": {
+    "zippedPackage": "solution/contoso-orders.sppkg"
+  }
+}

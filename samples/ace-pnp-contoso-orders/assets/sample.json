@@ -1,0 +1,84 @@
+[
+  {
+    "name": "pnp-spfx-reference-scenarios-ace-pnp-contoso-orders",
+    "source": "pnp",
+    "title": "Contoso Orders ACE",
+    "shortDescription": "This example shows an end to end solution with a couple of ACEs which interact with a back-end multi-tenant API.",
+    "url": "https://github.com/pnp/spfx-reference-scenarios/tree/main/samples/ace-pnp-contoso-orders",
+    "longDescription": [
+      "This example shows an end to end solution with a couple of ACEs which interact with a back-end multi-tenant API. The ACEs are ListOrders, to see a read-only list of orders, and ManageOrders, to list/add/update/delete orders. The solution relies on a back-end multi-tenant API, implemented as an Azure Function App. The source code of the Function App is available in the solution folder, too."
+    ],
+    "creationDateTime": "2021-11-04",
+    "updateDateTime": "2021-11-04",
+    "products": [
+      "SharePoint",
+      "Microsoft Viva"
+    ],
+    "metadata": [
+      {
+        "key": "CLIENT-SIDE-DEV",
+        "value": "TypeScript"
+      },
+      {
+        "key": "SPFX-VERSION",
+        "value": "1.13.0"
+      }
+    ],
+    "thumbnails": [
+      {
+        "type": "image",
+        "order": 100,
+        "url": "https://github.com/pnp/spfx-reference-scenarios/raw/main/samples/ace-pnp-contoso-orders/assets/Contoso-List-Orders-QuickView.png",
+        "alt": "List Orders ACE Quick View"
+      },
+      {
+        "type": "image",
+        "order": 101,
+        "url": "https://github.com/pnp/spfx-reference-scenarios/raw/main/samples/ace-pnp-contoso-orders/assets/Contoso-Manage-Orders-QuickView-List.png",
+        "alt": "Manage Orders ACE Quick View"
+      },
+      {
+        "type": "image",
+        "order": 102,
+        "url": "https://github.com/pnp/spfx-reference-scenarios/raw/main/samples/ace-pnp-contoso-orders/assets/Contoso-Manage-Orders-QuickView-Add.png",
+        "alt": "Add New Order ACE Quick View"
+      }
+    ],
+    "authors": [
+      {
+        "gitHubAccount": "paolopia",
+        "company": "PiaSys.com",
+        "pictureUrl": "https://github.com/paolopia.png",
+        "name": "Paolo Pialorsi",
+        "twitter": "PaoloPia"
+      }
+    ],
+    "references": [
+      {
+        "name": "Introduction to PnP Contoso Orders solution",
+        "description": "Introduction about the PnP Contoso Orders solution",
+        "url": "https://github.com/pnp/spfx-reference-scenarios/raw/main/samples/ace-pnp-contoso-orders/docs/Introduction.md"
+      },
+      {
+        "name": "ACEs Implementation Details",
+        "description": "Technical documentation about how the ACEs of the PnP Contoso Orders solution are implemented.",
+        "url": "https://github.com/pnp/spfx-reference-scenarios/raw/main/samples/ace-pnp-contoso-orders/docs/ACEs-Implementation-Details.md"
+      },
+      {
+        "name": "APIs Implementation Details",
+        "description": "Technical documentation about how the APIs of the PnP Contoso Orders solution are implemented.",
+        "url": "https://github.com/pnp/spfx-reference-scenarios/raw/main/samples/ace-pnp-contoso-orders/docs/APIs-Implementation-Details.md"
+      },
+      {
+        "name": "Getting started with SharePoint Framework",
+        "description": "Introduction about how to develop Microsoft 365 extensions using SharePoint Framework.",
+        "url": "https://docs.microsoft.com/en-us/sharepoint/dev/spfx/set-up-your-developer-tenant"
+      },
+      {
+        "name": "Build your first SharePoint Adaptive Card Extension",
+        "description": "Learn how to develop your first Adaptive Card Extension (ACE) using SharePoint Framework (SPFx).",
+        "url": "https://docs.microsoft.com/en-us/sharepoint/dev/spfx/viva/get-started/build-first-sharepoint-adaptive-card-extension"
+      }
+    ]
+  }
+]

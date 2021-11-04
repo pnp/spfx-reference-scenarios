@@ -1,0 +1,28 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/spfx-build/config.2.0.schema.json",
+  "version": "2.0",
+  "bundles": {
+    "list-orders-adaptive-card-extension": {
+      "components": [
+        {
+          "entrypoint": "./lib/adaptiveCardExtensions/listOrders/ListOrdersAdaptiveCardExtension.js",
+          "manifest": "./src/adaptiveCardExtensions/listOrders/ListOrdersAdaptiveCardExtension.manifest.json"
+        }
+      ]
+    },
+    "manage-orders-adaptive-card-extension": {
+      "components": [
+        {
+          "entrypoint": "./lib/adaptiveCardExtensions/manageOrders/ManageOrdersAdaptiveCardExtension.js",
+          "manifest": "./src/adaptiveCardExtensions/manageOrders/ManageOrdersAdaptiveCardExtension.manifest.json"
+        }
+      ]
+    }
+  },
+  "externals": {},
+  "localizedResources": {
+    "ListOrdersAdaptiveCardExtensionStrings": "lib/adaptiveCardExtensions/listOrders/loc/{locale}.js",
+    "ManageOrdersAdaptiveCardExtensionStrings": "lib/adaptiveCardExtensions/manageOrders/loc/{locale}.js",
+    "OrderServiceStrings": "lib/services/loc/{locale}.js"
+  }
+}
