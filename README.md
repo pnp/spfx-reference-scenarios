@@ -29,6 +29,7 @@ All samples are prefixed with the following prefixes to indicate what type of so
 - [Covid Self-Attestation Microsoft Teams Personal App](samples/ace-teams-covid/)
 - [Executive Room Reservation Reference Microsoft Teams Personal App](samples/ace-teams-roomreservation/)
 - [World Clock Microsoft Teams Personal App/Teams Tab](samples/ace-teams-worldclock/)
+- [PnP Contoso Orders](samples/ace-pnp-contoso-orders/)
 
 ## Have issues or questions?
 
