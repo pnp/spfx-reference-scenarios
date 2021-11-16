@@ -113,4 +113,4 @@ The one drawback of a pre-packaged solution is the inability to target a specifi
 - [Publish SharePoint Framework applications to the Marketplace](https://docs.microsoft.com/en-us/sharepoint/dev/spfx/publish-to-marketplace-overview)
 - [Microsoft 365 Patterns and Practices](https://aka.ms/m365pnp) - Guidance, tooling, samples and open-source controls for your Microsoft 365 development
 
-<img src="https://telemetry.sharepointpnp.com/spfx-reference-scenarios/samples/ace-teams-covid" />
+<img src="https://pnptelemetry.azurewebsites.net/spfx-reference-scenarios/samples/ace-teams-covid" />
