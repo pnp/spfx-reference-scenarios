@@ -29,13 +29,13 @@
       {
         "type": "image",
         "order": 100,
-        "url": "https://github.com/pnp/spfx-reference-scenarios/raw/main/ace-teams-worldclock/assets/overview.gif",
+        "url": "https://raw.githubusercontent.com/pnp/spfx-reference-scenarios/main/samples/ace-teams-worldclock/assets/overview.gif",
         "alt": "World Clock Overview"
       },
       {
         "type": "image",
         "order": 101,
-        "url": "https://github.com/pnp/spfx-reference-scenarios/raw/main/ace-teams-worldclock/assets/worldclockace.gif",
+        "url": "https://raw.githubusercontent.com/pnp/spfx-reference-scenarios/main/samples/ace-teams-worldclock/assets/worldclockace.gif",
         "alt": "World Clock ACE"
       }
     ],

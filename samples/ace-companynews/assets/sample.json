@@ -9,7 +9,7 @@
       "This example shows an ACE which provides a news article rotator with Quick View for full article details. It shows previous/next buttons, and how to launch the Quick View for the current article. Additionally, you can like/unlike articles directly from the QuickView."
     ],
     "creationDateTime": "2021-09-07",
-    "updateDateTime": "2021-09-07",
+    "updateDateTime": "2021-11-18",
     "products": [
       "SharePoint",
       "Microsoft Viva"
@@ -28,13 +28,13 @@
       {
         "type": "image",
         "order": 100,
-        "url": "https://github.com/pnp/spfx-reference-scenarios/raw/main/samples/ace-companynews/assets/cardview.png",
+        "url": "https://raw.githubusercontent.com/pnp/spfx-reference-scenarios/main/samples/ace-companynews/assets/cardview.png",
         "alt": "Company News ACE Card View"
       },
       {
         "type": "image",
         "order": 101,
-        "url": "https://github.com/pnp/spfx-reference-scenarios/raw/main/samples/ace-companynews/assets/quickview.png",
+        "url": "https://raw.githubusercontent.com/pnp/spfx-reference-scenarios/main/samples/ace-companynews/assets/quickview.png",
         "alt": "Company News ACE Quick View"
       }
     ],

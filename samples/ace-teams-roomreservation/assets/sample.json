@@ -9,7 +9,7 @@
       "The Executive Room Reservation application is an executive scheduling application that allows users to see upcoming meetings, select and book a room based on availability dates and the number of participants. Users can see a photo of the room where the meeting is booked, get an address to the building to put in the meeting invite, and get directions to the building. It provides a seamless way for executive assistants to schedule meeting rooms for executive meetings. The application demonstrates the ability to create a visually engaging Microsoft Teams based solution."
     ],
     "creationDateTime": "2021-09-07",
-    "updateDateTime": "2021-09-07",
+    "updateDateTime": "2021-11-18",
     "products": [
       "SharePoint",
       "Microsoft Teams",
@@ -29,13 +29,13 @@
       {
         "type": "image",
         "order": 100,
-        "url": "https://github.com/pnp/spfx-reference-scenarios/raw/main/ace-teams-roomreservation/assets/execmeeting.gif",
+        "url": "https://raw.githubusercontent.com/pnp/spfx-reference-scenarios/main/samples/ace-teams-roomreservation/assets/execmeeting.gif",
         "alt": "Exectuive Meeting Overview"
       },
       {
         "type": "image",
         "order": 101,
-        "url": "https://github.com/pnp/spfx-reference-scenarios/raw/main/ace-teams-roomreservation/assets/execmeetingace.gif",
+        "url": "https://raw.githubusercontent.com/pnp/spfx-reference-scenarios/main/samples/ace-teams-roomreservation/assets/execmeetingace.gif",
         "alt": "Executive Meeting ACE"
       }
     ],

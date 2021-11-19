@@ -9,7 +9,7 @@
       "This example shows how to build and ACE with multiple card and quick views allowing chat interaction with a Microsoft Teams channel."
     ],
     "creationDateTime": "2021-09-07",
-    "updateDateTime": "2021-09-07",
+    "updateDateTime": "2021-11-18",
     "products": [
       "SharePoint",
       "Microsoft Viva"
@@ -28,19 +28,19 @@
       {
         "type": "image",
         "order": 100,
-        "url": "https://github.com/pnp/spfx-reference-scenarios/raw/main/samples/ace-chat/assets/cardview.png",
+        "url": "https://raw.githubusercontent.com/pnp/spfx-reference-scenarios/main/samples/ace-chat/assets/cardview.pngcardview.png",
         "alt": "Teams Chat ACE Card View"
       },
       {
         "type": "image",
         "order": 101,
-        "url": "https://github.com/pnp/spfx-reference-scenarios/raw/main/samples/ace-chat/assets/messagelistview.png",
+        "url": "https://raw.githubusercontent.com/pnp/spfx-reference-scenarios/main/samples/ace-chat/assets/messagelistview.png",
         "alt": "Teams Chat ACE Message List View"
       },
       {
         "type": "image",
         "order": 102,
-        "url": "https://github.com/pnp/spfx-reference-scenarios/raw/main/samples/ace-chat/assets/messagedetailview.png",
+        "url": "https://raw.githubusercontent.com/pnp/spfx-reference-scenarios/main/samples/ace-chat/assets/messagedetailview.png",
         "alt": "Teams Chat ACE Message Detail View"
       }
     ],

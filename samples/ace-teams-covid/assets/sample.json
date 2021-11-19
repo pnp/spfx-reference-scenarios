@@ -9,7 +9,7 @@
       "This solution depicts how you can build a teams based custom form that collects information from users and provides a custom dashboard for working with the results."
     ],
     "creationDateTime": "2021-09-07",
-    "updateDateTime": "2021-09-07",
+    "updateDateTime": "2021-11-18",
     "products": [
       "SharePoint",
       "Microsoft Teams",
@@ -29,25 +29,25 @@
       {
         "type": "image",
         "order": 100,
-        "url": "https://github.com/pnp/spfx-reference-scenarios/raw/main/ace-teams-covid/assets/check-in.gif",
+        "url": "https://raw.githubusercontent.com/pnp/spfx-reference-scenarios/main/samples/ace-teams-covid/assets/check-in.gif",
         "alt": "Covid Attestation Check-In"
       },
       {
         "type": "image",
         "order": 101,
-        "url": "https://github.com/pnp/spfx-reference-scenarios/raw/main/ace-teams-covid/assets/administration.gif",
+        "url": "https://raw.githubusercontent.com/pnp/spfx-reference-scenarios/main/samples/ace-teams-covid/assets/administration.gif",
         "alt": "Covid Attestation Administration"
       },
       {
         "type": "image",
         "order": 102,
-        "url": "https://github.com/pnp/spfx-reference-scenarios/raw/main/ace-teams-covid/assets/front-desk.gif",
+        "url": "https://raw.githubusercontent.com/pnp/spfx-reference-scenarios/main/samples/ace-teams-covid/assets/front-desk.gif",
         "alt": "Covid Attestation Front Desk"
       },
       {
         "type": "image",
         "order": 103,
-        "url": "https://github.com/pnp/spfx-reference-scenarios/raw/main/ace-teams-covid/assets/covidace.gif",
+        "url": "https://raw.githubusercontent.com/pnp/spfx-reference-scenarios/main/samples/ace-teams-covid/assets/covidace.gif",
         "alt": "Covid Attestation ACE"
       }
     ],

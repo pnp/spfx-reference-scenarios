@@ -9,7 +9,7 @@
       "This example shows a basic ACE with a single card view. The settings allow you to set the link launched by the card. You can set the URL to anything you like and the card will launch it. For Teams links, paste in the link from 'Get link to channel' and select the 'Is Teams Deep Link'."
     ],
     "creationDateTime": "2021-09-07",
-    "updateDateTime": "2021-09-07",
+    "updateDateTime": "2021-11-18",
     "products": [
       "SharePoint",
       "Microsoft Viva"
@@ -28,20 +28,14 @@
       {
         "type": "image",
         "order": 100,
-        "url": "https://github.com/pnp/spfx-reference-scenarios/raw/main/samples/ace-basiccard/assets/cardview.png",
+        "url": "https://raw.githubusercontent.com/pnp/spfx-reference-scenarios/main/samples/ace-basiccard/assets/cardview.png",
         "alt": "Basic ACE Card View"
       },
       {
         "type": "image",
         "order": 101,
-        "url": "https://github.com/pnp/spfx-reference-scenarios/raw/main/samples/ace-basiccard/assets/settings.png",
+        "url": "https://raw.githubusercontent.com/pnp/spfx-reference-scenarios/main/samples/ace-basiccard/assets/settings.png",
         "alt": "Basic ACE Settings"
-      },
-      {
-        "type": "image",
-        "order": 102,
-        "url": "https://github.com/pnp/spfx-reference-scenarios/raw/main/samples/ace-basiccard/assets/messagedetailview.png",
-        "alt": "Teams Chat ACE Message Detail View"
       }
     ],
     "authors": [
