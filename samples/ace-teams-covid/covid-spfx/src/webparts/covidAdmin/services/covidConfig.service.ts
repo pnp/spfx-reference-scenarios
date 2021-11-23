@@ -33,7 +33,7 @@ export class CovidConfigService implements ICovidConfigService {
 
   public async isValid(): Promise<boolean> {
     try {
-      const list = await sp.web.lists.getByTitle(Tables.COVIDCHECKINLIST)();
+      const list = await sp.web.lists.getByTitle(Tables.SELFCHECKINLIST)();
       this._valid = true;
     } catch (err) {
       Logger.write(`${this.LOG_SOURCE} (isValid) - Covid System has not been configured.`, LogLevel.Error);
