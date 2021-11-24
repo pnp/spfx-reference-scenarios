@@ -16,6 +16,10 @@ Their entry will be added to a central list that then is displayed on a dashboar
 
 ![Front-Desk](./assets/front-desk.gif)
 
+### Permissions
+
+The application is designed to be hosted in a Communication Site. Check-in data is managed with two security trimmed SharePoint lists. End users who are checking in need to be in the Visitors group for the Communication Site where the lists exist. Users who need to use the administrative functions (like checking users into a building) will need to be in the Members or Owners group for the site.
+
 ### Viva Dashboard Adaptive Card Extension (ACE)
 
 This solution also contains a Viva Desktop Adaptive Card Extension. As of this time the Dashboard page layout is not generally available so unless you were part of the private preview program you will not be able to add the extension to a page in SharePoint however, if you have access to SPFx 1.13 you can download the source code and serve the solution into the workbench to view the ACE.
