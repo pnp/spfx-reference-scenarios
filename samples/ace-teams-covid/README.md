@@ -16,6 +16,10 @@ Their entry will be added to a central list that then is displayed on a dashboar
 
 ![Front-Desk](./assets/front-desk.gif)
 
+### Permissions
+
+The application is designed to be hosted in a Communication Site. Check-in data is managed with two security trimmed SharePoint lists. End users who are checking in need to be in the Visitors group for the Communication Site where the lists exist. Users who need to use the administrative functions (like checking users into a building) will need to be in the Members or Owners group for the site.
+
 ### Viva Dashboard Adaptive Card Extension (ACE)
 
 This solution also contains a Viva Desktop Adaptive Card Extension. As of this time the Dashboard page layout is not generally available so unless you were part of the private preview program you will not be able to add the extension to a page in SharePoint however, if you have access to SPFx 1.13 you can download the source code and serve the solution into the workbench to view the ACE.
@@ -106,8 +110,11 @@ The one drawback of a pre-packaged solution is the inability to target a specifi
 
 ## References
 
+- [Extend Microsoft Viva Connections Learn Path](https://aka.ms/m365/dev/learn/connections)
 - [Getting started with SharePoint Framework](https://docs.microsoft.com/en-us/sharepoint/dev/spfx/set-up-your-developer-tenant)
 - [Building for Microsoft teams](https://docs.microsoft.com/en-us/sharepoint/dev/spfx/build-for-teams-overview)
 - [Use Microsoft Graph in your solution](https://docs.microsoft.com/en-us/sharepoint/dev/spfx/web-parts/get-started/using-microsoft-graph-apis)
 - [Publish SharePoint Framework applications to the Marketplace](https://docs.microsoft.com/en-us/sharepoint/dev/spfx/publish-to-marketplace-overview)
 - [Microsoft 365 Patterns and Practices](https://aka.ms/m365pnp) - Guidance, tooling, samples and open-source controls for your Microsoft 365 development
+
+<img src="https://pnptelemetry.azurewebsites.net/spfx-reference-scenarios/samples/ace-teams-covid" />
