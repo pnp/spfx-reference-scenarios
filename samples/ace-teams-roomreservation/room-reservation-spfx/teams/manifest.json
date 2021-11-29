@@ -1,7 +1,7 @@
 {
   "$schema": "https://developer.microsoft.com/en-us/json-schemas/teams/v1.9/MicrosoftTeams.schema.json",
   "manifestVersion": "1.9",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "id": "a813fd59-485e-499d-9cb4-44fc70b10723",
   "packageName": "RoomReservation",
   "developer": {
@@ -50,5 +50,9 @@
     "*.sharepoint.com",
     "spoprod-a.akamaihd.net",
     "resourceseng.blob.core.windows.net"
-  ]
+  ],
+  "webApplicationInfo": {
+    "resource": "https://{teamSiteDomain}",
+    "id": "00000003-0000-0ff1-ce00-000000000000"
+  }
 }

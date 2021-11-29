@@ -1,7 +1,7 @@
 {
   "name": "room-reservation-spfx",
   "description": "Teams Samples - Room Reservation",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "private": true,
   "main": "lib/index.js",
   "scripts": {
