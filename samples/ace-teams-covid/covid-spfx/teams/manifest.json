@@ -1,7 +1,7 @@
 {
   "$schema": "https://developer.microsoft.com/en-us/json-schemas/teams/v1.9/MicrosoftTeams.schema.json",
   "manifestVersion": "1.9",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "id": "3ab8fb75-8f80-4ff1-90a3-6f711ad27c1d",
   "packageName": "CovidAttestation",
   "developer": {
@@ -50,5 +50,9 @@
     "*.sharepoint.com",
     "spoprod-a.akamaihd.net",
     "resourceseng.blob.core.windows.net"
-  ]
+  ],
+  "webApplicationInfo": {
+    "resource": "https://{teamSiteDomain}",
+    "id": "00000003-0000-0ff1-ce00-000000000000"
+  }
 }

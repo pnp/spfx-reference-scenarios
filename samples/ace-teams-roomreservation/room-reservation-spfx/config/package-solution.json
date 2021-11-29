@@ -3,7 +3,7 @@
   "solution": {
     "name": "SPFx Teams Samples - Room Reservations",
     "id": "e3affc65-0e22-4ce7-9b06-b58ef4785a10",
-    "version": "1.0.0.0",
+    "version": "1.0.1.0",
     "includeClientSideAssets": true,
     "skipFeatureDeployment": true,
     "isDomainIsolated": false,

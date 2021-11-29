@@ -1,7 +1,7 @@
 {
   "$schema": "https://developer.microsoft.com/en-us/json-schemas/teams/v1.9/MicrosoftTeams.schema.json",
   "manifestVersion": "1.9",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "id": "2c3960eb-ca53-4e0e-8e90-e3258f788999",
   "packageName": "WorldClock",
   "developer": {
@@ -64,5 +64,9 @@
     "resourceseng.blob.core.windows.net",
     "spoprod-a.akamaihd.net",
     "*.login.microsoftonline.com"
-  ]
+  ],
+  "webApplicationInfo": {
+    "resource": "https://{teamSiteDomain}",
+    "id": "00000003-0000-0ff1-ce00-000000000000"
+  }
 }
