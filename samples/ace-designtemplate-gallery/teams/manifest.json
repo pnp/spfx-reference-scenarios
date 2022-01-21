@@ -1,0 +1,57 @@
+{
+  "$schema": "https://developer.microsoft.com/en-us/json-schemas/teams/v1.9/MicrosoftTeams.schema.json",
+  "manifestVersion": "1.9",
+  "version": "1.0.0",
+  "id": "4a007f51-abb1-4d3a-b753-7c84404936b2",
+  "packageName": "ACEDesignTemplates",
+  "developer": {
+    "name": "Sympraxis Consulting",
+    "websiteUrl": "https://docs.microsoft.com/en-us/sharepoint/dev/spfx/sharepoint-framework-overview",
+    "privacyUrl": "https://privacy.microsoft.com/en-us/privacystatement",
+    "termsOfUseUrl": "https://www.microsoft.com/en-us/servicesagreement",
+    "mpnId": "M365PNP"
+  },
+  "icons": {
+    "color": "4a007f51-abb1-4d3a-b753-7c84404936b2_color.png",
+    "outline": "4a007f51-abb1-4d3a-b753-7c84404936b2_outline.png"
+  },
+  "name": {
+    "short": "ACE Design Template Gallery",
+    "full": "Adaptive Card Extension Design Template Personal Application"
+  },
+  "description": {
+    "short": "Adaptive Card Extension Design Template Personal Application",
+    "full": "Teams Personal application that supports deep linking from the ACE Design Template application."
+  },
+  "accentColor": "#F9F9FA",
+  "staticTabs": [{
+      "entityId": "com.acedesigntemplate.spfx",
+      "name": "ACE Design Templates",
+      "contentUrl": "https://{teamSiteDomain}/_layouts/15/TeamsLogon.aspx?SPFX=true&dest=/_layouts/15/teamshostedapp.aspx%3Fteams%26personal%26componentId=4a007f51-abb1-4d3a-b753-7c84404936b2%26forceLocale={locale}",
+      "scopes": [
+        "personal"
+      ]
+    },
+    {
+      "entityId": "about",
+      "scopes": [
+        "personal"
+      ]
+    }
+  ],
+  "permissions": [
+    "identity",
+    "messageTeamMembers"
+  ],
+  "validDomains": [
+    "{teamSiteDomain}",
+    "*.login.microsoftonline.com",
+    "*.sharepoint.com",
+    "spoprod-a.akamaihd.net",
+    "resourceseng.blob.core.windows.net"
+  ],
+  "webApplicationInfo": {
+    "resource": "https://{teamSiteDomain}",
+    "id": "00000003-0000-0ff1-ce00-000000000000"
+  }
+}

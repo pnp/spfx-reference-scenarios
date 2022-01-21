@@ -1,0 +1,32 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/spfx/client-side-web-part-manifest.schema.json",
+  "id": "4a007f51-abb1-4d3a-b753-7c84404936b2",
+  "alias": "ACEGalleryAppPart",
+  "componentType": "WebPart",
+
+  // The "*" signifies that the version should be taken from the package.json
+  "version": "*",
+  "manifestVersion": 2,
+
+  // If true, the component can only be installed on sites where Custom Script is allowed.
+  // Components that allow authors to embed arbitrary script code should set this to true.
+  // https://support.office.com/en-us/article/Turn-scripting-capabilities-on-or-off-1f2c515f-5d7e-448a-9fd7-835da935584f
+  "requiresCustomScript": false,
+  "supportedHosts": ["TeamsPersonalApp"],
+  "supportsThemeVariants": true,
+
+  "preconfiguredEntries": [{
+    "groupId": "75e22ed5-fa14-4829-850a-c890608aca2d", // Other
+    "group": {
+      "default": "Microsoft 365 Teams Samples"
+    },
+    "title": {
+      "default": "ACE Design Templates"
+    },
+    "description": {
+      "default": "Personal App designed to demonstrate deep linking from an Adaptive Card Extension."
+    },
+    "officeFabricIconFontName": "Page",
+    "properties": {}
+  }]
+}

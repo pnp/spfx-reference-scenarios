@@ -1,0 +1,95 @@
+{
+  "schema": "http=//adaptivecards.io/schemas/adaptive-card.json",
+  "type": "AdaptiveCard",
+  "version": "1.3",
+  "body": [{
+      "type": "TextBlock",
+      "text": "${benefits.title}",
+      "wrap": true,
+      "horizontalAlignment": "Left",
+      "fontType": "Default",
+      "weight": "Bolder",
+      "size": "Large",
+      "spacing": "Large"
+    },
+    {
+      "type": "Container",
+      "backgroundImage": {
+        "url": "${benefits.mainImage}",
+        "horizontalAlignment": "Center",
+        "verticalAlignment": "Center"
+      },
+      "bleed": true,
+      "height": "stretch",
+      "minHeight": "240px",
+      "horizontalAlignment": "Center",
+      "spacing": "Medium"
+    },
+    {
+      "type": "TextBlock",
+      "text": "${benefits.headline}",
+      "wrap": true,
+      "horizontalAlignment": "Left",
+      "fontType": "Default",
+      "weight": "Bolder",
+      "spacing": "Large"
+    },
+    {
+      "type": "TextBlock",
+      "text": "${benefits.introContent}",
+      "wrap": true,
+      "horizontalAlignment": "Left",
+      "fontType": "Default"
+    },
+    {
+      "type": "Container",
+      "spacing": "Medium",
+      "style": "emphasis",
+      "$data": "${benefits.details}",
+      "$index": "${index}",
+      "items": [{
+          "type": "TextBlock",
+          "text": "${title}",
+          "wrap": true,
+          "weight": "Bolder",
+          "size": "Medium"
+        },
+        {
+          "type": "Container",
+          "items": [{
+            "type": "ColumnSet",
+            "columns": [{
+                "type": "Column",
+                "width": "stretch",
+                "items": [{
+                  "type": "TextBlock",
+                  "text": "${description}",
+                  "wrap": true
+                }]
+              },
+              {
+                "type": "Column",
+                "width": "80px",
+                "minHeight": "80px",
+                "backgroundImage": {
+                  "url": "${image}"
+                }
+              }
+            ]
+          }]
+        },
+        {
+          "type": "ActionSet",
+          "actions": [{
+            "type": "Action.OpenUrl",
+            "$when": "${linkUrl != ''}",
+            "title": "${linkText}",
+            "url": "${linkUrl}"
+          }],
+          "spacing": "Medium"
+        }
+      ]
+    }
+  ],
+  "$schema": "http://adaptivecards.io/schemas/adaptive-card.json"
+}
