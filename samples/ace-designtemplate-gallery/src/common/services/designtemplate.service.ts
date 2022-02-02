@@ -1,6 +1,6 @@
 import { cloneDeep, find } from "@microsoft/sp-lodash-subset";
 import { Logger, LogLevel } from "@pnp/logging";
-import { App, AppData, BenefitDetails, Benefits, LinkData, AppList } from "../models/designtemplate.models";
+import { App, AppData, BenefitDetails, AppList, EventRegistration, DeepLinkType, DeepLinkData } from "../models/designtemplate.models";
 
 export interface IDesignTemplateGalleryService {
   Ready: boolean;
@@ -10,14 +10,14 @@ export interface IDesignTemplateGalleryService {
   ExecuteDeepLink(meetingUrl: string);
   GetBenefits(): App;
   GetAllApps: () => AppData[];
-  GetAppData: (linkdata: LinkData) => AppData;
+  GetAppData: (linkdata: any) => AppData;
+  GetEventRegistrationLink(eventRegistration: EventRegistration): string;
 }
 
 export class DesignTemplateGalleryService implements IDesignTemplateGalleryService {
   private LOG_SOURCE: string = "🔶 ACE Design Template Service";
   private _ready: boolean = false;
   private _teamsUrl: string = "https://teams.microsoft.com/l/entity/4a007f51-abb1-4d3a-b753-7c84404936b2/com.acedesigntemplate.spfx";
-  private _siteUrl: string;
   private _executeDeepLink: (linkUrl: string) => void;
 
   constructor() {
@@ -83,7 +83,33 @@ export class DesignTemplateGalleryService implements IDesignTemplateGalleryServi
     return retVal;
   }
 
-  public GetAppData(linkdata: LinkData): AppData {
+  public GetEvents(): App {
+    let retVal: App = new App();
+    try {
+      //Sample pulls data from mock
+      //To extend pull data from a list of your items
+      retVal = require("../data/eventschedule.data.json");
+    } catch (err) {
+      Logger.write(`${this.LOG_SOURCE} (GetEvents) - ${err.message}`, LogLevel.Error);
+    }
+    return retVal;
+  }
+
+  public GetEventRegistrationLink(registration: EventRegistration): string {
+    let retVal: string = "";
+    try {
+      //In a real world scenario you would use this method to save the 
+      //save data into the system of record.
+      //Here we are going to link to the Teams App and demonstrate deep linking
+      retVal = encodeURI(`${this._teamsUrl}?context={"subEntityId":{"appName":"${AppList.EVENTSCHEDULE}","registration":${JSON.stringify(registration)}}}`);
+
+    } catch (err) {
+      Logger.write(`${this.LOG_SOURCE} (GetEventRegistrationLink) - ${err.message}`, LogLevel.Error);
+    }
+    return retVal;
+  }
+
+  public GetAppData(linkdata: any): AppData {
     let retVal: AppData = new AppData();
     try {
       switch (linkdata.appName) {
@@ -92,7 +118,16 @@ export class DesignTemplateGalleryService implements IDesignTemplateGalleryServi
           retVal = data.appData;
           const link: any = find(data.cardData.details, { guid: linkdata.linkGUID });
           if (link) {
-            retVal.linkTitle = link.linkText;
+            retVal.deepLinkData = new DeepLinkData(DeepLinkType.TEXT, link.linkText);
+          }
+          break;
+        }
+        case AppList.EVENTSCHEDULE: {
+          const data: App = this.GetEvents();
+          retVal = data.appData;
+          const registration: EventRegistration = linkdata.registration;
+          if (registration) {
+            retVal.deepLinkData = new DeepLinkData(DeepLinkType.EVENTREGISTRATION, null, registration);
           }
           break;
         }

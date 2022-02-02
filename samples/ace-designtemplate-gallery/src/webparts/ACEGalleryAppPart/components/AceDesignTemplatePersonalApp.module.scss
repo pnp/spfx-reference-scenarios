@@ -16,6 +16,16 @@
     .hoo-doccard {
       background-color: var(--white);
       cursor: pointer;
+
+      .hoo-cardlocation {
+        font-size: 1rem;
+        font-weight: 700;
+      }
+
+      img {
+        max-width: 275px;
+        margin: 1rem auto;
+      }
     }
 
     .introText {
@@ -34,6 +44,44 @@
           width: 100%;
           height: auto;
           object-fit: fill;
+          max-width: 275px;
+          margin: 1rem auto;
+        }
+
+        img.quickview {
+          max-width: 350px;
+        }
+
+        .hoo-teamsdbcard-title {
+          color: var(--primaryButtonBackground);
+        }
+
+        a.hoo-button-primary,
+        a.hoo-button {
+          display: block;
+        }
+
+        .introText {
+          padding: .5rem 0;
+          font-size: 1rem;
+        }
+
+        .deepLinkCard {
+          width: 75%;
+          font-size: 1rem;
+          border-radius: 4px;
+          box-shadow: var(--cardShadow);
+          background-color: var(--bodyStandoutBackground);
+          margin-bottom: 1rem;
+          padding: 0.5rem 0.5rem 1rem 0.5rem;
+
+          >span {
+            display: block;
+          }
+
+          .linkCardLabel {
+            font-weight: 700;
+          }
         }
       }
     }

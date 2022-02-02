@@ -15,6 +15,11 @@ export enum AppList {
   VISUALLIST = "Visual List"
 }
 
+export enum DeepLinkType {
+  TEXT,
+  EVENTREGISTRATION
+}
+
 export interface IIconType {
   Class: string;
   SVG: string;
@@ -36,7 +41,7 @@ export interface IAppData {
   appDescription: string;
   appCardImage: string;
   appQuickViewImage: string;
-  linkTitle: string;
+  deepLinkData?: DeepLinkData;
 }
 
 export class AppData implements IAppData {
@@ -45,7 +50,21 @@ export class AppData implements IAppData {
     public appDescription: string = "",
     public appCardImage: string = "",
     public appQuickViewImage: string = "",
-    public linkTitle: string = ""
+    public deepLinkData?: DeepLinkData
+  ) { }
+}
+
+export interface IDeepLinkData {
+  deepLinkType: DeepLinkType;
+  linkText?: string;
+  eventRegistration?: EventRegistration;
+}
+
+export class DeepLinkData implements IDeepLinkData {
+  constructor(
+    public deepLinkType,
+    public linkText: string = "",
+    public eventRegistration?: EventRegistration
   ) { }
 }
 
@@ -59,8 +78,6 @@ export interface IBenefits {
 
 export class Benefits implements IBenefits {
   constructor(
-    public appName: string = "",
-    public appImage: string = "",
     public title: string = "",
     public mainImage: string = "",
     public headline: string = "",
@@ -91,15 +108,72 @@ export class BenefitDetails implements IBenefitsDetails {
   ) { }
 }
 
-export interface ILinkData {
-  appName: string;
-  linkGUID: string;
+export interface IEvent {
+  cardViewImage: string;
+  eventTitle: string;
+  mainImage: string;
+  imageCaption: string;
+  headline: string;
+  introContent: string;
+  days: IEventDay[];
 }
 
-export class LinkData implements ILinkData {
+export class Event implements IEvent {
   constructor(
-    public appName: string = "",
-    public linkGUID: string = ""
+    public cardViewImage: string = "",
+    public eventTitle: string = "",
+    public mainImage: string = "",
+    public imageCaption: string = "",
+    public headline: string = "",
+    public introContent: string = "",
+    public days: IEventDay[] = []
+  ) { }
+}
+
+export interface IEventDay {
+  id: string | number;
+  date: string;
+  scheduleItems: IScheduleItem[];
+}
+
+export class EventDay implements IEventDay {
+  constructor(
+    public id: number = 1,
+    public date: string = "",
+    public scheduleItems: IScheduleItem[] = []
+  ) { }
+}
+
+export interface IScheduleItem {
+  startTime: string;
+  endTime: string;
+  description: string;
+}
+
+export class ScheduleItem implements IScheduleItem {
+  constructor(
+    public startTime: string = "",
+    public endTime: string = "",
+    public description: string = ""
+  ) { }
+}
+export interface IEventRegistration {
+  eventTitle: string;
+  firstName: string;
+  lastName: string;
+  company: string;
+  phone: string;
+  privacy: string;
+}
+
+export class EventRegistration implements IEventRegistration {
+  constructor(
+    public eventTitle: string = "",
+    public firstName: string = "",
+    public lastName: string = "",
+    public company: string = "",
+    public phone: string = "",
+    public privacy: string = ""
   ) { }
 }
 

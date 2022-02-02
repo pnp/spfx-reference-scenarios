@@ -1,9 +1,10 @@
 import * as React from "react";
 import { Logger, LogLevel } from "@pnp/logging";
-import { AppData } from "../../../../common/models/designtemplate.models";
+import { AppData, DeepLinkType } from "../../../../common/models/designtemplate.models";
 import { isEqual } from "@microsoft/sp-lodash-subset";
 import ButtonIcon from "../atoms/ButtonIcon";
 import { Icons } from "../../../../common/models/icons";
+
 
 export interface IAppDetailsProps {
   appData: AppData;
@@ -40,28 +41,57 @@ export default class AppDetails extends React.Component<IAppDetailsProps, IAppDe
               iconType={Icons.LeftArrow}
               onClick={() => this.props.onBackClick()} />
           </div>
+
+
+          <article className="hoo-teamsdbcard">
+            {this.props.appData.deepLinkData &&
+              <>
+                <header className="hoo-teamsdbcard-header">
+                  <div className="hoo-teamsdbcard-title">Deep Link</div>
+                </header>
+                <p>You clicked on a deep link from an Adaptive Card Extension.</p>
+              </>
+            }
+            {!this.props.appData.deepLinkData &&
+              <>
+                <header className="hoo-teamsdbcard-header">
+                  <div className="hoo-teamsdbcard-title">{this.props.appData.appName} App Card</div>
+                </header>
+                <p>You clicked into this app from Teams. To see this Adaptive Card Extensions in action add it to your dashboard and see how to deep link from an ACE to Teams.</p>
+              </>
+            }
+            <div className="hoo-teamsdbcard-content">
+
+              {this.props.appData.deepLinkData?.deepLinkType == DeepLinkType.EVENTREGISTRATION &&
+                <div className="deepLinkCard">
+                  <div className="introText">Thank you for registering for {this.props.appData.deepLinkData.eventRegistration.eventTitle}. Your registration has been confirmed with the following information.</div>
+                  <span><span className="linkCardLabel">Name: </span>{this.props.appData.deepLinkData.eventRegistration.firstName} {this.props.appData.deepLinkData.eventRegistration.lastName}</span>
+                  <span><span className="linkCardLabel">Company: </span>{this.props.appData.deepLinkData.eventRegistration.company}</span>
+                  <span><span className="linkCardLabel">Phone: </span>{this.props.appData.deepLinkData.eventRegistration.phone}</span>
+                </div>
+              }
+              {this.props.appData.deepLinkData?.deepLinkType == DeepLinkType.TEXT &&
+                <div className="deepLinkCard">
+                  <span><span className="linkCardLabel">You clicked on the: </span>{this.props.appData.deepLinkData.linkText}  link in the Adaptive Card.</span>
+                </div>
+              }
+              <div className="hoo-teamsdbcard-title">Card View</div>
+              <p>{this.props.appData.appDescription}</p>
+              <div className="hoo-cardimage"><img src={this.props.appData.appCardImage} alt={`${this.props.appData.appName} Card View Card`} /></div>
+
+
+
+            </div>
+          </article >
           <article className="hoo-teamsdbcard quickView">
             <header className="hoo-teamsdbcard-header">
               <div className="hoo-teamsdbcard-title">Quick View</div>
             </header>
             <div className="hoo-teamsdbcard-content">
-              <img src={this.props.appData.appQuickViewImage} alt={`${this.props.appData.appName} Quick View Card`} />
+              <div className="hoo-cardimage quickview"><img className="quickview" src={this.props.appData.appQuickViewImage} alt={`${this.props.appData.appName} Quick View Card`} /></div>
+
             </div>
           </article>
-
-          <article className="hoo-teamsdbcard">
-            <header className="hoo-teamsdbcard-header">
-              <div className="hoo-teamsdbcard-title">{this.props.appData.appName} App Card</div>
-            </header>
-            <div className="hoo-teamsdbcard-content">
-              <p>{this.props.appData.appDescription}</p>
-              <img src={this.props.appData.appCardImage} alt={`${this.props.appData.appName} Card View Card`} />
-              {this.props.appData.linkTitle &&
-                <p>You clicked on the {this.props.appData.linkTitle} link in the Adaptive Card</p>
-              }
-            </div>
-          </article>
-
           <article className="hoo-teamsdbcard">
             <header className="hoo-teamsdbcard-header">
               <div className="hoo-teamsdbcard-title">More Information About Adaptive Card Extensions</div>
@@ -83,7 +113,7 @@ export default class AppDetails extends React.Component<IAppDetailsProps, IAppDe
               </a>
             </div>
           </article>
-        </div>
+        </div >
 
       );
     } catch (err) {

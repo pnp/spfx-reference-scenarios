@@ -20,7 +20,7 @@ import AceDesignTemplatePersonalApp from './components/ACEGalleryPersonalApp';
 import { darkModeTheme, highContrastTheme, lightModeTheme } from '../../common/models/teamsapps.themes';
 import { dtg } from '../../common/services/designtemplate.service';
 import styles from './components/AceDesignTemplatePersonalApp.module.scss';
-import { AppData, LinkData } from '../../common/models/designtemplate.models';
+import { AppData } from '../../common/models/designtemplate.models';
 
 export interface IACEGalleryAppPartProps {
   appData: AppData;
@@ -31,7 +31,7 @@ export default class ACEGalleryAppPart extends BaseClientSideWebPart<IACEGallery
 
   private LOG_SOURCE: string = "🔶 ACEGalleryAppPart";
   private _microsoftTeams: IMicrosoftTeams;
-  private _linkData: LinkData = new LinkData();
+  private _linkData: any;
   private _appData: AppData = null;
   private _appList: AppData[];
 
@@ -126,6 +126,7 @@ export default class ACEGalleryAppPart extends BaseClientSideWebPart<IACEGallery
     try {
       // Get configuration from the Teams SDK
       if (this._microsoftTeams.context) {
+        console.log(this._microsoftTeams.context);
         if (this._microsoftTeams.context.subEntityId?.toString() != "") {
           const linkData: any = this._microsoftTeams.context.subEntityId;
           this._linkData = linkData;

@@ -3,21 +3,34 @@
   "version": "2.0",
   "bundles": {
     "benefits-adaptive-card-extension": {
-      "components": [{
-        "entrypoint": "./lib/adaptiveCardExtensions/benefits/BenefitsAdaptiveCardExtension.js",
-        "manifest": "./src/adaptiveCardExtensions/benefits/BenefitsAdaptiveCardExtension.manifest.json"
-      }]
+      "components": [
+        {
+          "entrypoint": "./lib/adaptiveCardExtensions/benefits/BenefitsAdaptiveCardExtension.js",
+          "manifest": "./src/adaptiveCardExtensions/benefits/BenefitsAdaptiveCardExtension.manifest.json"
+        }
+      ]
     },
     "ace-design-template-personal-app-web-part": {
-      "components": [{
-        "entrypoint": "./lib/webparts/ACEGalleryAppPart/ACEGalleryAppPart.js",
-        "manifest": "./src/webparts/ACEGalleryAppPart/ACEGalleryAppPart.manifest.json"
-      }]
+      "components": [
+        {
+          "entrypoint": "./lib/webparts/ACEGalleryAppPart/ACEGalleryAppPart.js",
+          "manifest": "./src/webparts/ACEGalleryAppPart/ACEGalleryAppPart.manifest.json"
+        }
+      ]
+    },
+    "eventschedule-adaptive-card-extension": {
+      "components": [
+        {
+          "entrypoint": "./lib/adaptiveCardExtensions/eventschedule/EventscheduleAdaptiveCardExtension.js",
+          "manifest": "./src/adaptiveCardExtensions/eventschedule/EventscheduleAdaptiveCardExtension.manifest.json"
+        }
+      ]
     }
   },
   "externals": {},
   "localizedResources": {
     "BenefitsAdaptiveCardExtensionStrings": "lib/adaptiveCardExtensions/benefits/loc/{locale}.js",
-    "AceDesignTemplatePersonalAppWebPartStrings": "lib/webparts/ACEGalleryAppPart/loc/{locale}.js"
+    "AceDesignTemplatePersonalAppWebPartStrings": "lib/webparts/ACEGalleryAppPart/loc/{locale}.js",
+    "EventscheduleAdaptiveCardExtensionStrings": "lib/adaptiveCardExtensions/eventschedule/loc/{locale}.js"
   }
 }

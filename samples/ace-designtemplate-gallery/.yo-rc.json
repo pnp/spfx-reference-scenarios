@@ -8,6 +8,7 @@
     "libraryId": "4f3fb79b-3289-4c58-88f3-143096550446",
     "packageManager": "npm",
     "isDomainIsolated": false,
-    "componentType": "webpart"
+    "componentType": "adaptiveCardExtension",
+    "aceTemplateType": "Image"
   }
 }

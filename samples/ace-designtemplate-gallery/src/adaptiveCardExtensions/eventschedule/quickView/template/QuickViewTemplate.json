@@ -1,0 +1,276 @@
+{
+  "type": "AdaptiveCard",
+  "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
+  "version": "1.3",
+  "body": [{
+      "type": "Container",
+      "backgroundImage": {
+        "url": "${event.mainImage}",
+        "horizontalAlignment": "Center",
+        "verticalAlignment": "Center"
+      },
+      "bleed": true,
+      "height": "stretch",
+      "minHeight": "240px",
+      "horizontalAlignment": "Center",
+      "spacing": "None"
+    },
+    {
+      "type": "TextBlock",
+      "text": "${event.imageCaption}",
+      "wrap": true,
+      "size": "Small",
+      "isSubtle": true
+    },
+    {
+      "type": "TextBlock",
+      "text": "${event.headline}",
+      "wrap": true,
+      "size": "Large",
+      "weight": "Bolder",
+      "spacing": "Medium"
+    },
+    {
+      "type": "TextBlock",
+      "text": "${event.introContent}",
+      "wrap": true
+    },
+    {
+      "type": "Container",
+      "items": [{
+        "type": "ColumnSet",
+        "columns": [{
+          "type": "Column",
+          "$data": "${event.days}",
+          "$index": "${id}",
+          "width": "stretch",
+          "items": [{
+            "type": "TextBlock",
+            "text": "DAY ${id}",
+            "wrap": true,
+            "weight": "Bolder",
+            "horizontalAlignment": "Center"
+          }, {
+            "type": "ColumnSet",
+            "columns": [{
+              "type": "Column",
+              "id": "day_${id}_divider",
+              "$when": "${id == $root.selectedDay}",
+              "width": "stretch",
+              "backgroundImage": {
+                "url": "${$root.dividerline}",
+                "fillMode": "RepeatHorizontally",
+                "verticalAlignment": "Center"
+              },
+              "minHeight": "3px",
+              "style": "default"
+            }, {
+              "type": "Column",
+              "width": "stretch",
+              "$when": "${id != $root.selectedDay}",
+              "minHeight": "3px",
+              "backgroundImage": {
+                "fillMode": "RepeatHorizontally",
+                "verticalAlignment": "Center"
+              }
+            }],
+            "spacing": "None"
+          }],
+          "id": "show_d${id}",
+          "selectAction": {
+            "type": "Action.Submit",
+            "title": "Show day ${id} schedule",
+            "associatedInputs": "none",
+            "data": {
+              "id": "toggle",
+              "dayID": "${id}"
+            }
+          }
+        }]
+      }],
+      "spacing": "Large"
+    },
+    {
+      "type": "Container",
+      "$data": "${event.days}",
+      "$index": "${index}",
+      "id": "day_${id}",
+      "$when": "${id == $root.selectedDay}",
+      "items": [{
+        "type": "TextBlock",
+        "text": "{{DATE(${date}, LONG)}}",
+        "wrap": true,
+        "size": "Medium",
+        "weight": "Bolder",
+        "spacing": "Medium"
+      }, {
+        "type": "ColumnSet",
+        "columns": [{
+            "type": "Column",
+            "width": 15,
+            "items": [{
+              "type": "TextBlock",
+              "text": "Time",
+              "wrap": true,
+              "size": "Small",
+              "color": "Accent",
+              "isSubtle": true,
+              "weight": "Bolder"
+            }]
+          },
+          {
+            "type": "Column",
+            "width": 65,
+            "items": [{
+              "type": "TextBlock",
+              "text": "Description",
+              "wrap": true,
+              "size": "Small",
+              "color": "Accent",
+              "isSubtle": true,
+              "weight": "Bolder"
+            }]
+          }
+        ],
+        "spacing": "Medium"
+      }, {
+        "type": "ColumnSet",
+        "$data": "${events}",
+        "columns": [{
+            "type": "Column",
+            "width": 15,
+            "items": [{
+              "type": "TextBlock",
+              "text": "{{TIME(${startTime})}}-{{TIME(${endTime})}}",
+              "wrap": true,
+              "size": "Small",
+              "isSubtle": true
+            }]
+          },
+          {
+            "type": "Column",
+            "width": 65,
+            "items": [{
+              "type": "TextBlock",
+              "text": "${description}",
+              "wrap": true,
+              "size": "Default"
+            }]
+          }
+        ],
+        "separator": true
+      }],
+      "spacing": "Medium"
+    },
+    {
+      "type": "ActionSet",
+      "$when": "${showRegister != true}",
+      "actions": [{
+        "type": "Action.Submit",
+        "title": "Register",
+        "associatedInputs": "none",
+        "style": "positive",
+        "data": {
+          "id": "register"
+        }
+      }],
+      "spacing": "ExtraLarge",
+      "id": "show_reg"
+    },
+    {
+      "type": "Container",
+      "spacing": "ExtraLarge",
+      "$when": "${showRegister == true}",
+      "id": "Reg_form",
+      "items": [{
+          "type": "TextBlock",
+          "text": "Registration form",
+          "wrap": true,
+          "size": "Large",
+          "weight": "Bolder",
+          "spacing": "ExtraLarge"
+        },
+        {
+          "type": "Input.Text",
+          "label": "First name",
+          "value": "${$root.eventRegistration.firstName}",
+          "isRequired": true,
+          "errorMessage": "Enter your first name.",
+          "id": "first_name"
+        },
+        {
+          "type": "Input.Text",
+          "label": "Last name",
+          "isRequired": true,
+          "value": "${$root.eventRegistration.lastName}",
+          "errorMessage": "Enter your last name.",
+          "id": "last_name"
+        },
+        {
+          "type": "Input.Text",
+          "label": "Company Name",
+          "isRequired": true,
+          "value": "${$root.eventRegistration.company}",
+          "errorMessage": "Enter your company name.",
+          "id": "company_name"
+        },
+        {
+          "type": "Input.Text",
+          "label": "Phone",
+          "value": "${$root.eventRegistration.phone}",
+          "isRequired": true,
+          "errorMessage": "Enter your phone number.",
+          "id": "phone"
+        },
+        {
+          "type": "TextBlock",
+          "text": "Enter phone in (000) 000-0000 format.",
+          "wrap": true,
+          "isSubtle": true,
+          "size": "Small",
+          "spacing": "Small"
+        }, {
+          "type": "TextBlock",
+          "text": "An SMS containing a One-Time Passcode will be sent to the phone number you have provided.",
+          "wrap": true,
+          "isSubtle": true,
+          "size": "Small",
+          "spacing": "Small"
+        },
+        {
+          "type": "Input.Toggle",
+          "title": "By continuing, you acknowledge that you’ve read and accepted our Notice of Privacy Practices.",
+          "value": "false",
+          "label": "Accept Privacy Policy",
+          "isRequired": true,
+          "wrap": true,
+          "spacing": "Medium",
+          "errorMessage": "Please accept Notice of Privacy Practices.",
+          "id": "accept_policy"
+        },
+        {
+          "type": "ActionSet",
+          "spacing": "Medium",
+          "actions": [{
+              "type": "Action.Submit",
+              "title": "Confirm",
+              "style": "positive",
+              "data": {
+                "id": "confirm"
+              }
+            },
+            {
+              "type": "Action.Submit",
+              "title": "Cancel",
+              "style": "negative",
+              "associatedInputs": "none",
+              "data": {
+                "id": "cancel"
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

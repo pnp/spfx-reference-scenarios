@@ -34,15 +34,16 @@ export default class AppCard extends React.Component<IAppCardProps, IAppCardStat
       return (
 
         <div className="hoo-doccard" data-component={this.LOG_SOURCE} onClick={() => this.props.onCardClick(this.props.app)}>
-          <div className="hoo-cardimage">
-            <img src={this.props.app.appCardImage} width="320" height="180" alt="" />
-          </div>
           <div className="hoo-cardlocation">{this.props.app.appName}</div>
           <div className="hoo-cardfooter">
             <div className="hoo-cardfooter-data">
               <div className="hoo-cardfooter-name">{this.props.app.appDescription}</div>
             </div>
           </div>
+          <div className="hoo-cardimage">
+            <img src={this.props.app.appCardImage} width="320" height="180" alt="" />
+          </div>
+
         </div>
 
       );
