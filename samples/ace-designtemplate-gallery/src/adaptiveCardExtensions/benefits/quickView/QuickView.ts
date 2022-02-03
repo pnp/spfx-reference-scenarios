@@ -1,6 +1,5 @@
 import { ISPFxAdaptiveCard, BaseAdaptiveCardView } from '@microsoft/sp-adaptive-card-extension-base';
 import { Benefits } from '../../../common/models/designtemplate.models';
-import { dtg } from '../../../common/services/designtemplate.service';
 import { IBenefitsAdaptiveCardExtensionProps, IBenefitsAdaptiveCardExtensionState } from '../BenefitsAdaptiveCardExtension';
 
 export interface IQuickViewData {

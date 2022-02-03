@@ -39,14 +39,18 @@ export default class BenefitsAdaptiveCardExtension extends BaseAdaptiveCardExten
       //Initialize PnPJs
       sp.setup({ spfxContext: this.context });
 
+      //Initialize Service
       dtg.Init();
 
+      //Get the data for the app
       const benefitsApp: App = dtg.GetBenefits();
 
+      //Set the data into state
       this.state = {
         benefits: benefitsApp.cardData
       };
 
+      //Regsiter the cards
       this.cardNavigator.register(CARD_VIEW_REGISTRY_ID, () => new CardView());
       this.quickViewNavigator.register(QUICK_VIEW_REGISTRY_ID, () => new QuickView());
     } catch (err) {
