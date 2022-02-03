@@ -28,7 +28,6 @@
     "officeFabricIconFontName": "Library",
     "properties": {
       "title": "Event Schedule",
-      "description": "Design for listing two day event schedule in a tabs with optionally visible form for the attendee registration.",
       "iconProperty": "Library" // Default to sharepointlogo
     }
   }]

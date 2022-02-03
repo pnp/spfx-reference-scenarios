@@ -1,15 +1,16 @@
 import { IPropertyPaneConfiguration } from '@microsoft/sp-property-pane';
 import { BaseAdaptiveCardExtension } from '@microsoft/sp-adaptive-card-extension-base';
+import { EventschedulePropertyPane } from './EventschedulePropertyPane';
 import { CardView } from './cardView/CardView';
 import { QuickView } from './quickView/QuickView';
-import { EventschedulePropertyPane } from './EventschedulePropertyPane';
+import { ConfirmView } from './quickView/ConfirmView';
 
-import { Logger, LogLevel, ConsoleListener } from "@pnp/logging";
 import { sp } from "@pnp/sp";
+import { Logger, LogLevel, ConsoleListener } from "@pnp/logging";
+
 import { dtg } from '../../common/services/designtemplate.service';
 import { App, EventRegistration, IEventRegistration } from '../../common/models/designtemplate.models';
-import { IMicrosoftTeams } from '@microsoft/sp-webpart-base';
-import { ConfirmView } from './quickView/ConfirmView';
+
 
 export interface IEventscheduleAdaptiveCardExtensionProps {
   title: string;
@@ -45,17 +46,20 @@ export default class EventscheduleAdaptiveCardExtension extends BaseAdaptiveCard
       //Initialize PnPJs
       sp.setup({ spfxContext: this.context });
 
+      //Initialize Service
       dtg.Init();
 
+      //Get the data for the app
       const eventsApp: App = dtg.GetEvents();
 
+      //Set the data into state
       this.state = {
         eventsApp: eventsApp,
         selectedDay: 1,
         showRegister: false,
         registrationData: new EventRegistration()
       };
-
+      //Register the cards
       this.cardNavigator.register(CARD_VIEW_REGISTRY_ID, () => new CardView());
       this.quickViewNavigator.register(QUICK_VIEW_REGISTRY_ID, () => new QuickView());
       this.quickViewNavigator.register(CONFIRM_VIEW_REGISTRY_ID, () => new ConfirmView());

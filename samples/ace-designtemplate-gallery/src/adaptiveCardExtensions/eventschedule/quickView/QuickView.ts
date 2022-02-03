@@ -1,9 +1,9 @@
 import { ISPFxAdaptiveCard, BaseAdaptiveCardView, IActionArguments } from '@microsoft/sp-adaptive-card-extension-base';
-import * as strings from 'EventscheduleAdaptiveCardExtensionStrings';
 import { CONFIRM_VIEW_REGISTRY_ID, IEventscheduleAdaptiveCardExtensionProps, IEventscheduleAdaptiveCardExtensionState } from '../EventscheduleAdaptiveCardExtension';
 import { Event, EventRegistration } from '../../../common/models/designtemplate.models';
 import { Logger, LogLevel } from "@pnp/logging";
-import { dtg } from '../../../common/services/designtemplate.service';
+import * as strings from 'EventscheduleAdaptiveCardExtensionStrings';
+
 
 export interface IQuickViewData {
   event: Event;
@@ -11,6 +11,7 @@ export interface IQuickViewData {
   selectedDay: number;
   dividerline: string;
   showRegister: boolean;
+  strings: IEventscheduleAdaptiveCardExtensionStrings;
 }
 
 export class QuickView extends BaseAdaptiveCardView<
@@ -28,7 +29,8 @@ export class QuickView extends BaseAdaptiveCardView<
       eventRegistration: this.state.registrationData,
       selectedDay: this.state.selectedDay,
       dividerline: divider,
-      showRegister: this.state.showRegister
+      showRegister: this.state.showRegister,
+      strings: strings
     };
   }
 

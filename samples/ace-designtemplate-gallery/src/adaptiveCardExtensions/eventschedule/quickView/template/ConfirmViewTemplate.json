@@ -24,7 +24,7 @@
     },
     {
       "type": "TextBlock",
-      "text": "Please review your registration before submitting. Cancel to make changes to your information.",
+      "text": "${$root.strings.ConfirmFormDescription}",
       "wrap": true
     },
     {
@@ -36,7 +36,7 @@
           "width": "stretch",
           "items": [{
             "type": "TextBlock",
-            "text": "Confirm Registration",
+            "text": "${$root.strings.ConfirmFormHeading}",
             "wrap": true,
             "weight": "Bolder",
             "horizontalAlignment": "left"
@@ -90,7 +90,7 @@
             "width": 25,
             "items": [{
               "type": "TextBlock",
-              "text": "Name: ",
+              "text": "${$root.strings.NameLabel}: ",
               "wrap": true,
               "size": "Small"
             }]
@@ -113,7 +113,7 @@
             "width": 25,
             "items": [{
               "type": "TextBlock",
-              "text": "Company: ",
+              "text": "${$root.strings.CompanyNameLabel}: ",
               "wrap": true,
               "size": "Small"
             }]
@@ -136,7 +136,7 @@
             "width": 25,
             "items": [{
               "type": "TextBlock",
-              "text": "Phone: ",
+              "text": "${$root.strings.PhoneLabel}: ",
               "wrap": true,
               "size": "Small"
             }]
@@ -159,12 +159,12 @@
       "type": "ActionSet",
       "actions": [{
         "type": "Action.OpenUrl",
-        "title": "Submit Registration",
+        "title": "${$root.strings.SubmitRegistrationButtonText}",
         "style": "positive",
         "url": "${confirmLink}"
       }, {
         "type": "Action.Submit",
-        "title": "Cancel",
+        "title": "${$root.strings.CancelButtonText}",
         "style": "negative",
         "associatedInputs": "none",
         "data": {

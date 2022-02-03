@@ -2,6 +2,25 @@ define([], function() {
   return {
     "PropertyPaneDescription": "Description",
     "BasicGroupName": "Group Name",
-    "DescriptionFieldLabel": "Description Field"
+    "DescriptionFieldLabel": "Description Field",
+    "AppTitle": "Adaptive Card Extension - Design Examples",
+    "AppListIntroContent": "Samples on different Adaptive Card designs demonstrating the art of possible for inspiration and innovation. Shared designs can be used as such or as a starting point for your own designs. Click on a card to see more details about the sample and get more information about developing your own Adaptive Card Extensions using SPFx.",
+    "DeepLinkContent": "You clicked on a deep link from an Adaptive Card Extension.",
+    "DeepLinkHeading": "Deep Link",
+    "DeepLinkDescription": "You clicked into this app from Teams. To see this Adaptive Card Extensions in action add it to your dashboard and see how to deep link from an ACE to Teams.",
+    "EventRegThankYouMessage": "Thank you for registering for __xxxx__. Your registration has been confirmed with the following information.",
+    "CompanyNameLabel": "Company Name",
+    "PhoneLabel": "Phone",
+    "NameLabel": "Name",
+    "DeepLinkMessage": "You clicked on the: __xxxx__ link in the Adaptive Card Extension.",
+    "CardViewHeading": "Card View",
+    "QuickViewHeading": "Quick View",
+    "AboutHeading": "More Information About Adaptive Card Extensions",
+    "AboutContent": "You can provide deep links from your Adaptive Card Extension into Teams linking directly to Teams Personal Apps, Teams Tabs, Chat, or Meetings.",
+    "MoreInfoHeading": "For More Information on Adaptive Card Extensions",
+    "ACDocsButtonText": "Adaptive Card Documentation",
+    "ACDesignerButtonText": "Adaptive Card Designer",
+    "ACTutorialButtonText": "Build Your First Adaptive Card Extension",
+    "ACEDesignButtonText": "Designing Viva Connections Custom Cards",
   }
 });

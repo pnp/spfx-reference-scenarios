@@ -1,9 +1,11 @@
 import { ISPFxAdaptiveCard, BaseAdaptiveCardView, IActionArguments } from '@microsoft/sp-adaptive-card-extension-base';
 import * as strings from 'EventscheduleAdaptiveCardExtensionStrings';
 import { IEventscheduleAdaptiveCardExtensionProps, IEventscheduleAdaptiveCardExtensionState } from '../EventscheduleAdaptiveCardExtension';
-import { Event, EventRegistration } from '../../../common/models/designtemplate.models';
-import { Logger, LogLevel, ConsoleListener } from "@pnp/logging";
+
+import { Logger, LogLevel } from "@pnp/logging";
+
 import { dtg } from '../../../common/services/designtemplate.service';
+import { Event, EventRegistration } from '../../../common/models/designtemplate.models';
 import { QUICK_VIEW_REGISTRY_ID } from '../../eventschedule/EventscheduleAdaptiveCardExtension';
 
 export interface IConfirmViewData {
@@ -11,6 +13,7 @@ export interface IConfirmViewData {
   eventRegistration: EventRegistration;
   confirmLink: string;
   dividerline: string;
+  strings: IEventscheduleAdaptiveCardExtensionStrings;
 }
 
 export class ConfirmView extends BaseAdaptiveCardView<
@@ -26,7 +29,8 @@ export class ConfirmView extends BaseAdaptiveCardView<
       event: this.state.eventsApp.cardData,
       eventRegistration: this.state.registrationData,
       confirmLink: dtg.GetEventRegistrationLink(this.state.registrationData),
-      dividerline: divider
+      dividerline: divider,
+      strings: strings
     };
   }
 

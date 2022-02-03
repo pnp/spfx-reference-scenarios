@@ -3,6 +3,7 @@ import { Logger, LogLevel } from "@pnp/logging";
 import { isEqual } from "@microsoft/sp-lodash-subset";
 import { AppData } from "../../../../common/models/designtemplate.models";
 import AppCard from "../molecules/AppCard";
+import * as strings from "AceDesignTemplatePersonalAppWebPartStrings";
 
 export interface IAppListProps {
   appList: AppData[];
@@ -35,9 +36,8 @@ export default class AppList extends React.Component<IAppListProps, IAppListStat
       return (
         <div className="hoo-cardgrid" data-component={this.LOG_SOURCE}>
           <div className="introText">
-            <h1>Adaptive Card Extension - Design Examples</h1>
-            <p>Samples on different Adaptive Card designs demonstrating the art of possible for inspiration and innovation. Shared designs can be used as such or as a starting point for your own designs.</p>
-            <p>Click on a card to see more details about the sample and get more information about developing your own Adaptive Card Extensions using SPFx.</p>
+            <h1>{strings.AppTitle}</h1>
+            <p>{strings.AppListIntroContent}</p>
           </div>
           {this.props.appList.map((app) => {
             return (

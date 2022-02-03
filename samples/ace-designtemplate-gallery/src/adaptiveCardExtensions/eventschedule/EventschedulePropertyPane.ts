@@ -16,10 +16,6 @@ export class EventschedulePropertyPane {
                 }),
                 PropertyPaneTextField('iconProperty', {
                   label: strings.IconPropertyFieldLabel
-                }),
-                PropertyPaneTextField('description', {
-                  label: strings.DescriptionFieldLabel,
-                  multiline: true
                 })
               ]
             }

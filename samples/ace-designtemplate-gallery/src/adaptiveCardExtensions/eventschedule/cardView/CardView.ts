@@ -6,7 +6,11 @@ import {
   ICardButton
 } from '@microsoft/sp-adaptive-card-extension-base';
 import * as strings from 'EventscheduleAdaptiveCardExtensionStrings';
-import { IEventscheduleAdaptiveCardExtensionProps, IEventscheduleAdaptiveCardExtensionState, QUICK_VIEW_REGISTRY_ID } from '../EventscheduleAdaptiveCardExtension';
+import {
+  IEventscheduleAdaptiveCardExtensionProps,
+  IEventscheduleAdaptiveCardExtensionState,
+  QUICK_VIEW_REGISTRY_ID
+} from '../EventscheduleAdaptiveCardExtension';
 
 export class CardView extends BaseImageCardView<IEventscheduleAdaptiveCardExtensionProps, IEventscheduleAdaptiveCardExtensionState> {
   /**

@@ -46,7 +46,7 @@
           "width": "stretch",
           "items": [{
             "type": "TextBlock",
-            "text": "DAY ${id}",
+            "text": "${$root.strings.DayLabel} ${id}",
             "wrap": true,
             "weight": "Bolder",
             "horizontalAlignment": "Center"
@@ -79,7 +79,7 @@
           "id": "show_d${id}",
           "selectAction": {
             "type": "Action.Submit",
-            "title": "Show day ${id} schedule",
+            "title": "${$root.strings.DayToggleTitle} ${id}",
             "associatedInputs": "none",
             "data": {
               "id": "toggle",
@@ -110,7 +110,7 @@
             "width": 15,
             "items": [{
               "type": "TextBlock",
-              "text": "Time",
+              "text": "${$root.strings.TimeHeading}",
               "wrap": true,
               "size": "Small",
               "color": "Accent",
@@ -123,7 +123,7 @@
             "width": 65,
             "items": [{
               "type": "TextBlock",
-              "text": "Description",
+              "text": "${$root.strings.DescriptionHeading}",
               "wrap": true,
               "size": "Small",
               "color": "Accent",
@@ -167,7 +167,7 @@
       "$when": "${showRegister != true}",
       "actions": [{
         "type": "Action.Submit",
-        "title": "Register",
+        "title": "${$root.strings.RegisterButtonText}",
         "associatedInputs": "none",
         "style": "positive",
         "data": {
@@ -184,7 +184,7 @@
       "id": "Reg_form",
       "items": [{
           "type": "TextBlock",
-          "text": "Registration form",
+          "text": "${$root.strings.RegistrationFormHeading}",
           "wrap": true,
           "size": "Large",
           "weight": "Bolder",
@@ -192,46 +192,46 @@
         },
         {
           "type": "Input.Text",
-          "label": "First name",
+          "label": "${$root.strings.FirstNameLabel}",
           "value": "${$root.eventRegistration.firstName}",
           "isRequired": true,
-          "errorMessage": "Enter your first name.",
+          "errorMessage": "${$root.strings.FirstNameError}",
           "id": "first_name"
         },
         {
           "type": "Input.Text",
-          "label": "Last name",
+          "label": "${$root.strings.LastNameLabel}",
           "isRequired": true,
           "value": "${$root.eventRegistration.lastName}",
-          "errorMessage": "Enter your last name.",
+          "errorMessage": "${$root.strings.LastNameError}",
           "id": "last_name"
         },
         {
           "type": "Input.Text",
-          "label": "Company Name",
+          "label": "${$root.strings.CompanyNameLabel}",
           "isRequired": true,
           "value": "${$root.eventRegistration.company}",
-          "errorMessage": "Enter your company name.",
+          "errorMessage": "${$root.strings.CompanyNameError}",
           "id": "company_name"
         },
         {
           "type": "Input.Text",
-          "label": "Phone",
+          "label": "${$root.strings.PhoneLabel}",
           "value": "${$root.eventRegistration.phone}",
           "isRequired": true,
-          "errorMessage": "Enter your phone number.",
+          "errorMessage": "${$root.strings.PhoneError}",
           "id": "phone"
         },
         {
           "type": "TextBlock",
-          "text": "Enter phone in (000) 000-0000 format.",
+          "text": "${$root.strings.PhoneFormatMessage}",
           "wrap": true,
           "isSubtle": true,
           "size": "Small",
           "spacing": "Small"
         }, {
           "type": "TextBlock",
-          "text": "An SMS containing a One-Time Passcode will be sent to the phone number you have provided.",
+          "text": "${$root.strings.PhoneDescription}",
           "wrap": true,
           "isSubtle": true,
           "size": "Small",
@@ -239,13 +239,13 @@
         },
         {
           "type": "Input.Toggle",
-          "title": "By continuing, you acknowledge that you’ve read and accepted our Notice of Privacy Practices.",
+          "title": "${$root.strings.PrivacyDescription}",
           "value": "false",
-          "label": "Accept Privacy Policy",
+          "label": "${$root.strings.PrivacyLabel}",
           "isRequired": true,
           "wrap": true,
           "spacing": "Medium",
-          "errorMessage": "Please accept Notice of Privacy Practices.",
+          "errorMessage": "${$root.strings.PrivacyError}",
           "id": "accept_policy"
         },
         {
@@ -253,7 +253,7 @@
           "spacing": "Medium",
           "actions": [{
               "type": "Action.Submit",
-              "title": "Confirm",
+              "title": "${$root.strings.ConfirmButtonText}",
               "style": "positive",
               "data": {
                 "id": "confirm"
@@ -261,7 +261,7 @@
             },
             {
               "type": "Action.Submit",
-              "title": "Cancel",
+              "title": "${$root.strings.CancelButtonText}",
               "style": "negative",
               "associatedInputs": "none",
               "data": {
