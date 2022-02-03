@@ -13,7 +13,7 @@ export class CardView extends BasePrimaryTextCardView<IBenefitsAdaptiveCardExten
 
   public get data(): IPrimaryTextCardParameters {
     return {
-      primaryText: strings.PrimaryText,
+      primaryText: this.properties.primaryText,
       description: this.properties.description
     };
   }

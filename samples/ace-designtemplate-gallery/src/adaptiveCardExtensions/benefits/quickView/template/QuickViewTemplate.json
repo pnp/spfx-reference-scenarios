@@ -19,6 +19,7 @@
         "horizontalAlignment": "Center",
         "verticalAlignment": "Center"
       },
+      "items": [],
       "bleed": true,
       "height": "stretch",
       "minHeight": "240px",
@@ -46,7 +47,6 @@
       "spacing": "Medium",
       "style": "emphasis",
       "$data": "${benefits.details}",
-      "$index": "${index}",
       "items": [{
           "type": "TextBlock",
           "text": "${title}",

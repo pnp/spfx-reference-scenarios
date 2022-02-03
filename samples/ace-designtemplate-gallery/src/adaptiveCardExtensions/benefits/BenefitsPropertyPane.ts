@@ -14,6 +14,9 @@ export class BenefitsPropertyPane {
                 PropertyPaneTextField('title', {
                   label: strings.TitleFieldLabel
                 }),
+                PropertyPaneTextField('primaryText', {
+                  label: strings.PrimaryTextLabel
+                }),
                 PropertyPaneTextField('iconProperty', {
                   label: strings.IconPropertyFieldLabel
                 }),

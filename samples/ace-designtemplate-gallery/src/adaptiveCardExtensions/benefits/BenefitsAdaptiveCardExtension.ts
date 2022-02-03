@@ -11,6 +11,7 @@ import { App, Benefits } from '../../common/models/designtemplate.models';
 
 export interface IBenefitsAdaptiveCardExtensionProps {
   title: string;
+  primaryText: string;
   description: string;
   iconProperty: string;
 }
