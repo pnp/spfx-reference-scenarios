@@ -1,0 +1,36 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/spfx-build/config.2.0.schema.json",
+  "version": "2.0",
+  "bundles": {
+    "dynamic-card-adaptive-card-extension": {
+      "components": [
+        {
+          "entrypoint": "./lib/adaptiveCardExtensions/dynamicCard/DynamicCardAdaptiveCardExtension.js",
+          "manifest": "./src/adaptiveCardExtensions/dynamicCard/DynamicCardAdaptiveCardExtension.manifest.json"
+        }
+      ]
+    },
+    "dynamic-card-2-adaptive-card-extension": {
+      "components": [
+        {
+          "entrypoint": "./lib/adaptiveCardExtensions/dynamicCard2/DynamicCard2AdaptiveCardExtension.js",
+          "manifest": "./src/adaptiveCardExtensions/dynamicCard2/DynamicCard2AdaptiveCardExtension.manifest.json"
+        }
+      ]
+    },
+    "dynamicard-3-adaptive-card-extension": {
+      "components": [
+        {
+          "entrypoint": "./lib/adaptiveCardExtensions/dynamicard3/Dynamicard3AdaptiveCardExtension.js",
+          "manifest": "./src/adaptiveCardExtensions/dynamicard3/Dynamicard3AdaptiveCardExtension.manifest.json"
+        }
+      ]
+    }
+  },
+  "externals": {},
+  "localizedResources": {
+    "DynamicCardAdaptiveCardExtensionStrings": "lib/adaptiveCardExtensions/dynamicCard/loc/{locale}.js",
+    "DynamicCard2AdaptiveCardExtensionStrings": "lib/adaptiveCardExtensions/dynamicCard2/loc/{locale}.js",
+    "Dynamicard3AdaptiveCardExtensionStrings": "lib/adaptiveCardExtensions/dynamicard3/loc/{locale}.js"
+  }
+}
