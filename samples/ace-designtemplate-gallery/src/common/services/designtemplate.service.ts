@@ -6,12 +6,16 @@ export interface IDesignTemplateGalleryService {
   Ready: boolean;
   TeamsUrl: string;
   HandleExecuteDeepLink: (linkUrl: string) => void;
-  Init(): void;
   ExecuteDeepLink(meetingUrl: string);
-  GetBenefits(): App;
+  Init(): void;
   GetAllApps: () => AppData[];
   GetAppData: (linkdata: any) => AppData;
+  GetBenefits(): App;
+  GetEvents(): App;
   GetEventRegistrationLink(eventRegistration: EventRegistration): string;
+  GetFAQs(): App;
+  SubmitFAQ(message: string): App;
+  GetImageCarousel(): App;
 }
 
 export class DesignTemplateGalleryService implements IDesignTemplateGalleryService {
@@ -32,7 +36,6 @@ export class DesignTemplateGalleryService implements IDesignTemplateGalleryServi
   public set HandleExecuteDeepLink(value: (linkUrl: string) => void) {
     this._executeDeepLink = value;
   }
-
   public ExecuteDeepLink(linkUrl: string): void {
     if (typeof this._executeDeepLink == "function") {
       this._executeDeepLink(linkUrl);
@@ -56,6 +59,44 @@ export class DesignTemplateGalleryService implements IDesignTemplateGalleryServi
       }
     } catch (err) {
       Logger.write(`${this.LOG_SOURCE} (GetAllApps) - ${err.message}`, LogLevel.Error);
+    }
+    return retVal;
+  }
+
+  public GetAppData(linkdata: any): AppData {
+    let retVal: AppData = new AppData();
+    try {
+      switch (linkdata.appName) {
+        case AppList.BENEFITS: {
+          const data: App = this.GetBenefits();
+          retVal = data.appData;
+          const link: any = find(data.cardData.details, { guid: linkdata.linkGUID });
+          if (link) {
+            retVal.deepLinkData = new DeepLinkData(DeepLinkType.TEXT, link.linkText);
+          }
+          break;
+        }
+        case AppList.EVENTSCHEDULE: {
+          const data: App = this.GetEvents();
+          retVal = data.appData;
+          const registration: EventRegistration = linkdata.registration;
+          if (registration) {
+            retVal.deepLinkData = new DeepLinkData(DeepLinkType.EVENTREGISTRATION, null, registration);
+          }
+          break;
+        }
+        case AppList.FAQACCORDION: {
+          const data: App = this.GetFAQs();
+          retVal = data.appData;
+          const linkText: string = linkdata.message;
+          if (linkText) {
+            retVal.deepLinkData = new DeepLinkData(DeepLinkType.TEXT, linkText);
+          }
+          break;
+        }
+      }
+    } catch (err) {
+      Logger.write(`${this.LOG_SOURCE} (GetApData) - ${err.message}`, LogLevel.Error);
     }
     return retVal;
   }
@@ -109,34 +150,44 @@ export class DesignTemplateGalleryService implements IDesignTemplateGalleryServi
     return retVal;
   }
 
-  public GetAppData(linkdata: any): AppData {
-    let retVal: AppData = new AppData();
+  public GetFAQs(): App {
+    let retVal: App = new App();
     try {
-      switch (linkdata.appName) {
-        case AppList.BENEFITS: {
-          const data: App = this.GetBenefits();
-          retVal = data.appData;
-          const link: any = find(data.cardData.details, { guid: linkdata.linkGUID });
-          if (link) {
-            retVal.deepLinkData = new DeepLinkData(DeepLinkType.TEXT, link.linkText);
-          }
-          break;
-        }
-        case AppList.EVENTSCHEDULE: {
-          const data: App = this.GetEvents();
-          retVal = data.appData;
-          const registration: EventRegistration = linkdata.registration;
-          if (registration) {
-            retVal.deepLinkData = new DeepLinkData(DeepLinkType.EVENTREGISTRATION, null, registration);
-          }
-          break;
-        }
-      }
+      //Sample pulls data from mock
+      //To extend pull data from a list of your items
+      retVal = require("../data/faqaccordion.data.json");
     } catch (err) {
-      Logger.write(`${this.LOG_SOURCE} (GetApData) - ${err.message}`, LogLevel.Error);
+      Logger.write(`${this.LOG_SOURCE} (GetFAQs) - ${err.message}`, LogLevel.Error);
     }
     return retVal;
   }
+
+  public SubmitFAQ(message: string): App {
+    let retVal: App = new App();
+    try {
+      const url = encodeURI(`${this._teamsUrl}?context={"subEntityId":{"appName":"${AppList.FAQACCORDION}","message":"${message}"}}`);
+      window.open(url);
+    } catch (err) {
+      Logger.write(`${this.LOG_SOURCE} (GetFAQs) - ${err.message}`, LogLevel.Error);
+    }
+    return retVal;
+  }
+
+  public GetImageCarousel(): App {
+    let retVal: App = new App();
+    try {
+      //Sample pulls data from mock
+      //To extend pull data from a list of your items
+      retVal = require("../data/imagecarousel.data.json");
+    } catch (err) {
+      Logger.write(`${this.LOG_SOURCE} (GetImageCarousel) - ${err.message}`, LogLevel.Error);
+    }
+    return retVal;
+  }
+
+
+
+
 }
 
 

@@ -48,7 +48,7 @@ export default class AppDetails extends React.Component<IAppDetailsProps, IAppDe
             {this.props.appData.deepLinkData &&
               <>
                 <header className="hoo-teamsdbcard-header">
-                  <div className="hoo-teamsdbcard-title">Deep Link</div>
+                  <div className="hoo-teamsdbcard-title">{strings.DeepLinkHeading}</div>
                 </header>
                 <p>{strings.DeepLinkContent}</p>
               </>
@@ -73,7 +73,7 @@ export default class AppDetails extends React.Component<IAppDetailsProps, IAppDe
               }
               {this.props.appData.deepLinkData?.deepLinkType == DeepLinkType.TEXT &&
                 <div className="deepLinkCard">
-                  <span>{strings.EventRegThankYouMessage.replace('__xxxx__', this.props.appData.deepLinkData.linkText)}</span>
+                  <span>{strings.DeepLinkMessage.replace('__xxxx__', this.props.appData.deepLinkData.linkText)}</span>
                 </div>
               }
               <div className="hoo-teamsdbcard-title">{strings.CardViewHeading}</div>

@@ -25,12 +25,31 @@
           "manifest": "./src/adaptiveCardExtensions/eventschedule/EventscheduleAdaptiveCardExtension.manifest.json"
         }
       ]
+    },
+    "faqaccordion-adaptive-card-extension": {
+      "components": [
+        {
+          "entrypoint": "./lib/adaptiveCardExtensions/faqaccordion/FaqaccordionAdaptiveCardExtension.js",
+          "manifest": "./src/adaptiveCardExtensions/faqaccordion/FaqaccordionAdaptiveCardExtension.manifest.json"
+        }
+      ]
+    },
+    "imagecarousel-adaptive-card-extension": {
+      "components": [
+        {
+          "entrypoint": "./lib/adaptiveCardExtensions/imagecarousel/ImagecarouselAdaptiveCardExtension.js",
+          "manifest": "./src/adaptiveCardExtensions/imagecarousel/ImagecarouselAdaptiveCardExtension.manifest.json"
+        }
+      ]
     }
   },
   "externals": {},
   "localizedResources": {
     "BenefitsAdaptiveCardExtensionStrings": "lib/adaptiveCardExtensions/benefits/loc/{locale}.js",
     "AceDesignTemplatePersonalAppWebPartStrings": "lib/webparts/ACEGalleryAppPart/loc/{locale}.js",
-    "EventscheduleAdaptiveCardExtensionStrings": "lib/adaptiveCardExtensions/eventschedule/loc/{locale}.js"
+    "EventscheduleAdaptiveCardExtensionStrings": "lib/adaptiveCardExtensions/eventschedule/loc/{locale}.js",
+    "FaqAccordionAdaptiveCardExtensionStrings": "lib/adaptiveCardExtensions/faqAccordion/loc/{locale}.js",
+    "FaqaccordionAdaptiveCardExtensionStrings": "lib/adaptiveCardExtensions/faqaccordion/loc/{locale}.js",
+    "ImagecarouselAdaptiveCardExtensionStrings": "lib/adaptiveCardExtensions/imagecarousel/loc/{locale}.js"
   }
 }

@@ -1,7 +1,7 @@
 define([], function() {
   return {
     "PropertyPaneDescription": "Description",
-    "BasicGroupName": "Group Name",
+    "BasicGroupName": "Group Name", 
     "DescriptionFieldLabel": "Description Field",
     "AppTitle": "Adaptive Card Extension - Design Examples",
     "AppListIntroContent": "Samples on different Adaptive Card designs demonstrating the art of possible for inspiration and innovation. Shared designs can be used as such or as a starting point for your own designs. Click on a card to see more details about the sample and get more information about developing your own Adaptive Card Extensions using SPFx.",
@@ -12,9 +12,9 @@ define([], function() {
     "CompanyNameLabel": "Company Name",
     "PhoneLabel": "Phone",
     "NameLabel": "Name",
-    "DeepLinkMessage": "You clicked on the: __xxxx__ link in the Adaptive Card Extension.",
+    "DeepLinkMessage": "You clicked on: __xxxx__ in the Adaptive Card Extension.",
     "CardViewHeading": "Card View",
-    "QuickViewHeading": "Quick View",
+    "QuickViewHeading": "Quick View",  
     "AboutHeading": "More Information About Adaptive Card Extensions",
     "AboutContent": "You can provide deep links from your Adaptive Card Extension into Teams linking directly to Teams Personal Apps, Teams Tabs, Chat, or Meetings.",
     "MoreInfoHeading": "For More Information on Adaptive Card Extensions",

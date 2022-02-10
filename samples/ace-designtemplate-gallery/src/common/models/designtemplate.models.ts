@@ -177,3 +177,104 @@ export class EventRegistration implements IEventRegistration {
   ) { }
 }
 
+export interface IAccordionList {
+  title: string;
+  mainImage: string;
+  imageCaption: string;
+  introContent: string;
+  faqs: IFAQ[];
+}
+
+export class AccordionList implements IAccordionList {
+  constructor(
+    public title: string = "",
+    public imageCaption: string = "",
+    public mainImage: string = "",
+    public introContent: string = "",
+    public faqs: IFAQ[] = []
+  ) { }
+}
+
+export interface IFAQ {
+  id: number;
+  question: string;
+  answer: string;
+  icons?: IIcon[];
+}
+
+export class FAQ implements IFAQ {
+  constructor(
+    public id: 0,
+    public question: string = "",
+    public answer: string = "",
+    public icons: IIcon[] = []
+  ) { }
+}
+
+export interface IIcon {
+  title: string;
+  iconUrl: string;
+  iconText?: string;
+  iconLink?: string;
+  linkTitle?: string;
+}
+
+export class Icon implements IIcon {
+  constructor(
+    public title: string = "",
+    public iconUrl: string = "",
+    public iconText: string = "",
+    public iconLink: string = "",
+    public linkTitle: string = ""
+  ) { }
+}
+
+export interface IImageCarousel {
+  title: string;
+  introContent: string;
+  icons: IIcon[];
+  specTypes: ISpecType[];
+  images: IProductImage[];
+}
+
+export class ImageCarousel implements IImageCarousel {
+  constructor(
+    public title: string = "",
+    public introContent: string = "",
+    public icons: IIcon[] = [],
+    public specTypes: ISpecType[] = [],
+    public images: IProductImage[] = []
+  ) { }
+}
+export interface ISpecType {
+  title: string;
+  specs: ISpec[];
+}
+
+export class SpecType implements ISpecType {
+  constructor(
+    public title: string = "",
+    public specs: ISpec[] = []
+  ) { }
+}
+export interface ISpec {
+  title: string;
+  text: string;
+}
+
+export class Spec implements ISpec {
+  constructor(
+    public title: string = "",
+    public text: string = ""
+  ) { }
+}
+
+export interface IProductImage {
+  imageUrl: string;
+}
+
+export class ProductImage implements IProductImage {
+  constructor(
+    public imageUrl: string = ""
+  ) { }
+}

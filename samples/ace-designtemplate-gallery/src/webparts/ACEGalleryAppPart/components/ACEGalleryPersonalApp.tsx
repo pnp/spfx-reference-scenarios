@@ -1,6 +1,5 @@
 import * as React from 'react';
 import styles from './AceDesignTemplatePersonalApp.module.scss';
-import { escape } from '@microsoft/sp-lodash-subset';
 import { Logger, LogLevel } from "@pnp/logging";
 import { AppData } from '../../../common/models/designtemplate.models';
 import AppDetails from './organisms/AppDetails';
