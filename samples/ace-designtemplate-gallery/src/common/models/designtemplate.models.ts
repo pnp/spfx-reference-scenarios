@@ -17,7 +17,8 @@ export enum AppList {
 
 export enum DeepLinkType {
   TEXT,
-  EVENTREGISTRATION
+  EVENTREGISTRATION,
+  INVENTORYITEM
 }
 
 export interface IIconType {
@@ -58,13 +59,15 @@ export interface IDeepLinkData {
   deepLinkType: DeepLinkType;
   linkText?: string;
   eventRegistration?: EventRegistration;
+  inventoryItem?: InventoryItem;
 }
 
 export class DeepLinkData implements IDeepLinkData {
   constructor(
     public deepLinkType,
     public linkText: string = "",
-    public eventRegistration?: EventRegistration
+    public eventRegistration?: EventRegistration,
+    public inventoryItem?: InventoryItem
   ) { }
 }
 
@@ -276,5 +279,42 @@ export interface IProductImage {
 export class ProductImage implements IProductImage {
   constructor(
     public imageUrl: string = ""
+  ) { }
+}
+
+export interface IInventoryDetail {
+  amountAvailable: number;
+  amountAvailableChange: number;
+  readyToShipAvailable: number;
+  readyToShipChange: number;
+  inventoryItems: IInventoryItem[];
+}
+
+export class InventoryDetail implements IInventoryDetail {
+  constructor(
+    public amountAvailable: number = 0,
+    public amountAvailableChange: number = 0,
+    public readyToShipAvailable: number = 0,
+    public readyToShipChange: number = 0,
+    public inventoryItems: IInventoryItem[] = []
+  ) { }
+}
+export interface IInventoryItem {
+  id: string;
+  imageUrl: string;
+  name: string;
+  amount: string;
+  change: string;
+  linkUrl?: string;
+}
+
+export class InventoryItem implements IInventoryItem {
+  constructor(
+    public id: string = "",
+    public imageUrl: string = "",
+    public name: string = "",
+    public amount: string = "",
+    public change: string = "",
+    public linkUrl: string = ""
   ) { }
 }

@@ -71,6 +71,12 @@ export default class AppDetails extends React.Component<IAppDetailsProps, IAppDe
                   <span><span className="linkCardLabel">{`${strings.PhoneLabel}: `}</span>{this.props.appData.deepLinkData.eventRegistration.phone}</span>
                 </div>
               }
+              {this.props.appData.deepLinkData?.deepLinkType == DeepLinkType.INVENTORYITEM &&
+                <div className="deepLinkCard">
+                  <div className="introText">{`${strings.InventoryMessage} ${this.props.appData.deepLinkData.inventoryItem.name}`}</div>
+                  <span><span className="linkCardLabel">{`${strings.InventoryAvailableLabel}: `}</span>{this.props.appData.deepLinkData.inventoryItem.amount}</span>
+                </div>
+              }
               {this.props.appData.deepLinkData?.deepLinkType == DeepLinkType.TEXT &&
                 <div className="deepLinkCard">
                   <span>{strings.DeepLinkMessage.replace('__xxxx__', this.props.appData.deepLinkData.linkText)}</span>

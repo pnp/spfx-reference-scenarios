@@ -41,6 +41,14 @@
           "manifest": "./src/adaptiveCardExtensions/imagecarousel/ImagecarouselAdaptiveCardExtension.manifest.json"
         }
       ]
+    },
+    "inventorydetails-adaptive-card-extension": {
+      "components": [
+        {
+          "entrypoint": "./lib/adaptiveCardExtensions/inventorydetails/InventorydetailsAdaptiveCardExtension.js",
+          "manifest": "./src/adaptiveCardExtensions/inventorydetails/InventorydetailsAdaptiveCardExtension.manifest.json"
+        }
+      ]
     }
   },
   "externals": {},
@@ -50,6 +58,7 @@
     "EventscheduleAdaptiveCardExtensionStrings": "lib/adaptiveCardExtensions/eventschedule/loc/{locale}.js",
     "FaqAccordionAdaptiveCardExtensionStrings": "lib/adaptiveCardExtensions/faqAccordion/loc/{locale}.js",
     "FaqaccordionAdaptiveCardExtensionStrings": "lib/adaptiveCardExtensions/faqaccordion/loc/{locale}.js",
-    "ImagecarouselAdaptiveCardExtensionStrings": "lib/adaptiveCardExtensions/imagecarousel/loc/{locale}.js"
+    "ImagecarouselAdaptiveCardExtensionStrings": "lib/adaptiveCardExtensions/imagecarousel/loc/{locale}.js",
+    "InventorydetailsAdaptiveCardExtensionStrings": "lib/adaptiveCardExtensions/inventorydetails/loc/{locale}.js"
   }
 }

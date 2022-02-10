@@ -1,0 +1,227 @@
+{
+  "type": "AdaptiveCard",
+  "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
+  "version": "1.3",
+  "body": [{
+      "type": "Container"
+    },
+    {
+      "type": "TextBlock",
+      "text": "${strings.DistributionCenterLabel} #${centerNumber}",
+      "wrap": true,
+      "weight": "Bolder",
+      "size": "Large",
+      "spacing": "Medium"
+    },
+    {
+      "type": "TextBlock",
+      "text": "${strings.AsOfLabel} {{TIME(${currentTime})}}  •  ${app.distributionCenterLocation}",
+      "wrap": true,
+      "size": "Small",
+      "isSubtle": true
+    },
+    {
+      "type": "ColumnSet",
+      "columns": [{
+          "type": "Column",
+          "width": 48,
+          "items": [{
+              "type": "TextBlock",
+              "text": "${strings.AvailableHeader}",
+              "wrap": true,
+              "size": "Small",
+              "weight": "Bolder",
+              "isSubtle": true
+            },
+            {
+              "type": "TextBlock",
+              "text": "${formatNumber(app.amountAvailable,2)}M",
+              "wrap": true,
+              "size": "Large",
+              "weight": "Bolder"
+            },
+            {
+              "type": "ColumnSet",
+              "columns": [{
+                  "type": "Column",
+                  "width": "28px",
+                  "items": [{
+                    "type": "TextBlock",
+                    "text": "${if(app.amountAvailableChange > 0, strings.UpArrow, strings.DownArrow)}",
+                    "wrap": true,
+                    "color": "${if(app.amountAvailableChange > 0, 'good', 'attention')}"
+                  }]
+                },
+                {
+                  "type": "Column",
+                  "width": "stretch",
+                  "verticalContentAlignment": "Center",
+                  "items": [{
+                    "type": "TextBlock",
+                    "text": "${if(app.amountAvailableChange > 0, '\\+', '\\-')} ${app.amountAvailableChange}%",
+                    "wrap": true
+                  }]
+                }
+              ],
+              "style": "${if(app.amountAvailableChange > 0, 'good', 'attention')}",
+              "spacing": "Medium"
+            }
+          ],
+          "style": "emphasis"
+        },
+        {
+          "type": "Column",
+          "width": 4
+        },
+        {
+          "type": "Column",
+          "items": [{
+              "type": "TextBlock",
+              "text": "${strings.ReadyToShipHeader}",
+              "wrap": true,
+              "size": "Small",
+              "weight": "Bolder",
+              "isSubtle": true
+            },
+            {
+              "type": "TextBlock",
+              "text": "${formatNumber(app.readyToShipAvailable,2)}M",
+              "wrap": true,
+              "size": "Large",
+              "weight": "Bolder"
+            },
+            {
+              "type": "ColumnSet",
+              "style": "${if(app.readyToShipChange > 0, 'good', 'attention')}",
+              "columns": [{
+                  "type": "Column",
+                  "width": "28px",
+                  "items": [{
+                    "type": "TextBlock",
+                    "text": "${if(app.readyToShipChange > 0, strings.UpArrow, strings.DownArrow)}",
+                    "wrap": true,
+                    "color": "${if(app.readyToShipChange > 0, 'good', 'attention')}"
+                  }]
+                },
+                {
+                  "type": "Column",
+                  "width": "stretch",
+                  "items": [{
+                    "type": "TextBlock",
+                    "text": "${if(app.readyToShipChange > 0, '\\+', '\\-')} ${app.readyToShipChange}%",
+                    "wrap": true
+                  }],
+                  "verticalContentAlignment": "Center"
+                }
+              ],
+              "spacing": "Medium"
+            }
+          ],
+          "width": 48,
+          "style": "emphasis"
+        }
+      ],
+      "spacing": "Large"
+    },
+    {
+      "type": "TextBlock",
+      "text": "${strings.TopSellerHeader}",
+      "wrap": true,
+      "spacing": "ExtraLarge",
+      "size": "Medium",
+      "weight": "Bolder"
+    },
+    {
+      "type": "Container"
+    },
+    {
+      "type": "ColumnSet",
+      "$data": "${app.inventoryItems}",
+      "columns": [{
+          "type": "Column",
+          "width": "50px",
+          "items": [{
+            "type": "Image",
+            "url": "${imageUrl}",
+            "width": "48px",
+            "height": "48px",
+            "horizontalAlignment": "Center"
+          }],
+          "verticalContentAlignment": "Center"
+        },
+        {
+          "type": "Column",
+          "width": 75,
+          "items": [{
+              "type": "TextBlock",
+              "text": "${name}",
+              "wrap": true,
+              "weight": "Bolder"
+            },
+            {
+              "type": "ColumnSet",
+              "columns": [{
+                  "type": "Column",
+                  "width": 33,
+                  "items": [{
+                    "type": "TextBlock",
+                    "text": "${amount}",
+                    "wrap": true
+                  }]
+                },
+                {
+                  "type": "Column",
+                  "width": 33,
+                  "items": [{
+                    "type": "TextBlock",
+                    "text": "${change}",
+                    "wrap": true,
+                    "color": "Good"
+                  }]
+                },
+                {
+                  "type": "Column",
+                  "width": 33
+                }
+              ],
+              "spacing": "Small"
+            }
+          ],
+          "verticalContentAlignment": "Center"
+        },
+        {
+          "type": "Column",
+          "width": 5,
+          "items": [{
+            "type": "Image",
+            "url": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMgAAADICAYAAACtWK6eAAAABHNCSVQICAgIfAhkiAAAAAlwSFlzAAALEwAACxMBAJqcGAAAAzxJREFUeJzt17+KXWUUxuH3HHUmFiIIVmrhxFTiBUiCEEuLlAqSzsZLCXZWtiIhiiAp1NpK0UvwT0JIokFyBWIxFsHGzGJF/fa355w8D+x2sVbxg/0lAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAMAwm7UX2DFPJ7mU5GKSoyRPJrmX5IckXyT5db3VYD2bJO8nuZ/kuPj+TPJRkmdX2hFWcZDk89Rh/PP7JcnZVTaFyTZJrubR4/j7u5vk3Ar7wlTv5t/HIRIeC9s8+F36r4GIhL12If8vDpHsge3aC5xi5wfNeSHJNxHJThJI7aWBs0SyowQyj0h2kEBqtxeYKRL2xusZ80j3cGcvbZP8FJFA6e0sF4hI2HmbJB9HJFA6SHI9IoGSSKAhEmiIBBoigYZIoCESaIgEGiKBhkigIRJoiAQaIoGGSKAhEmiIBBoigYZIoCESaIgEGiKBhkigIRJoiAQaIoGGSKAhEmiIBBoigYZIoCESaIgEGiKBhkigIRJoiAQaIoHGrEhemXUQjDYjkltJnp90Dww3I5LPpl0DC5gRyWvTroEFLB3JB/NOgWUsGcl3E++AxSwVyd2ZR5wm27UXYKhtHkQy2vECM2GqM0m+zjK/WN9OvAOGWzKO4yRX5p0CYy0dx3GSV6ddAwPNiOPqtGtgoBlx3Ejy3KyDYJQZcdxOcjTrIBhlVhxnZx0Eo4gDCuKAwmHEAScSBxTEAQVxQEEcUBAHFMQBBXFAQRxQEAcUxAEFcUDhMMlXEQc8RBxQEAcUxAEFcUBBHFAQBxTEAQVxQEEcUBAHFA6TfBlxwEPEAQVxQEEcUBAHFMQBBXFAQRxQEAcUxAEFcUBhk+TTiANOdDnigBM9keRmxAEneiPieOxt117gFDu/0Nw7SS4mubHQfAYSSO3FBWaKY8cIZB5x7CCB1O4MniUO9sqFeJBDaZvk54gDSu9EHFDaJPkk4oDSQZJrefQ4fkzy8iqbwko2Sd5Lci91GH8k+TDJMyvtyAI2ay+wYw6TvJXkzSRHSZ5K8luS75NcT/L7eqsBAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAJxyfwEUKNSxv/U8vQAAAABJRU5ErkJggg==",
+            "width": "20px",
+            "height": "20px",
+            "selectAction": {
+              "type": "Action.OpenUrl",
+              "$when": "${linkUrl != ''}",
+              "url": "${linkUrl}",
+              "style": "default"
+            }
+          }],
+          "verticalContentAlignment": "Center",
+          "horizontalAlignment": "Right"
+        }
+      ],
+      "spacing": "Medium",
+      "selectAction": {
+        "type": "Action.OpenUrl",
+        "$when": "${linkUrl != ''}",
+        "url": "${linkUrl}",
+        "style": "default"
+      },
+      "separator": true
+    },
+    {
+      "type": "TextBlock",
+      "text": "${strings.FooterText}",
+      "wrap": true,
+      "spacing": "Large"
+    }
+  ]
+}

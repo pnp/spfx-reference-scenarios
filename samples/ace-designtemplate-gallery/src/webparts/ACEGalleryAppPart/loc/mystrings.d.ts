@@ -11,6 +11,9 @@ declare interface IAceDesignTemplatePersonalAppWebPartStrings {
   CompanyNameLabel: string;
   PhoneLabel: string;
   NameLabel: string;
+  InventoryMessage: string;
+  InventoryAvailableLabel: string;
+  InventoryChangeLabel: string;
   DeepLinkMessage: string;
   CardViewHeading: string;
   QuickViewHeading: string;
