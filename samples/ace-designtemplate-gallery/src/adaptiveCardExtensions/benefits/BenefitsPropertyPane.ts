@@ -11,18 +11,8 @@ export class BenefitsPropertyPane {
             {
               groupName: strings.BasicGroupName,
               groupFields: [
-                PropertyPaneTextField('title', {
-                  label: strings.TitleFieldLabel
-                }),
-                PropertyPaneTextField('primaryText', {
-                  label: strings.PrimaryTextLabel
-                }),
                 PropertyPaneTextField('iconProperty', {
                   label: strings.IconPropertyFieldLabel
-                }),
-                PropertyPaneTextField('description', {
-                  label: strings.DescriptionFieldLabel,
-                  multiline: true
                 })
               ]
             }

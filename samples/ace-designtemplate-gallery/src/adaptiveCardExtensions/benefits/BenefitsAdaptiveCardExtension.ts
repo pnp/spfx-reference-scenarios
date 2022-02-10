@@ -8,11 +8,9 @@ import { Logger, LogLevel, ConsoleListener } from "@pnp/logging";
 import { sp } from "@pnp/sp";
 import { dtg } from '../../common/services/designtemplate.service';
 import { App, Benefits } from '../../common/models/designtemplate.models';
+import * as strings from 'BenefitsAdaptiveCardExtensionStrings';
 
 export interface IBenefitsAdaptiveCardExtensionProps {
-  title: string;
-  primaryText: string;
-  description: string;
   iconProperty: string;
 }
 
@@ -60,7 +58,7 @@ export default class BenefitsAdaptiveCardExtension extends BaseAdaptiveCardExten
   }
 
   public get title(): string {
-    return this.properties.title;
+    return strings.Title;
   }
 
   protected get iconProperty(): string {

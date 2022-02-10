@@ -1,10 +1,12 @@
 define([], function() {
   return {
-    "TitleFieldLabel": "Card Title",
-    "PrimaryTextLabel": "Primary Text",
+    
     "IconPropertyFieldLabel": "Card Icon",
     "PropertyPaneDescription": "Description",
     "DescriptionFieldLabel": "Description Field",
-    "BasicGroupName": "Group Name"
+    "BasicGroupName": "Group Name",
+    "Title": "Benefits",
+    "CardViewTitle": "Enroll for 2022",
+    "CardViewText": "Choose from the latest benefit options",
   }
 });

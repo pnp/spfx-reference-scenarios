@@ -27,8 +27,6 @@
     },
     "officeFabricIconFontName": "RibbonSolid",
     "properties": {
-      "title": "Benefits",
-      "primaryText": "Enroll for 2022",
       "description": "Choose from the latest benefit options",
       "iconProperty": "RibbonSolid" // Default to sharepointlogo
     }
