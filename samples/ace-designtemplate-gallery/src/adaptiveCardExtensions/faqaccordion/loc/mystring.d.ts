@@ -1,10 +1,13 @@
 declare interface IFaqaccordionAdaptiveCardExtensionStrings {
   PropertyPaneDescription: string;
   BasicGroupName: string;
-  TitleFieldLabel: string;
   IconPropertyFieldLabel: string;
-  PrimaryText: string;
-  PrimaryDescription: string;
+  Title: string;
+  CardTitle: string;
+  CardText: string;
+  FAQTitle: string;
+  ImageCaption: string;
+  IntroContent: string;
   QuickViewButtonText: string;
   FormQuestion: string;
   TextBoxPlaceholder: string;

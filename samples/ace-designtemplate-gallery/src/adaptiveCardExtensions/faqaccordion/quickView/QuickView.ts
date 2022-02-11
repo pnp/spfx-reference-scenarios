@@ -22,7 +22,7 @@ export class QuickView extends BaseAdaptiveCardView<
 
   public get data(): IQuickViewData {
     return {
-      faqApp: this.state.faqApp.cardData,
+      faqApp: this.state.faqApp,
       deepLink: this.state.deepLink,
       question: "",
       strings: strings

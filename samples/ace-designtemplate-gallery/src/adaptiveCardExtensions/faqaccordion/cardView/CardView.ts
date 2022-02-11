@@ -11,8 +11,7 @@ import { IFaqaccordionAdaptiveCardExtensionProps, IFaqaccordionAdaptiveCardExten
 
 export class CardView extends BasePrimaryTextCardView<IFaqaccordionAdaptiveCardExtensionProps, IFaqaccordionAdaptiveCardExtensionState> {
   public get cardButtons(): [ICardButton] | [ICardButton, ICardButton] | undefined {
-    const accList: AccordionList = this.state.faqApp.cardData as AccordionList;
-    const buttonText: string = strings.QuickViewButtonText.replace("___XXXX___", accList.faqs.length.toString());
+    const buttonText: string = strings.QuickViewButtonText.replace("___XXXX___", this.state.faqApp.faqs.length.toString());
     return [
       {
         title: buttonText,
@@ -28,8 +27,8 @@ export class CardView extends BasePrimaryTextCardView<IFaqaccordionAdaptiveCardE
 
   public get data(): IPrimaryTextCardParameters {
     return {
-      primaryText: strings.PrimaryText,
-      description: strings.PrimaryDescription
+      primaryText: strings.CardTitle,
+      description: strings.CardText
     };
   }
 

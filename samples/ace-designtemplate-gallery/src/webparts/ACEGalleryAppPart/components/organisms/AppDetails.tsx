@@ -1,6 +1,6 @@
 import * as React from "react";
 import { Logger, LogLevel } from "@pnp/logging";
-import { AppData, DeepLinkType } from "../../../../common/models/designtemplate.models";
+import { AppData, DeepLinkData, DeepLinkType } from "../../../../common/models/designtemplate.models";
 import { isEqual } from "@microsoft/sp-lodash-subset";
 import ButtonIcon from "../atoms/ButtonIcon";
 import { Icons } from "../../../../common/models/icons";
@@ -9,6 +9,7 @@ import * as strings from "AceDesignTemplatePersonalAppWebPartStrings";
 
 export interface IAppDetailsProps {
   appData: AppData;
+  deepLink?: DeepLinkData;
   onBackClick: () => void;
 }
 
@@ -45,7 +46,7 @@ export default class AppDetails extends React.Component<IAppDetailsProps, IAppDe
 
 
           <article className="hoo-teamsdbcard">
-            {this.props.appData.deepLinkData &&
+            {this.props.deepLink &&
               <>
                 <header className="hoo-teamsdbcard-header">
                   <div className="hoo-teamsdbcard-title">{strings.DeepLinkHeading}</div>
@@ -53,33 +54,30 @@ export default class AppDetails extends React.Component<IAppDetailsProps, IAppDe
                 <p>{strings.DeepLinkContent}</p>
               </>
             }
-            {!this.props.appData.deepLinkData &&
+            {!this.props.deepLink &&
               <>
-                <header className="hoo-teamsdbcard-header">
-                  <div className="hoo-teamsdbcard-title">{this.props.appData.appName} {strings.DeepLinkHeading}</div>
-                </header>
-                <p>{strings.DeepLinkContent}</p>
+
               </>
             }
             <div className="hoo-teamsdbcard-content">
 
-              {this.props.appData.deepLinkData?.deepLinkType == DeepLinkType.EVENTREGISTRATION &&
+              {this.props.deepLink?.deepLinkType == DeepLinkType.EVENTREGISTRATION &&
                 <div className="deepLinkCard">
-                  <div className="introText">{strings.EventRegThankYouMessage.replace('__xxxx__', this.props.appData.deepLinkData.eventRegistration.eventTitle)}</div>
-                  <span><span className="linkCardLabel">{`${strings.NameLabel}: `}</span>{`${this.props.appData.deepLinkData.eventRegistration.firstName} ${this.props.appData.deepLinkData.eventRegistration.lastName}`}</span>
-                  <span><span className="linkCardLabel">{`${strings.CompanyNameLabel}: `}</span>{this.props.appData.deepLinkData.eventRegistration.company}</span>
-                  <span><span className="linkCardLabel">{`${strings.PhoneLabel}: `}</span>{this.props.appData.deepLinkData.eventRegistration.phone}</span>
+                  <div className="introText">{strings.EventRegThankYouMessage.replace('__xxxx__', this.props.deepLink.message.eventTitle)}</div>
+                  <span><span className="linkCardLabel">{`${strings.NameLabel}: `}</span>{`${this.props.deepLink.message.firstName} ${this.props.deepLink.message.lastName}`}</span>
+                  <span><span className="linkCardLabel">{`${strings.CompanyNameLabel}: `}</span>{this.props.deepLink.message.company}</span>
+                  <span><span className="linkCardLabel">{`${strings.PhoneLabel}: `}</span>{this.props.deepLink.message.phone}</span>
                 </div>
               }
-              {this.props.appData.deepLinkData?.deepLinkType == DeepLinkType.INVENTORYITEM &&
+              {this.props.deepLink?.deepLinkType == DeepLinkType.INVENTORYITEM &&
                 <div className="deepLinkCard">
-                  <div className="introText">{`${strings.InventoryMessage} ${this.props.appData.deepLinkData.inventoryItem.name}`}</div>
-                  <span><span className="linkCardLabel">{`${strings.InventoryAvailableLabel}: `}</span>{this.props.appData.deepLinkData.inventoryItem.amount}</span>
+                  <div className="introText">{`${strings.InventoryMessage} ${this.props.deepLink.message.inventoryItem.name}`}</div>
+                  <span><span className="linkCardLabel">{`${strings.InventoryAvailableLabel}: `}</span>{this.props.deepLink.message.inventoryItem.amount}</span>
                 </div>
               }
-              {this.props.appData.deepLinkData?.deepLinkType == DeepLinkType.TEXT &&
+              {this.props.deepLink?.deepLinkType == DeepLinkType.TEXT &&
                 <div className="deepLinkCard">
-                  <span>{strings.DeepLinkMessage.replace('__xxxx__', this.props.appData.deepLinkData.linkText)}</span>
+                  <span>{strings.DeepLinkMessage.replace('__xxxx__', this.props.deepLink.message)}</span>
                 </div>
               }
               <div className="hoo-teamsdbcard-title">{strings.CardViewHeading}</div>

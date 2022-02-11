@@ -1,18 +1,16 @@
-import { Guid } from "@microsoft/sp-core-library";
-
 export enum AppList {
   BENEFITS = "Benefits",
   EVENTSCHEDULE = "Event Schedule",
   FAQACCORDION = "FAQ Accordion",
   IMAGECAROUSEL = "Image Carousel",
-  INVENTORY = "Inventory",
-  PAYSLIP = "Payslip",
-  SIMPLELIST = "Simple List",
-  TEAMCALENDAR = "Team Calendar",
-  TIMELINEHOLIDAY = "Timeline/Holiday",
-  TIMEOFF = "Timeoff",
-  VACCINATIONBOOSTER = "Vaccination Booster",
-  VISUALLIST = "Visual List"
+  //INVENTORY = "Inventory",
+  //PAYSLIP = "Payslip",
+  //SIMPLELIST = "Simple List",
+  //TEAMCALENDAR = "Team Calendar",
+  //TIMELINEHOLIDAY = "Timeline/Holiday",
+  //TIMEOFF = "Timeoff",
+  //VACCINATIONBOOSTER = "Vaccination Booster",
+  //VISUALLIST = "Visual List"
 }
 
 export enum DeepLinkType {
@@ -21,11 +19,18 @@ export enum DeepLinkType {
   INVENTORYITEM
 }
 
+export enum CardImageType {
+  CARDVIEW,
+  QUICKVIEW
+}
+
 export interface IIconType {
   Class: string;
   SVG: string;
 }
 
+
+//Dont think we need this
 export interface IApp {
   appData: AppData;
   cardData: any;
@@ -36,13 +41,13 @@ export class App implements IApp {
     public cardData: any = {}
   ) { }
 }
+//dont think we need this
 
 export interface IAppData {
   appName: string;
   appDescription: string;
   appCardImage: string;
   appQuickViewImage: string;
-  deepLinkData?: DeepLinkData;
 }
 
 export class AppData implements IAppData {
@@ -50,24 +55,21 @@ export class AppData implements IAppData {
     public appName: string = "",
     public appDescription: string = "",
     public appCardImage: string = "",
-    public appQuickViewImage: string = "",
-    public deepLinkData?: DeepLinkData
+    public appQuickViewImage: string = ""
   ) { }
 }
 
 export interface IDeepLinkData {
-  deepLinkType: DeepLinkType;
-  linkText?: string;
-  eventRegistration?: EventRegistration;
-  inventoryItem?: InventoryItem;
+  appName: string;
+  deepLinkType?: DeepLinkType;
+  message?: string | EventRegistration | InventoryItem;
 }
 
 export class DeepLinkData implements IDeepLinkData {
   constructor(
-    public deepLinkType,
-    public linkText: string = "",
-    public eventRegistration?: EventRegistration,
-    public inventoryItem?: InventoryItem
+    public appName: string = "",
+    public deepLinkType: DeepLinkType = DeepLinkType.TEXT,
+    public message = null
   ) { }
 }
 
@@ -90,7 +92,7 @@ export class Benefits implements IBenefits {
 }
 
 export interface IBenefitsDetails {
-  guid: string;
+  id: string;
   title: string;
   description: string;
   isTeamsDeepLink: boolean;
@@ -101,7 +103,7 @@ export interface IBenefitsDetails {
 
 export class BenefitDetails implements IBenefitsDetails {
   constructor(
-    public guid: string = Guid.newGuid().toString(),
+    public id: string,
     public title: string = "",
     public description: string = "",
     public isTeamsDeepLink: boolean = false,

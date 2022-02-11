@@ -8,7 +8,7 @@ import { sp } from "@pnp/sp";
 import { Logger, LogLevel, ConsoleListener } from "@pnp/logging";
 
 import { dtg } from '../../common/services/designtemplate.service';
-import { App } from '../../common/models/designtemplate.models';
+import { App, ImageCarousel } from '../../common/models/designtemplate.models';
 
 export interface IImagecarouselAdaptiveCardExtensionProps {
   title: string;
@@ -19,7 +19,7 @@ export interface IImagecarouselAdaptiveCardExtensionProps {
 }
 
 export interface IImagecarouselAdaptiveCardExtensionState {
-  app: App;
+  app: ImageCarousel;
   currentImage: number;
   nextIndex: number;
 }
@@ -47,7 +47,7 @@ export default class ImagecarouselAdaptiveCardExtension extends BaseAdaptiveCard
       dtg.Init();
 
       //Get the data for the app
-      const app: App = dtg.GetImageCarousel();
+      const app: ImageCarousel = dtg.GetImageCarousel();
 
       //Set the data into state
       this.state = {

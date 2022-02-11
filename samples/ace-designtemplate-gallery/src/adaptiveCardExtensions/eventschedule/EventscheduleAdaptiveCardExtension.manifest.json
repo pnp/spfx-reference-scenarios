@@ -27,7 +27,6 @@
     },
     "officeFabricIconFontName": "Library",
     "properties": {
-      "title": "Event Schedule",
       "iconProperty": "Library" // Default to sharepointlogo
     }
   }]

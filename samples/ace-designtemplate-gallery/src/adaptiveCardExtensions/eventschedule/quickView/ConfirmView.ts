@@ -26,7 +26,7 @@ export class ConfirmView extends BaseAdaptiveCardView<
   public get data(): IConfirmViewData {
     const divider: string = require('../../../common/images/event-schedule/line_pivot_dark.svg');
     return {
-      event: this.state.eventsApp.cardData,
+      event: this.state.eventsApp,
       eventRegistration: this.state.registrationData,
       confirmLink: dtg.GetEventRegistrationLink(this.state.registrationData),
       dividerline: divider,

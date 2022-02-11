@@ -34,7 +34,7 @@ export class CardView extends BaseImageCardView<IEventscheduleAdaptiveCardExtens
   public get data(): IImageCardParameters {
     return {
       primaryText: strings.PrimaryText,
-      imageUrl: this.state.eventsApp.cardData.cardViewImage
+      imageUrl: this.state.eventsApp.cardViewImage
     };
   }
 

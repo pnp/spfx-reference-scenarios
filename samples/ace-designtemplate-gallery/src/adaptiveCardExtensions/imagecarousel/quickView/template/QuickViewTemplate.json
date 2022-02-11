@@ -50,7 +50,7 @@
             "bleed": true,
             "items": [{
               "type": "Image",
-              "url": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAYAAACNiR0NAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAABlSURBVHgB7ZLBDYAgDEV/ncARHMERdANHcFNHcATdgBFKCVwJCXw48ZKfXpqXNi0w6Yqq3pbPsoFBECUhXerY0r2n9LWsYGCiSyNPrmdBHe0TUlemHoX6NjWPXTrKkeopIj8mQ/DaiYbE4ZfFKQAAAABJRU5ErkJggg==",
+              "url": "${nextArrow}",
               "width": "24px",
               "height": "24px"
             }],

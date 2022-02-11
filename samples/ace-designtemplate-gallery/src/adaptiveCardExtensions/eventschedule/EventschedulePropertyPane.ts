@@ -11,9 +11,6 @@ export class EventschedulePropertyPane {
             {
               groupName: strings.BasicGroupName,
               groupFields: [
-                PropertyPaneTextField('title', {
-                  label: strings.TitleFieldLabel
-                }),
                 PropertyPaneTextField('iconProperty', {
                   label: strings.IconPropertyFieldLabel
                 })

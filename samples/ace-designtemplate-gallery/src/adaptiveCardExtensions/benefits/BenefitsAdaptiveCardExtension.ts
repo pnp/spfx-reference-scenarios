@@ -7,7 +7,7 @@ import { BenefitsPropertyPane } from './BenefitsPropertyPane';
 import { Logger, LogLevel, ConsoleListener } from "@pnp/logging";
 import { sp } from "@pnp/sp";
 import { dtg } from '../../common/services/designtemplate.service';
-import { App, Benefits } from '../../common/models/designtemplate.models';
+import { Benefits } from '../../common/models/designtemplate.models';
 import * as strings from 'BenefitsAdaptiveCardExtensionStrings';
 
 export interface IBenefitsAdaptiveCardExtensionProps {
@@ -41,11 +41,11 @@ export default class BenefitsAdaptiveCardExtension extends BaseAdaptiveCardExten
       dtg.Init();
 
       //Get the data for the app
-      const benefitsApp: App = dtg.GetBenefits();
+      const benefitsApp: Benefits = dtg.GetBenefits();
 
       //Set the data into state
       this.state = {
-        benefits: benefitsApp.cardData
+        benefits: benefitsApp
       };
 
       //Regsiter the cards

@@ -39,7 +39,7 @@
       "type": "TextBlock",
       "text": "${faqApp.title}",
       "wrap": true,
-      "size": "ExtraLarge",
+      "size": "Large",
       "weight": "Bolder",
       "spacing": "Large"
     },

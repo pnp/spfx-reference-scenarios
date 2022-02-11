@@ -4,6 +4,14 @@ declare interface IAceDesignTemplatePersonalAppWebPartStrings {
   DescriptionFieldLabel: string;
   AppTitle: string;
   AppListIntroContent: string;
+  BenefitsAppName: string;
+  BenefitsAppDesc: string;
+  EventScheduleAppName: string;
+  EventScheduleAppDesc: string;
+  FAQAppName: string;
+  FAQAppDesc: string;
+  ImageCarouselAppName: string;
+  ImageCarouselAppDesc: string;
   DeepLinkContent: string;
   DeepLinkHeading: string;
   DeepLinkDescription: string;

@@ -9,17 +9,16 @@ import { sp } from "@pnp/sp";
 import { Logger, LogLevel, ConsoleListener } from "@pnp/logging";
 
 import { dtg } from '../../common/services/designtemplate.service';
-import { App, EventRegistration, IEventRegistration } from '../../common/models/designtemplate.models';
+import { Event, EventRegistration, IEventRegistration } from '../../common/models/designtemplate.models';
+import * as strings from 'EventscheduleAdaptiveCardExtensionStrings';
 
 
 export interface IEventscheduleAdaptiveCardExtensionProps {
-  title: string;
-  description: string;
   iconProperty: string;
 }
 
 export interface IEventscheduleAdaptiveCardExtensionState {
-  eventsApp: App;
+  eventsApp: Event;
   selectedDay: number;
   showRegister: boolean;
   registrationData: IEventRegistration;
@@ -50,7 +49,7 @@ export default class EventscheduleAdaptiveCardExtension extends BaseAdaptiveCard
       dtg.Init();
 
       //Get the data for the app
-      const eventsApp: App = dtg.GetEvents();
+      const eventsApp: Event = dtg.GetEvents();
 
       //Set the data into state
       this.state = {
@@ -70,7 +69,7 @@ export default class EventscheduleAdaptiveCardExtension extends BaseAdaptiveCard
   }
 
   public get title(): string {
-    return this.properties.title;
+    return strings.Title;
   }
 
   protected get iconProperty(): string {

@@ -2,11 +2,15 @@ declare interface IEventscheduleAdaptiveCardExtensionStrings {
   //Property Pane Strings
   PropertyPaneDescription: string;
   BasicGroupName: string;
-  TitleFieldLabel: string;
   IconPropertyFieldLabel: string;
   //App Strings
+  Title: string;
   PrimaryText: string;
   //Card Strings
+  EventTitle: string;
+  ImageCaption: string;
+  ScheduleHeading: string;
+  IntroContent: string;
   DayLabel: string;
   DayToggleTitle: string;
   TimeHeading: string;

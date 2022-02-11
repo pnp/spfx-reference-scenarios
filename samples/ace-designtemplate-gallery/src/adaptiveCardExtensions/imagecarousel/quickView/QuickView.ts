@@ -12,6 +12,7 @@ export interface IQuickViewData {
   strings: IImagecarouselAdaptiveCardExtensionStrings;
   currentImage: number;
   nextIndex: number;
+  nextArrow: string;
 }
 
 export class QuickView extends BaseAdaptiveCardView<
@@ -23,11 +24,13 @@ export class QuickView extends BaseAdaptiveCardView<
   private LOG_SOURCE: string = "🔶 Image Carousel Quick View";
 
   public get data(): IQuickViewData {
+    let arrow: string = require('../../../common/images/image-carousel/chevron_right_white.png');
     return {
-      app: this.state.app.cardData,
+      app: this.state.app,
       strings: strings,
       currentImage: this.state.currentImage,
-      nextIndex: this.state.nextIndex
+      nextIndex: this.state.nextIndex,
+      nextArrow: arrow
     };
   }
 

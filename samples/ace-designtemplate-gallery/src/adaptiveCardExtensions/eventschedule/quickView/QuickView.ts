@@ -25,7 +25,7 @@ export class QuickView extends BaseAdaptiveCardView<
     const divider: string = require('../../../common/images/event-schedule/line_pivot_dark.svg');
 
     return {
-      event: this.state.eventsApp.cardData,
+      event: this.state.eventsApp,
       eventRegistration: this.state.registrationData,
       selectedDay: this.state.selectedDay,
       dividerline: divider,
@@ -49,7 +49,7 @@ export class QuickView extends BaseAdaptiveCardView<
           this.quickViewNavigator.pop(true);
         }
         else if (id === 'confirm') {
-          const registration: EventRegistration = new EventRegistration(this.state.eventsApp.cardData.eventTitle, action.data?.first_name, action.data?.last_name, action.data?.company_name, action.data?.phone, action.data?.accept_policy);
+          const registration: EventRegistration = new EventRegistration(this.state.eventsApp.eventTitle, action.data?.first_name, action.data?.last_name, action.data?.company_name, action.data?.phone, action.data?.accept_policy);
           this.setState({ registrationData: registration });
           this.quickViewNavigator.push(CONFIRM_VIEW_REGISTRY_ID, false);
         }

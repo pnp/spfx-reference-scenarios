@@ -8,15 +8,15 @@ import { sp } from "@pnp/sp";
 import { Logger, LogLevel, ConsoleListener } from "@pnp/logging";
 
 import { dtg } from '../../common/services/designtemplate.service';
-import { App } from '../../common/models/designtemplate.models';
+import { AccordionList, App } from '../../common/models/designtemplate.models';
+import * as strings from 'FaqaccordionAdaptiveCardExtensionStrings';
 
 export interface IFaqaccordionAdaptiveCardExtensionProps {
-  title: string;
   iconProperty: string;
 }
 
 export interface IFaqaccordionAdaptiveCardExtensionState {
-  faqApp: App;
+  faqApp: AccordionList;
   deepLink: string;
 }
 
@@ -43,7 +43,7 @@ export default class FaqaccordionAdaptiveCardExtension extends BaseAdaptiveCardE
       dtg.Init();
 
       //Get the data for the app
-      const faqApp: App = dtg.GetFAQs();
+      const faqApp: AccordionList = dtg.GetFAQs();
 
       //Set the data into state
       this.state = {
@@ -60,7 +60,7 @@ export default class FaqaccordionAdaptiveCardExtension extends BaseAdaptiveCardE
   }
 
   public get title(): string {
-    return this.properties.title;
+    return strings.Title;
   }
 
   protected get iconProperty(): string {

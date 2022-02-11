@@ -1,6 +1,9 @@
 import { cloneDeep, find } from "@microsoft/sp-lodash-subset";
 import { Logger, LogLevel } from "@pnp/logging";
-import { App, AppData, BenefitDetails, AppList, EventRegistration, DeepLinkType, DeepLinkData, InventoryItem } from "../models/designtemplate.models";
+import * as strings from "AceDesignTemplatePersonalAppWebPartStrings";
+import * as eventStrings from "EventscheduleAdaptiveCardExtensionStrings";
+import * as faqStrings from "FaqaccordionAdaptiveCardExtensionStrings";
+import { App, AppData, BenefitDetails, AppList, EventRegistration, DeepLinkType, InventoryItem, DeepLinkData, Benefits, AccordionList, Event, FAQ, IFAQ, ImageCarousel } from "../models/designtemplate.models";
 
 export interface IDesignTemplateGalleryService {
   Ready: boolean;
@@ -10,12 +13,12 @@ export interface IDesignTemplateGalleryService {
   Init(): void;
   GetAllApps: () => AppData[];
   GetAppData: (linkdata: any) => AppData;
-  GetBenefits(): App;
-  GetEvents(): App;
+  GetBenefits(): Benefits;
+  GetEvents(): Event;
   GetEventRegistrationLink(eventRegistration: EventRegistration): string;
-  GetFAQs(): App;
-  SubmitFAQ(message: string): App;
-  GetImageCarousel(): App;
+  GetFAQs(): AccordionList;
+  SubmitFAQ(message: string): void;
+  GetImageCarousel(): ImageCarousel;
   GetInventoryDetail(): App;
 }
 
@@ -55,8 +58,7 @@ export class DesignTemplateGalleryService implements IDesignTemplateGalleryServi
     let retVal: AppData[] = [];
     try {
       for (const item in AppList) {
-        const app: App = require(`../data/${item.toLocaleLowerCase()}.data.json`);
-        retVal.push(app.appData);
+        retVal.push(this.GetAppData(AppList[item]));
       }
     } catch (err) {
       Logger.write(`${this.LOG_SOURCE} (GetAllApps) - ${err.message}`, LogLevel.Error);
@@ -64,69 +66,150 @@ export class DesignTemplateGalleryService implements IDesignTemplateGalleryServi
     return retVal;
   }
 
-  public GetAppData(linkdata: any): AppData {
+  public GetAppData(appName: AppList): AppData {
     let retVal: AppData = new AppData();
     try {
-      switch (linkdata.appName) {
+      switch (appName) {
         case AppList.BENEFITS: {
-          const data: App = this.GetBenefits();
-          retVal = data.appData;
-          const link: any = find(data.cardData.details, { guid: linkdata.linkGUID });
-          if (link) {
-            retVal.deepLinkData = new DeepLinkData(DeepLinkType.TEXT, link.linkText);
-          }
+          retVal.appCardImage = require('../images/benefits/dashboard-card.png');
+          retVal.appQuickViewImage = require('../images/benefits/card.png');
+          retVal.appName = strings.BenefitsAppName;
+          retVal.appDescription = strings.BenefitsAppDesc;
           break;
         }
         case AppList.EVENTSCHEDULE: {
-          const data: App = this.GetEvents();
-          retVal = data.appData;
-          const registration: EventRegistration = linkdata.registration;
-          if (registration) {
-            retVal.deepLinkData = new DeepLinkData(DeepLinkType.EVENTREGISTRATION, null, registration);
-          }
+          retVal.appCardImage = require('../images/event-schedule/dashboard-card.png');
+          retVal.appQuickViewImage = require('../images/event-schedule/card.png');
+          retVal.appName = strings.EventScheduleAppName;
+          retVal.appDescription = strings.EventScheduleAppDesc;
           break;
         }
         case AppList.FAQACCORDION: {
-          const data: App = this.GetFAQs();
-          retVal = data.appData;
-          const linkText: string = linkdata.message;
-          if (linkText) {
-            retVal.deepLinkData = new DeepLinkData(DeepLinkType.TEXT, linkText);
-          }
+          retVal.appCardImage = require('../images/faq-accordion/dashboard-card.png');
+          retVal.appQuickViewImage = require('../images/faq-accordion/card.png');
+          retVal.appName = strings.FAQAppName;
+          retVal.appDescription = strings.FAQAppDesc;
           break;
         }
-        case AppList.INVENTORY: {
-          const data: App = this.GetInventoryDetail();
-          retVal = data.appData;
-          const inventoryItem: any = find(data.cardData.inventoryItems, { id: linkdata.linkGUID });
-          if (inventoryItem) {
-            retVal.deepLinkData = new DeepLinkData(DeepLinkType.INVENTORYITEM, null, null, inventoryItem);
-          }
+        case AppList.IMAGECAROUSEL: {
+          retVal.appCardImage = require('../images/image-carousel/dashboard-card.png');
+          retVal.appQuickViewImage = require('../images/image-carousel/card.png');
+          retVal.appName = strings.ImageCarouselAppName;
+          retVal.appDescription = strings.ImageCarouselAppDesc;
           break;
         }
+        // case AppList.INVENTORY: {
+        //   appData.appName = strings.BenefitsAppName;
+        //   appData.appDescription = strings.BenefitsAppDesc;
+        //   break;
+        // }
       }
     } catch (err) {
-      Logger.write(`${this.LOG_SOURCE} (GetApData) - ${err.message}`, LogLevel.Error);
+      Logger.write(`${this.LOG_SOURCE} (GetAllApps) - ${err.message}`, LogLevel.Error);
     }
+
     return retVal;
   }
 
-  public GetBenefits(): App {
-    let retVal: App = new App();
+  public GetDeepLinkData(subEntityId: any): DeepLinkData {
+    let retVal: DeepLinkData = new DeepLinkData();
+    try {
+      retVal.appName = subEntityId.appName;
+      switch (subEntityId.appName) {
+        case AppList.BENEFITS: {
+          const benefits: Benefits = this.GetBenefits();
+          const link: BenefitDetails = find(benefits.details, { id: subEntityId.message });
+          retVal = new DeepLinkData(subEntityId.appName, DeepLinkType.TEXT, link.linkText);
+          break;
+        }
+        case AppList.EVENTSCHEDULE: {
+          const registration: EventRegistration = subEntityId.message;
+          if (registration) {
+            retVal.message = registration;
+          }
+          retVal = new DeepLinkData(subEntityId.appName, DeepLinkType.EVENTREGISTRATION, registration);
+          break;
+        }
+        case AppList.FAQACCORDION: {
+          retVal = new DeepLinkData(subEntityId.appName, DeepLinkType.TEXT, subEntityId.message);
+          break;
+        }
+        default: {
+          //statements; 
+          break;
+        }
+      }
+    }
+    catch (err) {
+      Logger.write(`${this.LOG_SOURCE} (GetDeepLinkData) - ${err.message}`, LogLevel.Error);
+    }
+
+    return retVal;
+  }
+
+  public GetAppDataold(linkdata: any): AppData {
+    let retVal: AppData = new AppData();
+    // try {
+    //   switch (linkdata.appName) {
+    //     case AppList.BENEFITS: {
+    //       const data: App = this.GetBenefits();
+    //       retVal = data.appData;
+    //       const link: any = find(data.cardData.details, { guid: linkdata.linkGUID });
+    //       if (link) {
+    //         retVal.deepLinkData = new DeepLinkData(DeepLinkType.TEXT, link.linkText);
+    //       }
+    //       break;
+    //     }
+    //     case AppList.EVENTSCHEDULE: {
+    //       const data: App = this.GetEvents();
+    //       retVal = data.appData;
+    //       const registration: EventRegistration = linkdata.registration;
+    //       if (registration) {
+    //         retVal.deepLinkData = new DeepLinkData(DeepLinkType.EVENTREGISTRATION, null, registration);
+    //       }
+    //       break;
+    //     }
+    //     // case AppList.FAQACCORDION: {
+    //     //   const data: App = this.GetFAQs();
+    //     //   retVal = data.appData;
+    //     //   const linkText: string = linkdata.message;
+    //     //   if (linkText) {
+    //     //     retVal.deepLinkData = new DeepLinkData(DeepLinkType.TEXT, linkText);
+    //     //   }
+    //     //   break;
+    //     // }
+    //     // case AppList.INVENTORY: {
+    //     //   const data: App = this.GetInventoryDetail();
+    //     //   retVal = data.appData;
+    //     //   const inventoryItem: any = find(data.cardData.inventoryItems, { id: linkdata.linkGUID });
+    //     //   if (inventoryItem) {
+    //     //     retVal.deepLinkData = new DeepLinkData(DeepLinkType.INVENTORYITEM, null, null, inventoryItem);
+    //     //   }
+    //     //   break;
+    //     // }
+    //   }
+    // } catch (err) {
+    //   Logger.write(`${this.LOG_SOURCE} (GetApData) - ${err.message}`, LogLevel.Error);
+    // }
+    return retVal;
+  }
+
+  public GetBenefits(): Benefits {
+    let retVal: Benefits = new Benefits();
     try {
       //Sample pulls data from mock
       //To extend pull data from a list of your items
       retVal = require("../data/benefits.data.json");
 
       //We need to manipulate the data for the deep link to Teams.
-      let details: BenefitDetails[] = cloneDeep(retVal.cardData.details);
+      let details: BenefitDetails[] = cloneDeep(retVal.details);
       details.map((item) => {
         if (item.isTeamsDeepLink) {
-          const url = encodeURI(`${this._teamsUrl}?context={"subEntityId":{"appName":"${AppList.BENEFITS}","linkGUID":"${item.guid}"}}`);
+          const url = encodeURI(`${this._teamsUrl}?context={"subEntityId":{"appName":"${AppList.BENEFITS}","linkType":"${DeepLinkType.TEXT}","message":"${item.id}"}}`);
           item.linkUrl = url;
         }
       });
-      retVal.cardData.details = details;
+      retVal.details = details;
 
     } catch (err) {
       Logger.write(`${this.LOG_SOURCE} (GetBenefits) - ${err.message}`, LogLevel.Error);
@@ -134,12 +217,21 @@ export class DesignTemplateGalleryService implements IDesignTemplateGalleryServi
     return retVal;
   }
 
-  public GetEvents(): App {
-    let retVal: App = new App();
+  public GetEvents(): Event {
+    let retVal: Event = new Event();
     try {
       //Sample pulls data from mock
       //To extend pull data from a list of your items
       retVal = require("../data/eventschedule.data.json");
+      //Lets set some event specific data
+      //This would come out of our event management system
+      retVal.cardViewImage = require('../images/event-schedule/events.png');
+      retVal.eventTitle = eventStrings.EventTitle;
+      retVal.headline = eventStrings.ScheduleHeading;
+      retVal.imageCaption = eventStrings.ImageCaption;
+      retVal.introContent = eventStrings.IntroContent;
+      retVal.mainImage = require('../images/event-schedule/Ignite-2021-fall-trim.gif');
+
     } catch (err) {
       Logger.write(`${this.LOG_SOURCE} (GetEvents) - ${err.message}`, LogLevel.Error);
     }
@@ -152,7 +244,7 @@ export class DesignTemplateGalleryService implements IDesignTemplateGalleryServi
       //In a real world scenario you would use this method to save the 
       //save data into the system of record.
       //Here we are going to link to the Teams App and demonstrate deep linking
-      retVal = encodeURI(`${this._teamsUrl}?context={"subEntityId":{"appName":"${AppList.EVENTSCHEDULE}","registration":${JSON.stringify(registration)}}}`);
+      retVal = encodeURI(`${this._teamsUrl}?context={"subEntityId":{"appName":"${AppList.EVENTSCHEDULE}","linkType":"${DeepLinkType.EVENTREGISTRATION}","message":${JSON.stringify(registration)}}}`);
 
     } catch (err) {
       Logger.write(`${this.LOG_SOURCE} (GetEventRegistrationLink) - ${err.message}`, LogLevel.Error);
@@ -160,31 +252,35 @@ export class DesignTemplateGalleryService implements IDesignTemplateGalleryServi
     return retVal;
   }
 
-  public GetFAQs(): App {
-    let retVal: App = new App();
+  public GetFAQs(): AccordionList {
+    let retVal: AccordionList = new AccordionList();
     try {
       //Sample pulls data from mock
       //To extend pull data from a list of your items
       retVal = require("../data/faqaccordion.data.json");
+      //Lets set some specific data
+      //This would come out of our knowledge management system
+      retVal.mainImage = require('../images/faq-accordion/officelogo.png');
+      retVal.title = faqStrings.FAQTitle;
+      retVal.imageCaption = faqStrings.ImageCaption;
+      retVal.introContent = faqStrings.IntroContent;
     } catch (err) {
       Logger.write(`${this.LOG_SOURCE} (GetFAQs) - ${err.message}`, LogLevel.Error);
     }
     return retVal;
   }
 
-  public SubmitFAQ(message: string): App {
-    let retVal: App = new App();
+  public SubmitFAQ(message: string): void {
     try {
-      const url = encodeURI(`${this._teamsUrl}?context={"subEntityId":{"appName":"${AppList.FAQACCORDION}","message":"${message}"}}`);
+      const url = encodeURI(`${this._teamsUrl}?context={"subEntityId":{"appName":"${AppList.FAQACCORDION}","linkType":"${DeepLinkType.TEXT}","message":"${message}"}}`);
       window.open(url);
     } catch (err) {
       Logger.write(`${this.LOG_SOURCE} (GetFAQs) - ${err.message}`, LogLevel.Error);
     }
-    return retVal;
   }
 
-  public GetImageCarousel(): App {
-    let retVal: App = new App();
+  public GetImageCarousel(): ImageCarousel {
+    let retVal: ImageCarousel = new ImageCarousel();
     try {
       //Sample pulls data from mock
       //To extend pull data from a list of your items
@@ -204,8 +300,8 @@ export class DesignTemplateGalleryService implements IDesignTemplateGalleryServi
       //We need to manipulate the data for the deep link to Teams.
       let inventoryItems: InventoryItem[] = cloneDeep(retVal.cardData.inventoryItems);
       inventoryItems.map((item) => {
-        const url = encodeURI(`${this._teamsUrl}?context={"subEntityId":{"appName":"${AppList.INVENTORY}","linkGUID":"${item.id}"}}`);
-        item.linkUrl = url;
+        //const url = encodeURI(`${this._teamsUrl}?context={"subEntityId":{"appName":"${AppList.INVENTORY}","linkGUID":"${item.id}"}}`);
+        //item.linkUrl = url;
       });
       retVal.cardData.inventoryItems = inventoryItems;
     } catch (err) {
