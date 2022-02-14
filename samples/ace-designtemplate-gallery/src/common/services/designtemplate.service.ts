@@ -3,13 +3,11 @@ import { Logger, LogLevel } from "@pnp/logging";
 import * as strings from "AceDesignTemplatePersonalAppWebPartStrings";
 import * as eventStrings from "EventscheduleAdaptiveCardExtensionStrings";
 import * as faqStrings from "FaqaccordionAdaptiveCardExtensionStrings";
-import { App, AppData, BenefitDetails, AppList, EventRegistration, DeepLinkType, InventoryItem, DeepLinkData, Benefits, AccordionList, Event, FAQ, IFAQ, ImageCarousel } from "../models/designtemplate.models";
+import { App, AppData, BenefitDetails, AppList, EventRegistration, DeepLinkType, InventoryItem, DeepLinkData, Benefits, AccordionList, Event, FAQ, IFAQ, ImageCarousel, InventoryDetail, IInventoryItem, PayPeriod, Payslip } from "../models/designtemplate.models";
 
 export interface IDesignTemplateGalleryService {
   Ready: boolean;
   TeamsUrl: string;
-  HandleExecuteDeepLink: (linkUrl: string) => void;
-  ExecuteDeepLink(meetingUrl: string);
   Init(): void;
   GetAllApps: () => AppData[];
   GetAppData: (linkdata: any) => AppData;
@@ -19,14 +17,14 @@ export interface IDesignTemplateGalleryService {
   GetFAQs(): AccordionList;
   SubmitFAQ(message: string): void;
   GetImageCarousel(): ImageCarousel;
-  GetInventoryDetail(): App;
+  GetInventoryDetail(): InventoryDetail;
+  GetPayPeriods: () => PayPeriod[];
 }
 
 export class DesignTemplateGalleryService implements IDesignTemplateGalleryService {
   private LOG_SOURCE: string = "🔶 ACE Design Template Service";
   private _ready: boolean = false;
   private _teamsUrl: string = "https://teams.microsoft.com/l/entity/4a007f51-abb1-4d3a-b753-7c84404936b2/com.acedesigntemplate.spfx";
-  private _executeDeepLink: (linkUrl: string) => void;
 
   constructor() {
   }
@@ -36,14 +34,6 @@ export class DesignTemplateGalleryService implements IDesignTemplateGalleryServi
   }
   public get TeamsUrl(): string {
     return this._teamsUrl;
-  }
-  public set HandleExecuteDeepLink(value: (linkUrl: string) => void) {
-    this._executeDeepLink = value;
-  }
-  public ExecuteDeepLink(linkUrl: string): void {
-    if (typeof this._executeDeepLink == "function") {
-      this._executeDeepLink(linkUrl);
-    }
   }
 
   public Init() {
@@ -98,11 +88,13 @@ export class DesignTemplateGalleryService implements IDesignTemplateGalleryServi
           retVal.appDescription = strings.ImageCarouselAppDesc;
           break;
         }
-        // case AppList.INVENTORY: {
-        //   appData.appName = strings.BenefitsAppName;
-        //   appData.appDescription = strings.BenefitsAppDesc;
-        //   break;
-        // }
+        case AppList.INVENTORY: {
+          retVal.appCardImage = require('../images/inventory/dashboard-card.png');
+          retVal.appQuickViewImage = require('../images/inventory/card.png');
+          retVal.appName = strings.ImageCarouselAppName;
+          retVal.appDescription = strings.ImageCarouselAppDesc;
+          break;
+        }
       }
     } catch (err) {
       Logger.write(`${this.LOG_SOURCE} (GetAllApps) - ${err.message}`, LogLevel.Error);
@@ -134,6 +126,12 @@ export class DesignTemplateGalleryService implements IDesignTemplateGalleryServi
           retVal = new DeepLinkData(subEntityId.appName, DeepLinkType.TEXT, subEntityId.message);
           break;
         }
+        case AppList.INVENTORY: {
+          const inventory: InventoryDetail = this.GetInventoryDetail();
+          const link: IInventoryItem = find(inventory.inventoryItems, { id: subEntityId.message });
+          retVal = new DeepLinkData(subEntityId.appName, DeepLinkType.TEXT, link.name);
+          break;
+        }
         default: {
           //statements; 
           break;
@@ -144,53 +142,6 @@ export class DesignTemplateGalleryService implements IDesignTemplateGalleryServi
       Logger.write(`${this.LOG_SOURCE} (GetDeepLinkData) - ${err.message}`, LogLevel.Error);
     }
 
-    return retVal;
-  }
-
-  public GetAppDataold(linkdata: any): AppData {
-    let retVal: AppData = new AppData();
-    // try {
-    //   switch (linkdata.appName) {
-    //     case AppList.BENEFITS: {
-    //       const data: App = this.GetBenefits();
-    //       retVal = data.appData;
-    //       const link: any = find(data.cardData.details, { guid: linkdata.linkGUID });
-    //       if (link) {
-    //         retVal.deepLinkData = new DeepLinkData(DeepLinkType.TEXT, link.linkText);
-    //       }
-    //       break;
-    //     }
-    //     case AppList.EVENTSCHEDULE: {
-    //       const data: App = this.GetEvents();
-    //       retVal = data.appData;
-    //       const registration: EventRegistration = linkdata.registration;
-    //       if (registration) {
-    //         retVal.deepLinkData = new DeepLinkData(DeepLinkType.EVENTREGISTRATION, null, registration);
-    //       }
-    //       break;
-    //     }
-    //     // case AppList.FAQACCORDION: {
-    //     //   const data: App = this.GetFAQs();
-    //     //   retVal = data.appData;
-    //     //   const linkText: string = linkdata.message;
-    //     //   if (linkText) {
-    //     //     retVal.deepLinkData = new DeepLinkData(DeepLinkType.TEXT, linkText);
-    //     //   }
-    //     //   break;
-    //     // }
-    //     // case AppList.INVENTORY: {
-    //     //   const data: App = this.GetInventoryDetail();
-    //     //   retVal = data.appData;
-    //     //   const inventoryItem: any = find(data.cardData.inventoryItems, { id: linkdata.linkGUID });
-    //     //   if (inventoryItem) {
-    //     //     retVal.deepLinkData = new DeepLinkData(DeepLinkType.INVENTORYITEM, null, null, inventoryItem);
-    //     //   }
-    //     //   break;
-    //     // }
-    //   }
-    // } catch (err) {
-    //   Logger.write(`${this.LOG_SOURCE} (GetApData) - ${err.message}`, LogLevel.Error);
-    // }
     return retVal;
   }
 
@@ -291,21 +242,78 @@ export class DesignTemplateGalleryService implements IDesignTemplateGalleryServi
     return retVal;
   }
 
-  public GetInventoryDetail(): App {
-    let retVal: App = new App();
+  public GetInventoryDetail(): InventoryDetail {
+    let retVal: InventoryDetail = new InventoryDetail();
     try {
       //Sample pulls data from mock
       //To extend pull data from a list of your items
       retVal = require("../data/inventory.data.json");
       //We need to manipulate the data for the deep link to Teams.
-      let inventoryItems: InventoryItem[] = cloneDeep(retVal.cardData.inventoryItems);
+      let inventoryItems: IInventoryItem[] = cloneDeep(retVal.inventoryItems);
       inventoryItems.map((item) => {
-        //const url = encodeURI(`${this._teamsUrl}?context={"subEntityId":{"appName":"${AppList.INVENTORY}","linkGUID":"${item.id}"}}`);
-        //item.linkUrl = url;
+        const url = encodeURI(`${this._teamsUrl}?context={"subEntityId":{"appName":"${AppList.INVENTORY}","linkType":"${DeepLinkType.TEXT}","message":"${item.id}"}}`);
+        item.linkUrl = url;
       });
-      retVal.cardData.inventoryItems = inventoryItems;
+      retVal.inventoryItems = inventoryItems;
     } catch (err) {
       Logger.write(`${this.LOG_SOURCE} (GetInventoryDetail) - ${err.message}`, LogLevel.Error);
+    }
+    return retVal;
+  }
+
+  public GetPayPeriods(): PayPeriod[] {
+    let retVal: PayPeriod[] = [];
+    try {
+      const currentDate: Date = new Date();
+      for (let i = 0; i <= 11; i++) {
+        let monthEnd: number;
+        if (i == 3 || i == 5 || i == 8 || i == 10) {
+          monthEnd = 30;
+        } else if (i == 1) {
+          if (currentDate.getFullYear() % 4 != 0 || (currentDate.getFullYear() % 100 == 0 && currentDate.getFullYear() % 400 != 0)) {
+            monthEnd = 29;
+          } else {
+            monthEnd = 28;
+          }
+        } else {
+          monthEnd = 31;
+        }
+
+        const monthStartDate: Date = new Date(currentDate.getFullYear(), i, 1);
+        const payPeriod1End: Date = new Date(currentDate.getFullYear(), i, 15);
+        const payPeriod2Start: Date = new Date(currentDate.getFullYear(), i, 16);
+        const monthEndDate: Date = new Date(currentDate.getFullYear(), i, monthEnd);
+
+        let payPeriod1Current: boolean = false;
+        let payPeriod2Current: boolean = false;
+        if (currentDate.getMonth() == i) {
+          if (currentDate.getDate() <= payPeriod1End.getDate()) {
+            payPeriod1Current = true;
+          } else {
+            payPeriod2Current = true;
+          }
+        }
+        retVal.push(new PayPeriod(monthStartDate.toISOString(), payPeriod1End.toISOString(), payPeriod1Current));
+        retVal.push(new PayPeriod(payPeriod2Start.toISOString(), monthEndDate.toISOString(), payPeriod2Current));
+      }
+
+    } catch (err) {
+      Logger.write(`${this.LOG_SOURCE} (_getPayPeriods) - ${err.message}`, LogLevel.Error);
+    }
+    return retVal;
+  }
+
+  public GetPaySlips(): Payslip[] {
+    let retVal: Payslip[] = [];
+    try {
+      //Sample pulls data from mock
+      //To extend pull data from a list of your items
+      retVal = require("../data/payslip.data.json");
+      //Lets set some specific data
+
+
+    } catch (err) {
+      Logger.write(`${this.LOG_SOURCE} (GetPaySlips) - ${err.message}`, LogLevel.Error);
     }
     return retVal;
   }

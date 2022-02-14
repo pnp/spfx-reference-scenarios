@@ -12,6 +12,8 @@ declare interface IAceDesignTemplatePersonalAppWebPartStrings {
   FAQAppDesc: string;
   ImageCarouselAppName: string;
   ImageCarouselAppDesc: string;
+  InventoryAppName: string;
+  InventoryAppDesc: string;
   DeepLinkContent: string;
   DeepLinkHeading: string;
   DeepLinkDescription: string;

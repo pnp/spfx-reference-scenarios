@@ -1,0 +1,33 @@
+import {
+  BasePrimaryTextCardView,
+  IPrimaryTextCardParameters,
+  IExternalLinkCardAction,
+  IQuickViewCardAction,
+  ICardButton
+} from '@microsoft/sp-adaptive-card-extension-base';
+import { find } from '@microsoft/sp-lodash-subset';
+import * as strings from 'PayslipAdaptiveCardExtensionStrings';
+import { PayPeriod } from '../../../common/models/designtemplate.models';
+import { IPayslipAdaptiveCardExtensionProps, IPayslipAdaptiveCardExtensionState, QUICK_VIEW_REGISTRY_ID } from '../PayslipAdaptiveCardExtension';
+
+export class CardView extends BasePrimaryTextCardView<IPayslipAdaptiveCardExtensionProps, IPayslipAdaptiveCardExtensionState> {
+  public get data(): IPrimaryTextCardParameters {
+    const nextPayPeriod: PayPeriod = find(this.state.payPeriods, { isCurrent: true });
+    const nextPayDate: Date = new Date(nextPayPeriod.endDate);
+    const options = { weekday: 'long', year: 'numeric', month: 'string', day: 'numeric' };
+
+    return {
+      primaryText: Intl.DateTimeFormat(this.context.pageContext.cultureInfo.currentUICultureName, { weekday: undefined, year: undefined, month: 'long', day: 'numeric' }).format(nextPayDate),
+      description: strings.CardViewText
+    };
+  }
+
+  public get onCardSelection(): IQuickViewCardAction | IExternalLinkCardAction | undefined {
+    return {
+      type: 'QuickView',
+      parameters: {
+        view: QUICK_VIEW_REGISTRY_ID
+      }
+    };
+  }
+}

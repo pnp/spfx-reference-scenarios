@@ -2,33 +2,34 @@ import { IPropertyPaneConfiguration } from '@microsoft/sp-property-pane';
 import { BaseAdaptiveCardExtension } from '@microsoft/sp-adaptive-card-extension-base';
 import { CardView } from './cardView/CardView';
 import { QuickView } from './quickView/QuickView';
-import { InventorydetailsPropertyPane } from './InventorydetailsPropertyPane';
+import { PayslipPropertyPane } from './PayslipPropertyPane';
 
 import { sp } from "@pnp/sp";
 import { Logger, LogLevel, ConsoleListener } from "@pnp/logging";
 
 import { dtg } from '../../common/services/designtemplate.service';
-import { InventoryDetail } from '../../common/models/designtemplate.models';
-import * as strings from 'InventorydetailsAdaptiveCardExtensionStrings';
+import { PayPeriod, Payslip } from '../../common/models/designtemplate.models';
+import * as strings from 'PayslipAdaptiveCardExtensionStrings';
 
-export interface IInventorydetailsAdaptiveCardExtensionProps {
-  distributionCenterNumber: string;
+export interface IPayslipAdaptiveCardExtensionProps {
   iconProperty: string;
 }
 
-export interface IInventorydetailsAdaptiveCardExtensionState {
-  app: InventoryDetail;
+export interface IPayslipAdaptiveCardExtensionState {
+  payslips: Payslip[];
+  payPeriods: PayPeriod[];
+  currentPayPeriod: number;
 }
 
-const CARD_VIEW_REGISTRY_ID: string = 'Inventorydetails_CARD_VIEW';
-export const QUICK_VIEW_REGISTRY_ID: string = 'Inventorydetails_QUICK_VIEW';
+const CARD_VIEW_REGISTRY_ID: string = 'Payslip_CARD_VIEW';
+export const QUICK_VIEW_REGISTRY_ID: string = 'Payslip_QUICK_VIEW';
 
-export default class InventorydetailsAdaptiveCardExtension extends BaseAdaptiveCardExtension<
-  IInventorydetailsAdaptiveCardExtensionProps,
-  IInventorydetailsAdaptiveCardExtensionState
+export default class PayslipAdaptiveCardExtension extends BaseAdaptiveCardExtension<
+  IPayslipAdaptiveCardExtensionProps,
+  IPayslipAdaptiveCardExtensionState
 > {
-  private LOG_SOURCE: string = "🔶 Inventory Details Adaptive Card Extension";
-  private _deferredPropertyPane: InventorydetailsPropertyPane | undefined;
+  private LOG_SOURCE: string = "🔶 Payslip Adaptive Card Extension";
+  private _deferredPropertyPane: PayslipPropertyPane | undefined;
 
   public onInit(): Promise<void> {
     try {
@@ -43,11 +44,14 @@ export default class InventorydetailsAdaptiveCardExtension extends BaseAdaptiveC
       dtg.Init();
 
       //Get the data for the app
-      const app: InventoryDetail = dtg.GetInventoryDetail();
+      const payPeriods: PayPeriod[] = dtg.GetPayPeriods();
+      const payslips: Payslip[] = dtg.GetPaySlips();
 
       //Set the data into state
       this.state = {
-        app: app
+        payPeriods: payPeriods,
+        payslips: payslips,
+        currentPayPeriod: 0
       };
       //Register the cards
       this.cardNavigator.register(CARD_VIEW_REGISTRY_ID, () => new CardView());
@@ -68,12 +72,12 @@ export default class InventorydetailsAdaptiveCardExtension extends BaseAdaptiveC
 
   protected loadPropertyPaneResources(): Promise<void> {
     return import(
-      /* webpackChunkName: 'Inventorydetails-property-pane'*/
-      './InventorydetailsPropertyPane'
+      /* webpackChunkName: 'Payslip-property-pane'*/
+      './PayslipPropertyPane'
     )
       .then(
         (component) => {
-          this._deferredPropertyPane = new component.InventorydetailsPropertyPane();
+          this._deferredPropertyPane = new component.PayslipPropertyPane();
         }
       );
   }

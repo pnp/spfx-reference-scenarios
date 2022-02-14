@@ -4,6 +4,7 @@ declare interface IInventorydetailsAdaptiveCardExtensionStrings {
   DistributionCenterNumberLabel: string;
   IconPropertyFieldLabel: string;
   CardViewText: string;
+
   Title: string;
   DistributionCenterLabel: string;
   AsOfLabel: string;

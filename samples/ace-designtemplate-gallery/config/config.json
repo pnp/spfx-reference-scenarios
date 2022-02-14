@@ -49,6 +49,14 @@
           "manifest": "./src/adaptiveCardExtensions/inventorydetails/InventorydetailsAdaptiveCardExtension.manifest.json"
         }
       ]
+    },
+    "payslip-adaptive-card-extension": {
+      "components": [
+        {
+          "entrypoint": "./lib/adaptiveCardExtensions/payslip/PayslipAdaptiveCardExtension.js",
+          "manifest": "./src/adaptiveCardExtensions/payslip/PayslipAdaptiveCardExtension.manifest.json"
+        }
+      ]
     }
   },
   "externals": {},
@@ -59,6 +67,7 @@
     "FaqAccordionAdaptiveCardExtensionStrings": "lib/adaptiveCardExtensions/faqAccordion/loc/{locale}.js",
     "FaqaccordionAdaptiveCardExtensionStrings": "lib/adaptiveCardExtensions/faqaccordion/loc/{locale}.js",
     "ImagecarouselAdaptiveCardExtensionStrings": "lib/adaptiveCardExtensions/imagecarousel/loc/{locale}.js",
-    "InventorydetailsAdaptiveCardExtensionStrings": "lib/adaptiveCardExtensions/inventorydetails/loc/{locale}.js"
+    "InventorydetailsAdaptiveCardExtensionStrings": "lib/adaptiveCardExtensions/inventorydetails/loc/{locale}.js",
+    "PayslipAdaptiveCardExtensionStrings": "lib/adaptiveCardExtensions/payslip/loc/{locale}.js"
   }
 }

@@ -3,7 +3,7 @@ export enum AppList {
   EVENTSCHEDULE = "Event Schedule",
   FAQACCORDION = "FAQ Accordion",
   IMAGECAROUSEL = "Image Carousel",
-  //INVENTORY = "Inventory",
+  INVENTORY = "Inventory",
   //PAYSLIP = "Payslip",
   //SIMPLELIST = "Simple List",
   //TEAMCALENDAR = "Team Calendar",
@@ -318,5 +318,61 @@ export class InventoryItem implements IInventoryItem {
     public amount: string = "",
     public change: string = "",
     public linkUrl: string = ""
+  ) { }
+}
+
+export interface IPayPeriod {
+  startDate: string;
+  endDate: string;
+  isCurrent: boolean;
+}
+
+export class PayPeriod implements IPayPeriod {
+  constructor(
+    public startDate: string = "",
+    public endDate: string = "",
+    public isCurrent: boolean = false
+  ) { }
+}
+
+export interface IPayslip {
+  netPay: number;
+  earnings: number;
+  bonus: number;
+  comission: number;
+  regularPay: number;
+  deductions: number;
+  childSupport: number;
+  dental: number;
+  depCare: number;
+  health: number;
+  HMOMedical: number;
+  prescriptionDrugs: number;
+  unitedWay: number;
+  taxes: number;
+  medicare: number;
+  fedTax: number;
+  ssi: number;
+}
+
+export class Payslip implements IPayslip {
+  constructor(
+    public netPay: number = 0,
+    public earnings: number = 0,
+    public bonus: number = 0,
+    public comission: number = 0,
+    public regularPay: number = 0,
+    public deductions: number = 0,
+    public childSupport: number = 0,
+    public dental: number = 0,
+    public depCare: number = 0,
+    public health: number = 0,
+    public HMOMedical: number = 0,
+    public prescriptionDrugs: number = 0,
+    public unitedWay: number = 0,
+    public taxes: number = 0,
+    public medicare: number = 0,
+    public fedTax: number = 0,
+    public ssi: number = 0,
   ) { }
 }
