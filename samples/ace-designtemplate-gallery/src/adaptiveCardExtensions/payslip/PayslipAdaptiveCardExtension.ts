@@ -10,6 +10,7 @@ import { Logger, LogLevel, ConsoleListener } from "@pnp/logging";
 import { dtg } from '../../common/services/designtemplate.service';
 import { PayPeriod, Payslip } from '../../common/models/designtemplate.models';
 import * as strings from 'PayslipAdaptiveCardExtensionStrings';
+import { find } from '@microsoft/sp-lodash-subset';
 
 export interface IPayslipAdaptiveCardExtensionProps {
   iconProperty: string;
@@ -18,7 +19,8 @@ export interface IPayslipAdaptiveCardExtensionProps {
 export interface IPayslipAdaptiveCardExtensionState {
   payslips: Payslip[];
   payPeriods: PayPeriod[];
-  currentPayPeriod: number;
+  currentPayPeriod: PayPeriod;
+  currentIndex: number;
 }
 
 const CARD_VIEW_REGISTRY_ID: string = 'Payslip_CARD_VIEW';
@@ -47,11 +49,15 @@ export default class PayslipAdaptiveCardExtension extends BaseAdaptiveCardExtens
       const payPeriods: PayPeriod[] = dtg.GetPayPeriods();
       const payslips: Payslip[] = dtg.GetPaySlips();
 
+      const currentPayPeriod: PayPeriod = find(payPeriods, { isCurrent: true });
+      const currentIndex: number = payPeriods.indexOf(currentPayPeriod);
+
       //Set the data into state
       this.state = {
         payPeriods: payPeriods,
         payslips: payslips,
-        currentPayPeriod: 0
+        currentPayPeriod: currentPayPeriod,
+        currentIndex: currentIndex
       };
       //Register the cards
       this.cardNavigator.register(CARD_VIEW_REGISTRY_ID, () => new CardView());

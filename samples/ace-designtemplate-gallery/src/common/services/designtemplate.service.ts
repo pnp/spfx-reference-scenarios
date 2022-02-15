@@ -91,8 +91,15 @@ export class DesignTemplateGalleryService implements IDesignTemplateGalleryServi
         case AppList.INVENTORY: {
           retVal.appCardImage = require('../images/inventory/dashboard-card.png');
           retVal.appQuickViewImage = require('../images/inventory/card.png');
-          retVal.appName = strings.ImageCarouselAppName;
-          retVal.appDescription = strings.ImageCarouselAppDesc;
+          retVal.appName = strings.InventoryAppName;
+          retVal.appDescription = strings.InventoryAppDesc;
+          break;
+        }
+        case AppList.PAYSLIP: {
+          retVal.appCardImage = require('../images/payslip/dashboard-card.png');
+          retVal.appQuickViewImage = require('../images/payslip/card.png');
+          retVal.appName = strings.PayslipAppName;
+          retVal.appDescription = strings.PayslipAppDesc;
           break;
         }
       }
@@ -265,15 +272,16 @@ export class DesignTemplateGalleryService implements IDesignTemplateGalleryServi
     let retVal: PayPeriod[] = [];
     try {
       const currentDate: Date = new Date();
+      let payPeriodIndex: number = 0;
       for (let i = 0; i <= 11; i++) {
         let monthEnd: number;
         if (i == 3 || i == 5 || i == 8 || i == 10) {
           monthEnd = 30;
         } else if (i == 1) {
           if (currentDate.getFullYear() % 4 != 0 || (currentDate.getFullYear() % 100 == 0 && currentDate.getFullYear() % 400 != 0)) {
-            monthEnd = 29;
-          } else {
             monthEnd = 28;
+          } else {
+            monthEnd = 29;
           }
         } else {
           monthEnd = 31;
@@ -293,8 +301,10 @@ export class DesignTemplateGalleryService implements IDesignTemplateGalleryServi
             payPeriod2Current = true;
           }
         }
-        retVal.push(new PayPeriod(monthStartDate.toISOString(), payPeriod1End.toISOString(), payPeriod1Current));
-        retVal.push(new PayPeriod(payPeriod2Start.toISOString(), monthEndDate.toISOString(), payPeriod2Current));
+        retVal.push(new PayPeriod(payPeriodIndex, monthStartDate.toISOString(), payPeriod1End.toISOString(), payPeriod1Current));
+        payPeriodIndex = payPeriodIndex + 1;
+        retVal.push(new PayPeriod(payPeriodIndex, payPeriod2Start.toISOString(), monthEndDate.toISOString(), payPeriod2Current));
+        payPeriodIndex = payPeriodIndex + 1;
       }
 
     } catch (err) {

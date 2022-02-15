@@ -4,10 +4,24 @@ declare interface IPayslipAdaptiveCardExtensionStrings {
   IconPropertyFieldLabel: string;
   CardViewText: string;
   Title: string;
-  SubTitle: string;
-  Description: string;
-  PrimaryText: string;
-  QuickViewButton: string;
+  CurrencySymbol: string;
+  NetPayLabel: string;
+  EarningsLabel: string;
+  BonusLabel: string;
+  CommissionLabel: string;
+  RegularPayLabel: string;
+  DeductionsLabel: string;
+  ChildSupportLabel: string;
+  DentalLabel: string;
+  DepCareLabel: string;
+  HSALabel: string;
+  HMOLabel: string;
+  PrescriptionLabel: string;
+  UnitedWayLabel: string;
+  TaxesLabel: string;
+  MedicareLabel: string;
+  FedTaxLabel: string;
+  SSILabel: string;
 }
 
 declare module 'PayslipAdaptiveCardExtensionStrings' {

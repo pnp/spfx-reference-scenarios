@@ -4,7 +4,7 @@ export enum AppList {
   FAQACCORDION = "FAQ Accordion",
   IMAGECAROUSEL = "Image Carousel",
   INVENTORY = "Inventory",
-  //PAYSLIP = "Payslip",
+  PAYSLIP = "Payslip",
   //SIMPLELIST = "Simple List",
   //TEAMCALENDAR = "Team Calendar",
   //TIMELINEHOLIDAY = "Timeline/Holiday",
@@ -322,6 +322,7 @@ export class InventoryItem implements IInventoryItem {
 }
 
 export interface IPayPeriod {
+  id: number;
   startDate: string;
   endDate: string;
   isCurrent: boolean;
@@ -329,6 +330,7 @@ export interface IPayPeriod {
 
 export class PayPeriod implements IPayPeriod {
   constructor(
+    public id: number = 0,
     public startDate: string = "",
     public endDate: string = "",
     public isCurrent: boolean = false
@@ -336,10 +338,11 @@ export class PayPeriod implements IPayPeriod {
 }
 
 export interface IPayslip {
+  payPeriod: number;
   netPay: number;
   earnings: number;
   bonus: number;
-  comission: number;
+  commission: number;
   regularPay: number;
   deductions: number;
   childSupport: number;
@@ -357,10 +360,11 @@ export interface IPayslip {
 
 export class Payslip implements IPayslip {
   constructor(
+    public payPeriod: number = 0,
     public netPay: number = 0,
     public earnings: number = 0,
     public bonus: number = 0,
-    public comission: number = 0,
+    public commission: number = 0,
     public regularPay: number = 0,
     public deductions: number = 0,
     public childSupport: number = 0,
