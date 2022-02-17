@@ -3,7 +3,7 @@
   "solution": {
     "name": "ACE Design Template Example Gallery",
     "id": "4f3fb79b-3289-4c58-88f3-143096550446",
-    "version": "1.0.0.1",
+    "version": "1.0.0.2",
     "includeClientSideAssets": true,
     "skipFeatureDeployment": true,
     "isDomainIsolated": false,

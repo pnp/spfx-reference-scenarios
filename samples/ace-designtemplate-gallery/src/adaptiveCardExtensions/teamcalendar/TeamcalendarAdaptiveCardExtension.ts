@@ -2,35 +2,36 @@ import { IPropertyPaneConfiguration } from '@microsoft/sp-property-pane';
 import { BaseAdaptiveCardExtension } from '@microsoft/sp-adaptive-card-extension-base';
 import { CardView } from './cardView/CardView';
 import { QuickView } from './quickView/QuickView';
-import { FaqaccordionPropertyPane } from './FaqaccordionPropertyPane';
 
 import { sp } from "@pnp/sp";
 import { Logger, LogLevel, ConsoleListener } from "@pnp/logging";
 
+import { TeamcalendarPropertyPane } from './TeamcalendarPropertyPane';
+import * as strings from 'TeamcalendarAdaptiveCardExtensionStrings';
 import { dtg } from '../../common/services/designtemplate.service';
-import { AccordionList } from '../../common/models/designtemplate.models';
-import * as strings from 'FaqaccordionAdaptiveCardExtensionStrings';
+import { Day, IDay } from '../../common/models/designtemplate.models';
 
-export interface IFaqaccordionAdaptiveCardExtensionProps {
+export interface ITeamcalendarAdaptiveCardExtensionProps {
   iconProperty: string;
 }
 
-export interface IFaqaccordionAdaptiveCardExtensionState {
-  faqApp: AccordionList;
-  deepLink: string;
+export interface ITeamcalendarAdaptiveCardExtensionState {
+  days: Day[];
+  currentDate: Date;
 }
 
-const CARD_VIEW_REGISTRY_ID: string = 'Faqaccordion_CARD_VIEW';
-export const QUICK_VIEW_REGISTRY_ID: string = 'Faqaccordion_QUICK_VIEW';
+const CARD_VIEW_REGISTRY_ID: string = 'Teamcalendar_CARD_VIEW';
+export const QUICK_VIEW_REGISTRY_ID: string = 'Teamcalendar_QUICK_VIEW';
 
-export default class FaqaccordionAdaptiveCardExtension extends BaseAdaptiveCardExtension<
-  IFaqaccordionAdaptiveCardExtensionProps,
-  IFaqaccordionAdaptiveCardExtensionState
+export default class TeamcalendarAdaptiveCardExtension extends BaseAdaptiveCardExtension<
+  ITeamcalendarAdaptiveCardExtensionProps,
+  ITeamcalendarAdaptiveCardExtensionState
 > {
-  private LOG_SOURCE: string = "🔶 FAQ Adaptive Card Extension";
-  private _deferredPropertyPane: FaqaccordionPropertyPane | undefined;
+  private LOG_SOURCE: string = "🔶 Team Calendar Adaptive Card Extension";
+  private _deferredPropertyPane: TeamcalendarPropertyPane | undefined;
 
   public onInit(): Promise<void> {
+
     try {
       //Initialize PnPLogger
       Logger.subscribe(new ConsoleListener());
@@ -43,12 +44,12 @@ export default class FaqaccordionAdaptiveCardExtension extends BaseAdaptiveCardE
       dtg.Init();
 
       //Get the data for the app
-      const faqApp: AccordionList = dtg.GetFAQs();
+      const days: IDay[] = dtg.getCalendarDays(new Date());
 
       //Set the data into state
       this.state = {
-        faqApp: faqApp,
-        deepLink: dtg.TeamsUrl
+        days: days,
+        currentDate: new Date()
       };
       //Register the cards
       this.cardNavigator.register(CARD_VIEW_REGISTRY_ID, () => new CardView());
@@ -69,12 +70,12 @@ export default class FaqaccordionAdaptiveCardExtension extends BaseAdaptiveCardE
 
   protected loadPropertyPaneResources(): Promise<void> {
     return import(
-      /* webpackChunkName: 'Faqaccordion-property-pane'*/
-      './FaqaccordionPropertyPane'
+      /* webpackChunkName: 'Teamcalendar-property-pane'*/
+      './TeamcalendarPropertyPane'
     )
       .then(
         (component) => {
-          this._deferredPropertyPane = new component.FaqaccordionPropertyPane();
+          this._deferredPropertyPane = new component.TeamcalendarPropertyPane();
         }
       );
   }

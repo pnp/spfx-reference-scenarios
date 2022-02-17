@@ -32,6 +32,17 @@
       @include gridSpan(12);
     }
 
+    .hoo-cardgrid,
+    .appDetails {
+      img {
+        width: 100%;
+        height: auto;
+        object-fit: fill;
+        max-width: 275px;
+        margin: 1rem auto;
+      }
+    }
+
     .appDetails {
       .hoo-teamsdbcard-content {
         padding-top: 1rem;
@@ -39,14 +50,6 @@
 
       .hoo-teamsdbcard {
         @include gridSpan(4);
-
-        img {
-          width: 100%;
-          height: auto;
-          object-fit: fill;
-          max-width: 275px;
-          margin: 1rem auto;
-        }
 
         img.quickview {
           max-width: 350px;

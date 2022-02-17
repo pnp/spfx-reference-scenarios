@@ -8,7 +8,7 @@ import { sp } from "@pnp/sp";
 import { Logger, LogLevel, ConsoleListener } from "@pnp/logging";
 
 import { dtg } from '../../common/services/designtemplate.service';
-import { App, ImageCarousel } from '../../common/models/designtemplate.models';
+import { ImageCarousel } from '../../common/models/designtemplate.models';
 
 export interface IImagecarouselAdaptiveCardExtensionProps {
   title: string;

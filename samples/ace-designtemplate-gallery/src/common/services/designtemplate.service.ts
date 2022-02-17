@@ -3,7 +3,7 @@ import { Logger, LogLevel } from "@pnp/logging";
 import * as strings from "AceDesignTemplatePersonalAppWebPartStrings";
 import * as eventStrings from "EventscheduleAdaptiveCardExtensionStrings";
 import * as faqStrings from "FaqaccordionAdaptiveCardExtensionStrings";
-import { App, AppData, BenefitDetails, AppList, EventRegistration, DeepLinkType, InventoryItem, DeepLinkData, Benefits, AccordionList, Event, FAQ, IFAQ, ImageCarousel, InventoryDetail, IInventoryItem, PayPeriod, Payslip } from "../models/designtemplate.models";
+import { AppData, BenefitDetails, AppList, EventRegistration, DeepLinkType, InventoryItem, DeepLinkData, Benefits, AccordionList, Event, FAQ, IFAQ, ImageCarousel, InventoryDetail, IInventoryItem, PayPeriod, Payslip, SimpleList, Anniversary, Praise, Day, Appointment } from "../models/designtemplate.models";
 
 export interface IDesignTemplateGalleryService {
   Ready: boolean;
@@ -19,12 +19,14 @@ export interface IDesignTemplateGalleryService {
   GetImageCarousel(): ImageCarousel;
   GetInventoryDetail(): InventoryDetail;
   GetPayPeriods: () => PayPeriod[];
+  GetPaySlips: () => Payslip[];
+  GetSimpleList(): SimpleList;
 }
 
 export class DesignTemplateGalleryService implements IDesignTemplateGalleryService {
   private LOG_SOURCE: string = "🔶 ACE Design Template Service";
   private _ready: boolean = false;
-  private _teamsUrl: string = "https://teams.microsoft.com/l/entity/4a007f51-abb1-4d3a-b753-7c84404936b2/com.acedesigntemplate.spfx";
+  private _teamsUrl: string = "https://teams.microsoft.com/l/entity/58a452d7-f97a-40fb-b146-44f74fadf0dc/com.acedesigntemplate.spfx";
 
   constructor() {
   }
@@ -102,6 +104,13 @@ export class DesignTemplateGalleryService implements IDesignTemplateGalleryServi
           retVal.appDescription = strings.PayslipAppDesc;
           break;
         }
+        case AppList.SIMPLELIST: {
+          retVal.appCardImage = require('../images/simple-list/dashboard-card.png');
+          retVal.appQuickViewImage = require('../images/simple-list/card.png');
+          retVal.appName = strings.SimpleListAppName;
+          retVal.appDescription = strings.SimpleListAppDesc;
+          break;
+        }
       }
     } catch (err) {
       Logger.write(`${this.LOG_SOURCE} (GetAllApps) - ${err.message}`, LogLevel.Error);
@@ -139,6 +148,18 @@ export class DesignTemplateGalleryService implements IDesignTemplateGalleryServi
           retVal = new DeepLinkData(subEntityId.appName, DeepLinkType.TEXT, link.name);
           break;
         }
+        case AppList.SIMPLELIST: {
+          const simpleList: SimpleList = this.GetSimpleList();
+          if (subEntityId.linkType == DeepLinkType.ANNIVERSARY) {
+            const anniversary: Anniversary = find(simpleList.anniversaries, { id: subEntityId.message });
+            retVal = new DeepLinkData(subEntityId.appName, DeepLinkType.ANNIVERSARY, anniversary);
+          }
+          if (subEntityId.linkType == DeepLinkType.PRAISE) {
+            const praise: Praise = find(simpleList.praise, { id: subEntityId.message });
+            retVal = new DeepLinkData(subEntityId.appName, DeepLinkType.PRAISE, praise);
+          }
+          break;
+        }
         default: {
           //statements; 
           break;
@@ -164,6 +185,7 @@ export class DesignTemplateGalleryService implements IDesignTemplateGalleryServi
       details.map((item) => {
         if (item.isTeamsDeepLink) {
           const url = encodeURI(`${this._teamsUrl}?context={"subEntityId":{"appName":"${AppList.BENEFITS}","linkType":"${DeepLinkType.TEXT}","message":"${item.id}"}}`);
+          //const url = " https://teams.microsoft.com/l/entity/58a452d7-f97a-40fb-b146-44f74fadf0dc/0" //encodeURI(`${this._teamsUrl}`); //?context={"subEntityId":{"appName":"${AppList.BENEFITS}","linkType":"${DeepLinkType.TEXT}","message":"${item.id}"}}`);
           item.linkUrl = url;
         }
       });
@@ -319,12 +341,83 @@ export class DesignTemplateGalleryService implements IDesignTemplateGalleryServi
       //Sample pulls data from mock
       //To extend pull data from a list of your items
       retVal = require("../data/payslip.data.json");
-      //Lets set some specific data
-
-
     } catch (err) {
       Logger.write(`${this.LOG_SOURCE} (GetPaySlips) - ${err.message}`, LogLevel.Error);
     }
+    return retVal;
+  }
+
+  public GetSimpleList(): SimpleList {
+    let retVal: SimpleList = new SimpleList();
+    try {
+      //Sample pulls data from mock
+      //To extend pull data from a list of your items
+      retVal = require("../data/simplelist.data.json");
+      let anniversaries: Anniversary[] = cloneDeep(retVal.anniversaries);
+      let currentDate: Date = new Date();
+      anniversaries.map((item) => {
+        const anniversaryDate: Date = new Date(item.anniversaryDate);
+        let duration = currentDate.getFullYear() - anniversaryDate.getFullYear();
+        item.anniversaryDuration = duration;
+        const url = encodeURI(`${this._teamsUrl}?context={"subEntityId":{"appName":"${AppList.SIMPLELIST}","linkType":"${DeepLinkType.ANNIVERSARY}","message":"${item.id}"}}`);
+        item.linkUrl = url;
+
+      });
+      retVal.anniversaries = anniversaries;
+
+      let praise: Praise[] = cloneDeep(retVal.praise);
+      praise.map((item) => {
+        const url = encodeURI(`${this._teamsUrl}?context={"subEntityId":{"appName":"${AppList.SIMPLELIST}","linkType":"${DeepLinkType.PRAISE}","message":"${item.id}"}}`);
+        item.linkUrl = url;
+      });
+      retVal.praise = praise;
+    } catch (err) {
+      Logger.write(`${this.LOG_SOURCE} (GetSimpleList) - ${err.message}`, LogLevel.Error);
+    }
+    return retVal;
+  }
+
+  public getCalendarDays(currentDate: Date): Day[] {
+    let retVal: Day[] = [];
+    try {
+      const currentMonthIndex: number = currentDate.getMonth();
+      let dayCount: number = 31;
+      if (currentMonthIndex == 3 || currentMonthIndex == 5 || currentMonthIndex == 8 || currentMonthIndex == 10) {
+        dayCount = 30;
+      } else if (currentMonthIndex == 1) {
+        if (currentDate.getFullYear() % 4 != 0 || (currentDate.getFullYear() % 100 == 0 && currentDate.getFullYear() % 400 != 0)) {
+          dayCount = 28;
+        } else {
+          dayCount = 29;
+        }
+      }
+
+      for (let i = 1; i <= dayCount; i++) {
+        const currentDay: Date = new Date(currentDate.getFullYear(), currentMonthIndex, i);
+        const dayOfWeek: number = currentDay.getDay();
+        if ((i == 1) && dayOfWeek != 0) {
+          for (let x = dayOfWeek - 1; x >= 0; x--) {
+            retVal.push(new Day());
+          }
+        }
+        const mockAppointments: Appointment[] = [];
+        if (i == 10) {
+          mockAppointments.push(new Appointment("blah"));
+        }
+        let day = new Day(currentMonthIndex, dayOfWeek, i, mockAppointments);
+        retVal.push(day);
+
+        if ((i == dayCount) && dayOfWeek != 6) {
+          for (let x = dayOfWeek + 1; x <= 6; x++) {
+            retVal.push(new Day());
+          }
+        }
+      }
+    } catch (err) {
+      Logger.write(`${this.LOG_SOURCE} (getCalendarDays) - ${err.message}`, LogLevel.Error);
+    }
+
+
     return retVal;
   }
 

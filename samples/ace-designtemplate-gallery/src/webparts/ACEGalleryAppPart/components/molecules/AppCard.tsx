@@ -41,7 +41,7 @@ export default class AppCard extends React.Component<IAppCardProps, IAppCardStat
             </div>
           </div>
           <div className="hoo-cardimage">
-            <img src={this.props.app.appCardImage} width="320" height="180" alt="" />
+            <img src={this.props.app.appCardImage} alt="" />
           </div>
 
         </div>

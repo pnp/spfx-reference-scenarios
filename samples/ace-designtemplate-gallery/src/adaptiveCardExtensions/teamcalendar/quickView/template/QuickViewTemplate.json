@@ -1,0 +1,329 @@
+{
+  "type": "AdaptiveCard",
+  "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
+  "version": "1.3",
+  "body": [{
+      "type": "ColumnSet",
+      "columns": [{
+          "type": "Column",
+          "width": 26,
+          "items": [{
+            "type": "TextBlock",
+            "text": "${strings.PreviousButtonText}",
+            "wrap": true,
+            "weight": "Bolder",
+            "size": "Default",
+            "fontType": "Default",
+            "color": "Accent",
+            "isSubtle": false
+          }],
+          "verticalContentAlignment": "Center",
+          "selectAction": {
+            "type": "Action.Submit",
+            "associatedInputs": "none",
+            "data": {
+              "id": "prev"
+            }
+          }
+        },
+        {
+          "type": "Column",
+          "width": 48,
+          "items": [{
+            "type": "TextBlock",
+            "text": "${formatDateTime(currentDate, 'MMM yyyy')} ",
+            "wrap": true,
+            "size": "Large",
+            "fontType": "Default",
+            "weight": "Bolder",
+            "color": "Default",
+            "isSubtle": false,
+            "horizontalAlignment": "Center"
+          }]
+        },
+        {
+          "type": "Column",
+          "width": 26,
+          "items": [{
+            "type": "TextBlock",
+            "text": "${strings.NextButtonText}",
+            "wrap": true,
+            "horizontalAlignment": "Right",
+            "weight": "Bolder",
+            "fontType": "Default",
+            "size": "Default",
+            "color": "Accent"
+          }],
+          "verticalContentAlignment": "Center",
+          "selectAction": {
+            "type": "Action.Submit",
+            "associatedInputs": "none",
+            "data": {
+              "id": "next"
+            }
+          }
+        }
+      ],
+      "style": "default"
+    },
+    {
+      "type": "Container",
+      "spacing": "Large"
+    },
+    {
+      "type": "ColumnSet",
+      "columns": [{
+        "type": "Column",
+        "width": "stretch",
+        "items": [{
+          "type": "TextBlock",
+          "text": "${strings.Sunday}",
+          "wrap": true,
+          "weight": "Bolder",
+          "isSubtle": true,
+          "horizontalAlignment": "Center"
+        }]
+      }, {
+        "type": "Column",
+        "width": "stretch",
+        "items": [{
+          "type": "TextBlock",
+          "text": "${strings.Monday}",
+          "wrap": true,
+          "weight": "Bolder",
+          "isSubtle": true,
+          "horizontalAlignment": "Center"
+        }]
+      }, {
+        "type": "Column",
+        "width": "stretch",
+        "items": [{
+          "type": "TextBlock",
+          "text": "${strings.Tuesday}",
+          "wrap": true,
+          "weight": "Bolder",
+          "isSubtle": true,
+          "horizontalAlignment": "Center"
+        }]
+      }, {
+        "type": "Column",
+        "width": "stretch",
+        "items": [{
+          "type": "TextBlock",
+          "text": "${strings.Wednesday}",
+          "wrap": true,
+          "weight": "Bolder",
+          "isSubtle": true,
+          "horizontalAlignment": "Center"
+        }]
+      }, {
+        "type": "Column",
+        "width": "stretch",
+        "items": [{
+          "type": "TextBlock",
+          "text": "${strings.Thursday}",
+          "wrap": true,
+          "weight": "Bolder",
+          "isSubtle": true,
+          "horizontalAlignment": "Center"
+        }]
+      }, {
+        "type": "Column",
+        "width": "stretch",
+        "items": [{
+          "type": "TextBlock",
+          "text": "${strings.Friday}",
+          "wrap": true,
+          "weight": "Bolder",
+          "isSubtle": true,
+          "horizontalAlignment": "Center"
+        }]
+      }, {
+        "type": "Column",
+        "width": "stretch",
+        "items": [{
+          "type": "TextBlock",
+          "text": "${strings.Saturday}",
+          "wrap": true,
+          "weight": "Bolder",
+          "isSubtle": true,
+          "horizontalAlignment": "Center"
+        }]
+      }]
+    },
+    {
+      "type": "ColumnSet",
+      "$data": "${$root.days}",
+      "$when": "{mod($index, 7) == 0}",
+      "columns": [{
+        "type": "Column",
+        "width": "stretch",
+        "items": [{
+          "type": "TextBlock",
+          "text": "${if(day <= 0, '', day)} ",
+          "wrap": true,
+          "color": "${if(count(appointments) > 0, 'Accent','Default')}",
+          "isSubtle": "${if(count(appointments) > 0,false,true)}",
+          "horizontalAlignment": "Center",
+          "weight": "${if(count(appointments) > 0, 'Bolder','Default')}"
+        }]
+      }, {
+        "type": "Column",
+        "width": "stretch",
+        "items": [{
+          "type": "TextBlock",
+          "text": "${if($root.days[$index+1].day <= 0, '', $root.days[$index+1].day)} ",
+          "wrap": true,
+          "color": "${if(count($root.days[$index+1].appointments) > 0, 'Accent','Default')}",
+          "horizontalAlignment": "Center",
+          "isSubtle": "${if(count($root.days[$index+1].appointments) > 0, false,true)}",
+          "weight": "${if(count($root.days[$index+1].appointments) > 0, 'Bolder','Default')}"
+        }]
+      }, {
+        "type": "Column",
+        "width": "stretch",
+        "items": [{
+          "type": "TextBlock",
+          "text": "${if($root.days[$index+2].day <= 0, '', $root.days[$index+2].day)} ",
+          "wrap": true,
+          "color": "${if(count($root.days[$index+2].appointments) > 0, 'Accent','Default')}",
+          "horizontalAlignment": "Center",
+          "isSubtle": "${if(count($root.days[$index+2].appointments) > 0, false,true)}",
+          "weight": "${if(count($root.days[$index+2].appointments) > 0, 'Bolder','Default')}"
+        }]
+      }, {
+        "type": "Column",
+        "width": "stretch",
+        "items": [{
+          "type": "TextBlock",
+          "text": "${if($root.days[$index+3].day <= 0, '', $root.days[$index+3].day)} ",
+          "wrap": true,
+          "color": "${if(count($root.days[$index+3].appointments) > 0, 'Accent','Default')}",
+          "horizontalAlignment": "Center",
+          "isSubtle": "${if(count($root.days[$index+3].appointments) > 0, false,true)}",
+          "weight": "${if(count($root.days[$index+3].appointments) > 0, 'Bolder','Default')}"
+        }]
+      }, {
+        "type": "Column",
+        "width": "stretch",
+        "items": [{
+          "type": "TextBlock",
+          "text": "${if($root.days[$index+4].day <= 0, '', $root.days[$index+4].day)} ",
+          "wrap": true,
+          "color": "${if(count($root.days[$index+4].appointments) > 0, 'Accent','Default')}",
+          "horizontalAlignment": "Center",
+          "isSubtle": "${if(count($root.days[$index+4].appointments) > 0, false,true)}",
+          "weight": "${if(count($root.days[$index+4].appointments) > 0, 'Bolder','Default')}"
+        }]
+      }, {
+        "type": "Column",
+        "width": "stretch",
+        "items": [{
+          "type": "TextBlock",
+          "text": "${if($root.days[$index+5].day <= 0, '', $root.days[$index+5].day)} ",
+          "wrap": true,
+          "color": "${if(count($root.days[$index+5].appointments) > 0, 'Accent','Default')}",
+          "horizontalAlignment": "Center",
+          "isSubtle": "${if(count($root.days[$index+5].appointments) > 0, false,true)}",
+          "weight": "${if(count($root.days[$index+5].appointments) > 0, 'Bolder','Default')}"
+        }]
+      }, {
+        "type": "Column",
+        "width": "stretch",
+        "items": [{
+          "type": "TextBlock",
+          "text": "${if($root.days[$index+6].day <= 0, '', $root.days[$index+6].day)} ",
+          "wrap": true,
+          "color": "${if(count($root.days[$index+6].appointments) > 0, 'Accent','Default')}",
+          "horizontalAlignment": "Center",
+          "isSubtle": "${if(count($root.days[$index+6].appointments) > 0, false,true)}",
+          "weight": "${if(count($root.days[$index+6].appointments) > 0, 'Bolder','Default')}"
+        }]
+      }],
+      "style": "default",
+      "spacing": "Large"
+    },
+    {
+      "type": "Container",
+      "spacing": "Large"
+    },
+    {
+      "type": "Container",
+      "items": [{
+          "type": "Container",
+          "spacing": "Medium"
+        },
+        {
+          "type": "TextBlock",
+          "text": "${count($root.data['oof'])} team members are out of office",
+          "wrap": true,
+          "size": "Medium",
+          "weight": "Bolder",
+          "spacing": "Medium"
+        },
+        {
+          "type": "ColumnSet",
+          "$data": "${$root.data['oof']}",
+          "columns": [{
+              "type": "Column",
+              "items": [{
+                "type": "TextBlock",
+                "text": "${when}",
+                "wrap": true,
+                "color": "Default",
+                "isSubtle": false
+              }],
+              "width": "80px"
+            },
+            {
+              "type": "Column",
+              "items": [{
+                "type": "TextBlock",
+                "text": "${who}",
+                "wrap": true
+              }],
+              "width": 100
+            }
+          ],
+          "spacing": "Medium"
+        },
+        {
+          "type": "Container",
+          "spacing": "Medium"
+        },
+        {
+          "type": "TextBlock",
+          "text": "${count($root.data['reports'])}  report due",
+          "wrap": true,
+          "weight": "Bolder",
+          "size": "Medium"
+        },
+        {
+          "type": "ColumnSet",
+          "$data": "${$root.data['reports']}",
+          "columns": [{
+              "type": "Column",
+              "width": "80px",
+              "items": [{
+                "type": "TextBlock",
+                "text": "${when}",
+                "wrap": true
+              }]
+            },
+            {
+              "type": "Column",
+              "width": 100,
+              "items": [{
+                "type": "TextBlock",
+                "text": "${what}",
+                "wrap": true
+              }]
+            }
+          ],
+          "spacing": "Medium"
+        }
+      ],
+      "style": "emphasis"
+    }
+  ]
+}

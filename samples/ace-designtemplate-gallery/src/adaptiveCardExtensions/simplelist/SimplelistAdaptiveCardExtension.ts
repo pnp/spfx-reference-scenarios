@@ -2,33 +2,34 @@ import { IPropertyPaneConfiguration } from '@microsoft/sp-property-pane';
 import { BaseAdaptiveCardExtension } from '@microsoft/sp-adaptive-card-extension-base';
 import { CardView } from './cardView/CardView';
 import { QuickView } from './quickView/QuickView';
-import { FaqaccordionPropertyPane } from './FaqaccordionPropertyPane';
 
 import { sp } from "@pnp/sp";
 import { Logger, LogLevel, ConsoleListener } from "@pnp/logging";
 
+import { SimplelistPropertyPane } from './SimplelistPropertyPane';
+import * as strings from 'SimplelistAdaptiveCardExtensionStrings';
 import { dtg } from '../../common/services/designtemplate.service';
-import { AccordionList } from '../../common/models/designtemplate.models';
-import * as strings from 'FaqaccordionAdaptiveCardExtensionStrings';
+import { SimpleList } from '../../common/models/designtemplate.models';
 
-export interface IFaqaccordionAdaptiveCardExtensionProps {
+
+export interface ISimplelistAdaptiveCardExtensionProps {
   iconProperty: string;
 }
 
-export interface IFaqaccordionAdaptiveCardExtensionState {
-  faqApp: AccordionList;
-  deepLink: string;
+export interface ISimplelistAdaptiveCardExtensionState {
+  app: SimpleList;
 }
 
-const CARD_VIEW_REGISTRY_ID: string = 'Faqaccordion_CARD_VIEW';
-export const QUICK_VIEW_REGISTRY_ID: string = 'Faqaccordion_QUICK_VIEW';
+const CARD_VIEW_REGISTRY_ID: string = 'Simplelist_CARD_VIEW';
+export const QUICK_VIEW_REGISTRY_ID: string = 'Simplelist_QUICK_VIEW';
 
-export default class FaqaccordionAdaptiveCardExtension extends BaseAdaptiveCardExtension<
-  IFaqaccordionAdaptiveCardExtensionProps,
-  IFaqaccordionAdaptiveCardExtensionState
+export default class SimplelistAdaptiveCardExtension extends BaseAdaptiveCardExtension<
+  ISimplelistAdaptiveCardExtensionProps,
+  ISimplelistAdaptiveCardExtensionState
 > {
-  private LOG_SOURCE: string = "🔶 FAQ Adaptive Card Extension";
-  private _deferredPropertyPane: FaqaccordionPropertyPane | undefined;
+
+  private LOG_SOURCE: string = "🔶 Simple List Adaptive Card Extension";
+  private _deferredPropertyPane: SimplelistPropertyPane | undefined;
 
   public onInit(): Promise<void> {
     try {
@@ -43,12 +44,11 @@ export default class FaqaccordionAdaptiveCardExtension extends BaseAdaptiveCardE
       dtg.Init();
 
       //Get the data for the app
-      const faqApp: AccordionList = dtg.GetFAQs();
+      const app: SimpleList = dtg.GetSimpleList();
 
       //Set the data into state
       this.state = {
-        faqApp: faqApp,
-        deepLink: dtg.TeamsUrl
+        app: app
       };
       //Register the cards
       this.cardNavigator.register(CARD_VIEW_REGISTRY_ID, () => new CardView());
@@ -69,12 +69,12 @@ export default class FaqaccordionAdaptiveCardExtension extends BaseAdaptiveCardE
 
   protected loadPropertyPaneResources(): Promise<void> {
     return import(
-      /* webpackChunkName: 'Faqaccordion-property-pane'*/
-      './FaqaccordionPropertyPane'
+      /* webpackChunkName: 'Simplelist-property-pane'*/
+      './SimplelistPropertyPane'
     )
       .then(
         (component) => {
-          this._deferredPropertyPane = new component.FaqaccordionPropertyPane();
+          this._deferredPropertyPane = new component.SimplelistPropertyPane();
         }
       );
   }

@@ -5,7 +5,7 @@ export enum AppList {
   IMAGECAROUSEL = "Image Carousel",
   INVENTORY = "Inventory",
   PAYSLIP = "Payslip",
-  //SIMPLELIST = "Simple List",
+  SIMPLELIST = "Simple List",
   //TEAMCALENDAR = "Team Calendar",
   //TIMELINEHOLIDAY = "Timeline/Holiday",
   //TIMEOFF = "Timeoff",
@@ -16,7 +16,9 @@ export enum AppList {
 export enum DeepLinkType {
   TEXT,
   EVENTREGISTRATION,
-  INVENTORYITEM
+  INVENTORYITEM,
+  ANNIVERSARY,
+  PRAISE
 }
 
 export enum CardImageType {
@@ -28,20 +30,6 @@ export interface IIconType {
   Class: string;
   SVG: string;
 }
-
-
-//Dont think we need this
-export interface IApp {
-  appData: AppData;
-  cardData: any;
-}
-export class App implements IApp {
-  constructor(
-    public appData: AppData = new AppData(),
-    public cardData: any = {}
-  ) { }
-}
-//dont think we need this
 
 export interface IAppData {
   appName: string;
@@ -378,5 +366,85 @@ export class Payslip implements IPayslip {
     public medicare: number = 0,
     public fedTax: number = 0,
     public ssi: number = 0,
+  ) { }
+}
+
+export interface ISimpleList {
+  anniversaries: Anniversary[];
+  praise: Praise[];
+}
+
+export class SimpleList implements ISimpleList {
+  constructor(
+    public anniversaries: Anniversary[] = [],
+    public praise: Praise[] = []
+  ) { }
+}
+export interface IAnniversary {
+  id: string | number;
+  imageUrl: string;
+  firstName: string;
+  lastName: string;
+  role: string;
+  anniversaryDate: string;
+  anniversaryDuration?: number;
+  linkUrl: string;
+}
+
+export class Anniversary implements IAnniversary {
+  constructor(
+    public id: string = "0",
+    public imageUrl: string = "",
+    public firstName: string = "",
+    public lastName: string = "",
+    public role: string = "",
+    public anniversaryDate: string = "",
+    public anniversaryDuration: number = 0,
+    public linkUrl: string = ""
+  ) { }
+}
+export interface IPraise {
+  id: string | number;
+  imageUrl: string;
+  title: string;
+  comment: string;
+  linkUrl: string;
+}
+
+export class Praise implements IPraise {
+  constructor(
+    public id: string = "0",
+    public imageUrl: string = "",
+    public title: string = "",
+    public comment: string = "",
+    public linkUrl: string = ""
+  ) { }
+}
+
+export interface IDay {
+  monthIndex: number;
+  weekDayIndex: number;
+  day: number;
+  appointments: Appointment[];
+
+}
+
+export class Day implements IDay {
+  constructor(
+    public monthIndex: number = 0,
+    public weekDayIndex: number = 0,
+    public day: number = 0,
+    public appointments: Appointment[] = []
+  ) { }
+}
+
+export interface IAppointment {
+  title: string;
+
+}
+
+export class Appointment implements IAppointment {
+  constructor(
+    public title: string = ""
   ) { }
 }

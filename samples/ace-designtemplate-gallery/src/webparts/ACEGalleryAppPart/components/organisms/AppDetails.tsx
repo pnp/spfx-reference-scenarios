@@ -69,6 +69,20 @@ export default class AppDetails extends React.Component<IAppDetailsProps, IAppDe
                   <span><span className="linkCardLabel">{`${strings.PhoneLabel}: `}</span>{this.props.deepLink.message.phone}</span>
                 </div>
               }
+              {this.props.deepLink?.deepLinkType == DeepLinkType.ANNIVERSARY &&
+                <div className="deepLinkCard">
+                  <div className="introText">{strings.AnniversaryMessage}</div>
+                  <span>{`${this.props.deepLink.message.firstName} ${this.props.deepLink.message.lastName}`}</span>
+                  <span><span className="linkCardLabel">{`${strings.CelebratingLabel} `}</span>{this.props.deepLink.message.anniversaryDuration} {(this.props.deepLink.message.anniversaryDuration > 1) ? strings.YearsLabel : strings.YearLabel}</span>
+                </div>
+              }
+              {this.props.deepLink?.deepLinkType == DeepLinkType.PRAISE &&
+                <div className="deepLinkCard">
+                  <div><img src={this.props.deepLink.message.imageUrl} /></div>
+                  <div className="introText">{this.props.deepLink.message.title}</div>
+                  <span>{this.props.deepLink.message.comment}</span>
+                </div>
+              }
               {this.props.deepLink?.deepLinkType == DeepLinkType.INVENTORYITEM &&
                 <div className="deepLinkCard">
                   <div className="introText">{`${strings.InventoryMessage} ${this.props.deepLink.message.inventoryItem.name}`}</div>
@@ -80,6 +94,7 @@ export default class AppDetails extends React.Component<IAppDetailsProps, IAppDe
                   <span>{strings.DeepLinkMessage.replace('__xxxx__', this.props.deepLink.message)}</span>
                 </div>
               }
+
               <div className="hoo-teamsdbcard-title">{strings.CardViewHeading}</div>
               <p>{this.props.appData.appDescription}</p>
               <div className="hoo-cardimage"><img src={this.props.appData.appCardImage} alt={`${this.props.appData.appName} Card View Card`} /></div>

@@ -57,6 +57,22 @@
           "manifest": "./src/adaptiveCardExtensions/payslip/PayslipAdaptiveCardExtension.manifest.json"
         }
       ]
+    },
+    "simplelist-adaptive-card-extension": {
+      "components": [
+        {
+          "entrypoint": "./lib/adaptiveCardExtensions/simplelist/SimplelistAdaptiveCardExtension.js",
+          "manifest": "./src/adaptiveCardExtensions/simplelist/SimplelistAdaptiveCardExtension.manifest.json"
+        }
+      ]
+    },
+    "teamcalendar-adaptive-card-extension": {
+      "components": [
+        {
+          "entrypoint": "./lib/adaptiveCardExtensions/teamcalendar/TeamcalendarAdaptiveCardExtension.js",
+          "manifest": "./src/adaptiveCardExtensions/teamcalendar/TeamcalendarAdaptiveCardExtension.manifest.json"
+        }
+      ]
     }
   },
   "externals": {},
@@ -68,6 +84,8 @@
     "FaqaccordionAdaptiveCardExtensionStrings": "lib/adaptiveCardExtensions/faqaccordion/loc/{locale}.js",
     "ImagecarouselAdaptiveCardExtensionStrings": "lib/adaptiveCardExtensions/imagecarousel/loc/{locale}.js",
     "InventorydetailsAdaptiveCardExtensionStrings": "lib/adaptiveCardExtensions/inventorydetails/loc/{locale}.js",
-    "PayslipAdaptiveCardExtensionStrings": "lib/adaptiveCardExtensions/payslip/loc/{locale}.js"
+    "PayslipAdaptiveCardExtensionStrings": "lib/adaptiveCardExtensions/payslip/loc/{locale}.js",
+    "SimplelistAdaptiveCardExtensionStrings": "lib/adaptiveCardExtensions/simplelist/loc/{locale}.js",
+    "TeamcalendarAdaptiveCardExtensionStrings": "lib/adaptiveCardExtensions/teamcalendar/loc/{locale}.js"
   }
 }
