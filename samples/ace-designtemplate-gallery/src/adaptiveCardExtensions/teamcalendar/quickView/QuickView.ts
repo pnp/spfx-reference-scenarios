@@ -61,7 +61,6 @@ export class QuickView extends BaseAdaptiveCardView<
           }
           let selectedSunday: Day = new Day(day.monthIndex, 0, weekdayIndex);
           this.setState({ selectedAppointments: day.appointments, selectedSunday: selectedSunday });
-          //this.quickViewNavigator.pop();
         }
       }
     } catch (err) {

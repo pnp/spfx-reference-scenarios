@@ -1,0 +1,168 @@
+{
+  "type": "AdaptiveCard",
+  "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
+  "version": "1.3",
+  "body": [{
+      "type": "Container"
+    },
+    {
+      "type": "Container",
+      "$data": "${years}",
+      "items": [{
+        "type": "TextBlock",
+        "text": "${formatDateTime($data, 'yyyy')}",
+        "wrap": true,
+        "size": "ExtraLarge",
+        "weight": "Bolder",
+        "spacing": "Medium"
+      }, {
+        "type": "TextBlock",
+        "$when": "${formatDateTime($data, 'yyyy') == formatDateTime($root.today, 'yyyy')}",
+        "text": "${count(where($root.holidays, x, formatDateTime(x.date, 'yyyy') == formatDateTime($data, 'yyyy')))} holidays remaining this year.",
+        "wrap": true,
+        "size": "Small"
+      }, {
+        "type": "TextBlock",
+        "$when": "${formatDateTime($data, 'yyyy') != formatDateTime($root.today, 'yyyy')}",
+        "text": "${count(where($root.holidays, x, formatDateTime(x.date, 'yyyy') == formatDateTime($data, 'yyyy')))} holidays will be celebrated this year.",
+        "wrap": true,
+        "size": "Small"
+      }, {
+        "type": "ColumnSet",
+        "$data": "${where($root.holidays, x, formatDateTime(x.date, 'yyyy') == formatDateTime($data, 'yyyy'))}",
+        "columns": [{
+            "type": "Column",
+            "width": "40px",
+            "backgroundImage": {
+              "url": "${$root.timelineImage}",
+              "horizontalAlignment": "Center",
+              "fillMode": "RepeatVertically"
+            },
+            "horizontalAlignment": "Right"
+          },
+          {
+            "type": "Column",
+            "width": "stretch",
+            "items": [{
+              "type": "Container",
+              "spacing": "None",
+              "minHeight": "4px",
+              "items": [{
+                  "type": "Container",
+                  "minHeight": "18px"
+                },
+                {
+                  "type": "TextBlock",
+                  "text": "${formatDateTime(date, 'MMMM dd')}",
+                  "wrap": true,
+                  "weight": "Bolder",
+                  "color": "Accent"
+                },
+                {
+                  "type": "Container",
+                  "$when": "${length(imageUrl) > 0}",
+                  "backgroundImage": {
+                    "url": "${imageUrl}",
+                    "horizontalAlignment": "Center",
+                    "verticalAlignment": "Center"
+                  },
+                  "minHeight": "160px",
+                  "spacing": "Medium"
+                },
+                {
+                  "type": "TextBlock",
+                  "text": "${title}",
+                  "wrap": true,
+                  "size": "Large",
+                  "weight": "Bolder",
+                  "spacing": "Medium"
+                },
+                {
+                  "type": "TextBlock",
+                  "text": "${formatDateTime(date, 'dddd, MMMM dd, yyyy')}",
+                  "wrap": true,
+                  "size": "Small",
+                  "isSubtle": true
+                },
+                {
+                  "type": "TextBlock",
+                  "text": "${text}",
+                  "wrap": true
+                },
+                {
+                  "type": "Container",
+                  "items": [{
+                      "type": "TextBlock",
+                      "text": "Long weekend opportunity!",
+                      "wrap": true,
+                      "weight": "Bolder",
+                      "size": "Small"
+                    },
+                    {
+                      "type": "TextBlock",
+                      "text": "Extend this holiday by taking Friday, January 14 or Tuesday, January 18 off. You have 5 days of paid time off available in 2022.",
+                      "wrap": true,
+                      "size": "Small"
+                    },
+                    {
+                      "type": "ColumnSet",
+                      "columns": [{
+                          "type": "Column",
+                          "width": "stretch",
+                          "items": [{
+                            "type": "ColumnSet",
+                            "columns": [{
+                                "type": "Column",
+                                "width": "32px",
+                                "items": [{
+                                  "type": "Image",
+                                  "url": "https://raw.githubusercontent.com/pnp/AdaptiveCards-Templates/main/samples/timeline-holidays/assets/icn_beach.svg",
+                                  "width": "20px",
+                                  "height": "20px"
+                                }]
+                              },
+                              {
+                                "type": "Column",
+                                "width": "stretch",
+                                "verticalContentAlignment": "Center",
+                                "items": [{
+                                  "type": "TextBlock",
+                                  "text": "Time off",
+                                  "wrap": true,
+                                  "color": "Accent"
+                                }]
+                              }
+                            ],
+                            "spacing": "Medium"
+                          }],
+                          "selectAction": {
+                            "type": "Action.OpenUrl",
+                            "url": "https://www.microsoft.com/en-us/about",
+                            "title": "Time off"
+                          },
+                          "minHeight": "24px",
+                          "verticalContentAlignment": "Center"
+                        },
+                        {
+                          "type": "Column",
+                          "width": "stretch"
+                        }
+                      ],
+                      "spacing": "Medium"
+                    }
+                  ],
+                  "style": "emphasis",
+                  "spacing": "Medium"
+                }
+              ]
+            }]
+          },
+          {
+            "type": "Column",
+            "width": "16px"
+          }
+        ]
+      }]
+    }
+  ]
+}

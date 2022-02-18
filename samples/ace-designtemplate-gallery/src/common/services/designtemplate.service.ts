@@ -3,7 +3,7 @@ import { Logger, LogLevel } from "@pnp/logging";
 import * as strings from "AceDesignTemplatePersonalAppWebPartStrings";
 import * as eventStrings from "EventscheduleAdaptiveCardExtensionStrings";
 import * as faqStrings from "FaqaccordionAdaptiveCardExtensionStrings";
-import { AppData, BenefitDetails, AppList, EventRegistration, DeepLinkType, InventoryItem, DeepLinkData, Benefits, AccordionList, Event, FAQ, IFAQ, ImageCarousel, InventoryDetail, IInventoryItem, PayPeriod, Payslip, SimpleList, Anniversary, Praise, Day, Appointment, AppointmentType } from "../models/designtemplate.models";
+import { AppData, BenefitDetails, AppList, EventRegistration, DeepLinkType, InventoryItem, DeepLinkData, Benefits, AccordionList, Event, FAQ, IFAQ, ImageCarousel, InventoryDetail, IInventoryItem, PayPeriod, Payslip, SimpleList, Anniversary, Praise, Day, Appointment, AppointmentType, Holiday, HolidayTimeline } from "../models/designtemplate.models";
 
 export interface IDesignTemplateGalleryService {
   Ready: boolean;
@@ -484,9 +484,47 @@ export class DesignTemplateGalleryService implements IDesignTemplateGalleryServi
     return retVal;
   }
 
+  public GetHolidayTimeline(): HolidayTimeline {
+    let retVal: HolidayTimeline = new HolidayTimeline();
+    try {
+      let years: number[] = [];
+      retVal.holidays = this.GetHolidays();
+      if (retVal.holidays.length > 0) {
+        retVal.nextHoliday = retVal.holidays[0];
+      }
+      retVal.holidays.map((holiday) => {
+        const holidayDate: Date = new Date(holiday.date);
+        if (years.indexOf(holidayDate.getFullYear()) <= -1) {
+          years.push(holidayDate.getFullYear());
+        }
+      });
+      if (years.length > 0) {
+        retVal.years = years;
+      }
+    } catch (err) {
+      Logger.write(`${this.LOG_SOURCE} (GetHolidayTimeline) - ${err.message}`, LogLevel.Error);
+    }
+    return retVal;
+  }
 
-
-
+  public GetHolidays(): Holiday[] {
+    let retVal: Holiday[] = [];
+    try {
+      //Sample pulls data from mock
+      //To extend pull data from a list of your items
+      const holidays: Holiday[] = require("../data/timelineholiday.data.json");
+      const today: Date = new Date();
+      holidays.map((holiday) => {
+        const holidayDate: Date = new Date(holiday.date);
+        if (holidayDate.getTime() >= today.getTime()) {
+          retVal.push(holiday);
+        }
+      });
+    } catch (err) {
+      Logger.write(`${this.LOG_SOURCE} (GetHolidays) - ${err.message}`, LogLevel.Error);
+    }
+    return retVal;
+  }
 }
 
 

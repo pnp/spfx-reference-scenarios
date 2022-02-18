@@ -73,6 +73,14 @@
           "manifest": "./src/adaptiveCardExtensions/teamcalendar/TeamcalendarAdaptiveCardExtension.manifest.json"
         }
       ]
+    },
+    "timelineholiday-adaptive-card-extension": {
+      "components": [
+        {
+          "entrypoint": "./lib/adaptiveCardExtensions/timelineholiday/TimelineholidayAdaptiveCardExtension.js",
+          "manifest": "./src/adaptiveCardExtensions/timelineholiday/TimelineholidayAdaptiveCardExtension.manifest.json"
+        }
+      ]
     }
   },
   "externals": {},
@@ -86,6 +94,7 @@
     "InventorydetailsAdaptiveCardExtensionStrings": "lib/adaptiveCardExtensions/inventorydetails/loc/{locale}.js",
     "PayslipAdaptiveCardExtensionStrings": "lib/adaptiveCardExtensions/payslip/loc/{locale}.js",
     "SimplelistAdaptiveCardExtensionStrings": "lib/adaptiveCardExtensions/simplelist/loc/{locale}.js",
-    "TeamcalendarAdaptiveCardExtensionStrings": "lib/adaptiveCardExtensions/teamcalendar/loc/{locale}.js"
+    "TeamcalendarAdaptiveCardExtensionStrings": "lib/adaptiveCardExtensions/teamcalendar/loc/{locale}.js",
+    "TimelineholidayAdaptiveCardExtensionStrings": "lib/adaptiveCardExtensions/timelineholiday/loc/{locale}.js"
   }
 }

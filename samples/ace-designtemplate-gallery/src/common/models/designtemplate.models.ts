@@ -459,3 +459,34 @@ export class Appointment implements IAppointment {
     public appointmentType: AppointmentType.OOO
   ) { }
 }
+
+export interface IHolidayTimeline {
+  holidays: Holiday[];
+  nextHoliday: Holiday;
+  years: number[];
+}
+
+export class HolidayTimeline implements IHolidayTimeline {
+  constructor(
+    public holidays: Holiday[] = [],
+    public nextHoliday: Holiday = new Holiday(),
+    public years: number[] = []
+  ) { }
+}
+
+export interface IHoliday {
+  date: string;
+  title: string;
+  text: string;
+  imageUrl: string;
+
+}
+
+export class Holiday implements IHoliday {
+  constructor(
+    public date: string = "",
+    public title: string = "",
+    public text: string = "",
+    public imageUrl: string = ""
+  ) { }
+}
