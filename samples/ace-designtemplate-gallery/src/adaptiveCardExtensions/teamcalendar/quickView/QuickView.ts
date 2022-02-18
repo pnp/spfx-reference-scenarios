@@ -47,12 +47,12 @@ export class QuickView extends BaseAdaptiveCardView<
           const prevMonth: Date = cloneDeep(this.state.viewDate);
           prevMonth.setMonth(prevMonth.getMonth() - 1);
           const days: Day[] = dtg.getCalendarDays(prevMonth);
-          this.setState({ viewDate: prevMonth, days: days, selectedAppointments: [] });
+          this.setState({ viewDate: prevMonth, days: days, selectedAppointments: [], selectedSunday: null });
         } else if (id === 'next') {
           const nextMonth: Date = cloneDeep(this.state.viewDate);
           nextMonth.setMonth(nextMonth.getMonth() + 1);
           const days: Day[] = dtg.getCalendarDays(nextMonth);
-          this.setState({ viewDate: nextMonth, days: days, selectedAppointments: [] });
+          this.setState({ viewDate: nextMonth, days: days, selectedAppointments: [], selectedSunday: null });
         } else if (id === 'selectDay') {
           const day: Day = action.data.day;
           let weekdayIndex: number = day.day - day.weekDayIndex;
