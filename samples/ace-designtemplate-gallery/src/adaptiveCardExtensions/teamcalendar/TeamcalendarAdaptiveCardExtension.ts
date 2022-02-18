@@ -9,7 +9,7 @@ import { Logger, LogLevel, ConsoleListener } from "@pnp/logging";
 import { TeamcalendarPropertyPane } from './TeamcalendarPropertyPane';
 import * as strings from 'TeamcalendarAdaptiveCardExtensionStrings';
 import { dtg } from '../../common/services/designtemplate.service';
-import { Day, IDay } from '../../common/models/designtemplate.models';
+import { Appointment, Day, IDay } from '../../common/models/designtemplate.models';
 
 export interface ITeamcalendarAdaptiveCardExtensionProps {
   iconProperty: string;
@@ -17,7 +17,9 @@ export interface ITeamcalendarAdaptiveCardExtensionProps {
 
 export interface ITeamcalendarAdaptiveCardExtensionState {
   days: Day[];
-  currentDate: Date;
+  viewDate: Date;
+  selectedSunday: Day;
+  selectedAppointments: Appointment[];
 }
 
 const CARD_VIEW_REGISTRY_ID: string = 'Teamcalendar_CARD_VIEW';
@@ -45,11 +47,19 @@ export default class TeamcalendarAdaptiveCardExtension extends BaseAdaptiveCardE
 
       //Get the data for the app
       const days: IDay[] = dtg.getCalendarDays(new Date());
+      const today: Date = new Date();
+      let weekdayIndex: number = today.getDate() - today.getDay();
+      if (weekdayIndex < 0) {
+        weekdayIndex = 0;
+      }
+      let selectedSunday: Day = new Day(today.getMonth(), 0, weekdayIndex);
 
       //Set the data into state
       this.state = {
         days: days,
-        currentDate: new Date()
+        viewDate: new Date(),
+        selectedSunday: selectedSunday,
+        selectedAppointments: []
       };
       //Register the cards
       this.cardNavigator.register(CARD_VIEW_REGISTRY_ID, () => new CardView());

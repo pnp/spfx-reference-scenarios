@@ -4,7 +4,11 @@ declare interface ITeamcalendarAdaptiveCardExtensionStrings {
   IconPropertyFieldLabel: string;
   Title: string;
   CardViewTitle: string;
-  CardViewText: string;
+  OOFTextSingular: string;
+  OOFTextPlural: string;
+  TaskTextSingular: string;
+  TaskTextPlural: string;
+  NoItems: string;
   PreviousButtonText: string;
   NextButtonText: string;
   Sunday: string;

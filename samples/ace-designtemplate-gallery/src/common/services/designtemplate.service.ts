@@ -3,7 +3,7 @@ import { Logger, LogLevel } from "@pnp/logging";
 import * as strings from "AceDesignTemplatePersonalAppWebPartStrings";
 import * as eventStrings from "EventscheduleAdaptiveCardExtensionStrings";
 import * as faqStrings from "FaqaccordionAdaptiveCardExtensionStrings";
-import { AppData, BenefitDetails, AppList, EventRegistration, DeepLinkType, InventoryItem, DeepLinkData, Benefits, AccordionList, Event, FAQ, IFAQ, ImageCarousel, InventoryDetail, IInventoryItem, PayPeriod, Payslip, SimpleList, Anniversary, Praise, Day, Appointment } from "../models/designtemplate.models";
+import { AppData, BenefitDetails, AppList, EventRegistration, DeepLinkType, InventoryItem, DeepLinkData, Benefits, AccordionList, Event, FAQ, IFAQ, ImageCarousel, InventoryDetail, IInventoryItem, PayPeriod, Payslip, SimpleList, Anniversary, Praise, Day, Appointment, AppointmentType } from "../models/designtemplate.models";
 
 export interface IDesignTemplateGalleryService {
   Ready: boolean;
@@ -21,6 +21,7 @@ export interface IDesignTemplateGalleryService {
   GetPayPeriods: () => PayPeriod[];
   GetPaySlips: () => Payslip[];
   GetSimpleList(): SimpleList;
+  getCalendarDays: (currentDate: Date) => Day[];
 }
 
 export class DesignTemplateGalleryService implements IDesignTemplateGalleryService {
@@ -400,11 +401,7 @@ export class DesignTemplateGalleryService implements IDesignTemplateGalleryServi
             retVal.push(new Day());
           }
         }
-        const mockAppointments: Appointment[] = [];
-        if (i == 10) {
-          mockAppointments.push(new Appointment("blah"));
-        }
-        let day = new Day(currentMonthIndex, dayOfWeek, i, mockAppointments);
+        let day = new Day(currentMonthIndex, dayOfWeek, i, []);
         retVal.push(day);
 
         if ((i == dayCount) && dayOfWeek != 6) {
@@ -413,11 +410,77 @@ export class DesignTemplateGalleryService implements IDesignTemplateGalleryServi
           }
         }
       }
+
+      const appointments: Appointment[] = this.GetAppointments(currentDate);
+      appointments.map((appt) => {
+        let startDate: Date = new Date(appt.startDate);
+        //If the event spans months set the start to the first day of the current month.
+        if (currentDate.getMonth() != startDate.getMonth()) {
+          startDate.setMonth(currentDate.getMonth());
+          startDate.setDate(1);
+        }
+        const endDate: Date = new Date(appt.endDate);
+        let dif: number = endDate.getTime() - startDate.getTime();
+        let duration: number = dif / (1000 * 3600 * 24);
+        for (let x = 0; x <= duration; x++) {
+          const apptStartDate: Date = cloneDeep(startDate);
+          apptStartDate.setDate(startDate.getDate() + x);
+          const day: Day = find(retVal, { day: apptStartDate.getDate(), monthIndex: apptStartDate.getMonth() });
+          if (day) {
+            day.appointments.push(new Appointment(appt.startDate, appt.endDate, appt.title, appt.appointmentType));
+          }
+        }
+
+      });
     } catch (err) {
       Logger.write(`${this.LOG_SOURCE} (getCalendarDays) - ${err.message}`, LogLevel.Error);
     }
+    return retVal;
+  }
 
+  public GetAppointments(currentDate: Date): Appointment[] {
+    let retVal: Appointment[] = [];
+    try {
+      //Sample pulls data from mock
+      //To extend pull data from a list of your items
+      const allAppointments: Appointment[] = require("../data/teamcalendar.data.json");
+      allAppointments.map((appt) => {
+        const apptStartDate: Date = new Date(appt.startDate);
+        const apptEndDate: Date = new Date(appt.endDate);
+        if (currentDate.getFullYear() == apptStartDate.getFullYear() && currentDate.getMonth() == apptStartDate.getMonth()) {
+          retVal.push(appt);
+        } else if (currentDate.getFullYear() == apptEndDate.getFullYear() && currentDate.getMonth() == apptEndDate.getMonth()) {
+          retVal.push(appt);
+        }
+      });
 
+    } catch (err) {
+      Logger.write(`${this.LOG_SOURCE} (GetAppointments) - ${err.message}`, LogLevel.Error);
+    }
+    return retVal;
+  }
+
+  public GetThisWeekData(currentDate: Date): Appointment[] {
+    let retVal: Appointment[] = [];
+    try {
+
+      const sunday: Date = new Date(currentDate.getFullYear(), currentDate.getMonth(), currentDate.getDate() - currentDate.getDay());
+      const friday: Date = new Date(currentDate.getFullYear(), currentDate.getMonth(), currentDate.getDate() + (currentDate.getDay() - 6));
+
+      //Sample pulls data from mock
+      //To extend pull data from a list of your items
+      const allAppointments: Appointment[] = require("../data/teamcalendar.data.json");
+      allAppointments.map((appt) => {
+        const apptStartDate: Date = new Date(appt.startDate);
+        const apptEndDate: Date = new Date(appt.endDate);
+        if ((apptStartDate.getTime() >= sunday.getTime() && apptEndDate.getTime() <= friday.getTime()) || (apptEndDate.getTime() >= sunday.getTime() && apptEndDate.getTime() <= friday.getTime())) {
+          retVal.push(appt);
+        }
+      });
+
+    } catch (err) {
+      Logger.write(`${this.LOG_SOURCE} (GetThisWeekData) - ${err.message}`, LogLevel.Error);
+    }
     return retVal;
   }
 

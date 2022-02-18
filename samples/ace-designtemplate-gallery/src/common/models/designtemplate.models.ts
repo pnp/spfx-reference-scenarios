@@ -26,6 +26,11 @@ export enum CardImageType {
   QUICKVIEW
 }
 
+export enum AppointmentType {
+  OOO,
+  TASK
+}
+
 export interface IIconType {
   Class: string;
   SVG: string;
@@ -439,12 +444,18 @@ export class Day implements IDay {
 }
 
 export interface IAppointment {
+  startDate: string;
+  endDate: string;
   title: string;
+  appointmentType: AppointmentType;
 
 }
 
 export class Appointment implements IAppointment {
   constructor(
-    public title: string = ""
+    public startDate: string = "",
+    public endDate: string = "",
+    public title: string = "",
+    public appointmentType: AppointmentType.OOO
   ) { }
 }

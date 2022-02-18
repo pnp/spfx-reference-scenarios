@@ -31,7 +31,7 @@
           "width": 48,
           "items": [{
             "type": "TextBlock",
-            "text": "${formatDateTime(currentDate, 'MMM yyyy')} ",
+            "text": "${formatDateTime(viewDate, 'MMM yyyy')} ",
             "wrap": true,
             "size": "Large",
             "fontType": "Default",
@@ -166,7 +166,16 @@
           "isSubtle": "${if(count(appointments) > 0,false,true)}",
           "horizontalAlignment": "Center",
           "weight": "${if(count(appointments) > 0, 'Bolder','Default')}"
-        }]
+        }],
+        "selectAction": {
+          "type": "Action.Submit",
+          "associatedInputs": "none",
+          "$when": "${count(appointments) > 0 }",
+          "data": {
+            "id": "selectDay",
+            "day": "${$root.days[$index]}"
+          }
+        }
       }, {
         "type": "Column",
         "width": "stretch",
@@ -178,7 +187,16 @@
           "horizontalAlignment": "Center",
           "isSubtle": "${if(count($root.days[$index+1].appointments) > 0, false,true)}",
           "weight": "${if(count($root.days[$index+1].appointments) > 0, 'Bolder','Default')}"
-        }]
+        }],
+        "selectAction": {
+          "type": "Action.Submit",
+          "associatedInputs": "none",
+          "$when": "${count($root.days[$index+1].appointments) > 0 }",
+          "data": {
+            "id": "selectDay",
+            "day": "${$root.days[$index+1]}"
+          }
+        }
       }, {
         "type": "Column",
         "width": "stretch",
@@ -190,7 +208,16 @@
           "horizontalAlignment": "Center",
           "isSubtle": "${if(count($root.days[$index+2].appointments) > 0, false,true)}",
           "weight": "${if(count($root.days[$index+2].appointments) > 0, 'Bolder','Default')}"
-        }]
+        }],
+        "selectAction": {
+          "type": "Action.Submit",
+          "associatedInputs": "none",
+          "$when": "${count($root.days[$index+2].appointments) > 0 }",
+          "data": {
+            "id": "selectDay",
+            "day": "${$root.days[$index+2]}"
+          }
+        }
       }, {
         "type": "Column",
         "width": "stretch",
@@ -202,7 +229,16 @@
           "horizontalAlignment": "Center",
           "isSubtle": "${if(count($root.days[$index+3].appointments) > 0, false,true)}",
           "weight": "${if(count($root.days[$index+3].appointments) > 0, 'Bolder','Default')}"
-        }]
+        }],
+        "selectAction": {
+          "type": "Action.Submit",
+          "associatedInputs": "none",
+          "$when": "${count($root.days[$index+3].appointments) > 0 }",
+          "data": {
+            "id": "selectDay",
+            "day": "${$root.days[$index+3]}"
+          }
+        }
       }, {
         "type": "Column",
         "width": "stretch",
@@ -214,7 +250,16 @@
           "horizontalAlignment": "Center",
           "isSubtle": "${if(count($root.days[$index+4].appointments) > 0, false,true)}",
           "weight": "${if(count($root.days[$index+4].appointments) > 0, 'Bolder','Default')}"
-        }]
+        }],
+        "selectAction": {
+          "type": "Action.Submit",
+          "associatedInputs": "none",
+          "$when": "${count($root.days[$index+4].appointments) > 0 }",
+          "data": {
+            "id": "selectDay",
+            "day": "${$root.days[$index+4]}"
+          }
+        }
       }, {
         "type": "Column",
         "width": "stretch",
@@ -226,7 +271,16 @@
           "horizontalAlignment": "Center",
           "isSubtle": "${if(count($root.days[$index+5].appointments) > 0, false,true)}",
           "weight": "${if(count($root.days[$index+5].appointments) > 0, 'Bolder','Default')}"
-        }]
+        }],
+        "selectAction": {
+          "type": "Action.Submit",
+          "associatedInputs": "none",
+          "$when": "${count($root.days[$index+5].appointments) > 0 }",
+          "data": {
+            "id": "selectDay",
+            "day": "${$root.days[$index+5]}"
+          }
+        }
       }, {
         "type": "Column",
         "width": "stretch",
@@ -238,10 +292,21 @@
           "horizontalAlignment": "Center",
           "isSubtle": "${if(count($root.days[$index+6].appointments) > 0, false,true)}",
           "weight": "${if(count($root.days[$index+6].appointments) > 0, 'Bolder','Default')}"
-        }]
+        }],
+        "selectAction": {
+          "type": "Action.Submit",
+          "associatedInputs": "none",
+          "$when": "${count($root.days[$index+6].appointments) > 0 }",
+          "data": {
+            "id": "selectDay",
+            "day": "${$root.days[$index+6]}"
+          }
+        }
       }],
-      "style": "default",
-      "spacing": "Large"
+      "style": "${if($root.days[$index].day == $root.selectedSunday.day,'accent','default')}",
+      "height": "${if($root.days[$index].day == $root.selectedSunday.day,'stretch','auto')}",
+      "bleed": "${if($root.days[$index].day == $root.selectedSunday.day,true,false)}",
+      "spacing": "${if($root.days[$index].day == $root.selectedSunday.day,'small','medium')}"
     },
     {
       "type": "Container",
@@ -249,13 +314,15 @@
     },
     {
       "type": "Container",
+      "$when": "${count($root.selectedAppointments) > 0}",
       "items": [{
           "type": "Container",
           "spacing": "Medium"
         },
         {
           "type": "TextBlock",
-          "text": "${count($root.data['oof'])} team members are out of office",
+          "text": "${count(where($root.selectedAppointments, x, x.appointmentType == 'OOO'))} team members are out of office",
+          "$when": "${count(where($root.selectedAppointments, x, x.appointmentType == 'OOO')) > 0}",
           "wrap": true,
           "size": "Medium",
           "weight": "Bolder",
@@ -263,23 +330,39 @@
         },
         {
           "type": "ColumnSet",
-          "$data": "${$root.data['oof']}",
+          "$data": "${where($root.selectedAppointments, x, x.appointmentType == 'OOO')}",
+          "$when": "${count(where($root.selectedAppointments, x, x.appointmentType == 'OOO')) > 0}",
           "columns": [{
               "type": "Column",
               "items": [{
                 "type": "TextBlock",
-                "text": "${when}",
+                "$when": "${formatDateTime(startDate, 'MMM dd') == formatDateTime(endDate, 'MMM dd')}",
+                "text": "${formatDateTime(startDate, 'MMM d')}",
+                "wrap": true,
+                "color": "Default",
+                "isSubtle": false
+              }, {
+                "type": "TextBlock",
+                "$when": "${formatDateTime(startDate, 'MMM dd') != formatDateTime(endDate, 'MMM dd') && formatDateTime(startDate, 'MMM') == formatDateTime(endDate, 'MMM')}",
+                "text": "${formatDateTime(startDate, 'MMM dd')}-${formatDateTime(endDate, 'dd')}",
+                "wrap": true,
+                "color": "Default",
+                "isSubtle": false
+              }, {
+                "type": "TextBlock",
+                "$when": "${formatDateTime(startDate, 'MMM') != formatDateTime(endDate, 'MMM')}",
+                "text": "${formatDateTime(startDate, 'MMM dd')}-${formatDateTime(endDate, 'MMM dd')}",
                 "wrap": true,
                 "color": "Default",
                 "isSubtle": false
               }],
-              "width": "80px"
+              "width": "100px"
             },
             {
               "type": "Column",
               "items": [{
                 "type": "TextBlock",
-                "text": "${who}",
+                "text": "${title}",
                 "wrap": true
               }],
               "width": 100
@@ -293,21 +376,40 @@
         },
         {
           "type": "TextBlock",
-          "text": "${count($root.data['reports'])}  report due",
+          "text": "${count(where($root.selectedAppointments, x, x.appointmentType == 'TASK'))}  tasks due",
+          "$when": "${count(where($root.selectedAppointments, x, x.appointmentType == 'TASK')) > 0}",
           "wrap": true,
           "weight": "Bolder",
           "size": "Medium"
         },
         {
           "type": "ColumnSet",
-          "$data": "${$root.data['reports']}",
+          "$data": "${where($root.selectedAppointments, x, x.appointmentType == 'TASK')}",
+          "$when": "${count(where($root.selectedAppointments, x, x.appointmentType == 'TASK')) > 0}",
           "columns": [{
               "type": "Column",
               "width": "80px",
               "items": [{
                 "type": "TextBlock",
-                "text": "${when}",
-                "wrap": true
+                "$when": "${formatDateTime(startDate, 'MMM dd') == formatDateTime(endDate, 'MMM dd')}",
+                "text": "${formatDateTime(startDate, 'MMM d')}",
+                "wrap": true,
+                "color": "Default",
+                "isSubtle": false
+              }, {
+                "type": "TextBlock",
+                "$when": "${formatDateTime(startDate, 'MMM dd') != formatDateTime(endDate, 'MMM dd') && formatDateTime(startDate, 'MMM') == formatDateTime(endDate, 'MMM')}",
+                "text": "${formatDateTime(startDate, 'MMM dd')}-${formatDateTime(endDate, 'dd')}",
+                "wrap": true,
+                "color": "Default",
+                "isSubtle": false
+              }, {
+                "type": "TextBlock",
+                "$when": "${formatDateTime(startDate, 'MMM') != formatDateTime(endDate, 'MMM')}",
+                "text": "${formatDateTime(startDate, 'MMM dd')}-${formatDateTime(endDate, 'MMM dd')}",
+                "wrap": true,
+                "color": "Default",
+                "isSubtle": false
               }]
             },
             {
@@ -315,7 +417,7 @@
               "width": 100,
               "items": [{
                 "type": "TextBlock",
-                "text": "${what}",
+                "text": "${title}",
                 "wrap": true
               }]
             }
