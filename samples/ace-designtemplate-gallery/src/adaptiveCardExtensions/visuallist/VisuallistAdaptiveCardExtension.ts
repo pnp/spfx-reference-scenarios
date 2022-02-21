@@ -6,27 +6,28 @@ import { QuickView } from './quickView/QuickView';
 import { sp } from "@pnp/sp";
 import { Logger, LogLevel, ConsoleListener } from "@pnp/logging";
 
-import { VaccinationboosterPropertyPane } from './VaccinationboosterPropertyPane';
-import * as strings from 'VaccinationboosterAdaptiveCardExtensionStrings';
+import { VisuallistPropertyPane } from './VisuallistPropertyPane';
 import { dtg } from '../../common/services/designtemplate.service';
+import { Cafeteria } from '../../common/models/designtemplate.models';
+import * as strings from 'VisuallistAdaptiveCardExtensionStrings';
 
-export interface IVaccinationboosterAdaptiveCardExtensionProps {
+export interface IVisuallistAdaptiveCardExtensionProps {
   iconProperty: string;
 }
 
-export interface IVaccinationboosterAdaptiveCardExtensionState {
-
+export interface IVisuallistAdaptiveCardExtensionState {
+  cafeterias: Cafeteria[];
 }
 
-const CARD_VIEW_REGISTRY_ID: string = 'Vaccinationbooster_CARD_VIEW';
-export const QUICK_VIEW_REGISTRY_ID: string = 'Vaccinationbooster_QUICK_VIEW';
+const CARD_VIEW_REGISTRY_ID: string = 'Visuallist_CARD_VIEW';
+export const QUICK_VIEW_REGISTRY_ID: string = 'Visuallist_QUICK_VIEW';
 
-export default class VaccinationboosterAdaptiveCardExtension extends BaseAdaptiveCardExtension<
-  IVaccinationboosterAdaptiveCardExtensionProps,
-  IVaccinationboosterAdaptiveCardExtensionState
+export default class VisuallistAdaptiveCardExtension extends BaseAdaptiveCardExtension<
+  IVisuallistAdaptiveCardExtensionProps,
+  IVisuallistAdaptiveCardExtensionState
 > {
-  private LOG_SOURCE: string = "🔶 Vaccination Booster Adaptive Card Extension";
-  private _deferredPropertyPane: VaccinationboosterPropertyPane | undefined;
+  private LOG_SOURCE: string = "🔶 Visual List Adaptive Card Extension";
+  private _deferredPropertyPane: VisuallistPropertyPane | undefined;
 
   public onInit(): Promise<void> {
     try {
@@ -37,8 +38,15 @@ export default class VaccinationboosterAdaptiveCardExtension extends BaseAdaptiv
       //Initialize PnPJs
       sp.setup({ spfxContext: this.context });
 
+      //Initialize Service
+      dtg.Init();
+
+      //Get data
+      const cafeterias: Cafeteria[] = dtg.GetCafeterias();
+
       //Set the data into state
       this.state = {
+        cafeterias: cafeterias
       };
       //Register the cards
       this.cardNavigator.register(CARD_VIEW_REGISTRY_ID, () => new CardView());
@@ -59,12 +67,12 @@ export default class VaccinationboosterAdaptiveCardExtension extends BaseAdaptiv
 
   protected loadPropertyPaneResources(): Promise<void> {
     return import(
-      /* webpackChunkName: 'Vaccinationbooster-property-pane'*/
-      './VaccinationboosterPropertyPane'
+      /* webpackChunkName: 'Visuallist-property-pane'*/
+      './VisuallistPropertyPane'
     )
       .then(
         (component) => {
-          this._deferredPropertyPane = new component.VaccinationboosterPropertyPane();
+          this._deferredPropertyPane = new component.VisuallistPropertyPane();
         }
       );
   }

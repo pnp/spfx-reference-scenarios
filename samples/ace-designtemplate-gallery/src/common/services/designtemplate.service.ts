@@ -3,7 +3,7 @@ import { Logger, LogLevel } from "@pnp/logging";
 import * as strings from "AceDesignTemplatePersonalAppWebPartStrings";
 import * as eventStrings from "EventscheduleAdaptiveCardExtensionStrings";
 import * as faqStrings from "FaqaccordionAdaptiveCardExtensionStrings";
-import { AppData, BenefitDetails, AppList, EventRegistration, DeepLinkType, InventoryItem, DeepLinkData, Benefits, AccordionList, Event, FAQ, IFAQ, ImageCarousel, InventoryDetail, IInventoryItem, PayPeriod, Payslip, SimpleList, Anniversary, Praise, Day, Appointment, AppointmentType, Holiday, HolidayTimeline, TimeOff, TimeOffRequest, VaccineAppointment } from "../models/designtemplate.models";
+import { AppData, BenefitDetails, AppList, EventRegistration, DeepLinkType, InventoryItem, DeepLinkData, Benefits, AccordionList, Event, FAQ, IFAQ, ImageCarousel, InventoryDetail, IInventoryItem, PayPeriod, Payslip, SimpleList, Anniversary, Praise, Day, Appointment, AppointmentType, Holiday, HolidayTimeline, TimeOff, TimeOffRequest, VaccineAppointment, Cafeteria, Cuisine } from "../models/designtemplate.models";
 
 export interface IDesignTemplateGalleryService {
   Ready: boolean;
@@ -208,6 +208,13 @@ export class DesignTemplateGalleryService implements IDesignTemplateGalleryServi
             const request: VaccineAppointment = subEntityId.message;
             retVal = new DeepLinkData(subEntityId.appName, DeepLinkType.VACCINATIONBOOSTER, request);
           }
+          break;
+        }
+        case AppList.VISUALLIST: {
+          const cafes: Cafeteria[] = this.GetCafeterias();
+          const cafe: Cafeteria = find(cafes, { id: "0" });
+          const link: Cuisine = find(cafe.cuisine, { id: subEntityId.message });
+          retVal = new DeepLinkData(subEntityId.appName, DeepLinkType.TEXT, link.name);
           break;
         }
         default: {
@@ -591,6 +598,30 @@ export class DesignTemplateGalleryService implements IDesignTemplateGalleryServi
     } catch (err) {
       Logger.write(`${this.LOG_SOURCE} (SubmitTimeOffRequest) - ${err.message}`, LogLevel.Error);
     }
+  }
+
+  public GetCafeterias(): Cafeteria[] {
+    let retVal: Cafeteria[] = [];
+    try {
+      //Sample pulls data from mock
+      //To extend pull data from a list of your items
+      retVal = require("../data/visuallist.data.json");
+
+      //We need to manipulate the data for the deep link to Teams.
+      const cafes: Cafeteria[] = cloneDeep(retVal);
+      cafes.map((cafe) => {
+        let cuisine: Cuisine[] = cloneDeep(cafe.cuisine);
+        cuisine.map((item) => {
+          const url = encodeURI(`${this._teamsUrl}?context={"subEntityId":{"appName":"${AppList.VISUALLIST}","linkType":"${DeepLinkType.TEXT}","message":"${item.id}"}}`);
+          item.linkUrl = url;
+        });
+        cafe.cuisine = cuisine;
+      });
+      retVal = cafes;
+    } catch (err) {
+      Logger.write(`${this.LOG_SOURCE} (GetCafeterias) - ${err.message}`, LogLevel.Error);
+    }
+    return retVal;
   }
 }
 

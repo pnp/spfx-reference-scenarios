@@ -548,3 +548,38 @@ export class VaccineAppointment implements IVaccineAppointment {
     public boosterVaccineBrand: string = "",
   ) { }
 }
+
+export interface ICafeteria {
+  id: string;
+  name: string;
+  description: string;
+  cuisine: Cuisine[];
+}
+
+export class Cafeteria implements ICafeteria {
+  constructor(
+    public id: string = "",
+    public name: string = "",
+    public description: string = "",
+    public cuisine: Cuisine[] = []
+
+  ) { }
+}
+
+export interface ICuisine {
+  id: string;
+  name: string;
+  description: string;
+  imageUrl: string;
+  linkUrl: string;
+}
+
+export class Cuisine implements ICuisine {
+  constructor(
+    public id: string = "",
+    public name: string = "",
+    public description: string = "",
+    public imageUrl: string = "",
+    public linkUrl: string = "",
+  ) { }
+}

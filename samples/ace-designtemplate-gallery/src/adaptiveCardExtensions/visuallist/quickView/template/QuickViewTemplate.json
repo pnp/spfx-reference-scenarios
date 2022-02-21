@@ -1,0 +1,489 @@
+{
+  "type": "AdaptiveCard",
+  "body": [{
+      "type": "Container",
+      "bleed": true,
+      "backgroundImage": {
+        "url": "${$root.mainImage}"
+      },
+      "items": [{
+          "type": "Container",
+          "minHeight": "120px"
+        },
+        {
+          "type": "ColumnSet",
+          "columns": [{
+              "type": "Column",
+              "width": "auto",
+              "style": "default",
+              "items": [{
+                  "type": "ColumnSet",
+                  "columns": [{
+                      "type": "Column",
+                      "width": "auto",
+                      "items": [{
+                        "type": "TextBlock",
+                        "text": "${$root.strings.OpenStatus}",
+                        "wrap": true,
+                        "color": "Default",
+                        "weight": "Bolder",
+                        "size": "Small"
+                      }]
+                    },
+                    {
+                      "type": "Column",
+                      "width": "auto",
+                      "items": [{
+                        "type": "TextBlock",
+                        "text": "•",
+                        "wrap": true,
+                        "horizontalAlignment": "Center",
+                        "isSubtle": true
+                      }]
+                    },
+                    {
+                      "type": "Column",
+                      "width": "stretch",
+                      "items": [{
+                        "type": "TextBlock",
+                        "text": "${$root.strings.ClosingInText}",
+                        "wrap": true,
+                        "color": "Attention",
+                        "weight": "Default",
+                        "size": "Small",
+                        "spacing": "Small"
+                      }]
+                    }
+                  ]
+                },
+                {
+                  "type": "TextBlock",
+                  "text": "${$root.selectedCafeteria.name}",
+                  "wrap": true,
+                  "size": "ExtraLarge",
+                  "weight": "Bolder",
+                  "spacing": "Medium"
+                }
+              ]
+            },
+            {
+              "type": "Column",
+              "width": "stretch"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "Container",
+      "style": "default",
+      "bleed": true,
+      "items": [{
+          "type": "Container",
+          "minHeight": "24px",
+          "items": [{
+            "type": "ColumnSet",
+            "columns": [{
+                "type": "Column",
+                "width": "stretch",
+                "items": [{
+                    "type": "TextBlock",
+                    "text": "${$root.strings.MenuHeader}",
+                    "wrap": true,
+                    "weight": "Bolder",
+                    "horizontalAlignment": "Center"
+                  },
+                  {
+                    "type": "Container",
+                    "backgroundImage": {
+                      "url": "${$root.dividerImage}",
+                      "fillMode": "RepeatHorizontally",
+                      "verticalAlignment": "Center"
+                    },
+                    "minHeight": "8px",
+                    "spacing": "None"
+                  }
+                ],
+                "horizontalAlignment": "Center",
+                "minHeight": "44px",
+                "verticalContentAlignment": "Top"
+              },
+              {
+                "type": "Column",
+                "width": "stretch",
+                "items": [{
+                    "type": "TextBlock",
+                    "text": "${$root.strings.InfoHeader}",
+                    "wrap": true,
+                    "horizontalAlignment": "Center",
+                    "weight": "Bolder",
+                    "color": "Accent"
+                  },
+                  {
+                    "type": "Container",
+                    "backgroundImage": {
+                      "url": "${$root.dividerImage}",
+                      "fillMode": "RepeatHorizontally",
+                      "verticalAlignment": "Center"
+                    },
+                    "minHeight": "8px",
+                    "spacing": "None",
+                    "isVisible": false
+                  }
+                ],
+                "selectAction": {
+                  "type": "Action.ToggleVisibility",
+                  "targetElements": [
+                    "tab_info",
+                    "tab_menu"
+                  ]
+                },
+                "id": "show_info",
+                "minHeight": "44px"
+              }
+            ]
+          }],
+          "spacing": "Medium"
+        },
+        {
+          "type": "TextBlock",
+          "text": "${$root.strings.TodaysHeader}",
+          "wrap": true,
+          "size": "Small",
+          "isSubtle": true,
+          "weight": "Bolder",
+          "spacing": "Medium"
+        },
+        {
+          "type": "ColumnSet",
+          "$data": "${where(cuisine, x, x.foodType == 'special')}",
+          "columns": [{
+              "type": "Column",
+              "width": "80px",
+              "minHeight": "80px",
+              "items": [{
+                "type": "Container",
+                "backgroundImage": {
+                  "url": "${imageUrl}",
+                  "horizontalAlignment": "Center",
+                  "verticalAlignment": "Center"
+                },
+                "minHeight": "80px",
+                "horizontalAlignment": "Center",
+                "verticalContentAlignment": "Center"
+              }],
+              "verticalContentAlignment": "Center",
+              "horizontalAlignment": "Left"
+            },
+            {
+              "type": "Column",
+              "width": "auto",
+              "items": [{
+                  "type": "TextBlock",
+                  "text": "${name}",
+                  "wrap": true,
+                  "weight": "Bolder",
+                  "size": "Medium"
+                },
+                {
+                  "type": "TextBlock",
+                  "text": "${description}",
+                  "isSubtle": true,
+                  "wrap": true,
+                  "spacing": "Small",
+                  "maxLines": 2
+                }
+              ],
+              "verticalContentAlignment": "Center"
+            },
+            {
+              "type": "Column",
+              "width": "20px",
+              "items": [{
+                "type": "Image",
+                "url": "${$root.rightArrowImage}",
+                "horizontalAlignment": "Right",
+                "width": "20px",
+                "height": "20px",
+                "selectAction": {
+                  "type": "Action.OpenUrl",
+                  "$when": "${linkUrl != ''}",
+                  "url": "${linkUrl}",
+                  "style": "default"
+                }
+              }],
+              "verticalContentAlignment": "Center"
+            }
+          ],
+          "selectAction": {
+            "type": "Action.OpenUrl",
+            "$when": "${linkUrl != ''}",
+            "url": "${linkUrl}",
+            "style": "default"
+          }
+        },
+        {
+          "type": "TextBlock",
+          "text": "${$root.strings.ResidentHeader}",
+          "wrap": true,
+          "size": "Small",
+          "weight": "Bolder",
+          "isSubtle": true,
+          "spacing": "Medium"
+        },
+        {
+          "type": "ColumnSet",
+          "$data": "${where(cuisine, x, x.foodType == 'standard')}",
+          "columns": [{
+              "type": "Column",
+              "width": "80px",
+              "minHeight": "80px",
+              "items": [{
+                "type": "Container",
+                "backgroundImage": {
+                  "url": "${imageUrl}",
+                  "verticalAlignment": "Center",
+                  "horizontalAlignment": "Center"
+                },
+                "minHeight": "80px",
+                "horizontalAlignment": "Center",
+                "verticalContentAlignment": "Center"
+              }],
+              "verticalContentAlignment": "Center",
+              "horizontalAlignment": "Left"
+            },
+            {
+              "type": "Column",
+              "width": "auto",
+              "items": [{
+                  "type": "TextBlock",
+                  "text": "${name}",
+                  "wrap": true,
+                  "weight": "Bolder",
+                  "size": "Medium"
+                },
+                {
+                  "type": "TextBlock",
+                  "text": "${description}",
+                  "isSubtle": true,
+                  "wrap": true,
+                  "spacing": "Small",
+                  "maxLines": 2
+                }
+              ],
+              "verticalContentAlignment": "Center"
+            },
+            {
+              "type": "Column",
+              "width": "20px",
+              "items": [{
+                "type": "Image",
+                "url": "${$root.rightArrowImage}",
+                "horizontalAlignment": "Right",
+                "width": "20px",
+                "height": "20px",
+                "selectAction": {
+                  "type": "Action.Submit",
+                  "id": "reg_submit_${id}",
+                  "data": {
+                    "id": "${id}"
+                  }
+                }
+              }],
+              "verticalContentAlignment": "Center"
+            }
+          ],
+          "selectAction": {
+            "type": "Action.Submit",
+            "id": "reg_submit_row_${id}",
+            "data": {
+              "id": "${id}"
+            }
+          }
+        }
+      ],
+      "spacing": "Medium",
+      "id": "tab_menu"
+    },
+    {
+      "type": "Container",
+      "items": [{
+          "type": "Container",
+          "minHeight": "24px",
+          "items": [{
+            "type": "ColumnSet",
+            "columns": [{
+                "type": "Column",
+                "width": "stretch",
+                "items": [{
+                    "type": "TextBlock",
+                    "text": "${$root.strings.MenuHeader}",
+                    "wrap": true,
+                    "weight": "Bolder",
+                    "horizontalAlignment": "Center",
+                    "color": "Accent"
+                  },
+                  {
+                    "type": "Container",
+                    "backgroundImage": {
+                      "url": "${$root.dividerImage}",
+                      "fillMode": "RepeatHorizontally",
+                      "verticalAlignment": "Center"
+                    },
+                    "minHeight": "8px",
+                    "spacing": "None",
+                    "isVisible": false
+                  }
+                ],
+                "horizontalAlignment": "Center",
+                "minHeight": "44px",
+                "verticalContentAlignment": "Top",
+                "id": "show_menu",
+                "selectAction": {
+                  "type": "Action.ToggleVisibility",
+                  "targetElements": [
+                    "tab_info",
+                    "tab_menu"
+                  ]
+                }
+              },
+              {
+                "type": "Column",
+                "width": "stretch",
+                "items": [{
+                    "type": "TextBlock",
+                    "text": "${$root.strings.InfoHeader}",
+                    "wrap": true,
+                    "horizontalAlignment": "Center",
+                    "weight": "Bolder",
+                    "color": "Default"
+                  },
+                  {
+                    "type": "Container",
+                    "backgroundImage": {
+                      "url": "${$root.dividerImage}",
+                      "fillMode": "RepeatHorizontally",
+                      "verticalAlignment": "Center"
+                    },
+                    "minHeight": "8px",
+                    "spacing": "None"
+                  }
+                ],
+                "minHeight": "44px",
+                "verticalContentAlignment": "Top"
+              }
+            ]
+          }],
+          "spacing": "Medium"
+        },
+        {
+          "type": "TextBlock",
+          "text": "${$root.strings.StatusHeader}",
+          "wrap": true,
+          "size": "Small",
+          "weight": "Bolder",
+          "isSubtle": true
+        },
+        {
+          "type": "Container",
+          "backgroundImage": {
+            "url": "${$root.statusGraph}"
+          },
+          "minHeight": "200px"
+        },
+        {
+          "type": "TextBlock",
+          "text": "${$root.strings.AboutHeader}",
+          "wrap": true,
+          "spacing": "Medium",
+          "size": "Small",
+          "weight": "Bolder",
+          "isSubtle": true
+        },
+        {
+          "type": "ColumnSet",
+          "columns": [{
+              "type": "Column",
+              "width": "16px",
+              "minHeight": "20px",
+              "backgroundImage": {
+                "url": "${$root.clockIcon}"
+              }
+            },
+            {
+              "type": "Column",
+              "width": "stretch",
+              "verticalContentAlignment": "Center",
+              "items": [{
+                "type": "TextBlock",
+                "text": "${$root.strings.OpenHours}",
+                "wrap": true,
+                "size": "Default",
+                "spacing": "Small"
+              }]
+            }
+          ],
+          "spacing": "Medium"
+        },
+        {
+          "type": "ColumnSet",
+          "columns": [{
+              "type": "Column",
+              "width": "20px",
+              "minHeight": "20px",
+              "backgroundImage": {
+                "url": "${$root.locationIcon}"
+              }
+            },
+            {
+              "type": "Column",
+              "width": "stretch",
+              "items": [{
+                "type": "TextBlock",
+                "text": "${$root.strings.NearestText}",
+                "wrap": true,
+                "spacing": "Small"
+              }],
+              "verticalContentAlignment": "Center"
+            }
+          ],
+          "separator": true,
+          "spacing": "Medium"
+        },
+        {
+          "type": "ColumnSet",
+          "columns": [{
+              "type": "Column",
+              "width": "20px",
+              "minHeight": "20px",
+              "backgroundImage": {
+                "url": "${$root.foodIcon}"
+              }
+            },
+            {
+              "type": "Column",
+              "width": "stretch",
+              "items": [{
+                "type": "TextBlock",
+                "text": "${$root.strings.OtherRestaurantText}",
+                "wrap": true,
+                "spacing": "Small"
+              }],
+              "verticalContentAlignment": "Center"
+            }
+          ],
+          "separator": true,
+          "spacing": "Medium"
+        }
+      ],
+      "id": "tab_info",
+      "isVisible": false,
+      "spacing": "Medium"
+    }
+  ],
+  "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
+  "version": "1.3",
+  "backgroundImage": {
+    "horizontalAlignment": "Center"
+  }
+}
