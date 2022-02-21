@@ -6,11 +6,11 @@ export enum AppList {
   INVENTORY = "Inventory",
   PAYSLIP = "Payslip",
   SIMPLELIST = "Simple List",
-  //TEAMCALENDAR = "Team Calendar",
-  //TIMELINEHOLIDAY = "Timeline/Holiday",
-  //TIMEOFF = "Timeoff",
-  //VACCINATIONBOOSTER = "Vaccination Booster",
-  //VISUALLIST = "Visual List"
+  TEAMCALENDAR = "Team Calendar",
+  TIMELINEHOLIDAY = "Timeline/Holiday",
+  TIMEOFF = "Timeoff",
+  VACCINATIONBOOSTER = "Vaccination Booster",
+  VISUALLIST = "Visual List"
 }
 
 export enum DeepLinkType {
@@ -18,7 +18,8 @@ export enum DeepLinkType {
   EVENTREGISTRATION,
   INVENTORYITEM,
   ANNIVERSARY,
-  PRAISE
+  PRAISE,
+  TIMEOFFREQUEST
 }
 
 export enum CardImageType {
@@ -29,6 +30,12 @@ export enum CardImageType {
 export enum AppointmentType {
   OOO,
   TASK
+}
+
+export enum TimeOffRequestType {
+  SICKTIME,
+  PTO,
+  WELLNESS
 }
 
 export interface IIconType {
@@ -494,5 +501,33 @@ export class Holiday implements IHoliday {
     public holidayWeekend: boolean = false,
     public holidayWeekendFri: string = "",
     public holidayWeekendTue: string = "",
+  ) { }
+}
+
+export interface ITimeOff {
+  sickDays: number;
+  pto: number;
+  wellness: number;
+}
+
+export class TimeOff implements ITimeOff {
+  constructor(
+    public sickDays: number = 0,
+    public pto: number = 0,
+    public wellness: number = 0
+  ) { }
+}
+
+export interface ITimeOffRequest {
+  requestType: TimeOffRequestType;
+  allDay: boolean;
+  date: Date;
+}
+
+export class TimeOffRequest implements ITimeOffRequest {
+  constructor(
+    public requestType: TimeOffRequestType.PTO,
+    public allDay: boolean = true,
+    public date: Date = new Date()
   ) { }
 }

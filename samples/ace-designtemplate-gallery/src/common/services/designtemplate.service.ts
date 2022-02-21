@@ -3,7 +3,7 @@ import { Logger, LogLevel } from "@pnp/logging";
 import * as strings from "AceDesignTemplatePersonalAppWebPartStrings";
 import * as eventStrings from "EventscheduleAdaptiveCardExtensionStrings";
 import * as faqStrings from "FaqaccordionAdaptiveCardExtensionStrings";
-import { AppData, BenefitDetails, AppList, EventRegistration, DeepLinkType, InventoryItem, DeepLinkData, Benefits, AccordionList, Event, FAQ, IFAQ, ImageCarousel, InventoryDetail, IInventoryItem, PayPeriod, Payslip, SimpleList, Anniversary, Praise, Day, Appointment, AppointmentType, Holiday, HolidayTimeline } from "../models/designtemplate.models";
+import { AppData, BenefitDetails, AppList, EventRegistration, DeepLinkType, InventoryItem, DeepLinkData, Benefits, AccordionList, Event, FAQ, IFAQ, ImageCarousel, InventoryDetail, IInventoryItem, PayPeriod, Payslip, SimpleList, Anniversary, Praise, Day, Appointment, AppointmentType, Holiday, HolidayTimeline, TimeOff, TimeOffRequest } from "../models/designtemplate.models";
 
 export interface IDesignTemplateGalleryService {
   Ready: boolean;
@@ -112,6 +112,27 @@ export class DesignTemplateGalleryService implements IDesignTemplateGalleryServi
           retVal.appDescription = strings.SimpleListAppDesc;
           break;
         }
+        case AppList.TEAMCALENDAR: {
+          retVal.appCardImage = require('../images/team-calendar/dashboard-card.png');
+          retVal.appQuickViewImage = require('../images/team-calendar/card.png');
+          retVal.appName = strings.TeamCalendarAppName;
+          retVal.appDescription = strings.TeamCalendarAppDesc;
+          break;
+        }
+        case AppList.TIMELINEHOLIDAY: {
+          retVal.appCardImage = require('../images/timeline-holidays/dashboard-card.png');
+          retVal.appQuickViewImage = require('../images/timeline-holidays/card.png');
+          retVal.appName = strings.TimelineAppName;
+          retVal.appDescription = strings.TimelineAppDesc;
+          break;
+        }
+        case AppList.TIMEOFF: {
+          retVal.appCardImage = require('../images/timeoff/dashboard-card.png');
+          retVal.appQuickViewImage = require('../images/timeoff/card.png');
+          retVal.appName = strings.TimeoffAppName;
+          retVal.appDescription = strings.TimeoffAppDesc;
+          break;
+        }
       }
     } catch (err) {
       Logger.write(`${this.LOG_SOURCE} (GetAllApps) - ${err.message}`, LogLevel.Error);
@@ -158,6 +179,13 @@ export class DesignTemplateGalleryService implements IDesignTemplateGalleryServi
           if (subEntityId.linkType == DeepLinkType.PRAISE) {
             const praise: Praise = find(simpleList.praise, { id: subEntityId.message });
             retVal = new DeepLinkData(subEntityId.appName, DeepLinkType.PRAISE, praise);
+          }
+          break;
+        }
+        case AppList.TIMEOFF: {
+          if (subEntityId.linkType == DeepLinkType.TIMEOFFREQUEST) {
+            const request: TimeOff = subEntityId.message;
+            retVal = new DeepLinkData(subEntityId.appName, DeepLinkType.TIMEOFFREQUEST, request);
           }
           break;
         }
@@ -512,6 +540,27 @@ export class DesignTemplateGalleryService implements IDesignTemplateGalleryServi
       Logger.write(`${this.LOG_SOURCE} (GetHolidayTimeline) - ${err.message}`, LogLevel.Error);
     }
     return retVal;
+  }
+
+  public GetTimeOff(): TimeOff {
+    let retVal: TimeOff = new TimeOff();
+    try {
+      //Sample pulls data from mock
+      //To extend pull data from a list of your items
+      retVal = require("../data/timeoff.data.json");
+    } catch (err) {
+      Logger.write(`${this.LOG_SOURCE} (GetTimeOff) - ${err.message}`, LogLevel.Error);
+    }
+    return retVal;
+  }
+
+  public SubmitTimeOffRequest(request: TimeOffRequest): void {
+    try {
+      const url = encodeURI(`${this._teamsUrl}?context={"subEntityId":{"appName":"${AppList.TIMEOFF}","linkType":"${DeepLinkType.TIMEOFFREQUEST}","message":${JSON.stringify(request)}}}`);
+      window.open(url);
+    } catch (err) {
+      Logger.write(`${this.LOG_SOURCE} (SubmitTimeOffRequest) - ${err.message}`, LogLevel.Error);
+    }
   }
 }
 

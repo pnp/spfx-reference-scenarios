@@ -78,9 +78,17 @@ export default class AppDetails extends React.Component<IAppDetailsProps, IAppDe
               }
               {this.props.deepLink?.deepLinkType == DeepLinkType.PRAISE &&
                 <div className="deepLinkCard">
+                  <div className="introText">{strings.PraiseMessage}</div>
                   <div><img src={this.props.deepLink.message.imageUrl} /></div>
                   <div className="introText">{this.props.deepLink.message.title}</div>
                   <span>{this.props.deepLink.message.comment}</span>
+                </div>
+              }
+              {this.props.deepLink?.deepLinkType == DeepLinkType.TIMEOFFREQUEST &&
+                <div className="deepLinkCard">
+                  <div className="introText">{strings.TimeOffMessage}</div>
+                  <span><span className="linkCardLabel">{`${strings.RequestTypeLabel}: `}</span>{`${this.props.deepLink.message.requestType}`}</span>
+                  <span><span className="linkCardLabel">{`${strings.DateLabel}: `}</span>{`${new Date(this.props.deepLink.message.date).toDateString()}`}</span>
                 </div>
               }
               {this.props.deepLink?.deepLinkType == DeepLinkType.INVENTORYITEM &&
