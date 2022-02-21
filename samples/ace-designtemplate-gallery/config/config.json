@@ -89,6 +89,14 @@
           "manifest": "./src/adaptiveCardExtensions/timeoff/TimeoffAdaptiveCardExtension.manifest.json"
         }
       ]
+    },
+    "vaccinationbooster-adaptive-card-extension": {
+      "components": [
+        {
+          "entrypoint": "./lib/adaptiveCardExtensions/vaccinationbooster/VaccinationboosterAdaptiveCardExtension.js",
+          "manifest": "./src/adaptiveCardExtensions/vaccinationbooster/VaccinationboosterAdaptiveCardExtension.manifest.json"
+        }
+      ]
     }
   },
   "externals": {},
@@ -104,6 +112,7 @@
     "SimplelistAdaptiveCardExtensionStrings": "lib/adaptiveCardExtensions/simplelist/loc/{locale}.js",
     "TeamcalendarAdaptiveCardExtensionStrings": "lib/adaptiveCardExtensions/teamcalendar/loc/{locale}.js",
     "TimelineholidayAdaptiveCardExtensionStrings": "lib/adaptiveCardExtensions/timelineholiday/loc/{locale}.js",
-    "TimeoffAdaptiveCardExtensionStrings": "lib/adaptiveCardExtensions/timeoff/loc/{locale}.js"
+    "TimeoffAdaptiveCardExtensionStrings": "lib/adaptiveCardExtensions/timeoff/loc/{locale}.js",
+    "VaccinationboosterAdaptiveCardExtensionStrings": "lib/adaptiveCardExtensions/vaccinationbooster/loc/{locale}.js"
   }
 }

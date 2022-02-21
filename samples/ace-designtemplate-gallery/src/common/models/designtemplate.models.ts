@@ -19,7 +19,8 @@ export enum DeepLinkType {
   INVENTORYITEM,
   ANNIVERSARY,
   PRAISE,
-  TIMEOFFREQUEST
+  TIMEOFFREQUEST,
+  VACCINATIONBOOSTER
 }
 
 export enum CardImageType {
@@ -529,5 +530,21 @@ export class TimeOffRequest implements ITimeOffRequest {
     public requestType: TimeOffRequestType.PTO,
     public allDay: boolean = true,
     public date: Date = new Date()
+  ) { }
+}
+
+export interface IVaccineAppointment {
+  lastDoseDate: Date;
+  prevVaccineBrand: string;
+  apptDate: Date;
+  boosterVaccineBrand: string;
+}
+
+export class VaccineAppointment implements IVaccineAppointment {
+  constructor(
+    public lastDoseDate: Date = new Date(),
+    public prevVaccineBrand: string = "",
+    public apptDate: Date = new Date(),
+    public boosterVaccineBrand: string = "",
   ) { }
 }

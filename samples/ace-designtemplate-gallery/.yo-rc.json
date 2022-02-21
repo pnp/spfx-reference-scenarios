@@ -9,6 +9,6 @@
     "packageManager": "npm",
     "isDomainIsolated": false,
     "componentType": "adaptiveCardExtension",
-    "aceTemplateType": "PrimaryText"
+    "aceTemplateType": "Image"
   }
 }

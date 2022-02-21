@@ -3,7 +3,7 @@ import { Logger, LogLevel } from "@pnp/logging";
 import * as strings from "AceDesignTemplatePersonalAppWebPartStrings";
 import * as eventStrings from "EventscheduleAdaptiveCardExtensionStrings";
 import * as faqStrings from "FaqaccordionAdaptiveCardExtensionStrings";
-import { AppData, BenefitDetails, AppList, EventRegistration, DeepLinkType, InventoryItem, DeepLinkData, Benefits, AccordionList, Event, FAQ, IFAQ, ImageCarousel, InventoryDetail, IInventoryItem, PayPeriod, Payslip, SimpleList, Anniversary, Praise, Day, Appointment, AppointmentType, Holiday, HolidayTimeline, TimeOff, TimeOffRequest } from "../models/designtemplate.models";
+import { AppData, BenefitDetails, AppList, EventRegistration, DeepLinkType, InventoryItem, DeepLinkData, Benefits, AccordionList, Event, FAQ, IFAQ, ImageCarousel, InventoryDetail, IInventoryItem, PayPeriod, Payslip, SimpleList, Anniversary, Praise, Day, Appointment, AppointmentType, Holiday, HolidayTimeline, TimeOff, TimeOffRequest, VaccineAppointment } from "../models/designtemplate.models";
 
 export interface IDesignTemplateGalleryService {
   Ready: boolean;
@@ -133,6 +133,20 @@ export class DesignTemplateGalleryService implements IDesignTemplateGalleryServi
           retVal.appDescription = strings.TimeoffAppDesc;
           break;
         }
+        case AppList.VACCINATIONBOOSTER: {
+          retVal.appCardImage = require('../images/vaccination-booster/dashboard-card.png');
+          retVal.appQuickViewImage = require('../images/vaccination-booster/card.png');
+          retVal.appName = strings.VaccinationAppName;
+          retVal.appDescription = strings.VaccinationAppDesc;
+          break;
+        }
+        case AppList.VISUALLIST: {
+          retVal.appCardImage = require('../images/visual-list/dashboard-card.png');
+          retVal.appQuickViewImage = require('../images/visual-list/card.png');
+          retVal.appName = strings.VisualListAppName;
+          retVal.appDescription = strings.VisualListAppDesc;
+          break;
+        }
       }
     } catch (err) {
       Logger.write(`${this.LOG_SOURCE} (GetAllApps) - ${err.message}`, LogLevel.Error);
@@ -186,6 +200,13 @@ export class DesignTemplateGalleryService implements IDesignTemplateGalleryServi
           if (subEntityId.linkType == DeepLinkType.TIMEOFFREQUEST) {
             const request: TimeOff = subEntityId.message;
             retVal = new DeepLinkData(subEntityId.appName, DeepLinkType.TIMEOFFREQUEST, request);
+          }
+          break;
+        }
+        case AppList.VACCINATIONBOOSTER: {
+          if (subEntityId.linkType == DeepLinkType.VACCINATIONBOOSTER) {
+            const request: VaccineAppointment = subEntityId.message;
+            retVal = new DeepLinkData(subEntityId.appName, DeepLinkType.VACCINATIONBOOSTER, request);
           }
           break;
         }
@@ -557,6 +578,15 @@ export class DesignTemplateGalleryService implements IDesignTemplateGalleryServi
   public SubmitTimeOffRequest(request: TimeOffRequest): void {
     try {
       const url = encodeURI(`${this._teamsUrl}?context={"subEntityId":{"appName":"${AppList.TIMEOFF}","linkType":"${DeepLinkType.TIMEOFFREQUEST}","message":${JSON.stringify(request)}}}`);
+      window.open(url);
+    } catch (err) {
+      Logger.write(`${this.LOG_SOURCE} (SubmitTimeOffRequest) - ${err.message}`, LogLevel.Error);
+    }
+  }
+
+  public SubmitVaccineAppointment(request: VaccineAppointment): void {
+    try {
+      const url = encodeURI(`${this._teamsUrl}?context={"subEntityId":{"appName":"${AppList.VACCINATIONBOOSTER}","linkType":"${DeepLinkType.VACCINATIONBOOSTER}","message":${JSON.stringify(request)}}}`);
       window.open(url);
     } catch (err) {
       Logger.write(`${this.LOG_SOURCE} (SubmitTimeOffRequest) - ${err.message}`, LogLevel.Error);

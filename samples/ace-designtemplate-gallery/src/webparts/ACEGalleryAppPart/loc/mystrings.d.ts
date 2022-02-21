@@ -24,6 +24,10 @@ declare interface IAceDesignTemplatePersonalAppWebPartStrings {
   TimelineAppDesc: string;
   TimeoffAppName: string;
   TimeoffAppDesc: string;
+  VaccinationAppName: string;
+  VaccinationAppDesc: string;
+  VisualListAppName: string;
+  VisualListAppDesc: string;
   DeepLinkContent: string;
   DeepLinkHeading: string;
   DeepLinkDescription: string;
@@ -31,6 +35,7 @@ declare interface IAceDesignTemplatePersonalAppWebPartStrings {
   AnniversaryMessage: string;
   PraiseMessage: string;
   TimeOffMessage: string;
+  VaccineApptMessage: string;
   CompanyNameLabel: string;
   PhoneLabel: string;
   NameLabel: string;

@@ -91,6 +91,13 @@ export default class AppDetails extends React.Component<IAppDetailsProps, IAppDe
                   <span><span className="linkCardLabel">{`${strings.DateLabel}: `}</span>{`${new Date(this.props.deepLink.message.date).toDateString()}`}</span>
                 </div>
               }
+              {this.props.deepLink?.deepLinkType == DeepLinkType.VACCINATIONBOOSTER &&
+                <div className="deepLinkCard">
+                  <div className="introText">{strings.VaccineApptMessage}</div>
+                  <span><span className="linkCardLabel">{`${strings.RequestTypeLabel}: `}</span>{`${this.props.deepLink.message.boosterVaccineBrand}`}</span>
+                  <span><span className="linkCardLabel">{`${strings.DateLabel}: `}</span>{`${new Date(this.props.deepLink.message.apptDate).toDateString()}`}</span>
+                </div>
+              }
               {this.props.deepLink?.deepLinkType == DeepLinkType.INVENTORYITEM &&
                 <div className="deepLinkCard">
                   <div className="introText">{`${strings.InventoryMessage} ${this.props.deepLink.message.inventoryItem.name}`}</div>
