@@ -91,16 +91,17 @@
                 },
                 {
                   "type": "Container",
+                  "$when": "${holidayWeekend == true}",
                   "items": [{
                       "type": "TextBlock",
-                      "text": "Long weekend opportunity!",
+                      "text": "${$root.strings.LongWeekendHeader}",
                       "wrap": true,
                       "weight": "Bolder",
                       "size": "Small"
                     },
                     {
                       "type": "TextBlock",
-                      "text": "Extend this holiday by taking Friday, January 14 or Tuesday, January 18 off. You have 5 days of paid time off available in 2022.",
+                      "text": "${$root.strings.LongWeekendText} ${formatDateTime(holidayWeekendFri, 'dddd, MMMM dd')} or ${formatDateTime(holidayWeekendTue, 'dddd, MMMM dd')}. ${$root.strings.TimeOffText}",
                       "wrap": true,
                       "size": "Small"
                     },
@@ -116,7 +117,7 @@
                                 "width": "32px",
                                 "items": [{
                                   "type": "Image",
-                                  "url": "https://raw.githubusercontent.com/pnp/AdaptiveCards-Templates/main/samples/timeline-holidays/assets/icn_beach.svg",
+                                  "url": "${$root.timeoffIcon}",
                                   "width": "20px",
                                   "height": "20px"
                                 }]
@@ -127,7 +128,7 @@
                                 "verticalContentAlignment": "Center",
                                 "items": [{
                                   "type": "TextBlock",
-                                  "text": "Time off",
+                                  "text": "${$root.strings.TimeOffLinkText}",
                                   "wrap": true,
                                   "color": "Accent"
                                 }]
@@ -138,7 +139,7 @@
                           "selectAction": {
                             "type": "Action.OpenUrl",
                             "url": "https://www.microsoft.com/en-us/about",
-                            "title": "Time off"
+                            "title": "${$root.strings.TimeOffLinkText}"
                           },
                           "minHeight": "24px",
                           "verticalContentAlignment": "Center"

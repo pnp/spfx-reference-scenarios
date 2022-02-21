@@ -8,6 +8,8 @@ export interface IQuickViewData {
   years: number[];
   today: Date;
   timelineImage: string;
+  timeoffIcon: string;
+  strings: ITimelineholidayAdaptiveCardExtensionStrings;
 }
 
 export class QuickView extends BaseAdaptiveCardView<
@@ -22,7 +24,9 @@ export class QuickView extends BaseAdaptiveCardView<
       holidays: this.state.holidays,
       years: this.state.years,
       today: new Date(),
-      timelineImage: require('../../../common/images/timeline-holidays/timeline_node.svg')
+      timelineImage: require('../../../common/images/timeline-holidays/timeline_node.svg'),
+      timeoffIcon: require('../../../common/images/timeline-holidays/icn_beach.svg'),
+      strings: strings
     };
   }
 

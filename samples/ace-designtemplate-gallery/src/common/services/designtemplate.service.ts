@@ -487,41 +487,29 @@ export class DesignTemplateGalleryService implements IDesignTemplateGalleryServi
   public GetHolidayTimeline(): HolidayTimeline {
     let retVal: HolidayTimeline = new HolidayTimeline();
     try {
-      let years: number[] = [];
-      retVal.holidays = this.GetHolidays();
-      if (retVal.holidays.length > 0) {
-        retVal.nextHoliday = retVal.holidays[0];
-      }
-      retVal.holidays.map((holiday) => {
-        const holidayDate: Date = new Date(holiday.date);
-        if (years.indexOf(holidayDate.getFullYear()) <= -1) {
-          years.push(holidayDate.getFullYear());
-        }
-      });
-      if (years.length > 0) {
-        retVal.years = years;
-      }
-    } catch (err) {
-      Logger.write(`${this.LOG_SOURCE} (GetHolidayTimeline) - ${err.message}`, LogLevel.Error);
-    }
-    return retVal;
-  }
-
-  public GetHolidays(): Holiday[] {
-    let retVal: Holiday[] = [];
-    try {
-      //Sample pulls data from mock
-      //To extend pull data from a list of your items
-      const holidays: Holiday[] = require("../data/timelineholiday.data.json");
       const today: Date = new Date();
+      const holidays: Holiday[] = require("../data/timelineholiday.data.json");
       holidays.map((holiday) => {
         const holidayDate: Date = new Date(holiday.date);
         if (holidayDate.getTime() >= today.getTime()) {
-          retVal.push(holiday);
+          if ((holidayDate.getDay() == 1) && (holidayDate.getFullYear() == today.getFullYear())) {
+            holiday.holidayWeekend = true;
+            let friday: Date = new Date(holidayDate.getFullYear(), holidayDate.getMonth(), holidayDate.getDate() - 3);
+            let tuesday: Date = new Date(holidayDate.getFullYear(), holidayDate.getMonth(), holidayDate.getDate() + 1);
+            holiday.holidayWeekendFri = friday.toISOString();
+            holiday.holidayWeekendTue = tuesday.toISOString();
+          }
+          retVal.holidays.push(holiday);
+          if (retVal.years.indexOf(holidayDate.getFullYear()) <= -1) {
+            retVal.years.push(holidayDate.getFullYear());
+          }
         }
       });
+      if (retVal.holidays.length > 0) {
+        retVal.nextHoliday = retVal.holidays[0];
+      }
     } catch (err) {
-      Logger.write(`${this.LOG_SOURCE} (GetHolidays) - ${err.message}`, LogLevel.Error);
+      Logger.write(`${this.LOG_SOURCE} (GetHolidayTimeline) - ${err.message}`, LogLevel.Error);
     }
     return retVal;
   }

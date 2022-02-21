@@ -479,6 +479,9 @@ export interface IHoliday {
   title: string;
   text: string;
   imageUrl: string;
+  holidayWeekend: boolean;
+  holidayWeekendFri: string;
+  holidayWeekendTue: string;
 
 }
 
@@ -487,6 +490,9 @@ export class Holiday implements IHoliday {
     public date: string = "",
     public title: string = "",
     public text: string = "",
-    public imageUrl: string = ""
+    public imageUrl: string = "",
+    public holidayWeekend: boolean = false,
+    public holidayWeekendFri: string = "",
+    public holidayWeekendTue: string = "",
   ) { }
 }
