@@ -4,6 +4,7 @@ import { Logger, LogLevel } from "@pnp/logging";
 import { AppData, DeepLinkData } from '../../../common/models/designtemplate.models';
 import AppDetails from './organisms/AppDetails';
 import AppList from './organisms/AppList';
+import { IMicrosoftTeams } from '@microsoft/sp-webpart-base';
 
 export interface IACEGalleryPersonalAppProps {
   appData: AppData;

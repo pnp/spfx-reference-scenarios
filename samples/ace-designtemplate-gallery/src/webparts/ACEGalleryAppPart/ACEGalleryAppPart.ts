@@ -10,12 +10,10 @@ import {
   ThemeProvider,
   ThemeChangedEventArgs,
   IReadonlyTheme,
-  ISemanticColors
 } from '@microsoft/sp-component-base';
 import { sp } from "@pnp/sp";
 import { Logger, LogLevel, ConsoleListener } from "@pnp/logging";
 
-import * as strings from 'AceDesignTemplatePersonalAppWebPartStrings';
 import AceDesignTemplatePersonalApp from './components/ACEGalleryPersonalApp';
 import { darkModeTheme, highContrastTheme, lightModeTheme } from '../../common/models/teamsapps.themes';
 import { dtg } from '../../common/services/designtemplate.service';
@@ -158,10 +156,10 @@ export default class ACEGalleryAppPart extends BaseClientSideWebPart<IACEGallery
   public render(): void {
     try {
       let element;
-      if (dtg.Ready) {
-        const props: IACEGalleryAppPartProps = { appData: this._appData, deepLink: this._linkData, appList: this._appList };
-        element = React.createElement(AceDesignTemplatePersonalApp, props);
-      }
+      let teams: IMicrosoftTeams = this._microsoftTeams;
+      const props: IACEGalleryAppPartProps = { appData: this._appData, deepLink: this._linkData, appList: this._appList };
+      element = React.createElement(AceDesignTemplatePersonalApp, props);
+
       this.domElement.classList.add(styles.appPartPage);
       ReactDom.render(element, this.domElement);
     } catch (err) {

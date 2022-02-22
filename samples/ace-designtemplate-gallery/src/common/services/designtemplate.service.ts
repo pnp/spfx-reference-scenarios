@@ -3,10 +3,24 @@ import { Logger, LogLevel } from "@pnp/logging";
 import * as strings from "AceDesignTemplatePersonalAppWebPartStrings";
 import * as eventStrings from "EventscheduleAdaptiveCardExtensionStrings";
 import * as faqStrings from "FaqaccordionAdaptiveCardExtensionStrings";
-import { AppData, BenefitDetails, AppList, EventRegistration, DeepLinkType, InventoryItem, DeepLinkData, Benefits, AccordionList, Event, FAQ, IFAQ, ImageCarousel, InventoryDetail, IInventoryItem, PayPeriod, Payslip, SimpleList, Anniversary, Praise, Day, Appointment, AppointmentType, Holiday, HolidayTimeline, TimeOff, TimeOffRequest, VaccineAppointment, Cafeteria, Cuisine } from "../models/designtemplate.models";
+import {
+  AppData, BenefitDetails,
+  AppList, EventRegistration,
+  DeepLinkType, DeepLinkData,
+  Benefits, AccordionList,
+  Event, ImageCarousel,
+  InventoryDetail, IInventoryItem,
+  PayPeriod, Payslip,
+  SimpleList, Anniversary,
+  Praise, Day,
+  Appointment,
+  Holiday, HolidayTimeline,
+  TimeOff, TimeOffRequest,
+  VaccineAppointment, Cafeteria,
+  Cuisine
+} from "../models/designtemplate.models";
 
 export interface IDesignTemplateGalleryService {
-  Ready: boolean;
   TeamsUrl: string;
   Init(): void;
   GetAllApps: () => AppData[];
@@ -22,26 +36,28 @@ export interface IDesignTemplateGalleryService {
   GetPaySlips: () => Payslip[];
   GetSimpleList(): SimpleList;
   getCalendarDays: (currentDate: Date) => Day[];
+  GetAppointments: (currentDate: Date) => Appointment[];
+  GetThisWeekData: (currentDate: Date) => Appointment[];
+  GetHolidayTimeline: () => HolidayTimeline;
+  GetTimeOff: () => TimeOff;
+  SubmitTimeOffRequest: (request: TimeOffRequest) => void;
+  GetCafeterias: () => Cafeteria[];
 }
 
 export class DesignTemplateGalleryService implements IDesignTemplateGalleryService {
   private LOG_SOURCE: string = "🔶 ACE Design Template Service";
-  private _ready: boolean = false;
   private _teamsUrl: string = "https://teams.microsoft.com/l/entity/58a452d7-f97a-40fb-b146-44f74fadf0dc/com.acedesigntemplate.spfx";
 
   constructor() {
   }
 
-  public get Ready(): boolean {
-    return this._ready;
-  }
   public get TeamsUrl(): string {
     return this._teamsUrl;
   }
 
   public Init() {
     try {
-      this._ready = true;
+      //Add code here to initialize anything you need for your data calls.
     } catch (err) {
       Logger.write(`${this.LOG_SOURCE} (init) - ${err.message}`, LogLevel.Error);
     }
@@ -197,17 +213,13 @@ export class DesignTemplateGalleryService implements IDesignTemplateGalleryServi
           break;
         }
         case AppList.TIMEOFF: {
-          if (subEntityId.linkType == DeepLinkType.TIMEOFFREQUEST) {
-            const request: TimeOff = subEntityId.message;
-            retVal = new DeepLinkData(subEntityId.appName, DeepLinkType.TIMEOFFREQUEST, request);
-          }
+          const request: TimeOff = subEntityId.message;
+          retVal = new DeepLinkData(subEntityId.appName, DeepLinkType.TIMEOFFREQUEST, request);
           break;
         }
         case AppList.VACCINATIONBOOSTER: {
-          if (subEntityId.linkType == DeepLinkType.VACCINATIONBOOSTER) {
-            const request: VaccineAppointment = subEntityId.message;
-            retVal = new DeepLinkData(subEntityId.appName, DeepLinkType.VACCINATIONBOOSTER, request);
-          }
+          const request: VaccineAppointment = subEntityId.message;
+          retVal = new DeepLinkData(subEntityId.appName, DeepLinkType.VACCINATIONBOOSTER, request);
           break;
         }
         case AppList.VISUALLIST: {
@@ -242,7 +254,6 @@ export class DesignTemplateGalleryService implements IDesignTemplateGalleryServi
       details.map((item) => {
         if (item.isTeamsDeepLink) {
           const url = encodeURI(`${this._teamsUrl}?context={"subEntityId":{"appName":"${AppList.BENEFITS}","linkType":"${DeepLinkType.TEXT}","message":"${item.id}"}}`);
-          //const url = " https://teams.microsoft.com/l/entity/58a452d7-f97a-40fb-b146-44f74fadf0dc/0" //encodeURI(`${this._teamsUrl}`); //?context={"subEntityId":{"appName":"${AppList.BENEFITS}","linkType":"${DeepLinkType.TEXT}","message":"${item.id}"}}`);
           item.linkUrl = url;
         }
       });

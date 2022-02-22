@@ -13,23 +13,18 @@
   :global {
     @import 'node_modules/@n8d/htwoo-core/lib/sass/style.prod';
 
-    .hoo-doccard {
-      background-color: var(--white);
-      cursor: pointer;
-
-      .hoo-cardlocation {
-        font-size: 1rem;
-        font-weight: 700;
-      }
-
-      img {
-        max-width: 275px;
-        margin: 1rem auto;
-      }
+    .hoo-button-label {
+      height: auto;
+      min-height: 1.875rem;
     }
 
     .introText {
       @include gridSpan(12);
+      margin: 1.25rem;
+    }
+
+    .appList>article {
+      cursor: pointer;
     }
 
     .hoo-cardgrid,
@@ -50,6 +45,10 @@
 
       .hoo-teamsdbcard {
         @include gridSpan(4);
+
+        img.cardview {
+          max-width: 275px;
+        }
 
         img.quickview {
           max-width: 350px;
