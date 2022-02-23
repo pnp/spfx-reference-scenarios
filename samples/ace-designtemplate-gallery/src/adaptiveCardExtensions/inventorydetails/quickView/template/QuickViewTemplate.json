@@ -7,7 +7,7 @@
     },
     {
       "type": "TextBlock",
-      "text": "${strings.DistributionCenterLabel} #${centerNumber}",
+      "text": "${$root.strings.DistributionCenterLabel} #${$root.centerNumber} ",
       "wrap": true,
       "weight": "Bolder",
       "size": "Large",
@@ -58,7 +58,7 @@
                   "verticalContentAlignment": "Center",
                   "items": [{
                     "type": "TextBlock",
-                    "text": "${if(app.amountAvailableChange > 0, '\\+', '\\-')} ${app.amountAvailableChange}%",
+                    "text": " ${if(app.amountAvailableChange > 0, \"+\", \"-\")}${app.amountAvailableChange}% ",
                     "wrap": true
                   }]
                 }
@@ -108,7 +108,7 @@
                   "width": "stretch",
                   "items": [{
                     "type": "TextBlock",
-                    "text": "${if(app.readyToShipChange > 0, '\\+', '\\-')} ${app.readyToShipChange}%",
+                    "text": " ${if(app.readyToShipChange > 0, \"+\", \"-\")}${app.readyToShipChange}% ",
                     "wrap": true
                   }],
                   "verticalContentAlignment": "Center"
