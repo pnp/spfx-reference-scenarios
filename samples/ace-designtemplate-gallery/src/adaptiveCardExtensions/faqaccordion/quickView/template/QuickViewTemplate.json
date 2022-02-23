@@ -55,11 +55,11 @@
           "type": "Container",
           "selectAction": {
             "type": "Action.ToggleVisibility",
-            "title": "q{$index}",
+            "title": "q${$index}",
             "targetElements": [
-              "a{$index}",
-              "chevron_up{$index}",
-              "chevron_down{$index}"
+              "a${$index}",
+              "chevron_up${$index}",
+              "chevron_down${$index}"
             ]
           },
           "items": [{
@@ -82,16 +82,16 @@
                 "verticalContentAlignment": "Center",
                 "items": [{
                     "type": "Image",
-                    "url": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMgAAADICAYAAACtWK6eAAAABHNCSVQICAgIfAhkiAAAAAlwSFlzAAALEwAACxMBAJqcGAAAApFJREFUeJzt2U1q21AAhdG7iRJCltWBBxnUzc+g2wiFQFbXDJJ1tCHpIJC0A/dRSuMgS896knwOvKm5lviMbSUAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAdnCS5SXKf5PnPuUtyneS44S5o7jTJY5JfW85DklWzddDQlySv2R5HOa9JLhtthCa6xiESDs6ucYiEg9E3DpGweEPjEAmLVSsOkbA4teMQCYuxrzhEwuztOw6RMFtjxSESZmfsOETCbLSKQyRMXus4RMJkTSUOkTA5NeN4TfJS8bVEQlO147hI8ikiYQH2EUchEmZtn3EUImGWxoijEAmzMmYchUiYhRZxFOuIhAlrGUexjkiYoCnEUawjEiZkSnEU64iECagdx3nFbZ8jEhqachyFSGhiDnEUImFUc4qjEAmjmGMchUjYqznHUZyl7nsQCUmWEUchEqpaUhyFSKhiiXEUImGQ2nGcjTu/E5HQyyHEUYiEnRxSHIVI6OQQ4yhEwrsOOY7iPCLhDeL4SyT8Qxz/EwlJktOIY5vakazGnc9QJ0keI4731IzkR5KjceczxE3E0cVF6kXydeTtDHAfcXRVK5LbsYfT33PEsYsakfwcfTW9DQnk0OIohkbyNP5k+rqLOPq4TP9IvjXYS0/XEUdffSO5ajGWfo6TPEQcfe0ayfckH5ospbdVut3kl4jjLV0jeUnysdFGBlpl8xDrvU8+N3c71+8AHGXzEOs2m78in7L5QXkVXwu6cP0AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAGDqfgPbzrc3SQBIEQAAAABJRU5ErkJggg==",
+                    "url": "https://raw.githubusercontent.com/pnp/AdaptiveCards-Templates/main/samples/faq-accordion/assets/ico-up.png",
                     "width": "20px",
                     "height": "20px",
-                    "id": "chevron_up{$index}",
+                    "id": "chevron_up${$index}",
                     "isVisible": "${if($index == 0, true, false)}"
                   },
                   {
                     "type": "Image",
-                    "url": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMgAAADICAYAAACtWK6eAAAABHNCSVQICAgIfAhkiAAAAAlwSFlzAAALEwAACxMBAJqcGAAAAsZJREFUeJzt2U1OFEEAhuHvEsQg3ooFMcR/2aCnICREvBwsQI8BKiwwMC5kYjQMznTXdPXP8yS1ni9VeXszCQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA0AtbSY6TnCe5uT9nSY6SbFbcNRTPknxO8jXJz/vzJcmnJE8r7qKA3SQ/kswWnG9Jdqqt678Xefz+vid5Xm0drewmucvix52fuyR7lTb22X6Wvz8fmYHZyuNfvoce+X2Vpf20bBzzc5nkSZWlNHKc5R9XJH9bNY75OawxlmbOs/oDi6R5HLMkpxX20tBNmj3ylCNpE8csyXX3k2mqTSDzSN51vrqetnHMklx1vprGztLusacUSYk4ZklOuh5Oc0dp/+BTiKRUHLMkBx1vp4XN/P4TUCSL7afM/cySXCTZ6HY+be2k3NfxLsnbbuevVck4bpNsdzufUvYikn+VjGMsdzJpIvlDHDxIJOLgP6YciThYyhQjEQcrmVIk4qCRKUQiDlopHcmbbuc/6kPEQQElI7lNPyIRB0WNKRJxsBZjiEQcrFXpSF53uF0cdGKIkYiDTg0pEnFQxRAiEQdV9TkScdALpSN5VWDTx0J7xEERfYpEHPRSHyIRB71WMxJxMAilI3m5xG+Kg0HpMhJxMEhdRCIOBm2dkYiDUVhHJOJgVEpHIg5Gp2Qk4mCU+hKJOOit2pGIg96rFYk4GIyuIxEHg9NVJOJgsNYdiTgYvHVFIg5Go3Qk4mB0SkUiDkarbSTiYPSaRiIOJmPVSMTB5CwbyW3EwUTtJLnM4jgukmxXWwc98CTJYZLTJNdJrpKcJDlIslFxFwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAMBS/AB3Nt3eVn8OFAAAAAElFTkSuQmCC",
-                    "id": "chevron_down{$index}",
+                    "url": "https://raw.githubusercontent.com/pnp/AdaptiveCards-Templates/main/samples/faq-accordion/assets/ico-down.png",
+                    "id": "chevron_down${$index}",
                     "width": "20px",
                     "height": "20px",
                     "isVisible": "${if($index == 0, false, true)}"
@@ -107,7 +107,7 @@
         },
         {
           "type": "Container",
-          "id": "a{$index}",
+          "id": "a${$index}",
           "isVisible": "${if($index == 0, true, false)}",
           "items": [{
               "type": "ColumnSet",
@@ -120,66 +120,68 @@
                   "width": "stretch",
                   "items": [{
                       "type": "TextBlock",
-                      "text": "${answer} ",
+                      "text": "${answer}",
                       "wrap": true,
                       "spacing": "Padding"
-                    }, {
+                    },
+                    {
                       "type": "Container",
-                      "$when": "${length(icons[0].title) > 0}",
+                      "$when": "${count(icons)>0}",
                       "items": [{
                         "type": "ColumnSet",
                         "$data": "${icons}",
                         "$when": "${mod($index, 2) == 0}",
                         "columns": [{
-                          "type": "Column",
-                          "width": "stretch",
-                          "items": [{
-                              "type": "Image",
-                              "horizontalAlignment": "Center",
-                              "url": "${iconUrl}",
-                              "width": "64px",
-                              "height": "64px"
-                            },
-                            {
-                              "type": "TextBlock",
-                              "text": "${title}",
-                              "wrap": true,
-                              "horizontalAlignment": "Center",
-                              "weight": "Bolder"
+                            "type": "Column",
+                            "width": "stretch",
+                            "items": [{
+                                "type": "Image",
+                                "horizontalAlignment": "Center",
+                                "url": "${iconUrl}",
+                                "width": "64px",
+                                "height": "64px"
+                              },
+                              {
+                                "type": "TextBlock",
+                                "text": "${title}",
+                                "wrap": true,
+                                "horizontalAlignment": "Center",
+                                "weight": "Bolder"
+                              }
+                            ],
+                            "style": "emphasis",
+                            "selectAction": {
+                              "type": "Action.OpenUrl",
+                              "url": "${iconLink}",
+                              "title": "${linkTitle}"
                             }
-                          ],
-                          "style": "emphasis",
-                          "selectAction": {
-                            "type": "Action.OpenUrl",
-                            "url": "${iconLink}",
-                            "title": "${linkTitle}"
-                          }
-                        }, {
-                          "type": "Column",
-
-                          "width": "stretch",
-                          "items": [{
-                              "type": "Image",
-                              "horizontalAlignment": "Center",
-                              "url": "${$root.faqApp.faqs[0].icons[$index+1].iconUrl}",
-                              "width": "64px",
-                              "height": "64px"
-                            },
-                            {
-                              "type": "TextBlock",
-                              "text": "${$root.faqApp.faqs[0].icons[$index+1].title} ",
-                              "wrap": true,
-                              "horizontalAlignment": "Center",
-                              "weight": "Bolder"
+                          },
+                          {
+                            "type": "Column",
+                            "width": "stretch",
+                            "items": [{
+                                "type": "Image",
+                                "url": "${$root.faqApp.faqs[0].icons[$index+1].iconUrl}",
+                                "width": "64px",
+                                "height": "64px",
+                                "horizontalAlignment": "Center"
+                              },
+                              {
+                                "type": "TextBlock",
+                                "text": "${$root.faqApp.faqs[0].icons[$index+1].title} ",
+                                "wrap": true,
+                                "horizontalAlignment": "Center",
+                                "weight": "Bolder"
+                              }
+                            ],
+                            "style": "emphasis",
+                            "selectAction": {
+                              "type": "Action.OpenUrl",
+                              "url": "${$root.faqApp.faqs[0].icons[$index+1].iconLink} ",
+                              "title": "${$root.faqApp.faqs[0].icons[$index+1].linkTitle} "
                             }
-                          ],
-                          "style": "emphasis",
-                          "selectAction": {
-                            "type": "Action.OpenUrl",
-                            "url": "${$root.faqApp.faqs[0].icons[$index+1].iconLink} ",
-                            "title": "${$root.faqApp.faqs[0].icons[$index+1].linkTitle} "
                           }
-                        }],
+                        ],
                         "spacing": "Medium"
                       }]
                     }
@@ -195,8 +197,10 @@
             }
           ]
         }
+
       ]
     },
+
     {
       "type": "Container",
       "spacing": "ExtraLarge",
@@ -208,14 +212,14 @@
           "type": "Container",
           "items": [{
               "type": "TextBlock",
-              "text": "${strings.FormQuestion}",
+              "text": "${$root.strings.FormQuestion}",
               "wrap": true,
               "size": "Medium",
               "weight": "Bolder"
             },
             {
               "type": "Input.Text",
-              "placeholder": "${strings.TextBoxPlaceholder}",
+              "placeholder": "${$root.strings.TextBoxPlaceholder}",
               "value": "${$root.question}",
               "id": "question"
             },
@@ -223,8 +227,8 @@
               "type": "ActionSet",
               "actions": [{
                 "type": "Action.Submit",
-                "title": "${strings.SubmitQuestionButton}",
                 "style": "positive",
+                "title": "${$root.strings.SubmitQuestionButton}",
                 "data": {
                   "id": "submit"
                 }
