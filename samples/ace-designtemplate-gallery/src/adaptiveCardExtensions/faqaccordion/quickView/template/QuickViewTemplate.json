@@ -86,7 +86,7 @@
                     "width": "20px",
                     "height": "20px",
                     "id": "chevron_up{$index}",
-                    "isVisible": "{if($index == 0, true, false)}"
+                    "isVisible": "${if($index == 0, true, false)}"
                   },
                   {
                     "type": "Image",
@@ -94,7 +94,7 @@
                     "id": "chevron_down{$index}",
                     "width": "20px",
                     "height": "20px",
-                    "isVisible": "{if($index == 0, false, true)}"
+                    "isVisible": "${if($index == 0, false, true)}"
                   }
                 ]
               }
@@ -108,7 +108,7 @@
         {
           "type": "Container",
           "id": "a{$index}",
-          "isVisible": "{if($index == 0, true, false)}",
+          "isVisible": "${if($index == 0, true, false)}",
           "items": [{
               "type": "ColumnSet",
               "columns": [{
@@ -129,7 +129,7 @@
                       "items": [{
                         "type": "ColumnSet",
                         "$data": "${icons}",
-                        "$when": "{mod($index, 2) == 0}",
+                        "$when": "${mod($index, 2) == 0}",
                         "columns": [{
                           "type": "Column",
                           "width": "stretch",
@@ -161,7 +161,7 @@
                           "items": [{
                               "type": "Image",
                               "horizontalAlignment": "Center",
-                              "url": "${$root.faqApp.faqs[0].icons[$index+1].iconUrl} ",
+                              "url": "${$root.faqApp.faqs[0].icons[$index+1].iconUrl}",
                               "width": "64px",
                               "height": "64px"
                             },

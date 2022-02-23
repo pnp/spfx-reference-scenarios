@@ -22,13 +22,11 @@ export class QuickView extends BaseAdaptiveCardView<
   private LOG_SOURCE: string = "🔶 Event Schedule Quick View";
 
   public get data(): IQuickViewData {
-    const divider: string = require('../../../common/images/event-schedule/line_pivot_dark.svg');
-
     return {
       event: this.state.eventsApp,
       eventRegistration: this.state.registrationData,
       selectedDay: this.state.selectedDay,
-      dividerline: divider,
+      dividerline: require('../../../common/images/event-schedule/line_pivot_dark.gif'),
       showRegister: this.state.showRegister,
       strings: strings
     };

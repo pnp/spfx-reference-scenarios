@@ -42,19 +42,20 @@
         "columns": [{
           "type": "Column",
           "$data": "${event.days}",
-          "$index": "${id}",
+          "$index": "${$index}",
           "width": "stretch",
           "items": [{
             "type": "TextBlock",
             "text": "${$root.strings.DayLabel} ${id}",
             "wrap": true,
-            "weight": "Bolder",
+            "weight": "${if(id == $root.selectedDay, 'bolder', 'default')}",
+            "color": "${if(id == $root.selectedDay, 'default', 'accent')}",
             "horizontalAlignment": "Center"
           }, {
             "type": "ColumnSet",
             "columns": [{
               "type": "Column",
-              "id": "day_${id}_divider",
+              "id": "day_${$index}_divider",
               "$when": "${id == $root.selectedDay}",
               "width": "stretch",
               "backgroundImage": {
