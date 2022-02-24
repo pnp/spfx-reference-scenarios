@@ -2,11 +2,10 @@ import {
   BasePrimaryTextCardView,
   IPrimaryTextCardParameters,
   IExternalLinkCardAction,
-  IQuickViewCardAction,
-  ICardButton
+  IQuickViewCardAction
 } from '@microsoft/sp-adaptive-card-extension-base';
 import * as strings from 'TeamcalendarAdaptiveCardExtensionStrings';
-import { Appointment, AppointmentType } from '../../../common/models/designtemplate.models';
+import { Appointment } from '../../../common/models/designtemplate.models';
 import { dtg } from '../../../common/services/designtemplate.service';
 import { ITeamcalendarAdaptiveCardExtensionProps, ITeamcalendarAdaptiveCardExtensionState, QUICK_VIEW_REGISTRY_ID } from '../TeamcalendarAdaptiveCardExtension';
 
