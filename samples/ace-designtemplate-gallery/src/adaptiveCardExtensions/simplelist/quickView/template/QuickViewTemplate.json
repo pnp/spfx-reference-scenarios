@@ -105,7 +105,12 @@
         }
       ],
       "separator": true,
-      "spacing": "Medium"
+      "spacing": "Medium",
+      "selectAction": {
+        "type": "Action.OpenUrl",
+        "url": "${linkUrl}",
+        "style": "default"
+      }
     },
     {
       "type": "Container",
