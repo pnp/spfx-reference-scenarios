@@ -1,0 +1,50 @@
+{
+  "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
+  "type": "AdaptiveCard",
+  "version": "1.2",
+  "body": [
+      {
+          "type": "TextBlock",
+          "text": "${title}",
+          "size": "Large",
+          "weight": "Bolder",
+          "wrap": true
+      },
+      {
+          "type": "TextBlock",
+          "text": "${subTitle}",
+          "isSubtle": true,
+          "wrap": true
+      },
+      {
+          "type": "TextBlock",
+          "wrap": true,
+          "text": "Choose your wellbeing day:"
+      },
+      {
+          "type": "Input.Date",
+          "id": "date"
+      },
+      {
+          "type": "TextBlock",
+          "wrap": true,
+          "text": "Additional comments (optional):"
+      },
+      {
+          "type": "Input.Text",
+          "placeholder": "Additional comments",
+          "isMultiline": true,
+          "id": "comments"
+      }
+  ],
+  "actions": [
+      {
+          "type": "Action.Submit",
+          "title": "Schedule",
+          "data": {
+              "id": "schedule"
+          },
+          "style": "positive"
+      }
+  ]
+}

@@ -1,0 +1,30 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/spfx/client-side-web-part-manifest.schema.json",
+  "id": "18098541-9000-4b1d-8a56-9ca20ced1f4a",
+  "alias": "WellbeingRequestsAdaptiveCardExtension",
+  "componentType": "AdaptiveCardExtension",
+
+  // The "*" signifies that the version should be taken from the package.json
+  "version": "*",
+  "manifestVersion": 2,
+
+  // If true, the component can only be installed on sites where Custom Script is allowed.
+  // Components that allow authors to embed arbitrary script code should set this to true.
+  // https://support.office.com/en-us/article/Turn-scripting-capabilities-on-or-off-1f2c515f-5d7e-448a-9fd7-835da935584f
+  "requiresCustomScript": false,
+  "supportedHosts": ["Dashboard", "SharePointWebPart"],
+  "supportsThemeVariants": true,
+  "preconfiguredEntries": [{
+    "groupId": "bd067b1e-3ad5-4d5d-a5fe-505f07d7f59c", // Dashboard
+    "group": { "default": "Dashboard" },
+    "title": { "default": "Wellbeing requests" },
+    "description": { "default": "View pending requests for wellbeing days" },
+    "officeFabricIconFontName": "Flower",
+    "properties": {
+      "title": "Wellbeing requests",
+      "description": "View pending requests for wellbeing days",
+      "iconProperty": "", // Default to sharepointlogo
+      "wellbeingListName": "Wellbeing"
+    }
+  }]
+}

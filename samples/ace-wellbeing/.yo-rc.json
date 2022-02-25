@@ -1,0 +1,14 @@
+{
+  "@microsoft/generator-sharepoint": {
+    "plusBeta": true,
+    "isCreatingSolution": false,
+    "environment": "spo",
+    "version": "1.13.0-beta.20",
+    "libraryName": "m-365-spfx-wellbeing",
+    "libraryId": "517524f6-55b2-4a28-abb2-43444670533a",
+    "packageManager": "npm",
+    "isDomainIsolated": false,
+    "templateType": "Basic",
+    "componentType": "webpart"
+  }
+}

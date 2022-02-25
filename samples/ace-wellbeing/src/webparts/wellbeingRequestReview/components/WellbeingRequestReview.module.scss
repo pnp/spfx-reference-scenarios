@@ -1,0 +1,212 @@
+@import '~office-ui-fabric-react/dist/sass/References.scss';
+
+.wellbeingRequestReview {
+  &.teams {
+    font-family: $ms-font-family-fallbacks;
+  }
+
+  .provider {
+    padding: 1.5em 2em;
+  }
+
+  .container {
+    @include ms-Grid;
+    color: var(--primaryText, #323130); // note: CSS variables support is limited to modern browsers only
+  }
+
+  .row {
+    @include ms-Grid-row;
+    padding-top: 0.5rem;
+  }
+
+  .column {
+    @include ms-Grid-col;
+    @include ms-sm12;
+    @include ms-md8;
+    @include ms-mdOffset2;
+    @include ms-lg8;
+    @include ms-lgOffset2;
+  }
+
+  .welcomeImage {
+    width: 100%;
+    max-width: 420px;
+  }
+
+  .center {
+    text-align: center;
+  }
+
+  .title {
+    @include ms-fontSize-18;
+    @include ms-fontWeight-semibold;
+  }
+
+  .subTitle {
+    @include ms-fontSize-14;
+  }
+
+  .header {
+    @include ms-fontSize-18;
+    @include ms-fontWeight-semibold;
+  }
+
+  .subheader {
+    @include ms-fontSize-14;
+    @include ms-fontWeight-semibold;
+  }
+
+  .content {
+    @include ms-fontSize-14;
+  }
+
+  .link {
+    color: var(--linkText, #03787c); // note: CSS variables support is limited to modern browsers only
+  }
+
+  .description {
+    @include ms-fontWeight-bold;
+    @include ms-fontSize-14;
+  }
+
+  .agendaTitle {
+    margin-bottom: 10px;
+    display: flex;
+  }
+
+  .avatar mgt-person {
+    --avatar-size: 64px;
+  }
+
+  
+
+  div[slot=wellbeing] .root {
+    border: 1px solid;
+    background: "[theme:themeLighterAlt, default:#e5f2f3]";
+    border-color: "[theme:themeSecondary, default:#307176]";
+    color: "[theme:themeDarker, default:#000000]";
+    margin-left: -1px;
+  }
+  
+  .root {
+    display: flex;
+    min-height: 75px;
+    background: white;
+
+    .timeContainer {
+      width: 150px;
+      margin-top: 17px;
+      padding: 0 5px;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+    }
+
+    .date {
+      font-size: 13px;
+      font-weight: bold;
+    }
+
+    .time {
+      display: inline;
+      font-size: 12px;
+    }
+
+    .location {
+      font-size: 12px;
+    }
+
+    .details {
+      margin-bottom: 20px;
+      margin-top: 5px;
+      font-size: 18px;
+      min-width: 180px;
+      padding-left: 5px;
+      width: 400px;
+    }
+
+    .separator {
+      width: 40px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      opacity: 1;
+    }
+
+    .verticalLine {
+      align-content: center;
+      width: 4px;
+      background-color: "[theme:themeLight, default:#e5f2f3]";
+    }
+
+    .verticalLine.top {
+      height: 16px;
+    }
+
+    .verticalLine.bottom {
+      flex: 1;
+    }
+
+    .circle {
+      border: 2px solid;
+    }
+
+    .circle {
+      border-radius: 50%;
+      height: 20px;
+      width: 20px;
+      position: relative;
+      border-color: "[theme:themeLight, default:#e5f2f3]";
+    }
+
+    .circle .innerCircle {
+      position: absolute;
+      background-color: "[theme:themeSecondary, default:#307176]";
+      border-radius: 50%;
+      height: 8px;
+      width: 8px;
+
+      top: 50%;
+      left: 50%;
+      margin: -4px 0 0 -4px;
+    }
+
+    .onlineMeeting {
+      font-size: 10px;
+      margin-top: 8px;
+    }
+
+    .onlineMeetingIcon {
+      max-width: 16px;
+      vertical-align: middle;
+    }
+
+    .onlineMeetingLink {
+      text-decoration: none;
+      color: #3063b2;
+    }
+
+    .attendees {
+      margin-top: 8px;
+    }
+
+    .attendee {
+      display: inline-block;
+    }
+
+    mgt-agenda {
+      margin: 20px 0;
+    }
+
+    mgt-person {
+      --avatar-size-s: 16px;
+      margin-right: 4px;
+      display: inline-block;
+    }
+  }
+
+  mgt-file-list {
+    --file-list-box-shadow: none;
+    --file-list-border: 1px solid rgb(237, 235, 233);
+  }
+}
