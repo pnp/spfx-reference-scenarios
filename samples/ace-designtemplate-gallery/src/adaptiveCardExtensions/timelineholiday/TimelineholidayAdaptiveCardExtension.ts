@@ -17,7 +17,7 @@ export interface ITimelineholidayAdaptiveCardExtensionProps {
 
 export interface ITimelineholidayAdaptiveCardExtensionState {
   holidays: Holiday[];
-  years: number[];
+  years: string[];
   nextHoliday: Holiday;
 }
 

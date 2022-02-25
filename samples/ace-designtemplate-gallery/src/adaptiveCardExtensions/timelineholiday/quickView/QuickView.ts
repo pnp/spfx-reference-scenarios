@@ -5,8 +5,8 @@ import { ITimelineholidayAdaptiveCardExtensionProps, ITimelineholidayAdaptiveCar
 
 export interface IQuickViewData {
   holidays: Holiday[];
-  years: number[];
-  today: Date;
+  years: string[];
+  today: string;
   timelineImage: string;
   timeoffIcon: string;
   strings: ITimelineholidayAdaptiveCardExtensionStrings;
@@ -23,7 +23,7 @@ export class QuickView extends BaseAdaptiveCardView<
     return {
       holidays: this.state.holidays,
       years: this.state.years,
-      today: new Date(),
+      today: new Date().toUTCString(),
       timelineImage: require('../../../common/images/timeline-holidays/timeline_node.svg'),
       timeoffIcon: require('../../../common/images/timeline-holidays/icn_beach.svg'),
       strings: strings

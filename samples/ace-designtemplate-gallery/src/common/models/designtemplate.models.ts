@@ -471,14 +471,14 @@ export class Appointment implements IAppointment {
 export interface IHolidayTimeline {
   holidays: Holiday[];
   nextHoliday: Holiday;
-  years: number[];
+  years: string[];
 }
 
 export class HolidayTimeline implements IHolidayTimeline {
   constructor(
     public holidays: Holiday[] = [],
     public nextHoliday: Holiday = new Holiday(),
-    public years: number[] = []
+    public years: string[] = []
   ) { }
 }
 

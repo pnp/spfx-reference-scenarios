@@ -567,8 +567,8 @@ export class DesignTemplateGalleryService implements IDesignTemplateGalleryServi
             holiday.holidayWeekendTue = tuesday.toISOString();
           }
           retVal.holidays.push(holiday);
-          if (retVal.years.indexOf(holidayDate.getFullYear()) <= -1) {
-            retVal.years.push(holidayDate.getFullYear());
+          if (retVal.years.indexOf(`${holidayDate.getFullYear()}-01-01`) <= -1) {
+            retVal.years.push(`${holidayDate.getFullYear()}-01-01`);
           }
         }
       });
