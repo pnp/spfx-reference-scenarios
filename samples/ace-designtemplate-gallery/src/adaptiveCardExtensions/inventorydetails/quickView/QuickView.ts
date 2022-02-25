@@ -25,7 +25,7 @@ export class QuickView extends BaseAdaptiveCardView<
     formattedDate = formattedDate.slice(0, formattedDate.length - 5);
     formattedDate = formattedDate + "Z";
     let distCtrNumber = this.properties.distributionCenterNumber;
-    if (distCtrNumber.length <= 0) {
+    if (!distCtrNumber) {
       distCtrNumber = "1";
     }
     return {

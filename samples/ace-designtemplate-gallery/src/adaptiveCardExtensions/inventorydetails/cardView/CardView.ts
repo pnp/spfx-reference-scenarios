@@ -2,13 +2,13 @@ import {
   BasePrimaryTextCardView,
   IPrimaryTextCardParameters,
   IExternalLinkCardAction,
-  IQuickViewCardAction,
-  ICardButton
+  IQuickViewCardAction
 } from '@microsoft/sp-adaptive-card-extension-base';
 import * as strings from 'InventorydetailsAdaptiveCardExtensionStrings';
 import { IInventorydetailsAdaptiveCardExtensionProps, IInventorydetailsAdaptiveCardExtensionState, QUICK_VIEW_REGISTRY_ID } from '../InventorydetailsAdaptiveCardExtension';
 
 export class CardView extends BasePrimaryTextCardView<IInventorydetailsAdaptiveCardExtensionProps, IInventorydetailsAdaptiveCardExtensionState> {
+
 
   public get data(): IPrimaryTextCardParameters {
     return {
