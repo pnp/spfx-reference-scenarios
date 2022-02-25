@@ -30,7 +30,7 @@ export class QuickView extends BaseAdaptiveCardView<
       sickTimeIcon: require('../../../common/images/timeoff/icn_medical.svg'),
       ptoIcon: require('../../../common/images/timeoff/icn_beach.svg'),
       wellnessIcon: require('../../../common/images/timeoff/icn_leaves_two.svg'),
-      today: `${today.getFullYear() - today.getMonth() - today.getDate()}`,
+      today: `${today.getFullYear()}-0${today.getUTCMonth() + 1}-${today.getDate()}`,
       strings: strings
     };
   }

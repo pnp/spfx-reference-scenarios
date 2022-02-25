@@ -23,9 +23,10 @@ export class CardView extends BaseImageCardView<ITimelineholidayAdaptiveCardExte
     }
 
     const nextHolidayDate: Date = new Date(this.state.nextHoliday.date);
+    const cardText = `${this.state.nextHoliday.title}\n\n${Intl.DateTimeFormat(this.context.pageContext.cultureInfo.currentUICultureName, { weekday: undefined, year: undefined, month: 'long', day: 'numeric' }).format(nextHolidayDate)}`;
 
     return {
-      primaryText: `${this.state.nextHoliday.title}\n\n${Intl.DateTimeFormat(this.context.pageContext.cultureInfo.currentUICultureName, { weekday: undefined, year: undefined, month: 'long', day: 'numeric' }).format(nextHolidayDate)}`,
+      primaryText: cardText,
       imageUrl: imageUrl
     };
   }

@@ -24,7 +24,7 @@ export class QuickView extends BaseAdaptiveCardView<
   public get data(): IQuickViewData {
     return {
       mainImage: require('../../../common/images/visual-list/cafe.jpg'),
-      dividerImage: require('../../../common/images/visual-list/line_pivot_dark.svg'),
+      dividerImage: require('../../../common/images/visual-list/line_pivot_dark.gif'),
       rightArrowImage: require('../../../common/images/visual-list/arrow-right.png'),
       statusGraph: require('../../../common/images/visual-list/graph.gif'),
       clockIcon: require('../../../common/images/visual-list/icn_hours.svg'),
