@@ -84,7 +84,7 @@
               "width": "stretch",
               "items": [{
                 "type": "TextBlock",
-                "text": "${strings.Earnings}",
+                "text": "${strings.EarningsLabel}",
                 "wrap": true,
                 "spacing": "ExtraLarge",
                 "weight": "Bolder"

@@ -46,7 +46,7 @@ export interface IDesignTemplateGalleryService {
 
 export class DesignTemplateGalleryService implements IDesignTemplateGalleryService {
   private LOG_SOURCE: string = "🔶 ACE Design Template Service";
-  private _teamsUrl: string = "https://teams.microsoft.com/l/entity/58a452d7-f97a-40fb-b146-44f74fadf0dc/com.acedesigntemplate.spfx";
+  private _teamsUrl: string = "https://teams.microsoft.com/l/entity/4a007f51-abb1-4d3a-b753-7c84404936b2/com.acedesigntemplate.spfx";
 
   constructor() {
   }
