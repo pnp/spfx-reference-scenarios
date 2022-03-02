@@ -62,6 +62,70 @@ A default solution (sppkg) file for this sample exists in the [deployment](./dep
 
 1. Assuming you received no errors while the solution during the Teams sync, you should now be able to add it into your Teams App Bar as a personal tab. You may want to consider adding the app as a custom pinned site based on the Teams setup policies, you can learn more about doing so by visiting [Manage app setup policies in Microsoft Teams](https://docs.microsoft.com/en-us/MicrosoftTeams/teams-app-setup-policies). Further, for more information on changing the permissions on who has access to the app, you can read more [View app permissions and grant admin consent in the Microsoft Teams admin center](https://docs.microsoft.com/en-us/microsoftteams/app-permissions-admin-center).
 
+## Features
+
+Based on the samples provided by the [Adaptive Card Templates](https://github.com/pnp/AdaptiveCards-Templates), these samples help demonstrate the functionality of the Adaptive Card extensions and designed QuickViews. The solution contains the following examples:
+
+- Benefits
+Highlights details of information with click through links into the Teams Personal App.
+
+![Benefits](./assets/benefits.gif)
+
+- Events
+Showcases an event timeline with multiple days. Shows how to create tabs with listings of information. Registration form with deep link into teams.
+
+![Events](./assets/eventschedule.gif)
+
+- FAQ Accordion
+FAQ style layout with accordions show and hide capability. Submitting a question deep links to Teams Personal App.
+
+![FAQ Accordion](./assets/faq.gif)
+
+- Image Carousel
+Image carousel with dynamic images shows spacing for product specifications. Shows data binding and image rendering.
+
+![Image Carousel](./assets/imagecarousel.gif)
+
+- Inventory Details
+Provides list of inventory data as well as conditional formatting based on data values. Deep links into Teams Personal App
+
+![Inventory Details](./assets/inventory.gif)
+
+- Payslip
+Show payslip information for salary and tax information. highlights how to create dynamic date ranges and navigation buttons to update ranges.
+
+![Payslip](./assets/payslip.gif)
+
+- Praise
+Image card showing different ways to lay out list data. In this example we use an image of people as well as deep linking into Teams Personal App.
+
+![Praise](./assets/praise.gif)
+
+- Team Calendar
+Shows time off and items due for a team. Dynamically created calendar with month to month paging.
+
+![Team Calendar](./assets/teamcalendar.gif)
+
+- Holiday Timeline
+Shows US holiday data in a vertical pattern with imagery.
+
+![Holiday Timeline](./assets/holiday.gif)
+
+- Vacation/Time-off
+Shows employees the amount of time off they have in a given period and a form to allow for scheduling of time off requests. Submitting the form links to Teams Personal App.
+
+![Vacation/Time-Off](./assets/timeoff.gif)
+
+- Vaccination Booster Schedule
+Allows users to schedule vaccine or booster appointments. Provides information around booster shots and a form to facilitate scheduling. Submitting the form links to the Teams Personal App.
+
+![Vaccination/Booster Schedule](./assets/vaccine.gif)
+
+- Visual List
+Cafeteria menu showcasing how to layout data visually with images. Provides tabbed interface. Shows how to work with a single array of data and split the array based on different attributes.
+
+![Visual List](./assets/acafe.gif)
+
 ## References
 
 - [Extend Microsoft Viva Connections Learn Path](https://aka.ms/m365/dev/learn/connections)
