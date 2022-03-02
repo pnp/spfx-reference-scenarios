@@ -41,7 +41,7 @@ Version|Date|Comments
 
 ## Minimal Path to Awesome
 
-### Deploy Default Build
+### Deploy
 
 A default solution (sppkg) file for this sample exists in the [deployment](./deployment) folder. This sppkg will need to be deployed in the tenants site collection app catalog with the `Make this solution available to all sites in teh organization` option selected. By doing so the solution will be available in every site collection in the tenant, however since the solution has not been enabled for SharePoint deployment it will not be seen anywhere in the SharePoint user interface. Instead, the Teams manifest that is included in the package will be deployed which creates a Personal App that can then be pinned to the left rail in Teams and, if desired, audience targeted to specific user groups using the [Manage app setup policies in Microsoft Teams](https://docs.microsoft.com/en-us/MicrosoftTeams/teams-app-setup-policies).
 
@@ -66,62 +66,74 @@ A default solution (sppkg) file for this sample exists in the [deployment](./dep
 
 Based on the samples provided by the [Adaptive Card Templates](https://github.com/pnp/AdaptiveCards-Templates), these samples help demonstrate the functionality of the Adaptive Card extensions and designed QuickViews. The solution contains the following examples:
 
-- Benefits
+### Benefits
+
 Highlights details of information with click through links into the Teams Personal App.
 
 ![Benefits](./assets/benefits.gif)
 
-- Events
+### Events
+
 Showcases an event timeline with multiple days. Shows how to create tabs with listings of information. Registration form with deep link into teams.
 
 ![Events](./assets/eventschedule.gif)
 
-- FAQ Accordion
+### FAQ Accordion
+
 FAQ style layout with accordions show and hide capability. Submitting a question deep links to Teams Personal App.
 
 ![FAQ Accordion](./assets/faq.gif)
 
-- Image Carousel
+### Image Carousel
+
 Image carousel with dynamic images shows spacing for product specifications. Shows data binding and image rendering.
 
 ![Image Carousel](./assets/imagecarousel.gif)
 
-- Inventory Details
+### Inventory Details
+
 Provides list of inventory data as well as conditional formatting based on data values. Deep links into Teams Personal App
 
 ![Inventory Details](./assets/inventory.gif)
 
-- Payslip
+### Payslip
+
 Show payslip information for salary and tax information. highlights how to create dynamic date ranges and navigation buttons to update ranges.
 
 ![Payslip](./assets/payslip.gif)
 
-- Praise
+### Praise
+
 Image card showing different ways to lay out list data. In this example we use an image of people as well as deep linking into Teams Personal App.
 
 ![Praise](./assets/praise.gif)
 
-- Team Calendar
+### Team Calendar
+
 Shows time off and items due for a team. Dynamically created calendar with month to month paging.
 
 ![Team Calendar](./assets/teamcalendar.gif)
 
-- Holiday Timeline
+### Holiday Timeline
+
 Shows US holiday data in a vertical pattern with imagery.
 
 ![Holiday Timeline](./assets/holiday.gif)
 
-- Vacation/Time-off
+### Vacation/Time-off
+
 Shows employees the amount of time off they have in a given period and a form to allow for scheduling of time off requests. Submitting the form links to Teams Personal App.
 
 ![Vacation/Time-Off](./assets/timeoff.gif)
 
-- Vaccination Booster Schedule
+### Vaccination Booster Schedule
+
 Allows users to schedule vaccine or booster appointments. Provides information around booster shots and a form to facilitate scheduling. Submitting the form links to the Teams Personal App.
 
 ![Vaccination/Booster Schedule](./assets/vaccine.gif)
 
-- Visual List
+### Visual List
+
 Cafeteria menu showcasing how to layout data visually with images. Provides tabbed interface. Shows how to work with a single array of data and split the array based on different attributes.
 
 ![Visual List](./assets/acafe.gif)
