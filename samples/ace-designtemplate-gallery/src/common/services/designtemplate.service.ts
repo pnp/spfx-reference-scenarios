@@ -540,7 +540,7 @@ export class DesignTemplateGalleryService implements IDesignTemplateGalleryServi
       allAppointments.map((appt) => {
         const apptStartDate: Date = new Date(appt.startDate);
         const apptEndDate: Date = new Date(appt.endDate);
-        if ((apptStartDate.getTime() >= sunday.getTime() && apptStartDate.getTime() <= friday.getTime()) || (apptEndDate.getTime() >= sunday.getTime() && apptEndDate.getTime() <= friday.getTime())) {
+        if ((apptStartDate.getTime() >= sunday.getTime() && apptStartDate.getTime() <= friday.getTime()) || (apptEndDate.getTime() >= sunday.getTime() && apptEndDate.getTime() <= friday.getTime()) || (apptStartDate.getTime() <= sunday.getTime() && apptEndDate.getTime() >= friday.getTime())) {
           retVal.push(appt);
         }
       });
