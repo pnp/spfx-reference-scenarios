@@ -136,7 +136,7 @@ Allows users to schedule vaccine or booster appointments. Provides information a
 
 Cafeteria menu showcasing how to layout data visually with images. Provides tabbed interface. Shows how to work with a single array of data and split the array based on different attributes.
 
-![Visual List](./assets/acafe.gif)
+![Visual List](./assets/cafe.gif)
 
 ## References
 
