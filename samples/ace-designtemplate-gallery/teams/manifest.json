@@ -1,7 +1,7 @@
 {
   "$schema": "https://developer.microsoft.com/en-us/json-schemas/teams/v1.9/MicrosoftTeams.schema.json",
   "manifestVersion": "1.9",
-  "version": "1.0.0",
+  "version": "1.0.3",
   "id": "4a007f51-abb1-4d3a-b753-7c84404936b2",
   "packageName": "ACEDesignTemplates",
   "developer": {
@@ -26,7 +26,7 @@
   "accentColor": "#F9F9FA",
   "staticTabs": [{
       "entityId": "com.acedesigntemplate.spfx",
-      "name": "ACE Design Templates",
+      "name": "Design Templates",
       "contentUrl": "https://{teamSiteDomain}/_layouts/15/TeamsLogon.aspx?SPFX=true&dest=/_layouts/15/teamshostedapp.aspx%3Fteams%26personal%26componentId=4a007f51-abb1-4d3a-b753-7c84404936b2%26forceLocale={locale}",
       "scopes": [
         "personal"

@@ -7,11 +7,10 @@ import { BenefitsPropertyPane } from './BenefitsPropertyPane';
 import { Logger, LogLevel, ConsoleListener } from "@pnp/logging";
 import { sp } from "@pnp/sp";
 import { dtg } from '../../common/services/designtemplate.service';
-import { App, Benefits } from '../../common/models/designtemplate.models';
+import { Benefits } from '../../common/models/designtemplate.models';
+import * as strings from 'BenefitsAdaptiveCardExtensionStrings';
 
 export interface IBenefitsAdaptiveCardExtensionProps {
-  title: string;
-  description: string;
   iconProperty: string;
 }
 
@@ -38,14 +37,18 @@ export default class BenefitsAdaptiveCardExtension extends BaseAdaptiveCardExten
       //Initialize PnPJs
       sp.setup({ spfxContext: this.context });
 
+      //Initialize Service
       dtg.Init();
 
-      const benefitsApp: App = dtg.GetBenefits();
+      //Get the data for the app
+      const benefitsApp: Benefits = dtg.GetBenefits();
 
+      //Set the data into state
       this.state = {
-        benefits: benefitsApp.cardData
+        benefits: benefitsApp
       };
 
+      //Regsiter the cards
       this.cardNavigator.register(CARD_VIEW_REGISTRY_ID, () => new CardView());
       this.quickViewNavigator.register(QUICK_VIEW_REGISTRY_ID, () => new QuickView());
     } catch (err) {
@@ -55,7 +58,7 @@ export default class BenefitsAdaptiveCardExtension extends BaseAdaptiveCardExten
   }
 
   public get title(): string {
-    return this.properties.title;
+    return strings.Title;
   }
 
   protected get iconProperty(): string {

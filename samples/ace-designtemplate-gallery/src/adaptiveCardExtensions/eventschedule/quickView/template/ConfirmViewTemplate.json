@@ -1,0 +1,177 @@
+{
+  "type": "AdaptiveCard",
+  "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
+  "version": "1.3",
+  "body": [{
+      "type": "Container",
+      "backgroundImage": {
+        "url": "${event.mainImage}",
+        "horizontalAlignment": "Center",
+        "verticalAlignment": "Center"
+      },
+      "bleed": true,
+      "height": "stretch",
+      "minHeight": "240px",
+      "horizontalAlignment": "Center",
+      "spacing": "None"
+    },
+    {
+      "type": "TextBlock",
+      "text": "${event.imageCaption}",
+      "wrap": true,
+      "size": "Small",
+      "isSubtle": true
+    },
+    {
+      "type": "TextBlock",
+      "text": "${$root.strings.ConfirmFormDescription}",
+      "wrap": true
+    },
+    {
+      "type": "Container",
+      "items": [{
+        "type": "ColumnSet",
+        "columns": [{
+          "type": "Column",
+          "width": "stretch",
+          "items": [{
+            "type": "TextBlock",
+            "text": "${$root.strings.ConfirmFormHeading}",
+            "wrap": true,
+            "weight": "Bolder",
+            "horizontalAlignment": "left"
+          }, {
+            "type": "ColumnSet",
+            "columns": [{
+              "type": "Column",
+              "id": "day_${id}_divider",
+              "width": "stretch",
+              "backgroundImage": {
+                "url": "${$root.dividerline}",
+                "fillMode": "RepeatHorizontally",
+                "verticalAlignment": "Center"
+              },
+              "minHeight": "3px",
+              "style": "default"
+            }],
+            "spacing": "None"
+          }]
+        }, {
+          "type": "Column",
+          "width": "stretch",
+          "items": [{
+            "type": "TextBlock",
+            "wrap": true,
+            "weight": "Bolder",
+            "horizontalAlignment": "Center"
+          }, {
+            "type": "ColumnSet",
+            "columns": [{
+              "type": "Column",
+              "width": "stretch",
+              "minHeight": "3px",
+              "backgroundImage": {
+                "fillMode": "RepeatHorizontally",
+                "verticalAlignment": "Center"
+              }
+            }],
+            "spacing": "None"
+          }]
+        }]
+      }],
+      "spacing": "Large"
+    },
+    {
+      "type": "Container",
+      "items": [{
+        "type": "ColumnSet",
+        "columns": [{
+            "type": "Column",
+            "width": 25,
+            "items": [{
+              "type": "TextBlock",
+              "text": "${$root.strings.NameLabel}: ",
+              "wrap": true,
+              "size": "Small"
+            }]
+          },
+          {
+            "type": "Column",
+            "width": 65,
+            "items": [{
+              "type": "TextBlock",
+              "text": "${eventRegistration.firstName} ${eventRegistration.lastName} ",
+              "wrap": true,
+              "size": "Default"
+            }]
+          }
+        ]
+      }, {
+        "type": "ColumnSet",
+        "columns": [{
+            "type": "Column",
+            "width": 25,
+            "items": [{
+              "type": "TextBlock",
+              "text": "${$root.strings.CompanyNameLabel}: ",
+              "wrap": true,
+              "size": "Small"
+            }]
+          },
+          {
+            "type": "Column",
+            "width": 65,
+            "items": [{
+              "type": "TextBlock",
+              "text": "${eventRegistration.company}",
+              "wrap": true,
+              "size": "Default"
+            }]
+          }
+        ]
+      }, {
+        "type": "ColumnSet",
+        "columns": [{
+            "type": "Column",
+            "width": 25,
+            "items": [{
+              "type": "TextBlock",
+              "text": "${$root.strings.PhoneLabel}: ",
+              "wrap": true,
+              "size": "Small"
+            }]
+          },
+          {
+            "type": "Column",
+            "width": 65,
+            "items": [{
+              "type": "TextBlock",
+              "text": "${eventRegistration.phone}",
+              "wrap": true,
+              "size": "Default"
+            }]
+          }
+        ]
+      }],
+      "spacing": "Medium"
+    },
+    {
+      "type": "ActionSet",
+      "actions": [{
+        "type": "Action.OpenUrl",
+        "title": "${$root.strings.SubmitRegistrationButtonText}",
+        "style": "positive",
+        "url": "${confirmLink}"
+      }, {
+        "type": "Action.Submit",
+        "title": "${$root.strings.CancelButtonText}",
+        "style": "negative",
+        "associatedInputs": "none",
+        "data": {
+          "id": "cancel"
+        }
+      }],
+      "spacing": "ExtraLarge"
+    }
+  ]
+}

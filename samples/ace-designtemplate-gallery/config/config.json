@@ -3,21 +3,125 @@
   "version": "2.0",
   "bundles": {
     "benefits-adaptive-card-extension": {
-      "components": [{
-        "entrypoint": "./lib/adaptiveCardExtensions/benefits/BenefitsAdaptiveCardExtension.js",
-        "manifest": "./src/adaptiveCardExtensions/benefits/BenefitsAdaptiveCardExtension.manifest.json"
-      }]
+      "components": [
+        {
+          "entrypoint": "./lib/adaptiveCardExtensions/benefits/BenefitsAdaptiveCardExtension.js",
+          "manifest": "./src/adaptiveCardExtensions/benefits/BenefitsAdaptiveCardExtension.manifest.json"
+        }
+      ]
     },
     "ace-design-template-personal-app-web-part": {
-      "components": [{
-        "entrypoint": "./lib/webparts/ACEGalleryAppPart/ACEGalleryAppPart.js",
-        "manifest": "./src/webparts/ACEGalleryAppPart/ACEGalleryAppPart.manifest.json"
-      }]
+      "components": [
+        {
+          "entrypoint": "./lib/webparts/ACEGalleryAppPart/ACEGalleryAppPart.js",
+          "manifest": "./src/webparts/ACEGalleryAppPart/ACEGalleryAppPart.manifest.json"
+        }
+      ]
+    },
+    "eventschedule-adaptive-card-extension": {
+      "components": [
+        {
+          "entrypoint": "./lib/adaptiveCardExtensions/eventschedule/EventscheduleAdaptiveCardExtension.js",
+          "manifest": "./src/adaptiveCardExtensions/eventschedule/EventscheduleAdaptiveCardExtension.manifest.json"
+        }
+      ]
+    },
+    "faqaccordion-adaptive-card-extension": {
+      "components": [
+        {
+          "entrypoint": "./lib/adaptiveCardExtensions/faqaccordion/FaqaccordionAdaptiveCardExtension.js",
+          "manifest": "./src/adaptiveCardExtensions/faqaccordion/FaqaccordionAdaptiveCardExtension.manifest.json"
+        }
+      ]
+    },
+    "imagecarousel-adaptive-card-extension": {
+      "components": [
+        {
+          "entrypoint": "./lib/adaptiveCardExtensions/imagecarousel/ImagecarouselAdaptiveCardExtension.js",
+          "manifest": "./src/adaptiveCardExtensions/imagecarousel/ImagecarouselAdaptiveCardExtension.manifest.json"
+        }
+      ]
+    },
+    "inventorydetails-adaptive-card-extension": {
+      "components": [
+        {
+          "entrypoint": "./lib/adaptiveCardExtensions/inventorydetails/InventorydetailsAdaptiveCardExtension.js",
+          "manifest": "./src/adaptiveCardExtensions/inventorydetails/InventorydetailsAdaptiveCardExtension.manifest.json"
+        }
+      ]
+    },
+    "payslip-adaptive-card-extension": {
+      "components": [
+        {
+          "entrypoint": "./lib/adaptiveCardExtensions/payslip/PayslipAdaptiveCardExtension.js",
+          "manifest": "./src/adaptiveCardExtensions/payslip/PayslipAdaptiveCardExtension.manifest.json"
+        }
+      ]
+    },
+    "simplelist-adaptive-card-extension": {
+      "components": [
+        {
+          "entrypoint": "./lib/adaptiveCardExtensions/simplelist/SimplelistAdaptiveCardExtension.js",
+          "manifest": "./src/adaptiveCardExtensions/simplelist/SimplelistAdaptiveCardExtension.manifest.json"
+        }
+      ]
+    },
+    "teamcalendar-adaptive-card-extension": {
+      "components": [
+        {
+          "entrypoint": "./lib/adaptiveCardExtensions/teamcalendar/TeamcalendarAdaptiveCardExtension.js",
+          "manifest": "./src/adaptiveCardExtensions/teamcalendar/TeamcalendarAdaptiveCardExtension.manifest.json"
+        }
+      ]
+    },
+    "timelineholiday-adaptive-card-extension": {
+      "components": [
+        {
+          "entrypoint": "./lib/adaptiveCardExtensions/timelineholiday/TimelineholidayAdaptiveCardExtension.js",
+          "manifest": "./src/adaptiveCardExtensions/timelineholiday/TimelineholidayAdaptiveCardExtension.manifest.json"
+        }
+      ]
+    },
+    "timeoff-adaptive-card-extension": {
+      "components": [
+        {
+          "entrypoint": "./lib/adaptiveCardExtensions/timeoff/TimeoffAdaptiveCardExtension.js",
+          "manifest": "./src/adaptiveCardExtensions/timeoff/TimeoffAdaptiveCardExtension.manifest.json"
+        }
+      ]
+    },
+    "vaccinationbooster-adaptive-card-extension": {
+      "components": [
+        {
+          "entrypoint": "./lib/adaptiveCardExtensions/vaccinationbooster/VaccinationboosterAdaptiveCardExtension.js",
+          "manifest": "./src/adaptiveCardExtensions/vaccinationbooster/VaccinationboosterAdaptiveCardExtension.manifest.json"
+        }
+      ]
+    },
+    "visuallist-adaptive-card-extension": {
+      "components": [
+        {
+          "entrypoint": "./lib/adaptiveCardExtensions/visuallist/VisuallistAdaptiveCardExtension.js",
+          "manifest": "./src/adaptiveCardExtensions/visuallist/VisuallistAdaptiveCardExtension.manifest.json"
+        }
+      ]
     }
   },
   "externals": {},
   "localizedResources": {
     "BenefitsAdaptiveCardExtensionStrings": "lib/adaptiveCardExtensions/benefits/loc/{locale}.js",
-    "AceDesignTemplatePersonalAppWebPartStrings": "lib/webparts/ACEGalleryAppPart/loc/{locale}.js"
+    "AceDesignTemplatePersonalAppWebPartStrings": "lib/webparts/ACEGalleryAppPart/loc/{locale}.js",
+    "EventscheduleAdaptiveCardExtensionStrings": "lib/adaptiveCardExtensions/eventschedule/loc/{locale}.js",
+    "FaqAccordionAdaptiveCardExtensionStrings": "lib/adaptiveCardExtensions/faqAccordion/loc/{locale}.js",
+    "FaqaccordionAdaptiveCardExtensionStrings": "lib/adaptiveCardExtensions/faqaccordion/loc/{locale}.js",
+    "ImagecarouselAdaptiveCardExtensionStrings": "lib/adaptiveCardExtensions/imagecarousel/loc/{locale}.js",
+    "InventorydetailsAdaptiveCardExtensionStrings": "lib/adaptiveCardExtensions/inventorydetails/loc/{locale}.js",
+    "PayslipAdaptiveCardExtensionStrings": "lib/adaptiveCardExtensions/payslip/loc/{locale}.js",
+    "SimplelistAdaptiveCardExtensionStrings": "lib/adaptiveCardExtensions/simplelist/loc/{locale}.js",
+    "TeamcalendarAdaptiveCardExtensionStrings": "lib/adaptiveCardExtensions/teamcalendar/loc/{locale}.js",
+    "TimelineholidayAdaptiveCardExtensionStrings": "lib/adaptiveCardExtensions/timelineholiday/loc/{locale}.js",
+    "TimeoffAdaptiveCardExtensionStrings": "lib/adaptiveCardExtensions/timeoff/loc/{locale}.js",
+    "VaccinationboosterAdaptiveCardExtensionStrings": "lib/adaptiveCardExtensions/vaccinationbooster/loc/{locale}.js",
+    "VisuallistAdaptiveCardExtensionStrings": "lib/adaptiveCardExtensions/visuallist/loc/{locale}.js"
   }
 }

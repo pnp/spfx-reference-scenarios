@@ -2,7 +2,7 @@ import * as React from "react";
 import { Logger, LogLevel } from "@pnp/logging";
 import { isEqual } from "@microsoft/sp-lodash-subset";
 import { AppData } from "../../../../common/models/designtemplate.models";
-import AppCard from "../molecules/AppCard";
+import * as strings from "AceDesignTemplatePersonalAppWebPartStrings";
 
 export interface IAppListProps {
   appList: AppData[];
@@ -33,19 +33,26 @@ export default class AppList extends React.Component<IAppListProps, IAppListStat
   public render(): React.ReactElement<IAppListProps> {
     try {
       return (
-        <div className="hoo-cardgrid" data-component={this.LOG_SOURCE}>
-          <div className="introText">
-            <h1>Adaptive Card Extension - Design Examples</h1>
-            <p>Samples on different Adaptive Card designs demonstrating the art of possible for inspiration and innovation. Shared designs can be used as such or as a starting point for your own designs.</p>
-            <p>Click on a card to see more details about the sample and get more information about developing your own Adaptive Card Extensions using SPFx.</p>
-          </div>
-          {this.props.appList.map((app) => {
-            return (
-              <AppCard app={app} onCardClick={this.props.onCardClick} />
-            );
-          })
-          }
-        </div>
+        <>
+          <h2 className="introText">{strings.AppTitle}</h2>
+          <div className="introText">{strings.AppListIntroContent}</div>
+          <div className="hoo-teamsdb appDetails appList" data-component={this.LOG_SOURCE}>
+            {this.props.appList.map((app) => {
+              return (
+                <article className="hoo-teamsdbcard quickView" onClick={() => this.props.onCardClick(app)}>
+                  <header className="hoo-teamsdbcard-header">
+                    <div className="hoo-teamsdbcard-title">{app.appName}</div>
+                  </header>
+                  <div className="hoo-teamsdbcard-content">
+                    {app.appDescription}
+                    <div className="hoo-cardimage"><img className="cardview" src={app.appCardImage} alt={`${app.appName} Card View`} /></div>
+                  </div>
+                </article>
+              );
+            })
+            }
+          </div >
+        </>
       );
     } catch (err) {
       Logger.write(`${this.LOG_SOURCE} (render) - ${err}`, LogLevel.Error);

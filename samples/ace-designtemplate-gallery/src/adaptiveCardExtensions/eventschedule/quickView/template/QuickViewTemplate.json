@@ -1,0 +1,277 @@
+{
+  "type": "AdaptiveCard",
+  "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
+  "version": "1.3",
+  "body": [{
+      "type": "Container",
+      "backgroundImage": {
+        "url": "${event.mainImage}",
+        "horizontalAlignment": "Center",
+        "verticalAlignment": "Center"
+      },
+      "bleed": true,
+      "height": "stretch",
+      "minHeight": "240px",
+      "horizontalAlignment": "Center",
+      "spacing": "None"
+    },
+    {
+      "type": "TextBlock",
+      "text": "${event.imageCaption}",
+      "wrap": true,
+      "size": "Small",
+      "isSubtle": true
+    },
+    {
+      "type": "TextBlock",
+      "text": "${event.headline}",
+      "wrap": true,
+      "size": "Large",
+      "weight": "Bolder",
+      "spacing": "Medium"
+    },
+    {
+      "type": "TextBlock",
+      "text": "${event.introContent}",
+      "wrap": true
+    },
+    {
+      "type": "Container",
+      "items": [{
+        "type": "ColumnSet",
+        "columns": [{
+          "type": "Column",
+          "$data": "${event.days}",
+          "$index": "${$index}",
+          "width": "stretch",
+          "items": [{
+            "type": "TextBlock",
+            "text": "${$root.strings.DayLabel} ${id}",
+            "wrap": true,
+            "weight": "${if(id == $root.selectedDay, 'bolder', 'default')}",
+            "color": "${if(id == $root.selectedDay, 'default', 'accent')}",
+            "horizontalAlignment": "Center"
+          }, {
+            "type": "ColumnSet",
+            "columns": [{
+              "type": "Column",
+              "id": "day_${$index}_divider",
+              "$when": "${id == $root.selectedDay}",
+              "width": "stretch",
+              "backgroundImage": {
+                "url": "${$root.dividerline}",
+                "fillMode": "RepeatHorizontally",
+                "verticalAlignment": "Center"
+              },
+              "minHeight": "3px",
+              "style": "default"
+            }, {
+              "type": "Column",
+              "width": "stretch",
+              "$when": "${id != $root.selectedDay}",
+              "minHeight": "3px",
+              "backgroundImage": {
+                "fillMode": "RepeatHorizontally",
+                "verticalAlignment": "Center"
+              }
+            }],
+            "spacing": "None"
+          }],
+          "id": "show_d${id}",
+          "selectAction": {
+            "type": "Action.Submit",
+            "title": "${$root.strings.DayToggleTitle} ${id}",
+            "associatedInputs": "none",
+            "data": {
+              "id": "toggle",
+              "dayID": "${id}"
+            }
+          }
+        }]
+      }],
+      "spacing": "Large"
+    },
+    {
+      "type": "Container",
+      "$data": "${event.days}",
+      "$index": "${index}",
+      "id": "day_${id}",
+      "$when": "${id == $root.selectedDay}",
+      "items": [{
+        "type": "TextBlock",
+        "text": "{{DATE(${date}, LONG)}}",
+        "wrap": true,
+        "size": "Medium",
+        "weight": "Bolder",
+        "spacing": "Medium"
+      }, {
+        "type": "ColumnSet",
+        "columns": [{
+            "type": "Column",
+            "width": 15,
+            "items": [{
+              "type": "TextBlock",
+              "text": "${$root.strings.TimeHeading}",
+              "wrap": true,
+              "size": "Small",
+              "color": "Accent",
+              "isSubtle": true,
+              "weight": "Bolder"
+            }]
+          },
+          {
+            "type": "Column",
+            "width": 65,
+            "items": [{
+              "type": "TextBlock",
+              "text": "${$root.strings.DescriptionHeading}",
+              "wrap": true,
+              "size": "Small",
+              "color": "Accent",
+              "isSubtle": true,
+              "weight": "Bolder"
+            }]
+          }
+        ],
+        "spacing": "Medium"
+      }, {
+        "type": "ColumnSet",
+        "$data": "${events}",
+        "columns": [{
+            "type": "Column",
+            "width": 15,
+            "items": [{
+              "type": "TextBlock",
+              "text": "{{TIME(${startTime})}}-{{TIME(${endTime})}}",
+              "wrap": true,
+              "size": "Small",
+              "isSubtle": true
+            }]
+          },
+          {
+            "type": "Column",
+            "width": 65,
+            "items": [{
+              "type": "TextBlock",
+              "text": "${description}",
+              "wrap": true,
+              "size": "Default"
+            }]
+          }
+        ],
+        "separator": true
+      }],
+      "spacing": "Medium"
+    },
+    {
+      "type": "ActionSet",
+      "$when": "${showRegister != true}",
+      "actions": [{
+        "type": "Action.Submit",
+        "title": "${$root.strings.RegisterButtonText}",
+        "associatedInputs": "none",
+        "style": "positive",
+        "data": {
+          "id": "register"
+        }
+      }],
+      "spacing": "ExtraLarge",
+      "id": "show_reg"
+    },
+    {
+      "type": "Container",
+      "spacing": "ExtraLarge",
+      "$when": "${showRegister == true}",
+      "id": "Reg_form",
+      "items": [{
+          "type": "TextBlock",
+          "text": "${$root.strings.RegistrationFormHeading}",
+          "wrap": true,
+          "size": "Large",
+          "weight": "Bolder",
+          "spacing": "ExtraLarge"
+        },
+        {
+          "type": "Input.Text",
+          "label": "${$root.strings.FirstNameLabel}",
+          "value": "${$root.eventRegistration.firstName}",
+          "isRequired": true,
+          "errorMessage": "${$root.strings.FirstNameError}",
+          "id": "first_name"
+        },
+        {
+          "type": "Input.Text",
+          "label": "${$root.strings.LastNameLabel}",
+          "isRequired": true,
+          "value": "${$root.eventRegistration.lastName}",
+          "errorMessage": "${$root.strings.LastNameError}",
+          "id": "last_name"
+        },
+        {
+          "type": "Input.Text",
+          "label": "${$root.strings.CompanyNameLabel}",
+          "isRequired": true,
+          "value": "${$root.eventRegistration.company}",
+          "errorMessage": "${$root.strings.CompanyNameError}",
+          "id": "company_name"
+        },
+        {
+          "type": "Input.Text",
+          "label": "${$root.strings.PhoneLabel}",
+          "value": "${$root.eventRegistration.phone}",
+          "isRequired": true,
+          "errorMessage": "${$root.strings.PhoneError}",
+          "id": "phone"
+        },
+        {
+          "type": "TextBlock",
+          "text": "${$root.strings.PhoneFormatMessage}",
+          "wrap": true,
+          "isSubtle": true,
+          "size": "Small",
+          "spacing": "Small"
+        }, {
+          "type": "TextBlock",
+          "text": "${$root.strings.PhoneDescription}",
+          "wrap": true,
+          "isSubtle": true,
+          "size": "Small",
+          "spacing": "Small"
+        },
+        {
+          "type": "Input.Toggle",
+          "title": "${$root.strings.PrivacyDescription}",
+          "value": "false",
+          "label": "${$root.strings.PrivacyLabel}",
+          "isRequired": true,
+          "wrap": true,
+          "spacing": "Medium",
+          "errorMessage": "${$root.strings.PrivacyError}",
+          "id": "accept_policy"
+        },
+        {
+          "type": "ActionSet",
+          "spacing": "Medium",
+          "actions": [{
+              "type": "Action.Submit",
+              "title": "${$root.strings.ConfirmButtonText}",
+              "style": "positive",
+              "data": {
+                "id": "confirm"
+              }
+            },
+            {
+              "type": "Action.Submit",
+              "title": "${$root.strings.CancelButtonText}",
+              "style": "negative",
+              "associatedInputs": "none",
+              "data": {
+                "id": "cancel"
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

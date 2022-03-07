@@ -27,7 +27,6 @@
     },
     "officeFabricIconFontName": "RibbonSolid",
     "properties": {
-      "title": "Benefits",
       "description": "Choose from the latest benefit options",
       "iconProperty": "RibbonSolid" // Default to sharepointlogo
     }

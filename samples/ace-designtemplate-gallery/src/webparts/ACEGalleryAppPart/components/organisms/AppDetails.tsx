@@ -1,12 +1,16 @@
 import * as React from "react";
 import { Logger, LogLevel } from "@pnp/logging";
-import { AppData } from "../../../../common/models/designtemplate.models";
+import { AppData, DeepLinkData, DeepLinkType } from "../../../../common/models/designtemplate.models";
 import { isEqual } from "@microsoft/sp-lodash-subset";
 import ButtonIcon from "../atoms/ButtonIcon";
 import { Icons } from "../../../../common/models/icons";
+import * as strings from "AceDesignTemplatePersonalAppWebPartStrings";
+import InventoryItem from "../molecules/InventoryItem";
+
 
 export interface IAppDetailsProps {
   appData: AppData;
+  deepLink?: DeepLinkData;
   onBackClick: () => void;
 }
 
@@ -34,57 +38,121 @@ export default class AppDetails extends React.Component<IAppDetailsProps, IAppDe
   public render(): React.ReactElement<IAppDetailsProps> {
     try {
       return (
-        <div className="hoo-teamsdb appDetails" data-component={this.LOG_SOURCE}>
+        <>
           <div className="introText">
             <ButtonIcon
               iconType={Icons.LeftArrow}
               onClick={() => this.props.onBackClick()} />
           </div>
-          <article className="hoo-teamsdbcard quickView">
-            <header className="hoo-teamsdbcard-header">
-              <div className="hoo-teamsdbcard-title">Quick View</div>
-            </header>
-            <div className="hoo-teamsdbcard-content">
-              <img src={this.props.appData.appQuickViewImage} alt={`${this.props.appData.appName} Quick View Card`} />
-            </div>
-          </article>
+          <div className="hoo-teamsdb appDetails" data-component={this.LOG_SOURCE}>
 
-          <article className="hoo-teamsdbcard">
-            <header className="hoo-teamsdbcard-header">
-              <div className="hoo-teamsdbcard-title">{this.props.appData.appName} App Card</div>
-            </header>
-            <div className="hoo-teamsdbcard-content">
-              <p>{this.props.appData.appDescription}</p>
-              <img src={this.props.appData.appCardImage} alt={`${this.props.appData.appName} Card View Card`} />
-              {this.props.appData.linkTitle &&
-                <p>You clicked on the {this.props.appData.linkTitle} link in the Adaptive Card</p>
+
+
+            <article className="hoo-teamsdbcard">
+              <header className="hoo-teamsdbcard-header">
+                <div className="hoo-teamsdbcard-title">{this.props.appData.appName}</div>
+              </header>
+              {this.props.deepLink &&
+                <>
+                  <header className="hoo-teamsdbcard-header">
+                    <div className="hoo-teamsdbcard-title">{strings.DeepLinkHeading}</div>
+                  </header>
+                  <p>{strings.DeepLinkContent}</p>
+                </>
               }
-            </div>
-          </article>
+              {!this.props.deepLink &&
+                <>
 
-          <article className="hoo-teamsdbcard">
-            <header className="hoo-teamsdbcard-header">
-              <div className="hoo-teamsdbcard-title">More Information About Adaptive Card Extensions</div>
-            </header>
-            <div className="hoo-teamsdbcard-content">
-              <p>You can provide deep links from your Adaptive Card Extension into Teams linking directly to Teams Personal Apps, Teams Tabs, Chat, or Meetings.</p>
-              <p>For More Information on Adaptive Card Extensions</p>
-              <a href="https://adaptivecards.io/" className="hoo-button-primary" role="button" target="_blank">
-                <div className="hoo-button-label">Adaptive Card Documentation</div>
-              </a>
-              <a href="https://adaptivecards.io/" className="hoo-button" role="button" target="_blank">
-                <div className="hoo-button-label">Adaptive Card Designer</div>
-              </a>
-              <a href="https://docs.microsoft.com/en-us/sharepoint/dev/spfx/viva/get-started/build-first-sharepoint-adaptive-card-extension" className="hoo-button-primary" role="button" target="_blank">
-                <div className="hoo-button-label">Build Your First Adaptive Card Extension</div>
-              </a>
-              <a href="https://docs.microsoft.com/en-us/sharepoint/dev/spfx/viva/design/design-intro" className="hoo-button" role="button" target="_blank">
-                <div className="hoo-button-label">Designing Viva Connections Custom Cards</div>
-              </a>
-            </div>
-          </article>
-        </div>
+                </>
+              }
+              <div className="hoo-teamsdbcard-content">
 
+                {this.props.deepLink?.deepLinkType == DeepLinkType.EVENTREGISTRATION &&
+                  <div className="deepLinkCard">
+                    <div className="introText">{strings.EventRegThankYouMessage.replace('__xxxx__', this.props.deepLink.message.eventTitle)}</div>
+                    <span><span className="linkCardLabel">{`${strings.NameLabel}: `}</span>{`${this.props.deepLink.message.firstName} ${this.props.deepLink.message.lastName}`}</span>
+                    <span><span className="linkCardLabel">{`${strings.CompanyNameLabel}: `}</span>{this.props.deepLink.message.company}</span>
+                    <span><span className="linkCardLabel">{`${strings.PhoneLabel}: `}</span>{this.props.deepLink.message.phone}</span>
+                  </div>
+                }
+                {this.props.deepLink?.deepLinkType == DeepLinkType.ANNIVERSARY &&
+                  <div className="deepLinkCard">
+                    <div className="introText">{strings.AnniversaryMessage}</div>
+                    <span>{`${this.props.deepLink.message.firstName} ${this.props.deepLink.message.lastName}`}</span>
+                    <span><span className="linkCardLabel">{`${strings.CelebratingLabel} `}</span>{this.props.deepLink.message.anniversaryDuration} {(this.props.deepLink.message.anniversaryDuration > 1) ? strings.YearsLabel : strings.YearLabel}</span>
+                  </div>
+                }
+                {this.props.deepLink?.deepLinkType == DeepLinkType.PRAISE &&
+                  <div className="deepLinkCard">
+                    <div className="introText">{strings.PraiseMessage}</div>
+                    <div><img src={this.props.deepLink.message.imageUrl} /></div>
+                    <div className="introText">{this.props.deepLink.message.title}</div>
+                    <span>{this.props.deepLink.message.comment}</span>
+                  </div>
+                }
+                {this.props.deepLink?.deepLinkType == DeepLinkType.TIMEOFFREQUEST &&
+                  <div className="deepLinkCard">
+                    <div className="introText">{strings.TimeOffMessage}</div>
+                    <span><span className="linkCardLabel">{`${strings.RequestTypeLabel}: `}</span>{`${this.props.deepLink.message.requestType}`}</span>
+                    <span><span className="linkCardLabel">{`${strings.DateLabel}: `}</span>{`${new Date(this.props.deepLink.message.date).toDateString()}`}</span>
+                  </div>
+                }
+                {this.props.deepLink?.deepLinkType == DeepLinkType.VACCINATIONBOOSTER &&
+                  <div className="deepLinkCard">
+                    <div className="introText">{strings.VaccineApptMessage}</div>
+                    <span><span className="linkCardLabel">{`${strings.RequestTypeLabel}: `}</span>{`${this.props.deepLink.message.boosterVaccineBrand}`}</span>
+                    <span><span className="linkCardLabel">{`${strings.DateLabel}: `}</span>{`${new Date(this.props.deepLink.message.apptDate).toDateString()}`}</span>
+                  </div>
+                }
+                {this.props.deepLink?.deepLinkType == DeepLinkType.INVENTORYITEM &&
+                  <InventoryItem introText={`${strings.InventoryMessage} ${this.props.deepLink.message.inventoryItem.name}`} label={strings.InventoryAvailableLabel} value={this.props.deepLink.message.inventoryItem.amount} />
+                }
+                {this.props.deepLink?.deepLinkType == DeepLinkType.TEXT &&
+                  <div className="deepLinkCard">
+                    <span>{strings.DeepLinkMessage.replace('__xxxx__', this.props.deepLink.message)}</span>
+                  </div>
+                }
+
+                <div className="hoo-teamsdbcard-title">{strings.CardViewHeading}</div>
+                <p>{this.props.appData.appDescription}</p>
+                <div className="hoo-cardimage"><img src={this.props.appData.appCardImage} alt={`${this.props.appData.appName} Card View Card`} /></div>
+
+
+
+              </div>
+            </article >
+            <article className="hoo-teamsdbcard quickView">
+              <header className="hoo-teamsdbcard-header">
+                <div className="hoo-teamsdbcard-title">{strings.QuickViewHeading}</div>
+              </header>
+              <div className="hoo-teamsdbcard-content">
+                <div className="hoo-cardimage quickview"><img className="quickview" src={this.props.appData.appQuickViewImage} alt={`${this.props.appData.appName} Quick View Card`} /></div>
+
+              </div>
+            </article>
+            <article className="hoo-teamsdbcard">
+              <header className="hoo-teamsdbcard-header">
+                <div className="hoo-teamsdbcard-title">{strings.AboutHeading}</div>
+              </header>
+              <div className="hoo-teamsdbcard-content">
+                <p>{strings.AboutContent}</p>
+                <p>{strings.MoreInfoHeading}</p>
+                <a href="https://adaptivecards.io/" className="hoo-button-primary" role="button" target="_blank">
+                  <div className="hoo-button-label">{strings.ACDocsButtonText}</div>
+                </a>
+                <a href="https://adaptivecards.io/" className="hoo-button" role="button" target="_blank">
+                  <div className="hoo-button-label">{strings.ACDesignerButtonText}</div>
+                </a>
+                <a href="https://docs.microsoft.com/en-us/sharepoint/dev/spfx/viva/get-started/build-first-sharepoint-adaptive-card-extension" className="hoo-button-primary" role="button" target="_blank">
+                  <div className="hoo-button-label">{strings.ACTutorialButtonText}</div>
+                </a>
+                <a href="https://docs.microsoft.com/en-us/sharepoint/dev/spfx/viva/design/design-intro" className="hoo-button" role="button" target="_blank">
+                  <div className="hoo-button-label">{strings.ACEDesignButtonText}</div>
+                </a>
+              </div>
+            </article>
+          </div >
+        </>
       );
     } catch (err) {
       Logger.write(`${this.LOG_SOURCE} (render) - ${err}`, LogLevel.Error);

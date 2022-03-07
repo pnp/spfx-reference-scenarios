@@ -1,14 +1,11 @@
 declare interface IBenefitsAdaptiveCardExtensionStrings {
-  PropertyPaneDescription: string;
-  BasicGroupName: string;
-  DescriptionFieldLabel: string;
-  TitleFieldLabel: string;
   IconPropertyFieldLabel: string;
+  PropertyPaneDescription: string;
+  DescriptionFieldLabel: string;
+  BasicGroupName: string;
   Title: string;
-  SubTitle: string;
-  Description: string;
-  PrimaryText: string;
-  QuickViewButton: string;
+  CardViewTitle: string;
+  CardViewText: string;
 }
 
 declare module 'BenefitsAdaptiveCardExtensionStrings' {

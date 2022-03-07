@@ -1,0 +1,171 @@
+{
+  "type": "AdaptiveCard",
+  "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
+  "version": "1.3",
+  "body": [{
+      "type": "Container",
+      "spacing": "None",
+      "minHeight": "8px"
+    },
+    {
+      "type": "ColumnSet",
+      "columns": [{
+          "type": "Column",
+          "width": "200px",
+          "items": [{
+            "type": "Image",
+            "url": "${$root.logo}",
+            "height": "50px",
+            "horizontalAlignment": "Left"
+          }],
+          "horizontalAlignment": "Center"
+        },
+        {
+          "type": "Column",
+          "width": "stretch"
+        }
+      ]
+    },
+    {
+      "type": "TextBlock",
+      "text": "${$root.strings.QuickViewTitle}",
+      "wrap": true,
+      "size": "Large",
+      "weight": "Bolder",
+      "spacing": "Large"
+    },
+    {
+      "type": "Container",
+      "backgroundImage": {
+        "url": "${$root.mainImage}",
+        "horizontalAlignment": "Center",
+        "verticalAlignment": "Center"
+      },
+      "bleed": true,
+      "height": "stretch",
+      "minHeight": "240px",
+      "horizontalAlignment": "Center",
+      "spacing": "Medium"
+    },
+    {
+      "type": "TextBlock",
+      "text": "${$root.strings.IntroText}",
+      "wrap": true,
+      "spacing": "Medium"
+    },
+    {
+      "type": "TextBlock",
+      "text": "${$root.strings.ReqFields}",
+      "wrap": true,
+      "spacing": "Medium"
+    },
+    {
+      "type": "TextBlock",
+      "text": "${$root.strings.DosageInfo}",
+      "wrap": true,
+      "spacing": "Medium",
+      "weight": "Bolder"
+    },
+    {
+      "type": "TextBlock",
+      "text": "${$root.strings.DosageText}",
+      "wrap": true,
+      "spacing": "Medium"
+    },
+    {
+      "type": "TextBlock",
+      "text": "${$root.strings.PreviousDoseHeader}",
+      "wrap": true,
+      "size": "Medium",
+      "weight": "Bolder",
+      "spacing": "Medium"
+    },
+    {
+      "type": "Input.Date",
+      "placeholder": "MMDDYYYY",
+      "label": "${$root.strings.PrevDateLabel}",
+      "value": "",
+      "isRequired": true,
+      "errorMessage": "${$root.strings.PrevDateError}",
+      "id": "vaccine_date"
+    },
+    {
+      "type": "Input.ChoiceSet",
+      "choices": [{
+          "title": "${$root.strings.PfizerLabel}",
+          "value": "${$root.strings.PfizerLabel}"
+        },
+        {
+          "title": "${$root.strings.JanssenLabel}",
+          "value": "${$root.strings.JanssenLabel}"
+        },
+        {
+          "title": "${$root.strings.ModernaLabel}",
+          "value": "${$root.strings.ModernaLabel}"
+        },
+        {
+          "title": "${$root.strings.IDKLabel}",
+          "value": "${$root.strings.IDKLabel}"
+        }
+      ],
+      "placeholder": "${$root.strings.PfizerLabel}",
+      "style": "expanded",
+      "label": "${$root.strings.VaccineLabel}",
+      "isRequired": true,
+      "errorMessage": "${$root.strings.VaccineError}",
+      "id": "vaccine"
+    },
+    {
+      "type": "TextBlock",
+      "text": "${$root.strings.BoosterHeader}",
+      "wrap": true,
+      "size": "Medium",
+      "weight": "Bolder",
+      "spacing": "Large"
+    },
+    {
+      "type": "Input.Date",
+      "placeholder": "MMDDYYYY",
+      "label": "${$root.strings.DateLabel}",
+      "isRequired": true,
+      "errorMessage": "${$root.strings.DateError}",
+      "id": "booster_date"
+    },
+    {
+      "type": "Input.ChoiceSet",
+      "choices": [{
+          "title": "${$root.strings.PfizerLabel}",
+          "value": "${$root.strings.PfizerLabel}"
+        },
+        {
+          "title": "${$root.strings.ModernaLabel}",
+          "value": "${$root.strings.ModernaLabel}"
+        }
+      ],
+      "placeholder": "${$root.strings.BoosterLabel}",
+      "style": "expanded",
+      "label": "${$root.strings.PfizerLabel}",
+      "isRequired": true,
+      "errorMessage": "${$root.strings.BoosterError}",
+      "id": "vaccine_booster_type"
+    },
+    {
+      "type": "ActionSet",
+      "spacing": "Medium",
+      "actions": [{
+          "type": "Action.Submit",
+          "title": "${$root.strings.SubmitButtonText}",
+          "style": "positive",
+          "associatedInputs": "none",
+          "id": "btn_submit"
+        },
+        {
+          "type": "Action.Submit",
+          "title": "${$root.strings.CancelButtonText}",
+          "associatedInputs": "none",
+          "id": "btn_cancel"
+        }
+      ]
+    }
+  ]
+}
