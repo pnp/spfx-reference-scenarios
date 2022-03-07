@@ -3,7 +3,7 @@
   "source": "pnp",
   "title": "Adaptive Card Extentions Design Template Gallery and Personal App",
   "shortDescription": "This solution showcases twelve sample Adaptive Card Extensions and deploys a personal app to demonstrate deep linking to Teams. It is designed to show the art of the possible for ACE development and allow for a quick start.",
-  "url": "https://github.com/pnp/spfx-reference-scenarios/tree/main/ace-designtemplate-gallery",
+  "url": "https://github.com/pnp/spfx-reference-scenarios/tree/main/samples/ace-designtemplate-gallery",
   "longDescription": [
     "This solution showcases 12 Adaptive Card Extensions with visually appealing QuickView layouts. It shows the art of the possible with quick view layouts. Some ACEs have deep linking capabilities to the included Teams Personal App. The Personal App handles the deep links but also serves as a gallery of the provided samples."
   ],
