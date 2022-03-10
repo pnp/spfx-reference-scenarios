@@ -1,0 +1,36 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/spfx-build/config.2.0.schema.json",
+  "version": "2.0",
+  "bundles": {
+    "wellbeing-reminder-adaptive-card-extension": {
+      "components": [
+        {
+          "entrypoint": "./lib/adaptiveCardExtensions/wellbeingReminder/WellbeingReminderAdaptiveCardExtension.js",
+          "manifest": "./src/adaptiveCardExtensions/wellbeingReminder/WellbeingReminderAdaptiveCardExtension.manifest.json"
+        }
+      ]
+    },
+    "wellbeing-requests-adaptive-card-extension": {
+      "components": [
+        {
+          "entrypoint": "./lib/adaptiveCardExtensions/wellbeingRequests/WellbeingRequestsAdaptiveCardExtension.js",
+          "manifest": "./src/adaptiveCardExtensions/wellbeingRequests/WellbeingRequestsAdaptiveCardExtension.manifest.json"
+        }
+      ]
+    },
+    "wellbeing-request-review-web-part": {
+      "components": [
+        {
+          "entrypoint": "./lib/webparts/wellbeingRequestReview/WellbeingRequestReviewWebPart.js",
+          "manifest": "./src/webparts/wellbeingRequestReview/WellbeingRequestReviewWebPart.manifest.json"
+        }
+      ]
+    }
+  },
+  "externals": {},
+  "localizedResources": {
+    "WellbeingReminderAdaptiveCardExtensionStrings": "lib/adaptiveCardExtensions/wellbeingReminder/loc/{locale}.js",
+    "WellbeingRequestsAdaptiveCardExtensionStrings": "lib/adaptiveCardExtensions/wellbeingRequests/loc/{locale}.js",
+    "WellbeingRequestReviewWebPartStrings": "lib/webparts/wellbeingRequestReview/loc/{locale}.js"
+  }
+}
