@@ -10,7 +10,8 @@ This sample allows booking and managing well being days for users.
 By using the wellbeing reminder Adaptive Card Extension (ACE), a user (requestor) can submit a request for a well being day. 
 Another user (manager) can then action this request using the combination of the wellbeing requests Adaptive Card Extension and the well being requests Teams personal app.
 
-While actioning a request, the app shows the calendar of a group to the manager, so that the manager can take a decision based on the events occuring on or around the submiited wellbeing day of the request. 
+While actioning a request, the app shows the calendar of a group to the manager, so that the manager can take a decision based on the events occuring on or around the submiited wellbeing day of the request.
+
 The data for the sample is driven from SharePoint lists and a calendar associated with a team (underlying group).
 
 ### Wellbeing reminder Adaptive Card Extension 
