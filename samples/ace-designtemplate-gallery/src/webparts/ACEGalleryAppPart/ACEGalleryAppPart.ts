@@ -11,7 +11,7 @@ import {
   ThemeChangedEventArgs,
   IReadonlyTheme,
 } from '@microsoft/sp-component-base';
-import { sp } from "@pnp/sp";
+//import { sp } from "@pnp/sp";
 import { Logger, LogLevel, ConsoleListener } from "@pnp/logging";
 
 import AceDesignTemplatePersonalApp from './components/ACEGalleryPersonalApp';
@@ -47,7 +47,7 @@ export default class ACEGalleryAppPart extends BaseClientSideWebPart<IACEGallery
       dtg.Init();
 
       //Initialize PnPJs
-      sp.setup({ spfxContext: this.context });
+      //sp.setup({ spfxContext: this.context });
       this._microsoftTeams = this.context.sdks?.microsoftTeams;
 
       // Consume the new ThemeProvider service

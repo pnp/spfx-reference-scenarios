@@ -82,7 +82,7 @@
                 "verticalContentAlignment": "Center",
                 "items": [{
                     "type": "Image",
-                    "url": "https://raw.githubusercontent.com/pnp/AdaptiveCards-Templates/main/samples/faq-accordion/assets/ico-up.png",
+                    "url": "${$root.upIcon}",
                     "width": "20px",
                     "height": "20px",
                     "id": "chevron_up${$index}",
@@ -90,7 +90,7 @@
                   },
                   {
                     "type": "Image",
-                    "url": "https://raw.githubusercontent.com/pnp/AdaptiveCards-Templates/main/samples/faq-accordion/assets/ico-down.png",
+                    "url": "${$root.downIcon}",
                     "id": "chevron_down${$index}",
                     "width": "20px",
                     "height": "20px",

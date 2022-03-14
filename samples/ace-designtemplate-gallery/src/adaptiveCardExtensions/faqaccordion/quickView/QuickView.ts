@@ -10,6 +10,8 @@ export interface IQuickViewData {
   faqApp: AccordionList;
   deepLink: string;
   question: string;
+  upIcon: string;
+  downIcon: string;
   strings: IFaqaccordionAdaptiveCardExtensionStrings;
 }
 
@@ -21,10 +23,14 @@ export class QuickView extends BaseAdaptiveCardView<
   private LOG_SOURCE: string = "🔶 FAQ Quick View";
 
   public get data(): IQuickViewData {
+    const upIcon: string = require('../../../common/images/faq-accordion/ico-up.png');
+    const downIcon: string = require('../../../common/images/faq-accordion/ico-down.png');
     return {
       faqApp: this.state.faqApp,
       deepLink: this.state.deepLink,
       question: "",
+      upIcon: upIcon,
+      downIcon: downIcon,
       strings: strings
     };
   }
