@@ -1,4 +1,3 @@
-<div style="display: none">
 ---
 page_type: sample
 products:
@@ -11,7 +10,6 @@ extensions:
   - SharePoint Framework
   createdDate: 6/24/2021 10:21:43 AM
 ---
-  </div>
 # SharePoint Framework Reference Samples
 
 Samples targeted to showcase the power of SharePoint Framework in the Microsoft Teams and in Viva Connections. Notice that these are using preview version of the SharePoint Framework 1.13, which in currently planned to get released in mid September.
