@@ -7,46 +7,46 @@
       "name": "Korean cuisine",
       "description": "Kimchi, Bibimbap, Red rice cakes, Bulgogi, Korean stew, Korean fried chicken, Spicy cold noodle",
       "foodType": "special",
-      "imageUrl": "https://raw.githubusercontent.com/dcashpeterson/spfx-reference-scenarios/main/samples/ace-designtemplate-gallery/images/visual-list/korean.jpg"
+      "imageUrl": "https://raw.githubusercontent.com/pnp/spfx-reference-scenarios/main/samples/ace-designtemplate-gallery/images/visual-list/korean.jpg"
     },
     {
       "id": "1",
       "name": "Dim sum",
       "description": "Beef Balls, Rice Noodle Rolls,  Curried Cuttlefish, Deep-Fried Crescent Dumplings, Egg Custard",
       "foodType": "special",
-      "imageUrl": "https://raw.githubusercontent.com/dcashpeterson/spfx-reference-scenarios/main/samples/ace-designtemplate-gallery/images/visual-list/dumplings.jpg"
+      "imageUrl": "https://raw.githubusercontent.com/pnp/spfx-reference-scenarios/main/samples/ace-designtemplate-gallery/images/visual-list/dumplings.jpg"
     },
     {
       "id": "2",
       "name": "Indian cuisine",
       "description": "Chicken Makhani, Samosas,  Naan, Matar Paneer, Rogan Josh, Tandoori Chicken, Shu’Bah’",
       "foodType": "special",
-      "imageUrl": "https://raw.githubusercontent.com/dcashpeterson/spfx-reference-scenarios/main/samples/ace-designtemplate-gallery/images/visual-list/tandoori.jpg"
+      "imageUrl": "https://raw.githubusercontent.com/pnp/spfx-reference-scenarios/main/samples/ace-designtemplate-gallery/images/visual-list/tandoori.jpg"
     },
     {
       "id": "3",
       "name": "in.gredients",
       "description": "1st: Onion soup / Mushroom tart, 2nd: New York steak / Caesar's salad, 3rd: Mango mousse / Ice cream ",
       "foodType": "standard",
-      "imageUrl": "https://raw.githubusercontent.com/dcashpeterson/spfx-reference-scenarios/main/samples/ace-designtemplate-gallery/images/visual-list/mixed1st.jpg"
+      "imageUrl": "https://raw.githubusercontent.com/pnp/spfx-reference-scenarios/main/samples/ace-designtemplate-gallery/images/visual-list/mixed1st.jpg"
     }, {
       "id": "4",
       "name": "Coup de grille",
       "description": "Burger, Cheeseburger, Grilled chicken, French fries, Onion rings, Kale salad ",
       "foodType": "standard",
-      "imageUrl": "https://raw.githubusercontent.com/dcashpeterson/spfx-reference-scenarios/main/samples/ace-designtemplate-gallery/images/visual-list/burgers.jpg"
+      "imageUrl": "https://raw.githubusercontent.com/pnp/spfx-reference-scenarios/main/samples/ace-designtemplate-gallery/images/visual-list/burgers.jpg"
     }, {
       "id": "5",
       "name": "Organic salad bar",
       "description": "Wide selection of organic components plus a protein of your choice",
       "foodType": "standard",
-      "imageUrl": "https://raw.githubusercontent.com/dcashpeterson/spfx-reference-scenarios/main/samples/ace-designtemplate-gallery/images/visual-list/eggsandwish.jpg"
+      "imageUrl": "https://raw.githubusercontent.com/pnp/spfx-reference-scenarios/main/samples/ace-designtemplate-gallery/images/visual-list/eggsandwish.jpg"
     }, {
       "id": "6",
       "name": "Hand-tossed pizza",
-      "description": "Cheese, Veggie,  Pepperoni, Margherita, BBQ Chicken, Hawaiian, DIY",
+      "description": "Cheese, Veggie, Pepperoni, Margherita, BBQ Chicken, Hawaiian, DIY",
       "foodType": "standard",
-      "imageUrl": "https://raw.githubusercontent.com/dcashpeterson/spfx-reference-scenarios/main/samples/ace-designtemplate-gallery/images/visual-list/pizza.jpg"
+      "imageUrl": "https://raw.githubusercontent.com/pnp/spfx-reference-scenarios/main/samples/ace-designtemplate-gallery/images/visual-list/pizza.jpg"
     }
   ]
 }]

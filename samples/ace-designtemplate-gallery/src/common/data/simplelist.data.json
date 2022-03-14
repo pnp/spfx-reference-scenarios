@@ -1,7 +1,7 @@
 {
   "anniversaries": [{
       "id": "0",
-      "imageUrl": "https://raw.githubusercontent.com/dcashpeterson/spfx-reference-scenarios/main/samples/ace-designtemplate-gallery/images/simple-list/Lee.jpg",
+      "imageUrl": "https://raw.githubusercontent.com/pnp/spfx-reference-scenarios/main/samples/ace-designtemplate-gallery/images/simple-list/Lee.jpg",
       "firstName": "Lea",
       "lastName": "Gu",
       "role": "Marketing Assistant",
@@ -9,7 +9,7 @@
     },
     {
       "id": "1",
-      "imageUrl": "https://raw.githubusercontent.com/dcashpeterson/spfx-reference-scenarios/main/samples/ace-designtemplate-gallery/images/simple-list/Lidia2.jpg",
+      "imageUrl": "https://raw.githubusercontent.com/pnp/spfx-reference-scenarios/main/samples/ace-designtemplate-gallery/images/simple-list/Lidia2.jpg",
       "firstName": "Lidia",
       "lastName": "Holloway",
       "role": "Office Planner",
@@ -17,7 +17,7 @@
     },
     {
       "id": "2",
-      "imageUrl": "https://raw.githubusercontent.com/dcashpeterson/spfx-reference-scenarios/main/samples/ace-designtemplate-gallery/images/simple-list/Lynne.jpg",
+      "imageUrl": "https://raw.githubusercontent.com/pnp/spfx-reference-scenarios/main/samples/ace-designtemplate-gallery/images/simple-list/Lynne.jpg",
       "firstName": "Lynne",
       "lastName": "Robbins",
       "role": "Regional Director",
@@ -26,14 +26,14 @@
   ],
   "praise": [{
       "id": "0",
-      "imageUrl": "https://raw.githubusercontent.com/dcashpeterson/spfx-reference-scenarios/main/samples/ace-designtemplate-gallery/images/simple-list/Praise1.jpg",
+      "imageUrl": "https://raw.githubusercontent.com/pnp/spfx-reference-scenarios/main/samples/ace-designtemplate-gallery/images/simple-list/Praise1.jpg",
       "title": "Achiever",
       "comment": "Kudos to you for not only achieving our quarterly goals and objectives...",
       "linkUrl": ""
     },
     {
       "id": "1",
-      "imageUrl": "https://raw.githubusercontent.com/dcashpeterson/spfx-reference-scenarios/main/samples/ace-designtemplate-gallery/images/simple-list/Praise2.jpg",
+      "imageUrl": "https://raw.githubusercontent.com/pnp/spfx-reference-scenarios/main/samples/ace-designtemplate-gallery/images/simple-list/Praise2.jpg",
       "title": "Coach",
       "comment": "Thank you for being a great team leader and encouraging us to be awesome.",
       "linkUrl": ""

@@ -1,5 +1,6 @@
 //Globally add in Segoe UI Font - for Teams support
 @import './fonts';
+@import 'node_modules/@n8d/htwoo-core/lib/components/base';
 
 
 
@@ -11,7 +12,9 @@
 
 
   :global {
-    @import 'node_modules/@n8d/htwoo-core/lib/sass/style.prod';
+    //@import 'node_modules/@n8d/htwoo-core/lib/sass/style.prod';
+    @import 'node_modules/@n8d/htwoo-core/lib/components/buttons';
+    @import 'node_modules/@n8d/htwoo-core/lib/components/cards';
 
     .hoo-button-label {
       height: auto;
@@ -98,6 +101,63 @@
     padding: 0 1em;
     position: relative;
   }
+}
 
+:global {
+  .dark-mode {
+    :local {
+      .aceDesignTemplatePersonalApp {
+        :global {
 
+          .introText {
+            color: var(--bodyText);
+          }
+
+          .hoo-icon-svg svg {
+            fill: var(--bodyText);
+          }
+        }
+      }
+    }
+  }
+
+  .contrast-mode {
+    :local {
+      .aceDesignTemplatePersonalApp {
+        :global {
+
+          .introText {
+            color: var(--bodyText);
+          }
+
+          .hoo-icon-svg svg {
+            fill: var(--bodyText);
+          }
+
+          .hoo-teamsdb {
+            border-color: var(--bodyText);
+
+            .hoo-teamsdbcard {
+              background-color: var(--bodyBackground);
+              color: var(--bodyText);
+              border: 1px solid var(--bodyText);
+
+              &:hover {
+                background-color: var(--buttonBackgroundHovered);
+                color: var(--primaryButtonTextHovered);
+
+                .hoo-teamsdbcard-title {
+                  color: var(--primaryButtonTextHovered);
+                }
+              }
+            }
+
+            .hoo-teamsdbcard-title {
+              color: var(--bodyText);
+            }
+          }
+        }
+      }
+    }
+  }
 }

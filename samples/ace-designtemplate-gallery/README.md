@@ -4,7 +4,7 @@
 
 This solution provides a set of twelve (12) Adaptive Card Extensions to demonstrate different ways to style the quick view with more detailed layouts. They are based on the [Adaptive Card Design Templates](https://github.com/pnp/AdaptiveCards-Templates). There is also a personal app that receives deeps links from many of the samples as well as serves as a gallery of all the different samples.
 
->This solutions uses mock data but includes a service layer that you can use to make calls to real data sources and a data model you can reference.
+>This solutions uses mock data but includes a service layer that you can use to make calls to real data sources and a data model you can reference. Images that are structural to the layout of the cards are included in the project. Images that are related to the data are referenced as URLs in the data.json files. Those images are referenced directly from this repo. Please ensure that this repo is allowed before you deploy the solution. If it is you can change the references to the images in the data.json files to a location that is accessible.
 >See [Features](#Features) section for individual listing of samples.
 
 ![ACE Design Gallery Samples](./assets/ACEDesignGallery.gif)

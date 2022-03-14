@@ -3,7 +3,6 @@ import { BaseAdaptiveCardExtension } from '@microsoft/sp-adaptive-card-extension
 import { CardView } from './cardView/CardView';
 import { QuickView } from './quickView/QuickView';
 
-import { sp } from "@pnp/sp";
 import { Logger, LogLevel, ConsoleListener } from "@pnp/logging";
 
 import { TimelineholidayPropertyPane } from './TimelineholidayPropertyPane';
@@ -37,9 +36,6 @@ export default class TimelineholidayAdaptiveCardExtension extends BaseAdaptiveCa
       //Initialize PnPLogger
       Logger.subscribe(new ConsoleListener());
       Logger.activeLogLevel = LogLevel.Info;
-
-      //Initialize PnPJs
-      sp.setup({ spfxContext: this.context });
 
       //Initialize Service
       dtg.Init();

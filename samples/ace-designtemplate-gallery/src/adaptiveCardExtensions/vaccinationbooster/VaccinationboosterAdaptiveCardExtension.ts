@@ -3,12 +3,10 @@ import { BaseAdaptiveCardExtension } from '@microsoft/sp-adaptive-card-extension
 import { CardView } from './cardView/CardView';
 import { QuickView } from './quickView/QuickView';
 
-import { sp } from "@pnp/sp";
 import { Logger, LogLevel, ConsoleListener } from "@pnp/logging";
 
 import { VaccinationboosterPropertyPane } from './VaccinationboosterPropertyPane';
 import * as strings from 'VaccinationboosterAdaptiveCardExtensionStrings';
-import { dtg } from '../../common/services/designtemplate.service';
 
 export interface IVaccinationboosterAdaptiveCardExtensionProps {
   iconProperty: string;
@@ -33,9 +31,6 @@ export default class VaccinationboosterAdaptiveCardExtension extends BaseAdaptiv
       //Initialize PnPLogger
       Logger.subscribe(new ConsoleListener());
       Logger.activeLogLevel = LogLevel.Info;
-
-      //Initialize PnPJs
-      sp.setup({ spfxContext: this.context });
 
       //Set the data into state
       this.state = {

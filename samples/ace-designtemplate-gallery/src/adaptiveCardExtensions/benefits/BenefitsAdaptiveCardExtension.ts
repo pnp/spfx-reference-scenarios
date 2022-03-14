@@ -5,7 +5,6 @@ import { QuickView } from './quickView/QuickView';
 import { BenefitsPropertyPane } from './BenefitsPropertyPane';
 
 import { Logger, LogLevel, ConsoleListener } from "@pnp/logging";
-import { sp } from "@pnp/sp";
 import { dtg } from '../../common/services/designtemplate.service';
 import { Benefits } from '../../common/models/designtemplate.models';
 import * as strings from 'BenefitsAdaptiveCardExtensionStrings';
@@ -33,9 +32,6 @@ export default class BenefitsAdaptiveCardExtension extends BaseAdaptiveCardExten
       //Initialize PnPLogger
       Logger.subscribe(new ConsoleListener());
       Logger.activeLogLevel = LogLevel.Info;
-
-      //Initialize PnPJs
-      sp.setup({ spfxContext: this.context });
 
       //Initialize Service
       dtg.Init();

@@ -4,7 +4,6 @@ import { CardView } from './cardView/CardView';
 import { QuickView } from './quickView/QuickView';
 import { ImagecarouselPropertyPane } from './ImagecarouselPropertyPane';
 
-import { sp } from "@pnp/sp";
 import { Logger, LogLevel, ConsoleListener } from "@pnp/logging";
 
 import { dtg } from '../../common/services/designtemplate.service';
@@ -39,9 +38,6 @@ export default class ImagecarouselAdaptiveCardExtension extends BaseAdaptiveCard
       //Initialize PnPLogger
       Logger.subscribe(new ConsoleListener());
       Logger.activeLogLevel = LogLevel.Info;
-
-      //Initialize PnPJs
-      sp.setup({ spfxContext: this.context });
 
       //Initialize Service
       dtg.Init();

@@ -25,12 +25,12 @@
     "description": {
       "default": "An Adaptive Card Extension to show a design for presenting product information in image carousel style format"
     },
-    "iconImageUrl": "https://raw.githubusercontent.com/dcashpeterson/spfx-reference-scenarios/main/samples/ace-designtemplate-gallery/images/imagecarousel/img-hololens-2.jpg",
+    "iconImageUrl": "https://raw.githubusercontent.com/pnp/spfx-reference-scenarios/main/samples/ace-designtemplate-gallery/images/imagecarousel/img-hololens-2.jpg",
     "properties": {
       "title": "Devices",
       "cardHeading": "HoloLens 2",
       "description": "For precise, efficient hands-free work",
-      "iconProperty": "https://raw.githubusercontent.com/dcashpeterson/spfx-reference-scenarios/main/samples/ace-designtemplate-gallery/images/imagecarousel/img-hololens-2.jpg" // Default to sharepointlogo
+      "iconProperty": "https://raw.githubusercontent.com/pnp/spfx-reference-scenarios/main/samples/ace-designtemplate-gallery/images/imagecarousel/img-hololens-2.jpg" // Default to sharepointlogo
     }
   }]
 }

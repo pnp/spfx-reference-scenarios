@@ -3,19 +3,19 @@
   "introContent": "An ergonomic, untethered self-contained holographic device with enterprise-ready applications to increase user accuracy and output.",
   "icons": [{
     "title": "Precision",
-    "iconUrl": "https://raw.githubusercontent.com/dcashpeterson/spfx-reference-scenarios/main/samples/ace-designtemplate-gallery/images/imagecarousel/aim.png",
+    "iconUrl": "https://raw.githubusercontent.com/pnp/spfx-reference-scenarios/main/samples/ace-designtemplate-gallery/images/imagecarousel/aim.png",
     "iconText": "Stay engaged heads-up, hands-free longer and more comfortably to safely complete tasks error-free."
   }, {
     "title": "Collaborate",
-    "iconUrl": "https://raw.githubusercontent.com/dcashpeterson/spfx-reference-scenarios/main/samples/ace-designtemplate-gallery/images/imagecarousel/team.png",
+    "iconUrl": "https://raw.githubusercontent.com/pnp/spfx-reference-scenarios/main/samples/ace-designtemplate-gallery/images/imagecarousel/team.png",
     "iconText": "Connect with remote colleagues – working together on holograms – to resolve issues in real time."
   }, {
     "title": "Innovate",
-    "iconUrl": "https://raw.githubusercontent.com/dcashpeterson/spfx-reference-scenarios/main/samples/ace-designtemplate-gallery/images/imagecarousel/pulp.png",
+    "iconUrl": "https://raw.githubusercontent.com/pnp/spfx-reference-scenarios/main/samples/ace-designtemplate-gallery/images/imagecarousel/pulp.png",
     "iconText": "Stay engaged heads-up, hands-free longer and more comfortably to safely complete tasks error-free."
   }, {
     "title": "App Ecosystem",
-    "iconUrl": "https://raw.githubusercontent.com/dcashpeterson/spfx-reference-scenarios/main/samples/ace-designtemplate-gallery/images/imagecarousel/graph.png",
+    "iconUrl": "https://raw.githubusercontent.com/pnp/spfx-reference-scenarios/main/samples/ace-designtemplate-gallery/images/imagecarousel/graph.png",
     "iconText": "Choose from over 200 enterprise-ready mixed reality solutions from Dynamics 365 and Mixed Reality Partners."
   }],
   "specTypes": [{
@@ -59,12 +59,12 @@
     }
   ],
   "images": [{
-    "imageUrl": "https://raw.githubusercontent.com/dcashpeterson/spfx-reference-scenarios/main/samples/ace-designtemplate-gallery/images/imagecarousel/hololens-pic1.jpg"
+    "imageUrl": "https://raw.githubusercontent.com/pnp/spfx-reference-scenarios/main/samples/ace-designtemplate-gallery/images/imagecarousel/hololens-pic1.jpg"
   }, {
-    "imageUrl": "https://raw.githubusercontent.com/dcashpeterson/spfx-reference-scenarios/main/samples/ace-designtemplate-gallery/images/imagecarousel/hololens-pic2.jpg"
+    "imageUrl": "https://raw.githubusercontent.com/pnp/spfx-reference-scenarios/main/samples/ace-designtemplate-gallery/images/imagecarousel/hololens-pic2.jpg"
   }, {
-    "imageUrl": "https://raw.githubusercontent.com/dcashpeterson/spfx-reference-scenarios/main/samples/ace-designtemplate-gallery/images/imagecarousel/hololens-pic3.jpg"
+    "imageUrl": "https://raw.githubusercontent.com/pnp/spfx-reference-scenarios/main/samples/ace-designtemplate-gallery/images/imagecarousel/hololens-pic3.jpg"
   }, {
-    "imageUrl": "https://raw.githubusercontent.com/dcashpeterson/spfx-reference-scenarios/main/samples/ace-designtemplate-gallery/images/imagecarousel/hololens-pic4.jpg"
+    "imageUrl": "https://raw.githubusercontent.com/pnp/spfx-reference-scenarios/main/samples/ace-designtemplate-gallery/images/imagecarousel/hololens-pic4.jpg"
   }]
 }

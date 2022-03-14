@@ -6,49 +6,49 @@
   "readyToShipChange": 3.4,
   "inventoryItems": [{
       "id": "0",
-      "imageUrl": "https://raw.githubusercontent.com/dcashpeterson/spfx-reference-scenarios/main/samples/ace-designtemplate-gallery/images/inventory/icn_keyboard.svg",
+      "imageUrl": "https://raw.githubusercontent.com/pnp/spfx-reference-scenarios/main/samples/ace-designtemplate-gallery/images/inventory/icn_keyboard.svg",
       "name": "Surface Pro Signature Keyboard",
       "amount": "56k",
       "change": "+11k"
     },
     {
       "id": "1",
-      "imageUrl": "https://raw.githubusercontent.com/dcashpeterson/spfx-reference-scenarios/main/samples/ace-designtemplate-gallery/images/inventory/icn_pen.svg",
+      "imageUrl": "https://raw.githubusercontent.com/pnp/spfx-reference-scenarios/main/samples/ace-designtemplate-gallery/images/inventory/icn_pen.svg",
       "name": "Surface Slim Pen 2",
       "amount": "4.556k",
       "change": ""
     },
     {
       "id": "2",
-      "imageUrl": "https://raw.githubusercontent.com/dcashpeterson/spfx-reference-scenarios/main/samples/ace-designtemplate-gallery/images/inventory/icn_a11y.svg",
+      "imageUrl": "https://raw.githubusercontent.com/pnp/spfx-reference-scenarios/main/samples/ace-designtemplate-gallery/images/inventory/icn_a11y.svg",
       "name": "Surface Adaptive Kit",
       "amount": "256k",
       "change": "+3k"
     },
     {
       "id": "3",
-      "imageUrl": "https://raw.githubusercontent.com/dcashpeterson/spfx-reference-scenarios/main/samples/ace-designtemplate-gallery/images/inventory/icn_power.svg",
+      "imageUrl": "https://raw.githubusercontent.com/pnp/spfx-reference-scenarios/main/samples/ace-designtemplate-gallery/images/inventory/icn_power.svg",
       "name": "Surface 23W USB-C Power Supply",
       "amount": "750k",
       "change": "+123k"
     },
     {
       "id": "4",
-      "imageUrl": "https://raw.githubusercontent.com/dcashpeterson/spfx-reference-scenarios/main/samples/ace-designtemplate-gallery/images/inventory/icn_earbuds.svg",
+      "imageUrl": "https://raw.githubusercontent.com/pnp/spfx-reference-scenarios/main/samples/ace-designtemplate-gallery/images/inventory/icn_earbuds.svg",
       "name": "Surface Earbuds",
       "amount": "1,312k",
       "change": "+423k"
     },
     {
       "id": "5",
-      "imageUrl": "https://raw.githubusercontent.com/dcashpeterson/spfx-reference-scenarios/main/samples/ace-designtemplate-gallery/images/inventory/icn_cover.svg",
+      "imageUrl": "https://raw.githubusercontent.com/pnp/spfx-reference-scenarios/main/samples/ace-designtemplate-gallery/images/inventory/icn_cover.svg",
       "name": "Surface Duo 2 Bumper",
       "amount": "812k",
       "change": "+73k"
     },
     {
       "id": "6",
-      "imageUrl": "https://raw.githubusercontent.com/dcashpeterson/spfx-reference-scenarios/main/samples/ace-designtemplate-gallery/images/inventory/icn_dial.svg",
+      "imageUrl": "https://raw.githubusercontent.com/pnp/spfx-reference-scenarios/main/samples/ace-designtemplate-gallery/images/inventory/icn_dial.svg",
       "name": "Surface Dial",
       "amount": "253",
       "change": "-24k"

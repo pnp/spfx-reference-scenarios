@@ -7,23 +7,23 @@
       "question": "What Office apps do I get with Microsoft 365?",
       "answer": "Get Office apps such as Word, Excel, PowerPoint, Outlook, OneNote, OneDrive, and more.\n\nLearn more about Microsoft 365 plans for:",
       "icons": [{
-          "iconUrl": "https://raw.githubusercontent.com/dcashpeterson/spfx-reference-scenarios/main/samples/ace-designtemplate-gallery/images/faqaccordion/icn_home.svg",
+          "iconUrl": "https://raw.githubusercontent.com/pnp/spfx-reference-scenarios/main/samples/ace-designtemplate-gallery/images/faqaccordion/icn_home.svg",
           "title": "Home",
           "iconLink": "https://www.microsoft.com/en-us/microsoft-365/explore-microsoft-365-for-home",
           "linkTitle": "Learn more"
         },
         {
-          "iconUrl": "https://raw.githubusercontent.com/dcashpeterson/spfx-reference-scenarios/main/samples/ace-designtemplate-gallery/images/faqaccordion/icn_business.svg",
+          "iconUrl": "https://raw.githubusercontent.com/pnp/spfx-reference-scenarios/main/samples/ace-designtemplate-gallery/images/faqaccordion/icn_business.svg",
           "title": "Business",
           "iconLink": "https://www.microsoft.com/en-us/microsoft-365/explore-microsoft-365-for-home",
           "linkTitle": "Learn more"
         }, {
-          "iconUrl": "https://raw.githubusercontent.com/dcashpeterson/spfx-reference-scenarios/main/samples/ace-designtemplate-gallery/images/faqaccordion/icn_enterprise.svg",
+          "iconUrl": "https://raw.githubusercontent.com/pnp/spfx-reference-scenarios/main/samples/ace-designtemplate-gallery/images/faqaccordion/icn_enterprise.svg",
           "title": "Enterprise",
           "iconLink": "https://www.microsoft.com/en-us/microsoft-365/explore-microsoft-365-for-home",
           "linkTitle": "Learn more"
         }, {
-          "iconUrl": "https://raw.githubusercontent.com/dcashpeterson/spfx-reference-scenarios/main/samples/ace-designtemplate-gallery/images/faqaccordion/icn_education.svg",
+          "iconUrl": "https://raw.githubusercontent.com/pnp/spfx-reference-scenarios/main/samples/ace-designtemplate-gallery/images/faqaccordion/icn_education.svg",
           "title": "Education",
           "iconLink": "https://go.microsoft.com/fwlink/p/?LinkID=864773&clcid=0x409&culture=en-us&country=US",
           "linkTitle": "Learn more"

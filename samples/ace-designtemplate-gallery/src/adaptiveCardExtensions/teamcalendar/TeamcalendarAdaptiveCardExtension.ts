@@ -3,7 +3,6 @@ import { BaseAdaptiveCardExtension } from '@microsoft/sp-adaptive-card-extension
 import { CardView } from './cardView/CardView';
 import { QuickView } from './quickView/QuickView';
 
-import { sp } from "@pnp/sp";
 import { Logger, LogLevel, ConsoleListener } from "@pnp/logging";
 
 import { TeamcalendarPropertyPane } from './TeamcalendarPropertyPane';
@@ -38,9 +37,6 @@ export default class TeamcalendarAdaptiveCardExtension extends BaseAdaptiveCardE
       //Initialize PnPLogger
       Logger.subscribe(new ConsoleListener());
       Logger.activeLogLevel = LogLevel.Info;
-
-      //Initialize PnPJs
-      sp.setup({ spfxContext: this.context });
 
       //Initialize Service
       dtg.Init();

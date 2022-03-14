@@ -43,13 +43,13 @@
     "date": "2022-11-24",
     "title": "Thanksgiving",
     "text": "In 1789, President George Washington proclaimed Nov. 26, 1789 as the first nation-wide day of Thanksgiving, marking the event as a time of public prayer.",
-    "imageUrl": "https://raw.githubusercontent.com/dcashpeterson/spfx-reference-scenarios/main/samples/ace-designtemplate-gallery/images/timelineholiday/autumn.jpg"
+    "imageUrl": "https://raw.githubusercontent.com/pnp/spfx-reference-scenarios/main/samples/ace-designtemplate-gallery/images/timelineholiday/autumn.jpg"
 
   },
   {
     "date": "2022-11-25",
     "title": "Day After Thanksgiving",
-    "text": "An American holiday celebrated by sitting on teh couch in a food coma."
+    "text": "An American holiday celebrated by sitting on the couch in a food coma."
   },
   {
     "date": "2022-12-24",
@@ -105,7 +105,7 @@
     "date": "2023-11-23",
     "title": "Thanksgiving",
     "text": "In 1789, President George Washington proclaimed Nov. 26, 1789 as the first nation-wide day of Thanksgiving, marking the event as a time of public prayer.",
-    "imageUrl": "https://raw.githubusercontent.com/dcashpeterson/spfx-reference-scenarios/main/samples/ace-designtemplate-gallery/images/timelineholiday/autumn.jpg"
+    "imageUrl": "https://raw.githubusercontent.com/pnp/spfx-reference-scenarios/main/samples/ace-designtemplate-gallery/images/timelineholiday/autumn.jpg"
   }, {
     "date": "2023-11-24",
     "title": "Day After Thanksgiving",
