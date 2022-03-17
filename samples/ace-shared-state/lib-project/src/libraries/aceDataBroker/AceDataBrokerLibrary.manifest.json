@@ -1,0 +1,9 @@
+{
+  "id": "87a1d6f3-1005-4319-8545-e9590c734b6b",
+  "alias": "AceDataBrokerLibrary",
+  "componentType": "Library",
+
+  // The "*" signifies that the version should be taken from the package.json
+  "version": "*",
+  "manifestVersion": 2
+}
