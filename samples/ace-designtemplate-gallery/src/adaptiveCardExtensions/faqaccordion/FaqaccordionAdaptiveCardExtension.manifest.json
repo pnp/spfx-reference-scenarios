@@ -23,7 +23,7 @@
       "default": "FAQ Accordion"
     },
     "description": {
-      "default": "An Adaptive Card extension demonstrating how to create dynamic accordion style menus."
+      "default": "Design template for showing expand and collapse sections in an accordion style. Submission form with a deep linking to Teams."
     },
     "iconImageUrl": "https://raw.githubusercontent.com/pnp/spfx-reference-scenarios/main/samples/ace-designtemplate-gallery/images/faqaccordion/officelogo.png",
     "properties": {

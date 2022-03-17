@@ -532,7 +532,7 @@ export class DesignTemplateGalleryService implements IDesignTemplateGalleryServi
     try {
 
       const sunday: Date = new Date(currentDate.getFullYear(), currentDate.getMonth(), currentDate.getDate() - currentDate.getDay());
-      const friday: Date = new Date(currentDate.getFullYear(), currentDate.getMonth(), currentDate.getDate() + (currentDate.getDay() - 6));
+      const saturday: Date = new Date(currentDate.getFullYear(), currentDate.getMonth(), currentDate.getDate() + (currentDate.getDay() - 6));
 
       //Sample pulls data from mock
       //To extend pull data from a list of your items
@@ -540,7 +540,7 @@ export class DesignTemplateGalleryService implements IDesignTemplateGalleryServi
       allAppointments.map((appt) => {
         const apptStartDate: Date = new Date(appt.startDate);
         const apptEndDate: Date = new Date(appt.endDate);
-        if ((apptStartDate.getTime() >= sunday.getTime() && apptStartDate.getTime() <= friday.getTime()) || (apptEndDate.getTime() >= sunday.getTime() && apptEndDate.getTime() <= friday.getTime()) || (apptStartDate.getTime() <= sunday.getTime() && apptEndDate.getTime() >= friday.getTime())) {
+        if ((apptStartDate.getTime() >= sunday.getTime() && apptStartDate.getTime() <= saturday.getTime()) || (apptEndDate.getTime() >= sunday.getTime() && apptEndDate.getTime() <= saturday.getTime()) || (apptStartDate.getTime() <= sunday.getTime() && apptEndDate.getTime() >= saturday.getTime())) {
           retVal.push(appt);
         }
       });

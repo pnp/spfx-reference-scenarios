@@ -23,11 +23,12 @@
       "default": "Event Schedule"
     },
     "description": {
-      "default": "Design for listing two day event schedule in a tabs with optionally visible form for the attendee registration."
+      "default": "Design template for showing lists of data and taped interface. Includes registration form and multiple card navigation with deep linking to Teams."
     },
-    "officeFabricIconFontName": "Library",
+    "officeFabricIconFontName": "library",
+    "cardSize": "Large",
     "properties": {
-      "iconProperty": "Library" // Default to sharepointlogo
+      "iconProperty": "library" // Default to sharepointlogo
     }
   }]
 }

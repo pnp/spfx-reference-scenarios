@@ -23,7 +23,7 @@
       "default": "Holidays"
     },
     "description": {
-      "default": "Design for showing a timeline with upcoming events."
+      "default": "Design template for a vertical timeline of events with image and description."
     },
     "officeFabricIconFontName": "Vacation",
     "cardSize": "Medium",

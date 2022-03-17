@@ -68,7 +68,7 @@ export default class AppDetails extends React.Component<IAppDetailsProps, IAppDe
               <div className="hoo-teamsdbcard-content">
 
                 {this.props.deepLink?.deepLinkType == DeepLinkType.EVENTREGISTRATION &&
-                  <div className="deepLinkCard">
+                  <div className="deepLinkCard introText">
                     <div className="introText">{strings.EventRegThankYouMessage.replace('__xxxx__', this.props.deepLink.message.eventTitle)}</div>
                     <span><span className="linkCardLabel">{`${strings.NameLabel}: `}</span>{`${this.props.deepLink.message.firstName} ${this.props.deepLink.message.lastName}`}</span>
                     <span><span className="linkCardLabel">{`${strings.CompanyNameLabel}: `}</span>{this.props.deepLink.message.company}</span>
@@ -76,14 +76,14 @@ export default class AppDetails extends React.Component<IAppDetailsProps, IAppDe
                   </div>
                 }
                 {this.props.deepLink?.deepLinkType == DeepLinkType.ANNIVERSARY &&
-                  <div className="deepLinkCard">
+                  <div className="deepLinkCard introText">
                     <div className="introText">{strings.AnniversaryMessage}</div>
                     <span>{`${this.props.deepLink.message.firstName} ${this.props.deepLink.message.lastName}`}</span>
                     <span><span className="linkCardLabel">{`${strings.CelebratingLabel} `}</span>{this.props.deepLink.message.anniversaryDuration} {(this.props.deepLink.message.anniversaryDuration > 1) ? strings.YearsLabel : strings.YearLabel}</span>
                   </div>
                 }
                 {this.props.deepLink?.deepLinkType == DeepLinkType.PRAISE &&
-                  <div className="deepLinkCard">
+                  <div className="deepLinkCard introText">
                     <div className="introText">{strings.PraiseMessage}</div>
                     <div><img src={this.props.deepLink.message.imageUrl} /></div>
                     <div className="introText">{this.props.deepLink.message.title}</div>
@@ -91,14 +91,14 @@ export default class AppDetails extends React.Component<IAppDetailsProps, IAppDe
                   </div>
                 }
                 {this.props.deepLink?.deepLinkType == DeepLinkType.TIMEOFFREQUEST &&
-                  <div className="deepLinkCard">
+                  <div className="deepLinkCard introText">
                     <div className="introText">{strings.TimeOffMessage}</div>
                     <span><span className="linkCardLabel">{`${strings.RequestTypeLabel}: `}</span>{`${this.props.deepLink.message.requestType}`}</span>
                     <span><span className="linkCardLabel">{`${strings.DateLabel}: `}</span>{`${new Date(this.props.deepLink.message.date).toDateString()}`}</span>
                   </div>
                 }
                 {this.props.deepLink?.deepLinkType == DeepLinkType.VACCINATIONBOOSTER &&
-                  <div className="deepLinkCard">
+                  <div className="deepLinkCard introText">
                     <div className="introText">{strings.VaccineApptMessage}</div>
                     <span><span className="linkCardLabel">{`${strings.RequestTypeLabel}: `}</span>{`${this.props.deepLink.message.boosterVaccineBrand}`}</span>
                     <span><span className="linkCardLabel">{`${strings.DateLabel}: `}</span>{`${new Date(this.props.deepLink.message.apptDate).toDateString()}`}</span>
@@ -108,7 +108,7 @@ export default class AppDetails extends React.Component<IAppDetailsProps, IAppDe
                   <InventoryItem introText={`${strings.InventoryMessage} ${this.props.deepLink.message.inventoryItem.name}`} label={strings.InventoryAvailableLabel} value={this.props.deepLink.message.inventoryItem.amount} />
                 }
                 {this.props.deepLink?.deepLinkType == DeepLinkType.TEXT &&
-                  <div className="deepLinkCard">
+                  <div className="deepLinkCard introText">
                     <span>{strings.DeepLinkMessage.replace('__xxxx__', this.props.deepLink.message)}</span>
                   </div>
                 }

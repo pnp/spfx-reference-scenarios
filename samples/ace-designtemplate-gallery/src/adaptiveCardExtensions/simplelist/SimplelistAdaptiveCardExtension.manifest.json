@@ -23,12 +23,12 @@
       "default": "Simple List with Praise"
     },
     "description": {
-      "default": "Simple list with praise information"
+      "default": "Design template for displaying lists of people with a deep link to Teams."
     },
-    "officeFabricIconFontName": "MedalSolid",
+    "officeFabricIconFontName": "Medal",
     "cardSize": "Large",
     "properties": {
-      "iconProperty": "MedalSolid" // Default to sharepointlogo
+      "iconProperty": "reward" // Default to sharepointlogo
     }
   }]
 }

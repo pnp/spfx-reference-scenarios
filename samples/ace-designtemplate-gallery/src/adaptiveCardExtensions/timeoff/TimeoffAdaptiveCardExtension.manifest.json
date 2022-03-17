@@ -23,11 +23,11 @@
       "default": "Time Off Request"
     },
     "description": {
-      "default": "Design for showing current balance on the time off days and a form to submit a request for a vacation."
+      "default": "Design template for showing a request form with form elements and deep link to Teams."
     },
-    "officeFabricIconFontName": "Rocket",
+    "officeFabricIconFontName": "rocket",
     "properties": {
-      "iconProperty": "Rocket" // Default to sharepointlogo
+      "iconProperty": "rocket" // Default to sharepointlogo
     }
   }]
 }
