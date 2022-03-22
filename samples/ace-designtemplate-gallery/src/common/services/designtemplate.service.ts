@@ -274,9 +274,9 @@ export class DesignTemplateGalleryService implements IDesignTemplateGalleryServi
       //Lets set some event specific data
       //This would come out of our event management system
       retVal.cardViewImage = require('../images/event-schedule/events.png');
-      retVal.eventTitle = eventStrings.EventTitle;
+      retVal.eventTitle = `${eventStrings.EventTitle} ${new Date().getFullYear()}`;
       retVal.headline = eventStrings.ScheduleHeading;
-      retVal.imageCaption = eventStrings.ImageCaption;
+      retVal.imageCaption = `${eventStrings.ImageCaption} ${new Date().getFullYear()}`;
       retVal.introContent = eventStrings.IntroContent;
       retVal.mainImage = require('../images/event-schedule/Ignite-2021-fall-trim.gif');
 
@@ -512,12 +512,14 @@ export class DesignTemplateGalleryService implements IDesignTemplateGalleryServi
       //To extend pull data from a list of your items
       const allAppointments: Appointment[] = require("../data/teamcalendar.data.json");
       allAppointments.map((appt) => {
-        const apptStartDate: Date = new Date(appt.startDate);
-        const apptEndDate: Date = new Date(appt.endDate);
+        let apptStartDate: Date = new Date(appt.startDate);
+        apptStartDate.setMonth(apptStartDate.getMonth() + 1);
+        let apptEndDate: Date = new Date(appt.endDate);
+        apptEndDate.setMonth(apptEndDate.getMonth() + 1);
         if (currentDate.getFullYear() == apptStartDate.getFullYear() && currentDate.getMonth() == apptStartDate.getMonth()) {
-          retVal.push(appt);
+          retVal.push(new Appointment(apptStartDate.toISOString(), apptEndDate.toISOString(), appt.title, appt.appointmentType));
         } else if (currentDate.getFullYear() == apptEndDate.getFullYear() && currentDate.getMonth() == apptEndDate.getMonth()) {
-          retVal.push(appt);
+          retVal.push(new Appointment(apptStartDate.toISOString(), apptEndDate.toISOString(), appt.title, appt.appointmentType));
         }
       });
 
@@ -532,15 +534,24 @@ export class DesignTemplateGalleryService implements IDesignTemplateGalleryServi
     try {
 
       const sunday: Date = new Date(currentDate.getFullYear(), currentDate.getMonth(), currentDate.getDate() - currentDate.getDay());
-      const friday: Date = new Date(currentDate.getFullYear(), currentDate.getMonth(), currentDate.getDate() + (currentDate.getDay() - 6));
+      const saturday: Date = new Date(currentDate.getFullYear(), currentDate.getMonth(), currentDate.getDate() + (sunday.getDay() + 6));
 
       //Sample pulls data from mock
       //To extend pull data from a list of your items
-      const allAppointments: Appointment[] = require("../data/teamcalendar.data.json");
+      const allAppointments: Appointment[] = this.GetAppointments(currentDate);
       allAppointments.map((appt) => {
         const apptStartDate: Date = new Date(appt.startDate);
         const apptEndDate: Date = new Date(appt.endDate);
-        if ((apptStartDate.getTime() >= sunday.getTime() && apptStartDate.getTime() <= friday.getTime()) || (apptEndDate.getTime() >= sunday.getTime() && apptEndDate.getTime() <= friday.getTime()) || (apptStartDate.getTime() <= sunday.getTime() && apptEndDate.getTime() >= friday.getTime())) {
+        //If Start date is after Sunday but before Saturday
+        if (apptStartDate.getTime() > sunday.getTime() && apptStartDate.getTime() < saturday.getTime()) {
+          retVal.push(appt);
+        }
+        //If end date is after Sunday but before Saturday
+        else if (apptEndDate.getTime() >= sunday.getTime() && apptEndDate.getTime() <= saturday.getTime()) {
+          retVal.push(appt);
+        }
+        //If start date is before sunday and end date is after saturday
+        else if (apptStartDate.getTime() < sunday.getTime() && apptEndDate.getTime() > saturday.getTime()) {
           retVal.push(appt);
         }
       });

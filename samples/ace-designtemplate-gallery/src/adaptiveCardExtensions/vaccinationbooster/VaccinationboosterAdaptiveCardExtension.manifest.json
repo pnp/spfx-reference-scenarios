@@ -23,12 +23,12 @@
       "default": "COVID-19 Booster"
     },
     "description": {
-      "default": "Schedule your booster shot."
+      "default": "Design template for textual information and registration form and deep link to Teams."
     },
-    "iconImageUrl": "https://raw.githubusercontent.com/pnp/spfx-reference-scenarios/main/samples/ace-designtemplate-gallery/images/vaccinationbooster/booster.png",
+    "iconImageUrl": "https://raw.githubusercontent.com/pnp/spfx-reference-scenarios/main/samples/ace-designtemplate-gallery/images/vaccination-booster/booster.png",
     "cardSize": "Large",
     "properties": {
-      "iconProperty": "https://raw.githubusercontent.com/pnp/spfx-reference-scenarios/main/samples/ace-designtemplate-gallery/images/vaccinationbooster/booster.png" // Default to sharepointlogo
+      "iconProperty": "https://raw.githubusercontent.com/pnp/spfx-reference-scenarios/main/samples/ace-designtemplate-gallery/images/vaccination-booster/booster.png" // Default to sharepointlogo
     }
   }]
 }

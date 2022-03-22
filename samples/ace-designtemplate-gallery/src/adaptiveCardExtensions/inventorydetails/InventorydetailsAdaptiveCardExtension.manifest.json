@@ -23,11 +23,11 @@
       "default": "Inventory Details"
     },
     "description": {
-      "default": "An Adaptive Card Extension to show a design for presenting inventory details from warehouse"
+      "default": "Design template for displaying lists of data with images. Details conditional formatting and deep link to Teams."
     },
     "officeFabricIconFontName": "Dictionary",
     "properties": {
-      "iconProperty": "Dictionary" // Default to sharepointlogo
+      "iconProperty": "channel" // Default to sharepointlogo
     }
   }]
 }

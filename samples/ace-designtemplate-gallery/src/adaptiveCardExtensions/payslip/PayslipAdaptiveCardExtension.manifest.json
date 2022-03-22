@@ -23,11 +23,11 @@
       "default": "Payslip"
     },
     "description": {
-      "default": "Design for showing payslip details in adaptive card format."
+      "default": "Design template for displaying lists of numerical data. Includes date manipulation and navigation."
     },
-    "officeFabricIconFontName": "Money",
+    "officeFabricIconFontName": "money",
     "properties": {
-      "iconProperty": "Money" // Default to sharepointlogo
+      "iconProperty": "money" // Default to sharepointlogo
     }
   }]
 }

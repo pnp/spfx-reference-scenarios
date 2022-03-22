@@ -55,7 +55,7 @@ export default class TeamcalendarAdaptiveCardExtension extends BaseAdaptiveCardE
         days: days,
         viewDate: new Date(),
         selectedSunday: selectedSunday,
-        selectedAppointments: []
+        selectedAppointments: dtg.GetThisWeekData(new Date())
       };
       //Register the cards
       this.cardNavigator.register(CARD_VIEW_REGISTRY_ID, () => new CardView());

@@ -4,14 +4,14 @@ import {
   IExternalLinkCardAction,
   IQuickViewCardAction
 } from '@microsoft/sp-adaptive-card-extension-base';
+import { cloneDeep } from '@microsoft/sp-lodash-subset';
 import * as strings from 'TeamcalendarAdaptiveCardExtensionStrings';
 import { Appointment } from '../../../common/models/designtemplate.models';
-import { dtg } from '../../../common/services/designtemplate.service';
 import { ITeamcalendarAdaptiveCardExtensionProps, ITeamcalendarAdaptiveCardExtensionState, QUICK_VIEW_REGISTRY_ID } from '../TeamcalendarAdaptiveCardExtension';
 
 export class CardView extends BasePrimaryTextCardView<ITeamcalendarAdaptiveCardExtensionProps, ITeamcalendarAdaptiveCardExtensionState> {
   public get data(): IPrimaryTextCardParameters {
-    const appointments: Appointment[] = dtg.GetThisWeekData(new Date());
+    const appointments: Appointment[] = cloneDeep(this.state.selectedAppointments);
     let OOO: Appointment[] = appointments.filter(appt => appt.appointmentType.toString() == "OOO");
     let cardText: string = "";
     if (appointments.length > 0) {

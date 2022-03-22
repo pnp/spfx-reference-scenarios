@@ -23,11 +23,11 @@
       "default": "Cafeteria Menu"
     },
     "description": {
-      "default": "Design for a visual list with the cafeteria scenario details, including two tab presentation."
+      "default": "Design template for showing visual list of data with images. Shows examples of a tabbed interface and data manipulation."
     },
     "officeFabricIconFontName": "ShoppingCartSolid",
     "properties": {
-      "iconProperty": "ShoppingCartSolid" // Default to sharepointlogo
+      "iconProperty": "cart" // Default to sharepointlogo
     }
   }]
 }

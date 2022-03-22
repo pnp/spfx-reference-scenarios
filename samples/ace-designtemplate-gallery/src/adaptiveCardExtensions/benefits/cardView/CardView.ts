@@ -11,7 +11,7 @@ export class CardView extends BasePrimaryTextCardView<IBenefitsAdaptiveCardExten
 
   public get data(): IPrimaryTextCardParameters {
     return {
-      primaryText: strings.CardViewTitle,
+      primaryText: `${strings.CardViewTitle} ${new Date().getFullYear()}`,
       description: strings.CardViewText
     };
   }

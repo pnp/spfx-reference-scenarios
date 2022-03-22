@@ -23,12 +23,12 @@
       "default": "Benefits"
     },
     "description": {
-      "default": "Benefits Design Template Example ACE with deep linking to Teams"
+      "default": "Design template for showing news or articles with imagery and deep links to Teams."
     },
-    "officeFabricIconFontName": "RibbonSolid",
+    "officeFabricIconFontName": "ribbon",
     "properties": {
       "description": "Choose from the latest benefit options",
-      "iconProperty": "RibbonSolid" // Default to sharepointlogo
+      "iconProperty": "ribbon" // Default to sharepointlogo
     }
   }]
 }

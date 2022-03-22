@@ -27,8 +27,20 @@
     "appointmentType": "OOO"
   }, {
     "startDate": "2022-03-10",
-    "endDate": "2022-04-17",
+    "endDate": "2022-03-17",
     "title": "Vesa out of office",
+    "appointmentType": "OOO"
+  },
+  {
+    "startDate": "2022-04-04",
+    "endDate": "2022-04-07",
+    "title": "Lee out of office - Conference",
+    "appointmentType": "OOO"
+  },
+  {
+    "startDate": "2022-04-04",
+    "endDate": "2022-04-07",
+    "title": "Lynn out of office - Conference",
     "appointmentType": "OOO"
   }, {
     "startDate": "2022-02-15",

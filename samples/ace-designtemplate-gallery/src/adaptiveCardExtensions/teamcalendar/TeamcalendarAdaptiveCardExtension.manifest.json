@@ -23,11 +23,11 @@
       "default": "Team Calendar"
     },
     "description": {
-      "default": "Design for showing calendar format and upcoming team events."
+      "default": "Design template for a dynamic calendar showing different events happening on each day."
     },
     "officeFabricIconFontName": "Calendar",
     "properties": {
-      "iconProperty": "Calendar" // Default to sharepointlogo
+      "iconProperty": "calendar_edit" // Default to sharepointlogo
     }
   }]
 }
