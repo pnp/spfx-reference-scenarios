@@ -5,6 +5,7 @@ define([], function() {
     "IconPropertyFieldLabel": "Card Icon",
     "Title": "COVID-19 Booster",
     "CardViewTitle":"Schedule your FREE COVID-19 vaccine at the Health Center today!",
+    "CardViewTitleShort":"Schedule your COVID-19 vaccine!",
     "QuickViewTitle":"Schedule your FREE COVID-19 booster appointment today",
     "IntroText":"Some vaccines are a series of multiple shots or doses. Tell us which dose you need so we can have it ready.",
     "ReqFields": "\n\nAll fields are required.",

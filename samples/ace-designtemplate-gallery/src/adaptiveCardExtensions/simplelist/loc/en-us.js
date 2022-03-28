@@ -5,6 +5,7 @@ define([], function() {
     "IconPropertyFieldLabel": "Card Icon",
     "Title":"Praise",
     "CardText": "Show gratitude to peers who went above and beyond at work.",
+    "CardTextShort": "Show gratitude to peers.",
     "IntroContent": "Send praise to your colleagues",
     "AnniversaryContent": "anniversaries are coming up 🥳",
     "YearText": "year on",

@@ -1,27 +1,27 @@
 {
   "$schema": "https://developer.microsoft.com/en-us/json-schemas/teams/v1.9/MicrosoftTeams.schema.json",
   "manifestVersion": "1.9",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "id": "4a007f51-abb1-4d3a-b753-7c84404936b2",
   "packageName": "ACEDesignTemplates",
   "developer": {
     "name": "Sympraxis Consulting",
-    "websiteUrl": "https://docs.microsoft.com/en-us/sharepoint/dev/spfx/sharepoint-framework-overview",
-    "privacyUrl": "https://privacy.microsoft.com/en-us/privacystatement",
-    "termsOfUseUrl": "https://www.microsoft.com/en-us/servicesagreement",
-    "mpnId": "M365PNP"
+    "websiteUrl": "https://sympraxisconsulting.com",
+    "privacyUrl": "https://symp.info/acegalleryprivacy",
+    "termsOfUseUrl": "https://symp.info/acegalleryprivacy",
+    "mpnId": "2459569"
   },
   "icons": {
     "color": "4a007f51-abb1-4d3a-b753-7c84404936b2_color.png",
     "outline": "4a007f51-abb1-4d3a-b753-7c84404936b2_outline.png"
   },
   "name": {
-    "short": "ACE Design Template Gallery",
-    "full": "Adaptive Card Extension Design Template Personal Application"
+    "short": "ACE Design Gallery",
+    "full": "Adaptive Card Extension Design Template Gallery and Personal Application"
   },
   "description": {
-    "short": "Adaptive Card Extension Design Template Personal Application",
-    "full": "Teams Personal application that supports deep linking from the ACE Design Template application."
+    "short": "Adaptive Card Extension Design Template Gallery and Personal Application",
+    "full": "Teams Personal application that supports deep linking from the ACE Design Template Gallery application."
   },
   "accentColor": "#F9F9FA",
   "staticTabs": [{

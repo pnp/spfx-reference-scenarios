@@ -26,7 +26,6 @@
       "default": "Design template for displaying lists of people with a deep link to Teams."
     },
     "officeFabricIconFontName": "Medal",
-    "cardSize": "Large",
     "properties": {
       "iconProperty": "reward" // Default to sharepointlogo
     }

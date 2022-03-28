@@ -4,6 +4,7 @@ declare interface IVaccinationboosterAdaptiveCardExtensionStrings {
   IconPropertyFieldLabel: string;
   Title: string;
   CardViewTitle: string;
+  CardViewTitleShort: string;
   QuickViewTitle: string;
   IntroText: string;
   ReqFields: string;

@@ -10,8 +10,12 @@ import { ISimplelistAdaptiveCardExtensionProps, ISimplelistAdaptiveCardExtension
 
 export class CardView extends BaseImageCardView<ISimplelistAdaptiveCardExtensionProps, ISimplelistAdaptiveCardExtensionState> {
   public get data(): IImageCardParameters {
+    let text: string = strings.CardTextShort;
+    if (this.cardSize == "Large") {
+      text = strings.CardText;
+    }
     return {
-      primaryText: strings.CardText,
+      primaryText: text,
       imageUrl: require('../../../common/images/simple-list/office-table.jpg')
     };
   }

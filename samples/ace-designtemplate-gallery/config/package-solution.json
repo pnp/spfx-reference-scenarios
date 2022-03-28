@@ -1,18 +1,18 @@
 {
   "$schema": "https://developer.microsoft.com/json-schemas/spfx-build/package-solution.schema.json",
   "solution": {
-    "name": "ACE Design Template Example Gallery",
+    "name": "Adaptive Card Extension Design Gallery",
     "id": "4f3fb79b-3289-4c58-88f3-143096550446",
-    "version": "1.0.0.3",
+    "version": "1.0.0.4",
     "includeClientSideAssets": true,
     "skipFeatureDeployment": true,
     "isDomainIsolated": false,
     "developer": {
       "name": "Sympraxis Consulting",
-      "websiteUrl": "https://docs.microsoft.com/en-us/sharepoint/dev/spfx/sharepoint-framework-overview",
-      "privacyUrl": "https://privacy.microsoft.com/en-us/privacystatement",
-      "termsOfUseUrl": "https://www.microsoft.com/en-us/servicesagreement",
-      "mpnId": "M365PNP"
+      "websiteUrl": "https://sympraxisconsulting.com",
+      "privacyUrl": "https://symp.info/acegalleryprivacy",
+      "termsOfUseUrl": "https://symp.info/acegalleryprivacy",
+      "mpnId": "2459569"
     }
   },
   "paths": {
