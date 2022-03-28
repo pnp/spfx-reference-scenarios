@@ -34,11 +34,11 @@ export interface IDesignTemplateGalleryService {
   GetInventoryDetail(): InventoryDetail;
   GetPayPeriods: () => PayPeriod[];
   GetPaySlips: () => Payslip[];
-  GetSimpleList(): SimpleList;
-  getCalendarDays: (currentDate: Date) => Day[];
-  GetAppointments: (currentDate: Date) => Appointment[];
-  GetThisWeekData: (currentDate: Date) => Appointment[];
-  GetHolidayTimeline: () => HolidayTimeline;
+  GetSimpleList(local: string): SimpleList;
+  getCalendarDays: (currentDate: Date, local: string) => Day[];
+  GetAppointments: (currentDate: Date, local: string) => Appointment[];
+  GetThisWeekData: (currentDate: Date, local: string) => Appointment[];
+  GetHolidayTimeline: (local: string) => HolidayTimeline;
   GetTimeOff: () => TimeOff;
   SubmitTimeOffRequest: (request: TimeOffRequest) => void;
   GetCafeterias: () => Cafeteria[];
@@ -171,7 +171,7 @@ export class DesignTemplateGalleryService implements IDesignTemplateGalleryServi
     return retVal;
   }
 
-  public GetDeepLinkData(subEntityId: any): DeepLinkData {
+  public GetDeepLinkData(subEntityId: any, local: string): DeepLinkData {
     let retVal: DeepLinkData = new DeepLinkData();
     try {
       retVal.appName = subEntityId.appName;
@@ -201,7 +201,7 @@ export class DesignTemplateGalleryService implements IDesignTemplateGalleryServi
           break;
         }
         case AppList.SIMPLELIST: {
-          const simpleList: SimpleList = this.GetSimpleList();
+          const simpleList: SimpleList = this.GetSimpleList(local);
           if (subEntityId.linkType == DeepLinkType.ANNIVERSARY) {
             const anniversary: Anniversary = find(simpleList.anniversaries, { id: subEntityId.message });
             retVal = new DeepLinkData(subEntityId.appName, DeepLinkType.ANNIVERSARY, anniversary);
@@ -415,7 +415,7 @@ export class DesignTemplateGalleryService implements IDesignTemplateGalleryServi
     return retVal;
   }
 
-  public GetSimpleList(): SimpleList {
+  public GetSimpleList(local: string): SimpleList {
     let retVal: SimpleList = new SimpleList();
     try {
       //Sample pulls data from mock
@@ -426,6 +426,7 @@ export class DesignTemplateGalleryService implements IDesignTemplateGalleryServi
       anniversaries.map((item) => {
         const anniversaryDate: Date = new Date(item.anniversaryDate);
         let duration = currentDate.getFullYear() - anniversaryDate.getFullYear();
+        item.anniversaryLabel = Intl.DateTimeFormat(local, { weekday: undefined, year: undefined, month: 'short', day: 'numeric' }).format(anniversaryDate);
         item.anniversaryDuration = duration;
         const url = encodeURI(`${this._teamsUrl}?context={"subEntityId":{"appName":"${AppList.SIMPLELIST}","linkType":"${DeepLinkType.ANNIVERSARY}","message":"${item.id}"}}`);
         item.linkUrl = url;
@@ -445,7 +446,7 @@ export class DesignTemplateGalleryService implements IDesignTemplateGalleryServi
     return retVal;
   }
 
-  public getCalendarDays(currentDate: Date): Day[] {
+  public getCalendarDays(currentDate: Date, local: string): Day[] {
     let retVal: Day[] = [];
     try {
       const currentMonthIndex: number = currentDate.getMonth();
@@ -478,7 +479,7 @@ export class DesignTemplateGalleryService implements IDesignTemplateGalleryServi
         }
       }
 
-      const appointments: Appointment[] = this.GetAppointments(currentDate);
+      const appointments: Appointment[] = this.GetAppointments(currentDate, local);
       appointments.map((appt) => {
         let startDate: Date = new Date(appt.startDate);
         //If the event spans months set the start to the first day of the current month.
@@ -494,7 +495,7 @@ export class DesignTemplateGalleryService implements IDesignTemplateGalleryServi
           apptStartDate.setDate(startDate.getDate() + x);
           const day: Day = find(retVal, { day: apptStartDate.getDate(), monthIndex: apptStartDate.getMonth() });
           if (day) {
-            day.appointments.push(new Appointment(appt.startDate, appt.endDate, appt.title, appt.appointmentType));
+            day.appointments.push(appt);
           }
         }
 
@@ -505,7 +506,7 @@ export class DesignTemplateGalleryService implements IDesignTemplateGalleryServi
     return retVal;
   }
 
-  public GetAppointments(currentDate: Date): Appointment[] {
+  public GetAppointments(currentDate: Date, local: string): Appointment[] {
     let retVal: Appointment[] = [];
     try {
       //Sample pulls data from mock
@@ -516,10 +517,19 @@ export class DesignTemplateGalleryService implements IDesignTemplateGalleryServi
         apptStartDate.setMonth(apptStartDate.getMonth() + 1);
         let apptEndDate: Date = new Date(appt.endDate);
         apptEndDate.setMonth(apptEndDate.getMonth() + 1);
+        let dateString: string = "";
+        if (apptStartDate.getMonth() == apptEndDate.getMonth() && apptStartDate.getDate() == apptEndDate.getDate()) {
+          dateString = Intl.DateTimeFormat(local, { weekday: undefined, year: undefined, month: 'short', day: 'numeric' }).format(apptStartDate);
+        } else if (apptStartDate.getDate() != apptEndDate.getDate() && apptStartDate.getMonth() == apptEndDate.getMonth()) {
+          dateString = `${Intl.DateTimeFormat(local, { weekday: undefined, year: undefined, month: 'short', day: 'numeric' }).format(apptStartDate)}-${Intl.DateTimeFormat(local, { weekday: undefined, year: undefined, month: undefined, day: 'numeric' }).format(apptEndDate)}`;
+        }
+        else if (apptStartDate != apptEndDate && apptStartDate.getMonth() != apptEndDate.getMonth()) {
+          dateString = `${Intl.DateTimeFormat(local, { weekday: undefined, year: undefined, month: 'short', day: 'numeric' }).format(apptStartDate)}-${Intl.DateTimeFormat(local, { weekday: undefined, year: undefined, month: 'short', day: 'numeric' }).format(apptEndDate)}`;
+        }
         if (currentDate.getFullYear() == apptStartDate.getFullYear() && currentDate.getMonth() == apptStartDate.getMonth()) {
-          retVal.push(new Appointment(apptStartDate.toISOString(), apptEndDate.toISOString(), appt.title, appt.appointmentType));
+          retVal.push(new Appointment(apptStartDate.toISOString(), apptEndDate.toISOString(), dateString, appt.title, appt.appointmentType));
         } else if (currentDate.getFullYear() == apptEndDate.getFullYear() && currentDate.getMonth() == apptEndDate.getMonth()) {
-          retVal.push(new Appointment(apptStartDate.toISOString(), apptEndDate.toISOString(), appt.title, appt.appointmentType));
+          retVal.push(new Appointment(apptStartDate.toISOString(), apptEndDate.toISOString(), dateString, appt.title, appt.appointmentType));
         }
       });
 
@@ -529,7 +539,7 @@ export class DesignTemplateGalleryService implements IDesignTemplateGalleryServi
     return retVal;
   }
 
-  public GetThisWeekData(currentDate: Date): Appointment[] {
+  public GetThisWeekData(currentDate: Date, local: string): Appointment[] {
     let retVal: Appointment[] = [];
     try {
 
@@ -538,7 +548,7 @@ export class DesignTemplateGalleryService implements IDesignTemplateGalleryServi
 
       //Sample pulls data from mock
       //To extend pull data from a list of your items
-      const allAppointments: Appointment[] = this.GetAppointments(currentDate);
+      const allAppointments: Appointment[] = this.GetAppointments(currentDate, local);
       allAppointments.map((appt) => {
         const apptStartDate: Date = new Date(appt.startDate);
         const apptEndDate: Date = new Date(appt.endDate);
@@ -562,7 +572,7 @@ export class DesignTemplateGalleryService implements IDesignTemplateGalleryServi
     return retVal;
   }
 
-  public GetHolidayTimeline(): HolidayTimeline {
+  public GetHolidayTimeline(local: string): HolidayTimeline {
     let retVal: HolidayTimeline = new HolidayTimeline();
     try {
       const today: Date = new Date();
@@ -574,12 +584,14 @@ export class DesignTemplateGalleryService implements IDesignTemplateGalleryServi
             holiday.holidayWeekend = true;
             let friday: Date = new Date(holidayDate.getFullYear(), holidayDate.getMonth(), holidayDate.getDate() - 3);
             let tuesday: Date = new Date(holidayDate.getFullYear(), holidayDate.getMonth(), holidayDate.getDate() + 1);
-            holiday.holidayWeekendFri = friday.toISOString();
-            holiday.holidayWeekendTue = tuesday.toISOString();
+            holiday.holidayWeekendFri = Intl.DateTimeFormat(local, { weekday: 'long', year: undefined, month: 'long', day: 'numeric' }).format(friday);
+            holiday.holidayWeekendTue = Intl.DateTimeFormat(local, { weekday: 'long', year: undefined, month: 'long', day: 'numeric' }).format(tuesday);
           }
+          holiday.dayLabel = Intl.DateTimeFormat(local, { weekday: undefined, year: undefined, month: 'long', day: 'numeric' }).format(holidayDate);
+          holiday.year = holidayDate.getFullYear().toString();
           retVal.holidays.push(holiday);
-          if (retVal.years.indexOf(`${holidayDate.getFullYear()}-01-01`) <= -1) {
-            retVal.years.push(`${holidayDate.getFullYear()}-01-01`);
+          if (retVal.years.indexOf(holidayDate.getFullYear().toString()) <= -1) {
+            retVal.years.push(holidayDate.getFullYear().toString());
           }
         }
       });

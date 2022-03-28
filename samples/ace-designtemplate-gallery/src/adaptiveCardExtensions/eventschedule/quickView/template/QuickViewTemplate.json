@@ -104,7 +104,7 @@
       "$when": "${id == $root.selectedDay}",
       "items": [{
         "type": "TextBlock",
-        "text": "${formatDateTime(date,'dddd, MMMM d')}",
+        "text": "${date}",
         "wrap": true,
         "size": "Medium",
         "weight": "Bolder",

@@ -1,7 +1,7 @@
 {
   "days": [{
       "id": 1,
-      "date": "2022-04-01T00:00:00Z",
+      "date": "Friday, April 1",
       "events": [{
           "startTime": "2022-04-01T08:00:00Z",
           "endTime": "2022-04-01T08:15:00Z",
@@ -33,7 +33,7 @@
     },
     {
       "id": 2,
-      "date": "2022-04-02T00:00:00Z",
+      "date": "Saturday, April 2",
       "events": [{
           "startTime": "2022-04-02T01:00:00Z",
           "endTime": "2022-04-01T03:45:00Z",

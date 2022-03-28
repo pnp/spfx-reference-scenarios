@@ -81,7 +81,7 @@
           "verticalContentAlignment": "Top",
           "items": [{
             "type": "TextBlock",
-            "text": "${anniversaryDuration} ${if(anniversaryDuration > 1, $root.strings.YearsText, $root.strings.YearText)} ${formatDateTime(anniversaryDate, 'MMM d')}",
+            "text": "${anniversaryDuration} ${if(anniversaryDuration > 1, $root.strings.YearsText, $root.strings.YearText)} ${anniversaryLabel}",
             "wrap": true,
             "size": "Default",
             "horizontalAlignment": "Right"

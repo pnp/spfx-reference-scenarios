@@ -40,7 +40,7 @@ export default class SimplelistAdaptiveCardExtension extends BaseAdaptiveCardExt
       dtg.Init();
 
       //Get the data for the app
-      const app: SimpleList = dtg.GetSimpleList();
+      const app: SimpleList = dtg.GetSimpleList(this.context.pageContext.cultureInfo.currentUICultureName);
 
       //Set the data into state
       this.state = {

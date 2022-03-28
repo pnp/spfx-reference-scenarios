@@ -41,8 +41,10 @@ export default class TeamcalendarAdaptiveCardExtension extends BaseAdaptiveCardE
       //Initialize Service
       dtg.Init();
 
+      let local: string = this.context.pageContext.cultureInfo.currentUICultureName;
+
       //Get the data for the app
-      const days: IDay[] = dtg.getCalendarDays(new Date());
+      const days: IDay[] = dtg.getCalendarDays(new Date(), local);
       const today: Date = new Date();
       let weekdayIndex: number = today.getDate() - today.getDay();
       if (weekdayIndex < 0) {
@@ -55,7 +57,7 @@ export default class TeamcalendarAdaptiveCardExtension extends BaseAdaptiveCardE
         days: days,
         viewDate: new Date(),
         selectedSunday: selectedSunday,
-        selectedAppointments: dtg.GetThisWeekData(new Date())
+        selectedAppointments: dtg.GetThisWeekData(new Date(), local)
       };
       //Register the cards
       this.cardNavigator.register(CARD_VIEW_REGISTRY_ID, () => new CardView());

@@ -40,7 +40,7 @@ export default class TimelineholidayAdaptiveCardExtension extends BaseAdaptiveCa
       //Initialize Service
       dtg.Init();
 
-      const timline: HolidayTimeline = dtg.GetHolidayTimeline();
+      const timline: HolidayTimeline = dtg.GetHolidayTimeline(this.context.pageContext.cultureInfo.currentUICultureName);
 
       //Set the data into state
       this.state = {

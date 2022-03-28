@@ -10,7 +10,7 @@
       "$data": "${years}",
       "items": [{
           "type": "TextBlock",
-          "text": "${formatDateTime($data, 'yyyy')}",
+          "text": "${$data}",
           "wrap": true,
           "size": "ExtraLarge",
           "weight": "Bolder",
@@ -18,21 +18,21 @@
         },
         {
           "type": "TextBlock",
-          "$when": "${formatDateTime($data, 'yyyy') == formatDateTime($root.today, 'yyyy')}",
-          "text": "${count(where($root.holidays, x, formatDateTime(x.date, 'yyyy') == formatDateTime($data, 'yyyy')))} holidays remaining this year.",
+          "$when": "${$data == $root.today}",
+          "text": "${$root.holidayCount[$index]} holidays remaining this year.",
           "wrap": true,
           "size": "Small"
         },
         {
           "type": "TextBlock",
-          "$when": "${formatDateTime($data, 'yyyy') != formatDateTime($root.today, 'yyyy')}",
-          "text": "${count(where($root.holidays, x, formatDateTime(x.date, 'yyyy') == formatDateTime($data, 'yyyy')))} holidays will be celebrated this year.",
+          "$when": "${$data != $root.today}",
+          "text": "${$root.holidayCount[$index]} holidays will be celebrated this year.",
           "wrap": true,
           "size": "Small"
         },
         {
           "type": "ColumnSet",
-          "$data": "${where($root.holidays, x, formatDateTime(x.date, 'yyyy') == formatDateTime($data, 'yyyy'))}",
+          "$data": "${where($root.holidays, x, x.year == $data)}",
           "columns": [{
               "type": "Column",
               "width": "40px",
@@ -57,7 +57,7 @@
                   },
                   {
                     "type": "TextBlock",
-                    "text": "${formatDateTime(date, 'MMMM dd')}",
+                    "text": "${dayLabel}",
                     "wrap": true,
                     "weight": "Bolder",
                     "color": "Accent"
@@ -83,7 +83,7 @@
                   },
                   {
                     "type": "TextBlock",
-                    "text": "${formatDateTime(date, 'dddd, MMMM dd, yyyy')}",
+                    "text": "{{DATE(${date}T00:00:00Z,LONG)}}",
                     "wrap": true,
                     "size": "Small",
                     "isSubtle": true
@@ -105,7 +105,7 @@
                       },
                       {
                         "type": "TextBlock",
-                        "text": "${$root.strings.LongWeekendText} ${formatDateTime(holidayWeekendFri, 'dddd, MMMM dd')} or ${formatDateTime(holidayWeekendTue, 'dddd, MMMM dd')}. ${$root.strings.TimeOffText}",
+                        "text": "${$root.strings.LongWeekendText} ${holidayWeekendFri} or ${holidayWeekendTue}. ${$root.strings.TimeOffText}",
                         "wrap": true,
                         "size": "Small"
                       },
