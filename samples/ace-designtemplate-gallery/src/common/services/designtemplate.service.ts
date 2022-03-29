@@ -84,6 +84,8 @@ export class DesignTemplateGalleryService implements IDesignTemplateGalleryServi
           retVal.appQuickViewImage = require('../images/benefits/card.png');
           retVal.appName = strings.BenefitsAppName;
           retVal.appDescription = strings.BenefitsAppDesc;
+          retVal.appDesignerLink = strings.BenefitsAppDesignerLink;
+          retVal.appGitHubLink = strings.BenefitsAppGitHubLink;
           break;
         }
         case AppList.EVENTSCHEDULE: {
@@ -91,6 +93,8 @@ export class DesignTemplateGalleryService implements IDesignTemplateGalleryServi
           retVal.appQuickViewImage = require('../images/event-schedule/card.png');
           retVal.appName = strings.EventScheduleAppName;
           retVal.appDescription = strings.EventScheduleAppDesc;
+          retVal.appDesignerLink = strings.EventScheduleAppDesignerLink;
+          retVal.appGitHubLink = strings.EventScheduleAppGitHubLink;
           break;
         }
         case AppList.FAQACCORDION: {
@@ -98,6 +102,8 @@ export class DesignTemplateGalleryService implements IDesignTemplateGalleryServi
           retVal.appQuickViewImage = require('../images/faq-accordion/card.png');
           retVal.appName = strings.FAQAppName;
           retVal.appDescription = strings.FAQAppDesc;
+          retVal.appDesignerLink = strings.FAQAppDesignerLink;
+          retVal.appGitHubLink = strings.FAQAppGitHubLink;
           break;
         }
         case AppList.IMAGECAROUSEL: {
@@ -105,6 +111,8 @@ export class DesignTemplateGalleryService implements IDesignTemplateGalleryServi
           retVal.appQuickViewImage = require('../images/image-carousel/card.png');
           retVal.appName = strings.ImageCarouselAppName;
           retVal.appDescription = strings.ImageCarouselAppDesc;
+          retVal.appDesignerLink = strings.ImageCarouselAppDesignerLink;
+          retVal.appGitHubLink = strings.ImageCarouselAppGitHubLink;
           break;
         }
         case AppList.INVENTORY: {
@@ -112,6 +120,8 @@ export class DesignTemplateGalleryService implements IDesignTemplateGalleryServi
           retVal.appQuickViewImage = require('../images/inventory/card.png');
           retVal.appName = strings.InventoryAppName;
           retVal.appDescription = strings.InventoryAppDesc;
+          retVal.appDesignerLink = strings.InventoryAppDesignerLink;
+          retVal.appGitHubLink = strings.InventoryAppGitHubLink;
           break;
         }
         case AppList.PAYSLIP: {
@@ -119,6 +129,8 @@ export class DesignTemplateGalleryService implements IDesignTemplateGalleryServi
           retVal.appQuickViewImage = require('../images/payslip/card.png');
           retVal.appName = strings.PayslipAppName;
           retVal.appDescription = strings.PayslipAppDesc;
+          retVal.appDesignerLink = strings.PayslipAppDesignerLink;
+          retVal.appGitHubLink = strings.PayslipAppGitHubLink;
           break;
         }
         case AppList.SIMPLELIST: {
@@ -126,6 +138,8 @@ export class DesignTemplateGalleryService implements IDesignTemplateGalleryServi
           retVal.appQuickViewImage = require('../images/simple-list/card.png');
           retVal.appName = strings.SimpleListAppName;
           retVal.appDescription = strings.SimpleListAppDesc;
+          retVal.appDesignerLink = strings.SimpleListAppDesignerLink;
+          retVal.appGitHubLink = strings.SimpleListAppGitHubLink;
           break;
         }
         case AppList.TEAMCALENDAR: {
@@ -133,6 +147,8 @@ export class DesignTemplateGalleryService implements IDesignTemplateGalleryServi
           retVal.appQuickViewImage = require('../images/team-calendar/card.png');
           retVal.appName = strings.TeamCalendarAppName;
           retVal.appDescription = strings.TeamCalendarAppDesc;
+          retVal.appDesignerLink = strings.TeamCalendarAppDesignerLink;
+          retVal.appGitHubLink = strings.TeamCalendarAppGitHubLink;
           break;
         }
         case AppList.TIMELINEHOLIDAY: {
@@ -140,6 +156,8 @@ export class DesignTemplateGalleryService implements IDesignTemplateGalleryServi
           retVal.appQuickViewImage = require('../images/timeline-holidays/card.png');
           retVal.appName = strings.TimelineAppName;
           retVal.appDescription = strings.TimelineAppDesc;
+          retVal.appDesignerLink = strings.TimelineAppDesignerLink;
+          retVal.appGitHubLink = strings.TimelineAppGitHubLink;
           break;
         }
         case AppList.TIMEOFF: {
@@ -147,6 +165,8 @@ export class DesignTemplateGalleryService implements IDesignTemplateGalleryServi
           retVal.appQuickViewImage = require('../images/timeoff/card.png');
           retVal.appName = strings.TimeoffAppName;
           retVal.appDescription = strings.TimeoffAppDesc;
+          retVal.appDesignerLink = strings.TimeoffAppDesignerLink;
+          retVal.appGitHubLink = strings.TimeoffAppGitHubLink;
           break;
         }
         case AppList.VACCINATIONBOOSTER: {
@@ -154,6 +174,8 @@ export class DesignTemplateGalleryService implements IDesignTemplateGalleryServi
           retVal.appQuickViewImage = require('../images/vaccination-booster/card.png');
           retVal.appName = strings.VaccinationAppName;
           retVal.appDescription = strings.VaccinationAppDesc;
+          retVal.appDesignerLink = strings.VaccinationAppDesignerLink;
+          retVal.appGitHubLink = strings.VaccinationAppGitHubLink;
           break;
         }
         case AppList.VISUALLIST: {
@@ -161,6 +183,8 @@ export class DesignTemplateGalleryService implements IDesignTemplateGalleryServi
           retVal.appQuickViewImage = require('../images/visual-list/card.png');
           retVal.appName = strings.VisualListAppName;
           retVal.appDescription = strings.VisualListAppDesc;
+          retVal.appDesignerLink = strings.VisualListAppDesignerLink;
+          retVal.appGitHubLink = strings.VisualListAppGitHubLink;
           break;
         }
       }

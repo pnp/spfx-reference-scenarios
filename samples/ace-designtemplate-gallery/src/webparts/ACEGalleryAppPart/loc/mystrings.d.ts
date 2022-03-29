@@ -4,30 +4,67 @@ declare interface IAceDesignTemplatePersonalAppWebPartStrings {
   DescriptionFieldLabel: string;
   AppTitle: string;
   AppListIntroContent: string;
+
   BenefitsAppName: string;
   BenefitsAppDesc: string;
+  BenefitsAppDesignerLink: string;
+  BenefitsAppGitHubLink: string;
+
   EventScheduleAppName: string;
   EventScheduleAppDesc: string;
+  EventScheduleAppDesignerLink: string;
+  EventScheduleAppGitHubLink: string;
+
   FAQAppName: string;
   FAQAppDesc: string;
+  FAQAppDesignerLink: string;
+  FAQAppGitHubLink: string;
+
   ImageCarouselAppName: string;
   ImageCarouselAppDesc: string;
+  ImageCarouselAppDesignerLink: string;
+  ImageCarouselAppGitHubLink: string;
+
   InventoryAppName: string;
   InventoryAppDesc: string;
+  InventoryAppDesignerLink: string;
+  InventoryAppGitHubLink: string;
+
   PayslipAppName: string;
   PayslipAppDesc: string;
+  PayslipAppDesignerLink: string;
+  PayslipAppGitHubLink: string;
+
   SimpleListAppName: string;
   SimpleListAppDesc: string;
+  SimpleListAppDesignerLink: string;
+  SimpleListAppGitHubLink: string;
+
   TeamCalendarAppName: string;
   TeamCalendarAppDesc: string;
+  TeamCalendarAppDesignerLink: string;
+  TeamCalendarAppGitHubLink: string;
+
   TimelineAppName: string;
   TimelineAppDesc: string;
+  TimelineAppDesignerLink: string;
+  TimelineAppGitHubLink: string;
+
   TimeoffAppName: string;
   TimeoffAppDesc: string;
+  TimeoffAppDesignerLink: string;
+  TimeoffAppGitHubLink: string;
+
   VaccinationAppName: string;
   VaccinationAppDesc: string;
+  VaccinationAppDesignerLink: string;
+  VaccinationAppGitHubLink: string;
+
   VisualListAppName: string;
   VisualListAppDesc: string;
+  VisualListAppDesignerLink: string;
+  VisualListAppGitHubLink: string;
+
   DeepLinkContent: string;
   DeepLinkHeading: string;
   DeepLinkDescription: string;
@@ -53,10 +90,15 @@ declare interface IAceDesignTemplatePersonalAppWebPartStrings {
   AboutHeading: string;
   AboutContent: string;
   MoreInfoHeading: string;
-  ACDocsButtonText: string;
+
+  DesignGuidelinesButtonText: string;
+  DesignGuidelinesButtonLink: string;
+  ViewSampleButtonText: string;
   ACDesignerButtonText: string;
+  LearnACButtonText: string;
+  LearnACButtonLink: string;
   ACTutorialButtonText: string;
-  ACEDesignButtonText: string;
+  ACTutorialButtonLink: string;
 }
 
 declare module 'AceDesignTemplatePersonalAppWebPartStrings' {

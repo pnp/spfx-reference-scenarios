@@ -49,6 +49,8 @@ export interface IAppData {
   appDescription: string;
   appCardImage: string;
   appQuickViewImage: string;
+  appDesignerLink: string;
+  appGitHubLink: string;
 }
 
 export class AppData implements IAppData {
@@ -56,7 +58,9 @@ export class AppData implements IAppData {
     public appName: string = "",
     public appDescription: string = "",
     public appCardImage: string = "",
-    public appQuickViewImage: string = ""
+    public appQuickViewImage: string = "",
+    public appDesignerLink: string = "",
+    public appGitHubLink: string = ""
   ) { }
 }
 
