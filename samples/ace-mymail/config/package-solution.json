@@ -1,0 +1,42 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/spfx-build/package-solution.schema.json",
+  "solution": {
+    "name": "ace-mymail-client-side-solution",
+    "id": "75ce1116-a686-41d4-86bb-7a5b525731b2",
+    "version": "1.0.0.0",
+    "includeClientSideAssets": true,
+    "skipFeatureDeployment": true,
+    "isDomainIsolated": false,
+    "developer": {
+      "name": "",
+      "websiteUrl": "",
+      "privacyUrl": "",
+      "termsOfUseUrl": "",
+      "mpnId": "Undefined-1.14.0"
+    },
+    "metadata": {
+      "shortDescription": {
+        "default": "ace-mymail description"
+      },
+      "longDescription": {
+        "default": "ace-mymail description"
+      },
+      "screenshotPaths": [],
+      "videoUrl": "",
+      "categories": []
+    },
+    "webApiPermissionRequests": [{
+      "resource": "Microsoft Graph",
+      "scope": "Mail.Read"
+    }],
+    "features": [{
+      "title": "ace-mymail Feature",
+      "description": "The feature that activates elements of the ace-mymail solution.",
+      "id": "ce406ab1-5716-4c27-9f69-8df137ec0550",
+      "version": "1.0.0.0"
+    }]
+  },
+  "paths": {
+    "zippedPackage": "solution/ace-mymail.sppkg"
+  }
+}
