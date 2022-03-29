@@ -92,7 +92,7 @@ define([], function() {
     "MoreInfoHeading": "For More Information on Adaptive Card Extensions",
     
     "DesignGuidelinesButtonText": "Design Guidelines",
-    "DesignGuidelinesButtonLink": "https://docs.microsoft.com/en-us/sharepoint/dev/spfx/viva/design/designing-card",
+    "DesignGuidelinesButtonLink": "https://docs.microsoft.com/en-us/sharepoint/dev/spfx/viva/design/design-intro",
     "ViewSampleButtonText": "View Sample Code",
     "ACDesignerButtonText": "Adaptive Card Designer",
     "LearnACButtonText":"Learn About Adaptive Cards",
