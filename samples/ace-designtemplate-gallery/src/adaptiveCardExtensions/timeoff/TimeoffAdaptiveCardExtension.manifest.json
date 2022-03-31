@@ -25,7 +25,7 @@
     "description": {
       "default": "Design template for showing a request form with form elements and deep link to Teams."
     },
-    "iconImageUrl": "https://raw.githubusercontent.com/dcashpeterson/spfx-reference-scenarios/main/samples/ace-designtemplate-gallery/images/acepnplogo.png",
+    "iconImageUrl": "https://raw.githubusercontent.com/pnp/spfx-reference-scenarios/main/samples/ace-designtemplate-gallery/images/acepnplogo.png",
     "properties": {
       "iconProperty": "rocket" // Default to sharepointlogo
     }
