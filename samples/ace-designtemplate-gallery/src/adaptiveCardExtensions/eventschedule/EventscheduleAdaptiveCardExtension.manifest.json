@@ -20,12 +20,12 @@
       "default": "Dashboard"
     },
     "title": {
-      "default": "Event Schedule"
+      "default": "ACE - Event Schedule"
     },
     "description": {
       "default": "Design template for showing lists of data and tabbed interface. Includes registration form and multiple card navigation with deep linking to Teams."
     },
-    "officeFabricIconFontName": "library",
+    "iconImageUrl": "https://raw.githubusercontent.com/dcashpeterson/spfx-reference-scenarios/main/samples/ace-designtemplate-gallery/images/acepnplogo.png",
     "properties": {
       "iconProperty": "library" // Default to sharepointlogo
     }

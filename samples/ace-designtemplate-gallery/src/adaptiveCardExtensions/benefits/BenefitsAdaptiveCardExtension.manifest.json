@@ -20,12 +20,12 @@
       "default": "Dashboard"
     },
     "title": {
-      "default": "Benefits"
+      "default": "ACE - Benefits"
     },
     "description": {
       "default": "Design template for showing news or articles with imagery and deep links to Teams."
     },
-    "officeFabricIconFontName": "ribbon",
+    "iconImageUrl": "https://raw.githubusercontent.com/dcashpeterson/spfx-reference-scenarios/main/samples/ace-designtemplate-gallery/images/acepnplogo.png",
     "properties": {
       "description": "Choose from the latest benefit options",
       "iconProperty": "ribbon" // Default to sharepointlogo

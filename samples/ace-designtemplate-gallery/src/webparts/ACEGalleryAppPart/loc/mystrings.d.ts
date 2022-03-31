@@ -91,6 +91,7 @@ declare interface IAceDesignTemplatePersonalAppWebPartStrings {
   AboutContent: string;
   MoreInfoHeading: string;
 
+  BackButtonText: string;
   DesignGuidelinesButtonText: string;
   DesignGuidelinesButtonLink: string;
   ViewSampleButtonText: string;

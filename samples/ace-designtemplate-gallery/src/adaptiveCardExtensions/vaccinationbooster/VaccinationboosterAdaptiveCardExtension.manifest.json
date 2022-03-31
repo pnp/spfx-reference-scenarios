@@ -20,12 +20,12 @@
       "default": "Dashboard"
     },
     "title": {
-      "default": "COVID-19 Booster"
+      "default": "ACE - COVID-19 Booster"
     },
     "description": {
       "default": "Design template for textual information and registration form and deep link to Teams."
     },
-    "iconImageUrl": "https://raw.githubusercontent.com/pnp/spfx-reference-scenarios/main/samples/ace-designtemplate-gallery/images/vaccination-booster/booster.png",
+    "iconImageUrl": "https://raw.githubusercontent.com/dcashpeterson/spfx-reference-scenarios/main/samples/ace-designtemplate-gallery/images/acepnplogo.png",
     "properties": {
       "iconProperty": "https://raw.githubusercontent.com/pnp/spfx-reference-scenarios/main/samples/ace-designtemplate-gallery/images/vaccination-booster/booster.png" // Default to sharepointlogo
     }

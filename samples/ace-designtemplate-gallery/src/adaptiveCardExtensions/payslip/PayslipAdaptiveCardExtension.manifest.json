@@ -20,12 +20,12 @@
       "default": "Dashboard"
     },
     "title": {
-      "default": "Payslip"
+      "default": "ACE - Payslip"
     },
     "description": {
       "default": "Design template for displaying lists of numerical data. Includes date manipulation and navigation."
     },
-    "officeFabricIconFontName": "money",
+    "iconImageUrl": "https://raw.githubusercontent.com/dcashpeterson/spfx-reference-scenarios/main/samples/ace-designtemplate-gallery/images/acepnplogo.png",
     "properties": {
       "iconProperty": "money" // Default to sharepointlogo
     }

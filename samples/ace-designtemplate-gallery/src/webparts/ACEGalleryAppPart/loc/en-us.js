@@ -4,7 +4,7 @@ define([], function() {
     "BasicGroupName": "Group Name", 
     "DescriptionFieldLabel": "Description Field",
     "AppTitle": "Adaptive Card Extension - Design Examples",
-    "AppListIntroContent": "Samples on different Adaptive Card designs demonstrating the art of possible for inspiration and innovation. Shared designs can be used as such or as a starting point for your own designs. Click on a card to see more details about the sample and get more information about developing your own Adaptive Card Extensions using SPFx.",
+    "AppListIntroContent": "This Microsoft Teams Personal app provides a gallery to show a collection of 12 Adaptive Card Extensions (ACEs) for use with Viva Connections. Each ACE has a detailed view where you can see images of the different card views as well as get access to the source code and design guidance for building ACEs. These samples provide a demonstration of the art of the possible as well as provide design guidance for laying out different types of data using Adaptive Cards and SPFx. The Teams app shows not only examples of the cards but when used in connection with the Adaptive Card Extensions on the Viva Connections Dashboard provides a place to show how to handle deep linking into Teams.",
     
     "BenefitsAppName": "Benefits",
     "BenefitsAppDesc": "Design for presenting news and company updates with numerous referenced articles or posts. This design is for showcasing quick view design option with the Viva Connections dashboard.",
@@ -91,6 +91,7 @@ define([], function() {
     "AboutContent": "You can provide deep links from your Adaptive Card Extension into Teams linking directly to Teams Personal Apps, Teams Tabs, Chat, or Meetings.",
     "MoreInfoHeading": "For More Information on Adaptive Card Extensions",
     
+    "BackButtonText": "Back to Samples",
     "DesignGuidelinesButtonText": "Design Guidelines",
     "DesignGuidelinesButtonLink": "https://docs.microsoft.com/en-us/sharepoint/dev/spfx/viva/design/design-intro",
     "ViewSampleButtonText": "View Sample Code",

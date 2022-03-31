@@ -20,12 +20,12 @@
       "default": "Dashboard"
     },
     "title": {
-      "default": "Cafeteria Menu"
+      "default": "ACE - Cafeteria Menu"
     },
     "description": {
       "default": "Design template for showing visual list of data with images. Shows examples of a tabbed interface and data manipulation."
     },
-    "officeFabricIconFontName": "ShoppingCartSolid",
+    "iconImageUrl": "https://raw.githubusercontent.com/dcashpeterson/spfx-reference-scenarios/main/samples/ace-designtemplate-gallery/images/acepnplogo.png",
     "properties": {
       "iconProperty": "cart" // Default to sharepointlogo
     }

@@ -20,12 +20,12 @@
       "default": "Dashboard"
     },
     "title": {
-      "default": "Team Calendar"
+      "default": "ACE - Team Calendar"
     },
     "description": {
       "default": "Design template for a dynamic calendar showing different events happening on each day."
     },
-    "officeFabricIconFontName": "Calendar",
+    "iconImageUrl": "https://raw.githubusercontent.com/dcashpeterson/spfx-reference-scenarios/main/samples/ace-designtemplate-gallery/images/acepnplogo.png",
     "properties": {
       "iconProperty": "calendar_edit" // Default to sharepointlogo
     }

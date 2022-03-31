@@ -20,12 +20,12 @@
       "default": "Dashboard"
     },
     "title": {
-      "default": "Image Carousel"
+      "default": "ACE - Image Carousel"
     },
     "description": {
       "default": "Design template for displaying images in a carousel with product data."
     },
-    "iconImageUrl": "https://raw.githubusercontent.com/pnp/spfx-reference-scenarios/main/samples/ace-designtemplate-gallery/images/imagecarousel/img-hololens-2.jpg",
+    "iconImageUrl": "https://raw.githubusercontent.com/dcashpeterson/spfx-reference-scenarios/main/samples/ace-designtemplate-gallery/images/acepnplogo.png",
     "properties": {
       "title": "Devices",
       "cardHeading": "HoloLens 2",

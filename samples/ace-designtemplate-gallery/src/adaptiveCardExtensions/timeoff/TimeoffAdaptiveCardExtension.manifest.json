@@ -20,12 +20,12 @@
       "default": "Dashboard"
     },
     "title": {
-      "default": "Time Off Request"
+      "default": "ACE - Time Off Request"
     },
     "description": {
       "default": "Design template for showing a request form with form elements and deep link to Teams."
     },
-    "officeFabricIconFontName": "rocket",
+    "iconImageUrl": "https://raw.githubusercontent.com/dcashpeterson/spfx-reference-scenarios/main/samples/ace-designtemplate-gallery/images/acepnplogo.png",
     "properties": {
       "iconProperty": "rocket" // Default to sharepointlogo
     }

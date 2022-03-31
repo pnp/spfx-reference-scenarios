@@ -20,12 +20,12 @@
       "default": "Dashboard"
     },
     "title": {
-      "default": "FAQ Accordion"
+      "default": "ACE - FAQ Accordion"
     },
     "description": {
       "default": "Design template for showing expand and collapse sections in an accordion style. Submission form with a deep linking to Teams."
     },
-    "iconImageUrl": "https://raw.githubusercontent.com/pnp/spfx-reference-scenarios/main/samples/ace-designtemplate-gallery/images/faqaccordion/officelogo.png",
+    "iconImageUrl": "https://raw.githubusercontent.com/dcashpeterson/spfx-reference-scenarios/main/samples/ace-designtemplate-gallery/images/acepnplogo.png",
     "properties": {
       "iconProperty": "https://raw.githubusercontent.com/pnp/spfx-reference-scenarios/main/samples/ace-designtemplate-gallery/images/faqaccordion/officelogo.png" // Default to sharepointlogo
     }

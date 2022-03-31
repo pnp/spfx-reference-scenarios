@@ -2,10 +2,11 @@ import * as React from "react";
 import { Logger, LogLevel } from "@pnp/logging";
 import { AppData, DeepLinkData, DeepLinkType } from "../../../../common/models/designtemplate.models";
 import { isEqual } from "@microsoft/sp-lodash-subset";
-import ButtonIcon from "../atoms/ButtonIcon";
 import { Icons } from "../../../../common/models/icons";
 import * as strings from "AceDesignTemplatePersonalAppWebPartStrings";
 import InventoryItem from "../molecules/InventoryItem";
+import ButtonAction from "../atoms/ButtonAction";
+import ButtonIcon from "../atoms/ButtonIcon";
 
 
 export interface IAppDetailsProps {
@@ -39,15 +40,16 @@ export default class AppDetails extends React.Component<IAppDetailsProps, IAppDe
     try {
       return (
         <>
-          <div className="introText">
-            <ButtonIcon
+          <div className="backButton">
+            <ButtonAction
               iconType={Icons.LeftArrow}
-              onClick={() => this.props.onBackClick()} />
+              onClick={() => this.props.onBackClick()}
+              buttonText={strings.BackButtonText} />
           </div>
+          <h2 className="introText">{strings.AppTitle}</h2>
+          <div className="introText">{strings.AppListIntroContent}</div>
+
           <div className="hoo-teamsdb appDetails" data-component={this.LOG_SOURCE}>
-
-
-
             <article className="hoo-teamsdbcard">
               <header className="hoo-teamsdbcard-header">
                 <div className="hoo-teamsdbcard-title">{this.props.appData.appName}</div>
