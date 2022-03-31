@@ -34,11 +34,11 @@ export interface IDesignTemplateGalleryService {
   GetInventoryDetail(): InventoryDetail;
   GetPayPeriods: () => PayPeriod[];
   GetPaySlips: () => Payslip[];
-  GetSimpleList(): SimpleList;
-  getCalendarDays: (currentDate: Date) => Day[];
-  GetAppointments: (currentDate: Date) => Appointment[];
-  GetThisWeekData: (currentDate: Date) => Appointment[];
-  GetHolidayTimeline: () => HolidayTimeline;
+  GetSimpleList(local: string): SimpleList;
+  getCalendarDays: (currentDate: Date, local: string) => Day[];
+  GetAppointments: (currentDate: Date, local: string) => Appointment[];
+  GetThisWeekData: (currentDate: Date, local: string) => Appointment[];
+  GetHolidayTimeline: (local: string) => HolidayTimeline;
   GetTimeOff: () => TimeOff;
   SubmitTimeOffRequest: (request: TimeOffRequest) => void;
   GetCafeterias: () => Cafeteria[];
@@ -84,6 +84,8 @@ export class DesignTemplateGalleryService implements IDesignTemplateGalleryServi
           retVal.appQuickViewImage = require('../images/benefits/card.png');
           retVal.appName = strings.BenefitsAppName;
           retVal.appDescription = strings.BenefitsAppDesc;
+          retVal.appDesignerLink = strings.BenefitsAppDesignerLink;
+          retVal.appGitHubLink = strings.BenefitsAppGitHubLink;
           break;
         }
         case AppList.EVENTSCHEDULE: {
@@ -91,6 +93,8 @@ export class DesignTemplateGalleryService implements IDesignTemplateGalleryServi
           retVal.appQuickViewImage = require('../images/event-schedule/card.png');
           retVal.appName = strings.EventScheduleAppName;
           retVal.appDescription = strings.EventScheduleAppDesc;
+          retVal.appDesignerLink = strings.EventScheduleAppDesignerLink;
+          retVal.appGitHubLink = strings.EventScheduleAppGitHubLink;
           break;
         }
         case AppList.FAQACCORDION: {
@@ -98,6 +102,8 @@ export class DesignTemplateGalleryService implements IDesignTemplateGalleryServi
           retVal.appQuickViewImage = require('../images/faq-accordion/card.png');
           retVal.appName = strings.FAQAppName;
           retVal.appDescription = strings.FAQAppDesc;
+          retVal.appDesignerLink = strings.FAQAppDesignerLink;
+          retVal.appGitHubLink = strings.FAQAppGitHubLink;
           break;
         }
         case AppList.IMAGECAROUSEL: {
@@ -105,6 +111,8 @@ export class DesignTemplateGalleryService implements IDesignTemplateGalleryServi
           retVal.appQuickViewImage = require('../images/image-carousel/card.png');
           retVal.appName = strings.ImageCarouselAppName;
           retVal.appDescription = strings.ImageCarouselAppDesc;
+          retVal.appDesignerLink = strings.ImageCarouselAppDesignerLink;
+          retVal.appGitHubLink = strings.ImageCarouselAppGitHubLink;
           break;
         }
         case AppList.INVENTORY: {
@@ -112,6 +120,8 @@ export class DesignTemplateGalleryService implements IDesignTemplateGalleryServi
           retVal.appQuickViewImage = require('../images/inventory/card.png');
           retVal.appName = strings.InventoryAppName;
           retVal.appDescription = strings.InventoryAppDesc;
+          retVal.appDesignerLink = strings.InventoryAppDesignerLink;
+          retVal.appGitHubLink = strings.InventoryAppGitHubLink;
           break;
         }
         case AppList.PAYSLIP: {
@@ -119,6 +129,8 @@ export class DesignTemplateGalleryService implements IDesignTemplateGalleryServi
           retVal.appQuickViewImage = require('../images/payslip/card.png');
           retVal.appName = strings.PayslipAppName;
           retVal.appDescription = strings.PayslipAppDesc;
+          retVal.appDesignerLink = strings.PayslipAppDesignerLink;
+          retVal.appGitHubLink = strings.PayslipAppGitHubLink;
           break;
         }
         case AppList.SIMPLELIST: {
@@ -126,6 +138,8 @@ export class DesignTemplateGalleryService implements IDesignTemplateGalleryServi
           retVal.appQuickViewImage = require('../images/simple-list/card.png');
           retVal.appName = strings.SimpleListAppName;
           retVal.appDescription = strings.SimpleListAppDesc;
+          retVal.appDesignerLink = strings.SimpleListAppDesignerLink;
+          retVal.appGitHubLink = strings.SimpleListAppGitHubLink;
           break;
         }
         case AppList.TEAMCALENDAR: {
@@ -133,6 +147,8 @@ export class DesignTemplateGalleryService implements IDesignTemplateGalleryServi
           retVal.appQuickViewImage = require('../images/team-calendar/card.png');
           retVal.appName = strings.TeamCalendarAppName;
           retVal.appDescription = strings.TeamCalendarAppDesc;
+          retVal.appDesignerLink = strings.TeamCalendarAppDesignerLink;
+          retVal.appGitHubLink = strings.TeamCalendarAppGitHubLink;
           break;
         }
         case AppList.TIMELINEHOLIDAY: {
@@ -140,6 +156,8 @@ export class DesignTemplateGalleryService implements IDesignTemplateGalleryServi
           retVal.appQuickViewImage = require('../images/timeline-holidays/card.png');
           retVal.appName = strings.TimelineAppName;
           retVal.appDescription = strings.TimelineAppDesc;
+          retVal.appDesignerLink = strings.TimelineAppDesignerLink;
+          retVal.appGitHubLink = strings.TimelineAppGitHubLink;
           break;
         }
         case AppList.TIMEOFF: {
@@ -147,6 +165,8 @@ export class DesignTemplateGalleryService implements IDesignTemplateGalleryServi
           retVal.appQuickViewImage = require('../images/timeoff/card.png');
           retVal.appName = strings.TimeoffAppName;
           retVal.appDescription = strings.TimeoffAppDesc;
+          retVal.appDesignerLink = strings.TimeoffAppDesignerLink;
+          retVal.appGitHubLink = strings.TimeoffAppGitHubLink;
           break;
         }
         case AppList.VACCINATIONBOOSTER: {
@@ -154,6 +174,8 @@ export class DesignTemplateGalleryService implements IDesignTemplateGalleryServi
           retVal.appQuickViewImage = require('../images/vaccination-booster/card.png');
           retVal.appName = strings.VaccinationAppName;
           retVal.appDescription = strings.VaccinationAppDesc;
+          retVal.appDesignerLink = strings.VaccinationAppDesignerLink;
+          retVal.appGitHubLink = strings.VaccinationAppGitHubLink;
           break;
         }
         case AppList.VISUALLIST: {
@@ -161,6 +183,8 @@ export class DesignTemplateGalleryService implements IDesignTemplateGalleryServi
           retVal.appQuickViewImage = require('../images/visual-list/card.png');
           retVal.appName = strings.VisualListAppName;
           retVal.appDescription = strings.VisualListAppDesc;
+          retVal.appDesignerLink = strings.VisualListAppDesignerLink;
+          retVal.appGitHubLink = strings.VisualListAppGitHubLink;
           break;
         }
       }
@@ -171,7 +195,7 @@ export class DesignTemplateGalleryService implements IDesignTemplateGalleryServi
     return retVal;
   }
 
-  public GetDeepLinkData(subEntityId: any): DeepLinkData {
+  public GetDeepLinkData(subEntityId: any, local: string): DeepLinkData {
     let retVal: DeepLinkData = new DeepLinkData();
     try {
       retVal.appName = subEntityId.appName;
@@ -201,7 +225,7 @@ export class DesignTemplateGalleryService implements IDesignTemplateGalleryServi
           break;
         }
         case AppList.SIMPLELIST: {
-          const simpleList: SimpleList = this.GetSimpleList();
+          const simpleList: SimpleList = this.GetSimpleList(local);
           if (subEntityId.linkType == DeepLinkType.ANNIVERSARY) {
             const anniversary: Anniversary = find(simpleList.anniversaries, { id: subEntityId.message });
             retVal = new DeepLinkData(subEntityId.appName, DeepLinkType.ANNIVERSARY, anniversary);
@@ -415,7 +439,7 @@ export class DesignTemplateGalleryService implements IDesignTemplateGalleryServi
     return retVal;
   }
 
-  public GetSimpleList(): SimpleList {
+  public GetSimpleList(local: string): SimpleList {
     let retVal: SimpleList = new SimpleList();
     try {
       //Sample pulls data from mock
@@ -426,6 +450,7 @@ export class DesignTemplateGalleryService implements IDesignTemplateGalleryServi
       anniversaries.map((item) => {
         const anniversaryDate: Date = new Date(item.anniversaryDate);
         let duration = currentDate.getFullYear() - anniversaryDate.getFullYear();
+        item.anniversaryLabel = Intl.DateTimeFormat(local, { weekday: undefined, year: undefined, month: 'short', day: 'numeric' }).format(anniversaryDate);
         item.anniversaryDuration = duration;
         const url = encodeURI(`${this._teamsUrl}?context={"subEntityId":{"appName":"${AppList.SIMPLELIST}","linkType":"${DeepLinkType.ANNIVERSARY}","message":"${item.id}"}}`);
         item.linkUrl = url;
@@ -445,7 +470,7 @@ export class DesignTemplateGalleryService implements IDesignTemplateGalleryServi
     return retVal;
   }
 
-  public getCalendarDays(currentDate: Date): Day[] {
+  public getCalendarDays(currentDate: Date, local: string): Day[] {
     let retVal: Day[] = [];
     try {
       const currentMonthIndex: number = currentDate.getMonth();
@@ -478,7 +503,7 @@ export class DesignTemplateGalleryService implements IDesignTemplateGalleryServi
         }
       }
 
-      const appointments: Appointment[] = this.GetAppointments(currentDate);
+      const appointments: Appointment[] = this.GetAppointments(currentDate, local);
       appointments.map((appt) => {
         let startDate: Date = new Date(appt.startDate);
         //If the event spans months set the start to the first day of the current month.
@@ -494,7 +519,7 @@ export class DesignTemplateGalleryService implements IDesignTemplateGalleryServi
           apptStartDate.setDate(startDate.getDate() + x);
           const day: Day = find(retVal, { day: apptStartDate.getDate(), monthIndex: apptStartDate.getMonth() });
           if (day) {
-            day.appointments.push(new Appointment(appt.startDate, appt.endDate, appt.title, appt.appointmentType));
+            day.appointments.push(appt);
           }
         }
 
@@ -505,7 +530,7 @@ export class DesignTemplateGalleryService implements IDesignTemplateGalleryServi
     return retVal;
   }
 
-  public GetAppointments(currentDate: Date): Appointment[] {
+  public GetAppointments(currentDate: Date, local: string): Appointment[] {
     let retVal: Appointment[] = [];
     try {
       //Sample pulls data from mock
@@ -516,10 +541,19 @@ export class DesignTemplateGalleryService implements IDesignTemplateGalleryServi
         apptStartDate.setMonth(apptStartDate.getMonth() + 1);
         let apptEndDate: Date = new Date(appt.endDate);
         apptEndDate.setMonth(apptEndDate.getMonth() + 1);
+        let dateString: string = "";
+        if (apptStartDate.getMonth() == apptEndDate.getMonth() && apptStartDate.getDate() == apptEndDate.getDate()) {
+          dateString = Intl.DateTimeFormat(local, { weekday: undefined, year: undefined, month: 'short', day: 'numeric' }).format(apptStartDate);
+        } else if (apptStartDate.getDate() != apptEndDate.getDate() && apptStartDate.getMonth() == apptEndDate.getMonth()) {
+          dateString = `${Intl.DateTimeFormat(local, { weekday: undefined, year: undefined, month: 'short', day: 'numeric' }).format(apptStartDate)}-${Intl.DateTimeFormat(local, { weekday: undefined, year: undefined, month: undefined, day: 'numeric' }).format(apptEndDate)}`;
+        }
+        else if (apptStartDate != apptEndDate && apptStartDate.getMonth() != apptEndDate.getMonth()) {
+          dateString = `${Intl.DateTimeFormat(local, { weekday: undefined, year: undefined, month: 'short', day: 'numeric' }).format(apptStartDate)}-${Intl.DateTimeFormat(local, { weekday: undefined, year: undefined, month: 'short', day: 'numeric' }).format(apptEndDate)}`;
+        }
         if (currentDate.getFullYear() == apptStartDate.getFullYear() && currentDate.getMonth() == apptStartDate.getMonth()) {
-          retVal.push(new Appointment(apptStartDate.toISOString(), apptEndDate.toISOString(), appt.title, appt.appointmentType));
+          retVal.push(new Appointment(apptStartDate.toISOString(), apptEndDate.toISOString(), dateString, appt.title, appt.appointmentType));
         } else if (currentDate.getFullYear() == apptEndDate.getFullYear() && currentDate.getMonth() == apptEndDate.getMonth()) {
-          retVal.push(new Appointment(apptStartDate.toISOString(), apptEndDate.toISOString(), appt.title, appt.appointmentType));
+          retVal.push(new Appointment(apptStartDate.toISOString(), apptEndDate.toISOString(), dateString, appt.title, appt.appointmentType));
         }
       });
 
@@ -529,7 +563,7 @@ export class DesignTemplateGalleryService implements IDesignTemplateGalleryServi
     return retVal;
   }
 
-  public GetThisWeekData(currentDate: Date): Appointment[] {
+  public GetThisWeekData(currentDate: Date, local: string): Appointment[] {
     let retVal: Appointment[] = [];
     try {
 
@@ -538,7 +572,7 @@ export class DesignTemplateGalleryService implements IDesignTemplateGalleryServi
 
       //Sample pulls data from mock
       //To extend pull data from a list of your items
-      const allAppointments: Appointment[] = this.GetAppointments(currentDate);
+      const allAppointments: Appointment[] = this.GetAppointments(currentDate, local);
       allAppointments.map((appt) => {
         const apptStartDate: Date = new Date(appt.startDate);
         const apptEndDate: Date = new Date(appt.endDate);
@@ -562,7 +596,7 @@ export class DesignTemplateGalleryService implements IDesignTemplateGalleryServi
     return retVal;
   }
 
-  public GetHolidayTimeline(): HolidayTimeline {
+  public GetHolidayTimeline(local: string): HolidayTimeline {
     let retVal: HolidayTimeline = new HolidayTimeline();
     try {
       const today: Date = new Date();
@@ -574,12 +608,14 @@ export class DesignTemplateGalleryService implements IDesignTemplateGalleryServi
             holiday.holidayWeekend = true;
             let friday: Date = new Date(holidayDate.getFullYear(), holidayDate.getMonth(), holidayDate.getDate() - 3);
             let tuesday: Date = new Date(holidayDate.getFullYear(), holidayDate.getMonth(), holidayDate.getDate() + 1);
-            holiday.holidayWeekendFri = friday.toISOString();
-            holiday.holidayWeekendTue = tuesday.toISOString();
+            holiday.holidayWeekendFri = Intl.DateTimeFormat(local, { weekday: 'long', year: undefined, month: 'long', day: 'numeric' }).format(friday);
+            holiday.holidayWeekendTue = Intl.DateTimeFormat(local, { weekday: 'long', year: undefined, month: 'long', day: 'numeric' }).format(tuesday);
           }
+          holiday.dayLabel = Intl.DateTimeFormat(local, { weekday: undefined, year: undefined, month: 'long', day: 'numeric' }).format(holidayDate);
+          holiday.year = holidayDate.getFullYear().toString();
           retVal.holidays.push(holiday);
-          if (retVal.years.indexOf(`${holidayDate.getFullYear()}-01-01`) <= -1) {
-            retVal.years.push(`${holidayDate.getFullYear()}-01-01`);
+          if (retVal.years.indexOf(holidayDate.getFullYear().toString()) <= -1) {
+            retVal.years.push(holidayDate.getFullYear().toString());
           }
         }
       });

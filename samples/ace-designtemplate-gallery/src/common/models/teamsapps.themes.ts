@@ -54,7 +54,7 @@ export const lightModeTheme = {
   "bodyBackground": "whitesmoke",
   "bodyFrameBackground": "whitesmoke",
   "accentButtonText": "#ffffff",
-  "buttonBackground": "#ffffff",
+  "buttonBackground": "whitesmoke",
   "primaryButtonText": "#ffffff",
   "primaryButtonTextHovered": "#ffffff",
   "primaryButtonTextPressed": "#ffffff",

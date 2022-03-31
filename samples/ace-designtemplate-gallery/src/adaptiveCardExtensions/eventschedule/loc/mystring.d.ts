@@ -6,6 +6,7 @@ declare interface IEventscheduleAdaptiveCardExtensionStrings {
   //App Strings
   Title: string;
   PrimaryText: string;
+  PrimaryTextShort: string;
   //Card Strings
   EventTitle: string;
   ImageCaption: string;

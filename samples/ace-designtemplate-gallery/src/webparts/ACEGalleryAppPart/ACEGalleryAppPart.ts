@@ -129,7 +129,7 @@ export default class ACEGalleryAppPart extends BaseClientSideWebPart<IACEGallery
         if (this._microsoftTeams.context.subEntityId?.toString() != "") {
           const subEntityId: any = this._microsoftTeams.context.subEntityId;
 
-          this._linkData = dtg.GetDeepLinkData(subEntityId);
+          this._linkData = dtg.GetDeepLinkData(subEntityId, this.context.pageContext.cultureInfo.currentUICultureName);
           this._appData = dtg.GetAppData(subEntityId.appName);
         }
       }

@@ -20,12 +20,12 @@
       "default": "Dashboard"
     },
     "title": {
-      "default": "Inventory Details"
+      "default": "ACE - Inventory Details"
     },
     "description": {
       "default": "Design template for displaying lists of data with images. Details conditional formatting and deep link to Teams."
     },
-    "officeFabricIconFontName": "Dictionary",
+    "iconImageUrl": "https://raw.githubusercontent.com/pnp/spfx-reference-scenarios/main/samples/ace-designtemplate-gallery/images/acepnplogo.png",
     "properties": {
       "iconProperty": "channel" // Default to sharepointlogo
     }

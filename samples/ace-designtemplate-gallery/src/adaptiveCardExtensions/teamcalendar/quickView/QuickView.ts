@@ -5,10 +5,10 @@ import { Appointment, Day } from '../../../common/models/designtemplate.models';
 import { ITeamcalendarAdaptiveCardExtensionProps, ITeamcalendarAdaptiveCardExtensionState } from '../TeamcalendarAdaptiveCardExtension';
 import { dtg } from '../../../common/services/designtemplate.service';
 import { cloneDeep } from '@microsoft/sp-lodash-subset';
-import { Monday } from 'TeamcalendarAdaptiveCardExtensionStrings';
 
 export interface IQuickViewData {
   currentDate: Date;
+  currentMonth: string;
   viewDate: Date;
   days: Day[];
   selectedSunday: Day;
@@ -27,6 +27,7 @@ export class QuickView extends BaseAdaptiveCardView<
 
     return {
       currentDate: new Date(),
+      currentMonth: Intl.DateTimeFormat(this.context.pageContext.cultureInfo.currentUICultureName, { weekday: undefined, year: 'numeric', month: 'short', day: undefined }).format(this.state.viewDate),
       viewDate: this.state.viewDate,
       days: this.state.days,
       selectedSunday: this.state.selectedSunday,
@@ -46,12 +47,12 @@ export class QuickView extends BaseAdaptiveCardView<
         if (id === 'prev') {
           const prevMonth: Date = cloneDeep(this.state.viewDate);
           prevMonth.setMonth(prevMonth.getMonth() - 1);
-          const days: Day[] = dtg.getCalendarDays(prevMonth);
+          const days: Day[] = dtg.getCalendarDays(prevMonth, this.context.pageContext.cultureInfo.currentUICultureName);
           this.setState({ viewDate: prevMonth, days: days, selectedAppointments: [], selectedSunday: null });
         } else if (id === 'next') {
           const nextMonth: Date = cloneDeep(this.state.viewDate);
           nextMonth.setMonth(nextMonth.getMonth() + 1);
-          const days: Day[] = dtg.getCalendarDays(nextMonth);
+          const days: Day[] = dtg.getCalendarDays(nextMonth, this.context.pageContext.cultureInfo.currentUICultureName);
           this.setState({ viewDate: nextMonth, days: days, selectedAppointments: [], selectedSunday: null });
         } else if (id === 'selectDay') {
           const day: Day = action.data.day;

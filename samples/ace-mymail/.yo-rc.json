@@ -1,0 +1,17 @@
+{
+  "@microsoft/generator-sharepoint": {
+    "plusBeta": false,
+    "isCreatingSolution": true,
+    "version": "1.14.0",
+    "libraryName": "ace-mymail",
+    "libraryId": "75ce1116-a686-41d4-86bb-7a5b525731b2",
+    "environment": "spo",
+    "packageManager": "npm",
+    "solutionName": "ace-mymail",
+    "solutionShortDescription": "ace-mymail description",
+    "skipFeatureDeployment": true,
+    "isDomainIsolated": false,
+    "componentType": "adaptiveCardExtension",
+    "aceTemplateType": "Image"
+  }
+}

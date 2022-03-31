@@ -1,27 +1,27 @@
 {
   "$schema": "https://developer.microsoft.com/en-us/json-schemas/teams/v1.9/MicrosoftTeams.schema.json",
   "manifestVersion": "1.9",
-  "version": "1.0.3",
+  "version": "1.0.5",
   "id": "4a007f51-abb1-4d3a-b753-7c84404936b2",
   "packageName": "ACEDesignTemplates",
   "developer": {
     "name": "Sympraxis Consulting",
-    "websiteUrl": "https://docs.microsoft.com/en-us/sharepoint/dev/spfx/sharepoint-framework-overview",
-    "privacyUrl": "https://privacy.microsoft.com/en-us/privacystatement",
-    "termsOfUseUrl": "https://www.microsoft.com/en-us/servicesagreement",
-    "mpnId": "M365PNP"
+    "websiteUrl": "https://sympraxisconsulting.com",
+    "privacyUrl": "https://symp.info/acegalleryprivacy",
+    "termsOfUseUrl": "https://symp.info/acegalleryprivacy",
+    "mpnId": "2459569"
   },
   "icons": {
     "color": "4a007f51-abb1-4d3a-b753-7c84404936b2_color.png",
     "outline": "4a007f51-abb1-4d3a-b753-7c84404936b2_outline.png"
   },
   "name": {
-    "short": "ACE Design Template Gallery",
-    "full": "Adaptive Card Extension Design Template Personal Application"
+    "short": "ACE Design Gallery",
+    "full": "Adaptive Card Extension (ACE) Design Template Gallery and Personal Application"
   },
   "description": {
-    "short": "Adaptive Card Extension Design Template Personal Application",
-    "full": "Teams Personal application that supports deep linking from the ACE Design Template application."
+    "short": "An example gallery of 12 Adaptive Card Extensions (ACEs) using Viva Connections.",
+    "full": "This Microsoft Teams Personal app provides a gallery to show a collection of 12 Adaptive Card Extensions (ACEs) for use with Viva Connections. Each ACE has a detailed view where you can see images of the different card views as well as get access to the source code and design guidance for building ACEs. These samples provide a demonstration of the art of the possible as well as provide design guidance for laying out different types of data using Adaptive Cards and SPFx. The Teams app shows not only examples of the cards but when used in connection with the Adaptive Card Extensions on the Viva Connections Dashboard provides a place to show how to handle deep linking into Teams."
   },
   "accentColor": "#F9F9FA",
   "staticTabs": [{

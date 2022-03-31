@@ -46,11 +46,16 @@
               "type": "Column",
               "id": "day_${id}_divider",
               "width": "stretch",
-              "backgroundImage": {
-                "url": "${$root.dividerline}",
-                "fillMode": "RepeatHorizontally",
-                "verticalAlignment": "Center"
-              },
+              "items": [{
+                "type": "Container",
+                "backgroundImage": {
+                  "url": "${$root.dividerline}",
+                  "fillMode": "RepeatHorizontally",
+                  "verticalAlignment": "Center"
+                },
+                "minHeight": "8px",
+                "spacing": "None"
+              }],
               "minHeight": "3px",
               "style": "default"
             }],

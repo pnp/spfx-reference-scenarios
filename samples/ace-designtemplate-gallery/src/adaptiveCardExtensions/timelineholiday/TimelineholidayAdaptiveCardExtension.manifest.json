@@ -20,12 +20,12 @@
       "default": "Dashboard"
     },
     "title": {
-      "default": "Holidays"
+      "default": "ACE - Holidays"
     },
     "description": {
       "default": "Design template for a vertical timeline of events with image and description."
     },
-    "officeFabricIconFontName": "Vacation",
+    "iconImageUrl": "https://raw.githubusercontent.com/pnp/spfx-reference-scenarios/main/samples/ace-designtemplate-gallery/images/acepnplogo.png",
     "cardSize": "Medium",
     "properties": {
       "iconProperty": "beach" // Default to sharepointlogo

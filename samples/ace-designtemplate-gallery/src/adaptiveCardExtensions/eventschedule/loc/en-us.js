@@ -5,6 +5,7 @@ define([], function() {
     "IconPropertyFieldLabel": "Card Icon",
     "Title": "Event Schedule",
     "PrimaryText": "Microsoft Ignite. Come join the virtual event in",
+    "PrimaryTextShort": "Microsoft Ignite Schedule.",
     "EventTitle": "Microsoft Ignite",
     "ImageCaption": "Microsoft Ignite",
     "ScheduleHeading": "Schedule",

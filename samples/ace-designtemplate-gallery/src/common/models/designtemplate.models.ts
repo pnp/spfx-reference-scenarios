@@ -49,6 +49,8 @@ export interface IAppData {
   appDescription: string;
   appCardImage: string;
   appQuickViewImage: string;
+  appDesignerLink: string;
+  appGitHubLink: string;
 }
 
 export class AppData implements IAppData {
@@ -56,7 +58,9 @@ export class AppData implements IAppData {
     public appName: string = "",
     public appDescription: string = "",
     public appCardImage: string = "",
-    public appQuickViewImage: string = ""
+    public appQuickViewImage: string = "",
+    public appDesignerLink: string = "",
+    public appGitHubLink: string = ""
   ) { }
 }
 
@@ -400,6 +404,7 @@ export interface IAnniversary {
   lastName: string;
   role: string;
   anniversaryDate: string;
+  anniversaryLabel?: string;
   anniversaryDuration?: number;
   linkUrl: string;
 }
@@ -412,6 +417,7 @@ export class Anniversary implements IAnniversary {
     public lastName: string = "",
     public role: string = "",
     public anniversaryDate: string = "",
+    public anniversaryLabel: string = "",
     public anniversaryDuration: number = 0,
     public linkUrl: string = ""
   ) { }
@@ -454,6 +460,7 @@ export class Day implements IDay {
 export interface IAppointment {
   startDate: string;
   endDate: string;
+  dateString?: string;
   title: string;
   appointmentType: AppointmentType;
 
@@ -463,6 +470,7 @@ export class Appointment implements IAppointment {
   constructor(
     public startDate: string = "",
     public endDate: string = "",
+    public dateString: string = "",
     public title: string = "",
     public appointmentType: AppointmentType.OOO
   ) { }
@@ -484,6 +492,8 @@ export class HolidayTimeline implements IHolidayTimeline {
 
 export interface IHoliday {
   date: string;
+  dayLabel?: string;
+  year?: string;
   title: string;
   text: string;
   imageUrl: string;
@@ -496,6 +506,8 @@ export interface IHoliday {
 export class Holiday implements IHoliday {
   constructor(
     public date: string = "",
+    public dayLabel: string = "",
+    public year: string = "",
     public title: string = "",
     public text: string = "",
     public imageUrl: string = "",

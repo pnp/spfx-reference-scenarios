@@ -26,7 +26,7 @@ export class QuickView extends BaseAdaptiveCardView<
       event: this.state.eventsApp,
       eventRegistration: this.state.registrationData,
       selectedDay: this.state.selectedDay,
-      dividerline: require('../../../common/images/event-schedule/line_pivot_dark.gif'),
+      dividerline: require('../../../common/images/visual-list/line_pivot_dark.gif'),
       showRegister: this.state.showRegister,
       strings: strings
     };

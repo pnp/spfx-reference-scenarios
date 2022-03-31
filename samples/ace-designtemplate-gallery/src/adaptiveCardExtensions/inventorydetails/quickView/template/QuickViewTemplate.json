@@ -35,7 +35,7 @@
             },
             {
               "type": "TextBlock",
-              "text": "${formatNumber(app.amountAvailable,2)}M",
+              "text": "${app.amountAvailable}M ",
               "wrap": true,
               "size": "Large",
               "weight": "Bolder"
@@ -85,7 +85,7 @@
             },
             {
               "type": "TextBlock",
-              "text": "${formatNumber(app.readyToShipAvailable,2)}M",
+              "text": "${app.readyToShipAvailable}M",
               "wrap": true,
               "size": "Large",
               "weight": "Bolder"

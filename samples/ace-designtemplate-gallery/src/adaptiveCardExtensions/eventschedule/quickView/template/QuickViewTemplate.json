@@ -58,11 +58,16 @@
               "id": "day_${$index}_divider",
               "$when": "${id == $root.selectedDay}",
               "width": "stretch",
-              "backgroundImage": {
-                "url": "${$root.dividerline}",
-                "fillMode": "RepeatHorizontally",
-                "verticalAlignment": "Center"
-              },
+              "items": [{
+                "type": "Container",
+                "backgroundImage": {
+                  "url": "${$root.dividerline}",
+                  "fillMode": "RepeatHorizontally",
+                  "verticalAlignment": "Center"
+                },
+                "minHeight": "8px",
+                "spacing": "None"
+              }],
               "minHeight": "3px",
               "style": "default"
             }, {
@@ -99,7 +104,7 @@
       "$when": "${id == $root.selectedDay}",
       "items": [{
         "type": "TextBlock",
-        "text": "${formatDateTime(date,'dddd, MMMM d')}",
+        "text": "${date}",
         "wrap": true,
         "size": "Medium",
         "weight": "Bolder",

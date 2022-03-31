@@ -31,7 +31,7 @@
           "width": 48,
           "items": [{
             "type": "TextBlock",
-            "text": "${formatDateTime(viewDate, 'MMM yyyy')} ",
+            "text": "${currentMonth} ",
             "wrap": true,
             "size": "Large",
             "fontType": "Default",
@@ -303,10 +303,10 @@
           }
         }
       }],
-      "style": "${if($root.days[$index].day == $root.selectedSunday.day,'accent','default')}",
-      "height": "${if($root.days[$index].day == $root.selectedSunday.day,'stretch','auto')}",
-      "bleed": "${if($root.days[$index].day == $root.selectedSunday.day,true,false)}",
-      "spacing": "${if($root.days[$index].day == $root.selectedSunday.day,'small','medium')}"
+      "style": "${if($root.days[$index].day == $root.selectedSunday.day,'default','default')}",
+      "height": "${if($root.days[$index].day == $root.selectedSunday.day,'stretch','')}",
+      "bleed": "true",
+      "spacing": "Medium"
     },
     {
       "type": "Container",
@@ -336,22 +336,7 @@
               "type": "Column",
               "items": [{
                 "type": "TextBlock",
-                "$when": "${formatDateTime(startDate, 'MMM dd') == formatDateTime(endDate, 'MMM dd')}",
-                "text": "${formatDateTime(startDate, 'MMM d')}",
-                "wrap": true,
-                "color": "Default",
-                "isSubtle": false
-              }, {
-                "type": "TextBlock",
-                "$when": "${formatDateTime(startDate, 'MMM dd') != formatDateTime(endDate, 'MMM dd') && formatDateTime(startDate, 'MMM') == formatDateTime(endDate, 'MMM')}",
-                "text": "${formatDateTime(startDate, 'MMM dd')}-${formatDateTime(endDate, 'dd')}",
-                "wrap": true,
-                "color": "Default",
-                "isSubtle": false
-              }, {
-                "type": "TextBlock",
-                "$when": "${formatDateTime(startDate, 'MMM') != formatDateTime(endDate, 'MMM')}",
-                "text": "${formatDateTime(startDate, 'MMM dd')}-${formatDateTime(endDate, 'MMM dd')}",
+                "text": "${dateString}",
                 "wrap": true,
                 "color": "Default",
                 "isSubtle": false
@@ -388,38 +373,23 @@
           "$when": "${count(where($root.selectedAppointments, x, x.appointmentType == 'TASK')) > 0}",
           "columns": [{
               "type": "Column",
-              "width": "80px",
               "items": [{
                 "type": "TextBlock",
-                "$when": "${formatDateTime(startDate, 'MMM dd') == formatDateTime(endDate, 'MMM dd')}",
-                "text": "${formatDateTime(startDate, 'MMM d')}",
+                "text": "${dateString}",
                 "wrap": true,
                 "color": "Default",
                 "isSubtle": false
-              }, {
-                "type": "TextBlock",
-                "$when": "${formatDateTime(startDate, 'MMM dd') != formatDateTime(endDate, 'MMM dd') && formatDateTime(startDate, 'MMM') == formatDateTime(endDate, 'MMM')}",
-                "text": "${formatDateTime(startDate, 'MMM dd')}-${formatDateTime(endDate, 'dd')}",
-                "wrap": true,
-                "color": "Default",
-                "isSubtle": false
-              }, {
-                "type": "TextBlock",
-                "$when": "${formatDateTime(startDate, 'MMM') != formatDateTime(endDate, 'MMM')}",
-                "text": "${formatDateTime(startDate, 'MMM dd')}-${formatDateTime(endDate, 'MMM dd')}",
-                "wrap": true,
-                "color": "Default",
-                "isSubtle": false
-              }]
+              }],
+              "width": "100px"
             },
             {
               "type": "Column",
-              "width": 100,
               "items": [{
                 "type": "TextBlock",
                 "text": "${title}",
                 "wrap": true
-              }]
+              }],
+              "width": 100
             }
           ],
           "spacing": "Medium"

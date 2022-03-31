@@ -4,6 +4,7 @@ declare interface ISimplelistAdaptiveCardExtensionStrings {
   IconPropertyFieldLabel: string;
   Title: string;
   CardText: string;
+  CardTextShort: string;
   IntroContent: string;
   AnniversaryContent: string;
   YearText: string;

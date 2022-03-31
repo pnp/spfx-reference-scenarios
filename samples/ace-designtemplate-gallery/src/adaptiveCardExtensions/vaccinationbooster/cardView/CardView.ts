@@ -11,8 +11,12 @@ import { IVaccinationboosterAdaptiveCardExtensionProps, IVaccinationboosterAdapt
 export class CardView extends BaseImageCardView<IVaccinationboosterAdaptiveCardExtensionProps, IVaccinationboosterAdaptiveCardExtensionState> {
 
   public get data(): IImageCardParameters {
+    let text: string = strings.CardViewTitleShort;
+    if (this.cardSize == "Large") {
+      text = strings.CardViewTitle;
+    }
     return {
-      primaryText: strings.CardViewTitle,
+      primaryText: text,
       imageUrl: require('../../../common/images/vaccination-booster/vaccineimage.jpg')
     };
   }

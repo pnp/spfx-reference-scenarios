@@ -8,7 +8,7 @@
     },
     {
       "type": "TextBlock",
-      "text": "${formatDateTime(currentPayPeriod.endDate, 'MMMM d, yyyy')}",
+      "text": "${currentPayPeriodEnd}",
       "wrap": true,
       "horizontalAlignment": "Center",
       "size": "Large",
@@ -17,7 +17,7 @@
     },
     {
       "type": "TextBlock",
-      "text": "${formatDateTime(currentPayPeriod.startDate, 'MMMM d, yyyy')} – ${formatDateTime(currentPayPeriod.endDate, 'MMMM d, yyyy')}",
+      "text": "${currentPayPeriodStart} – ${currentPayPeriodEnd}",
       "wrap": true,
       "size": "Small",
       "weight": "Bolder",
@@ -56,7 +56,7 @@
               "width": "stretch",
               "items": [{
                 "type": "TextBlock",
-                "text": "\n\n${strings.CurrencySymbol}${formatNumber(payslip.netPay,2)}",
+                "text": "\n\n${strings.CurrencySymbol}${payslip.netPay}",
                 "wrap": true,
                 "weight": "Bolder",
                 "size": "Medium",
@@ -95,7 +95,7 @@
               "width": "stretch",
               "items": [{
                 "type": "TextBlock",
-                "text": "${strings.CurrencySymbol}${formatNumber(payslip.earnings,2)}",
+                "text": "${strings.CurrencySymbol}${payslip.earnings}",
                 "wrap": true,
                 "spacing": "ExtraLarge",
                 "weight": "Bolder",
@@ -132,7 +132,7 @@
               "width": "stretch",
               "items": [{
                 "type": "TextBlock",
-                "text": "\n\n${strings.CurrencySymbol}${formatNumber(payslip.bonus,2)}",
+                "text": "\n\n${strings.CurrencySymbol}${payslip.bonus}",
                 "wrap": true,
                 "spacing": "Small",
                 "horizontalAlignment": "Right"
@@ -157,7 +157,7 @@
               "width": "stretch",
               "items": [{
                 "type": "TextBlock",
-                "text": "\n\n${strings.CurrencySymbol}${formatNumber(payslip.commission,2)}",
+                "text": "\n\n${strings.CurrencySymbol}${payslip.commission}",
                 "wrap": true,
                 "spacing": "Small",
                 "horizontalAlignment": "Right"
@@ -182,7 +182,7 @@
               "width": "stretch",
               "items": [{
                 "type": "TextBlock",
-                "text": "\n\n${strings.CurrencySymbol}${formatNumber(payslip.regularPay,2)}",
+                "text": "\n\n${strings.CurrencySymbol}${payslip.regularPay}",
                 "wrap": true,
                 "spacing": "Small",
                 "horizontalAlignment": "Right"
@@ -217,7 +217,7 @@
               "width": "stretch",
               "items": [{
                 "type": "TextBlock",
-                "text": "${strings.CurrencySymbol}${formatNumber(payslip.deductions,2)}",
+                "text": "${strings.CurrencySymbol}${payslip.deductions}",
                 "wrap": true,
                 "weight": "Bolder",
                 "spacing": "ExtraLarge",
@@ -253,7 +253,7 @@
               "width": "stretch",
               "items": [{
                 "type": "TextBlock",
-                "text": "${strings.CurrencySymbol}${formatNumber(payslip.childSupport,2)}",
+                "text": "${strings.CurrencySymbol}${payslip.childSupport}",
                 "wrap": true,
                 "spacing": "Small",
                 "horizontalAlignment": "Right"
@@ -277,7 +277,7 @@
             "width": "stretch",
             "items": [{
               "type": "TextBlock",
-              "text": "${strings.CurrencySymbol}${formatNumber(payslip.dental,2)}",
+              "text": "${strings.CurrencySymbol}${payslip.dental}",
               "wrap": true,
               "spacing": "Small",
               "horizontalAlignment": "Right"
@@ -299,7 +299,7 @@
             "width": "stretch",
             "items": [{
               "type": "TextBlock",
-              "text": "${strings.CurrencySymbol}${formatNumber(payslip.depCare,2)}",
+              "text": "${strings.CurrencySymbol}${payslip.depCare}",
               "wrap": true,
               "spacing": "Small",
               "horizontalAlignment": "Right"
@@ -321,7 +321,7 @@
             "width": "stretch",
             "items": [{
               "type": "TextBlock",
-              "text": "${strings.CurrencySymbol}${formatNumber(payslip.health,2)}",
+              "text": "${strings.CurrencySymbol}${payslip.health}",
               "wrap": true,
               "spacing": "Small",
               "horizontalAlignment": "Right"
@@ -343,7 +343,7 @@
             "width": "stretch",
             "items": [{
               "type": "TextBlock",
-              "text": "${strings.CurrencySymbol}${formatNumber(payslip.HMOMedical,2)}",
+              "text": "${strings.CurrencySymbol}${payslip.HMOMedical}",
               "wrap": true,
               "spacing": "Small",
               "horizontalAlignment": "Right"
@@ -365,7 +365,7 @@
             "width": "stretch",
             "items": [{
               "type": "TextBlock",
-              "text": "${strings.CurrencySymbol}${formatNumber(payslip.prescriptionDrugs,2)}",
+              "text": "${strings.CurrencySymbol}${payslip.prescriptionDrugs}",
               "wrap": true,
               "spacing": "Small",
               "horizontalAlignment": "Right"
@@ -387,7 +387,7 @@
             "width": "stretch",
             "items": [{
               "type": "TextBlock",
-              "text": "${strings.CurrencySymbol}${formatNumber(payslip.unitedWay,2)}",
+              "text": "${strings.CurrencySymbol}${payslip.unitedWay}",
               "wrap": true,
               "spacing": "Small",
               "horizontalAlignment": "Right"
@@ -422,7 +422,7 @@
               "width": "stretch",
               "items": [{
                 "type": "TextBlock",
-                "text": "${strings.CurrencySymbol}${formatNumber(payslip.taxes,2)}",
+                "text": "${strings.CurrencySymbol}${payslip.taxes}",
                 "wrap": true,
                 "spacing": "ExtraLarge",
                 "weight": "Bolder",
@@ -458,7 +458,7 @@
               "width": "stretch",
               "items": [{
                 "type": "TextBlock",
-                "text": "${strings.CurrencySymbol}${formatNumber(payslip.medicare,2)}",
+                "text": "${strings.CurrencySymbol}${payslip.medicare}",
                 "wrap": true,
                 "spacing": "Small",
                 "horizontalAlignment": "Right"
@@ -482,7 +482,7 @@
               "width": "stretch",
               "items": [{
                 "type": "TextBlock",
-                "text": "${strings.CurrencySymbol}${formatNumber(payslip.fedTax,2)}",
+                "text": "${strings.CurrencySymbol}${payslip.fedTax}",
                 "wrap": true,
                 "spacing": "Small",
                 "horizontalAlignment": "Right"
@@ -506,7 +506,7 @@
               "width": "stretch",
               "items": [{
                 "type": "TextBlock",
-                "text": "${strings.CurrencySymbol}${formatNumber(payslip.ssi,2)}",
+                "text": "${strings.CurrencySymbol}${payslip.ssi}",
                 "wrap": true,
                 "spacing": "Small",
                 "horizontalAlignment": "Right"
@@ -528,7 +528,7 @@
             "$when": "${showPrev == true}",
             "actions": [{
               "type": "Action.Submit",
-              "title": "⇦  ${formatDateTime(prevPayPeriod.startDate, 'MMMM d')}–${formatDateTime(prevPayPeriod.endDate, 'd')}",
+              "title": "⇦  ${prevPayLabel}",
               "data": {
                 "id": "prev",
                 "payPeriodId": "${prevPayPeriod.id}"
@@ -544,7 +544,7 @@
             "$when": "${showNext == true}",
             "actions": [{
               "type": "Action.Submit",
-              "title": "${formatDateTime(nextPayPeriod.startDate, 'MMMM d')}–${formatDateTime(nextPayPeriod.endDate, 'd')} ⇨",
+              "title": "${nextPayLabel} ⇨",
               "data": {
                 "id": "next",
                 "payPeriodId": "${nextPayPeriod.id}"

@@ -15,6 +15,13 @@
     //@import 'node_modules/@n8d/htwoo-core/lib/sass/style.prod';
     @import 'node_modules/@n8d/htwoo-core/lib/components/buttons';
     @import 'node_modules/@n8d/htwoo-core/lib/components/cards';
+    @import 'node_modules/@n8d/htwoo-core/lib/components/icon';
+
+    .hoo-icon-svg {
+      width: 1.5rem;
+      height: 1.5rem;
+      padding: 0;
+    }
 
     .hoo-button-label {
       height: auto;
@@ -23,10 +30,15 @@
 
     .introText {
       @include gridSpan(12);
+      max-width: 75%;
     }
 
     .appList>article {
       cursor: pointer;
+    }
+
+    .backButton {
+      float: right;
     }
 
     .hoo-cardgrid,
@@ -88,6 +100,13 @@
           }
         }
       }
+    }
+
+    .appDetails.hoo-teamsdb {
+      margin-top: 1.25rem;
+      margin-bottom: 1.25rem;
+      margin-left: 0;
+      margin-right: 0;
     }
 
 

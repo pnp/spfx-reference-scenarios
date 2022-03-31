@@ -32,8 +32,12 @@ export class CardView extends BaseImageCardView<IEventscheduleAdaptiveCardExtens
   }
 
   public get data(): IImageCardParameters {
+    let text: string = strings.PrimaryTextShort;
+    if (this.cardSize == "Large") {
+      text = `${strings.PrimaryText} ${new Date().getFullYear()} `;
+    }
     return {
-      primaryText: `${strings.PrimaryText} ${new Date().getFullYear()} `,
+      primaryText: text,
       imageUrl: this.state.eventsApp.cardViewImage
     };
   }

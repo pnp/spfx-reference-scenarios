@@ -10,8 +10,12 @@ import { IPayslipAdaptiveCardExtensionProps, IPayslipAdaptiveCardExtensionState 
 export interface IQuickViewData {
   payslip: Payslip;
   currentPayPeriod: PayPeriod;
+  currentPayPeriodStart: string;
+  currentPayPeriodEnd: string;
   nextPayPeriod: PayPeriod;
   prevPayPeriod: PayPeriod;
+  nextPayLabel: string;
+  prevPayLabel: string;
   showNext: boolean;
   showPrev: boolean;
   separator: string;
@@ -30,11 +34,16 @@ export class QuickView extends BaseAdaptiveCardView<
     const showPrev = (this.state.currentIndex == 0) ? false : true;
     const showNext = (this.state.currentIndex == this.state.payPeriods.length - 1) ? false : true;
     const separator: string = require('../../../common/images/payslip/img_spacer.png');
+
     return {
       payslip: payslip,
       currentPayPeriod: this.state.currentPayPeriod,
+      currentPayPeriodStart: Intl.DateTimeFormat(this.context.pageContext.cultureInfo.currentUICultureName, { weekday: undefined, year: 'numeric', month: 'long', day: 'numeric' }).format(new Date(this.state.currentPayPeriod.startDate)),
+      currentPayPeriodEnd: Intl.DateTimeFormat(this.context.pageContext.cultureInfo.currentUICultureName, { weekday: undefined, year: 'numeric', month: 'long', day: 'numeric' }).format(new Date(this.state.currentPayPeriod.endDate)),
       nextPayPeriod: this.state.payPeriods[this.state.currentIndex + 1],
       prevPayPeriod: this.state.payPeriods[this.state.currentIndex - 1],
+      nextPayLabel: `${Intl.DateTimeFormat(this.context.pageContext.cultureInfo.currentUICultureName, { weekday: undefined, year: undefined, month: 'long', day: 'numeric' }).format(new Date(this.state.payPeriods[this.state.currentIndex + 1].startDate))}-${Intl.DateTimeFormat(this.context.pageContext.cultureInfo.currentUICultureName, { weekday: undefined, year: undefined, month: undefined, day: 'numeric' }).format(new Date(this.state.payPeriods[this.state.currentIndex + 1].endDate))}`,
+      prevPayLabel: `${Intl.DateTimeFormat(this.context.pageContext.cultureInfo.currentUICultureName, { weekday: undefined, year: undefined, month: 'long', day: 'numeric' }).format(new Date(this.state.payPeriods[this.state.currentIndex - 1].startDate))}-${Intl.DateTimeFormat(this.context.pageContext.cultureInfo.currentUICultureName, { weekday: undefined, year: undefined, month: undefined, day: 'numeric' }).format(new Date(this.state.payPeriods[this.state.currentIndex - 1].endDate))}`,
       showNext: showNext,
       showPrev: showPrev,
       separator: separator,

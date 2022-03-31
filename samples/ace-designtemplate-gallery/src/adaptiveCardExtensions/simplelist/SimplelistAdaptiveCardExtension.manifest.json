@@ -20,13 +20,12 @@
       "default": "Dashboard"
     },
     "title": {
-      "default": "Simple List with Praise"
+      "default": "ACE - Simple List with Praise"
     },
     "description": {
       "default": "Design template for displaying lists of people with a deep link to Teams."
     },
-    "officeFabricIconFontName": "Medal",
-    "cardSize": "Large",
+    "iconImageUrl": "https://raw.githubusercontent.com/pnp/spfx-reference-scenarios/main/samples/ace-designtemplate-gallery/images/acepnplogo.png",
     "properties": {
       "iconProperty": "reward" // Default to sharepointlogo
     }
