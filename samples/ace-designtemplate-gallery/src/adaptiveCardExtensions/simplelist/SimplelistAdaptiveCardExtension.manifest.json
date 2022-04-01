@@ -25,7 +25,8 @@
     "description": {
       "default": "Design template for displaying lists of people with a deep link to Teams."
     },
-    "iconImageUrl": "https://raw.githubusercontent.com/pnp/spfx-reference-scenarios/main/samples/ace-designtemplate-gallery/images/acepnplogo.png",
+    "officeFabricIconFontName": "Medal",
+    "cardSize": "Large",
     "properties": {
       "iconProperty": "reward" // Default to sharepointlogo
     }
