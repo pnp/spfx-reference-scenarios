@@ -25,7 +25,7 @@
     "description": {
       "default": "Design template for showing visual list of data with images. Shows examples of a tabbed interface and data manipulation."
     },
-    "iconImageUrl": "https://raw.githubusercontent.com/pnp/spfx-reference-scenarios/main/samples/ace-designtemplate-gallery/images/acepnplogo.png",
+    "officeFabricIconFontName": "ShoppingCartSolid",
     "properties": {
       "iconProperty": "cart" // Default to sharepointlogo
     }

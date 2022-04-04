@@ -25,7 +25,8 @@
     "description": {
       "default": "Design template for showing lists of data and tabbed interface. Includes registration form and multiple card navigation with deep linking to Teams."
     },
-    "iconImageUrl": "https://raw.githubusercontent.com/pnp/spfx-reference-scenarios/main/samples/ace-designtemplate-gallery/images/acepnplogo.png",
+    "officeFabricIconFontName": "library",
+    "cardSize": "Large",
     "properties": {
       "iconProperty": "library" // Default to sharepointlogo
     }
