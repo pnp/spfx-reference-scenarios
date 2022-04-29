@@ -17,7 +17,8 @@ import {
   Holiday, HolidayTimeline,
   TimeOff, TimeOffRequest,
   VaccineAppointment, Cafeteria,
-  Cuisine
+  Cuisine,
+  HelpDeskTicket
 } from "../models/designtemplate.models";
 
 export interface IDesignTemplateGalleryService {
@@ -42,6 +43,7 @@ export interface IDesignTemplateGalleryService {
   GetTimeOff: () => TimeOff;
   SubmitTimeOffRequest: (request: TimeOffRequest) => void;
   GetCafeterias: () => Cafeteria[];
+  GetHelpDeskTicketLink(ticket: HelpDeskTicket): string;
 }
 
 export class DesignTemplateGalleryService implements IDesignTemplateGalleryService {
@@ -104,6 +106,24 @@ export class DesignTemplateGalleryService implements IDesignTemplateGalleryServi
           retVal.appDescription = strings.FAQAppDesc;
           retVal.appDesignerLink = strings.FAQAppDesignerLink;
           retVal.appGitHubLink = strings.FAQAppGitHubLink;
+          break;
+        }
+        case AppList.HELPDESK: {
+          retVal.appCardImage = require('../images/faq-accordion/dashboard-card.png');
+          retVal.appQuickViewImage = require('../images/faq-accordion/card.png');
+          retVal.appName = strings.FAQAppName;
+          retVal.appDescription = strings.FAQAppDesc;
+          retVal.appDesignerLink = strings.FAQAppDesignerLink;
+          retVal.appGitHubLink = strings.FAQAppGitHubLink;
+          break;
+        }
+        case AppList.HELPDESKCREATE: {
+          retVal.appCardImage = require('../images/helpdesk/helpdesk-create-dashboardcard.png');
+          retVal.appQuickViewImage = require('../images/helpdesk/create-ticket-quick-view.png');
+          retVal.appName = strings.HelpDeskCreateAppName;
+          retVal.appDescription = strings.HelpDeskCreateAppDesc;
+          retVal.appDesignerLink = strings.HelpDeskCreateAppDesignerLink;
+          retVal.appGitHubLink = strings.HelpDeskCreateAppGitHubLink;
           break;
         }
         case AppList.IMAGECAROUSEL: {
@@ -216,6 +236,11 @@ export class DesignTemplateGalleryService implements IDesignTemplateGalleryServi
         }
         case AppList.FAQACCORDION: {
           retVal = new DeepLinkData(subEntityId.appName, DeepLinkType.TEXT, subEntityId.message);
+          break;
+        }
+        case AppList.HELPDESK:
+        case AppList.HELPDESKCREATE: {
+          retVal = new DeepLinkData(subEntityId.appName, DeepLinkType.HELPDESKTICKET, subEntityId.message);
           break;
         }
         case AppList.INVENTORY: {
@@ -678,6 +703,20 @@ export class DesignTemplateGalleryService implements IDesignTemplateGalleryServi
       retVal = cafes;
     } catch (err) {
       Logger.write(`${this.LOG_SOURCE} (GetCafeterias) - ${err.message}`, LogLevel.Error);
+    }
+    return retVal;
+  }
+
+  public GetHelpDeskTicketLink(ticket: HelpDeskTicket): string {
+    let retVal: string = "";
+    try {
+      //In a real world scenario you would use this method to save the 
+      //save data into the system of record.
+      //Here we are going to link to the Teams App and demonstrate deep linking
+      retVal = encodeURI(`${this._teamsUrl}?context={"subEntityId":{"appName":"${AppList.HELPDESKCREATE}","linkType":"${DeepLinkType.HELPDESKTICKET}","message":${JSON.stringify(ticket)}}}`);
+
+    } catch (err) {
+      Logger.write(`${this.LOG_SOURCE} (GetHelpDeskTicketLink) - ${err.message}`, LogLevel.Error);
     }
     return retVal;
   }

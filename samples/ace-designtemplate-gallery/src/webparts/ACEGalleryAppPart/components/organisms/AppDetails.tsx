@@ -106,6 +106,18 @@ export default class AppDetails extends React.Component<IAppDetailsProps, IAppDe
                     <span><span className="linkCardLabel">{`${strings.DateLabel}: `}</span>{`${new Date(this.props.deepLink.message.apptDate).toDateString()}`}</span>
                   </div>
                 }
+                {this.props.deepLink?.deepLinkType == DeepLinkType.HELPDESKTICKET &&
+                  <div className="deepLinkCard introText">
+                    <div className="introText">{strings.HelpDeskCreateTicketMessage}</div>
+                    <span><span className="linkCardLabel">{`${strings.IncidentNumberLabel}: `}</span>{`${this.props.deepLink.message.incidentNumber}`}</span>
+                    <span><span className="linkCardLabel">{`${strings.RequestedByLabel}: `}</span>{this.props.deepLink.message.requestedBy.displayName}</span>
+                    <span><span className="linkCardLabel">{`${strings.CreateDateLabel}: `}</span>{new Date(this.props.deepLink.message.createDate).toDateString()}</span>
+                    <span><span className="linkCardLabel">{`${strings.CategoryLabel}: `}</span>{this.props.deepLink.message.category}</span>
+                    <span><span className="linkCardLabel">{`${strings.UrgencyLabel}: `}</span>{this.props.deepLink.message.urgency}</span>
+                    <span><span className="linkCardLabel">{`${strings.StateLabel}: `}</span>{this.props.deepLink.message.state}</span>
+                    <span><span className="linkCardLabel">{`${strings.DescriptionLabel}: `}</span>{this.props.deepLink.message.description}</span>
+                  </div>
+                }
                 {this.props.deepLink?.deepLinkType == DeepLinkType.INVENTORYITEM &&
                   <InventoryItem introText={`${strings.InventoryMessage} ${this.props.deepLink.message.inventoryItem.name}`} label={strings.InventoryAvailableLabel} value={this.props.deepLink.message.inventoryItem.amount} />
                 }

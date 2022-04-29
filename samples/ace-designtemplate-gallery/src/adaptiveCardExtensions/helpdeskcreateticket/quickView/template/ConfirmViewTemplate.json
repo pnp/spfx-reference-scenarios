@@ -1,0 +1,186 @@
+{
+  "type": "AdaptiveCard",
+  "body": [{
+      "type": "Container",
+      "items": [{
+        "type": "TextBlock",
+        "size": "Medium",
+        "weight": "Bolder",
+        "text": "${$root.strings.ConfirmFormHeader}"
+      }],
+      "style": "emphasis",
+      "bleed": true,
+      "horizontalAlignment": "Center"
+    },
+    {
+      "type": "Container",
+      "items": [{
+        "type": "TextBlock",
+        "text": "${$root.strings.IncidentNumberLabel}",
+        "wrap": true,
+        "weight": "Bolder"
+      }],
+      "spacing": "Large"
+    },
+    {
+      "type": "TextBlock",
+      "text": "${$root.ticket.incidentNumber}",
+      "wrap": true,
+      "spacing": "Small"
+    },
+    {
+      "type": "Container",
+      "spacing": "Large",
+      "items": [{
+          "type": "TextBlock",
+          "text": "${$root.strings.RequestedByLabel}",
+          "wrap": true,
+          "weight": "Bolder"
+        },
+        {
+          "type": "ColumnSet",
+          "columns": [{
+              "type": "Column",
+              "width": "24px",
+              "items": [{
+                "type": "Image",
+                "style": "Person",
+                "url": "${$root.ticket.requestedBy.imageUrl}",
+                "size": "Small"
+              }]
+            },
+            {
+              "type": "Column",
+              "width": "stretch",
+              "items": [{
+                "type": "TextBlock",
+                "weight": "Default",
+                "text": "${$root.ticket.requestedBy.displayName}",
+                "wrap": true
+              }]
+            }
+          ],
+          "spacing": "Small"
+        }
+      ]
+    },
+    {
+      "type": "Container",
+      "spacing": "Large",
+      "items": [{
+          "type": "TextBlock",
+          "text": "${$root.strings.CreatedDateLabel}",
+          "wrap": true,
+          "weight": "Bolder"
+        },
+        {
+          "type": "TextBlock",
+          "text": "{{DATE(${$root.ticket.createDate},COMPACT)}}",
+          "wrap": true,
+          "spacing": "Small"
+        }
+      ]
+    },
+    {
+      "type": "Container",
+      "spacing": "Large",
+      "items": [{
+          "type": "TextBlock",
+          "text": "${$root.strings.CategoryLabel}",
+          "wrap": true,
+          "weight": "Bolder"
+        },
+        {
+          "type": "TextBlock",
+          "text": "${$root.ticket.category}",
+          "wrap": true,
+          "spacing": "Small"
+        }
+      ]
+    },
+    {
+      "type": "Container",
+      "spacing": "Large",
+      "items": [{
+        "type": "TextBlock",
+        "text": "${$root.strings.UrgencyLabel}",
+        "wrap": true,
+        "weight": "Bolder"
+      }]
+    },
+    {
+      "type": "TextBlock",
+      "text": "${$root.ticket.urgency}",
+      "wrap": true,
+      "spacing": "Small"
+    },
+    {
+      "type": "Container",
+      "spacing": "Large",
+      "items": [{
+        "type": "TextBlock",
+        "text": "${$root.strings.DescriptionLabel}",
+        "wrap": true,
+        "weight": "Bolder"
+      }]
+    },
+    {
+      "type": "TextBlock",
+      "text": "${$root.ticket.description}",
+      "wrap": true,
+      "spacing": "Small"
+    },
+    {
+      "type": "Container",
+      "spacing": "Large",
+      "items": [
+
+        {
+          "type": "Container",
+          "spacing": "Large",
+          "items": [{
+            "type": "Container",
+            "spacing": "Large",
+            "style": "emphasis",
+            "bleed": true,
+            "items": [{
+              "type": "ColumnSet",
+              "columns": [{
+                  "type": "Column",
+                  "width": "stretch",
+                  "items": [{
+                    "type": "ActionSet",
+                    "actions": [{
+                      "type": "Action.Submit",
+                      "title": "${$root.strings.CancelButtonLabel}",
+                      "style": "destructive",
+                      "data": {
+                        "id": "cancel"
+                      }
+                    }]
+                  }]
+                },
+                {
+                  "type": "Column",
+                  "width": "stretch",
+                  "spacing": "Medium",
+                  "items": [{
+                    "type": "ActionSet",
+                    "actions": [{
+                      "type": "Action.OpenUrl",
+                      "title": "${$root.strings.SubmitButtonLabel}",
+                      "style": "positive",
+                      "url": "${$root.confirmLink}"
+                    }]
+                  }]
+                }
+              ]
+            }]
+          }]
+        }
+      ]
+    }
+  ],
+  "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
+  "version": "1.3"
+}

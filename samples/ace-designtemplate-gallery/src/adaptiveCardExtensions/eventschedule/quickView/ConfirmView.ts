@@ -1,4 +1,4 @@
-import { ISPFxAdaptiveCard, BaseAdaptiveCardView, IActionArguments } from '@microsoft/sp-adaptive-card-extension-base';
+import { ISPFxAdaptiveCard, BaseAdaptiveCardView, IActionArguments, ISubmitActionArguments } from '@microsoft/sp-adaptive-card-extension-base';
 import * as strings from 'EventscheduleAdaptiveCardExtensionStrings';
 import { IEventscheduleAdaptiveCardExtensionProps, IEventscheduleAdaptiveCardExtensionState } from '../EventscheduleAdaptiveCardExtension';
 
@@ -37,7 +37,7 @@ export class ConfirmView extends BaseAdaptiveCardView<
     return require('./template/ConfirmViewTemplate.json');
   }
 
-  public async onAction(action: IActionArguments): Promise<void> {
+  public async onAction(action: ISubmitActionArguments): Promise<void> {
     try {
       if (action.type === 'Submit') {
         const { id } = action.data;
