@@ -38,7 +38,8 @@ export class CardView extends BaseImageCardView<IEventscheduleAdaptiveCardExtens
     }
     return {
       primaryText: text,
-      imageUrl: this.state.eventsApp.cardViewImage
+      imageUrl: this.state.eventsApp.cardViewImage,
+      title: this.properties.title
     };
   }
 

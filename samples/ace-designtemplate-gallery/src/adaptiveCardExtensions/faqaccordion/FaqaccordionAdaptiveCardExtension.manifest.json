@@ -27,6 +27,7 @@
     },
     "iconImageUrl": "https://raw.githubusercontent.com/pnp/spfx-reference-scenarios/main/samples/ace-designtemplate-gallery/images/faqaccordion/officelogo.png",
     "properties": {
+      "title": "Office 365",
       "iconProperty": "https://raw.githubusercontent.com/pnp/spfx-reference-scenarios/main/samples/ace-designtemplate-gallery/images/faqaccordion/officelogo.png" // Default to sharepointlogo
     }
   }]

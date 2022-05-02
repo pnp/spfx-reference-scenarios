@@ -14,6 +14,7 @@ import * as strings from 'EventscheduleAdaptiveCardExtensionStrings';
 
 export interface IEventscheduleAdaptiveCardExtensionProps {
   iconProperty: string;
+  title: string;
 }
 
 export interface IEventscheduleAdaptiveCardExtensionState {
@@ -65,7 +66,7 @@ export default class EventscheduleAdaptiveCardExtension extends BaseAdaptiveCard
   }
 
   public get title(): string {
-    return strings.Title;
+    return this.properties.title;
   }
 
   protected get iconProperty(): string {

@@ -1,6 +1,7 @@
 declare interface ITimelineholidayAdaptiveCardExtensionStrings {
   PropertyPaneDescription: string;
   BasicGroupName: string;
+  TitleFieldLabel: string;
   IconPropertyFieldLabel: string;
   Title: string;
   LongWeekendHeader: string;

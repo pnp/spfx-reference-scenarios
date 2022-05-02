@@ -13,6 +13,9 @@ export class HelpdeskcreateticketPropertyPane {
               groupFields: [
                 PropertyPaneTextField('title', {
                   label: strings.TitleFieldLabel
+                }),
+                PropertyPaneTextField('iconProperty', {
+                  label: strings.IconPropertyFieldLabel
                 })
               ]
             }

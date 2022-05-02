@@ -2,6 +2,7 @@ declare interface IHelpdeskcreateticketAdaptiveCardExtensionStrings {
   PropertyPaneDescription: string;
   GroupName: string;
   TitleFieldLabel: string;
+  IconPropertyFieldLabel: string;
   CardViewText: string;
   NewFormHeader: string;
   ConfirmFormHeader: string;

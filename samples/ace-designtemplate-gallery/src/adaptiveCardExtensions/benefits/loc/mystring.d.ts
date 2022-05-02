@@ -1,4 +1,5 @@
 declare interface IBenefitsAdaptiveCardExtensionStrings {
+  TitleFieldLabel: string;
   IconPropertyFieldLabel: string;
   PropertyPaneDescription: string;
   DescriptionFieldLabel: string;

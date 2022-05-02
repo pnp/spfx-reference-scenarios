@@ -1,6 +1,7 @@
 declare interface IPayslipAdaptiveCardExtensionStrings {
   PropertyPaneDescription: string;
   BasicGroupName: string;
+  TitleFieldLabel: string;
   IconPropertyFieldLabel: string;
   CardViewText: string;
   Title: string;

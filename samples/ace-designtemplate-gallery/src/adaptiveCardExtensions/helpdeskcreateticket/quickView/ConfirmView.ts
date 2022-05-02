@@ -1,8 +1,7 @@
 import { ISPFxAdaptiveCard, BaseAdaptiveCardView, ISubmitActionArguments } from '@microsoft/sp-adaptive-card-extension-base';
-import { cloneDeep, random } from '@microsoft/sp-lodash-subset';
 import * as strings from 'HelpdeskcreateticketAdaptiveCardExtensionStrings';
-import { DemoUser, HelpDeskTicket } from '../../../common/models/designtemplate.models';
-import { CONFIRM_VIEW_REGISTRY_ID, IHelpdeskcreateticketAdaptiveCardExtensionProps, IHelpdeskcreateticketAdaptiveCardExtensionState } from '../HelpdeskcreateticketAdaptiveCardExtension';
+import { HelpDeskTicket } from '../../../common/models/designtemplate.models';
+import { IHelpdeskcreateticketAdaptiveCardExtensionProps, IHelpdeskcreateticketAdaptiveCardExtensionState } from '../HelpdeskcreateticketAdaptiveCardExtension';
 import { Logger, LogLevel } from "@pnp/logging";
 import { dtg } from '../../../common/services/designtemplate.service';
 

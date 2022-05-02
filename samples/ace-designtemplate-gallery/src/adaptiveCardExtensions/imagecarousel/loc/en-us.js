@@ -1,7 +1,7 @@
 define([], function() {
   return {
-    "PropertyPaneDescription": "Description",
-    "BasicGroupName": "Group Name",
+    "PropertyPaneDescription": "Design template for displaying images in a carousel with product data.",
+    "BasicGroupName": "Configuration",
     "TitleFieldLabel": "Card Title",
     "CardHeadingLabel": "Card Heading",
     "IconPropertyFieldLabel": "Card Icon",

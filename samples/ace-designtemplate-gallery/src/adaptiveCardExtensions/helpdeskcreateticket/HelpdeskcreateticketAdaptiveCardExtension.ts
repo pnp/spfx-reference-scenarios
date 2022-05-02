@@ -62,6 +62,12 @@ export default class HelpdeskcreateticketAdaptiveCardExtension extends BaseAdapt
 
     return Promise.resolve();
   }
+  public get title(): string {
+    return this.properties.title;
+  }
+  protected get iconProperty(): string {
+    return this.properties.iconProperty || require('./assets/SharePointLogo.svg');
+  }
 
   protected loadPropertyPaneResources(): Promise<void> {
     return import(

@@ -27,6 +27,7 @@
     },
     "officeFabricIconFontName": "rocket",
     "properties": {
+      "title": "Time off",
       "iconProperty": "rocket" // Default to sharepointlogo
     }
   }]

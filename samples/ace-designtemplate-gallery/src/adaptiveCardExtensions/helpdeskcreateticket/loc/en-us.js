@@ -2,7 +2,8 @@ define([], function() {
   return {
     "PropertyPaneDescription": "Design template for how to create a help desk ticket entry system. Submission form with a deep linking to Teams.",
     "GroupName": "Configuration",
-    "TitleFieldLabel": "Card title",
+    "TitleFieldLabel": "Card Title",
+    "IconPropertyFieldLabel": "Card Icon",
     "CardViewText": "Create a new Help Ticket",
     "NewFormHeader": "Create a help ticket",
     "ConfirmFormHeader": "Please confirm your data",

@@ -11,6 +11,7 @@ import * as strings from 'BenefitsAdaptiveCardExtensionStrings';
 
 export interface IBenefitsAdaptiveCardExtensionProps {
   iconProperty: string;
+  title: string;
 }
 
 export interface IBenefitsAdaptiveCardExtensionState {
@@ -52,11 +53,9 @@ export default class BenefitsAdaptiveCardExtension extends BaseAdaptiveCardExten
     }
     return Promise.resolve();
   }
-
   public get title(): string {
-    return strings.Title;
+    return this.properties.title;
   }
-
   protected get iconProperty(): string {
     return this.properties.iconProperty || require('./assets/SharePointLogo.svg');
   }

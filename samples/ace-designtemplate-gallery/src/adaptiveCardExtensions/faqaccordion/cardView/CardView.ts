@@ -28,7 +28,8 @@ export class CardView extends BasePrimaryTextCardView<IFaqaccordionAdaptiveCardE
   public get data(): IPrimaryTextCardParameters {
     return {
       primaryText: strings.CardTitle,
-      description: strings.CardText
+      description: strings.CardText,
+      title: this.properties.title
     };
   }
 

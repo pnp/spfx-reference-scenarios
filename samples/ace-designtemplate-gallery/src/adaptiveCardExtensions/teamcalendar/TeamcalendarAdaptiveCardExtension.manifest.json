@@ -27,6 +27,7 @@
     },
     "officeFabricIconFontName": "Calendar",
     "properties": {
+      "title": "Team Calendar",
       "iconProperty": "calendar_edit" // Default to sharepointlogo
     }
   }]

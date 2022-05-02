@@ -28,6 +28,7 @@
     "officeFabricIconFontName": "Medal",
     "cardSize": "Large",
     "properties": {
+      "title": "Praise",
       "iconProperty": "reward" // Default to sharepointlogo
     }
   }]

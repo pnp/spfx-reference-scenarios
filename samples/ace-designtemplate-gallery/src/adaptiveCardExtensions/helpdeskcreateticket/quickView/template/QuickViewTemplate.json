@@ -93,6 +93,9 @@
         {
           "type": "Input.ChoiceSet",
           "choices": [{
+              "title": "${$root.strings.CategoryPlaceholder}",
+              "value": " "
+            }, {
               "title": "IT Request",
               "value": "IT Request"
             },
@@ -103,7 +106,8 @@
           ],
           "placeholder": "${$root.strings.CategoryPlaceholder}",
           "spacing": "Small",
-          "id": "category"
+          "id": "category",
+          "value": " "
         }
       ]
     },
@@ -120,6 +124,9 @@
     {
       "type": "Input.ChoiceSet",
       "choices": [{
+          "title": "${$root.strings.UrgencyPlaceholder}",
+          "value": " "
+        }, {
           "title": "Low",
           "value": "Low"
         },
@@ -134,7 +141,8 @@
       ],
       "placeholder": "${$root.strings.UrgencyPlaceholder}",
       "id": "urgency",
-      "spacing": "Small"
+      "spacing": "Small",
+      "value": " "
     },
     {
       "type": "Container",

@@ -13,6 +13,7 @@ import { SimpleList } from '../../common/models/designtemplate.models';
 
 export interface ISimplelistAdaptiveCardExtensionProps {
   iconProperty: string;
+  title: string;
 }
 
 export interface ISimplelistAdaptiveCardExtensionState {
@@ -56,7 +57,7 @@ export default class SimplelistAdaptiveCardExtension extends BaseAdaptiveCardExt
   }
 
   public get title(): string {
-    return strings.Title;
+    return this.properties.title;
   }
 
   protected get iconProperty(): string {

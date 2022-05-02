@@ -1,6 +1,7 @@
 declare interface ISimplelistAdaptiveCardExtensionStrings {
   PropertyPaneDescription: string;
   BasicGroupName: string;
+  TitleFieldLabel: string;
   IconPropertyFieldLabel: string;
   Title: string;
   CardText: string;
