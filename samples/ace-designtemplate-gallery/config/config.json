@@ -113,6 +113,14 @@
           "manifest": "./src/adaptiveCardExtensions/helpdeskcreateticket/HelpdeskcreateticketAdaptiveCardExtension.manifest.json"
         }
       ]
+    },
+    "helpdesk-adaptive-card-extension": {
+      "components": [
+        {
+          "entrypoint": "./lib/adaptiveCardExtensions/helpdesk/HelpdeskAdaptiveCardExtension.js",
+          "manifest": "./src/adaptiveCardExtensions/helpdesk/HelpdeskAdaptiveCardExtension.manifest.json"
+        }
+      ]
     }
   },
   "externals": {},
@@ -131,6 +139,7 @@
     "TimeoffAdaptiveCardExtensionStrings": "lib/adaptiveCardExtensions/timeoff/loc/{locale}.js",
     "VaccinationboosterAdaptiveCardExtensionStrings": "lib/adaptiveCardExtensions/vaccinationbooster/loc/{locale}.js",
     "VisuallistAdaptiveCardExtensionStrings": "lib/adaptiveCardExtensions/visuallist/loc/{locale}.js",
-    "HelpdeskcreateticketAdaptiveCardExtensionStrings": "lib/adaptiveCardExtensions/helpdeskcreateticket/loc/{locale}.js"
+    "HelpdeskcreateticketAdaptiveCardExtensionStrings": "lib/adaptiveCardExtensions/helpdeskcreateticket/loc/{locale}.js",
+    "HelpdeskAdaptiveCardExtensionStrings": "lib/adaptiveCardExtensions/helpdesk/loc/{locale}.js"
   }
 }

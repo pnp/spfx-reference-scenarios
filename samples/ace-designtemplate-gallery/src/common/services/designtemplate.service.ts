@@ -44,6 +44,8 @@ export interface IDesignTemplateGalleryService {
   SubmitTimeOffRequest: (request: TimeOffRequest) => void;
   GetCafeterias: () => Cafeteria[];
   GetHelpDeskTicketLink(ticket: HelpDeskTicket): string;
+  GetHelpDeskTickets: () => HelpDeskTicket[];
+  CloseHelpDeskTickets: (tickets: HelpDeskTicket[], currentTicket: HelpDeskTicket) => HelpDeskTicket[];
 }
 
 export class DesignTemplateGalleryService implements IDesignTemplateGalleryService {
@@ -109,12 +111,12 @@ export class DesignTemplateGalleryService implements IDesignTemplateGalleryServi
           break;
         }
         case AppList.HELPDESK: {
-          retVal.appCardImage = require('../images/faq-accordion/dashboard-card.png');
-          retVal.appQuickViewImage = require('../images/faq-accordion/card.png');
-          retVal.appName = strings.FAQAppName;
-          retVal.appDescription = strings.FAQAppDesc;
-          retVal.appDesignerLink = strings.FAQAppDesignerLink;
-          retVal.appGitHubLink = strings.FAQAppGitHubLink;
+          retVal.appCardImage = require('../images/helpdesk/ticket-listcard.png');
+          retVal.appQuickViewImage = require('../images/helpdesk/incident-details-quick-view.png');
+          retVal.appName = strings.HelpDeskAppName;
+          retVal.appDescription = strings.HelpDeskAppDesc;
+          retVal.appDesignerLink = strings.HelpDeskAppDesignerLink;
+          retVal.appGitHubLink = strings.HelpDeskAppGitHubLink;
           break;
         }
         case AppList.HELPDESKCREATE: {
@@ -720,7 +722,65 @@ export class DesignTemplateGalleryService implements IDesignTemplateGalleryServi
     }
     return retVal;
   }
+
+  public GetHelpDeskTickets(): HelpDeskTicket[] {
+    let retVal: HelpDeskTicket[] = [];
+    try {
+      //Sample pulls data from mock
+      //To extend pull data from a list of your items
+      const tickets: HelpDeskTicket[] = require("../data/helpdesk.data.json");
+
+      //We are manipulating the data here to set teh due dates so there is always relevant data in the sample.
+      //You can remove this code if you are attaching it to a ticketing system
+      tickets.map((ticket, index) => {
+        let eventDate: Date = new Date();
+        let offset: number = 0;
+        if (index === 0) {
+          offset = 8;
+        } else {
+          offset = index;
+        }
+        eventDate.setDate(eventDate.getDate() - offset);
+        const monthNumber: number = eventDate.getMonth() + 1;
+        let month: string = monthNumber.toString();
+        let datestring: string = eventDate.getDate().toString();
+        if (monthNumber < 10) {
+          month = `0${month}`;
+        }
+        if (eventDate.getDate() < 10) {
+          datestring = `0${datestring}`;
+        }
+        ticket.createDate = `${eventDate.getFullYear().toString()}-${month}-${datestring}T00:00:00Z`;
+
+        //Check if it is overdue
+        const today: Date = new Date();
+        const dueDate: Date = new Date(today.getFullYear(), today.getMonth(), today.getDate() - 7);
+        if (eventDate.getTime() < dueDate.getTime()) {
+          ticket.overdue = true;
+        }
+
+      });
+      retVal = tickets;
+
+    } catch (err) {
+      Logger.write(`${this.LOG_SOURCE} (GetHelpDeskTickets) - ${err.message}`, LogLevel.Error);
+    }
+    return retVal;
+  }
+
+  public CloseHelpDeskTickets(tickets: HelpDeskTicket[], currentTicket: HelpDeskTicket): HelpDeskTicket[] {
+    let retVal: HelpDeskTicket[] = [];
+    try {
+
+      retVal = tickets.filter(ticket => ticket.incidentNumber != currentTicket.incidentNumber);
+
+    } catch (err) {
+      Logger.write(`${this.LOG_SOURCE} (CloseHelpDeskTickets) - ${err.message}`, LogLevel.Error);
+    }
+    return retVal;
+  }
 }
+
 
 
 

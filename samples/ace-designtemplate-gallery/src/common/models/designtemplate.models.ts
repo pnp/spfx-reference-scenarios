@@ -610,6 +610,8 @@ export interface IHelpDeskTicket {
   state: string;
   description: string;
   location: string;
+  requestType?: string;
+  overdue?: boolean;
 }
 
 export class HelpDeskTicket implements IHelpDeskTicket {
@@ -621,7 +623,9 @@ export class HelpDeskTicket implements IHelpDeskTicket {
     public urgency: string = "",
     public state: string = "New",
     public description: string = "",
-    public location: string = ""
+    public location: string = "",
+    public requestType: string = "",
+    public overdue: boolean = false
   ) { }
 }
 
