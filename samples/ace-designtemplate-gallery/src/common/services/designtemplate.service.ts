@@ -757,6 +757,12 @@ export class DesignTemplateGalleryService implements IDesignTemplateGalleryServi
         const dueDate: Date = new Date(today.getFullYear(), today.getMonth(), today.getDate() - 7);
         if (eventDate.getTime() < dueDate.getTime()) {
           ticket.overdue = true;
+          const msInDay = 24 * 60 * 60 * 1000;
+          const difference = Math.round(Math.abs(Number(dueDate.getTime()) - Number(today.getTime())) / msInDay);
+          ticket.overdueTime = difference.toString();
+        } else {
+          ticket.overdue = false;
+          ticket.overdueTime = "";
         }
 
       });

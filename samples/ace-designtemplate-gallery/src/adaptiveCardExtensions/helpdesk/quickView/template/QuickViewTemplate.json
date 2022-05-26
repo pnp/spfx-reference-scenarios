@@ -33,7 +33,7 @@
             "type": "Column",
             "items": [{
                 "type": "TextBlock",
-                "text": "Opened: {{DATE(${createDate},COMPACT)}}",
+                "text": "${$root.strings.OpenedLabel}: {{DATE(${createDate},COMPACT)}} ${if(overdueTime != '', '(' + overdueTime + ' ' + $root.strings.OverdueLabel + ')','')}",
                 "wrap": true,
                 "size": "Small",
 

@@ -9,6 +9,8 @@ declare interface IHelpdeskAdaptiveCardExtensionStrings {
   CardViewNoTasks: string;
   CardViewDescription: string;
   QuickViewDescription: string;
+  OpenedLabel: string;
+  OverdueLabel: string;
 }
 
 declare module 'HelpdeskAdaptiveCardExtensionStrings' {

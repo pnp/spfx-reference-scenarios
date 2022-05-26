@@ -9,6 +9,8 @@ define([], function() {
     "CardViewTextPlural":"tasks pending",
     "CardViewNoTasks":"You currently have no tasks pending",
     "CardViewDescription":"Get up to date with your tasks.",
-    "QuickViewDescription": "Review the following tasks and approve or reject these requests before the due date."
+    "QuickViewDescription": "Review the following tasks and approve or reject these requests before the due date.",
+    "OpenedLabel": "Opened",
+    "OverdueLabel": "days overdue"
   }
 });
