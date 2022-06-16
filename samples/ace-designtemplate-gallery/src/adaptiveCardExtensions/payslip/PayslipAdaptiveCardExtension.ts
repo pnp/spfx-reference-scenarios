@@ -13,6 +13,7 @@ import { find } from '@microsoft/sp-lodash-subset';
 
 export interface IPayslipAdaptiveCardExtensionProps {
   iconProperty: string;
+  title: string;
 }
 
 export interface IPayslipAdaptiveCardExtensionState {
@@ -65,7 +66,7 @@ export default class PayslipAdaptiveCardExtension extends BaseAdaptiveCardExtens
   }
 
   public get title(): string {
-    return strings.Title;
+    return this.properties.title;
   }
 
   protected get iconProperty(): string {

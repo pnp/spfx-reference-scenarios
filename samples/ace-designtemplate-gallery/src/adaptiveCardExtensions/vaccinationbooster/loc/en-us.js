@@ -1,7 +1,8 @@
 define([], function() {
   return {
-    "PropertyPaneDescription": "Description",
-    "BasicGroupName": "Group Name",
+    "PropertyPaneDescription": "Design template for textual information and registration form and deep link to Teams.",
+    "BasicGroupName": "Configuration",
+    "TitleFieldLabel": "Card Title",
     "IconPropertyFieldLabel": "Card Icon",
     "Title": "COVID-19 Booster",
     "CardViewTitle":"Schedule your FREE COVID-19 vaccine at the Health Center today!",

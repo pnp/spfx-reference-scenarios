@@ -27,6 +27,7 @@
     },
     "officeFabricIconFontName": "ShoppingCartSolid",
     "properties": {
+      "title": "Cafe",
       "iconProperty": "cart" // Default to sharepointlogo
     }
   }]

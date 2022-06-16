@@ -28,6 +28,7 @@
     "iconImageUrl": "https://raw.githubusercontent.com/pnp/spfx-reference-scenarios/main/samples/ace-designtemplate-gallery/images/vaccination-booster/booster.png",
     "cardSize": "Large",
     "properties": {
+      "title": "COVID-19 Booster",
       "iconProperty": "https://raw.githubusercontent.com/pnp/spfx-reference-scenarios/main/samples/ace-designtemplate-gallery/images/vaccination-booster/booster.png" // Default to sharepointlogo
     }
   }]

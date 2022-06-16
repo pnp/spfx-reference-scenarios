@@ -28,6 +28,7 @@
     "officeFabricIconFontName": "Vacation",
     "cardSize": "Large",
     "properties": {
+      "title": "Holidays",
       "iconProperty": "beach" // Default to sharepointlogo
     }
   }]

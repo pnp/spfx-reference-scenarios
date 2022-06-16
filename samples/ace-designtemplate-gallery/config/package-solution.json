@@ -13,7 +13,15 @@
       "privacyUrl": "https://symp.info/acegalleryprivacy",
       "termsOfUseUrl": "https://symp.info/acegalleryprivacy",
       "mpnId": "2459569"
-    }
+    },
+    "features": [
+      {
+        "title": "ace-designtemplate-gallery Feature",
+        "description": "The feature that activates elements of the ace-designtemplate-gallery solution.",
+        "id": "4dee8855-0257-4b15-8f14-6c2df6dcd120",
+        "version": "1.0.0.0"
+      }
+    ]
   },
   "paths": {
     "zippedPackage": "solution/ace-designtemplate-gallery.sppkg"

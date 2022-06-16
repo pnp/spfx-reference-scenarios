@@ -1,7 +1,8 @@
 define([], function() {
   return {
-    "PropertyPaneDescription": "Description",
-    "BasicGroupName": "Group Name",
+    "PropertyPaneDescription": "Design template for a dynamic calendar showing different events happening on each day.",
+    "BasicGroupName": "Configuration",
+    "TitleFieldLabel": "Card Title",
     "IconPropertyFieldLabel": "Card Icon",
     "Title": "Team Calendar",
     "CardViewTitle": "This week",

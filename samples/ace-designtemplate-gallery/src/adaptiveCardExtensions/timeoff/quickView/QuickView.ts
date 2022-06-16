@@ -1,4 +1,4 @@
-import { ISPFxAdaptiveCard, BaseAdaptiveCardView, IActionArguments } from '@microsoft/sp-adaptive-card-extension-base';
+import { ISPFxAdaptiveCard, BaseAdaptiveCardView, ISubmitActionArguments } from '@microsoft/sp-adaptive-card-extension-base';
 import * as strings from 'TimeoffAdaptiveCardExtensionStrings';
 import { Logger, LogLevel } from "@pnp/logging";
 import { TimeOff, TimeOffRequest } from '../../../common/models/designtemplate.models';
@@ -38,7 +38,7 @@ export class QuickView extends BaseAdaptiveCardView<
   public get template(): ISPFxAdaptiveCard {
     return require('./template/QuickViewTemplate.json');
   }
-  public async onAction(action: IActionArguments): Promise<void> {
+  public async onAction(action: ISubmitActionArguments): Promise<void> {
     try {
       if (action.type === 'Submit') {
         const { id, data } = action;

@@ -1,8 +1,9 @@
 define([], function() {
   return {
-    "PropertyPaneDescription": "Configure the properties of this Adaptive Card Extension",
+    "PropertyPaneDescription": "Design template for showing lists of data and tabbed interface. Includes registration form and multiple card navigation with deep linking to Teams.",
     "BasicGroupName": "Configure",
     "IconPropertyFieldLabel": "Card Icon",
+    "TitleFieldLabel": "Card Title",
     "Title": "Event Schedule",
     "PrimaryText": "Microsoft Ignite. Come join the virtual event in",
     "PrimaryTextShort": "Microsoft Ignite Schedule.",

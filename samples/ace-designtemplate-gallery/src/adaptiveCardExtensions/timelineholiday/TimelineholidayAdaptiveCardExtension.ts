@@ -12,6 +12,7 @@ import { Holiday, HolidayTimeline } from '../../common/models/designtemplate.mod
 
 export interface ITimelineholidayAdaptiveCardExtensionProps {
   iconProperty: string;
+  title: string;
 }
 
 export interface ITimelineholidayAdaptiveCardExtensionState {
@@ -58,7 +59,7 @@ export default class TimelineholidayAdaptiveCardExtension extends BaseAdaptiveCa
   }
 
   public get title(): string {
-    return strings.Title;
+    return this.properties.title;
   }
 
   protected get iconProperty(): string {

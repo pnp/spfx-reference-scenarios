@@ -10,6 +10,7 @@ import * as strings from 'VaccinationboosterAdaptiveCardExtensionStrings';
 
 export interface IVaccinationboosterAdaptiveCardExtensionProps {
   iconProperty: string;
+  title: string;
 }
 
 export interface IVaccinationboosterAdaptiveCardExtensionState {
@@ -45,7 +46,7 @@ export default class VaccinationboosterAdaptiveCardExtension extends BaseAdaptiv
   }
 
   public get title(): string {
-    return strings.Title;
+    return this.properties.title;
   }
 
   protected get iconProperty(): string {

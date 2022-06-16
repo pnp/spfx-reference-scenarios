@@ -20,6 +20,16 @@ declare interface IAceDesignTemplatePersonalAppWebPartStrings {
   FAQAppDesignerLink: string;
   FAQAppGitHubLink: string;
 
+  HelpDeskAppName: string;
+  HelpDeskAppDesc: string;
+  HelpDeskAppDesignerLink: string;
+  HelpDeskAppGitHubLink: string;
+
+  HelpDeskCreateAppName: string;
+  HelpDeskCreateAppDesc: string;
+  HelpDeskCreateAppDesignerLink: string;
+  HelpDeskCreateAppGitHubLink: string;
+
   ImageCarouselAppName: string;
   ImageCarouselAppDesc: string;
   ImageCarouselAppDesignerLink: string;
@@ -68,6 +78,7 @@ declare interface IAceDesignTemplatePersonalAppWebPartStrings {
   DeepLinkContent: string;
   DeepLinkHeading: string;
   DeepLinkDescription: string;
+  HelpDeskCreateTicketMessage: string;
   EventRegThankYouMessage: string;
   AnniversaryMessage: string;
   PraiseMessage: string;
@@ -81,6 +92,14 @@ declare interface IAceDesignTemplatePersonalAppWebPartStrings {
   CelebratingLabel: string;
   YearLabel: string;
   YearsLabel: string;
+  IncidentNumberLabel: string;
+  RequestedByLabel: string;
+  CreateDateLabel: string;
+  CategoryLabel: string;
+  UrgencyLabel: string;
+  StateLabel: string;
+  DescriptionLabel: string;
+  LocationLabel: string;
   InventoryMessage: string;
   InventoryAvailableLabel: string;
   InventoryChangeLabel: string;

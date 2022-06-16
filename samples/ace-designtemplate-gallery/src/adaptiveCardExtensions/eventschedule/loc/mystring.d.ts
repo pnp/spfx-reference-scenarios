@@ -3,6 +3,7 @@ declare interface IEventscheduleAdaptiveCardExtensionStrings {
   PropertyPaneDescription: string;
   BasicGroupName: string;
   IconPropertyFieldLabel: string;
+  TitleFieldLabel: string;
   //App Strings
   Title: string;
   PrimaryText: string;

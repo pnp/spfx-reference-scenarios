@@ -12,6 +12,7 @@ import { Appointment, Day, IDay } from '../../common/models/designtemplate.model
 
 export interface ITeamcalendarAdaptiveCardExtensionProps {
   iconProperty: string;
+  title: string;
 }
 
 export interface ITeamcalendarAdaptiveCardExtensionState {
@@ -69,7 +70,7 @@ export default class TeamcalendarAdaptiveCardExtension extends BaseAdaptiveCardE
   }
 
   public get title(): string {
-    return strings.Title;
+    return this.properties.title;
   }
 
   protected get iconProperty(): string {

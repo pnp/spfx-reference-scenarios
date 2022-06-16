@@ -1,8 +1,9 @@
 define([], function() {
   return {
-    "PropertyPaneDescription": "Description",
-    "BasicGroupName": "Group Name",
+    "PropertyPaneDescription": "Design template for displaying lists of data with images. Details conditional formatting and deep link to Teams.",
+    "BasicGroupName": "Configuration",
     "DistributionCenterNumberLabel": "Distribution Center Number",
+    "TitleFieldLabel": "Card Title",
     "IconPropertyFieldLabel": "Card Icon",
     "CardViewText": "Today's update across top selling items",
     "Title": "Inventory",

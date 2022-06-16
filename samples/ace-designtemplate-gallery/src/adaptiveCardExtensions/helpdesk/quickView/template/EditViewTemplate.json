@@ -1,0 +1,162 @@
+{
+  "type": "AdaptiveCard",
+  "body": [{
+      "type": "Container",
+      "spacing": "Large",
+      "style": "default",
+      "items": [{
+          "type": "ColumnSet",
+          "columns": [{
+            "type": "Column",
+            "width": 75,
+            "items": [{
+              "type": "TextBlock",
+              "text": "${ticket.requestType} ${ticket.incidentNumber}",
+              "wrap": true,
+              "size": "Medium",
+              "weight": "Bolder"
+            }]
+          }]
+        },
+        {
+          "type": "Container",
+          "items": [{
+              "type": "ColumnSet",
+              "columns": [{
+                  "type": "Column",
+                  "width": 30,
+                  "items": [{
+                    "type": "TextBlock",
+                    "text": "Created by",
+                    "wrap": true,
+                    "weight": "Bolder"
+                  }]
+                },
+                {
+                  "type": "Column",
+                  "width": 70,
+                  "items": [{
+                    "type": "ColumnSet",
+                    "columns": [{
+                        "type": "Column",
+                        "width": "32px",
+                        "items": [{
+                          "type": "Image",
+                          "url": "${ticket.requestedBy.imageUrl}"
+                        }]
+                      },
+                      {
+                        "type": "Column",
+                        "width": "stretch",
+                        "items": [{
+                          "type": "TextBlock",
+                          "text": "${ticket.requestedBy.displayName}",
+                          "wrap": true
+                        }],
+                        "verticalContentAlignment": "Center"
+                      }
+                    ],
+                    "spacing": "Medium"
+                  }]
+                }
+              ]
+            },
+            {
+              "type": "ColumnSet",
+              "columns": [{
+                  "type": "Column",
+                  "width": 30,
+                  "items": [{
+                    "type": "TextBlock",
+                    "text": "Opened",
+                    "wrap": true,
+                    "weight": "Bolder"
+                  }]
+                },
+                {
+                  "type": "Column",
+                  "width": 70,
+                  "items": [{
+                    "type": "TextBlock",
+                    "text": "{{DATE(${ticket.createDate},COMPACT)}}",
+                    "wrap": true,
+                    "size": "Default",
+                    "isSubtle": false,
+                    "color": "${if(ticket.overdue == true, 'attention','Default')}",
+                    "weight": "Bolder"
+                  }]
+                }
+              ],
+              "spacing": "Large"
+            },
+            {
+              "type": "ColumnSet",
+              "columns": [{
+                  "type": "Column",
+                  "width": 30,
+                  "items": [{
+                    "type": "TextBlock",
+                    "text": "Description",
+                    "wrap": true,
+                    "weight": "Bolder"
+                  }]
+                },
+                {
+                  "type": "Column",
+                  "items": [{
+                    "type": "TextBlock",
+                    "text": "${ticket.description}",
+                    "wrap": true,
+                    "spacing": "Medium"
+                  }],
+                  "width": 70
+                }
+              ],
+              "spacing": "Large"
+            }
+          ],
+          "spacing": "Large"
+        }
+
+      ]
+    },
+    {
+      "type": "ColumnSet",
+      "columns": [{
+          "type": "Column",
+          "width": 30,
+          "items": [{
+            "type": "TextBlock",
+            "text": "Location",
+            "wrap": true,
+            "weight": "Bolder"
+          }]
+        },
+        {
+          "type": "Column",
+          "width": 70,
+          "items": [{
+            "type": "TextBlock",
+            "text": "${ticket.location}",
+            "wrap": true
+          }]
+        }
+      ],
+      "spacing": "Large"
+    },
+    {
+      "type": "ActionSet",
+      "actions": [{
+        "type": "Action.Submit",
+        "title": "Close Ticket",
+        "data": {
+          "id": "close",
+          "ticket": "${ticket}"
+        }
+      }],
+      "spacing": "Large"
+    }
+  ],
+  "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
+  "version": "1.3"
+}

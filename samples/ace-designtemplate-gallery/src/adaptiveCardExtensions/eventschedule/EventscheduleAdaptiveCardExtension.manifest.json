@@ -28,6 +28,7 @@
     "officeFabricIconFontName": "library",
     "cardSize": "Large",
     "properties": {
+      "title": "Event Schedule",
       "iconProperty": "library" // Default to sharepointlogo
     }
   }]
