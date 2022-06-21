@@ -1,0 +1,40 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/spfx-build/package-solution.schema.json",
+  "solution": {
+    "name": "spfx-formcustomizer-basics-client-side-solution",
+    "id": "ac1e99ed-adcf-429e-b518-f8087f9fe80c",
+    "version": "1.0.0.0",
+    "includeClientSideAssets": true,
+    "skipFeatureDeployment": true,
+    "isDomainIsolated": false,
+    "developer": {
+      "name": "",
+      "websiteUrl": "",
+      "privacyUrl": "",
+      "termsOfUseUrl": "",
+      "mpnId": "Undefined-1.15.0-rc.0"
+    },
+    "metadata": {
+      "shortDescription": {
+        "default": "spfx-formcustomizer-basics description"
+      },
+      "longDescription": {
+        "default": "spfx-formcustomizer-basics description"
+      },
+      "screenshotPaths": [],
+      "videoUrl": "",
+      "categories": []
+    },
+    "features": [
+      {
+        "title": "spfx-formcustomizer-basics Feature",
+        "description": "The feature that activates elements of the spfx-formcustomizer-basics solution.",
+        "id": "0d609377-fe49-4fde-8755-518f21539bcc",
+        "version": "1.0.0.0"
+      }
+    ]
+  },
+  "paths": {
+    "zippedPackage": "solution/spfx-formcustomizer-basics.sppkg"
+  }
+}
