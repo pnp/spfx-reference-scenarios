@@ -2,7 +2,7 @@
   {
     "name": "pnp-spfx-reference-scenarios-ace-teams-roomreservation",
     "source": "pnp",
-    "title": "World Clock Microsoft Teams Personal App/Teams Tab",
+    "title": "Room reservation Microsoft Teams Personal App/Teams Tab",
     "shortDescription": "The Executive Room Reservation application is an executive scheduling sample application.",
     "url": "https://github.com/pnp/spfx-reference-scenarios/tree/main/ace-teams-roomreservation",
     "longDescription": [
