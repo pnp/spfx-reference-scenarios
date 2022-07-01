@@ -8,7 +8,7 @@ import { Logger, LogLevel, ConsoleListener } from "@pnp/logging";
 import { CardView } from './cardView/CardView';
 import { QuickView } from './quickView/QuickView';
 import { MyMailPropertyPane } from './MyMailPropertyPane';
-import { MyMailService } from './services/mymail.service';
+import { IMyMailService, MyMailService } from './services/mymail.service';
 import { Message } from './models/mymail.models';
 
 
@@ -16,12 +16,11 @@ export interface IMyMailAdaptiveCardExtensionProps {
   title: string;
   mailType: string;
   refreshRate: number;
+  numToReturn: number;
 }
 
 export interface IMyMailAdaptiveCardExtensionState {
   messages: Message[];
-  focusedMessages: string;
-  otherMessages: string;
 }
 
 const CARD_VIEW_REGISTRY_ID: string = 'MyMail_CARD_VIEW';
@@ -49,24 +48,33 @@ export default class MyMailAdaptiveCardExtension extends BaseAdaptiveCardExtensi
       graph.setup({ spfxContext: this.context });
 
       const myMailService = this.context.serviceScope.consume(MyMailService.serviceKey);
-      const myMessages = await myMailService.getMyMail(this.properties.mailType);
-      let focused: number = 0;
-      myMessages.map((m) => {
-        if (m.inferenceClassification == "focused") {
-          focused++;
-        }
-      });
+      const myMessages = await myMailService.getMyMail(this.properties.mailType, this.properties.numToReturn);
+
 
       this.state = {
         messages: myMessages,
-        focusedMessages: focused.toString(),
-        otherMessages: (myMessages.length - focused).toString()
       };
+      this.refreshMail(myMailService, this.properties.refreshRate);
     } catch (err) {
       Logger.write(`${this.LOG_SOURCE} (onInit) - ${err.message} - `, LogLevel.Error);
     }
 
     return Promise.resolve();
+  }
+
+  private async refreshMail(mailService: IMyMailService, delay: number): Promise<any> {
+    while (true) {
+      const myMessages = await mailService.getMyMail(this.properties.mailType, this.properties.numToReturn);
+      //We don't want to rerender if the count hasn't changed.
+      if (myMessages.length != this.state.messages.length) {
+        this.setState({ messages: myMessages });
+      }
+      await this.delay(delay * 60000);
+    }
+  }
+
+  private async delay(ms: number): Promise<any> {
+    return new Promise(resolve => setTimeout(resolve, ms));
   }
 
   protected loadPropertyPaneResources(): Promise<void> {

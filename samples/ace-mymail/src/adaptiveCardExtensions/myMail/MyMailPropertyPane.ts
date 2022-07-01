@@ -35,6 +35,9 @@ export class MyMailPropertyPane {
                   label: strings.MailTypeLabel,
                   options: this._mailTypes
                 }),
+                PropertyPaneTextField('numToReturn', {
+                  label: strings.NumToReturnFieldLabel
+                }),
                 PropertyPaneTextField('refreshRate', {
                   label: strings.RefreshRateFieldLabel
                 }),
