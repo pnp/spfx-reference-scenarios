@@ -4,7 +4,7 @@
 
 This Adaptive Card Extension is an example to show how to create a card view the dynamically updates as well as shows how to leverage the Microsoft Graph to surface data. The ACE uses the Graph to get the email of the current user. The Card View displays the current number of emails and updates on a timer that is set in the configuration of the ACE. The Quick View shows the subject, received date/time, and a short preview of the message. The user can click on the email to go the web version of the email.
 
-![Overview](./assets/ace-cardviews.png)
+![Overview](./assets/ace-cardviews.png)  ![Configuration](./assets/quickview.png)
 
 You can set the following properties on this sample
 
