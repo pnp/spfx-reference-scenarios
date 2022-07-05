@@ -1,14 +1,10 @@
 import { IPropertyPaneConfiguration } from '@microsoft/sp-property-pane';
 import { BaseAdaptiveCardExtension } from '@microsoft/sp-adaptive-card-extension-base';
 
-// import { sp } from "@pnp/sp";
-// import { graph } from "@pnp/graph";
-// import { Logger, LogLevel, ConsoleListener } from "@pnp/logging";
-
 import { CardView } from './cardView/CardView';
 import { QuickView } from './quickView/QuickView';
 import { MyMailPropertyPane } from './MyMailPropertyPane';
-import { IMyMailService, myMailService, MyMailService } from './services/mymail.service';
+import { myMailService } from './services/mymail.service';
 import { Message } from './models/mymail.models';
 
 export interface IMyMailAdaptiveCardExtensionProps {
