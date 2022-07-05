@@ -1,7 +1,7 @@
 {
   "$schema": "https://developer.microsoft.com/json-schemas/spfx-build/package-solution.schema.json",
   "solution": {
-    "name": "ace-mymail-client-side-solution",
+    "name": "SPFx ACE-Graph Sample - My Mail",
     "id": "75ce1116-a686-41d4-86bb-7a5b525731b2",
     "version": "1.0.0.0",
     "includeClientSideAssets": true,
@@ -12,14 +12,14 @@
       "websiteUrl": "",
       "privacyUrl": "",
       "termsOfUseUrl": "",
-      "mpnId": "Undefined-1.14.0"
+      "mpnId": "M365PNP"
     },
     "metadata": {
       "shortDescription": {
-        "default": "ace-mymail description"
+        "default": "Adaptive Card Extension that shows the users latest unread emails using the Microsoft Graph."
       },
       "longDescription": {
-        "default": "ace-mymail description"
+        "default": "Adaptive Card Extension that shows the users latest unread emails using the Microsoft Graph."
       },
       "screenshotPaths": [],
       "videoUrl": "",
@@ -30,7 +30,7 @@
       "scope": "Mail.Read"
     }],
     "features": [{
-      "title": "ace-mymail Feature",
+      "title": "ACE My Mail Feature",
       "description": "The feature that activates elements of the ace-mymail solution.",
       "id": "ce406ab1-5716-4c27-9f69-8df137ec0550",
       "version": "1.0.0.0"
