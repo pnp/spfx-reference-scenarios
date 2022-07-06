@@ -2,11 +2,13 @@ import { ServiceKey, ServiceScope } from "@microsoft/sp-core-library";
 import { PageContext } from "@microsoft/sp-page-context";
 import { AadTokenProviderFactory } from "@microsoft/sp-http";
 
-import { graphfi, SPFx, GraphFI } from "@pnp/graph";
+import { graphfi, SPFx, GraphFI, GraphQueryableCollection } from "@pnp/graph";
 import "@pnp/graph/users";
 import "@pnp/graph/messages";
 
-import { MailType, Message } from "../models/mymail.models";
+import { IMessage, MailType, Message } from "../models/mymail.models";
+import { IMailFolder } from "@pnp/graph/messages";
+import { IUser } from "@pnp/graph/users";
 
 export interface IMyMailService {
   readonly ready: boolean;
@@ -49,7 +51,8 @@ export class MyMailService implements IMyMailService {
 
     try {
       const today: Date = new Date();
-      const messages: Message[] = await this._graph.me.messages
+      const messagesQuery = GraphQueryableCollection(this._graph.me, "mailFolders/Inbox/messages");
+      const messages: Message[] = await messagesQuery
         .select("id", "receivedDateTime", "subject", "importance", "isRead", "webLink", "inferenceClassification", "from")
         .filter(filterString)
         .orderBy('receivedDateTime', false)
