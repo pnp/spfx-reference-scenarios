@@ -1,7 +1,8 @@
 define([], function() {
   return {
-    "PropertyPaneDescription": "Description",
-    "BasicGroupName": "Group Name",
+    "PropertyPaneDescription": "Design template for a vertical timeline of events with image and description.",
+    "BasicGroupName": "Configuration",
+    "TitleFieldLabel": "Card Title",
     "IconPropertyFieldLabel": "Card Icon",
     "Title": "Holidays",
     "LongWeekendHeader": "Long weekend opportunity!",

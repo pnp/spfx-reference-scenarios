@@ -31,7 +31,7 @@
       "title": "My Mail",
       "mailType": "all",
       "refreshRate": "5",
-      "description": "My Mail description",
+      "numToReturn": "50",
       "iconProperty": "mail" // Default to sharepointlogo
     }
   }]

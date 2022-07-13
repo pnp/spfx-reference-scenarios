@@ -1,8 +1,9 @@
 define([], function() {
   return {
-    "PropertyPaneDescription": "Description",
-    "BasicGroupName": "Group Name",
+    "PropertyPaneDescription": "Design template for showing expand and collapse sections in an accordion style. Submission form with a deep linking to Teams.",
+    "BasicGroupName": "Configuration",
     "IconPropertyFieldLabel": "Card Icon",
+    "TitleFieldLabel": "Card Title",
     "Title": "Office 365",
     "CardTitle": "FAQs",
     "CardText": "Search FAQs and ask the community a question",

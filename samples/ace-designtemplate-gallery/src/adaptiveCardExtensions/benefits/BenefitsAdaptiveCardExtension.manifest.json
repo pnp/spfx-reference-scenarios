@@ -27,6 +27,7 @@
     },
     "officeFabricIconFontName": "ribbon",
     "properties": {
+      "title": "Benefits",
       "description": "Choose from the latest benefit options",
       "iconProperty": "ribbon" // Default to sharepointlogo
     }

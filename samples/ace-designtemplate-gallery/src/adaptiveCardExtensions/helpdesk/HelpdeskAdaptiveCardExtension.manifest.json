@@ -1,0 +1,34 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/spfx/client-side-web-part-manifest.schema.json",
+  "id": "bc4813b9-72ec-4df1-b0f2-6b7e7e036e09",
+  "alias": "HelpdeskAdaptiveCardExtension",
+  "componentType": "AdaptiveCardExtension",
+
+  // The "*" signifies that the version should be taken from the package.json
+  "version": "*",
+  "manifestVersion": 2,
+
+  // If true, the component can only be installed on sites where Custom Script is allowed.
+  // Components that allow authors to embed arbitrary script code should set this to true.
+  // https://support.office.com/en-us/article/Turn-scripting-capabilities-on-or-off-1f2c515f-5d7e-448a-9fd7-835da935584f
+  "requiresCustomScript": false,
+  "supportedHosts": ["Dashboard"],
+  "supportsThemeVariants": true,
+  "preconfiguredEntries": [{
+    "groupId": "bd067b1e-3ad5-4d5d-a5fe-505f07d7f59c", // Dashboard
+    "group": {
+      "default": "Dashboard"
+    },
+    "title": {
+      "default": "ACE - Help Desk"
+    },
+    "description": {
+      "default": "Design template for how to show help desk tickets in list view and detail view."
+    },
+    "officeFabricIconFontName": "Telemarketer",
+    "properties": {
+      "title": "Help Desk",
+      "iconProperty": "person_support" // Default to sharepointlogo
+    }
+  }]
+}

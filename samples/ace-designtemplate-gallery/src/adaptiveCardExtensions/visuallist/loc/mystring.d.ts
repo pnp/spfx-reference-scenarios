@@ -1,6 +1,7 @@
 declare interface IVisuallistAdaptiveCardExtensionStrings {
   PropertyPaneDescription: string;
   BasicGroupName: string;
+  TitleFieldLabel: string;
   IconPropertyFieldLabel: string;
   Title: string;
   QuickViewButtonText: string;

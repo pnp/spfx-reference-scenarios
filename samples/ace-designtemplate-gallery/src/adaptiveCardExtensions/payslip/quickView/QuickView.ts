@@ -1,4 +1,4 @@
-import { ISPFxAdaptiveCard, BaseAdaptiveCardView, IActionArguments } from '@microsoft/sp-adaptive-card-extension-base';
+import { ISPFxAdaptiveCard, BaseAdaptiveCardView, ISubmitActionArguments } from '@microsoft/sp-adaptive-card-extension-base';
 import { find } from '@microsoft/sp-lodash-subset';
 import * as strings from 'PayslipAdaptiveCardExtensionStrings';
 
@@ -51,7 +51,7 @@ export class QuickView extends BaseAdaptiveCardView<
     };
   }
 
-  public async onAction(action: IActionArguments): Promise<void> {
+  public async onAction(action: ISubmitActionArguments): Promise<void> {
     try {
       if (action.type === 'Submit') {
         const { id, payPeriodId } = action.data;

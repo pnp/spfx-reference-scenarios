@@ -2,6 +2,7 @@ declare interface IInventorydetailsAdaptiveCardExtensionStrings {
   PropertyPaneDescription: string;
   BasicGroupName: string;
   DistributionCenterNumberLabel: string;
+  TitleFieldLabel: string;
   IconPropertyFieldLabel: string;
   CardViewText: string;
 

@@ -1,6 +1,5 @@
 import { IPropertyPaneConfiguration, IPropertyPaneDropdownOption, PropertyPaneDropdown, PropertyPaneTextField } from '@microsoft/sp-property-pane';
 import * as strings from 'MyMailAdaptiveCardExtensionStrings';
-import { Logger, LogLevel } from "@pnp/logging";
 import { MailType } from './models/mymail.models';
 
 export class MyMailPropertyPane {
@@ -14,7 +13,7 @@ export class MyMailPropertyPane {
       options.push({ key: MailType.focused, text: strings.MailTypeFocused });
       options.push({ key: MailType.other, text: strings.MailTypeOther });
     } catch (err) {
-      Logger.write(`🔶 MyMailACE:${this.LOG_SOURCE} (getWebpartModePropertyPaneOptions) -- ${err} -- Error loading webpart mode property pane options.`, LogLevel.Error);
+      console.error(`🔶 MyMailACE:${this.LOG_SOURCE} (getWebpartModePropertyPaneOptions) -- ${err} -- Error loading webpart mode property pane options.`);
     }
     this._mailTypes = options;
   }
@@ -34,6 +33,9 @@ export class MyMailPropertyPane {
                 PropertyPaneDropdown('mailType', {
                   label: strings.MailTypeLabel,
                   options: this._mailTypes
+                }),
+                PropertyPaneTextField('numToReturn', {
+                  label: strings.NumToReturnFieldLabel
                 }),
                 PropertyPaneTextField('refreshRate', {
                   label: strings.RefreshRateFieldLabel

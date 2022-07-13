@@ -27,6 +27,8 @@
     },
     "officeFabricIconFontName": "Dictionary",
     "properties": {
+      "title": "Inventory",
+      "distributionCenterNumber": "23",
       "iconProperty": "channel" // Default to sharepointlogo
     }
   }]

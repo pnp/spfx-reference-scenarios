@@ -12,6 +12,7 @@ import * as strings from 'VisuallistAdaptiveCardExtensionStrings';
 
 export interface IVisuallistAdaptiveCardExtensionProps {
   iconProperty: string;
+  title: string;
 }
 
 export interface IVisuallistAdaptiveCardExtensionState {
@@ -54,7 +55,7 @@ export default class VisuallistAdaptiveCardExtension extends BaseAdaptiveCardExt
   }
 
   public get title(): string {
-    return strings.Title;
+    return this.properties.title;
   }
 
   protected get iconProperty(): string {

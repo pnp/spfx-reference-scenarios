@@ -3,10 +3,11 @@ import {
   IImageCardParameters,
   IExternalLinkCardAction,
   IQuickViewCardAction,
-  ICardButton
+  ICardButton,
+  BaseAdaptiveCardExtension
 } from '@microsoft/sp-adaptive-card-extension-base';
 import * as strings from 'MyMailAdaptiveCardExtensionStrings';
-import { MailTypeFocused } from 'MyMailAdaptiveCardExtensionStrings';
+import { Icons } from '../models/myMail.Images';
 import { MailType } from '../models/mymail.models';
 import { IMyMailAdaptiveCardExtensionProps, IMyMailAdaptiveCardExtensionState, QUICK_VIEW_REGISTRY_ID } from '../MyMailAdaptiveCardExtension';
 
@@ -32,13 +33,30 @@ export class CardView extends BaseImageCardView<IMyMailAdaptiveCardExtensionProp
 
   public get data(): IImageCardParameters {
     const emailCount: string = this.state.messages.length.toString();
-    let cardText: string = `${strings.CardViewIntro}\n\n${emailCount} ${strings.UnreadMailText}`;
+    let imageUrl: string = "";
+    let focused: number = 0;
+    this.state.messages.map((m) => {
+      if (m.inferenceClassification == "focused") {
+        focused++;
+      }
+    });
+    let cardText: string = `${strings.CardViewIntro} ${emailCount}`;
     if (this.properties.mailType == MailType.all) {
-      cardText += `\n\n${this.state.focusedMessages} ${strings.FocusedMailText}\n\n${this.state.otherMessages} ${strings.OtherMailText}`;
+      cardText += ` ${strings.UnreadMailText}\n\n${focused} ${strings.FocusedMailText}\n\n${(this.state.messages.length - focused).toString()} ${strings.OtherMailText}`;
+    } else if (this.properties.mailType == MailType.focused) {
+      cardText += ` ${strings.UnreadFocusedMessagesText}`;
+    } else {
+      cardText += ` ${strings.UnreadOtherMessagesText}`;
     }
+    if (this.cardSize == "Large") {
+      imageUrl = Icons.LargeImage.SVG;
+    } else {
+      imageUrl = Icons.MediumImage.SVG;
+    }
+    imageUrl = "data:image/svg+xml;base64," + btoa(imageUrl.replace("__XXX__", emailCount));
     return {
       primaryText: cardText,
-      imageUrl: require('../assets/MicrosoftLogo.png'),
+      imageUrl: imageUrl,
       title: this.properties.title
     };
   }

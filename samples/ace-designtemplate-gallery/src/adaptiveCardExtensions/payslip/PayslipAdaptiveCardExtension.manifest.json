@@ -27,6 +27,7 @@
     },
     "officeFabricIconFontName": "money",
     "properties": {
+      "title": "Payslip",
       "iconProperty": "money" // Default to sharepointlogo
     }
   }]

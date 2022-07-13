@@ -8,10 +8,10 @@ import { Logger, LogLevel, ConsoleListener } from "@pnp/logging";
 
 import { dtg } from '../../common/services/designtemplate.service';
 import { AccordionList } from '../../common/models/designtemplate.models';
-import * as strings from 'FaqaccordionAdaptiveCardExtensionStrings';
 
 export interface IFaqaccordionAdaptiveCardExtensionProps {
   iconProperty: string;
+  title: string;
 }
 
 export interface IFaqaccordionAdaptiveCardExtensionState {
@@ -54,11 +54,9 @@ export default class FaqaccordionAdaptiveCardExtension extends BaseAdaptiveCardE
     }
     return Promise.resolve();
   }
-
   public get title(): string {
-    return strings.Title;
+    return this.properties.title;
   }
-
   protected get iconProperty(): string {
     return this.properties.iconProperty || require('./assets/SharePointLogo.svg');
   }

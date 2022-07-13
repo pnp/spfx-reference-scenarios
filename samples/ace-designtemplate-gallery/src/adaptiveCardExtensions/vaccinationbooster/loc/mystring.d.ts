@@ -1,6 +1,7 @@
 declare interface IVaccinationboosterAdaptiveCardExtensionStrings {
   PropertyPaneDescription: string;
   BasicGroupName: string;
+  TitleFieldLabel: string;
   IconPropertyFieldLabel: string;
   Title: string;
   CardViewTitle: string;

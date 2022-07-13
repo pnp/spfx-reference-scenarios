@@ -13,6 +13,7 @@ import * as strings from 'InventorydetailsAdaptiveCardExtensionStrings';
 export interface IInventorydetailsAdaptiveCardExtensionProps {
   distributionCenterNumber: string;
   iconProperty: string;
+  title: string;
 }
 
 export interface IInventorydetailsAdaptiveCardExtensionState {
@@ -55,7 +56,7 @@ export default class InventorydetailsAdaptiveCardExtension extends BaseAdaptiveC
   }
 
   public get title(): string {
-    return strings.Title;
+    return this.properties.title;
   }
 
   protected get iconProperty(): string {

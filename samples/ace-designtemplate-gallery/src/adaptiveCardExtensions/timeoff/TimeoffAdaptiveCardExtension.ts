@@ -12,6 +12,7 @@ import { TimeOff } from '../../common/models/designtemplate.models';
 
 export interface ITimeoffAdaptiveCardExtensionProps {
   iconProperty: string;
+  title: string;
 }
 
 export interface ITimeoffAdaptiveCardExtensionState {
@@ -25,7 +26,7 @@ export default class TimeoffAdaptiveCardExtension extends BaseAdaptiveCardExtens
   ITimeoffAdaptiveCardExtensionProps,
   ITimeoffAdaptiveCardExtensionState
 > {
-  private LOG_SOURCE: string = "🔶 Timeo Off Adaptive Card Extension";
+  private LOG_SOURCE: string = "🔶 Time Off Adaptive Card Extension";
   private _deferredPropertyPane: TimeoffPropertyPane | undefined;
 
   public onInit(): Promise<void> {
@@ -53,7 +54,7 @@ export default class TimeoffAdaptiveCardExtension extends BaseAdaptiveCardExtens
   }
 
   public get title(): string {
-    return strings.Title;
+    return this.properties.title;
   }
 
   protected get iconProperty(): string {

@@ -1,7 +1,8 @@
 define([], function() {
   return {
-    "PropertyPaneDescription": "Description",
-    "BasicGroupName": "Group Name",
+    "PropertyPaneDescription": "Design template for displaying lists of people with a deep link to Teams.",
+    "BasicGroupName": "Configuration",
+    "TitleFieldLabel": "Card Title",
     "IconPropertyFieldLabel": "Card Icon",
     "Title":"Praise",
     "CardText": "Show gratitude to peers who went above and beyond at work.",

@@ -1,10 +1,10 @@
 define([], function() {
   return {
-    
+    "TitleFieldLabel": "Card Title",
     "IconPropertyFieldLabel": "Card Icon",
-    "PropertyPaneDescription": "Description",
+    "PropertyPaneDescription": "Design template for showing news or articles with imagery and deep links to Teams.",
     "DescriptionFieldLabel": "Description Field",
-    "BasicGroupName": "Group Name",
+    "BasicGroupName": "Configuration",
     "Title": "Benefits",
     "CardViewTitle": "Enroll for",
     "CardViewText": "Choose from the latest benefit options",

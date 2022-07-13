@@ -11,6 +11,10 @@ export class InventorydetailsPropertyPane {
             {
               groupName: strings.BasicGroupName,
               groupFields: [
+                PropertyPaneTextField('title', {
+                  label: strings.TitleFieldLabel
+
+                }),
                 PropertyPaneTextField('distributionCenterNumber', {
                   label: strings.DistributionCenterNumberLabel
                 }),

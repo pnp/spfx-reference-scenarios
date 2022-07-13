@@ -1,4 +1,5 @@
 declare interface IFaqaccordionAdaptiveCardExtensionStrings {
+  TitleFieldLabel: string;
   PropertyPaneDescription: string;
   BasicGroupName: string;
   IconPropertyFieldLabel: string;

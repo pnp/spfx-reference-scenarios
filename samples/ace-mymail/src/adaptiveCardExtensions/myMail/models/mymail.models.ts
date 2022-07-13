@@ -11,6 +11,7 @@ export interface IMessage {
   isRead: boolean;
   webLink: string;
   inferenceClassification: string;
+  isToday: boolean;
   from: GraphUser;
 }
 
@@ -23,6 +24,7 @@ export class Message implements IMessage {
     public isRead: boolean = true,
     public webLink: string = "",
     public inferenceClassification: string = "",
+    public isToday: boolean = false,
     public from: GraphUser = new GraphUser()
   ) { }
 }
@@ -40,11 +42,15 @@ export class GraphUser implements IGraphUser {
 export interface IEmailAddress {
   name: string;
   address: string;
+  initials: string;
+  bgColor: string;
 }
 
 export class EmailAddress implements IEmailAddress {
   constructor(
     public name: string = "",
     public address: string = "",
+    public initials: string = "",
+    public bgColor: string = "498205"
   ) { }
 }

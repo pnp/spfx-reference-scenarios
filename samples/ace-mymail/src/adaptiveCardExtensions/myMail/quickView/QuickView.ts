@@ -1,11 +1,12 @@
 import { ISPFxAdaptiveCard, BaseAdaptiveCardView } from '@microsoft/sp-adaptive-card-extension-base';
 import * as strings from 'MyMailAdaptiveCardExtensionStrings';
+import { Message } from '../models/mymail.models';
 import { IMyMailAdaptiveCardExtensionProps, IMyMailAdaptiveCardExtensionState } from '../MyMailAdaptiveCardExtension';
 
 export interface IQuickViewData {
-  subTitle: string;
-  title: string;
-  strings: IMyMailAdaptiveCardExtensionStrings
+  messages: Message[];
+  today: string;
+  strings: IMyMailAdaptiveCardExtensionStrings;
 }
 
 export class QuickView extends BaseAdaptiveCardView<
@@ -14,9 +15,10 @@ export class QuickView extends BaseAdaptiveCardView<
   IQuickViewData
 > {
   public get data(): IQuickViewData {
+    const today: Date = new Date();
     return {
-      subTitle: strings.SubTitle,
-      title: strings.Title,
+      messages: this.state.messages,
+      today: today.toLocaleDateString(),
       strings: strings
     };
   }
