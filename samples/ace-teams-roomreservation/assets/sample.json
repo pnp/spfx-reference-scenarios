@@ -1,72 +1,79 @@
-[{
-  "name": "pnp-spfx-reference-scenarios-ace-teams-roomreservation",
-  "source": "pnp",
-  "title": "Executive Room Reservation Microsoft Teams Personal App",
-  "shortDescription": "The Executive Room Reservation application is an executive scheduling sample application.",
-  "url": "https://github.com/pnp/spfx-reference-scenarios/tree/main/ace-teams-roomreservation",
-  "longDescription": [
-    "The Executive Room Reservation application is an executive scheduling application that allows users to see upcoming meetings, select and book a room based on availability dates and the number of participants. Users can see a photo of the room where the meeting is booked, get an address to the building to put in the meeting invite, and get directions to the building. It provides a seamless way for executive assistants to schedule meeting rooms for executive meetings. The application demonstrates the ability to create a visually engaging Microsoft Teams based solution."
-  ],
-  "creationDateTime": "2021-09-07",
-  "updateDateTime": "2021-11-18",
-  "products": [
-    "SharePoint",
-    "Microsoft Teams",
-    "Viva"
-  ],
-  "metadata": [{
-      "key": "CLIENT-SIDE-DEV",
-      "value": "React"
-    },
-    {
-      "key": "SPFX-VERSION",
-      "value": "1.13.0"
-    }
-  ],
-  "thumbnails": [{
-      "type": "image",
-      "order": 100,
-      "url": "https://raw.githubusercontent.com/pnp/spfx-reference-scenarios/main/samples/ace-teams-roomreservation/assets/execmeeting.gif",
-      "alt": "Exectuive Meeting Overview"
-    },
-    {
-      "type": "image",
-      "order": 101,
-      "url": "https://raw.githubusercontent.com/pnp/spfx-reference-scenarios/main/samples/ace-teams-roomreservation/assets/execmeetingace.gif",
-      "alt": "Executive Meeting ACE"
-    }
-  ],
-  "authors": [{
-      "gitHubAccount": "juliemturner",
-      "company": "Sympraxis Consulting",
-      "pictureUrl": "https://github.com/juliemturner.png",
-      "name": "Julie Turner",
-      "twitter": "jfj1997"
-    },
-    {
-      "gitHubAccount": "dcashpeterson",
-      "company": "Sympraxis Consulting",
-      "pictureUrl": "https://github.com/dcashpeterson.png",
-      "name": "Derek Cash-Peterson",
-      "twitter": "spdcp"
-    },
-    {
-      "gitHubAccount": "StfBauer",
-      "company": "N8D",
-      "pictureUrl": "https://github.com/StfBauer.png",
-      "name": "Stefan Bauer",
-      "twitter": "stfbauer"
-    }
-  ],
-  "references": [{
-      "name": "Build your first SharePoint client-side web part",
-      "description": "Client-side web parts are client-side components that run in the context of a SharePoint page. Client-side web parts can be deployed to SharePoint environments that support the SharePoint Framework. You can also use modern JavaScript web frameworks, tools, and libraries to build them.",
-      "url": "https://docs.microsoft.com/en-us/sharepoint/dev/spfx/web-parts/get-started/build-a-hello-world-web-part"
-    },
-    {
-      "name": "Building Microsoft Teams Tabs using SharePoint Framework",
-      "description": "Starting with SharePoint Framework v1.8, you can build tabs for Microsoft Teams with the SharePoint Framework tooling and use SharePoint as a host for your solutions. As part of the SharePoint Framework v1.10 you can also publish your solution as Microsoft Teams personal app.",
-      "url": "https://docs.microsoft.com/en-us/sharepoint/dev/spfx/integrate-with-teams-introduction"
-    }
-  ]
-}]
+[
+  {
+    "name": "pnp-spfx-reference-scenarios-ace-teams-roomreservation",
+    "source": "pnp",
+    "title": "Room reservation Microsoft Teams Personal App/Teams Tab",
+    "shortDescription": "The Executive Room Reservation application is an executive scheduling sample application.",
+    "url": "https://github.com/pnp/spfx-reference-scenarios/tree/main/samples/ace-teams-roomreservation",
+    
+    "longDescription": [
+      "The Executive Room Reservation application is an executive scheduling application that allows users to see upcoming meetings, select and book a room based on availability dates and the number of participants. Users can see a photo of the room where the meeting is booked, get an address to the building to put in the meeting invite, and get directions to the building. It provides a seamless way for executive assistants to schedule meeting rooms for executive meetings. The application demonstrates the ability to create a visually engaging Microsoft Teams based solution."
+    ],
+    "creationDateTime": "2021-09-07",
+    "updateDateTime": "2021-11-18",
+    "products": [
+      "SharePoint",
+      "Microsoft Teams",
+      "Viva"
+    ],
+    "metadata": [
+      {
+        "key": "CLIENT-SIDE-DEV",
+        "value": "React"
+      },
+      {
+        "key": "SPFX-VERSION",
+        "value": "1.13.0"
+      }
+    ],
+    "thumbnails": [
+      {
+        "type": "image",
+        "order": 100,
+        "url": "https://raw.githubusercontent.com/pnp/spfx-reference-scenarios/main/samples/ace-teams-roomreservation/assets/execmeeting.gif",
+        "alt": "Exectuive Meeting Overview"
+      },
+      {
+        "type": "image",
+        "order": 101,
+        "url": "https://raw.githubusercontent.com/pnp/spfx-reference-scenarios/main/samples/ace-teams-roomreservation/assets/execmeetingace.gif",
+        "alt": "Executive Meeting ACE"
+      }
+    ],
+    "authors": [
+      {
+        "gitHubAccount": "juliemturner",
+        "company": "Sympraxis Consulting",
+        "pictureUrl": "https://github.com/juliemturner.png",
+        "name": "Julie Turner",
+        "twitter": "jfj1997"
+      },
+      {
+        "gitHubAccount": "dcashpeterson",
+        "company": "Sympraxis Consulting",
+        "pictureUrl": "https://github.com/dcashpeterson.png",
+        "name": "Derek Cash-Peterson",
+        "twitter": "spdcp"
+      },
+      {
+        "gitHubAccount": "StfBauer",
+        "company": "N8D",
+        "pictureUrl": "https://github.com/StfBauer.png",
+        "name": "Stefan Bauer",
+        "twitter": "stfbauer"
+      }
+    ],
+    "references": [
+      {
+        "name": "Build your first SharePoint client-side web part",
+        "description": "Client-side web parts are client-side components that run in the context of a SharePoint page. Client-side web parts can be deployed to SharePoint environments that support the SharePoint Framework. You can also use modern JavaScript web frameworks, tools, and libraries to build them.",
+        "url": "https://docs.microsoft.com/en-us/sharepoint/dev/spfx/web-parts/get-started/build-a-hello-world-web-part"
+      },
+      {
+        "name": "Building Microsoft Teams Tabs using SharePoint Framework",
+        "description": "Starting with SharePoint Framework v1.8, you can build tabs for Microsoft Teams with the SharePoint Framework tooling and use SharePoint as a host for your solutions. As part of the SharePoint Framework v1.10 you can also publish your solution as Microsoft Teams personal app.",
+        "url": "https://docs.microsoft.com/en-us/sharepoint/dev/spfx/integrate-with-teams-introduction"
+      }
+    ]
+  }
+]

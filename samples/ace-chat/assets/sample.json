@@ -28,7 +28,7 @@
       {
         "type": "image",
         "order": 100,
-        "url": "https://raw.githubusercontent.com/pnp/spfx-reference-scenarios/main/samples/ace-chat/assets/cardview.pngcardview.png",
+        "url": "https://raw.githubusercontent.com/pnp/spfx-reference-scenarios/main/samples/ace-chat/assets/cardview.png",
         "alt": "Teams Chat ACE Card View"
       },
       {

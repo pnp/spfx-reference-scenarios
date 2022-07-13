@@ -2,7 +2,7 @@
   {
     "name": "pnp-spfx-reference-scenarios-ace-basiccard",
     "source": "pnp",
-    "title": "Teams Chat ACE",
+    "title": "Teams Chat ACE basiccard",
     "shortDescription": "This example shows a basic ACE with a single card view.",
     "url": "https://github.com/pnp/spfx-reference-scenarios/tree/main/samples/ace-basiccard",
     "longDescription": [
