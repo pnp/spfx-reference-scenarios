@@ -4,7 +4,6 @@ import { Logger, LogLevel } from "@pnp/logging";
 import { AppData, DeepLinkData } from '../../../common/models/designtemplate.models';
 import AppDetails from './organisms/AppDetails';
 import AppList from './organisms/AppList';
-import { IMicrosoftTeams } from '@microsoft/sp-webpart-base';
 
 export interface IACEGalleryPersonalAppProps {
   appData: AppData;
@@ -24,8 +23,6 @@ export class ACEGalleryPersonalAppState implements IACEGalleryPersonalAppState {
 
   ) { }
 }
-
-
 
 export default class ACEGalleryPersonalApp extends React.Component<IACEGalleryPersonalAppProps, ACEGalleryPersonalAppState> {
   private LOG_SOURCE: string = "🔶 ACEGalleryPersonalApp";
@@ -60,10 +57,10 @@ export default class ACEGalleryPersonalApp extends React.Component<IACEGalleryPe
     return (
       <div className={styles.aceDesignTemplatePersonalApp}>
         {this.state.appData &&
-          <AppDetails appData={this.state.appData} deepLink={this.state.deepLink} onBackClick={this._onBackClick}></AppDetails>
+          <AppDetails appData={this.state.appData} deepLink={this.state.deepLink} onBackClick={this._onBackClick} />
         }
         {!this.state.appData &&
-          <AppList appList={this.props.appList} onCardClick={this._onCardClick}></AppList>
+          <AppList appList={this.props.appList} onCardClick={this._onCardClick} />
         }
 
       </div>

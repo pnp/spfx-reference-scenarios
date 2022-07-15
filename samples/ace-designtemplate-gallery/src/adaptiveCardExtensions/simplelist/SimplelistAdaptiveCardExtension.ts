@@ -6,7 +6,6 @@ import { QuickView } from './quickView/QuickView';
 import { Logger, LogLevel, ConsoleListener } from "@pnp/logging";
 
 import { SimplelistPropertyPane } from './SimplelistPropertyPane';
-import * as strings from 'SimplelistAdaptiveCardExtensionStrings';
 import { dtg } from '../../common/services/designtemplate.service';
 import { SimpleList } from '../../common/models/designtemplate.models';
 

@@ -24,7 +24,7 @@ export class QuickView extends BaseAdaptiveCardView<
   private LOG_SOURCE: string = "🔶 Image Carousel Quick View";
 
   public get data(): IQuickViewData {
-    let arrow: string = require('../../../common/images/image-carousel/chevron_right_white.png');
+    const arrow: string = require('../../../common/images/image-carousel/chevron_right_white.png');
     return {
       app: this.state.app,
       strings: strings,

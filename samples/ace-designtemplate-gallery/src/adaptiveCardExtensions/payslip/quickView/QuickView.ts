@@ -54,14 +54,14 @@ export class QuickView extends BaseAdaptiveCardView<
   public async onAction(action: ISubmitActionArguments): Promise<void> {
     try {
       if (action.type === 'Submit') {
-        const { id, payPeriodId } = action.data;
+        const { id } = action.data;
         if (id === 'next') {
-          let currentIndex = this.state.currentIndex + 1;
+          const currentIndex = this.state.currentIndex + 1;
           const currentPayPeriod: PayPeriod = this.state.payPeriods[currentIndex];
 
           this.setState({ currentPayPeriod: currentPayPeriod, currentIndex: currentIndex });
         } else if (id === 'prev') {
-          let currentIndex = this.state.currentIndex - 1;
+          const currentIndex = this.state.currentIndex - 1;
           const currentPayPeriod: PayPeriod = this.state.payPeriods[currentIndex];
 
           this.setState({ currentPayPeriod: currentPayPeriod, currentIndex: currentIndex });

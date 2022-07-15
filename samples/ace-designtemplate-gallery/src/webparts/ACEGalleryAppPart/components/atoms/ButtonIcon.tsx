@@ -34,8 +34,7 @@ export default class ButtonIcon extends React.Component<IButtonIconProps, IButto
       return (
         <button className="hoo-buttonicon" aria-label="" onClick={this.props.onClick}>
           <div className="hoo-icon">
-            <span className={`hoo-icon-svg ${this.props.iconType.Class}`} aria-hidden="true" dangerouslySetInnerHTML={{ "__html": this.props.iconType.SVG }} >
-            </span>
+            <span className={`hoo-icon-svg ${this.props.iconType.Class}`} aria-hidden="true" dangerouslySetInnerHTML={{ "__html": this.props.iconType.SVG }} />
           </div>
         </button>
       );

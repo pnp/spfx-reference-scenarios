@@ -6,7 +6,6 @@ import { QuickView } from './quickView/QuickView';
 import { Logger, LogLevel, ConsoleListener } from "@pnp/logging";
 
 import { VaccinationboosterPropertyPane } from './VaccinationboosterPropertyPane';
-import * as strings from 'VaccinationboosterAdaptiveCardExtensionStrings';
 
 export interface IVaccinationboosterAdaptiveCardExtensionProps {
   iconProperty: string;

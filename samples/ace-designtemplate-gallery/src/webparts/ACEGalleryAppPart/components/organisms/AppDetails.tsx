@@ -6,8 +6,6 @@ import { Icons } from "../../../../common/models/icons";
 import * as strings from "AceDesignTemplatePersonalAppWebPartStrings";
 import InventoryItem from "../molecules/InventoryItem";
 import ButtonAction from "../atoms/ButtonAction";
-import ButtonIcon from "../atoms/ButtonIcon";
-
 
 export interface IAppDetailsProps {
   appData: AppData;
@@ -151,19 +149,19 @@ export default class AppDetails extends React.Component<IAppDetailsProps, IAppDe
               <div className="hoo-teamsdbcard-content">
                 <p>{strings.AboutContent}</p>
                 <p>{strings.MoreInfoHeading}</p>
-                <a href={strings.DesignGuidelinesButtonLink} className="hoo-button-primary" role="button" target="_blank">
+                <a href={strings.DesignGuidelinesButtonLink} className="hoo-button-primary" role="button" target="_blank" rel="noreferrer">
                   <div className="hoo-button-label">{strings.DesignGuidelinesButtonText}</div>
                 </a>
-                <a href={this.props.appData.appGitHubLink} className="hoo-button" role="button" target="_blank">
+                <a href={this.props.appData.appGitHubLink} className="hoo-button" role="button" target="_blank" rel="noreferrer">
                   <div className="hoo-button-label">{strings.ViewSampleButtonText}</div>
                 </a>
-                <a href={this.props.appData.appDesignerLink} className="hoo-button-primary" role="button" target="_blank">
+                <a href={this.props.appData.appDesignerLink} className="hoo-button-primary" role="button" target="_blank" rel="noreferrer">
                   <div className="hoo-button-label">{strings.ACDesignerButtonText}</div>
                 </a>
-                <a href={strings.LearnACButtonLink} className="hoo-button" role="button" target="_blank">
+                <a href={strings.LearnACButtonLink} className="hoo-button" role="button" target="_blank" rel="noreferrer">
                   <div className="hoo-button-label">{strings.LearnACButtonText}</div>
                 </a>
-                <a href={strings.ACTutorialButtonLink} className="hoo-button-primary" role="button" target="_blank">
+                <a href={strings.ACTutorialButtonLink} className="hoo-button-primary" role="button" target="_blank" rel="noreferrer">
                   <div className="hoo-button-label">{strings.ACTutorialButtonText}</div>
                 </a>
               </div>

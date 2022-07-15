@@ -7,7 +7,6 @@ import { BenefitsPropertyPane } from './BenefitsPropertyPane';
 import { Logger, LogLevel, ConsoleListener } from "@pnp/logging";
 import { dtg } from '../../common/services/designtemplate.service';
 import { Benefits } from '../../common/models/designtemplate.models';
-import * as strings from 'BenefitsAdaptiveCardExtensionStrings';
 
 export interface IBenefitsAdaptiveCardExtensionProps {
   iconProperty: string;

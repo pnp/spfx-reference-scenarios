@@ -8,7 +8,6 @@ import { Logger, LogLevel, ConsoleListener } from "@pnp/logging";
 import { VisuallistPropertyPane } from './VisuallistPropertyPane';
 import { dtg } from '../../common/services/designtemplate.service';
 import { Cafeteria } from '../../common/models/designtemplate.models';
-import * as strings from 'VisuallistAdaptiveCardExtensionStrings';
 
 export interface IVisuallistAdaptiveCardExtensionProps {
   iconProperty: string;

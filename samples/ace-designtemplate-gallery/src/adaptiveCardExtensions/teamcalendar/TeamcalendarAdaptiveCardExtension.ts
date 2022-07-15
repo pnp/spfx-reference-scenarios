@@ -6,7 +6,6 @@ import { QuickView } from './quickView/QuickView';
 import { Logger, LogLevel, ConsoleListener } from "@pnp/logging";
 
 import { TeamcalendarPropertyPane } from './TeamcalendarPropertyPane';
-import * as strings from 'TeamcalendarAdaptiveCardExtensionStrings';
 import { dtg } from '../../common/services/designtemplate.service';
 import { Appointment, Day, IDay } from '../../common/models/designtemplate.models';
 
@@ -42,7 +41,7 @@ export default class TeamcalendarAdaptiveCardExtension extends BaseAdaptiveCardE
       //Initialize Service
       dtg.Init();
 
-      let local: string = this.context.pageContext.cultureInfo.currentUICultureName;
+      const local: string = this.context.pageContext.cultureInfo.currentUICultureName;
 
       //Get the data for the app
       const days: IDay[] = dtg.getCalendarDays(new Date(), local);
@@ -51,7 +50,7 @@ export default class TeamcalendarAdaptiveCardExtension extends BaseAdaptiveCardE
       if (weekdayIndex < 0) {
         weekdayIndex = 0;
       }
-      let selectedSunday: Day = new Day(today.getMonth(), 0, weekdayIndex);
+      const selectedSunday: Day = new Day(today.getMonth(), 0, weekdayIndex);
 
       //Set the data into state
       this.state = {

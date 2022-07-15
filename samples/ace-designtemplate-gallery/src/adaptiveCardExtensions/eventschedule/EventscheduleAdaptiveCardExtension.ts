@@ -9,8 +9,6 @@ import { Logger, LogLevel, ConsoleListener } from "@pnp/logging";
 
 import { dtg } from '../../common/services/designtemplate.service';
 import { Event, EventRegistration, IEventRegistration } from '../../common/models/designtemplate.models';
-import * as strings from 'EventscheduleAdaptiveCardExtensionStrings';
-
 
 export interface IEventscheduleAdaptiveCardExtensionProps {
   iconProperty: string;

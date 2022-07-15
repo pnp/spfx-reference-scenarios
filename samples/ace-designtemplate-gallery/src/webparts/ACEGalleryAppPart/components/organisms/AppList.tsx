@@ -37,9 +37,9 @@ export default class AppList extends React.Component<IAppListProps, IAppListStat
           <h2 className="introText">{strings.AppTitle}</h2>
           <div className="introText">{strings.AppListIntroContent}</div>
           <div className="hoo-teamsdb appDetails appList" data-component={this.LOG_SOURCE}>
-            {this.props.appList.map((app) => {
+            {this.props.appList.map((app, index) => {
               return (
-                <article className="hoo-teamsdbcard quickView" onClick={() => this.props.onCardClick(app)}>
+                <article className="hoo-teamsdbcard quickView" onClick={() => this.props.onCardClick(app)} key={app.appName + index}>
                   <header className="hoo-teamsdbcard-header">
                     <div className="hoo-teamsdbcard-title">{app.appName}</div>
                   </header>

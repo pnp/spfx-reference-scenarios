@@ -1,7 +1,7 @@
 import { ISPFxAdaptiveCard, BaseAdaptiveCardView, ISubmitActionArguments } from '@microsoft/sp-adaptive-card-extension-base';
 import * as strings from 'FaqaccordionAdaptiveCardExtensionStrings';
 import { Logger, LogLevel } from "@pnp/logging";
-import { AccordionList, AppList } from '../../../common/models/designtemplate.models';
+import { AccordionList } from '../../../common/models/designtemplate.models';
 import { IFaqaccordionAdaptiveCardExtensionProps, IFaqaccordionAdaptiveCardExtensionState } from '../FaqaccordionAdaptiveCardExtension';
 import { dtg } from '../../../common/services/designtemplate.service';
 

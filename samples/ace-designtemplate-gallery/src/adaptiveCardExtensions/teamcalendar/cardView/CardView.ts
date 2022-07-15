@@ -12,7 +12,7 @@ import { ITeamcalendarAdaptiveCardExtensionProps, ITeamcalendarAdaptiveCardExten
 export class CardView extends BasePrimaryTextCardView<ITeamcalendarAdaptiveCardExtensionProps, ITeamcalendarAdaptiveCardExtensionState> {
   public get data(): IPrimaryTextCardParameters {
     const appointments: Appointment[] = cloneDeep(this.state.selectedAppointments);
-    let OOO: Appointment[] = appointments.filter(appt => appt.appointmentType.toString() == "OOO");
+    const OOO: Appointment[] = appointments.filter(appt => appt.appointmentType.toString() == "OOO");
     let cardText: string = "";
     if (appointments.length > 0) {
       if (OOO.length > 0) {

@@ -36,7 +36,7 @@ export default class ButtonAction extends React.Component<IButtonActionProps, IB
         <button className="hoo-buttonaction" onClick={this.props.onClick}>
           <span className="hoo-button-icon" aria-hidden="true">
             <span className="hoo-icon">
-              <span className={`hoo-icon-svg ${this.props.iconType.Class}`} aria-hidden="true" dangerouslySetInnerHTML={{ "__html": this.props.iconType.SVG }} ></span>
+              <span className={`hoo-icon-svg ${this.props.iconType.Class}`} aria-hidden="true" dangerouslySetInnerHTML={{ "__html": this.props.iconType.SVG }} />
             </span>
           </span>
           <span className="hoo-button-label"> {this.props.buttonText} </span>

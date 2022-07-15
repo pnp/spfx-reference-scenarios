@@ -68,10 +68,12 @@ export class DesignTemplateGalleryService implements IDesignTemplateGalleryServi
   }
 
   public GetAllApps(): AppData[] {
-    let retVal: AppData[] = [];
+    const retVal: AppData[] = [];
     try {
       for (const item in AppList) {
-        retVal.push(this.GetAppData(AppList[item]));
+        if (Object.prototype.hasOwnProperty.call(AppList, item)) {
+          retVal.push(this.GetAppData(AppList[item]));
+        }
       }
     } catch (err) {
       Logger.write(`${this.LOG_SOURCE} (GetAllApps) - ${err.message}`, LogLevel.Error);
@@ -80,7 +82,7 @@ export class DesignTemplateGalleryService implements IDesignTemplateGalleryServi
   }
 
   public GetAppData(appName: AppList): AppData {
-    let retVal: AppData = new AppData();
+    const retVal: AppData = new AppData();
     try {
       switch (appName) {
         case AppList.BENEFITS: {
@@ -301,7 +303,7 @@ export class DesignTemplateGalleryService implements IDesignTemplateGalleryServi
       retVal = require("../data/benefits.data.json");
 
       //We need to manipulate the data for the deep link to Teams.
-      let details: BenefitDetails[] = cloneDeep(retVal.details);
+      const details: BenefitDetails[] = cloneDeep(retVal.details);
       details.map((item) => {
         if (item.isTeamsDeepLink) {
           const url = encodeURI(`${this._teamsUrl}?context={"subEntityId":{"appName":"${AppList.BENEFITS}","linkType":"${DeepLinkType.TEXT}","message":"${item.id}"}}`);
@@ -397,7 +399,7 @@ export class DesignTemplateGalleryService implements IDesignTemplateGalleryServi
       //To extend pull data from a list of your items
       retVal = require("../data/inventory.data.json");
       //We need to manipulate the data for the deep link to Teams.
-      let inventoryItems: IInventoryItem[] = cloneDeep(retVal.inventoryItems);
+      const inventoryItems: IInventoryItem[] = cloneDeep(retVal.inventoryItems);
       inventoryItems.map((item) => {
         const url = encodeURI(`${this._teamsUrl}?context={"subEntityId":{"appName":"${AppList.INVENTORY}","linkType":"${DeepLinkType.TEXT}","message":"${item.id}"}}`);
         item.linkUrl = url;
@@ -410,7 +412,7 @@ export class DesignTemplateGalleryService implements IDesignTemplateGalleryServi
   }
 
   public GetPayPeriods(): PayPeriod[] {
-    let retVal: PayPeriod[] = [];
+    const retVal: PayPeriod[] = [];
     try {
       const currentDate: Date = new Date();
       let payPeriodIndex: number = 0;
@@ -472,11 +474,11 @@ export class DesignTemplateGalleryService implements IDesignTemplateGalleryServi
       //Sample pulls data from mock
       //To extend pull data from a list of your items
       retVal = require("../data/simplelist.data.json");
-      let anniversaries: Anniversary[] = cloneDeep(retVal.anniversaries);
-      let currentDate: Date = new Date();
+      const anniversaries: Anniversary[] = cloneDeep(retVal.anniversaries);
+      const currentDate: Date = new Date();
       anniversaries.map((item) => {
         const anniversaryDate: Date = new Date(item.anniversaryDate);
-        let duration = currentDate.getFullYear() - anniversaryDate.getFullYear();
+        const duration = currentDate.getFullYear() - anniversaryDate.getFullYear();
         item.anniversaryLabel = Intl.DateTimeFormat(local, { weekday: undefined, year: undefined, month: 'short', day: 'numeric' }).format(anniversaryDate);
         item.anniversaryDuration = duration;
         const url = encodeURI(`${this._teamsUrl}?context={"subEntityId":{"appName":"${AppList.SIMPLELIST}","linkType":"${DeepLinkType.ANNIVERSARY}","message":"${item.id}"}}`);
@@ -485,7 +487,7 @@ export class DesignTemplateGalleryService implements IDesignTemplateGalleryServi
       });
       retVal.anniversaries = anniversaries;
 
-      let praise: Praise[] = cloneDeep(retVal.praise);
+      const praise: Praise[] = cloneDeep(retVal.praise);
       praise.map((item) => {
         const url = encodeURI(`${this._teamsUrl}?context={"subEntityId":{"appName":"${AppList.SIMPLELIST}","linkType":"${DeepLinkType.PRAISE}","message":"${item.id}"}}`);
         item.linkUrl = url;
@@ -498,7 +500,7 @@ export class DesignTemplateGalleryService implements IDesignTemplateGalleryServi
   }
 
   public getCalendarDays(currentDate: Date, local: string): Day[] {
-    let retVal: Day[] = [];
+    const retVal: Day[] = [];
     try {
       const currentMonthIndex: number = currentDate.getMonth();
       let dayCount: number = 31;
@@ -520,7 +522,7 @@ export class DesignTemplateGalleryService implements IDesignTemplateGalleryServi
             retVal.push(new Day());
           }
         }
-        let day = new Day(currentMonthIndex, dayOfWeek, i, []);
+        const day = new Day(currentMonthIndex, dayOfWeek, i, []);
         retVal.push(day);
 
         if ((i == dayCount) && dayOfWeek != 6) {
@@ -532,15 +534,15 @@ export class DesignTemplateGalleryService implements IDesignTemplateGalleryServi
 
       const appointments: Appointment[] = this.GetAppointments(currentDate, local);
       appointments.map((appt) => {
-        let startDate: Date = new Date(appt.startDate);
+        const startDate: Date = new Date(appt.startDate);
         //If the event spans months set the start to the first day of the current month.
         if (currentDate.getMonth() != startDate.getMonth()) {
           startDate.setMonth(currentDate.getMonth());
           startDate.setDate(1);
         }
         const endDate: Date = new Date(appt.endDate);
-        let dif: number = endDate.getTime() - startDate.getTime();
-        let duration: number = dif / (1000 * 3600 * 24);
+        const dif: number = endDate.getTime() - startDate.getTime();
+        const duration: number = dif / (1000 * 3600 * 24);
         for (let x = 0; x <= duration; x++) {
           const apptStartDate: Date = cloneDeep(startDate);
           apptStartDate.setDate(startDate.getDate() + x);
@@ -558,15 +560,15 @@ export class DesignTemplateGalleryService implements IDesignTemplateGalleryServi
   }
 
   public GetAppointments(currentDate: Date, local: string): Appointment[] {
-    let retVal: Appointment[] = [];
+    const retVal: Appointment[] = [];
     try {
       //Sample pulls data from mock
       //To extend pull data from a list of your items
       const allAppointments: Appointment[] = require("../data/teamcalendar.data.json");
       allAppointments.map((appt) => {
-        let apptStartDate: Date = new Date(appt.startDate);
+        const apptStartDate: Date = new Date(appt.startDate);
         apptStartDate.setMonth(apptStartDate.getMonth() + 1);
-        let apptEndDate: Date = new Date(appt.endDate);
+        const apptEndDate: Date = new Date(appt.endDate);
         apptEndDate.setMonth(apptEndDate.getMonth() + 1);
         let dateString: string = "";
         if (apptStartDate.getMonth() == apptEndDate.getMonth() && apptStartDate.getDate() == apptEndDate.getDate()) {
@@ -591,7 +593,7 @@ export class DesignTemplateGalleryService implements IDesignTemplateGalleryServi
   }
 
   public GetThisWeekData(currentDate: Date, local: string): Appointment[] {
-    let retVal: Appointment[] = [];
+    const retVal: Appointment[] = [];
     try {
 
       const sunday: Date = new Date(currentDate.getFullYear(), currentDate.getMonth(), currentDate.getDate() - currentDate.getDay());
@@ -624,7 +626,7 @@ export class DesignTemplateGalleryService implements IDesignTemplateGalleryServi
   }
 
   public GetHolidayTimeline(local: string): HolidayTimeline {
-    let retVal: HolidayTimeline = new HolidayTimeline();
+    const retVal: HolidayTimeline = new HolidayTimeline();
     try {
       const today: Date = new Date();
       const holidays: Holiday[] = require("../data/timelineholiday.data.json");
@@ -633,8 +635,8 @@ export class DesignTemplateGalleryService implements IDesignTemplateGalleryServi
         if (holidayDate.getTime() >= today.getTime()) {
           if ((holidayDate.getDay() == 1) && (holidayDate.getFullYear() == today.getFullYear())) {
             holiday.holidayWeekend = true;
-            let friday: Date = new Date(holidayDate.getFullYear(), holidayDate.getMonth(), holidayDate.getDate() - 3);
-            let tuesday: Date = new Date(holidayDate.getFullYear(), holidayDate.getMonth(), holidayDate.getDate() + 1);
+            const friday: Date = new Date(holidayDate.getFullYear(), holidayDate.getMonth(), holidayDate.getDate() - 3);
+            const tuesday: Date = new Date(holidayDate.getFullYear(), holidayDate.getMonth(), holidayDate.getDate() + 1);
             holiday.holidayWeekendFri = Intl.DateTimeFormat(local, { weekday: 'long', year: undefined, month: 'long', day: 'numeric' }).format(friday);
             holiday.holidayWeekendTue = Intl.DateTimeFormat(local, { weekday: 'long', year: undefined, month: 'long', day: 'numeric' }).format(tuesday);
           }
@@ -695,7 +697,7 @@ export class DesignTemplateGalleryService implements IDesignTemplateGalleryServi
       //We need to manipulate the data for the deep link to Teams.
       const cafes: Cafeteria[] = cloneDeep(retVal);
       cafes.map((cafe) => {
-        let cuisine: Cuisine[] = cloneDeep(cafe.cuisine);
+        const cuisine: Cuisine[] = cloneDeep(cafe.cuisine);
         cuisine.map((item) => {
           const url = encodeURI(`${this._teamsUrl}?context={"subEntityId":{"appName":"${AppList.VISUALLIST}","linkType":"${DeepLinkType.TEXT}","message":"${item.id}"}}`);
           item.linkUrl = url;
@@ -733,7 +735,7 @@ export class DesignTemplateGalleryService implements IDesignTemplateGalleryServi
       //We are manipulating the data here to set teh due dates so there is always relevant data in the sample.
       //You can remove this code if you are attaching it to a ticketing system
       tickets.map((ticket, index) => {
-        let eventDate: Date = new Date();
+        const eventDate: Date = new Date();
         let offset: number = 0;
         if (index === 0) {
           offset = 8;
@@ -786,8 +788,4 @@ export class DesignTemplateGalleryService implements IDesignTemplateGalleryServi
     return retVal;
   }
 }
-
-
-
-
 export const dtg = new DesignTemplateGalleryService();

@@ -2,7 +2,7 @@ import { ISPFxAdaptiveCard, BaseAdaptiveCardView, IActionArguments, ISubmitActio
 import { find } from '@microsoft/sp-lodash-subset';
 import * as strings from 'HelpdeskAdaptiveCardExtensionStrings';
 import { HelpDeskTicket } from '../../../common/models/designtemplate.models';
-import { IHelpdeskAdaptiveCardExtensionProps, IHelpdeskAdaptiveCardExtensionState, QUICK_VIEW_REGISTRY_ID } from '../HelpdeskAdaptiveCardExtension';
+import { IHelpdeskAdaptiveCardExtensionProps, IHelpdeskAdaptiveCardExtensionState } from '../HelpdeskAdaptiveCardExtension';
 import { Logger, LogLevel } from "@pnp/logging";
 import { dtg } from '../../../common/services/designtemplate.service';
 
@@ -19,7 +19,7 @@ export class EditView extends BaseAdaptiveCardView<
   private LOG_SOURCE: string = "🔶 Help Desk Edit View";
 
   public get data(): IEditViewData {
-    let ticket: HelpDeskTicket = find(this.state.tickets, { incidentNumber: this.state.currentIncidentNumber });
+    const ticket: HelpDeskTicket = find(this.state.tickets, { incidentNumber: this.state.currentIncidentNumber });
     return {
       ticket: ticket,
       strings: strings,

@@ -7,7 +7,6 @@ import { Logger, LogLevel, ConsoleListener } from "@pnp/logging";
 
 import { TimelineholidayPropertyPane } from './TimelineholidayPropertyPane';
 import { dtg } from '../../common/services/designtemplate.service';
-import * as strings from 'TimelineholidayAdaptiveCardExtensionStrings';
 import { Holiday, HolidayTimeline } from '../../common/models/designtemplate.models';
 
 export interface ITimelineholidayAdaptiveCardExtensionProps {

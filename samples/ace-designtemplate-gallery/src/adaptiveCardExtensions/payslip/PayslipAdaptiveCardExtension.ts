@@ -8,7 +8,6 @@ import { Logger, LogLevel, ConsoleListener } from "@pnp/logging";
 
 import { dtg } from '../../common/services/designtemplate.service';
 import { PayPeriod, Payslip } from '../../common/models/designtemplate.models';
-import * as strings from 'PayslipAdaptiveCardExtensionStrings';
 import { find } from '@microsoft/sp-lodash-subset';
 
 export interface IPayslipAdaptiveCardExtensionProps {

@@ -60,7 +60,7 @@ export class QuickView extends BaseAdaptiveCardView<
           if (weekdayIndex < 0) {
             weekdayIndex = 0;
           }
-          let selectedSunday: Day = new Day(day.monthIndex, 0, weekdayIndex);
+          const selectedSunday: Day = new Day(day.monthIndex, 0, weekdayIndex);
           this.setState({ selectedAppointments: day.appointments, selectedSunday: selectedSunday });
         }
       }

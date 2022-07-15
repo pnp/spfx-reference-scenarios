@@ -1,9 +1,7 @@
 import * as React from 'react';
 import * as ReactDom from 'react-dom';
-import { Version } from '@microsoft/sp-core-library';
 import {
-  IPropertyPaneConfiguration,
-  PropertyPaneTextField
+  IPropertyPaneConfiguration
 } from '@microsoft/sp-property-pane';
 import { BaseClientSideWebPart, IMicrosoftTeams } from '@microsoft/sp-webpart-base';
 import {
@@ -71,7 +69,7 @@ export default class ACEGalleryAppPart extends BaseClientSideWebPart<IACEGallery
         this._setCSSVariables(this._themeVariant.palette);
 
         // transfer color palette into CSS variables
-        this._setCSSVariables(this._themeVariant["effects"]);
+        this._setCSSVariables(this._themeVariant.effects);
 
       } else {
 
@@ -139,7 +137,7 @@ export default class ACEGalleryAppPart extends BaseClientSideWebPart<IACEGallery
   }
 
   private _setCSSVariables(theming: any) {
-    let themingKeys = Object.keys(theming);
+    const themingKeys = Object.keys(theming);
     if (themingKeys !== null) {
       themingKeys.forEach(key => {
         // add CSS variable to style property of the web part
@@ -155,10 +153,8 @@ export default class ACEGalleryAppPart extends BaseClientSideWebPart<IACEGallery
 
   public render(): void {
     try {
-      let element;
-      let teams: IMicrosoftTeams = this._microsoftTeams;
       const props: IACEGalleryAppPartProps = { appData: this._appData, deepLink: this._linkData, appList: this._appList };
-      element = React.createElement(AceDesignTemplatePersonalApp, props);
+      const element = React.createElement(AceDesignTemplatePersonalApp, props);
 
       this.domElement.classList.add(styles.appPartPage);
       ReactDom.render(element, this.domElement);

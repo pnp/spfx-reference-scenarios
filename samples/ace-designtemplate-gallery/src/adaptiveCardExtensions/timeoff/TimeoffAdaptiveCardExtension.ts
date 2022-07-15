@@ -7,7 +7,6 @@ import { Logger, LogLevel, ConsoleListener } from "@pnp/logging";
 
 import { TimeoffPropertyPane } from './TimeoffPropertyPane';
 import { dtg } from '../../common/services/designtemplate.service';
-import * as strings from 'TimeoffAdaptiveCardExtensionStrings';
 import { TimeOff } from '../../common/models/designtemplate.models';
 
 export interface ITimeoffAdaptiveCardExtensionProps {

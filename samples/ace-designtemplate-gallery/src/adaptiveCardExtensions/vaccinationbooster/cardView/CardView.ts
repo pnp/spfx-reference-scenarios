@@ -2,8 +2,7 @@ import {
   BaseImageCardView,
   IImageCardParameters,
   IExternalLinkCardAction,
-  IQuickViewCardAction,
-  ICardButton
+  IQuickViewCardAction
 } from '@microsoft/sp-adaptive-card-extension-base';
 import * as strings from 'VaccinationboosterAdaptiveCardExtensionStrings';
 import { IVaccinationboosterAdaptiveCardExtensionProps, IVaccinationboosterAdaptiveCardExtensionState, QUICK_VIEW_REGISTRY_ID } from '../VaccinationboosterAdaptiveCardExtension';

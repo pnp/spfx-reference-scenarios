@@ -1,5 +1,3 @@
-import { random } from "@microsoft/sp-lodash-subset";
-
 export enum AppList {
   BENEFITS = "Benefits",
   EVENTSCHEDULE = "Event Schedule",
@@ -481,20 +479,6 @@ export class Appointment implements IAppointment {
   ) { }
 }
 
-export interface IHolidayTimeline {
-  holidays: Holiday[];
-  nextHoliday: Holiday;
-  years: string[];
-}
-
-export class HolidayTimeline implements IHolidayTimeline {
-  constructor(
-    public holidays: Holiday[] = [],
-    public nextHoliday: Holiday = new Holiday(),
-    public years: string[] = []
-  ) { }
-}
-
 export interface IHoliday {
   date: string;
   dayLabel?: string;
@@ -519,6 +503,19 @@ export class Holiday implements IHoliday {
     public holidayWeekend: boolean = false,
     public holidayWeekendFri: string = "",
     public holidayWeekendTue: string = "",
+  ) { }
+}
+export interface IHolidayTimeline {
+  holidays: Holiday[];
+  nextHoliday: Holiday;
+  years: string[];
+}
+
+export class HolidayTimeline implements IHolidayTimeline {
+  constructor(
+    public holidays: Holiday[] = [],
+    public nextHoliday: Holiday = new Holiday(),
+    public years: string[] = []
   ) { }
 }
 
@@ -609,26 +606,11 @@ export interface IHelpDeskTicket {
   urgency: string;
   state: string;
   description: string;
-  location: string;
+  latitude: string;
+  longitude: string;
   requestType?: string;
   overdue?: boolean;
   overdueTime?: string;
-}
-
-export class HelpDeskTicket implements IHelpDeskTicket {
-  constructor(
-    public incidentNumber: string = "",
-    public requestedBy: DemoUser = new DemoUser(),
-    public createDate: string = "",
-    public category: string = "",
-    public urgency: string = "",
-    public state: string = "New",
-    public description: string = "",
-    public location: string = "",
-    public requestType: string = "",
-    public overdue: boolean = false,
-    public overdueTime: string = "",
-  ) { }
 }
 
 export interface IDemoUser {
@@ -642,5 +624,22 @@ export class DemoUser implements IDemoUser {
     public id: string = "",
     public displayName: string = "",
     public imageUrl: string = ""
+  ) { }
+}
+
+export class HelpDeskTicket implements IHelpDeskTicket {
+  constructor(
+    public incidentNumber: string = "",
+    public requestedBy: DemoUser = new DemoUser(),
+    public createDate: string = "",
+    public category: string = "",
+    public urgency: string = "",
+    public state: string = "New",
+    public description: string = "",
+    public latitude: string = "",
+    public longitude: string = "",
+    public requestType: string = "",
+    public overdue: boolean = false,
+    public overdueTime: string = "",
   ) { }
 }

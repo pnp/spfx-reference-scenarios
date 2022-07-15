@@ -31,7 +31,7 @@ export class QuickView extends BaseAdaptiveCardView<
   public async onAction(action: ISubmitActionArguments): Promise<void> {
     try {
       if (action.type === 'Submit') {
-        const { id, data } = action;
+        const { id } = action;
         if (id === 'btn_cancel') {
           this.quickViewNavigator.close();
         } else if (id === 'btn_submit') {

@@ -41,11 +41,11 @@ export default class HelpdeskcreateticketAdaptiveCardExtension extends BaseAdapt
       dtg.Init();
 
       //Create a new blank ticket
-      let ticket: HelpDeskTicket = new HelpDeskTicket();
-      let user: DemoUser = new DemoUser("0", this.context.pageContext.user.displayName, require('./assets/person.png'));
-      let today: Date = new Date();
+      const ticket: HelpDeskTicket = new HelpDeskTicket();
+      const user: DemoUser = new DemoUser("0", this.context.pageContext.user.displayName, require('./assets/person.png'));
+      const today: Date = new Date();
       ticket.incidentNumber = "INC" + random(11111, 99999, false).toString();
-      ticket.createDate = `${today.getFullYear()}-${(today.getMonth() + 1 < 10) ? "0" : ""}${today.getMonth() + 1}-${today.getDate()}T00:00:00Z`;
+      ticket.createDate = `${today.getFullYear()}-${(today.getMonth() + 1 < 10) ? "0" : ""}${today.getMonth() + 1}-${(today.getDate() < 10) ? "0" : ""}${today.getDate()}T00:00:00Z`;
       ticket.requestedBy = user;
 
       //Set the data into state

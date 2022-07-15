@@ -1,4 +1,4 @@
-import { ISPFxAdaptiveCard, BaseAdaptiveCardView, IActionArguments, ISubmitActionArguments } from '@microsoft/sp-adaptive-card-extension-base';
+import { ISPFxAdaptiveCard, BaseAdaptiveCardView, ISubmitActionArguments } from '@microsoft/sp-adaptive-card-extension-base';
 import { CONFIRM_VIEW_REGISTRY_ID, IEventscheduleAdaptiveCardExtensionProps, IEventscheduleAdaptiveCardExtensionState } from '../EventscheduleAdaptiveCardExtension';
 import { Event, EventRegistration } from '../../../common/models/designtemplate.models';
 import { Logger, LogLevel } from "@pnp/logging";
