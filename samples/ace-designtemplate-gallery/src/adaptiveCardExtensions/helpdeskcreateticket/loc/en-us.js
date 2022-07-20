@@ -20,6 +20,7 @@ define([], function() {
     "DescriptionPlaceholder": "Please enter a short description",
     "LocationLabel": "Tell us your location",
     "AddLocationLabel": "Add a location",
+    "LocationAddedText": "34/137, Redmond, WA",
     "UploadImageLabel": "Upload Image",
     "AddImageLabel": "Add an image",
     "CancelButtonLabel": "Discard",

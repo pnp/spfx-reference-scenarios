@@ -167,7 +167,7 @@
       "spacing": "Large",
       "items": [{
           "type": "TextBlock",
-          "text": "Tell us your location",
+          "text": "${$root.strings.LocationLabel}",
           "wrap": true,
           "weight": "Bolder"
         },
@@ -178,7 +178,7 @@
               "width": "16px",
               "items": [{
                 "type": "Image",
-                "url": "${$root.addImg}"
+                "url": "${if(ticket.latitude == '', $root.imgAdd, $root.imgChecked)}"
               }]
             },
             {
@@ -186,7 +186,7 @@
               "width": "stretch",
               "items": [{
                 "type": "TextBlock",
-                "text": "Add a location",
+                "text": "${if(ticket.latitude == '', $root.strings.AddLocationLabel, $root.strings.LocationAddedText)}",
                 "wrap": true,
                 "weight": "Default",
                 "color": "Accent",
@@ -202,51 +202,6 @@
         "parameters": {
           "chooseLocationOnMap": true
         }
-      }
-    },
-    {
-      "type": "Container",
-      "spacing": "Large",
-      "items": [{
-          "type": "TextBlock",
-          "text": "Upload Image",
-          "wrap": true,
-          "weight": "Bolder"
-        },
-        {
-          "type": "ColumnSet",
-          "columns": [{
-              "type": "Column",
-              "width": "16px",
-              "items": [{
-                "type": "Image",
-                "url": "${$root.addImg}"
-              }]
-            },
-            {
-              "type": "Column",
-              "width": "stretch",
-              "items": [{
-                "type": "TextBlock",
-                "text": "add an image",
-                "wrap": true,
-                "weight": "Default",
-                "color": "Accent",
-                "spacing": "Small"
-              }]
-            }
-          ]
-        }
-      ],
-      "selectAction": {
-        "type": "VivaAction.SelectMedia",
-        "id": "Select File",
-        "parameters": {
-          "mediaType": "MediaType.Image",
-          "allowMultipleCapture": true,
-          "maxSizePerFile": 200000
-        },
-        "title": "Select File"
       }
     },
     {
@@ -303,16 +258,6 @@
       ]
     }
   ],
-  "actions": [{
-    "title": "Show custom location",
-    "type": "VivaAction.ShowLocation",
-    "parameters": {
-      "locationCoordinates": {
-        "latitude": 27.98884062493244,
-        "longitude": 86.9249751
-      }
-    }
-  }],
   "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
   "version": "1.3"
 }

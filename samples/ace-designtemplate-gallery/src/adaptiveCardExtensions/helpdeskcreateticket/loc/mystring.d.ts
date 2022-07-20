@@ -19,6 +19,7 @@ declare interface IHelpdeskcreateticketAdaptiveCardExtensionStrings {
   DescriptionPlaceholder: string;
   LocationLabel: string;
   AddLocationLabel: string;
+  LocationAddedText: string;
   UploadImageLabel: string;
   AddImageLabel: string;
   CancelButtonLabel: string;

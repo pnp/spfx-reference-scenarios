@@ -1,4 +1,4 @@
-import { ISPFxAdaptiveCard, BaseAdaptiveCardView, ISubmitActionArguments, IGetLocationActionArguments } from '@microsoft/sp-adaptive-card-extension-base';
+import { ISPFxAdaptiveCard, BaseAdaptiveCardView, IActionArguments } from '@microsoft/sp-adaptive-card-extension-base';
 import * as strings from 'HelpdeskcreateticketAdaptiveCardExtensionStrings';
 import { HelpDeskTicket } from '../../../common/models/designtemplate.models';
 import { CONFIRM_VIEW_REGISTRY_ID, IHelpdeskcreateticketAdaptiveCardExtensionProps, IHelpdeskcreateticketAdaptiveCardExtensionState } from '../HelpdeskcreateticketAdaptiveCardExtension';
@@ -7,7 +7,8 @@ import { cloneDeep } from '@microsoft/sp-lodash-subset';
 
 export interface IQuickViewData {
   ticket: HelpDeskTicket;
-  addImg: string;
+  imgAdd: string;
+  imgChecked: string;
   strings: IHelpdeskcreateticketAdaptiveCardExtensionStrings;
 }
 
@@ -21,7 +22,8 @@ export class QuickView extends BaseAdaptiveCardView<
   public get data(): IQuickViewData {
     return {
       ticket: this.state.ticket,
-      addImg: require('../assets/add.svg'),
+      imgAdd: require('../assets/add.svg'),
+      imgChecked: require('../assets/check.svg'),
       strings: strings
     };
   }
@@ -30,10 +32,13 @@ export class QuickView extends BaseAdaptiveCardView<
     return require('./template/QuickViewTemplate.json');
   }
 
-  public async onAction(action: ISubmitActionArguments | IGetLocationActionArguments): Promise<void> {
+  public async onAction(action: IActionArguments): Promise<void> {
     try {
       const newTicket: HelpDeskTicket = cloneDeep(this.state.ticket);
       if (action.type === 'VivaAction.GetLocation') {
+        //If you want to get the actual location title
+        //Here you would use the lat/long to call a maps API.
+        //Not included here as it would require an API key
         newTicket.latitude = action.location.latitude.toString();
         newTicket.longitude = action.location.longitude.toString();
         this.setState({

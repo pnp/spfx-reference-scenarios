@@ -8,6 +8,7 @@ import { dtg } from '../../../common/services/designtemplate.service';
 
 export interface IEditViewData {
   ticket: HelpDeskTicket;
+  ticketDirectionUrl: string;
   strings: IHelpdeskAdaptiveCardExtensionStrings;
 }
 
@@ -20,8 +21,11 @@ export class EditView extends BaseAdaptiveCardView<
 
   public get data(): IEditViewData {
     const ticket: HelpDeskTicket = find(this.state.tickets, { incidentNumber: this.state.currentIncidentNumber });
+
+    const directionsUrl: string = `https://www.bing.com/maps?rtp=~pos.${ticket.latitude}_${ticket.longitude}&rtop=0~1~0&lvl=15&toWww=1&redig=F0A0A658A50247FDB798711217D4CBF3`;
     return {
       ticket: ticket,
+      ticketDirectionUrl: directionsUrl,
       strings: strings,
     };
   }
@@ -42,7 +46,7 @@ export class EditView extends BaseAdaptiveCardView<
         }
       }
     } catch (err) {
-      Logger.write(`${this.LOG_SOURCE} (onAction) - ${err}`, LogLevel.Error);
+      Logger.write(`${this.LOG_SOURCE} (onAction) - ${err} `, LogLevel.Error);
     }
   }
 }

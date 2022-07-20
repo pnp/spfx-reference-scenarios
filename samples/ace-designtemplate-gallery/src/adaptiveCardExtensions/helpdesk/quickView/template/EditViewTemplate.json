@@ -137,7 +137,7 @@
           "width": 70,
           "items": [{
             "type": "TextBlock",
-            "text": "${ticket.location}",
+            "text": "${$root.strings.LocationString}",
             "wrap": true
           }]
         }
@@ -147,8 +147,13 @@
     {
       "type": "ActionSet",
       "actions": [{
+        "type": "Action.OpenUrl",
+        "url": "${ticketDirectionUrl}",
+        "title": "${$root.strings.GetDirectionsLabel}",
+        "style": "positive"
+      }, {
         "type": "Action.Submit",
-        "title": "Close Ticket",
+        "title": "${$root.strings.CloseTicketLabel}",
         "data": {
           "id": "close",
           "ticket": "${ticket}"

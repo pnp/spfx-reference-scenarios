@@ -11,6 +11,9 @@ define([], function() {
     "CardViewDescription":"Get up to date with your tasks.",
     "QuickViewDescription": "Review the following tasks and approve or reject these requests before the due date.",
     "OpenedLabel": "Opened",
-    "OverdueLabel": "days overdue"
+    "OverdueLabel": "days overdue",
+    "GetDirectionsLabel": "Get Directions",
+    "CloseTicketLabel": "Close Ticket",
+    "LocationString": "34/137, Redmond, WA"
   }
 });

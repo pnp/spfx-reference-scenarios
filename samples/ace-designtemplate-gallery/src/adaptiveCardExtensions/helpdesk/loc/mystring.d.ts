@@ -11,6 +11,9 @@ declare interface IHelpdeskAdaptiveCardExtensionStrings {
   QuickViewDescription: string;
   OpenedLabel: string;
   OverdueLabel: string;
+  GetDirectionsLabel: string;
+  CloseTicketLabel: string;
+  LocationString: string;
 }
 
 declare module 'HelpdeskAdaptiveCardExtensionStrings' {
