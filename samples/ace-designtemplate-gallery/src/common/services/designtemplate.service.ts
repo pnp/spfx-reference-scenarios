@@ -1,5 +1,16 @@
 import { cloneDeep, find } from "@microsoft/sp-lodash-subset";
 import { Logger, LogLevel } from "@pnp/logging";
+import { sp } from "@pnp/sp";
+import { IListAddResult } from "@pnp/sp/lists";
+import "@pnp/sp/fields/list";
+import "@pnp/sp/views";
+import {
+  DateTimeFieldFormatType,
+  CalendarType,
+  DateTimeFieldFriendlyFormatType,
+  UrlFieldFormatType
+} from "@pnp/sp/fields/types";
+
 import * as strings from "AceDesignTemplatePersonalAppWebPartStrings";
 import * as eventStrings from "EventscheduleAdaptiveCardExtensionStrings";
 import * as faqStrings from "FaqaccordionAdaptiveCardExtensionStrings";
@@ -18,8 +29,10 @@ import {
   TimeOff, TimeOffRequest,
   VaccineAppointment, Cafeteria,
   Cuisine,
-  HelpDeskTicket
+  HelpDeskTicket,
+  IFieldList
 } from "../models/designtemplate.models";
+import { IView } from "@pnp/sp/views/types";
 
 export interface IDesignTemplateGalleryService {
   TeamsUrl: string;
@@ -782,6 +795,64 @@ export class DesignTemplateGalleryService implements IDesignTemplateGalleryServi
 
       retVal = tickets.filter(ticket => ticket.incidentNumber != currentTicket.incidentNumber);
 
+    } catch (err) {
+      Logger.write(`${this.LOG_SOURCE} (CloseHelpDeskTickets) - ${err.message}`, LogLevel.Error);
+    }
+    return retVal;
+  }
+
+  public async createList(listName: string, listDescription: string, fieldList: IFieldList[]): Promise<boolean> {
+    let retVal = false;
+    try {
+      const list: IListAddResult = await sp.web.lists.add(listName, `${listName} ${listDescription} List`, 101);
+      for (let i = 0; i < fieldList.length; i++) {
+        if (fieldList[i].props.FieldTypeKind === 2) {
+          await sp.web.lists
+            .getById(list.data.Id)
+            .fields.addText(fieldList[i].name);
+        } else if (fieldList[i].props.FieldTypeKind === 3) {
+          await sp.web.lists
+            .getById(list.data.Id)
+            .fields.createFieldAsXml(
+              `<Field Type="Note" Name="${fieldList[i].name}" DisplayName="${fieldList[i].name}" Required="FALSE" RichText="TRUE" RichTextMode="FullHtml" />`
+            );
+        } else if (fieldList[i].props.FieldTypeKind === 4) {
+          await sp.web.lists
+            .getById(list.data.Id)
+            .fields.addDateTime(fieldList[i].name, DateTimeFieldFormatType.DateTime, CalendarType.Gregorian, DateTimeFieldFriendlyFormatType.Disabled);
+        } else if (fieldList[i].props.FieldTypeKind === 6) {
+          await sp.web.lists
+            .getById(list.data.Id)
+            .fields.addChoice(fieldList[i].name, fieldList[i].props.choices);
+        } else if (fieldList[i].props.FieldTypeKind === 11) {
+          await sp.web.lists
+            .getById(list.data.Id)
+            .fields.addUrl(fieldList[i].name, UrlFieldFormatType.Hyperlink);
+        } else if (fieldList[i].props.FieldTypeKind === 12) {
+          await sp.web.lists
+            .getById(list.data.Id)
+            .fields.addNumber(fieldList[i].name);
+        }
+      }
+      const view: IView = await sp.web.lists.getById(list.data.Id)
+        .defaultView;
+      for (let i = 0; i < fieldList.length; i++) {
+        await view.fields.add(fieldList[i].name);
+      }
+      retVal = true;
+    } catch (err) {
+      console.error(`${this.LOG_SOURCE} (createList) - ${err}`);
+    }
+    return retVal;
+  }
+
+  public async GetLocationData(latitude: string, longitude: string, apiKey: string): Promise<string> {
+    let retVal: string = "";
+    try {
+      const url = `https://dev.virtualearth.net/REST/v1/Locations/${latitude},${longitude}?includeEntityTypes=Address,Neighborhood,PopulatedPlace&key=${apiKey}`;
+      const results: any = await fetch(url).then(res => res.json());
+
+      retVal = results.resourceSets[0].resources[0].address.addressLine;
     } catch (err) {
       Logger.write(`${this.LOG_SOURCE} (CloseHelpDeskTickets) - ${err.message}`, LogLevel.Error);
     }

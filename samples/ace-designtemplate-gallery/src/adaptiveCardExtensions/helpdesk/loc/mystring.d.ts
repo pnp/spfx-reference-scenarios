@@ -11,7 +11,10 @@ declare interface IHelpdeskAdaptiveCardExtensionStrings {
   QuickViewDescription: string;
   OpenedLabel: string;
   OverdueLabel: string;
+  LocationLabel: string;
+  ImagesLabel: string;
   GetDirectionsLabel: string;
+  UploadImageLabel: string;
   CloseTicketLabel: string;
   LocationString: string;
 }

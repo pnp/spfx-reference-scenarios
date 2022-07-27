@@ -3,6 +3,10 @@ declare interface IHelpdeskcreateticketAdaptiveCardExtensionStrings {
   GroupName: string;
   TitleFieldLabel: string;
   IconPropertyFieldLabel: string;
+  BingMapsAPIKeyLabel: string;
+  BingMapsAPIKeyDescription: string;
+  AddLibraryButton: string;
+  AddLibraryDesc: string;
   CardViewText: string;
   NewFormHeader: string;
   ConfirmFormHeader: string;
@@ -24,6 +28,7 @@ declare interface IHelpdeskcreateticketAdaptiveCardExtensionStrings {
   AddImageLabel: string;
   CancelButtonLabel: string;
   SubmitButtonLabel: string;
+  NextButtonLabel: string;
   ConfirmButtonLabel: string;
 
   Title: string;

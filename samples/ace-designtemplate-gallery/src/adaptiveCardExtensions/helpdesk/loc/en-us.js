@@ -12,7 +12,11 @@ define([], function() {
     "QuickViewDescription": "Review the following tasks and approve or reject these requests before the due date.",
     "OpenedLabel": "Opened",
     "OverdueLabel": "days overdue",
+    "LocationLabel": "Location",
+    "ImagesLabel": "Images",
     "GetDirectionsLabel": "Get Directions",
+    "GetDirectionsLabel": "Get Directions",
+    "UploadImageLabel": "Upload Image",
     "CloseTicketLabel": "Close Ticket",
     "LocationString": "34/137, Redmond, WA"
   }

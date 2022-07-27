@@ -4,24 +4,25 @@ import { CardView } from './cardView/CardView';
 import { QuickView } from './quickView/QuickView';
 import { HelpdeskcreateticketPropertyPane } from './HelpdeskcreateticketPropertyPane';
 
-import { Logger, LogLevel, ConsoleListener } from "@pnp/logging";
 import { dtg } from '../../common/services/designtemplate.service';
 import { DemoUser, HelpDeskTicket } from '../../common/models/designtemplate.models';
-import { ConfirmView } from './quickView/ConfirmView';
 import { random } from '@microsoft/sp-lodash-subset';
+import { AddLocationImages } from './quickView/AddLocationImages';
 
 export interface IHelpdeskcreateticketAdaptiveCardExtensionProps {
   title: string;
   iconProperty: string;
+  bingMapsKey: string;
 }
 
 export interface IHelpdeskcreateticketAdaptiveCardExtensionState {
   ticket: HelpDeskTicket;
+  listCreated: boolean;
 }
 
 const CARD_VIEW_REGISTRY_ID: string = 'Helpdeskcreateticket_CARD_VIEW';
 export const QUICK_VIEW_REGISTRY_ID: string = 'Helpdeskcreateticket_QUICK_VIEW';
-export const CONFIRM_VIEW_REGISTRY_ID: string = 'Helpdeskcreateticket_CONFIRM_VIEW';
+export const ADDLOCATION_VIEW_REGISTRY_ID: string = 'Helpdeskcreateticket_ADDLOCATION_VIEW';
 
 export default class HelpdeskcreateticketAdaptiveCardExtension extends BaseAdaptiveCardExtension<
   IHelpdeskcreateticketAdaptiveCardExtensionProps,
@@ -30,12 +31,9 @@ export default class HelpdeskcreateticketAdaptiveCardExtension extends BaseAdapt
   private LOG_SOURCE: string = "🔶 Help Desk Create Ticket Adaptive Card Extension";
   private _deferredPropertyPane: HelpdeskcreateticketPropertyPane | undefined;
 
-  public onInit(): Promise<void> {
+  public async onInit(): Promise<void> {
     try {
       this._iconProperty = this.properties.iconProperty;
-      //Initialize PnPLogger
-      Logger.subscribe(new ConsoleListener());
-      Logger.activeLogLevel = LogLevel.Info;
 
       //Initialize Service
       dtg.Init();
@@ -50,14 +48,17 @@ export default class HelpdeskcreateticketAdaptiveCardExtension extends BaseAdapt
 
       //Set the data into state
       this.state = {
-        ticket: ticket
+        ticket: ticket,
+        listCreated: false
       };
       //Register the cards
       this.cardNavigator.register(CARD_VIEW_REGISTRY_ID, () => new CardView());
       this.quickViewNavigator.register(QUICK_VIEW_REGISTRY_ID, () => new QuickView());
-      this.quickViewNavigator.register(CONFIRM_VIEW_REGISTRY_ID, () => new ConfirmView());
+      this.quickViewNavigator.register(ADDLOCATION_VIEW_REGISTRY_ID, () => new AddLocationImages());
     } catch (err) {
-      Logger.write(`${this.LOG_SOURCE} (onInit) - ${err}`, LogLevel.Error);
+      console.error(
+        `${this.LOG_SOURCE} (onInit) -- Could not initialize web part. - ${err}`
+      );
     }
 
     return Promise.resolve();
@@ -76,7 +77,7 @@ export default class HelpdeskcreateticketAdaptiveCardExtension extends BaseAdapt
     )
       .then(
         (component) => {
-          this._deferredPropertyPane = new component.HelpdeskcreateticketPropertyPane();
+          this._deferredPropertyPane = new component.HelpdeskcreateticketPropertyPane(this.context);
         }
       );
   }

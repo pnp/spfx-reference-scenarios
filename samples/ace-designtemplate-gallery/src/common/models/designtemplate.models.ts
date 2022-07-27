@@ -606,11 +606,13 @@ export interface IHelpDeskTicket {
   urgency: string;
   state: string;
   description: string;
+  location: string;
   latitude: string;
   longitude: string;
   requestType?: string;
   overdue?: boolean;
   overdueTime?: string;
+  imageName?: string;
 }
 
 export interface IDemoUser {
@@ -636,10 +638,21 @@ export class HelpDeskTicket implements IHelpDeskTicket {
     public urgency: string = "",
     public state: string = "New",
     public description: string = "",
+    public location: string = "",
     public latitude: string = "",
     public longitude: string = "",
     public requestType: string = "",
     public overdue: boolean = false,
     public overdueTime: string = "",
+    public imageName: string = "",
   ) { }
 }
+
+export interface IFieldList {
+  name: string;
+  props: { FieldTypeKind: number; choices?: string[] };
+}
+
+export const HelpDeskLibraryFields: IFieldList[] = [
+  { name: "IncidentNumber", props: { FieldTypeKind: 2 } }
+];

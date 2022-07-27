@@ -127,7 +127,32 @@
           "width": 30,
           "items": [{
             "type": "TextBlock",
-            "text": "Location",
+            "text": "${$root.strings.ImagesLabel}",
+            "wrap": true,
+            "weight": "Bolder"
+          }]
+        },
+        {
+          "type": "Column",
+          "width": 70,
+          "items": [{
+            "type": "TextBlock",
+            "text": "screen-capture.png",
+            "wrap": true,
+            "color": "accent"
+          }]
+        }
+      ],
+      "spacing": "Large"
+    },
+    {
+      "type": "ColumnSet",
+      "columns": [{
+          "type": "Column",
+          "width": 30,
+          "items": [{
+            "type": "TextBlock",
+            "text": "${$root.strings.LocationLabel}",
             "wrap": true,
             "weight": "Bolder"
           }]
@@ -151,6 +176,16 @@
         "url": "${ticketDirectionUrl}",
         "title": "${$root.strings.GetDirectionsLabel}",
         "style": "positive"
+      }, {
+        "type": "VivaAction.SelectMedia",
+        "id": "files",
+        "parameters": {
+          "mediaType": "MediaType.Image",
+          "allowMultipleCapture": true,
+          "maxSizePerFile": 200000,
+          "supportedFileFormats": ["jpg", "png"]
+        },
+        "title": "${$root.strings.UploadImageLabel}"
       }, {
         "type": "Action.Submit",
         "title": "${$root.strings.CloseTicketLabel}",

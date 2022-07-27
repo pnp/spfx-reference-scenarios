@@ -165,48 +165,6 @@
     {
       "type": "Container",
       "spacing": "Large",
-      "items": [{
-          "type": "TextBlock",
-          "text": "${$root.strings.LocationLabel}",
-          "wrap": true,
-          "weight": "Bolder"
-        },
-        {
-          "type": "ColumnSet",
-          "columns": [{
-              "type": "Column",
-              "width": "16px",
-              "items": [{
-                "type": "Image",
-                "url": "${if(ticket.latitude == '', $root.imgAdd, $root.imgChecked)}"
-              }]
-            },
-            {
-              "type": "Column",
-              "width": "stretch",
-              "items": [{
-                "type": "TextBlock",
-                "text": "${if(ticket.latitude == '', $root.strings.AddLocationLabel, $root.strings.LocationAddedText)}",
-                "wrap": true,
-                "weight": "Default",
-                "color": "Accent",
-                "spacing": "Small"
-              }]
-            }
-          ]
-        }
-      ],
-      "selectAction": {
-        "title": "Choose location on map",
-        "type": "VivaAction.GetLocation",
-        "parameters": {
-          "chooseLocationOnMap": true
-        }
-      }
-    },
-    {
-      "type": "Container",
-      "spacing": "Large",
       "items": [
 
         {
@@ -242,14 +200,13 @@
                     "type": "ActionSet",
                     "actions": [{
                       "type": "Action.Submit",
-                      "title": "${$root.strings.ConfirmButtonLabel}",
+                      "title": "${$root.strings.NextButtonLabel}",
                       "style": "positive",
                       "data": {
                         "id": "confirm"
                       }
                     }]
-                  }],
-                  "$when": "${$root.ticket.latitude != ''}"
+                  }]
                 }
               ]
             }]

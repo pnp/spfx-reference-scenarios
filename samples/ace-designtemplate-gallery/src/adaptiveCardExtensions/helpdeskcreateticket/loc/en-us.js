@@ -4,6 +4,10 @@ define([], function() {
     "GroupName": "Configuration",
     "TitleFieldLabel": "Card Title",
     "IconPropertyFieldLabel": "Card Icon",
+    "BingMapsAPIKeyLabel": "Bing Maps API Key",
+    "BingMapsAPIKeyDescription": "In order to use the Get Location functionality you will need to get an Bing Maps API key. Get location functionality will not display if this property is not set.",
+    "AddLibraryButton": "Add Library",
+    "AddLibraryDesc": "This ACE requires a document library called HelpDeskTickets to store uploaded files. Selecting this button will create the library.",
     "CardViewText": "Create a new Help Ticket",
     "NewFormHeader": "Create a help ticket",
     "ConfirmFormHeader": "Please confirm your data",
@@ -25,6 +29,7 @@ define([], function() {
     "AddImageLabel": "Add an image",
     "CancelButtonLabel": "Discard",
     "SubmitButtonLabel": "Submit",
+    "NextButtonLabel": "Next",
     "ConfirmButtonLabel": "Confirm",
     
     "Title": "Adaptive Card Extension",

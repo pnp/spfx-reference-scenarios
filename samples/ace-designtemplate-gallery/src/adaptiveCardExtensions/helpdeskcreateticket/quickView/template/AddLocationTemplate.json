@@ -1,6 +1,12 @@
 {
   "type": "AdaptiveCard",
-  "body": [{
+  "body": [
+
+
+
+
+
+    {
       "type": "Container",
       "items": [{
         "type": "TextBlock",
@@ -11,8 +17,7 @@
       "style": "emphasis",
       "bleed": true,
       "horizontalAlignment": "Center"
-    },
-    {
+    }, {
       "type": "Container",
       "items": [{
         "type": "TextBlock",
@@ -21,14 +26,12 @@
         "weight": "Bolder"
       }],
       "spacing": "Large"
-    },
-    {
+    }, {
       "type": "TextBlock",
       "text": "${$root.ticket.incidentNumber}",
       "wrap": true,
       "spacing": "Small"
-    },
-    {
+    }, {
       "type": "Container",
       "spacing": "Large",
       "items": [{
@@ -63,8 +66,7 @@
           "spacing": "Small"
         }
       ]
-    },
-    {
+    }, {
       "type": "Container",
       "spacing": "Large",
       "items": [{
@@ -80,8 +82,7 @@
           "spacing": "Small"
         }
       ]
-    },
-    {
+    }, {
       "type": "Container",
       "spacing": "Large",
       "items": [{
@@ -97,8 +98,7 @@
           "spacing": "Small"
         }
       ]
-    },
-    {
+    }, {
       "type": "Container",
       "spacing": "Large",
       "items": [{
@@ -107,14 +107,12 @@
         "wrap": true,
         "weight": "Bolder"
       }]
-    },
-    {
+    }, {
       "type": "TextBlock",
       "text": "${$root.ticket.urgency}",
       "wrap": true,
       "spacing": "Small"
-    },
-    {
+    }, {
       "type": "Container",
       "spacing": "Large",
       "items": [{
@@ -123,12 +121,100 @@
         "wrap": true,
         "weight": "Bolder"
       }]
-    },
-    {
+    }, {
       "type": "TextBlock",
       "text": "${$root.ticket.description}",
       "wrap": true,
       "spacing": "Small"
+    },
+    {
+      "type": "Container",
+      "spacing": "Large",
+      "items": [{
+          "type": "TextBlock",
+          "text": "${$root.strings.LocationLabel}",
+          "wrap": true,
+          "weight": "Bolder"
+        },
+        {
+          "type": "ColumnSet",
+          "columns": [{
+              "type": "Column",
+              "width": "16px",
+              "items": [{
+                "type": "Image",
+                "url": "${if(ticket.latitude == '', $root.imgAdd, $root.imgChecked)}"
+              }]
+            },
+            {
+              "type": "Column",
+              "width": "stretch",
+              "items": [{
+                "type": "TextBlock",
+                "text": "${if(ticket.latitude == '', $root.strings.AddLocationLabel, $root.ticket.location)}",
+                "wrap": true,
+                "weight": "Default",
+                "color": "Accent",
+                "spacing": "Small"
+              }]
+            }
+          ]
+        }
+      ],
+      "$when": "${$root.hasAPIKey}",
+      "selectAction": {
+        "title": "Choose location on map",
+        "type": "VivaAction.GetLocation",
+        "parameters": {
+          "chooseLocationOnMap": true
+        }
+      }
+    },
+    {
+      "type": "Container",
+      "spacing": "Large",
+      "items": [{
+          "type": "TextBlock",
+          "text": "${$root.strings.UploadImageLabel}",
+          "wrap": true,
+          "weight": "Bolder"
+        },
+        {
+          "type": "ColumnSet",
+          "columns": [{
+              "type": "Column",
+              "width": "16px",
+              "items": [{
+                "type": "Image",
+                "url": "${if(ticket.imageName == '', $root.imgAdd, $root.imgChecked)}"
+              }]
+            },
+            {
+              "type": "Column",
+              "width": "stretch",
+              "items": [{
+                "type": "TextBlock",
+                "text": "${if(ticket.imageName == '', $root.strings.AddImageLabel, $root.strings.AddImageLabel)}",
+                "wrap": true,
+                "weight": "Default",
+                "color": "Accent",
+                "spacing": "Small"
+              }]
+            }
+          ]
+        }
+      ],
+      "selectAction": {
+        "title": "$root.strings.AddImageLabel",
+        "type": "VivaAction.SelectMedia",
+        "id": "selectfile",
+        "parameters": {
+          "mediaType": "MediaType.Image",
+          "allowMultipleCapture": true,
+          "maxSizePerFile": 200000,
+          "supportedFileFormats": ["jpg", "png"]
+        }
+      }
     },
     {
       "type": "Container",
@@ -172,7 +258,8 @@
                       "style": "positive",
                       "url": "${$root.confirmLink}"
                     }]
-                  }]
+                  }],
+                  "$when": "${$root.ticket.latitude != ''}"
                 }
               ]
             }]
