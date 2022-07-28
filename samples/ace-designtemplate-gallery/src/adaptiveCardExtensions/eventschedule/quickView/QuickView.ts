@@ -1,7 +1,6 @@
 import { ISPFxAdaptiveCard, BaseAdaptiveCardView, ISubmitActionArguments } from '@microsoft/sp-adaptive-card-extension-base';
 import { CONFIRM_VIEW_REGISTRY_ID, IEventscheduleAdaptiveCardExtensionProps, IEventscheduleAdaptiveCardExtensionState } from '../EventscheduleAdaptiveCardExtension';
 import { Event, EventRegistration } from '../../../common/models/designtemplate.models';
-import { Logger, LogLevel } from "@pnp/logging";
 import * as strings from 'EventscheduleAdaptiveCardExtensionStrings';
 
 
@@ -57,7 +56,9 @@ export class QuickView extends BaseAdaptiveCardView<
         }
       }
     } catch (err) {
-      Logger.write(`${this.LOG_SOURCE} (onAction) - ${err}`, LogLevel.Error);
+      console.error(
+        `${this.LOG_SOURCE} (onAction) -- click event not handled. - ${err}`
+      );
     }
   }
 }

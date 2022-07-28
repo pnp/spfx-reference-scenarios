@@ -1,5 +1,4 @@
 import * as React from "react";
-import { Logger, LogLevel } from "@pnp/logging";
 import { isEqual } from "@microsoft/sp-lodash-subset";
 import { AppData } from "../../../../common/models/designtemplate.models";
 import * as strings from "AceDesignTemplatePersonalAppWebPartStrings";
@@ -55,7 +54,9 @@ export default class AppList extends React.Component<IAppListProps, IAppListStat
         </>
       );
     } catch (err) {
-      Logger.write(`${this.LOG_SOURCE} (render) - ${err}`, LogLevel.Error);
+      console.error(
+        `${this.LOG_SOURCE} (render) - error rendering component ${err}`
+      );
       return null;
     }
   }

@@ -3,10 +3,10 @@ import { BaseAdaptiveCardExtension } from '@microsoft/sp-adaptive-card-extension
 import { CardView } from './cardView/CardView';
 import { QuickView } from './quickView/QuickView';
 import { HelpdeskPropertyPane } from './HelpdeskPropertyPane';
-import { Logger, LogLevel, ConsoleListener } from "@pnp/logging";
-import { dtg } from '../../common/services/designtemplate.service';
+
 import { HelpDeskTicket } from '../../common/models/designtemplate.models';
 import { EditView } from './quickView/EditView';
+import { dtg } from '../../common/services/designtemplate.service';
 
 export interface IHelpdeskAdaptiveCardExtensionProps {
   title: string;
@@ -29,16 +29,12 @@ export default class HelpdeskAdaptiveCardExtension extends BaseAdaptiveCardExten
   private LOG_SOURCE: string = "🔶 Help Desk Ticket Listing Adaptive Card Extension";
   private _deferredPropertyPane: HelpdeskPropertyPane | undefined;
 
-
-  public onInit(): Promise<void> {
+  public async onInit(): Promise<void> {
     try {
       this._iconProperty = this.properties.iconProperty;
-      //Initialize PnPLogger
-      Logger.subscribe(new ConsoleListener());
-      Logger.activeLogLevel = LogLevel.Info;
 
       //Initialize Service
-      dtg.Init();
+      await dtg.Init(this.context.serviceScope);
 
       const tickets: HelpDeskTicket[] = dtg.GetHelpDeskTickets();
 
@@ -53,7 +49,9 @@ export default class HelpdeskAdaptiveCardExtension extends BaseAdaptiveCardExten
       this.quickViewNavigator.register(QUICK_VIEW_REGISTRY_ID, () => new QuickView());
       this.quickViewNavigator.register(EDITT_VIEW_REGISTRY_ID, () => new EditView());
     } catch (err) {
-      Logger.write(`${this.LOG_SOURCE} (onInit) - ${err}`, LogLevel.Error);
+      console.error(
+        `${this.LOG_SOURCE} (onInit) -- Could not initialize web part. - ${err}`
+      );
     }
 
     return Promise.resolve();

@@ -2,11 +2,9 @@ import { ISPFxAdaptiveCard, BaseAdaptiveCardView, ISubmitActionArguments } from 
 import * as strings from 'EventscheduleAdaptiveCardExtensionStrings';
 import { IEventscheduleAdaptiveCardExtensionProps, IEventscheduleAdaptiveCardExtensionState } from '../EventscheduleAdaptiveCardExtension';
 
-import { Logger, LogLevel } from "@pnp/logging";
-
-import { dtg } from '../../../common/services/designtemplate.service';
 import { Event, EventRegistration } from '../../../common/models/designtemplate.models';
 import { QUICK_VIEW_REGISTRY_ID } from '../../eventschedule/EventscheduleAdaptiveCardExtension';
+import { dtg } from '../../../common/services/designtemplate.service';
 
 export interface IConfirmViewData {
   event: Event;
@@ -46,7 +44,9 @@ export class ConfirmView extends BaseAdaptiveCardView<
         }
       }
     } catch (err) {
-      Logger.write(`${this.LOG_SOURCE} (onAction) - ${err}`, LogLevel.Error);
+      console.error(
+        `${this.LOG_SOURCE} (onAction) -- click event not handled. - ${err}`
+      );
     }
   }
 }

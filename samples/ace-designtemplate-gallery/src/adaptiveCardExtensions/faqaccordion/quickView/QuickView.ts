@@ -1,9 +1,8 @@
 import { ISPFxAdaptiveCard, BaseAdaptiveCardView, ISubmitActionArguments } from '@microsoft/sp-adaptive-card-extension-base';
 import * as strings from 'FaqaccordionAdaptiveCardExtensionStrings';
-import { Logger, LogLevel } from "@pnp/logging";
 import { AccordionList } from '../../../common/models/designtemplate.models';
-import { IFaqaccordionAdaptiveCardExtensionProps, IFaqaccordionAdaptiveCardExtensionState } from '../FaqaccordionAdaptiveCardExtension';
 import { dtg } from '../../../common/services/designtemplate.service';
+import { IFaqaccordionAdaptiveCardExtensionProps, IFaqaccordionAdaptiveCardExtensionState } from '../FaqaccordionAdaptiveCardExtension';
 
 
 export interface IQuickViewData {
@@ -27,7 +26,7 @@ export class QuickView extends BaseAdaptiveCardView<
     const downIcon: string = require('../../../common/images/faq-accordion/ico-down.png');
     return {
       faqApp: this.state.faqApp,
-      deepLink: this.state.deepLink,
+      deepLink: this.properties.deepLink,
       question: "",
       upIcon: upIcon,
       downIcon: downIcon,
@@ -49,7 +48,9 @@ export class QuickView extends BaseAdaptiveCardView<
         }
       }
     } catch (err) {
-      Logger.write(`${this.LOG_SOURCE} (onAction) - ${err}`, LogLevel.Error);
+      console.error(
+        `${this.LOG_SOURCE} (onAction) -- click event not handled. - ${err}`
+      );
     }
   }
 }

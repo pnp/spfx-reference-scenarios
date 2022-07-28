@@ -1,5 +1,4 @@
 import * as React from "react";
-import { Logger, LogLevel } from "@pnp/logging";
 import { AppData, DeepLinkData, DeepLinkType } from "../../../../common/models/designtemplate.models";
 import { isEqual } from "@microsoft/sp-lodash-subset";
 import { Icons } from "../../../../common/models/icons";
@@ -170,7 +169,9 @@ export default class AppDetails extends React.Component<IAppDetailsProps, IAppDe
         </>
       );
     } catch (err) {
-      Logger.write(`${this.LOG_SOURCE} (render) - ${err}`, LogLevel.Error);
+      console.error(
+        `${this.LOG_SOURCE} (render) - error rendering component ${err}`
+      );
       return null;
     }
   }

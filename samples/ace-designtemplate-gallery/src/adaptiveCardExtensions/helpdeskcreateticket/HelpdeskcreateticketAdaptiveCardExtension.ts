@@ -4,10 +4,10 @@ import { CardView } from './cardView/CardView';
 import { QuickView } from './quickView/QuickView';
 import { HelpdeskcreateticketPropertyPane } from './HelpdeskcreateticketPropertyPane';
 
-import { dtg } from '../../common/services/designtemplate.service';
 import { DemoUser, HelpDeskTicket } from '../../common/models/designtemplate.models';
 import { random } from '@microsoft/sp-lodash-subset';
 import { AddLocationImages } from './quickView/AddLocationImages';
+import { dtg } from '../../common/services/designtemplate.service';
 
 export interface IHelpdeskcreateticketAdaptiveCardExtensionProps {
   title: string;
@@ -36,7 +36,7 @@ export default class HelpdeskcreateticketAdaptiveCardExtension extends BaseAdapt
       this._iconProperty = this.properties.iconProperty;
 
       //Initialize Service
-      dtg.Init();
+      await dtg.Init(this.context.serviceScope);
 
       //Create a new blank ticket
       const ticket: HelpDeskTicket = new HelpDeskTicket();

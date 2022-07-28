@@ -3,9 +3,8 @@ import { BaseAdaptiveCardExtension } from '@microsoft/sp-adaptive-card-extension
 import { CardView } from './cardView/CardView';
 import { QuickView } from './quickView/QuickView';
 
-import { Logger, LogLevel, ConsoleListener } from "@pnp/logging";
-
 import { VaccinationboosterPropertyPane } from './VaccinationboosterPropertyPane';
+import { dtg } from '../../common/services/designtemplate.service';
 
 export interface IVaccinationboosterAdaptiveCardExtensionProps {
   iconProperty: string;
@@ -26,11 +25,9 @@ export default class VaccinationboosterAdaptiveCardExtension extends BaseAdaptiv
   private LOG_SOURCE: string = "🔶 Vaccination Booster Adaptive Card Extension";
   private _deferredPropertyPane: VaccinationboosterPropertyPane | undefined;
 
-  public onInit(): Promise<void> {
+  public async onInit(): Promise<void> {
     try {
-      //Initialize PnPLogger
-      Logger.subscribe(new ConsoleListener());
-      Logger.activeLogLevel = LogLevel.Info;
+      await dtg.Init(this.context.serviceScope);
 
       //Set the data into state
       this.state = {
@@ -39,7 +36,9 @@ export default class VaccinationboosterAdaptiveCardExtension extends BaseAdaptiv
       this.cardNavigator.register(CARD_VIEW_REGISTRY_ID, () => new CardView());
       this.quickViewNavigator.register(QUICK_VIEW_REGISTRY_ID, () => new QuickView());
     } catch (err) {
-      Logger.write(`${this.LOG_SOURCE} (onInit) - ${err}`, LogLevel.Error);
+      console.error(
+        `${this.LOG_SOURCE} (onInit) -- Could not initialize web part. - ${err}`
+      );
     }
     return Promise.resolve();
   }

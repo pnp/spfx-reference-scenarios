@@ -3,12 +3,9 @@ import { BaseAdaptiveCardExtension } from '@microsoft/sp-adaptive-card-extension
 import { CardView } from './cardView/CardView';
 import { QuickView } from './quickView/QuickView';
 
-import { Logger, LogLevel, ConsoleListener } from "@pnp/logging";
-
 import { SimplelistPropertyPane } from './SimplelistPropertyPane';
-import { dtg } from '../../common/services/designtemplate.service';
 import { SimpleList } from '../../common/models/designtemplate.models';
-
+import { dtg } from '../../common/services/designtemplate.service';
 
 export interface ISimplelistAdaptiveCardExtensionProps {
   iconProperty: string;
@@ -30,14 +27,10 @@ export default class SimplelistAdaptiveCardExtension extends BaseAdaptiveCardExt
   private LOG_SOURCE: string = "🔶 Simple List Adaptive Card Extension";
   private _deferredPropertyPane: SimplelistPropertyPane | undefined;
 
-  public onInit(): Promise<void> {
+  public async onInit(): Promise<void> {
     try {
-      //Initialize PnPLogger
-      Logger.subscribe(new ConsoleListener());
-      Logger.activeLogLevel = LogLevel.Info;
-
       //Initialize Service
-      dtg.Init();
+      await dtg.Init(this.context.serviceScope);
 
       //Get the data for the app
       const app: SimpleList = dtg.GetSimpleList(this.context.pageContext.cultureInfo.currentUICultureName);
@@ -50,7 +43,9 @@ export default class SimplelistAdaptiveCardExtension extends BaseAdaptiveCardExt
       this.cardNavigator.register(CARD_VIEW_REGISTRY_ID, () => new CardView());
       this.quickViewNavigator.register(QUICK_VIEW_REGISTRY_ID, () => new QuickView());
     } catch (err) {
-      Logger.write(`${this.LOG_SOURCE} (onInit) - ${err}`, LogLevel.Error);
+      console.error(
+        `${this.LOG_SOURCE} (onInit) -- Could not initialize web part. - ${err}`
+      );
     }
     return Promise.resolve();
   }

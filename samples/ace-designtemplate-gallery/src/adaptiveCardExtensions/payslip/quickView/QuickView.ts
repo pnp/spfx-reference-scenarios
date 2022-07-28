@@ -2,8 +2,6 @@ import { ISPFxAdaptiveCard, BaseAdaptiveCardView, ISubmitActionArguments } from 
 import { find } from '@microsoft/sp-lodash-subset';
 import * as strings from 'PayslipAdaptiveCardExtensionStrings';
 
-import { Logger, LogLevel } from "@pnp/logging";
-
 import { PayPeriod, Payslip } from '../../../common/models/designtemplate.models';
 import { IPayslipAdaptiveCardExtensionProps, IPayslipAdaptiveCardExtensionState } from '../PayslipAdaptiveCardExtension';
 
@@ -68,7 +66,9 @@ export class QuickView extends BaseAdaptiveCardView<
         }
       }
     } catch (err) {
-      Logger.write(`${this.LOG_SOURCE} (onAction) - ${err}`, LogLevel.Error);
+      console.error(
+        `${this.LOG_SOURCE} (onAction) -- click event not handled. - ${err}`
+      );
     }
   }
 

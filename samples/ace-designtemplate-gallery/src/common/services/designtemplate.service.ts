@@ -1,7 +1,5 @@
 import { cloneDeep, find } from "@microsoft/sp-lodash-subset";
-import { Logger, LogLevel } from "@pnp/logging";
-import { sp } from "@pnp/sp";
-import { IListAddResult } from "@pnp/sp/lists";
+import { PageContext } from "@microsoft/sp-page-context";
 import "@pnp/sp/fields/list";
 import "@pnp/sp/views";
 import {
@@ -33,12 +31,19 @@ import {
   IFieldList
 } from "../models/designtemplate.models";
 import { IView } from "@pnp/sp/views/types";
+import { spfi, SPFI, SPFx } from "@pnp/sp";
+import { ServiceKey, ServiceScope } from "@microsoft/sp-core-library";
 
 export interface IDesignTemplateGalleryService {
+  readonly ready: boolean;
+  readonly sp: SPFI;
+  readonly pageContext: PageContext;
+  webUrl: string;
   TeamsUrl: string;
-  Init(): void;
+  Init(serviceScope: ServiceScope): Promise<void>;
   GetAllApps: () => AppData[];
   GetAppData: (linkdata: any) => AppData;
+  GetDeepLinkData(subEntityId: any, local: string): DeepLinkData;
   GetBenefits(): Benefits;
   GetEvents(): Event;
   GetEventRegistrationLink(eventRegistration: EventRegistration): string;
@@ -55,30 +60,72 @@ export interface IDesignTemplateGalleryService {
   GetHolidayTimeline: (local: string) => HolidayTimeline;
   GetTimeOff: () => TimeOff;
   SubmitTimeOffRequest: (request: TimeOffRequest) => void;
+  SubmitVaccineAppointment: (request: VaccineAppointment) => void;
   GetCafeterias: () => Cafeteria[];
   GetHelpDeskTicketLink(ticket: HelpDeskTicket): string;
   GetHelpDeskTickets: () => HelpDeskTicket[];
   CloseHelpDeskTickets: (tickets: HelpDeskTicket[], currentTicket: HelpDeskTicket) => HelpDeskTicket[];
+  GetLocationData(latitude: string, longitude: string, apiKey: string): Promise<string>;
 }
 
 export class DesignTemplateGalleryService implements IDesignTemplateGalleryService {
   private LOG_SOURCE: string = "🔶 ACE Design Template Service";
+  public static readonly serviceKey: ServiceKey<DesignTemplateGalleryService> =
+    ServiceKey.create<DesignTemplateGalleryService>(
+      "DesignTemplateGalleryService:IDesignTemplateGalleryService",
+      DesignTemplateGalleryService
+    );
+  private _sp: SPFI;
+  private _pageContext: PageContext;
+  private _ready = false;
+  private _webUrl: string;
   private _teamsUrl: string = "https://teams.microsoft.com/l/entity/4a007f51-abb1-4d3a-b753-7c84404936b2/com.acedesigntemplate.spfx";
 
   constructor() {
   }
 
+  public async Init(serviceScope: ServiceScope): Promise<void> {
+    try {
+      serviceScope.whenFinished(async () => {
+        this._pageContext = serviceScope.consume(PageContext.serviceKey);
+        this._sp = spfi().using(SPFx({ pageContext: this._pageContext }));
+        this._ready = true;
+      });
+    } catch (err) {
+      console.error(`${this.LOG_SOURCE} (init) - ${err}`);
+    }
+  }
+
+  public get ready(): boolean {
+    return this._ready;
+  }
+
+  public get sp(): SPFI {
+    return this._sp;
+  }
+
+  public get pageContext(): PageContext {
+    return this._pageContext;
+  }
+
+  public get webUrl(): string {
+    return this._webUrl;
+  }
+
+  public set webUrl(value: string) {
+    this._webUrl = value;
+    try {
+      this._sp = spfi(value).using(SPFx({ pageContext: this._pageContext }));
+    } catch (err) {
+      console.error(
+        `${this.LOG_SOURCE} (webUrl) - cannot connect to new web - ${err}`
+      );
+    }
+  }
   public get TeamsUrl(): string {
     return this._teamsUrl;
   }
 
-  public Init() {
-    try {
-      //Add code here to initialize anything you need for your data calls.
-    } catch (err) {
-      Logger.write(`${this.LOG_SOURCE} (init) - ${err.message}`, LogLevel.Error);
-    }
-  }
 
   public GetAllApps(): AppData[] {
     const retVal: AppData[] = [];
@@ -89,7 +136,9 @@ export class DesignTemplateGalleryService implements IDesignTemplateGalleryServi
         }
       }
     } catch (err) {
-      Logger.write(`${this.LOG_SOURCE} (GetAllApps) - ${err.message}`, LogLevel.Error);
+      console.error(
+        `${this.LOG_SOURCE} (GetAllApps) -- list of apps not returned. - ${err}`
+      );
     }
     return retVal;
   }
@@ -226,7 +275,9 @@ export class DesignTemplateGalleryService implements IDesignTemplateGalleryServi
         }
       }
     } catch (err) {
-      Logger.write(`${this.LOG_SOURCE} (GetAllApps) - ${err.message}`, LogLevel.Error);
+      console.error(
+        `${this.LOG_SOURCE} (GetAllApps) -- error returning app data. - ${err}`
+      );
     }
 
     return retVal;
@@ -302,7 +353,9 @@ export class DesignTemplateGalleryService implements IDesignTemplateGalleryServi
       }
     }
     catch (err) {
-      Logger.write(`${this.LOG_SOURCE} (GetDeepLinkData) - ${err.message}`, LogLevel.Error);
+      console.error(
+        `${this.LOG_SOURCE} (GetDeepLinkData) -- error getting deep link to Teams. - ${err}`
+      );
     }
 
     return retVal;
@@ -326,7 +379,9 @@ export class DesignTemplateGalleryService implements IDesignTemplateGalleryServi
       retVal.details = details;
 
     } catch (err) {
-      Logger.write(`${this.LOG_SOURCE} (GetBenefits) - ${err.message}`, LogLevel.Error);
+      console.error(
+        `${this.LOG_SOURCE} (GetBenefits) -- error getting benefits data. - ${err}`
+      );
     }
     return retVal;
   }
@@ -347,7 +402,9 @@ export class DesignTemplateGalleryService implements IDesignTemplateGalleryServi
       retVal.mainImage = require('../images/event-schedule/Ignite-2021-fall-trim.gif');
 
     } catch (err) {
-      Logger.write(`${this.LOG_SOURCE} (GetEvents) - ${err.message}`, LogLevel.Error);
+      console.error(
+        `${this.LOG_SOURCE} (GetEvents) -- error getting Events data. - ${err}`
+      );
     }
     return retVal;
   }
@@ -361,7 +418,9 @@ export class DesignTemplateGalleryService implements IDesignTemplateGalleryServi
       retVal = encodeURI(`${this._teamsUrl}?context={"subEntityId":{"appName":"${AppList.EVENTSCHEDULE}","linkType":"${DeepLinkType.EVENTREGISTRATION}","message":${JSON.stringify(registration)}}}`);
 
     } catch (err) {
-      Logger.write(`${this.LOG_SOURCE} (GetEventRegistrationLink) - ${err.message}`, LogLevel.Error);
+      console.error(
+        `${this.LOG_SOURCE} (GetEventRegistrationLink) -- error getting event registration link. - ${err}`
+      );
     }
     return retVal;
   }
@@ -379,7 +438,9 @@ export class DesignTemplateGalleryService implements IDesignTemplateGalleryServi
       retVal.imageCaption = faqStrings.ImageCaption;
       retVal.introContent = faqStrings.IntroContent;
     } catch (err) {
-      Logger.write(`${this.LOG_SOURCE} (GetFAQs) - ${err.message}`, LogLevel.Error);
+      console.error(
+        `${this.LOG_SOURCE} (GetFAQs) -- error getting FAQ data. - ${err}`
+      );
     }
     return retVal;
   }
@@ -389,7 +450,9 @@ export class DesignTemplateGalleryService implements IDesignTemplateGalleryServi
       const url = encodeURI(`${this._teamsUrl}?context={"subEntityId":{"appName":"${AppList.FAQACCORDION}","linkType":"${DeepLinkType.TEXT}","message":"${message}"}}`);
       window.open(url);
     } catch (err) {
-      Logger.write(`${this.LOG_SOURCE} (GetFAQs) - ${err.message}`, LogLevel.Error);
+      console.error(
+        `${this.LOG_SOURCE} (SubmitFAQ) -- error submitting FAQ to Teams. - ${err}`
+      );
     }
   }
 
@@ -400,7 +463,9 @@ export class DesignTemplateGalleryService implements IDesignTemplateGalleryServi
       //To extend pull data from a list of your items
       retVal = require("../data/imagecarousel.data.json");
     } catch (err) {
-      Logger.write(`${this.LOG_SOURCE} (GetImageCarousel) - ${err.message}`, LogLevel.Error);
+      console.error(
+        `${this.LOG_SOURCE} (GetImageCarousel) -- error getting Image Carousel Data. - ${err}`
+      );
     }
     return retVal;
   }
@@ -419,7 +484,9 @@ export class DesignTemplateGalleryService implements IDesignTemplateGalleryServi
       });
       retVal.inventoryItems = inventoryItems;
     } catch (err) {
-      Logger.write(`${this.LOG_SOURCE} (GetInventoryDetail) - ${err.message}`, LogLevel.Error);
+      console.error(
+        `${this.LOG_SOURCE} (GetInventoryDetail) -- error getting inventory data. - ${err}`
+      );
     }
     return retVal;
   }
@@ -464,7 +531,9 @@ export class DesignTemplateGalleryService implements IDesignTemplateGalleryServi
       }
 
     } catch (err) {
-      Logger.write(`${this.LOG_SOURCE} (_getPayPeriods) - ${err.message}`, LogLevel.Error);
+      console.error(
+        `${this.LOG_SOURCE} (GetPayPeriods) -- error getting pay periods. - ${err}`
+      );
     }
     return retVal;
   }
@@ -476,7 +545,9 @@ export class DesignTemplateGalleryService implements IDesignTemplateGalleryServi
       //To extend pull data from a list of your items
       retVal = require("../data/payslip.data.json");
     } catch (err) {
-      Logger.write(`${this.LOG_SOURCE} (GetPaySlips) - ${err.message}`, LogLevel.Error);
+      console.error(
+        `${this.LOG_SOURCE} (GetPaySlips) -- error getting payslip data. - ${err}`
+      );
     }
     return retVal;
   }
@@ -507,7 +578,9 @@ export class DesignTemplateGalleryService implements IDesignTemplateGalleryServi
       });
       retVal.praise = praise;
     } catch (err) {
-      Logger.write(`${this.LOG_SOURCE} (GetSimpleList) - ${err.message}`, LogLevel.Error);
+      console.error(
+        `${this.LOG_SOURCE} (GetSimpleList) -- error getting praise data. - ${err}`
+      );
     }
     return retVal;
   }
@@ -567,7 +640,9 @@ export class DesignTemplateGalleryService implements IDesignTemplateGalleryServi
 
       });
     } catch (err) {
-      Logger.write(`${this.LOG_SOURCE} (getCalendarDays) - ${err.message}`, LogLevel.Error);
+      console.error(
+        `${this.LOG_SOURCE} (getCalendarDays) -- error getting calendar day data. - ${err}`
+      );
     }
     return retVal;
   }
@@ -579,10 +654,11 @@ export class DesignTemplateGalleryService implements IDesignTemplateGalleryServi
       //To extend pull data from a list of your items
       const allAppointments: Appointment[] = require("../data/teamcalendar.data.json");
       allAppointments.map((appt) => {
+        const today: Date = new Date();
         const apptStartDate: Date = new Date(appt.startDate);
-        apptStartDate.setMonth(apptStartDate.getMonth() + 1);
+        apptStartDate.setMonth(today.getMonth() + 1);
         const apptEndDate: Date = new Date(appt.endDate);
-        apptEndDate.setMonth(apptEndDate.getMonth() + 1);
+        apptEndDate.setMonth(today.getMonth() + 1);
         let dateString: string = "";
         if (apptStartDate.getMonth() == apptEndDate.getMonth() && apptStartDate.getDate() == apptEndDate.getDate()) {
           dateString = Intl.DateTimeFormat(local, { weekday: undefined, year: undefined, month: 'short', day: 'numeric' }).format(apptStartDate);
@@ -600,7 +676,9 @@ export class DesignTemplateGalleryService implements IDesignTemplateGalleryServi
       });
 
     } catch (err) {
-      Logger.write(`${this.LOG_SOURCE} (GetAppointments) - ${err.message}`, LogLevel.Error);
+      console.error(
+        `${this.LOG_SOURCE} (GetAppointments) -- error getting calendar data. - ${err}`
+      );
     }
     return retVal;
   }
@@ -633,7 +711,9 @@ export class DesignTemplateGalleryService implements IDesignTemplateGalleryServi
       });
 
     } catch (err) {
-      Logger.write(`${this.LOG_SOURCE} (GetThisWeekData) - ${err.message}`, LogLevel.Error);
+      console.error(
+        `${this.LOG_SOURCE} (GetThisWeekData) -- error getting calendar data for this week. - ${err}`
+      );
     }
     return retVal;
   }
@@ -665,7 +745,9 @@ export class DesignTemplateGalleryService implements IDesignTemplateGalleryServi
         retVal.nextHoliday = retVal.holidays[0];
       }
     } catch (err) {
-      Logger.write(`${this.LOG_SOURCE} (GetHolidayTimeline) - ${err.message}`, LogLevel.Error);
+      console.error(
+        `${this.LOG_SOURCE} (GetHolidayTimeline) -- error getting holiday data. - ${err}`
+      );
     }
     return retVal;
   }
@@ -677,7 +759,9 @@ export class DesignTemplateGalleryService implements IDesignTemplateGalleryServi
       //To extend pull data from a list of your items
       retVal = require("../data/timeoff.data.json");
     } catch (err) {
-      Logger.write(`${this.LOG_SOURCE} (GetTimeOff) - ${err.message}`, LogLevel.Error);
+      console.error(
+        `${this.LOG_SOURCE} (GetTimeOff) -- error getting time off data. - ${err}`
+      );
     }
     return retVal;
   }
@@ -687,7 +771,9 @@ export class DesignTemplateGalleryService implements IDesignTemplateGalleryServi
       const url = encodeURI(`${this._teamsUrl}?context={"subEntityId":{"appName":"${AppList.TIMEOFF}","linkType":"${DeepLinkType.TIMEOFFREQUEST}","message":${JSON.stringify(request)}}}`);
       window.open(url);
     } catch (err) {
-      Logger.write(`${this.LOG_SOURCE} (SubmitTimeOffRequest) - ${err.message}`, LogLevel.Error);
+      console.error(
+        `${this.LOG_SOURCE} (SubmitTimeOffRequest) -- submitting time off request. - ${err}`
+      );
     }
   }
 
@@ -696,7 +782,9 @@ export class DesignTemplateGalleryService implements IDesignTemplateGalleryServi
       const url = encodeURI(`${this._teamsUrl}?context={"subEntityId":{"appName":"${AppList.VACCINATIONBOOSTER}","linkType":"${DeepLinkType.VACCINATIONBOOSTER}","message":${JSON.stringify(request)}}}`);
       window.open(url);
     } catch (err) {
-      Logger.write(`${this.LOG_SOURCE} (SubmitTimeOffRequest) - ${err.message}`, LogLevel.Error);
+      console.error(
+        `${this.LOG_SOURCE} (SubmitVaccineAppointment) -- submitting vaccine registration to Teams. - ${err}`
+      );
     }
   }
 
@@ -719,7 +807,9 @@ export class DesignTemplateGalleryService implements IDesignTemplateGalleryServi
       });
       retVal = cafes;
     } catch (err) {
-      Logger.write(`${this.LOG_SOURCE} (GetCafeterias) - ${err.message}`, LogLevel.Error);
+      console.error(
+        `${this.LOG_SOURCE} (GetCafeterias) -- getting cafe data. - ${err}`
+      );
     }
     return retVal;
   }
@@ -733,7 +823,9 @@ export class DesignTemplateGalleryService implements IDesignTemplateGalleryServi
       retVal = encodeURI(`${this._teamsUrl}?context={"subEntityId":{"appName":"${AppList.HELPDESKCREATE}","linkType":"${DeepLinkType.HELPDESKTICKET}","message":${JSON.stringify(ticket)}}}`);
 
     } catch (err) {
-      Logger.write(`${this.LOG_SOURCE} (GetHelpDeskTicketLink) - ${err.message}`, LogLevel.Error);
+      console.error(
+        `${this.LOG_SOURCE} (GetHelpDeskTicketLink) -- getting HelpDesk link to Teams. - ${err}`
+      );
     }
     return retVal;
   }
@@ -784,7 +876,9 @@ export class DesignTemplateGalleryService implements IDesignTemplateGalleryServi
       retVal = tickets;
 
     } catch (err) {
-      Logger.write(`${this.LOG_SOURCE} (GetHelpDeskTickets) - ${err.message}`, LogLevel.Error);
+      console.error(
+        `${this.LOG_SOURCE} (GetHelpDeskTickets) -- getting Help Desk Ticket Data. - ${err}`
+      );
     }
     return retVal;
   }
@@ -796,55 +890,57 @@ export class DesignTemplateGalleryService implements IDesignTemplateGalleryServi
       retVal = tickets.filter(ticket => ticket.incidentNumber != currentTicket.incidentNumber);
 
     } catch (err) {
-      Logger.write(`${this.LOG_SOURCE} (CloseHelpDeskTickets) - ${err.message}`, LogLevel.Error);
+      console.error(
+        `${this.LOG_SOURCE} (CloseHelpDeskTickets) -- closing Help Desk Ticket. - ${err}`
+      );
     }
     return retVal;
   }
 
-  public async createList(listName: string, listDescription: string, fieldList: IFieldList[]): Promise<boolean> {
-    let retVal = false;
-    try {
-      const list: IListAddResult = await sp.web.lists.add(listName, `${listName} ${listDescription} List`, 101);
-      for (let i = 0; i < fieldList.length; i++) {
-        if (fieldList[i].props.FieldTypeKind === 2) {
-          await sp.web.lists
-            .getById(list.data.Id)
-            .fields.addText(fieldList[i].name);
-        } else if (fieldList[i].props.FieldTypeKind === 3) {
-          await sp.web.lists
-            .getById(list.data.Id)
-            .fields.createFieldAsXml(
-              `<Field Type="Note" Name="${fieldList[i].name}" DisplayName="${fieldList[i].name}" Required="FALSE" RichText="TRUE" RichTextMode="FullHtml" />`
-            );
-        } else if (fieldList[i].props.FieldTypeKind === 4) {
-          await sp.web.lists
-            .getById(list.data.Id)
-            .fields.addDateTime(fieldList[i].name, DateTimeFieldFormatType.DateTime, CalendarType.Gregorian, DateTimeFieldFriendlyFormatType.Disabled);
-        } else if (fieldList[i].props.FieldTypeKind === 6) {
-          await sp.web.lists
-            .getById(list.data.Id)
-            .fields.addChoice(fieldList[i].name, fieldList[i].props.choices);
-        } else if (fieldList[i].props.FieldTypeKind === 11) {
-          await sp.web.lists
-            .getById(list.data.Id)
-            .fields.addUrl(fieldList[i].name, UrlFieldFormatType.Hyperlink);
-        } else if (fieldList[i].props.FieldTypeKind === 12) {
-          await sp.web.lists
-            .getById(list.data.Id)
-            .fields.addNumber(fieldList[i].name);
-        }
-      }
-      const view: IView = await sp.web.lists.getById(list.data.Id)
-        .defaultView;
-      for (let i = 0; i < fieldList.length; i++) {
-        await view.fields.add(fieldList[i].name);
-      }
-      retVal = true;
-    } catch (err) {
-      console.error(`${this.LOG_SOURCE} (createList) - ${err}`);
-    }
-    return retVal;
-  }
+  // public async createList(listName: string, listDescription: string, fieldList: IFieldList[]): Promise<boolean> {
+  //   let retVal = false;
+  //   try {
+  //     const list: IListAddResult = await sp.web.lists.add(listName, `${listName} ${listDescription} List`, 101);
+  //     for (let i = 0; i < fieldList.length; i++) {
+  //       if (fieldList[i].props.FieldTypeKind === 2) {
+  //         await sp.web.lists
+  //           .getById(list.data.Id)
+  //           .fields.addText(fieldList[i].name);
+  //       } else if (fieldList[i].props.FieldTypeKind === 3) {
+  //         await sp.web.lists
+  //           .getById(list.data.Id)
+  //           .fields.createFieldAsXml(
+  //             `<Field Type="Note" Name="${fieldList[i].name}" DisplayName="${fieldList[i].name}" Required="FALSE" RichText="TRUE" RichTextMode="FullHtml" />`
+  //           );
+  //       } else if (fieldList[i].props.FieldTypeKind === 4) {
+  //         await sp.web.lists
+  //           .getById(list.data.Id)
+  //           .fields.addDateTime(fieldList[i].name, DateTimeFieldFormatType.DateTime, CalendarType.Gregorian, DateTimeFieldFriendlyFormatType.Disabled);
+  //       } else if (fieldList[i].props.FieldTypeKind === 6) {
+  //         await sp.web.lists
+  //           .getById(list.data.Id)
+  //           .fields.addChoice(fieldList[i].name, fieldList[i].props.choices);
+  //       } else if (fieldList[i].props.FieldTypeKind === 11) {
+  //         await sp.web.lists
+  //           .getById(list.data.Id)
+  //           .fields.addUrl(fieldList[i].name, UrlFieldFormatType.Hyperlink);
+  //       } else if (fieldList[i].props.FieldTypeKind === 12) {
+  //         await sp.web.lists
+  //           .getById(list.data.Id)
+  //           .fields.addNumber(fieldList[i].name);
+  //       }
+  //     }
+  //     const view: IView = await sp.web.lists.getById(list.data.Id)
+  //       .defaultView;
+  //     for (let i = 0; i < fieldList.length; i++) {
+  //       await view.fields.add(fieldList[i].name);
+  //     }
+  //     retVal = true;
+  //   } catch (err) {
+  //     console.error(`${this.LOG_SOURCE} (createList) - ${err}`);
+  //   }
+  //   return retVal;
+  // }
 
   public async GetLocationData(latitude: string, longitude: string, apiKey: string): Promise<string> {
     let retVal: string = "";
@@ -854,7 +950,9 @@ export class DesignTemplateGalleryService implements IDesignTemplateGalleryServi
 
       retVal = results.resourceSets[0].resources[0].address.addressLine;
     } catch (err) {
-      Logger.write(`${this.LOG_SOURCE} (CloseHelpDeskTickets) - ${err.message}`, LogLevel.Error);
+      console.error(
+        `${this.LOG_SOURCE} (GetLocationData) -- error generating link to BingMaps. - ${err}`
+      );
     }
     return retVal;
   }

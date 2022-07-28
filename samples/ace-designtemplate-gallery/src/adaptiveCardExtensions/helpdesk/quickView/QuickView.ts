@@ -2,7 +2,6 @@ import { ISPFxAdaptiveCard, BaseAdaptiveCardView, IActionArguments, ISubmitActio
 import * as strings from 'HelpdeskAdaptiveCardExtensionStrings';
 import { HelpDeskTicket } from '../../../common/models/designtemplate.models';
 import { EDITT_VIEW_REGISTRY_ID, IHelpdeskAdaptiveCardExtensionProps, IHelpdeskAdaptiveCardExtensionState } from '../HelpdeskAdaptiveCardExtension';
-import { Logger, LogLevel } from "@pnp/logging";
 
 export interface IQuickViewData {
   numberOfTasks: string;
@@ -46,7 +45,9 @@ export class QuickView extends BaseAdaptiveCardView<
         }
       }
     } catch (err) {
-      Logger.write(`${this.LOG_SOURCE} (onAction) - ${err}`, LogLevel.Error);
+      console.error(
+        `${this.LOG_SOURCE} (onAction) -- click event not handled. - ${err}`
+      );
     }
   }
 }

@@ -161,7 +161,7 @@
           ]
         }
       ],
-      "$when": "${$root.hasAPIKey}",
+      "$when": "${$root.hasAPIKey == true}",
       "selectAction": {
         "title": "Choose location on map",
         "type": "VivaAction.GetLocation",

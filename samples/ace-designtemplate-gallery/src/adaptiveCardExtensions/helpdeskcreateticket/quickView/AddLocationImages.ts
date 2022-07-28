@@ -2,7 +2,6 @@ import { ISPFxAdaptiveCard, BaseAdaptiveCardView, IActionArguments } from '@micr
 import * as strings from 'HelpdeskcreateticketAdaptiveCardExtensionStrings';
 import { HelpDeskTicket } from '../../../common/models/designtemplate.models';
 import { IHelpdeskcreateticketAdaptiveCardExtensionProps, IHelpdeskcreateticketAdaptiveCardExtensionState } from '../HelpdeskcreateticketAdaptiveCardExtension';
-import { Logger, LogLevel } from "@pnp/logging";
 import { cloneDeep } from '@microsoft/sp-lodash-subset';
 import { dtg } from '../../../common/services/designtemplate.service';
 
@@ -61,7 +60,9 @@ export class AddLocationImages extends BaseAdaptiveCardView<
         }
       }
     } catch (err) {
-      Logger.write(`${this.LOG_SOURCE} (onAction) - ${err}`, LogLevel.Error);
+      console.error(
+        `${this.LOG_SOURCE} (onAction) -- click event not handled. - ${err}`
+      );
     }
   }
 }

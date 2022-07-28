@@ -1,9 +1,8 @@
 import { ISPFxAdaptiveCard, BaseAdaptiveCardView, ISubmitActionArguments } from '@microsoft/sp-adaptive-card-extension-base';
 import * as strings from 'TimeoffAdaptiveCardExtensionStrings';
-import { Logger, LogLevel } from "@pnp/logging";
 import { TimeOff, TimeOffRequest } from '../../../common/models/designtemplate.models';
-import { ITimeoffAdaptiveCardExtensionProps, ITimeoffAdaptiveCardExtensionState } from '../TimeoffAdaptiveCardExtension';
 import { dtg } from '../../../common/services/designtemplate.service';
+import { ITimeoffAdaptiveCardExtensionProps, ITimeoffAdaptiveCardExtensionState } from '../TimeoffAdaptiveCardExtension';
 
 export interface IQuickViewData {
   timeOff: TimeOff;
@@ -51,7 +50,9 @@ export class QuickView extends BaseAdaptiveCardView<
         }
       }
     } catch (err) {
-      Logger.write(`${this.LOG_SOURCE} (onAction) - ${err}`, LogLevel.Error);
+      console.error(
+        `${this.LOG_SOURCE} (onAction) -- click event not handled. - ${err}`
+      );
     }
   }
 }

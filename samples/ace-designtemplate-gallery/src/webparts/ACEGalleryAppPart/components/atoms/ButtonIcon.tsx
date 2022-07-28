@@ -1,5 +1,4 @@
 import * as React from "react";
-import { Logger, LogLevel } from "@pnp/logging";
 import { isEqual } from "@microsoft/sp-lodash-subset";
 import { IIconType } from "../../../../common/models/designtemplate.models";
 
@@ -39,7 +38,9 @@ export default class ButtonIcon extends React.Component<IButtonIconProps, IButto
         </button>
       );
     } catch (err) {
-      Logger.write(`${this.LOG_SOURCE} (render) - ${err}`, LogLevel.Error);
+      console.error(
+        `${this.LOG_SOURCE} (render) - error rendering component ${err}`
+      );
       return null;
     }
   }

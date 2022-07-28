@@ -3,11 +3,9 @@ import { BaseAdaptiveCardExtension } from '@microsoft/sp-adaptive-card-extension
 import { CardView } from './cardView/CardView';
 import { QuickView } from './quickView/QuickView';
 
-import { Logger, LogLevel, ConsoleListener } from "@pnp/logging";
-
 import { VisuallistPropertyPane } from './VisuallistPropertyPane';
-import { dtg } from '../../common/services/designtemplate.service';
 import { Cafeteria } from '../../common/models/designtemplate.models';
+import { dtg } from '../../common/services/designtemplate.service';
 
 export interface IVisuallistAdaptiveCardExtensionProps {
   iconProperty: string;
@@ -28,14 +26,10 @@ export default class VisuallistAdaptiveCardExtension extends BaseAdaptiveCardExt
   private LOG_SOURCE: string = "🔶 Visual List Adaptive Card Extension";
   private _deferredPropertyPane: VisuallistPropertyPane | undefined;
 
-  public onInit(): Promise<void> {
+  public async onInit(): Promise<void> {
     try {
-      //Initialize PnPLogger
-      Logger.subscribe(new ConsoleListener());
-      Logger.activeLogLevel = LogLevel.Info;
-
       //Initialize Service
-      dtg.Init();
+      await dtg.Init(this.context.serviceScope);
 
       //Get data
       const cafeterias: Cafeteria[] = dtg.GetCafeterias();
@@ -48,7 +42,9 @@ export default class VisuallistAdaptiveCardExtension extends BaseAdaptiveCardExt
       this.cardNavigator.register(CARD_VIEW_REGISTRY_ID, () => new CardView());
       this.quickViewNavigator.register(QUICK_VIEW_REGISTRY_ID, () => new QuickView());
     } catch (err) {
-      Logger.write(`${this.LOG_SOURCE} (onInit) - ${err}`, LogLevel.Error);
+      console.error(
+        `${this.LOG_SOURCE} (onInit) -- Could not initialize web part. - ${err}`
+      );
     }
     return Promise.resolve();
   }

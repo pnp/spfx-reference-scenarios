@@ -2,10 +2,6 @@ import { AdaptiveCardExtensionContext } from '@microsoft/sp-adaptive-card-extens
 import { IPropertyPaneButtonProps, IPropertyPaneConfiguration, IPropertyPaneField, IPropertyPanePage, PropertyPaneButton, PropertyPaneTextField } from '@microsoft/sp-property-pane';
 import * as strings from 'HelpdeskcreateticketAdaptiveCardExtensionStrings';
 import { HelpDeskLibraryFields } from '../../common/models/designtemplate.models';
-import { dtg } from '../../common/services/designtemplate.service';
-
-import "@pnp/sp/webs";
-import { sp } from '@pnp/sp';
 
 export class HelpdeskcreateticketPropertyPane {
   constructor(
@@ -15,10 +11,10 @@ export class HelpdeskcreateticketPropertyPane {
 
   private createList = async (): Promise<void> => {
     try {
-      const result: boolean = await dtg.createList("HelpDeskTickets", "Document library to hold ticket image uploads", HelpDeskLibraryFields);
-      if (result) {
-        this.context.propertyPane.refresh();
-      }
+      // const result: boolean = await dtg.createList("HelpDeskTickets", "Document library to hold ticket image uploads", HelpDeskLibraryFields);
+      // if (result) {
+      //   this.context.propertyPane.refresh();
+      // }
     } catch (err) {
       console.error(`${err} - (createList)`);
     }

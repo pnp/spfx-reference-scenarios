@@ -1,9 +1,8 @@
 import { ISPFxAdaptiveCard, BaseAdaptiveCardView, ISubmitActionArguments } from '@microsoft/sp-adaptive-card-extension-base';
 import * as strings from 'VaccinationboosterAdaptiveCardExtensionStrings';
-import { Logger, LogLevel } from "@pnp/logging";
 import { IVaccinationboosterAdaptiveCardExtensionProps, IVaccinationboosterAdaptiveCardExtensionState } from '../VaccinationboosterAdaptiveCardExtension';
-import { dtg } from '../../../common/services/designtemplate.service';
 import { VaccineAppointment } from '../../../common/models/designtemplate.models';
+import { dtg } from '../../../common/services/designtemplate.service';
 
 export interface IQuickViewData {
   logo: string;
@@ -41,7 +40,9 @@ export class QuickView extends BaseAdaptiveCardView<
         }
       }
     } catch (err) {
-      Logger.write(`${this.LOG_SOURCE} (onAction) - ${err}`, LogLevel.Error);
+      console.error(
+        `${this.LOG_SOURCE} (onAction) -- click event not handled. - ${err}`
+      );
     }
   }
 }

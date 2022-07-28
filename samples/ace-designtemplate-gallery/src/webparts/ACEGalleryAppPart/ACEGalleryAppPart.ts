@@ -9,14 +9,12 @@ import {
   ThemeChangedEventArgs,
   IReadonlyTheme,
 } from '@microsoft/sp-component-base';
-//import { sp } from "@pnp/sp";
-import { Logger, LogLevel, ConsoleListener } from "@pnp/logging";
 
 import AceDesignTemplatePersonalApp from './components/ACEGalleryPersonalApp';
 import { darkModeTheme, highContrastTheme, lightModeTheme } from '../../common/models/teamsapps.themes';
-import { dtg } from '../../common/services/designtemplate.service';
 import styles from './components/AceDesignTemplatePersonalApp.module.scss';
 import { AppData, DeepLinkData } from '../../common/models/designtemplate.models';
+import { dtg } from '../../common/services/designtemplate.service';
 
 export interface IACEGalleryAppPartProps {
   appData: AppData;
@@ -38,11 +36,8 @@ export default class ACEGalleryAppPart extends BaseClientSideWebPart<IACEGallery
 
   public async onInit(): Promise<void> {
     try {
-      //Initialize PnPLogger
-      Logger.subscribe(new ConsoleListener());
-      Logger.activeLogLevel = LogLevel.Info;
-
-      dtg.Init();
+      //Initialize Service
+      await dtg.Init(this.context.serviceScope);
 
       //Initialize PnPJs
       //sp.setup({ spfxContext: this.context });
@@ -103,7 +98,9 @@ export default class ACEGalleryAppPart extends BaseClientSideWebPart<IACEGallery
 
       this._init();
     } catch (err) {
-      Logger.write(`${this.LOG_SOURCE} (onInit) - ${err}`, LogLevel.Error);
+      console.error(
+        `${this.LOG_SOURCE} (onInit) -- webpart not initialized. - ${err}`
+      );
     }
   }
 
@@ -115,7 +112,9 @@ export default class ACEGalleryAppPart extends BaseClientSideWebPart<IACEGallery
       }
       this.render();
     } catch (err) {
-      Logger.write(`${this.LOG_SOURCE} (_init) - ${err}`, LogLevel.Error);
+      console.error(
+        `${this.LOG_SOURCE} (_init) - ${err}`
+      );
     }
   }
 
@@ -132,7 +131,9 @@ export default class ACEGalleryAppPart extends BaseClientSideWebPart<IACEGallery
         }
       }
     } catch (err) {
-      Logger.write(`${this.LOG_SOURCE} (_getTeamsQueryString) - ${err} -- Error loading query string parameters from teams context.`, LogLevel.Error);
+      console.error(
+        `${this.LOG_SOURCE} (_getTeamsQueryString) - Error loading query string parameters from teams context. ${err}`
+      );
     }
   }
 
@@ -159,7 +160,9 @@ export default class ACEGalleryAppPart extends BaseClientSideWebPart<IACEGallery
       this.domElement.classList.add(styles.appPartPage);
       ReactDom.render(element, this.domElement);
     } catch (err) {
-      Logger.write(`${this.LOG_SOURCE} (render) - ${err}`, LogLevel.Error);
+      console.error(
+        `${this.LOG_SOURCE} (render) - Error rendering web part. ${err}`
+      );
     }
   }
 

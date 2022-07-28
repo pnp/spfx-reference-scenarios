@@ -4,7 +4,6 @@ import { CardView } from './cardView/CardView';
 import { QuickView } from './quickView/QuickView';
 import { BenefitsPropertyPane } from './BenefitsPropertyPane';
 
-import { Logger, LogLevel, ConsoleListener } from "@pnp/logging";
 import { dtg } from '../../common/services/designtemplate.service';
 import { Benefits } from '../../common/models/designtemplate.models';
 
@@ -27,14 +26,10 @@ export default class BenefitsAdaptiveCardExtension extends BaseAdaptiveCardExten
   private LOG_SOURCE: string = "🔶 Benefits Adaptive Card Extension";
   private _deferredPropertyPane: BenefitsPropertyPane | undefined;
 
-  public onInit(): Promise<void> {
+  public async onInit(): Promise<void> {
     try {
-      //Initialize PnPLogger
-      Logger.subscribe(new ConsoleListener());
-      Logger.activeLogLevel = LogLevel.Info;
-
       //Initialize Service
-      dtg.Init();
+      await dtg.Init(this.context.serviceScope);
 
       //Get the data for the app
       const benefitsApp: Benefits = dtg.GetBenefits();
@@ -44,11 +39,13 @@ export default class BenefitsAdaptiveCardExtension extends BaseAdaptiveCardExten
         benefits: benefitsApp
       };
 
-      //Regsiter the cards
+      //Register the cards
       this.cardNavigator.register(CARD_VIEW_REGISTRY_ID, () => new CardView());
       this.quickViewNavigator.register(QUICK_VIEW_REGISTRY_ID, () => new QuickView());
     } catch (err) {
-      Logger.write(`${this.LOG_SOURCE} (onInit) - ${err}`, LogLevel.Error);
+      console.error(
+        `${this.LOG_SOURCE} (onInit) -- Could not initialize web part. - ${err}`
+      );
     }
     return Promise.resolve();
   }

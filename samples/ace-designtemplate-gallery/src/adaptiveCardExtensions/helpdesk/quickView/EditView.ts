@@ -2,9 +2,8 @@ import { ISPFxAdaptiveCard, BaseAdaptiveCardView, IActionArguments, ISubmitActio
 import { find } from '@microsoft/sp-lodash-subset';
 import * as strings from 'HelpdeskAdaptiveCardExtensionStrings';
 import { HelpDeskTicket } from '../../../common/models/designtemplate.models';
-import { IHelpdeskAdaptiveCardExtensionProps, IHelpdeskAdaptiveCardExtensionState } from '../HelpdeskAdaptiveCardExtension';
-import { Logger, LogLevel } from "@pnp/logging";
 import { dtg } from '../../../common/services/designtemplate.service';
+import { IHelpdeskAdaptiveCardExtensionProps, IHelpdeskAdaptiveCardExtensionState } from '../HelpdeskAdaptiveCardExtension';
 
 export interface IEditViewData {
   ticket: HelpDeskTicket;
@@ -46,7 +45,9 @@ export class EditView extends BaseAdaptiveCardView<
         }
       }
     } catch (err) {
-      Logger.write(`${this.LOG_SOURCE} (onAction) - ${err} `, LogLevel.Error);
+      console.error(
+        `${this.LOG_SOURCE} (onAction) -- click event not handled. - ${err}`
+      );
     }
   }
 }

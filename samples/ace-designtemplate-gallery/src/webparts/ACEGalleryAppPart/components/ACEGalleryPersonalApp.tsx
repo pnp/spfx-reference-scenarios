@@ -1,6 +1,5 @@
 import * as React from 'react';
 import styles from './AceDesignTemplatePersonalApp.module.scss';
-import { Logger, LogLevel } from "@pnp/logging";
 import { AppData, DeepLinkData } from '../../../common/models/designtemplate.models';
 import AppDetails from './organisms/AppDetails';
 import AppList from './organisms/AppList';
@@ -32,7 +31,9 @@ export default class ACEGalleryPersonalApp extends React.Component<IACEGalleryPe
     try {
       this.state = new ACEGalleryPersonalAppState(this.props.appData, this.props.deepLink);
     } catch (err) {
-      Logger.write(`${this.LOG_SOURCE} (constructor) - ${err}`, LogLevel.Error);
+      console.error(
+        `${this.LOG_SOURCE} (constructor) - ${err}`
+      );
     }
   }
 
@@ -41,7 +42,9 @@ export default class ACEGalleryPersonalApp extends React.Component<IACEGalleryPe
 
       this.setState({ appData: selectedApp });
     } catch (err) {
-      Logger.write(`${this.LOG_SOURCE} (_onCardClick) - ${err}`, LogLevel.Error);
+      console.error(
+        `${this.LOG_SOURCE} (_onCardClick) - error clicking app card ${err}`
+      );
     }
   }
 
@@ -49,7 +52,9 @@ export default class ACEGalleryPersonalApp extends React.Component<IACEGalleryPe
     try {
       this.setState({ appData: null, deepLink: null });
     } catch (err) {
-      Logger.write(`${this.LOG_SOURCE} (_onBackClick) - ${err}`, LogLevel.Error);
+      console.error(
+        `${this.LOG_SOURCE} (_onBackClick) - error clicking app card ${err}`
+      );
     }
   }
 

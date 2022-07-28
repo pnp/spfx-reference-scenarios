@@ -5,8 +5,6 @@ import { CardView } from './cardView/CardView';
 import { QuickView } from './quickView/QuickView';
 import { ConfirmView } from './quickView/ConfirmView';
 
-import { Logger, LogLevel, ConsoleListener } from "@pnp/logging";
-
 import { dtg } from '../../common/services/designtemplate.service';
 import { Event, EventRegistration, IEventRegistration } from '../../common/models/designtemplate.models';
 
@@ -34,14 +32,10 @@ export default class EventscheduleAdaptiveCardExtension extends BaseAdaptiveCard
   private LOG_SOURCE: string = "🔶 Event Schedule Adaptive Card Extension";
   private _deferredPropertyPane: EventschedulePropertyPane | undefined;
 
-  public onInit(): Promise<void> {
+  public async onInit(): Promise<void> {
     try {
-      //Initialize PnPLogger
-      Logger.subscribe(new ConsoleListener());
-      Logger.activeLogLevel = LogLevel.Info;
-
       //Initialize Service
-      dtg.Init();
+      await dtg.Init(this.context.serviceScope);
 
       //Get the data for the app
       const eventsApp: Event = dtg.GetEvents();
@@ -53,12 +47,15 @@ export default class EventscheduleAdaptiveCardExtension extends BaseAdaptiveCard
         showRegister: false,
         registrationData: new EventRegistration()
       };
+
       //Register the cards
       this.cardNavigator.register(CARD_VIEW_REGISTRY_ID, () => new CardView());
       this.quickViewNavigator.register(QUICK_VIEW_REGISTRY_ID, () => new QuickView());
       this.quickViewNavigator.register(CONFIRM_VIEW_REGISTRY_ID, () => new ConfirmView());
     } catch (err) {
-      Logger.write(`${this.LOG_SOURCE} (onInit) - ${err}`, LogLevel.Error);
+      console.error(
+        `${this.LOG_SOURCE} (onInit) -- Could not initialize web part. - ${err}`
+      );
     }
     return Promise.resolve();
   }
