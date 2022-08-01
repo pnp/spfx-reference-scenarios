@@ -1,7 +1,14 @@
 import { cloneDeep, find } from "@microsoft/sp-lodash-subset";
 import { PageContext } from "@microsoft/sp-page-context";
+import { ServiceKey, ServiceScope } from "@microsoft/sp-core-library";
+import "@pnp/sp/webs";
+import "@pnp/sp/lists";
 import "@pnp/sp/fields/list";
 import "@pnp/sp/views";
+import { IView } from "@pnp/sp/views/types";
+import { spfi, SPFI, SPFx } from "@pnp/sp";
+
+import { IListAddResult, ILists } from "@pnp/sp/lists";
 import {
   DateTimeFieldFormatType,
   CalendarType,
@@ -30,9 +37,7 @@ import {
   HelpDeskTicket,
   IFieldList
 } from "../models/designtemplate.models";
-import { IView } from "@pnp/sp/views/types";
-import { spfi, SPFI, SPFx } from "@pnp/sp";
-import { ServiceKey, ServiceScope } from "@microsoft/sp-core-library";
+
 
 export interface IDesignTemplateGalleryService {
   readonly ready: boolean;
@@ -897,50 +902,68 @@ export class DesignTemplateGalleryService implements IDesignTemplateGalleryServi
     return retVal;
   }
 
-  // public async createList(listName: string, listDescription: string, fieldList: IFieldList[]): Promise<boolean> {
-  //   let retVal = false;
-  //   try {
-  //     const list: IListAddResult = await sp.web.lists.add(listName, `${listName} ${listDescription} List`, 101);
-  //     for (let i = 0; i < fieldList.length; i++) {
-  //       if (fieldList[i].props.FieldTypeKind === 2) {
-  //         await sp.web.lists
-  //           .getById(list.data.Id)
-  //           .fields.addText(fieldList[i].name);
-  //       } else if (fieldList[i].props.FieldTypeKind === 3) {
-  //         await sp.web.lists
-  //           .getById(list.data.Id)
-  //           .fields.createFieldAsXml(
-  //             `<Field Type="Note" Name="${fieldList[i].name}" DisplayName="${fieldList[i].name}" Required="FALSE" RichText="TRUE" RichTextMode="FullHtml" />`
-  //           );
-  //       } else if (fieldList[i].props.FieldTypeKind === 4) {
-  //         await sp.web.lists
-  //           .getById(list.data.Id)
-  //           .fields.addDateTime(fieldList[i].name, DateTimeFieldFormatType.DateTime, CalendarType.Gregorian, DateTimeFieldFriendlyFormatType.Disabled);
-  //       } else if (fieldList[i].props.FieldTypeKind === 6) {
-  //         await sp.web.lists
-  //           .getById(list.data.Id)
-  //           .fields.addChoice(fieldList[i].name, fieldList[i].props.choices);
-  //       } else if (fieldList[i].props.FieldTypeKind === 11) {
-  //         await sp.web.lists
-  //           .getById(list.data.Id)
-  //           .fields.addUrl(fieldList[i].name, UrlFieldFormatType.Hyperlink);
-  //       } else if (fieldList[i].props.FieldTypeKind === 12) {
-  //         await sp.web.lists
-  //           .getById(list.data.Id)
-  //           .fields.addNumber(fieldList[i].name);
-  //       }
-  //     }
-  //     const view: IView = await sp.web.lists.getById(list.data.Id)
-  //       .defaultView;
-  //     for (let i = 0; i < fieldList.length; i++) {
-  //       await view.fields.add(fieldList[i].name);
-  //     }
-  //     retVal = true;
-  //   } catch (err) {
-  //     console.error(`${this.LOG_SOURCE} (createList) - ${err}`);
-  //   }
-  //   return retVal;
-  // }
+  public async createList(
+    listName: string,
+    listDescription: string,
+    fieldList: IFieldList[]
+  ): Promise<boolean> {
+    let retVal = false;
+    try {
+      const list: IListAddResult = await this._sp.web.lists.add(
+        listName,
+        `${listName} ${listDescription} List`,
+        101,
+        false,
+        { OnQuickLaunch: true }
+      );
+      for (let i = 0; i < fieldList.length; i++) {
+        if (fieldList[i].props.FieldTypeKind === 2) {
+          await this._sp.web.lists
+            .getById(list.data.Id)
+            .fields.addText(fieldList[i].name);
+        } else if (fieldList[i].props.FieldTypeKind === 3) {
+          await this._sp.web.lists
+            .getById(list.data.Id)
+            .fields.createFieldAsXml(
+              `<Field Type="Note" Name="${fieldList[i].name}" DisplayName="${fieldList[i].name}" Required="FALSE" RichText="TRUE" RichTextMode="FullHtml" />`
+            );
+        } else if (fieldList[i].props.FieldTypeKind === 4) {
+          await this._sp.web.lists
+            .getById(list.data.Id)
+            .fields.addDateTime(fieldList[i].name, {
+              DisplayFormat: DateTimeFieldFormatType.DateTime,
+              DateTimeCalendarType: CalendarType.Gregorian,
+              FriendlyDisplayFormat: DateTimeFieldFriendlyFormatType.Disabled,
+            });
+        } else if (fieldList[i].props.FieldTypeKind === 6) {
+          await this._sp.web.lists
+            .getById(list.data.Id)
+            .fields.addChoice(fieldList[i].name, {
+              Choices: fieldList[i].props.choices,
+            });
+        } else if (fieldList[i].props.FieldTypeKind === 11) {
+          await this._sp.web.lists
+            .getById(list.data.Id)
+            .fields.addUrl(fieldList[i].name, {
+              DisplayFormat: UrlFieldFormatType.Hyperlink,
+            });
+        } else if (fieldList[i].props.FieldTypeKind === 12) {
+          await this._sp.web.lists
+            .getById(list.data.Id)
+            .fields.addNumber(fieldList[i].name);
+        }
+      }
+      const view: IView = await this._sp.web.lists.getById(list.data.Id)
+        .defaultView;
+      for (let i = 0; i < fieldList.length; i++) {
+        await view.fields.add(fieldList[i].name);
+      }
+      retVal = true;
+    } catch (err) {
+      console.error(`${this.LOG_SOURCE}:(createList) - ${err}`);
+    }
+    return retVal;
+  }
 
   public async GetLocationData(latitude: string, longitude: string, apiKey: string): Promise<string> {
     let retVal: string = "";
@@ -952,6 +975,23 @@ export class DesignTemplateGalleryService implements IDesignTemplateGalleryServi
     } catch (err) {
       console.error(
         `${this.LOG_SOURCE} (GetLocationData) -- error generating link to BingMaps. - ${err}`
+      );
+    }
+    return retVal;
+  }
+
+  public async checkList(listName: string): Promise<boolean> {
+    let retVal = false;
+    try {
+      const lists: ILists = this._sp.web.lists;
+      const list = await lists.filter(`Title eq '${listName}'`)();
+
+      if (list.length > 0) {
+        retVal = true;
+      }
+    } catch (err) {
+      console.error(
+        `${this.LOG_SOURCE} (checkList) - ${err}`
       );
     }
     return retVal;

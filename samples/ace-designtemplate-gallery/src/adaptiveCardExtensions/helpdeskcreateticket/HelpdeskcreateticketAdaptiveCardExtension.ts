@@ -13,6 +13,7 @@ export interface IHelpdeskcreateticketAdaptiveCardExtensionProps {
   title: string;
   iconProperty: string;
   bingMapsKey: string;
+  listExists: boolean;
 }
 
 export interface IHelpdeskcreateticketAdaptiveCardExtensionState {
@@ -30,6 +31,7 @@ export default class HelpdeskcreateticketAdaptiveCardExtension extends BaseAdapt
 > {
   private LOG_SOURCE: string = "🔶 Help Desk Create Ticket Adaptive Card Extension";
   private _deferredPropertyPane: HelpdeskcreateticketPropertyPane | undefined;
+  private _listExists: boolean = false;
 
   public async onInit(): Promise<void> {
     try {
@@ -37,6 +39,9 @@ export default class HelpdeskcreateticketAdaptiveCardExtension extends BaseAdapt
 
       //Initialize Service
       await dtg.Init(this.context.serviceScope);
+      //Check if the list to hold the images exists
+      this._listExists = await dtg.checkList("HelpDeskTickets");
+      this.properties.listExists = this._listExists;
 
       //Create a new blank ticket
       const ticket: HelpDeskTicket = new HelpDeskTicket();
@@ -77,7 +82,7 @@ export default class HelpdeskcreateticketAdaptiveCardExtension extends BaseAdapt
     )
       .then(
         (component) => {
-          this._deferredPropertyPane = new component.HelpdeskcreateticketPropertyPane(this.context);
+          this._deferredPropertyPane = new component.HelpdeskcreateticketPropertyPane(this._listExists, this.context);
         }
       );
   }

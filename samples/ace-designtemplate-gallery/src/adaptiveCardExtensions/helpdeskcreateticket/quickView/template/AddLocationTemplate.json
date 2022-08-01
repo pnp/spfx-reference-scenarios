@@ -204,6 +204,7 @@
           ]
         }
       ],
+      "$when": "${$root.libraryExists == true}",
       "selectAction": {
         "title": "$root.strings.AddImageLabel",
         "type": "VivaAction.SelectMedia",

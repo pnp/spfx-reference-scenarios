@@ -5,8 +5,11 @@ declare interface IHelpdeskcreateticketAdaptiveCardExtensionStrings {
   IconPropertyFieldLabel: string;
   BingMapsAPIKeyLabel: string;
   BingMapsAPIKeyDescription: string;
+  AddLibraryLabel: string;
   AddLibraryButton: string;
   AddLibraryDesc: string;
+  LibraryAddedDesc: string;
+  LibraryDesc: string;
   CardViewText: string;
   NewFormHeader: string;
   ConfirmFormHeader: string;
