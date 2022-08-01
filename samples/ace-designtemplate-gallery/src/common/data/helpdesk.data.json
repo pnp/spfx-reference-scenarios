@@ -12,7 +12,7 @@
     "description": "My laptop is displaying a blue screen. I received the update and restart computer alert and I initiated the updates. The laptop has not been able to restart since then. I am unable to attend do my work . Can I please get support ASAP.",
     "latitude": "47.644075",
     "longitude": "-122.125658",
-    "location": "34/137, Redmond, WA",
+    "location": "Microsoft Visitor Center and Company Store",
     "requestType": "Incident"
   },
   {
@@ -29,7 +29,7 @@
     "description": "I need help accessing our time tracking system. I can't log in.",
     "latitude": "47.644075",
     "longitude": "-122.125658",
-    "location": "34/137, Redmond, WA",
+    "location": "Microsoft Visitor Center and Company Store",
     "requestType": "Request"
   }, {
     "incidentNumber": "REQ496675",
@@ -45,7 +45,7 @@
     "description": "I can't connect to the internet in the office.",
     "latitude": "47.644075",
     "longitude": "-122.125658",
-    "location": "34/137, Redmond, WA",
+    "location": "Building 34",
     "requestType": "Request"
   }
 ]

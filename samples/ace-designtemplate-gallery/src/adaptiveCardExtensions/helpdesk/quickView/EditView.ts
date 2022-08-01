@@ -8,6 +8,7 @@ import { IHelpdeskAdaptiveCardExtensionProps, IHelpdeskAdaptiveCardExtensionStat
 export interface IEditViewData {
   ticket: HelpDeskTicket;
   ticketDirectionUrl: string;
+  libraryExists: boolean;
   strings: IHelpdeskAdaptiveCardExtensionStrings;
 }
 
@@ -20,11 +21,16 @@ export class EditView extends BaseAdaptiveCardView<
 
   public get data(): IEditViewData {
     const ticket: HelpDeskTicket = find(this.state.tickets, { incidentNumber: this.state.currentIncidentNumber });
+    let currentLocation: string = "";
+    if (this.properties.currentLat && this.properties.currentLong) {
+      currentLocation = `pos.${this.properties.currentLat}_${this.properties.currentLong}`;
+    }
 
-    const directionsUrl: string = `https://www.bing.com/maps?rtp=~pos.${ticket.latitude}_${ticket.longitude}&rtop=0~1~0&lvl=15&toWww=1&redig=F0A0A658A50247FDB798711217D4CBF3`;
+    const directionsUrl: string = `https://www.bing.com/maps?rtp=${currentLocation}~pos.${ticket.latitude}_${ticket.longitude}&rtop=0~1~0&lvl=15&toWww=1&redig=F0A0A658A50247FDB798711217D4CBF3`;
     return {
       ticket: ticket,
       ticketDirectionUrl: directionsUrl,
+      libraryExists: this.properties.listExists,
       strings: strings,
     };
   }

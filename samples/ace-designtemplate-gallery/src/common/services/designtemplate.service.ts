@@ -68,7 +68,7 @@ export interface IDesignTemplateGalleryService {
   SubmitVaccineAppointment: (request: VaccineAppointment) => void;
   GetCafeterias: () => Cafeteria[];
   GetHelpDeskTicketLink(ticket: HelpDeskTicket): string;
-  GetHelpDeskTickets: () => HelpDeskTicket[];
+  GetHelpDeskTickets: (bingMapsKey: string) => HelpDeskTicket[];
   CloseHelpDeskTickets: (tickets: HelpDeskTicket[], currentTicket: HelpDeskTicket) => HelpDeskTicket[];
   GetLocationData(latitude: string, longitude: string, apiKey: string): Promise<string>;
 }
@@ -835,16 +835,17 @@ export class DesignTemplateGalleryService implements IDesignTemplateGalleryServi
     return retVal;
   }
 
-  public GetHelpDeskTickets(): HelpDeskTicket[] {
+  public GetHelpDeskTickets(bingMapsKey: string): HelpDeskTicket[] {
     let retVal: HelpDeskTicket[] = [];
     try {
       //Sample pulls data from mock
       //To extend pull data from a list of your items
       const tickets: HelpDeskTicket[] = require("../data/helpdesk.data.json");
 
-      //We are manipulating the data here to set teh due dates so there is always relevant data in the sample.
+      //We are manipulating the data here to set the due dates so there is always relevant data in the sample.
       //You can remove this code if you are attaching it to a ticketing system
-      tickets.map((ticket, index) => {
+      tickets.map(async (ticket, index) => {
+        const newTicket = ticket;
         const eventDate: Date = new Date();
         let offset: number = 0;
         if (index === 0) {
@@ -862,21 +863,28 @@ export class DesignTemplateGalleryService implements IDesignTemplateGalleryServi
         if (eventDate.getDate() < 10) {
           datestring = `0${datestring}`;
         }
-        ticket.createDate = `${eventDate.getFullYear().toString()}-${month}-${datestring}T00:00:00Z`;
+        newTicket.createDate = `${eventDate.getFullYear().toString()}-${month}-${datestring}T00:00:00Z`;
 
         //Check if it is overdue
         const today: Date = new Date();
         const dueDate: Date = new Date(today.getFullYear(), today.getMonth(), today.getDate() - 7);
         if (eventDate.getTime() < dueDate.getTime()) {
-          ticket.overdue = true;
+          newTicket.overdue = true;
           const msInDay = 24 * 60 * 60 * 1000;
           const difference = Math.round(Math.abs(Number(dueDate.getTime()) - Number(today.getTime())) / msInDay);
-          ticket.overdueTime = difference.toString();
+          newTicket.overdueTime = difference.toString();
         } else {
-          ticket.overdue = false;
-          ticket.overdueTime = "";
+          newTicket.overdue = false;
+          newTicket.overdueTime = "";
         }
-
+        //Set the location based on the lat and long in the sample data
+        if (bingMapsKey) {
+          const location = await this.GetLocationData(ticket.latitude, ticket.longitude, bingMapsKey);
+          if (location != "") {
+            newTicket.location = location;
+          }
+        }
+        ticket = newTicket;
       });
       retVal = tickets;
 
@@ -978,6 +986,12 @@ export class DesignTemplateGalleryService implements IDesignTemplateGalleryServi
       );
     }
     return retVal;
+  }
+
+  public GetCurrentLocation(): Promise<any> {
+    return new Promise((resolve, reject) => {
+      navigator.geolocation.getCurrentPosition(resolve, reject);
+    });
   }
 
   public async checkList(listName: string): Promise<boolean> {

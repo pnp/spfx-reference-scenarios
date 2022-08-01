@@ -3,7 +3,14 @@ declare interface IHelpdeskAdaptiveCardExtensionStrings {
   GroupName: string;
   TitleFieldLabel: string;
   IconPropertyFieldLabel: string;
-  QuickViewButtonText: striing;
+  BingMapsAPIKeyLabel: string;
+  BingMapsAPIKeyDescription: string;
+  AddLibraryLabel: string;
+  AddLibraryButton: string;
+  AddLibraryDesc: string;
+  LibraryAddedDesc: string;
+  LibraryDesc: string;
+  QuickViewButtonText: string;
   CardViewTextSingular: string;
   CardViewTextPlural: string;
   CardViewNoTasks: string;

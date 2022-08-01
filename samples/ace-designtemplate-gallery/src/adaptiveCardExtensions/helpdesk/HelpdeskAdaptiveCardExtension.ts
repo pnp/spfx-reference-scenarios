@@ -11,6 +11,10 @@ import { dtg } from '../../common/services/designtemplate.service';
 export interface IHelpdeskAdaptiveCardExtensionProps {
   title: string;
   iconProperty: string;
+  bingMapsKey: string;
+  listExists: boolean;
+  currentLat: string;
+  currentLong: string;
 }
 
 export interface IHelpdeskAdaptiveCardExtensionState {
@@ -28,6 +32,7 @@ export default class HelpdeskAdaptiveCardExtension extends BaseAdaptiveCardExten
 > {
   private LOG_SOURCE: string = "🔶 Help Desk Ticket Listing Adaptive Card Extension";
   private _deferredPropertyPane: HelpdeskPropertyPane | undefined;
+  private _listExists: boolean = false;
 
   public async onInit(): Promise<void> {
     try {
@@ -35,8 +40,17 @@ export default class HelpdeskAdaptiveCardExtension extends BaseAdaptiveCardExten
 
       //Initialize Service
       await dtg.Init(this.context.serviceScope);
+      //Check if the list to hold the images exists
+      this._listExists = await dtg.checkList("HelpDeskTickets");
+      this.properties.listExists = this._listExists;
 
-      const tickets: HelpDeskTicket[] = dtg.GetHelpDeskTickets();
+      const { coords } = await dtg.GetCurrentLocation();
+      if (coords) {
+        this.properties.currentLat = coords.latitude;
+        this.properties.currentLong = coords.longitude;
+      }
+
+      const tickets: HelpDeskTicket[] = await dtg.GetHelpDeskTickets(this.properties.bingMapsKey);
 
       //Set the data into state
       this.state = {
@@ -71,7 +85,7 @@ export default class HelpdeskAdaptiveCardExtension extends BaseAdaptiveCardExten
     )
       .then(
         (component) => {
-          this._deferredPropertyPane = new component.HelpdeskPropertyPane();
+          this._deferredPropertyPane = new component.HelpdeskPropertyPane(this._listExists, this.context);
         }
       );
   }

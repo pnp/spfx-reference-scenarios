@@ -162,7 +162,7 @@
           "width": 70,
           "items": [{
             "type": "TextBlock",
-            "text": "${$root.strings.LocationString}",
+            "text": "${ticket.location}",
             "wrap": true
           }]
         }
@@ -185,7 +185,8 @@
           "maxSizePerFile": 200000,
           "supportedFileFormats": ["jpg", "png"]
         },
-        "title": "${$root.strings.UploadImageLabel}"
+        "title": "${$root.strings.UploadImageLabel}",
+        "$when": "${libraryExists == true}"
       }, {
         "type": "Action.Submit",
         "title": "${$root.strings.CloseTicketLabel}",
