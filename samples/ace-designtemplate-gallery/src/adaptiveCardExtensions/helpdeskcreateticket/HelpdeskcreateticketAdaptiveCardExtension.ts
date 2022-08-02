@@ -14,6 +14,7 @@ export interface IHelpdeskcreateticketAdaptiveCardExtensionProps {
   iconProperty: string;
   bingMapsKey: string;
   listExists: boolean;
+  canUpload: boolean;
 }
 
 export interface IHelpdeskcreateticketAdaptiveCardExtensionState {
@@ -40,8 +41,14 @@ export default class HelpdeskcreateticketAdaptiveCardExtension extends BaseAdapt
       //Initialize Service
       await dtg.Init(this.context.serviceScope);
       //Check if the list to hold the images exists
-      this._listExists = await dtg.checkList("HelpDeskTickets");
+      this._listExists = await dtg.CheckList("HelpDeskTickets");
       this.properties.listExists = this._listExists;
+
+      if (this._listExists) {
+        this.properties.canUpload = await dtg.CanUserUpload("HelpDeskTickets");
+      } else {
+        this.properties.canUpload = false;
+      }
 
       //Create a new blank ticket
       const ticket: HelpDeskTicket = new HelpDeskTicket();

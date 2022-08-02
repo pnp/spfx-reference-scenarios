@@ -1,7 +1,7 @@
 {
   "$schema": "https://developer.microsoft.com/en-us/json-schemas/teams/v1.9/MicrosoftTeams.schema.json",
   "manifestVersion": "1.9",
-  "version": "1.0.5",
+  "version": "1.0.6",
   "id": "4a007f51-abb1-4d3a-b753-7c84404936b2",
   "packageName": "ACEDesignTemplates",
   "developer": {
@@ -20,8 +20,8 @@
     "full": "Adaptive Card Extension (ACE) Design Template Gallery and Personal Application"
   },
   "description": {
-    "short": "An example gallery of 12 Adaptive Card Extensions (ACEs) using Viva Connections.",
-    "full": "This Microsoft Teams Personal app provides a gallery to show a collection of 12 Adaptive Card Extensions (ACEs) for use with Viva Connections. Each ACE has a detailed view where you can see images of the different card views as well as get access to the source code and design guidance for building ACEs. These samples provide a demonstration of the art of the possible as well as provide design guidance for laying out different types of data using Adaptive Cards and SPFx. The Teams app shows not only examples of the cards but when used in connection with the Adaptive Card Extensions on the Viva Connections Dashboard provides a place to show how to handle deep linking into Teams."
+    "short": "An example gallery of 14 Adaptive Card Extensions (ACEs) using Viva Connections.",
+    "full": "This Microsoft Teams Personal app provides a gallery to show a collection of 14 Adaptive Card Extensions (ACEs) for use with Viva Connections. Each ACE has a detailed view where you can see images of the different card views as well as get access to the source code and design guidance for building ACEs. These samples provide a demonstration of the art of the possible as well as provide design guidance for laying out different types of data using Adaptive Cards and SPFx. The Teams app shows not only examples of the cards but when used in connection with the Adaptive Card Extensions on the Viva Connections Dashboard provides a place to show how to handle deep linking into Teams."
   },
   "accentColor": "#F9F9FA",
   "staticTabs": [{

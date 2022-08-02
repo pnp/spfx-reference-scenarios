@@ -10,7 +10,7 @@ export interface IAddLocationImagesData {
   imgAdd: string;
   imgChecked: string;
   hasAPIKey: boolean;
-  libraryExists: boolean;
+  canUpload: boolean
   confirmLink: string;
   strings: IHelpdeskcreateticketAdaptiveCardExtensionStrings;
 }
@@ -29,7 +29,7 @@ export class AddLocationImages extends BaseAdaptiveCardView<
       imgAdd: require('../assets/add.svg'),
       imgChecked: require('../assets/check.svg'),
       hasAPIKey: hasAPIKey,
-      libraryExists: this.properties.listExists,
+      canUpload: this.properties.canUpload,
       confirmLink: dtg.GetHelpDeskTicketLink(this.state.ticket),
       strings: strings
     };

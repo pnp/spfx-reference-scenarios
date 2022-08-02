@@ -37,6 +37,7 @@ import {
   HelpDeskTicket,
   IFieldList
 } from "../models/designtemplate.models";
+import { PermissionKind } from "@pnp/sp/security";
 
 
 export interface IDesignTemplateGalleryService {
@@ -71,6 +72,9 @@ export interface IDesignTemplateGalleryService {
   GetHelpDeskTickets: (bingMapsKey: string) => HelpDeskTicket[];
   CloseHelpDeskTickets: (tickets: HelpDeskTicket[], currentTicket: HelpDeskTicket) => HelpDeskTicket[];
   GetLocationData(latitude: string, longitude: string, apiKey: string): Promise<string>;
+  GetCurrentLocation(): Promise<any>;
+  CheckList(listName: string): Promise<boolean>;
+  CanUserUpload(listName: string): Promise<boolean>
 }
 
 export class DesignTemplateGalleryService implements IDesignTemplateGalleryService {
@@ -994,7 +998,7 @@ export class DesignTemplateGalleryService implements IDesignTemplateGalleryServi
     });
   }
 
-  public async checkList(listName: string): Promise<boolean> {
+  public async CheckList(listName: string): Promise<boolean> {
     let retVal = false;
     try {
       const lists: ILists = this._sp.web.lists;
@@ -1003,6 +1007,18 @@ export class DesignTemplateGalleryService implements IDesignTemplateGalleryServi
       if (list.length > 0) {
         retVal = true;
       }
+    } catch (err) {
+      console.error(
+        `${this.LOG_SOURCE} (checkList) - ${err}`
+      );
+    }
+    return retVal;
+  }
+  public async CanUserUpload(listName: string): Promise<boolean> {
+    let retVal = false;
+    try {
+      const list = await this._sp.web.lists.getByTitle(listName);
+      retVal = await list.currentUserHasPermissions(PermissionKind.AddListItems);
     } catch (err) {
       console.error(
         `${this.LOG_SOURCE} (checkList) - ${err}`

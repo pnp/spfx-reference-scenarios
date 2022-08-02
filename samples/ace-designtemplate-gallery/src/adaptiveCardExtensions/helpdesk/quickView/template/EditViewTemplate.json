@@ -186,7 +186,7 @@
           "supportedFileFormats": ["jpg", "png"]
         },
         "title": "${$root.strings.UploadImageLabel}",
-        "$when": "${libraryExists == true}"
+        "$when": "${canUpload == true}"
       }, {
         "type": "Action.Submit",
         "title": "${$root.strings.CloseTicketLabel}",
