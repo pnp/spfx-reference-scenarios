@@ -19,7 +19,7 @@ export class ConfirmView extends BaseAdaptiveCardView<
   IEventscheduleAdaptiveCardExtensionState,
   IConfirmViewData
 > {
-  private LOG_SOURCE: string = "🔶 Event Schedule Confirm View";
+  private LOG_SOURCE = "🔶 Event Schedule Confirm View";
 
   public get data(): IConfirmViewData {
     return {

@@ -19,14 +19,14 @@ export interface ITeamcalendarAdaptiveCardExtensionState {
   selectedAppointments: Appointment[];
 }
 
-const CARD_VIEW_REGISTRY_ID: string = 'Teamcalendar_CARD_VIEW';
-export const QUICK_VIEW_REGISTRY_ID: string = 'Teamcalendar_QUICK_VIEW';
+const CARD_VIEW_REGISTRY_ID = 'Teamcalendar_CARD_VIEW';
+export const QUICK_VIEW_REGISTRY_ID = 'Teamcalendar_QUICK_VIEW';
 
 export default class TeamcalendarAdaptiveCardExtension extends BaseAdaptiveCardExtension<
   ITeamcalendarAdaptiveCardExtensionProps,
   ITeamcalendarAdaptiveCardExtensionState
 > {
-  private LOG_SOURCE: string = "🔶 Team Calendar Adaptive Card Extension";
+  private LOG_SOURCE = "🔶 Team Calendar Adaptive Card Extension";
   private _deferredPropertyPane: TeamcalendarPropertyPane | undefined;
 
   public async onInit(): Promise<void> {

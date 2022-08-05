@@ -20,14 +20,14 @@ export interface IPayslipAdaptiveCardExtensionState {
   currentIndex: number;
 }
 
-const CARD_VIEW_REGISTRY_ID: string = 'Payslip_CARD_VIEW';
-export const QUICK_VIEW_REGISTRY_ID: string = 'Payslip_QUICK_VIEW';
+const CARD_VIEW_REGISTRY_ID = 'Payslip_CARD_VIEW';
+export const QUICK_VIEW_REGISTRY_ID = 'Payslip_QUICK_VIEW';
 
 export default class PayslipAdaptiveCardExtension extends BaseAdaptiveCardExtension<
   IPayslipAdaptiveCardExtensionProps,
   IPayslipAdaptiveCardExtensionState
 > {
-  private LOG_SOURCE: string = "🔶 Payslip Adaptive Card Extension";
+  private LOG_SOURCE = "🔶 Payslip Adaptive Card Extension";
   private _deferredPropertyPane: PayslipPropertyPane | undefined;
 
   public async onInit(): Promise<void> {

@@ -11,27 +11,19 @@ export interface IVaccinationboosterAdaptiveCardExtensionProps {
   title: string;
 }
 
-export interface IVaccinationboosterAdaptiveCardExtensionState {
-
-}
-
-const CARD_VIEW_REGISTRY_ID: string = 'Vaccinationbooster_CARD_VIEW';
-export const QUICK_VIEW_REGISTRY_ID: string = 'Vaccinationbooster_QUICK_VIEW';
+const CARD_VIEW_REGISTRY_ID = 'Vaccinationbooster_CARD_VIEW';
+export const QUICK_VIEW_REGISTRY_ID = 'Vaccinationbooster_QUICK_VIEW';
 
 export default class VaccinationboosterAdaptiveCardExtension extends BaseAdaptiveCardExtension<
-  IVaccinationboosterAdaptiveCardExtensionProps,
-  IVaccinationboosterAdaptiveCardExtensionState
+  IVaccinationboosterAdaptiveCardExtensionProps
 > {
-  private LOG_SOURCE: string = "🔶 Vaccination Booster Adaptive Card Extension";
+  private LOG_SOURCE = "🔶 Vaccination Booster Adaptive Card Extension";
   private _deferredPropertyPane: VaccinationboosterPropertyPane | undefined;
 
   public async onInit(): Promise<void> {
     try {
       await dtg.Init(this.context.serviceScope);
 
-      //Set the data into state
-      this.state = {
-      };
       //Register the cards
       this.cardNavigator.register(CARD_VIEW_REGISTRY_ID, () => new CardView());
       this.quickViewNavigator.register(QUICK_VIEW_REGISTRY_ID, () => new QuickView());

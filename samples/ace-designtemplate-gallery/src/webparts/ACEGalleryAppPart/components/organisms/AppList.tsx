@@ -1,5 +1,4 @@
 import * as React from "react";
-import { isEqual } from "@microsoft/sp-lodash-subset";
 import { AppData } from "../../../../common/models/designtemplate.models";
 import * as strings from "AceDesignTemplatePersonalAppWebPartStrings";
 
@@ -8,25 +7,11 @@ export interface IAppListProps {
   onCardClick: (AppData) => void;
 }
 
-export interface IAppListState {
-}
-
-export class AppListState implements IAppListState {
-  constructor() { }
-}
-
-export default class AppList extends React.Component<IAppListProps, IAppListState> {
-  private LOG_SOURCE: string = "🔶 AppList";
+export default class AppList extends React.Component<IAppListProps> {
+  private LOG_SOURCE = "🔶 AppList";
 
   constructor(props: IAppListProps) {
     super(props);
-    this.state = new AppListState();
-  }
-
-  public shouldComponentUpdate(nextProps: Readonly<IAppListProps>, nextState: Readonly<IAppListState>) {
-    if ((isEqual(nextState, this.state) && isEqual(nextProps, this.props)))
-      return false;
-    return true;
   }
 
   public render(): React.ReactElement<IAppListProps> {

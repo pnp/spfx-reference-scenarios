@@ -18,14 +18,14 @@ export interface ITimelineholidayAdaptiveCardExtensionState {
   nextHoliday: Holiday;
 }
 
-const CARD_VIEW_REGISTRY_ID: string = 'Timelineholiday_CARD_VIEW';
-export const QUICK_VIEW_REGISTRY_ID: string = 'Timelineholiday_QUICK_VIEW';
+const CARD_VIEW_REGISTRY_ID = 'Timelineholiday_CARD_VIEW';
+export const QUICK_VIEW_REGISTRY_ID = 'Timelineholiday_QUICK_VIEW';
 
 export default class TimelineholidayAdaptiveCardExtension extends BaseAdaptiveCardExtension<
   ITimelineholidayAdaptiveCardExtensionProps,
   ITimelineholidayAdaptiveCardExtensionState
 > {
-  private LOG_SOURCE: string = "🔶 Timeline-Holiday Adaptive Card Extension";
+  private LOG_SOURCE = "🔶 Timeline-Holiday Adaptive Card Extension";
   private _deferredPropertyPane: TimelineholidayPropertyPane | undefined;
 
   public async onInit(): Promise<void> {

@@ -612,7 +612,7 @@ export interface IHelpDeskTicket {
   requestType?: string;
   overdue?: boolean;
   overdueTime?: string;
-  imageName?: string;
+  imageNames?: string[];
 }
 
 export interface IDemoUser {
@@ -644,7 +644,7 @@ export class HelpDeskTicket implements IHelpDeskTicket {
     public requestType: string = "",
     public overdue: boolean = false,
     public overdueTime: string = "",
-    public imageName: string = "",
+    public imageNames: string[] = [],
   ) { }
 }
 

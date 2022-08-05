@@ -1,5 +1,4 @@
 import * as React from "react";
-import { isEqual } from "@microsoft/sp-lodash-subset";
 import { IIconType } from "../../../../common/models/designtemplate.models";
 
 export interface IButtonActionProps {
@@ -8,25 +7,11 @@ export interface IButtonActionProps {
   onClick: React.MouseEventHandler<HTMLButtonElement>;
 }
 
-export interface IButtonActionState {
-}
-
-export class ButtonActionState implements IButtonActionState {
-  constructor() { }
-}
-
-export default class ButtonAction extends React.Component<IButtonActionProps, IButtonActionState> {
-  private LOG_SOURCE: string = "🔶ButtonAction";
+export default class ButtonAction extends React.Component<IButtonActionProps> {
+  private LOG_SOURCE = "🔶ButtonAction";
 
   constructor(props: IButtonActionProps) {
     super(props);
-    this.state = new ButtonActionState();
-  }
-
-  public shouldComponentUpdate(nextProps: IButtonActionProps, nextState: IButtonActionState) {
-    if ((isEqual(nextState, this.state) && isEqual(nextProps, this.props)))
-      return false;
-    return true;
   }
 
   public render(): React.ReactElement<IButtonActionProps> {

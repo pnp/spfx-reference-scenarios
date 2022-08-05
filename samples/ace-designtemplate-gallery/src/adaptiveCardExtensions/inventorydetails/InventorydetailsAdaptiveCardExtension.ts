@@ -17,14 +17,14 @@ export interface IInventorydetailsAdaptiveCardExtensionState {
   app: InventoryDetail;
 }
 
-const CARD_VIEW_REGISTRY_ID: string = 'Inventorydetails_CARD_VIEW';
-export const QUICK_VIEW_REGISTRY_ID: string = 'Inventorydetails_QUICK_VIEW';
+const CARD_VIEW_REGISTRY_ID = 'Inventorydetails_CARD_VIEW';
+export const QUICK_VIEW_REGISTRY_ID = 'Inventorydetails_QUICK_VIEW';
 
 export default class InventorydetailsAdaptiveCardExtension extends BaseAdaptiveCardExtension<
   IInventorydetailsAdaptiveCardExtensionProps,
   IInventorydetailsAdaptiveCardExtensionState
 > {
-  private LOG_SOURCE: string = "🔶 Inventory Details Adaptive Card Extension";
+  private LOG_SOURCE = "🔶 Inventory Details Adaptive Card Extension";
   private _deferredPropertyPane: InventorydetailsPropertyPane | undefined;
 
   public async onInit(): Promise<void> {

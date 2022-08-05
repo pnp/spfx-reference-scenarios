@@ -1,6 +1,5 @@
 import * as React from "react";
 import { AppData, DeepLinkData, DeepLinkType } from "../../../../common/models/designtemplate.models";
-import { isEqual } from "@microsoft/sp-lodash-subset";
 import { Icons } from "../../../../common/models/icons";
 import * as strings from "AceDesignTemplatePersonalAppWebPartStrings";
 import InventoryItem from "../molecules/InventoryItem";
@@ -12,25 +11,11 @@ export interface IAppDetailsProps {
   onBackClick: () => void;
 }
 
-export interface IAppDetailsState {
-}
-
-export class AppDetailsState implements IAppDetailsState {
-  constructor() { }
-}
-
-export default class AppDetails extends React.Component<IAppDetailsProps, IAppDetailsState> {
-  private LOG_SOURCE: string = "🔶 AppDetails";
+export default class AppDetails extends React.Component<IAppDetailsProps> {
+  private LOG_SOURCE = "🔶 AppDetails";
 
   constructor(props: IAppDetailsProps) {
     super(props);
-    this.state = new AppDetailsState();
-  }
-
-  public shouldComponentUpdate(nextProps: Readonly<IAppDetailsProps>, nextState: Readonly<IAppDetailsState>) {
-    if ((isEqual(nextState, this.state) && isEqual(nextProps, this.props)))
-      return false;
-    return true;
   }
 
   public render(): React.ReactElement<IAppDetailsProps> {

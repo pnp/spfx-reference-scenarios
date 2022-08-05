@@ -16,14 +16,14 @@ export interface IVisuallistAdaptiveCardExtensionState {
   cafeterias: Cafeteria[];
 }
 
-const CARD_VIEW_REGISTRY_ID: string = 'Visuallist_CARD_VIEW';
-export const QUICK_VIEW_REGISTRY_ID: string = 'Visuallist_QUICK_VIEW';
+const CARD_VIEW_REGISTRY_ID = 'Visuallist_CARD_VIEW';
+export const QUICK_VIEW_REGISTRY_ID = 'Visuallist_QUICK_VIEW';
 
 export default class VisuallistAdaptiveCardExtension extends BaseAdaptiveCardExtension<
   IVisuallistAdaptiveCardExtensionProps,
   IVisuallistAdaptiveCardExtensionState
 > {
-  private LOG_SOURCE: string = "🔶 Visual List Adaptive Card Extension";
+  private LOG_SOURCE = "🔶 Visual List Adaptive Card Extension";
   private _deferredPropertyPane: VisuallistPropertyPane | undefined;
 
   public async onInit(): Promise<void> {

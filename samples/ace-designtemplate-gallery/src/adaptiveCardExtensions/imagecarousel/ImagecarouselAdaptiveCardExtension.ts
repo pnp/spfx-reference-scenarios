@@ -21,14 +21,14 @@ export interface IImagecarouselAdaptiveCardExtensionState {
   nextIndex: number;
 }
 
-const CARD_VIEW_REGISTRY_ID: string = 'Imagecarousel_CARD_VIEW';
-export const QUICK_VIEW_REGISTRY_ID: string = 'Imagecarousel_QUICK_VIEW';
+const CARD_VIEW_REGISTRY_ID = 'Imagecarousel_CARD_VIEW';
+export const QUICK_VIEW_REGISTRY_ID = 'Imagecarousel_QUICK_VIEW';
 
 export default class ImagecarouselAdaptiveCardExtension extends BaseAdaptiveCardExtension<
   IImagecarouselAdaptiveCardExtensionProps,
   IImagecarouselAdaptiveCardExtensionState
 > {
-  private LOG_SOURCE: string = "🔶 Image Carousel Adaptive Card Extension";
+  private LOG_SOURCE = "🔶 Image Carousel Adaptive Card Extension";
   private _deferredPropertyPane: ImagecarouselPropertyPane | undefined;
 
   public async onInit(): Promise<void> {

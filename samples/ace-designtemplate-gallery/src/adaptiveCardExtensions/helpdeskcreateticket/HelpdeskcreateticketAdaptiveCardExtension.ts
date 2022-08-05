@@ -20,19 +20,20 @@ export interface IHelpdeskcreateticketAdaptiveCardExtensionProps {
 export interface IHelpdeskcreateticketAdaptiveCardExtensionState {
   ticket: HelpDeskTicket;
   listCreated: boolean;
+  errorMessage: string;
 }
 
-const CARD_VIEW_REGISTRY_ID: string = 'Helpdeskcreateticket_CARD_VIEW';
-export const QUICK_VIEW_REGISTRY_ID: string = 'Helpdeskcreateticket_QUICK_VIEW';
-export const ADDLOCATION_VIEW_REGISTRY_ID: string = 'Helpdeskcreateticket_ADDLOCATION_VIEW';
+const CARD_VIEW_REGISTRY_ID = 'Helpdeskcreateticket_CARD_VIEW';
+export const QUICK_VIEW_REGISTRY_ID = 'Helpdeskcreateticket_QUICK_VIEW';
+export const ADDLOCATION_VIEW_REGISTRY_ID = 'Helpdeskcreateticket_ADDLOCATION_VIEW';
 
 export default class HelpdeskcreateticketAdaptiveCardExtension extends BaseAdaptiveCardExtension<
   IHelpdeskcreateticketAdaptiveCardExtensionProps,
   IHelpdeskcreateticketAdaptiveCardExtensionState
 > {
-  private LOG_SOURCE: string = "🔶 Help Desk Create Ticket Adaptive Card Extension";
+  private LOG_SOURCE = "🔶 Help Desk Create Ticket Adaptive Card Extension";
   private _deferredPropertyPane: HelpdeskcreateticketPropertyPane | undefined;
-  private _listExists: boolean = false;
+  private _listExists = false;
 
   public async onInit(): Promise<void> {
     try {
@@ -61,7 +62,8 @@ export default class HelpdeskcreateticketAdaptiveCardExtension extends BaseAdapt
       //Set the data into state
       this.state = {
         ticket: ticket,
-        listCreated: false
+        listCreated: false,
+        errorMessage: ""
       };
       //Register the cards
       this.cardNavigator.register(CARD_VIEW_REGISTRY_ID, () => new CardView());

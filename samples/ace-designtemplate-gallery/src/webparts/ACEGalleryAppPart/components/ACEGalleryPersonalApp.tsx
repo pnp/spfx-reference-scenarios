@@ -24,7 +24,7 @@ export class ACEGalleryPersonalAppState implements IACEGalleryPersonalAppState {
 }
 
 export default class ACEGalleryPersonalApp extends React.Component<IACEGalleryPersonalAppProps, ACEGalleryPersonalAppState> {
-  private LOG_SOURCE: string = "🔶 ACEGalleryPersonalApp";
+  private LOG_SOURCE = "🔶 ACEGalleryPersonalApp";
 
   constructor(props: IACEGalleryPersonalAppProps) {
     super(props);

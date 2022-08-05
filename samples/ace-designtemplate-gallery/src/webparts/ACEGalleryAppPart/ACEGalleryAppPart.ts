@@ -24,7 +24,7 @@ export interface IACEGalleryAppPartProps {
 
 export default class ACEGalleryAppPart extends BaseClientSideWebPart<IACEGalleryAppPartProps> {
 
-  private LOG_SOURCE: string = "🔶 ACEGalleryAppPart";
+  private LOG_SOURCE = "🔶 ACEGalleryAppPart";
   private _microsoftTeams: IMicrosoftTeams;
   private _linkData: DeepLinkData;
   private _appData: AppData = null;

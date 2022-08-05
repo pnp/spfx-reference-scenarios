@@ -5,6 +5,8 @@ import "@pnp/sp/webs";
 import "@pnp/sp/lists";
 import "@pnp/sp/fields/list";
 import "@pnp/sp/views";
+import "@pnp/sp/files";
+import "@pnp/sp/folders";
 import { IView } from "@pnp/sp/views/types";
 import { spfi, SPFI, SPFx } from "@pnp/sp";
 
@@ -38,6 +40,7 @@ import {
   IFieldList
 } from "../models/designtemplate.models";
 import { PermissionKind } from "@pnp/sp/security";
+import { IFileAddResult } from "@pnp/sp/files";
 
 
 export interface IDesignTemplateGalleryService {
@@ -74,11 +77,12 @@ export interface IDesignTemplateGalleryService {
   GetLocationData(latitude: string, longitude: string, apiKey: string): Promise<string>;
   GetCurrentLocation(): Promise<any>;
   CheckList(listName: string): Promise<boolean>;
-  CanUserUpload(listName: string): Promise<boolean>
+  CanUserUpload(listName: string): Promise<boolean>;
+  AddImage(listName: string, fileName: string, fileContents: Uint8Array): Promise<boolean>;
 }
 
 export class DesignTemplateGalleryService implements IDesignTemplateGalleryService {
-  private LOG_SOURCE: string = "🔶 ACE Design Template Service";
+  private LOG_SOURCE = "🔶 ACE Design Template Service";
   public static readonly serviceKey: ServiceKey<DesignTemplateGalleryService> =
     ServiceKey.create<DesignTemplateGalleryService>(
       "DesignTemplateGalleryService:IDesignTemplateGalleryService",
@@ -87,11 +91,8 @@ export class DesignTemplateGalleryService implements IDesignTemplateGalleryServi
   private _sp: SPFI;
   private _pageContext: PageContext;
   private _ready = false;
-  private _webUrl: string;
-  private _teamsUrl: string = "https://teams.microsoft.com/l/entity/4a007f51-abb1-4d3a-b753-7c84404936b2/com.acedesigntemplate.spfx";
-
-  constructor() {
-  }
+  private _webUrl = "";
+  private _teamsUrl = "https://teams.microsoft.com/l/entity/4a007f51-abb1-4d3a-b753-7c84404936b2/com.acedesigntemplate.spfx";
 
   public async Init(serviceScope: ServiceScope): Promise<void> {
     try {
@@ -419,7 +420,7 @@ export class DesignTemplateGalleryService implements IDesignTemplateGalleryServi
   }
 
   public GetEventRegistrationLink(registration: EventRegistration): string {
-    let retVal: string = "";
+    let retVal = "";
     try {
       //In a real world scenario you would use this method to save the 
       //save data into the system of record.
@@ -504,7 +505,7 @@ export class DesignTemplateGalleryService implements IDesignTemplateGalleryServi
     const retVal: PayPeriod[] = [];
     try {
       const currentDate: Date = new Date();
-      let payPeriodIndex: number = 0;
+      let payPeriodIndex = 0;
       for (let i = 0; i <= 11; i++) {
         let monthEnd: number;
         if (i == 3 || i == 5 || i == 8 || i == 10) {
@@ -524,8 +525,8 @@ export class DesignTemplateGalleryService implements IDesignTemplateGalleryServi
         const payPeriod2Start: Date = new Date(currentDate.getFullYear(), i, 16);
         const monthEndDate: Date = new Date(currentDate.getFullYear(), i, monthEnd);
 
-        let payPeriod1Current: boolean = false;
-        let payPeriod2Current: boolean = false;
+        let payPeriod1Current = false;
+        let payPeriod2Current = false;
         if (currentDate.getMonth() == i) {
           if (currentDate.getDate() <= payPeriod1End.getDate()) {
             payPeriod1Current = true;
@@ -598,7 +599,7 @@ export class DesignTemplateGalleryService implements IDesignTemplateGalleryServi
     const retVal: Day[] = [];
     try {
       const currentMonthIndex: number = currentDate.getMonth();
-      let dayCount: number = 31;
+      let dayCount = 31;
       if (currentMonthIndex == 3 || currentMonthIndex == 5 || currentMonthIndex == 8 || currentMonthIndex == 10) {
         dayCount = 30;
       } else if (currentMonthIndex == 1) {
@@ -668,7 +669,7 @@ export class DesignTemplateGalleryService implements IDesignTemplateGalleryServi
         apptStartDate.setMonth(today.getMonth() + 1);
         const apptEndDate: Date = new Date(appt.endDate);
         apptEndDate.setMonth(today.getMonth() + 1);
-        let dateString: string = "";
+        let dateString = "";
         if (apptStartDate.getMonth() == apptEndDate.getMonth() && apptStartDate.getDate() == apptEndDate.getDate()) {
           dateString = Intl.DateTimeFormat(local, { weekday: undefined, year: undefined, month: 'short', day: 'numeric' }).format(apptStartDate);
         } else if (apptStartDate.getDate() != apptEndDate.getDate() && apptStartDate.getMonth() == apptEndDate.getMonth()) {
@@ -824,7 +825,7 @@ export class DesignTemplateGalleryService implements IDesignTemplateGalleryServi
   }
 
   public GetHelpDeskTicketLink(ticket: HelpDeskTicket): string {
-    let retVal: string = "";
+    let retVal = "";
     try {
       //In a real world scenario you would use this method to save the 
       //save data into the system of record.
@@ -851,7 +852,7 @@ export class DesignTemplateGalleryService implements IDesignTemplateGalleryServi
       tickets.map(async (ticket, index) => {
         const newTicket = ticket;
         const eventDate: Date = new Date();
-        let offset: number = 0;
+        let offset = 0;
         if (index === 0) {
           offset = 8;
         } else {
@@ -924,7 +925,7 @@ export class DesignTemplateGalleryService implements IDesignTemplateGalleryServi
       const list: IListAddResult = await this._sp.web.lists.add(
         listName,
         `${listName} ${listDescription} List`,
-        101,
+        109,
         false,
         { OnQuickLaunch: true }
       );
@@ -978,7 +979,7 @@ export class DesignTemplateGalleryService implements IDesignTemplateGalleryServi
   }
 
   public async GetLocationData(latitude: string, longitude: string, apiKey: string): Promise<string> {
-    let retVal: string = "";
+    let retVal = "";
     try {
       const url = `https://dev.virtualearth.net/REST/v1/Locations/${latitude},${longitude}?includeEntityTypes=Address,Neighborhood,PopulatedPlace&key=${apiKey}`;
       const results: any = await fetch(url).then(res => res.json());
@@ -1019,6 +1020,35 @@ export class DesignTemplateGalleryService implements IDesignTemplateGalleryServi
     try {
       const list = await this._sp.web.lists.getByTitle(listName);
       retVal = await list.currentUserHasPermissions(PermissionKind.AddListItems);
+    } catch (err) {
+      console.error(
+        `${this.LOG_SOURCE} (checkList) - ${err}`
+      );
+    }
+    return retVal;
+  }
+
+  public async AddImage(listName: string, fileName: string, fileContents: Uint8Array): Promise<boolean> {
+    let retVal = false;
+    try {
+      const fileNamePath = encodeURI(fileName);
+
+      let result: IFileAddResult;
+      // you can adjust this number to control what size files are uploaded in chunks
+      if (fileContents.length <= 10485760) {
+        // small upload
+        result = await this._sp.web.lists.getByTitle(listName).rootFolder.files.addUsingPath(fileNamePath, fileContents, { Overwrite: true });
+        if (result) {
+          retVal = true;
+        }
+      } else {
+        // large upload
+        //Convert the byteArray to a blob
+        const blob = new Blob([fileContents.buffer]);
+        result = await this._sp.web.lists.getByTitle(listName).rootFolder.files.addChunked(fileNamePath, blob, data => {
+          console.log(`image progress ${data.totalBlocks}`);
+        }, true);
+      }
     } catch (err) {
       console.error(
         `${this.LOG_SOURCE} (checkList) - ${err}`

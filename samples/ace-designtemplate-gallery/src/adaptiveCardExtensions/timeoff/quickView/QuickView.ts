@@ -19,7 +19,7 @@ export class QuickView extends BaseAdaptiveCardView<
   ITimeoffAdaptiveCardExtensionState,
   IQuickViewData
 > {
-  private LOG_SOURCE: string = "🔶 Time off Quick View";
+  private LOG_SOURCE = "🔶 Time off Quick View";
 
   public get data(): IQuickViewData {
     const today: Date = new Date();

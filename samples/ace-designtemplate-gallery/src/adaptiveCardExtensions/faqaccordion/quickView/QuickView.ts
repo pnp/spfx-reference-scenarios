@@ -19,7 +19,7 @@ export class QuickView extends BaseAdaptiveCardView<
   IFaqaccordionAdaptiveCardExtensionState,
   IQuickViewData
 > {
-  private LOG_SOURCE: string = "🔶 FAQ Quick View";
+  private LOG_SOURCE = "🔶 FAQ Quick View";
 
   public get data(): IQuickViewData {
     const upIcon: string = require('../../../common/images/faq-accordion/ico-up.png');

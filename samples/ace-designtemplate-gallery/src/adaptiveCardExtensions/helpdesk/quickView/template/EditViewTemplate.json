@@ -121,29 +121,49 @@
       ]
     },
     {
-      "type": "ColumnSet",
-      "columns": [{
-          "type": "Column",
-          "width": 30,
-          "items": [{
-            "type": "TextBlock",
-            "text": "${$root.strings.ImagesLabel}",
-            "wrap": true,
-            "weight": "Bolder"
-          }]
-        },
-        {
-          "type": "Column",
-          "width": 70,
-          "items": [{
-            "type": "TextBlock",
-            "text": "screen-capture.png",
-            "wrap": true,
-            "color": "accent"
-          }]
-        }
-      ],
-      "spacing": "Large"
+      "type": "Container",
+      "$when": "${count($root.ticket.imageNames) >= 1}",
+      "items": [{
+        "type": "ColumnSet",
+        "columns": [{
+            "type": "Column",
+            "width": 30,
+            "items": [{
+              "type": "TextBlock",
+              "text": "${$root.strings.ImagesLabel}",
+              "wrap": true,
+              "weight": "Bolder"
+            }]
+          },
+          {
+            "type": "Column",
+            "width": 70,
+            "items": [{
+              "type": "Container",
+              "$data": "${$root.ticket.imageNames}",
+              "$when": "${count($root.ticket.imageNames) >= 1}",
+              "items": [{
+                "type": "TextBlock",
+                "text": "${$data}",
+                "wrap": true,
+                "color": "accent"
+              }]
+            }]
+          }
+        ],
+        "spacing": "Large"
+      }]
+    },
+    {
+      "type": "Container",
+      "spacing": "Large",
+      "items": [{
+        "type": "TextBlock",
+        "text": "${$root.errorMessage}",
+        "wrap": true,
+        "color": "attention"
+      }],
+      "$when": "${$root.errorMessage != ''}"
     },
     {
       "type": "ColumnSet",
@@ -181,9 +201,7 @@
         "id": "files",
         "parameters": {
           "mediaType": "MediaType.Image",
-          "allowMultipleCapture": true,
-          "maxSizePerFile": 200000,
-          "supportedFileFormats": ["jpg", "png"]
+          "allowMultipleCapture": true
         },
         "title": "${$root.strings.UploadImageLabel}",
         "$when": "${canUpload == true}"

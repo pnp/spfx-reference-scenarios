@@ -14,7 +14,7 @@ export class QuickView extends BaseAdaptiveCardView<
   IHelpdeskcreateticketAdaptiveCardExtensionState,
   IQuickViewData
 > {
-  private LOG_SOURCE: string = "🔶 Help Desk Create Ticket Quick View";
+  private LOG_SOURCE = "🔶 Help Desk Create Ticket Quick View";
 
   public get data(): IQuickViewData {
     return {
@@ -40,7 +40,7 @@ export class QuickView extends BaseAdaptiveCardView<
           this.setState({ ticket: newTicket });
           this.quickViewNavigator.push(ADDLOCATION_VIEW_REGISTRY_ID, false);
         } else {
-          const newTicket: HelpDeskTicket = new HelpDeskTicket(this.state.ticket.incidentNumber, this.state.ticket.requestedBy, this.state.ticket.createDate, "", "", "New", "", "", "", "", "", false, "", "");
+          const newTicket: HelpDeskTicket = new HelpDeskTicket(this.state.ticket.incidentNumber, this.state.ticket.requestedBy, this.state.ticket.createDate, "", "", "New", "", "", "", "", "", false, "", []);
           this.setState({ ticket: newTicket });
           this.quickViewNavigator.close();
         }

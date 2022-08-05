@@ -17,14 +17,14 @@ export interface IFaqaccordionAdaptiveCardExtensionState {
   faqApp: AccordionList;
 }
 
-const CARD_VIEW_REGISTRY_ID: string = 'Faqaccordion_CARD_VIEW';
-export const QUICK_VIEW_REGISTRY_ID: string = 'Faqaccordion_QUICK_VIEW';
+const CARD_VIEW_REGISTRY_ID = 'Faqaccordion_CARD_VIEW';
+export const QUICK_VIEW_REGISTRY_ID = 'Faqaccordion_QUICK_VIEW';
 
 export default class FaqaccordionAdaptiveCardExtension extends BaseAdaptiveCardExtension<
   IFaqaccordionAdaptiveCardExtensionProps,
   IFaqaccordionAdaptiveCardExtensionState
 > {
-  private LOG_SOURCE: string = "🔶 FAQ Adaptive Card Extension";
+  private LOG_SOURCE = "🔶 FAQ Adaptive Card Extension";
   private _deferredPropertyPane: FaqaccordionPropertyPane | undefined;
 
   public async onInit(): Promise<void> {

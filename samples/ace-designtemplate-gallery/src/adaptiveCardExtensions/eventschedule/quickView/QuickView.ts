@@ -18,7 +18,7 @@ export class QuickView extends BaseAdaptiveCardView<
   IEventscheduleAdaptiveCardExtensionState,
   IQuickViewData
 > {
-  private LOG_SOURCE: string = "🔶 Event Schedule Quick View";
+  private LOG_SOURCE = "🔶 Event Schedule Quick View";
 
   public get data(): IQuickViewData {
     return {

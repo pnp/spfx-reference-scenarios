@@ -1,6 +1,6 @@
 import { ISPFxAdaptiveCard, BaseAdaptiveCardView, ISubmitActionArguments } from '@microsoft/sp-adaptive-card-extension-base';
 import * as strings from 'VaccinationboosterAdaptiveCardExtensionStrings';
-import { IVaccinationboosterAdaptiveCardExtensionProps, IVaccinationboosterAdaptiveCardExtensionState } from '../VaccinationboosterAdaptiveCardExtension';
+import { IVaccinationboosterAdaptiveCardExtensionProps } from '../VaccinationboosterAdaptiveCardExtension';
 import { VaccineAppointment } from '../../../common/models/designtemplate.models';
 import { dtg } from '../../../common/services/designtemplate.service';
 
@@ -12,10 +12,9 @@ export interface IQuickViewData {
 
 export class QuickView extends BaseAdaptiveCardView<
   IVaccinationboosterAdaptiveCardExtensionProps,
-  IVaccinationboosterAdaptiveCardExtensionState,
   IQuickViewData
 > {
-  private LOG_SOURCE: string = "🔶 Vaccine Booster Quick View";
+  private LOG_SOURCE = "🔶 Vaccine Booster Quick View";
   public get data(): IQuickViewData {
     return {
       logo: require('../../../common/images/vaccination-booster/HealthCenterLogo.png'),

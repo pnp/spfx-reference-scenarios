@@ -16,14 +16,14 @@ export interface IBenefitsAdaptiveCardExtensionState {
   benefits: Benefits;
 }
 
-const CARD_VIEW_REGISTRY_ID: string = 'Benefits_CARD_VIEW';
-export const QUICK_VIEW_REGISTRY_ID: string = 'Benefits_QUICK_VIEW';
+const CARD_VIEW_REGISTRY_ID = 'Benefits_CARD_VIEW';
+export const QUICK_VIEW_REGISTRY_ID = 'Benefits_QUICK_VIEW';
 
 export default class BenefitsAdaptiveCardExtension extends BaseAdaptiveCardExtension<
   IBenefitsAdaptiveCardExtensionProps,
   IBenefitsAdaptiveCardExtensionState
 > {
-  private LOG_SOURCE: string = "🔶 Benefits Adaptive Card Extension";
+  private LOG_SOURCE = "🔶 Benefits Adaptive Card Extension";
   private _deferredPropertyPane: BenefitsPropertyPane | undefined;
 
   public async onInit(): Promise<void> {

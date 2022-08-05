@@ -16,14 +16,14 @@ export interface ITimeoffAdaptiveCardExtensionState {
   timeoff: TimeOff;
 }
 
-const CARD_VIEW_REGISTRY_ID: string = 'Timeoff_CARD_VIEW';
-export const QUICK_VIEW_REGISTRY_ID: string = 'Timeoff_QUICK_VIEW';
+const CARD_VIEW_REGISTRY_ID = 'Timeoff_CARD_VIEW';
+export const QUICK_VIEW_REGISTRY_ID = 'Timeoff_QUICK_VIEW';
 
 export default class TimeoffAdaptiveCardExtension extends BaseAdaptiveCardExtension<
   ITimeoffAdaptiveCardExtensionProps,
   ITimeoffAdaptiveCardExtensionState
 > {
-  private LOG_SOURCE: string = "🔶 Time Off Adaptive Card Extension";
+  private LOG_SOURCE = "🔶 Time Off Adaptive Card Extension";
   private _deferredPropertyPane: TimeoffPropertyPane | undefined;
 
   public async onInit(): Promise<void> {

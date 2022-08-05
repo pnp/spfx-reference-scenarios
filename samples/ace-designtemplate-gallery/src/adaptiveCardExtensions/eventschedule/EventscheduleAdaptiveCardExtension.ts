@@ -20,16 +20,16 @@ export interface IEventscheduleAdaptiveCardExtensionState {
   registrationData: IEventRegistration;
 }
 
-const CARD_VIEW_REGISTRY_ID: string = 'Eventschedule_CARD_VIEW';
-export const QUICK_VIEW_REGISTRY_ID: string = 'Eventschedule_QUICK_VIEW';
-export const CONFIRM_VIEW_REGISTRY_ID: string = 'Eventschedule_CONFIRM_VIEW';
+const CARD_VIEW_REGISTRY_ID = 'Eventschedule_CARD_VIEW';
+export const QUICK_VIEW_REGISTRY_ID = 'Eventschedule_QUICK_VIEW';
+export const CONFIRM_VIEW_REGISTRY_ID = 'Eventschedule_CONFIRM_VIEW';
 
 export default class EventscheduleAdaptiveCardExtension extends BaseAdaptiveCardExtension<
   IEventscheduleAdaptiveCardExtensionProps,
   IEventscheduleAdaptiveCardExtensionState
 > {
 
-  private LOG_SOURCE: string = "🔶 Event Schedule Adaptive Card Extension";
+  private LOG_SOURCE = "🔶 Event Schedule Adaptive Card Extension";
   private _deferredPropertyPane: EventschedulePropertyPane | undefined;
 
   public async onInit(): Promise<void> {

@@ -14,7 +14,7 @@ export class QuickView extends BaseAdaptiveCardView<
   IHelpdeskAdaptiveCardExtensionState,
   IQuickViewData
 > {
-  private LOG_SOURCE: string = "🔶 Help Desk Quick View";
+  private LOG_SOURCE = "🔶 Help Desk Quick View";
 
   public get data(): IQuickViewData {
     let numberOfTasks: string = strings.CardViewNoTasks;

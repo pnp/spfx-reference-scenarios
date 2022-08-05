@@ -21,19 +21,20 @@ export interface IHelpdeskAdaptiveCardExtensionProps {
 export interface IHelpdeskAdaptiveCardExtensionState {
   tickets: HelpDeskTicket[];
   currentIncidentNumber: string;
+  errorMessage: string;
 }
 
-const CARD_VIEW_REGISTRY_ID: string = 'Helpdesk_CARD_VIEW';
-export const QUICK_VIEW_REGISTRY_ID: string = 'Helpdesk_QUICK_VIEW';
-export const EDITT_VIEW_REGISTRY_ID: string = 'Helpdesk_EDIT_VIEW';
+const CARD_VIEW_REGISTRY_ID = 'Helpdesk_CARD_VIEW';
+export const QUICK_VIEW_REGISTRY_ID = 'Helpdesk_QUICK_VIEW';
+export const EDITT_VIEW_REGISTRY_ID = 'Helpdesk_EDIT_VIEW';
 
 export default class HelpdeskAdaptiveCardExtension extends BaseAdaptiveCardExtension<
   IHelpdeskAdaptiveCardExtensionProps,
   IHelpdeskAdaptiveCardExtensionState
 > {
-  private LOG_SOURCE: string = "🔶 Help Desk Ticket Listing Adaptive Card Extension";
+  private LOG_SOURCE = "🔶 Help Desk Ticket Listing Adaptive Card Extension";
   private _deferredPropertyPane: HelpdeskPropertyPane | undefined;
-  private _listExists: boolean = false;
+  private _listExists = false;
 
   public async onInit(): Promise<void> {
     try {
@@ -43,26 +44,31 @@ export default class HelpdeskAdaptiveCardExtension extends BaseAdaptiveCardExten
       await dtg.Init(this.context.serviceScope);
       //Check if the list to hold the images exists
       this._listExists = await dtg.CheckList("HelpDeskTickets");
-      this.properties.listExists = this._listExists;
+      // this.properties.listExists = this._listExists;
 
       if (this._listExists) {
         this.properties.canUpload = await dtg.CanUserUpload("HelpDeskTickets");
+        this.properties.canUpload = true;
       } else {
         this.properties.canUpload = false;
       }
 
-      const { coords } = await dtg.GetCurrentLocation();
-      if (coords) {
-        this.properties.currentLat = coords.latitude;
-        this.properties.currentLong = coords.longitude;
-      }
+      //const { coords } = await dtg.GetCurrentLocation();
+      // if (coords) {
+      //   this.properties.currentLat = coords.latitude;
+      //   this.properties.currentLong = coords.longitude;
+      // } else {
+      //   this.properties.currentLat = "";
+      //   this.properties.currentLong = "";
+      // }
 
       const tickets: HelpDeskTicket[] = await dtg.GetHelpDeskTickets(this.properties.bingMapsKey);
 
       //Set the data into state
       this.state = {
         tickets: tickets,
-        currentIncidentNumber: ""
+        currentIncidentNumber: "",
+        errorMessage: ""
 
       };
       //Register the cards

@@ -5,7 +5,7 @@ import { HelpDeskLibraryFields } from '../../common/models/designtemplate.models
 import { dtg } from '../../common/services/designtemplate.service';
 
 export class HelpdeskcreateticketPropertyPane {
-  private LOG_SOURCE: string = "🔶 Help Desk Create Ticket Property Pane";
+  private LOG_SOURCE = "🔶 Help Desk Create Ticket Property Pane";
 
   constructor(
     public listExists: boolean = false,

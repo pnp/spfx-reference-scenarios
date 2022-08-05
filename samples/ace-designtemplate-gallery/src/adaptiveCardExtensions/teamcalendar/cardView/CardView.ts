@@ -13,7 +13,7 @@ export class CardView extends BasePrimaryTextCardView<ITeamcalendarAdaptiveCardE
   public get data(): IPrimaryTextCardParameters {
     const appointments: Appointment[] = cloneDeep(this.state.selectedAppointments);
     const OOO: Appointment[] = appointments.filter(appt => appt.appointmentType.toString() == "OOO");
-    let cardText: string = "";
+    let cardText = "";
     if (appointments.length > 0) {
       if (OOO.length > 0) {
         cardText += `${OOO.length} ${(OOO.length > 1) ? strings.OOFTextPlural : strings.OOFTextSingular}`;

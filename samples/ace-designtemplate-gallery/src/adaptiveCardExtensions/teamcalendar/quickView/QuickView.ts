@@ -20,7 +20,7 @@ export class QuickView extends BaseAdaptiveCardView<
   ITeamcalendarAdaptiveCardExtensionState,
   IQuickViewData
 > {
-  private LOG_SOURCE: string = "🔶 Team Calendar Quick View";
+  private LOG_SOURCE = "🔶 Team Calendar Quick View";
 
   public get data(): IQuickViewData {
 

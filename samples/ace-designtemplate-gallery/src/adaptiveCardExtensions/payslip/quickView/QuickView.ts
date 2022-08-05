@@ -25,7 +25,7 @@ export class QuickView extends BaseAdaptiveCardView<
   IPayslipAdaptiveCardExtensionState,
   IQuickViewData
 > {
-  private LOG_SOURCE: string = "🔶 Payslip Quick View";
+  private LOG_SOURCE = "🔶 Payslip Quick View";
 
   public get data(): IQuickViewData {
     const payslip: Payslip = find(this.state.payslips, { payPeriod: this.state.currentPayPeriod.id });
