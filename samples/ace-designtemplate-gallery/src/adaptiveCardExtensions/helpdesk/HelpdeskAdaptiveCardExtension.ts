@@ -53,15 +53,6 @@ export default class HelpdeskAdaptiveCardExtension extends BaseAdaptiveCardExten
         this.properties.canUpload = false;
       }
 
-      //const { coords } = await dtg.GetCurrentLocation();
-      // if (coords) {
-      //   this.properties.currentLat = coords.latitude;
-      //   this.properties.currentLong = coords.longitude;
-      // } else {
-      //   this.properties.currentLat = "";
-      //   this.properties.currentLong = "";
-      // }
-
       const tickets: HelpDeskTicket[] = await dtg.GetHelpDeskTickets(this.properties.bingMapsKey);
 
       //Set the data into state
