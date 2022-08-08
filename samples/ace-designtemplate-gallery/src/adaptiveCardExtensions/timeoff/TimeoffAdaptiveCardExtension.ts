@@ -3,12 +3,9 @@ import { BaseAdaptiveCardExtension } from '@microsoft/sp-adaptive-card-extension
 import { CardView } from './cardView/CardView';
 import { QuickView } from './quickView/QuickView';
 
-import { Logger, LogLevel, ConsoleListener } from "@pnp/logging";
-
 import { TimeoffPropertyPane } from './TimeoffPropertyPane';
-import { dtg } from '../../common/services/designtemplate.service';
-import * as strings from 'TimeoffAdaptiveCardExtensionStrings';
 import { TimeOff } from '../../common/models/designtemplate.models';
+import { dtg } from '../../common/services/designtemplate.service';
 
 export interface ITimeoffAdaptiveCardExtensionProps {
   iconProperty: string;
@@ -19,24 +16,20 @@ export interface ITimeoffAdaptiveCardExtensionState {
   timeoff: TimeOff;
 }
 
-const CARD_VIEW_REGISTRY_ID: string = 'Timeoff_CARD_VIEW';
-export const QUICK_VIEW_REGISTRY_ID: string = 'Timeoff_QUICK_VIEW';
+const CARD_VIEW_REGISTRY_ID = 'Timeoff_CARD_VIEW';
+export const QUICK_VIEW_REGISTRY_ID = 'Timeoff_QUICK_VIEW';
 
 export default class TimeoffAdaptiveCardExtension extends BaseAdaptiveCardExtension<
   ITimeoffAdaptiveCardExtensionProps,
   ITimeoffAdaptiveCardExtensionState
 > {
-  private LOG_SOURCE: string = "🔶 Time Off Adaptive Card Extension";
+  private LOG_SOURCE = "🔶 Time Off Adaptive Card Extension";
   private _deferredPropertyPane: TimeoffPropertyPane | undefined;
 
-  public onInit(): Promise<void> {
+  public async onInit(): Promise<void> {
     try {
-      //Initialize PnPLogger
-      Logger.subscribe(new ConsoleListener());
-      Logger.activeLogLevel = LogLevel.Info;
-
       //Initialize Service
-      dtg.Init();
+      await dtg.Init(this.context.serviceScope);
 
       const timeoff: TimeOff = dtg.GetTimeOff();
 
@@ -48,7 +41,9 @@ export default class TimeoffAdaptiveCardExtension extends BaseAdaptiveCardExtens
       this.cardNavigator.register(CARD_VIEW_REGISTRY_ID, () => new CardView());
       this.quickViewNavigator.register(QUICK_VIEW_REGISTRY_ID, () => new QuickView());
     } catch (err) {
-      Logger.write(`${this.LOG_SOURCE} (onInit) - ${err}`, LogLevel.Error);
+      console.error(
+        `${this.LOG_SOURCE} (onInit) -- Could not initialize web part. - ${err}`
+      );
     }
     return Promise.resolve();
   }

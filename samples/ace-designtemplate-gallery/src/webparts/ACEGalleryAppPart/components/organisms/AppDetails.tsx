@@ -1,13 +1,9 @@
 import * as React from "react";
-import { Logger, LogLevel } from "@pnp/logging";
 import { AppData, DeepLinkData, DeepLinkType } from "../../../../common/models/designtemplate.models";
-import { isEqual } from "@microsoft/sp-lodash-subset";
 import { Icons } from "../../../../common/models/icons";
 import * as strings from "AceDesignTemplatePersonalAppWebPartStrings";
 import InventoryItem from "../molecules/InventoryItem";
 import ButtonAction from "../atoms/ButtonAction";
-import ButtonIcon from "../atoms/ButtonIcon";
-
 
 export interface IAppDetailsProps {
   appData: AppData;
@@ -15,25 +11,11 @@ export interface IAppDetailsProps {
   onBackClick: () => void;
 }
 
-export interface IAppDetailsState {
-}
-
-export class AppDetailsState implements IAppDetailsState {
-  constructor() { }
-}
-
-export default class AppDetails extends React.Component<IAppDetailsProps, IAppDetailsState> {
-  private LOG_SOURCE: string = "🔶 AppDetails";
+export default class AppDetails extends React.Component<IAppDetailsProps> {
+  private LOG_SOURCE = "🔶 AppDetails";
 
   constructor(props: IAppDetailsProps) {
     super(props);
-    this.state = new AppDetailsState();
-  }
-
-  public shouldComponentUpdate(nextProps: Readonly<IAppDetailsProps>, nextState: Readonly<IAppDetailsState>) {
-    if ((isEqual(nextState, this.state) && isEqual(nextProps, this.props)))
-      return false;
-    return true;
   }
 
   public render(): React.ReactElement<IAppDetailsProps> {
@@ -151,19 +133,19 @@ export default class AppDetails extends React.Component<IAppDetailsProps, IAppDe
               <div className="hoo-teamsdbcard-content">
                 <p>{strings.AboutContent}</p>
                 <p>{strings.MoreInfoHeading}</p>
-                <a href={strings.DesignGuidelinesButtonLink} className="hoo-button-primary" role="button" target="_blank">
+                <a href={strings.DesignGuidelinesButtonLink} className="hoo-button-primary" role="button" target="_blank" rel="noreferrer">
                   <div className="hoo-button-label">{strings.DesignGuidelinesButtonText}</div>
                 </a>
-                <a href={this.props.appData.appGitHubLink} className="hoo-button" role="button" target="_blank">
+                <a href={this.props.appData.appGitHubLink} className="hoo-button" role="button" target="_blank" rel="noreferrer">
                   <div className="hoo-button-label">{strings.ViewSampleButtonText}</div>
                 </a>
-                <a href={this.props.appData.appDesignerLink} className="hoo-button-primary" role="button" target="_blank">
+                <a href={this.props.appData.appDesignerLink} className="hoo-button-primary" role="button" target="_blank" rel="noreferrer">
                   <div className="hoo-button-label">{strings.ACDesignerButtonText}</div>
                 </a>
-                <a href={strings.LearnACButtonLink} className="hoo-button" role="button" target="_blank">
+                <a href={strings.LearnACButtonLink} className="hoo-button" role="button" target="_blank" rel="noreferrer">
                   <div className="hoo-button-label">{strings.LearnACButtonText}</div>
                 </a>
-                <a href={strings.ACTutorialButtonLink} className="hoo-button-primary" role="button" target="_blank">
+                <a href={strings.ACTutorialButtonLink} className="hoo-button-primary" role="button" target="_blank" rel="noreferrer">
                   <div className="hoo-button-label">{strings.ACTutorialButtonText}</div>
                 </a>
               </div>
@@ -172,7 +154,9 @@ export default class AppDetails extends React.Component<IAppDetailsProps, IAppDe
         </>
       );
     } catch (err) {
-      Logger.write(`${this.LOG_SOURCE} (render) - ${err}`, LogLevel.Error);
+      console.error(
+        `${this.LOG_SOURCE} (render) - error rendering component ${err}`
+      );
       return null;
     }
   }

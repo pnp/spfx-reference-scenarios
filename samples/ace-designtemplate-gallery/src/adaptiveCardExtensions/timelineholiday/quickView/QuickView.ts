@@ -19,11 +19,11 @@ export class QuickView extends BaseAdaptiveCardView<
   IQuickViewData
 > {
   public get data(): IQuickViewData {
-    let holidayCount: number[] = [];
+    const holidayCount: number[] = [];
     this.state.years.map((year) => {
-      let holidays: number = 0;
+      let holidays = 0;
       this.state.holidays.map((holiday) => {
-        let date: Date = new Date(holiday.date);
+        const date: Date = new Date(holiday.date);
         if (date.getFullYear().toString() == year) {
           holidays = holidays + 1;
         }
