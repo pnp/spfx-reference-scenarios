@@ -11,7 +11,7 @@ define([], function() {
     "AddLibraryDesc": "This ACE requires a document library called HelpDeskTickets to store uploaded files. Selecting this button will create the library. Users without permissions to write to the document library will not see the image upload button.",
     "LibraryAddedDesc": "Library Configured",
     "LibraryDesc": "List to hold image uploads for Help Desk Ticket ACE.",
-    "QuickViewButtonText":"View my tasks2",
+    "QuickViewButtonText":"View my tasks",
     "CardViewTextSingular":"task pending",
     "CardViewTextPlural":"tasks pending",
     "CardViewNoTasks":"You currently have no tasks pending",

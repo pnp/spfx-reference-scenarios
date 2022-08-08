@@ -14,7 +14,7 @@
     },
     "name": "ACE Design Gallery",
     "id": "4f3fb79b-3289-4c58-88f3-143096550446",
-    "version": "1.0.0.9",
+    "version": "1.0.0.10",
     "includeClientSideAssets": true,
     "skipFeatureDeployment": true,
     "isDomainIsolated": false,

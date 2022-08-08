@@ -1,7 +1,7 @@
 {
   "$schema": "https://developer.microsoft.com/en-us/json-schemas/teams/v1.9/MicrosoftTeams.schema.json",
   "manifestVersion": "1.9",
-  "version": "1.0.9",
+  "version": "1.0.10",
   "id": "4a007f51-abb1-4d3a-b753-7c84404936b2",
   "packageName": "ACEDesignTemplates",
   "developer": {
