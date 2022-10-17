@@ -47,15 +47,6 @@ Version|Date|Comments
 
 ---
 
-## Minimal Path to Awesome
-Follow [this link](./docs/MinimalPathToAwesome.md) learn how to deploy this sample solution.
-
-## Features
-
-The ACEs included in this project allow you to:
-- browse a list of demo orders, via the ListOrders ACE
-- browse and manage (add, update, delete) a list of demo orders, via the ManageOrders ACE
-
 ## References
 
 - [Extend Microsoft Viva Connections Learn Path](https://aka.ms/m365/dev/learn/connections)
