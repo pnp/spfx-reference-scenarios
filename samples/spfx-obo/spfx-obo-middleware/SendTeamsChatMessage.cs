@@ -6,6 +6,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Graph;
 using System.Text;
 using System.Text.Json;
+using PnP.SPFxOBO.Middleware.FunctionsMiddleware;
 
 namespace PnP.SPFxOBO.Middleware
 {
@@ -19,109 +20,94 @@ namespace PnP.SPFxOBO.Middleware
         }
 
         [Function("SendTeamsChatMessage")]
+        [FunctionAuthorize(Scopes = new string[] { "Middleware.Consume" }, RunOnBehalfOf = true)]
         public async Task<HttpResponseData> Run([HttpTrigger(AuthorizationLevel.Anonymous, "post")] HttpRequestData req)
         {
             _logger.LogInformation("SendTeamsChatMessage invoked!");
 
-            if (!req.Headers.Contains("Authorization")) 
+            // And get the OBO token from the context
+            var principalFeature = req.FunctionContext.Features.Get<JwtPrincipalFeature>();
+
+            // If we've got the OBO token
+            if (principalFeature != null && !string.IsNullOrEmpty(principalFeature.OnBehalfOfToken))
             {
-                var missingAuthorizationHeaderResponse = req.CreateResponse(HttpStatusCode.Unauthorized);
-                return missingAuthorizationHeaderResponse;
+                // Build the Microsoft Graph SDK client
+                var graphServiceClient = new GraphServiceClient(new DelegateAuthenticationProvider((requestMessage) =>
+                {
+                    requestMessage
+                        .Headers
+                        .Authorization = new AuthenticationHeaderValue("Bearer", principalFeature.OnBehalfOfToken);
+
+                    return Task.CompletedTask;
+                }));
+
+                // Deserialize the request
+                var body = await DeserializeJsonStringAsync<SendTeamsChatMessageRequest>(
+                    await req.ReadAsStringAsync());
+
+                // Create the new chat
+                var chat = new Chat
+                {
+                    ChatType = ChatType.OneOnOne,
+                    Members = new ChatMembersCollectionPage()
+                };
+
+                // Add myself to the chat
+                var me = await graphServiceClient.Me.Request().GetAsync();
+                chat.Members.Add(new AadUserConversationMember
+                {
+                    Roles = new List<String>()
+                    {
+                        "owner"
+                    },
+                    AdditionalData = new Dictionary<string, object>()
+                    {
+                        {"user@odata.bind", $"https://graph.microsoft.com/v1.0/users('{me.Id}')"}
+                    }
+                });
+
+                // Add the other user to the chat
+                var user = await graphServiceClient.Users[body.MessageTo].Request().GetAsync();
+                chat.Members.Add(new AadUserConversationMember
+                {
+                    Roles = new List<String>()
+                    {
+                        "owner"
+                    },
+                    AdditionalData = new Dictionary<string, object>()
+                    {
+                        {"user@odata.bind", $"https://graph.microsoft.com/v1.0/users('{user.Id}')"}
+                    }
+                });
+
+                // Send the chat group creation request
+                var createdChat = await graphServiceClient.Chats
+                    .Request()
+                    .AddAsync(chat);
+
+                // Build the chat message to send
+                var chatMessage = new ChatMessage
+                {
+                    Body = new ItemBody
+                    {
+                        Content = body.Message,
+                        ContentType = BodyType.Html
+                    }
+                };
+
+                // And send the message to the chat group
+                await graphServiceClient.Chats[createdChat.Id].Messages
+                    .Request()
+                    .AddAsync(chatMessage);
+
+                // Build and send the response
+                var response = req.CreateResponse(HttpStatusCode.OK);
+                return response;
             }
             else
             {
-                // Get the Access Token from the Authorization header
-                var authorizationHeader = req.Headers.GetValues("Authorization");
-                var bearerToken = authorizationHeader.First().Split(" ")[1];
-
-                // And retrieve the OBO token from there
-                var oboAccessToken = await SecurityHelper.GetOboToken(bearerToken);
-
-                // IMPORTANT: This is just for the sake of demo purposes, don't do that in real projects!
-                _logger.LogInformation($"OBO Access Token: {oboAccessToken}");
-
-                // If we've got the OBO token
-                if (!string.IsNullOrEmpty(oboAccessToken))
-                {
-                    // Build the Microsoft Graph SDK client
-                    var graphServiceClient = new GraphServiceClient(new DelegateAuthenticationProvider((requestMessage) =>
-                    {
-                        requestMessage
-                            .Headers
-                            .Authorization = new AuthenticationHeaderValue("Bearer", oboAccessToken);
-
-                        return Task.CompletedTask;
-                    }));
-
-                    // Deserialize the request
-                    var body = await DeserializeJsonStringAsync<SendTeamsChatMessageRequest>(
-                        await req.ReadAsStringAsync());
-
-                    // Create the new chat
-                    var chat = new Chat
-                    {
-                        ChatType = ChatType.OneOnOne,
-                        Members = new ChatMembersCollectionPage()
-                    };
-
-                    // Add myself to the chat
-                    var me = await graphServiceClient.Me.Request().GetAsync();
-                    chat.Members.Add(new AadUserConversationMember
-                    {
-                        Roles = new List<String>()
-                        {
-                            "owner"
-                        },
-                        AdditionalData = new Dictionary<string, object>()
-                        {
-                            {"user@odata.bind", $"https://graph.microsoft.com/v1.0/users('{me.Id}')"}
-                        }
-                    });
-
-                    // Add the other user to the chat
-                    var user = await graphServiceClient.Users[body.MessageTo].Request().GetAsync();
-                    chat.Members.Add(new AadUserConversationMember
-                    {
-                        Roles = new List<String>()
-                        {
-                            "owner"
-                        },
-                        AdditionalData = new Dictionary<string, object>()
-                        {
-                            {"user@odata.bind", $"https://graph.microsoft.com/v1.0/users('{user.Id}')"}
-                        }
-                    });
-
-                    // Send the chat group creation request
-                    var createdChat = await graphServiceClient.Chats
-                        .Request()
-                        .AddAsync(chat);
-
-                    // Build the chat message to send
-                    var chatMessage = new ChatMessage
-                    {
-                        Body = new ItemBody
-                        {
-                            Content = body.Message,
-                            ContentType = BodyType.Html
-                        }
-                    };
-
-                    // And send the message to the chat group
-                    await graphServiceClient.Chats[createdChat.Id].Messages
-                        .Request()
-                        .AddAsync(chatMessage);
-
-                    // Build and send the response
-                    var response = req.CreateResponse(HttpStatusCode.OK);
-                    return response;
-                }
-                else 
-                {
-                    var noObOTokenResponse = req.CreateResponse(HttpStatusCode.Unauthorized);
-                    noObOTokenResponse.WriteString("Unable to retrieve an on-behalf-of token!");
-                    return noObOTokenResponse;
-                }
+                var response = req.CreateResponse(HttpStatusCode.Unauthorized);
+                return response;
             }
         }
 

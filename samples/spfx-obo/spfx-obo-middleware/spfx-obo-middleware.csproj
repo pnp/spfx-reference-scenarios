@@ -11,8 +11,10 @@
     <PackageReference Include="Microsoft.Azure.Functions.Worker" Version="1.8.0" />
     <PackageReference Include="Microsoft.Azure.Functions.Worker.Extensions.Http" Version="3.0.13" />
     <PackageReference Include="Microsoft.Azure.Functions.Worker.Sdk" Version="1.7.0" />
+    <PackageReference Include="Microsoft.Azure.WebJobs" Version="3.0.33" />
     <PackageReference Include="Microsoft.Graph" Version="4.44.0" />
     <PackageReference Include="Microsoft.Identity.Client" Version="4.47.2" />
+    <PackageReference Include="Microsoft.Identity.Web" Version="1.25.3" />
   </ItemGroup>
   <ItemGroup>
     <None Update="host.json">
