@@ -23,7 +23,9 @@ You can find additional technical details about the OBO grant flow reading the [
 
 ## Prerequisites
 
-The SPFx solution relies on a middleware APIs built with .NET 6. The source code of the APIs is available [here](./spfx-obo-middleware) in this repository.
+The SPFx solution relies on a middleware APIs built with .NET 6. The source code of the APIs is available [here](./spfx-obo-middleware) in this repository. You will find two Azure Functions:
+- *GetPersonalData*: takes care of retrieving current user's personal data (UPN and Inbox metrics) using On-Behalf-Of flow with explicit code in the function.
+- *SendTEamsChatMessage*: takes care of sending a teams message in a 1:1 chat relying on some Azure Functions middleware extensions, in order to ease the development process of the function itself and to provide a reusable solution.
 
 The SPFx solution is available [here](./spfx-obo-consumer) in this repository.
 
