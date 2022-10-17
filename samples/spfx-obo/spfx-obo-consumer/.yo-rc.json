@@ -1,0 +1,16 @@
+{
+  "@microsoft/generator-sharepoint": {
+    "plusBeta": false,
+    "isCreatingSolution": true,
+    "version": "1.15.0",
+    "libraryName": "spfx-obo-consumer",
+    "libraryId": "ba3bf8a6-69e1-4def-b7ae-0132bdd285d8",
+    "environment": "spo",
+    "packageManager": "npm",
+    "solutionName": "spfx-obo-consumer",
+    "solutionShortDescription": "spfx-obo-consumer description",
+    "skipFeatureDeployment": true,
+    "isDomainIsolated": false,
+    "componentType": "webpart"
+  }
+}
