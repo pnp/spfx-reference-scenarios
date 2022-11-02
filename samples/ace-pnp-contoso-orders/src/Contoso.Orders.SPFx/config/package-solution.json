@@ -16,10 +16,23 @@
     },
     "webApiPermissionRequests": [
       {
+        "appId": "a47390a4-f0cb-42ee-b3de-0a0af6e44f2d",
+        "replyUrl": "https://aka.ms/m365pnp",
         "resource": "PnP.Contoso.Orders",
         "scope": "Orders.FullControl"
       }
-    ]
+    ],
+    "metadata": {
+      "shortDescription": {
+        "default": "PnP Contoso Orders sample"
+      },
+      "longDescription": {
+        "default": "PnP Contoso Orders sample"
+      },
+      "screenshotPaths": [],
+      "videoUrl": "",
+      "categories": []
+    }
   },
   "paths": {
     "zippedPackage": "solution/contoso-orders.sppkg"

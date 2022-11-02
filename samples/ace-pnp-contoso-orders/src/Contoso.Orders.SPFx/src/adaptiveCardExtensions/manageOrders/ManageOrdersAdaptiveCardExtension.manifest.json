@@ -23,7 +23,8 @@
     "properties": {
       "title": "ManageOrders",
       "description": "ACE to manage a list of Orders",
-      "iconProperty": "" // Default to sharepointlogo
+      "iconProperty": "", // Default to sharepointlogo
+      "serviceBaseUrl": "https://pnp-contoso-orders.azurewebsites.net/"
     }
   }]
 }
