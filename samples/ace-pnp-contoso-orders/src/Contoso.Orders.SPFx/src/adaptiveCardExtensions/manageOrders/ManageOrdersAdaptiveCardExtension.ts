@@ -31,11 +31,11 @@ export interface IManageOrdersAdaptiveCardExtensionState {
   orders?: Order[];
 }
 
-const CARD_VIEW_REGISTRY_ID: string = 'ManageOrders_CARD_VIEW';
-export const LISTORDERS_QUICK_VIEW_REGISTRY_ID: string = 'ListOrders_QUICK_VIEW';
-export const ADDORDER_QUICK_VIEW_REGISTRY_ID: string = 'AddOrder_QUICK_VIEW';
-export const CONFIRM_QUICK_VIEW_REGISTRY_ID: string = 'Confirm_QUICK_VIEW';
-export const ERROR_QUICK_VIEW_REGISTRY_ID: string = 'Error_QUICK_VIEW';
+const CARD_VIEW_REGISTRY_ID = 'ManageOrders_CARD_VIEW';
+export const LISTORDERS_QUICK_VIEW_REGISTRY_ID = 'ListOrders_QUICK_VIEW';
+export const ADDORDER_QUICK_VIEW_REGISTRY_ID = 'AddOrder_QUICK_VIEW';
+export const CONFIRM_QUICK_VIEW_REGISTRY_ID = 'Confirm_QUICK_VIEW';
+export const ERROR_QUICK_VIEW_REGISTRY_ID = 'Error_QUICK_VIEW';
 
 export default class ManageOrdersAdaptiveCardExtension extends BaseAdaptiveCardExtension<
   IManageOrdersAdaptiveCardExtensionProps,

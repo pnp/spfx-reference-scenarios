@@ -22,8 +22,8 @@ export interface IListOrdersAdaptiveCardExtensionState {
   orders?: Order[];
 }
 
-const CARD_VIEW_REGISTRY_ID: string = 'ListOrders_CARD_VIEW';
-export const LISTORDERS_QUICK_VIEW_REGISTRY_ID: string = 'ListOrders_QUICK_VIEW';
+const CARD_VIEW_REGISTRY_ID = 'ListOrders_CARD_VIEW';
+export const LISTORDERS_QUICK_VIEW_REGISTRY_ID = 'ListOrders_QUICK_VIEW';
 
 export default class ListOrdersAdaptiveCardExtension extends BaseAdaptiveCardExtension<
   IListOrdersAdaptiveCardExtensionProps,
