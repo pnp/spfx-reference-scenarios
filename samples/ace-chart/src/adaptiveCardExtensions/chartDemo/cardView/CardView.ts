@@ -12,7 +12,6 @@ import svgToTinyDataUri from "mini-svg-data-uri"
 
 export class CardView extends BaseImageCardView<IChartDemoAdaptiveCardExtensionProps, IChartDemoAdaptiveCardExtensionState> {
 
-
   /**
    * Buttons will not be visible if card size is 'Medium' with Image Card View.
    * It will support up to two buttons for 'Large' card size.
@@ -51,26 +50,24 @@ export class CardView extends BaseImageCardView<IChartDemoAdaptiveCardExtensionP
   }
 }
 
+// this shows how you could create dynamic SVGs for use in the card view. By using the "mini-svg-data-uri" library we can convert SVG markup into an image URL
+// which we can supply to the imageUrl property of the card view above.
 function getSVG(): string {
 
-  const value = svgToTinyDataUri(`<svg xmlns='http://www.w3.org/2000/svg' width="22" height="22" viewBox="0 0 6 20">
-  <g transform='translate(0,0)'>
-      <rect width='4' height='3'></rect>
-      <text x='47' y='9.5' dy='.35em'>5</text>
-  </g>
-  <g transform='translate(0,3)'>
-      <rect width='8' height='3'></rect>
-      <text x='97' y='9.5' dy='.35em'>10</text>
-  </g>
-  <g transform='translate(0,6)'>
-      <rect width='41' height='3'></rect>
-      <text x='117' y='9.5' dy='.35em'>12</text>
-  </g>
-</svg>`);
-
-  console.log(value);
-
-  return value;
+  return svgToTinyDataUri(`<svg xmlns='http://www.w3.org/2000/svg' width="22" height="22" viewBox="0 0 6 20">
+    <g transform='translate(0,0)'>
+        <rect width='4' height='3'></rect>
+        <text x='47' y='9.5' dy='.35em'>5</text>
+    </g>
+    <g transform='translate(0,3)'>
+        <rect width='8' height='3'></rect>
+        <text x='97' y='9.5' dy='.35em'>10</text>
+    </g>
+    <g transform='translate(0,6)'>
+        <rect width='41' height='3'></rect>
+        <text x='117' y='9.5' dy='.35em'>12</text>
+    </g>
+  </svg>`);
 }
 
 

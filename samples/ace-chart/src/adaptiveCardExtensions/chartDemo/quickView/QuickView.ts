@@ -16,13 +16,12 @@ interface RemoteData {
   }[]
 }
 
-export class QuickView extends BaseAdaptiveCardView<
-  IChartDemoAdaptiveCardExtensionProps,
-  IChartDemoAdaptiveCardExtensionState,
-  IQuickViewData
-> {
+export class QuickView extends BaseAdaptiveCardView<IChartDemoAdaptiveCardExtensionProps, IChartDemoAdaptiveCardExtensionState, IQuickViewData> {
+
+
   public get data(): IQuickViewData {
 
+    // a function to get some sample data, this would by async in a real-world situation
     function getData(): RemoteData {
       return {
         rows: [
@@ -66,6 +65,7 @@ export class QuickView extends BaseAdaptiveCardView<
 
     }
 
+    // this function represents a "template" SVG to which we can bind data. SVGs are constructured through an html like markup
     function generateChartSVG(data: RemoteData, title: string = "Qualified Pipeline By Recommendation"): string {
 
       const svg = [];
@@ -89,7 +89,6 @@ export class QuickView extends BaseAdaptiveCardView<
       svg.push(`<text y='8%' x='50%' class='heading' text-anchor='middle' lengthAdjust='spacingAndGlyphs' textLength='70%'>${title}</text>`)
 
       const valueMax = data.rows.sort((a, b) => b.value - a.value)[0].value;
-      console.log(`valueMax: ${valueMax}`);
 
       // bar rows
       data.rows.map((row, index) => {
@@ -145,22 +144,11 @@ export class QuickView extends BaseAdaptiveCardView<
 
       return svgToTinyDataUri(svg.join(""));
     }
-    // show loading
 
-    // if {
-
-    // has cached svg => use it
-
-    // else {
-
-    // fetch data (from cache or server)
-
-    // create svg
-
-    // use it
-
+    // this generates the SVG by combining the data and svg template
     const svg = generateChartSVG(getData(), "Qualified Pipeline By Recommendation");
 
+    // we include the svg in the props that will be bound to the ./templates/QuickViewTemplate.json
     return {
       subTitle: strings.SubTitle,
       title: strings.Title,

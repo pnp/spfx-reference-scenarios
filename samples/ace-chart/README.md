@@ -2,13 +2,19 @@
 
 ## Summary
 
-Short summary on functionality and used technologies.
+This sample shows how to generate a dynamic SVG which you can bind to data, in this case to show a bar chart with various visual features in the quick view. Included is a static sample showing how a dynamic SVG can be included in an L1 card view.
 
-[picture of the solution in action, if possible]
+![CardView](./assets/card-view.png)
+
+The card view showing a generated SVG image
+
+![QuickView](./assets/quick-view.png)
+
+The quick view showing the dynamically generated SVG chart image
 
 ## Used SharePoint Framework Version
 
-![version](https://img.shields.io/badge/version-1.13-green.svg)
+![version](https://img.shields.io/badge/version-1.15.2-green.svg)
 
 ## Applies to
 
@@ -19,13 +25,13 @@ Short summary on functionality and used technologies.
 
 ## Prerequisites
 
-> Any special pre-requisites?
+None
 
 ## Solution
 
 | Solution    | Author(s)                                               |
 | ----------- | ------------------------------------------------------- |
-| folder name | Author details (name, company, twitter alias with link) |
+| ace-chart | Patrick Rodgers (Microsoft) |
 
 ## Version history
 
@@ -56,13 +62,8 @@ Description of the extension that expands upon high-level summary above.
 
 This extension illustrates the following concepts:
 
-- topic 1
-- topic 2
-- topic 3
-
-> Notice that better pictures and documentation will increase the sample usage and the value you are providing for others. Thanks for your submissions advance.
-
-> Share your web part with others through Microsoft 365 Patterns and Practices program to get visibility and exposure. More details on the community, open-source projects and other activities from http://aka.ms/m365pnp.
+- Dynamic SVG templates
+- Generated SVG in card view
 
 ## References
 
