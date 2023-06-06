@@ -1,0 +1,9 @@
+{
+  "profiles": {
+    "contoso_retail_demo_backend": {
+      "commandName": "Project",
+      "commandLineArgs": "--port 7071",
+      "launchBrowser": false
+    }
+  }
+}
