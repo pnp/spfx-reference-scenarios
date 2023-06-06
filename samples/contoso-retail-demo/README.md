@@ -6,19 +6,19 @@ This is a sample end-to-end application, based on demo sample data and on a back
 
 Here you can see the Microsoft Teams personal app in action:
 
-![The Microsoft Teams personal app](../assets/teams-hosted.png)
+![The Microsoft Teams personal app](./assets/teams-hosted.png)
 
 Here you can see the app hosted in Outlook.com:
 
-![The application hosted in Outlook.com](../assets/outlook-hosted.png)
+![The application hosted in Outlook.com](./assets/outlook-hosted.png)
 
 Here you can see the app hosted in the Office Portal as a Microsoft 365 app:
 
-![The application hosted in the Office Portal as a Microsoft 365 app](../assets/office-hosted.png)
+![The application hosted in the Office Portal as a Microsoft 365 app](./assets/office-hosted.png)
 
 Last but not least, here you can see the ACE in action in Microsoft Viva Connection:
 
-![The ACE hosted in Microsoft Viva Connection](../assets/viva-connection-ace.png)
+![The ACE hosted in Microsoft Viva Connection](./assets/viva-connection-ace.png)
 
 ## Used SharePoint Framework Version
 
