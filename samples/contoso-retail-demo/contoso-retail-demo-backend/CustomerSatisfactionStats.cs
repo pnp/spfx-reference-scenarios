@@ -4,6 +4,9 @@ using Contoso.Retail.Demo.Backend.Model;
 using Microsoft.Azure.Functions.Worker;
 using Microsoft.Azure.Functions.Worker.Http;
 using Microsoft.Extensions.Logging;
+using Microsoft.Azure.WebJobs.Extensions.OpenApi.Core.Attributes;
+using Microsoft.Azure.WebJobs.Extensions.OpenApi.Core.Enums;
+using Microsoft.OpenApi.Models;
 
 namespace Contoso.Retail.Demo.Backend
 {
@@ -17,8 +20,11 @@ namespace Contoso.Retail.Demo.Backend
         }
 
         [Function("CustomerSatisfactionStats")]
-        [FunctionAuthorize(Scopes = new string[] { "ContosoRetail.Consume" }, RunOnBehalfOf = false)]
-        public async Task<HttpResponseData> RunAsync([HttpTrigger(AuthorizationLevel.Function, "get")] HttpRequestData req)
+        [OpenApiOperation(operationId: "CustomerSatisfactionStats", tags: new[] { "Retail" })]
+        [OpenApiResponseWithBody(statusCode: HttpStatusCode.OK, contentType: "application/json", bodyType: typeof(CustomerSatisfaction), Description = "The stats about customers' satisfaction")]
+        [OpenApiSecurity("bearer_auth", SecuritySchemeType.Http, Scheme = OpenApiSecuritySchemeType.Bearer, BearerFormat = "JWT")]
+        [FunctionAuthorize(Scopes = new string[] { "ContosoRetail.Consume", "ContosoRetail.Consume.All" }, RunOnBehalfOf = false)]
+        public async Task<HttpResponseData> RunAsync([HttpTrigger(AuthorizationLevel.Anonymous, "get")] HttpRequestData req)
         {
             _logger.LogInformation("CustomerSatisfactionStats function triggered.");
 

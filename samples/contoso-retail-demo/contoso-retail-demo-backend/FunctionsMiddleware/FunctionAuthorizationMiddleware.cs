@@ -66,6 +66,11 @@ namespace Contoso.Retail.Demo.Backend.FunctiosMiddleware
                 // Request made with delegated permissions, check scopes and user roles
                 return AuthorizeDelegatedPermissions(context, principal, acceptedScopes);
             }
+            else if (principal.HasClaim(c => c.Type == ClaimTypes.RoleClaimType))
+            {
+                // Request made with delegated permissions, check scopes and user roles
+                return AuthorizeApplicationPermissions(context, principal, acceptedScopes);
+            }
             else
             {
                 // If we don't have the scope claim, we cannot authorize the request
@@ -77,6 +82,16 @@ namespace Contoso.Retail.Demo.Backend.FunctiosMiddleware
         {
             // Scopes are stored in a single claim, space-separated
             var callerScopes = (principal.FindFirst(ClaimTypes.ScopeClaimType)?.Value ?? "")
+                .Split(' ', StringSplitOptions.RemoveEmptyEntries);
+            var callerHasAcceptedScope = callerScopes.Any(cs => acceptedScopes.Contains(cs));
+
+            return callerHasAcceptedScope;
+        }
+
+        private static bool AuthorizeApplicationPermissions(FunctionContext context, ClaimsPrincipal principal, string[] acceptedScopes)
+        {
+            // Scopes are stored in a single claim, space-separated
+            var callerScopes = (principal.FindFirst(ClaimTypes.RoleClaimType)?.Value ?? "")
                 .Split(' ', StringSplitOptions.RemoveEmptyEntries);
             var callerHasAcceptedScope = callerScopes.Any(cs => acceptedScopes.Contains(cs));
 

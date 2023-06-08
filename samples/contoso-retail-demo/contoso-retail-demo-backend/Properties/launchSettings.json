@@ -2,7 +2,7 @@
   "profiles": {
     "contoso_retail_demo_backend": {
       "commandName": "Project",
-      "commandLineArgs": "--port 7071",
+      "commandLineArgs": "--port 7071 --useHttps --cert \"certificate.pfx\" --password \"P@ssw0rd!\"",
       "launchBrowser": false
     }
   }

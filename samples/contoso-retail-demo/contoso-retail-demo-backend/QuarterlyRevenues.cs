@@ -3,7 +3,10 @@ using Contoso.Retail.Demo.Backend.FunctiosMiddleware;
 using Contoso.Retail.Demo.Backend.Model;
 using Microsoft.Azure.Functions.Worker;
 using Microsoft.Azure.Functions.Worker.Http;
+using Microsoft.Azure.WebJobs.Extensions.OpenApi.Core.Attributes;
+using Microsoft.Azure.WebJobs.Extensions.OpenApi.Core.Enums;
 using Microsoft.Extensions.Logging;
+using Microsoft.OpenApi.Models;
 
 namespace Contoso.Retail.Demo.Backend
 {
@@ -17,15 +20,18 @@ namespace Contoso.Retail.Demo.Backend
         }
 
         [Function("QuarterlyRevenues")]
-        [FunctionAuthorize(Scopes = new string[] { "ContosoRetail.Consume" }, RunOnBehalfOf = false)]
-        public async Task<HttpResponseData> RunAsync([HttpTrigger(AuthorizationLevel.Function, "get")] HttpRequestData req)
+        [OpenApiOperation(operationId: "QuarterlyRevenues", tags: new[] { "Retail" })]
+        [OpenApiResponseWithBody(statusCode: HttpStatusCode.OK, contentType: "application/json", bodyType: typeof(QuarterlyRevenuesData), Description = "The quarterly revenue stats")]
+        [OpenApiSecurity("bearer_auth", SecuritySchemeType.Http, Scheme = OpenApiSecuritySchemeType.Bearer, BearerFormat = "JWT")]
+        [FunctionAuthorize(Scopes = new string[] { "ContosoRetail.Consume", "ContosoRetail.Consume.All" }, RunOnBehalfOf = false)]
+        public async Task<HttpResponseData> RunAsync([HttpTrigger(AuthorizationLevel.Anonymous, "get")] HttpRequestData req)
         {
             _logger.LogInformation("QuarterlyRevenues function triggered.");
 
             // Build the response content
             var responseContent = new QuarterlyRevenuesData
-                {
-                    Revenues = new List<QuarterlyRevenue>(new QuarterlyRevenue[] {
+            {
+                Revenues = new List<QuarterlyRevenue>(new QuarterlyRevenue[] {
                         new QuarterlyRevenue {
                             Quarter = 1,
                             Revenues = 1176342
@@ -43,7 +49,7 @@ namespace Contoso.Retail.Demo.Backend
                             Revenues = 76098003
                         },
                     })
-                };
+            };
 
             // And get the security context
             var principalFeature = req.FunctionContext.Features.Get<JwtPrincipalFeature>();

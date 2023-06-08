@@ -1,8 +1,8 @@
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using Contoso.Retail.Demo.Backend.FunctiosMiddleware;
+using Microsoft.Azure.Functions.Worker.Extensions.OpenApi.Extensions;
 using Microsoft.Extensions.DependencyInjection;
-//using Microsoft.Azure.Functions.Worker.Extensions.OpenApi.Extensions;
 using Microsoft.Extensions.Hosting;
 
 var host = new HostBuilder()
@@ -24,7 +24,7 @@ var host = new HostBuilder()
         builder.UseMiddleware<FunctionAuthenticationMiddleware>();
         builder.UseMiddleware<FunctionAuthorizationMiddleware>();
     })
-    // .ConfigureOpenApi()
+    .ConfigureOpenApi()
     .Build();
 
 host.Run();

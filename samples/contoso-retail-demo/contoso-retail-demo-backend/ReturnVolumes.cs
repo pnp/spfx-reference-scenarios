@@ -3,7 +3,10 @@ using Contoso.Retail.Demo.Backend.FunctiosMiddleware;
 using Contoso.Retail.Demo.Backend.Model;
 using Microsoft.Azure.Functions.Worker;
 using Microsoft.Azure.Functions.Worker.Http;
+using Microsoft.Azure.WebJobs.Extensions.OpenApi.Core.Attributes;
+using Microsoft.Azure.WebJobs.Extensions.OpenApi.Core.Enums;
 using Microsoft.Extensions.Logging;
+using Microsoft.OpenApi.Models;
 
 namespace Contoso.Retail.Demo.Backend
 {
@@ -17,19 +20,22 @@ namespace Contoso.Retail.Demo.Backend
         }
 
         [Function("ReturnVolumes")]
-        [FunctionAuthorize(Scopes = new string[] { "ContosoRetail.Consume" }, RunOnBehalfOf = false)]
-        public async Task<HttpResponseData> RunAsync([HttpTrigger(AuthorizationLevel.Function, "get")] HttpRequestData req)
+        [OpenApiOperation(operationId: "ReturnVolumes", tags: new[] { "Retail" })]
+        [OpenApiResponseWithBody(statusCode: HttpStatusCode.OK, contentType: "application/json", bodyType: typeof(ReturnVolumesData), Description = "The returns volumes stats")]
+        [OpenApiSecurity("bearer_auth", SecuritySchemeType.Http, Scheme = OpenApiSecuritySchemeType.Bearer, BearerFormat = "JWT")]
+        [FunctionAuthorize(Scopes = new string[] { "ContosoRetail.Consume", "ContosoRetail.Consume.All" }, RunOnBehalfOf = false)]
+        public async Task<HttpResponseData> RunAsync([HttpTrigger(AuthorizationLevel.Anonymous, "get")] HttpRequestData req)
         {
             _logger.LogInformation("ReturnVolumes function triggered.");
 
             // Build the response content
             var responseContent = new ReturnVolumesData
-                {
-                    MaximumReturns = 6600,
-                    MaximumInventory = 5500,
-                    CurrentReturns = 2930,
-                    CurrentInventory = 5293,
-                    MonthlyReturns = new List<MonthlyReturn>(
+            {
+                MaximumReturns = 6600,
+                MaximumInventory = 5500,
+                CurrentReturns = 2930,
+                CurrentInventory = 5293,
+                MonthlyReturns = new List<MonthlyReturn>(
                         new MonthlyReturn[] {
                             new MonthlyReturn {
                                 Month = 1,
@@ -93,7 +99,7 @@ namespace Contoso.Retail.Demo.Backend
                             }
                         }
                     )
-                };
+            };
 
             // And get the security context
             var principalFeature = req.FunctionContext.Features.Get<JwtPrincipalFeature>();

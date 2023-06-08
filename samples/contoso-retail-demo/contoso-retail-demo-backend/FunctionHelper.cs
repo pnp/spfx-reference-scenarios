@@ -12,7 +12,14 @@ namespace Contoso.Retail.Demo.Backend
             // If we've got the security context
             if (principalFeature != null)
             {
-                ((BaseResponse)responseContent).CurrentUserUPN = principalFeature.Principal.Identity.Name;
+                if (principalFeature.Principal.Identity.Name != null)
+                {
+                    ((BaseResponse)responseContent).CurrentUserUPN = principalFeature.Principal.Identity.Name;
+                }
+                else
+                {
+                    ((BaseResponse)responseContent).ConsumerAppId = principalFeature.Principal.Claims.FirstOrDefault(c => c.Type == ClaimTypes.AppIdClaimType)?.Value;
+                }
             }
 
             // Build and send the response

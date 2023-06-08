@@ -4,7 +4,10 @@ using Contoso.Retail.Demo.Backend.Model;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.Azure.Functions.Worker;
 using Microsoft.Azure.Functions.Worker.Http;
+using Microsoft.Azure.WebJobs.Extensions.OpenApi.Core.Attributes;
+using Microsoft.Azure.WebJobs.Extensions.OpenApi.Core.Enums;
 using Microsoft.Extensions.Logging;
+using Microsoft.OpenApi.Models;
 
 namespace Contoso.Retail.Demo.Backend
 {
@@ -18,8 +21,11 @@ namespace Contoso.Retail.Demo.Backend
         }
 
         [Function("ImageAsset")]
+        [OpenApiOperation(operationId: "ImageAsset", tags: new[] { "Binary Content" })]
+        [OpenApiParameter("imageFile", Description = "The filename of the image to return", Required = true, Type = typeof(string))]
+        [OpenApiResponseWithBody(statusCode: HttpStatusCode.OK, contentType: "image/png", bodyType: typeof(Stream), Description = "The requested image, if any")]
         [AllowAnonymous]
-        public async Task<HttpResponseData> RunAsync([HttpTrigger(AuthorizationLevel.Function, "get", Route = "images/{imageFile}")] HttpRequestData req, string imageFile)
+        public async Task<HttpResponseData> RunAsync([HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = "images/{imageFile}")] HttpRequestData req, string imageFile)
         {
             _logger.LogInformation($"Requested image file {imageFile}.");
 
@@ -31,7 +37,7 @@ namespace Contoso.Retail.Demo.Backend
                 _logger.LogInformation($"Image file {imageFile} not found.");
                 return req.CreateResponse(HttpStatusCode.NotFound);
             }
-            else 
+            else
             {
                 using (FileStream fs = new FileStream($"assets/{imageFile}", FileMode.Open, FileAccess.Read))
                 {

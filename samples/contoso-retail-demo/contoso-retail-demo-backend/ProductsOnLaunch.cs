@@ -3,7 +3,10 @@ using Contoso.Retail.Demo.Backend.FunctiosMiddleware;
 using Contoso.Retail.Demo.Backend.Model;
 using Microsoft.Azure.Functions.Worker;
 using Microsoft.Azure.Functions.Worker.Http;
+using Microsoft.Azure.WebJobs.Extensions.OpenApi.Core.Attributes;
+using Microsoft.Azure.WebJobs.Extensions.OpenApi.Core.Enums;
 using Microsoft.Extensions.Logging;
+using Microsoft.OpenApi.Models;
 
 namespace Contoso.Retail.Demo.Backend
 {
@@ -17,8 +20,11 @@ namespace Contoso.Retail.Demo.Backend
         }
 
         [Function("ProductsOnLaunch")]
-        [FunctionAuthorize(Scopes = new string[] { "ContosoRetail.Consume" }, RunOnBehalfOf = false)]
-        public async Task<HttpResponseData> RunAsync([HttpTrigger(AuthorizationLevel.Function, "get")] HttpRequestData req)
+        [OpenApiOperation(operationId: "ProductsOnLaunch", tags: new[] { "Retail" })]
+        [OpenApiResponseWithBody(statusCode: HttpStatusCode.OK, contentType: "application/json", bodyType: typeof(Products), Description = "The list of products on launch")]
+        [OpenApiSecurity("bearer_auth", SecuritySchemeType.Http, Scheme = OpenApiSecuritySchemeType.Bearer, BearerFormat = "JWT")]
+        [FunctionAuthorize(Scopes = new string[] { "ContosoRetail.Consume", "ContosoRetail.Consume.All" }, RunOnBehalfOf = false)]
+        public async Task<HttpResponseData> RunAsync([HttpTrigger(AuthorizationLevel.Anonymous, "get")] HttpRequestData req)
         {
             _logger.LogInformation("ProductsOnLaunch function triggered.");
 
@@ -26,8 +32,8 @@ namespace Contoso.Retail.Demo.Backend
 
             // Build the response content
             var responseContent = new Products
-                {
-                    Items = new List<Product>(new Product[] {
+            {
+                Items = new List<Product>(new Product[] {
                         new Product {
                             Code = "P02",
                             Description = "Contoso Denim Jeans",
@@ -45,7 +51,7 @@ namespace Contoso.Retail.Demo.Backend
                             Sales = 9567
                         },
                     })
-                };
+            };
 
             // And get the security context
             var principalFeature = req.FunctionContext.Features.Get<JwtPrincipalFeature>();

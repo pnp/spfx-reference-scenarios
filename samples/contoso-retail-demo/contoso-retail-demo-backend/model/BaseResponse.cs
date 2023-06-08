@@ -9,6 +9,12 @@ namespace Contoso.Retail.Demo.Backend.Model
         public string CurrentUserUPN { get; set; }
 
         /// <summary>
+        /// Provides the App ID of the consumer app
+        /// </summary>
+        /// <value>The value of the App ID of the consumer app</value>
+        public string ConsumerAppId { get; set; }
+
+        /// <summary>
         /// Provides the date and time of the response
         /// </summary>
         /// <value>The date and time of the response</value>

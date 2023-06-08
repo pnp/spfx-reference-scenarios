@@ -74,7 +74,8 @@ namespace Contoso.Retail.Demo.Backend.FunctiosMiddleware
             // Get the FunctionAuthorize attribute, if any
             var allowAnonymousAttribute = targetMethod.GetCustomAttribute<AllowAnonymousAttribute>();
 
-            if (allowAnonymousAttribute != null) {
+            if (allowAnonymousAttribute != null || 
+                targetMethod.DeclaringType?.FullName == "Microsoft.Azure.Functions.Worker.Extensions.OpenApi.DefaultOpenApiHttpTrigger") {
                 // Skip the authentication code because we allow anonymous
                 await next(context);
                 return;
