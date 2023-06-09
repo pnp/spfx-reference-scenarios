@@ -20,8 +20,13 @@ var host = new HostBuilder()
     .ConfigureFunctionsWorkerDefaults((context, builder) =>
     {
         // Credits to Joonas Westlin: https://github.com/juunas11/IsolatedFunctionsAuthentication
-        // I created my implementation starting from there, with some little touches
-        builder.UseMiddleware<FunctionAuthenticationMiddleware>();
+        // I created my implementation starting from there, with some little touches (Application only, OBO flow, etc.)
+        builder.UseWhen<FunctionAuthenticationMiddleware>(functionContext =>
+        {
+            // Only use the middleware if not related to Swagger or OpenApi
+            return !functionContext.FunctionDefinition.Name.Contains("swagger", StringComparison.InvariantCultureIgnoreCase) &&
+                !functionContext.FunctionDefinition.Name.Contains("openapi", StringComparison.InvariantCultureIgnoreCase);
+        });
         builder.UseMiddleware<FunctionAuthorizationMiddleware>();
     })
     .ConfigureOpenApi()

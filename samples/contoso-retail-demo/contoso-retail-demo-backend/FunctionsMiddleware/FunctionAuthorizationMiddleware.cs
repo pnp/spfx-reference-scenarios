@@ -32,7 +32,8 @@ namespace Contoso.Retail.Demo.Backend.FunctiosMiddleware
                 // In case there is the FunctionAuthorize attribute
                 // let's check authorization based on the accepted scopes
                 if (functionAuthorizeAttribute != null && !AuthorizePrincipal(context, 
-                    principalFeature.Principal, functionAuthorizeAttribute.Scopes))
+                    principalFeature.Principal, functionAuthorizeAttribute.Scopes,
+                    functionAuthorizeAttribute.Roles))
                 {
                     context.SetHttpResponseStatusCode(HttpStatusCode.Forbidden);
                     return;
@@ -56,7 +57,7 @@ namespace Contoso.Retail.Demo.Backend.FunctiosMiddleware
             await next(context);
         }
 
-        private static bool AuthorizePrincipal(FunctionContext context, ClaimsPrincipal principal, string[] acceptedScopes)
+        private static bool AuthorizePrincipal(FunctionContext context, ClaimsPrincipal principal, string[] acceptedScopes, string[] acceptedRoles)
         {
             // This authorization implementation was made
             // for Azure AD. Your identity provider might differ.
@@ -69,7 +70,7 @@ namespace Contoso.Retail.Demo.Backend.FunctiosMiddleware
             else if (principal.HasClaim(c => c.Type == ClaimTypes.RoleClaimType))
             {
                 // Request made with delegated permissions, check scopes and user roles
-                return AuthorizeApplicationPermissions(context, principal, acceptedScopes);
+                return AuthorizeApplicationPermissions(context, principal, acceptedRoles);
             }
             else
             {
@@ -83,19 +84,19 @@ namespace Contoso.Retail.Demo.Backend.FunctiosMiddleware
             // Scopes are stored in a single claim, space-separated
             var callerScopes = (principal.FindFirst(ClaimTypes.ScopeClaimType)?.Value ?? "")
                 .Split(' ', StringSplitOptions.RemoveEmptyEntries);
-            var callerHasAcceptedScope = callerScopes.Any(cs => acceptedScopes.Contains(cs));
+            var callerHasAcceptedScopes = callerScopes.Any(cs => acceptedScopes.Contains(cs));
 
-            return callerHasAcceptedScope;
+            return callerHasAcceptedScopes;
         }
 
-        private static bool AuthorizeApplicationPermissions(FunctionContext context, ClaimsPrincipal principal, string[] acceptedScopes)
+        private static bool AuthorizeApplicationPermissions(FunctionContext context, ClaimsPrincipal principal, string[] acceptedRoles)
         {
             // Scopes are stored in a single claim, space-separated
-            var callerScopes = (principal.FindFirst(ClaimTypes.RoleClaimType)?.Value ?? "")
+            var callerRoles = (principal.FindFirst(ClaimTypes.RoleClaimType)?.Value ?? "")
                 .Split(' ', StringSplitOptions.RemoveEmptyEntries);
-            var callerHasAcceptedScope = callerScopes.Any(cs => acceptedScopes.Contains(cs));
+            var callerHasAcceptedRoles = callerRoles.Any(cs => acceptedRoles.Contains(cs));
 
-            return callerHasAcceptedScope;
+            return callerHasAcceptedRoles;
         }
     }
 }

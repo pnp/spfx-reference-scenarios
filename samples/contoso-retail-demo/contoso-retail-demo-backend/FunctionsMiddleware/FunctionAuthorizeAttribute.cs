@@ -20,11 +20,14 @@ namespace Contoso.Retail.Demo.Backend.FunctiosMiddleware
     internal class FunctionAuthorizeAttribute : Attribute
     {
         /// <summary>
-        /// Defines which scopes (aka delegated permissions)
-        /// are accepted. In this sample these
-        /// must be combined with <see cref="UserRoles"/>.
+        /// Defines which scopes (aka delegated permissions) are accepted
         /// </summary>
         public string[] Scopes { get; set; } = Array.Empty<string>();
+
+        /// <summary>
+        /// Defines which roles (aka application permissions) are accepted
+        /// </summary>
+        public string[] Roles { get; set; } = Array.Empty<string>();
 
         /// <summary>
         /// Defines whether to run the request on-behalf-of the current user
