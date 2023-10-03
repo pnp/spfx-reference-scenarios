@@ -12,7 +12,7 @@ import * as strings from 'ConsumeMiddlewareWebPartStrings';
 import ConsumeMiddleware from './components/ConsumeMiddleware';
 import { IConsumeMiddlewareProps } from './components/IConsumeMiddlewareProps';
 
-import { AadHttpClient } from '@microsoft/sp-http';
+import { AadHttpClient, AadTokenProvider } from '@microsoft/sp-http';
 
 export interface IConsumeMiddlewareWebPartProps {
   middlewareUrl: string;
@@ -22,6 +22,8 @@ export default class ConsumeMiddlewareWebPart extends BaseClientSideWebPart<ICon
 
   private _isDarkTheme: boolean = false;
   private _middlewareClient: AadHttpClient;
+  private _spoAccessToken: string = "";
+  private _graphAccessToken: string = "";
 
   public render(): void {
     const element: React.ReactElement<IConsumeMiddlewareProps> = React.createElement(
@@ -31,6 +33,8 @@ export default class ConsumeMiddlewareWebPart extends BaseClientSideWebPart<ICon
         middlewareClient: this._middlewareClient,
         tenantName: this.context.pageContext.site.absoluteUrl.substring(8, this.context.pageContext.site.absoluteUrl.indexOf('sharepoint.com/') + 14),
         siteRelativeUrl: this.context.pageContext.site.serverRelativeUrl,
+        spoAccessToken: this._spoAccessToken,
+        graphAccessToken: this._graphAccessToken,
         isDarkTheme: this._isDarkTheme,
         hasTeamsContext: !!this.context.sdks.microsoftTeams,
         onConfigure: this._onConfigure
@@ -42,6 +46,11 @@ export default class ConsumeMiddlewareWebPart extends BaseClientSideWebPart<ICon
 
   protected async onInit(): Promise<void> {
     this._middlewareClient = await this.context.aadHttpClientFactory.getClient('api://spfx-middleware-apis');
+
+    const tenantName: string = this.context.pageContext.site.absoluteUrl.substring(8, this.context.pageContext.site.absoluteUrl.indexOf('sharepoint.com/') + 14);
+    const tokenProvider: AadTokenProvider = await this.context.aadTokenProviderFactory.getTokenProvider();
+    this._spoAccessToken = await tokenProvider.getToken(`https://${tenantName}`);
+    this._graphAccessToken = await tokenProvider.getToken(`https://graph.microsoft.com`);
   }
 
   private _onConfigure = (): void => {

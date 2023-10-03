@@ -52,7 +52,7 @@ app.UseAuthorization();
 
 var scopeRequiredByApi = app.Configuration["AzureAd:Scopes"] ?? "";
 
-app.MapPost("/consumeWithOBO", async (RequestFromConsumer messageRequest, HttpContext httpContext, IHttpClientFactory httpClientFactory) =>
+app.MapPost("/consumeWithOBO", async (RequestForObo messageRequest, HttpContext httpContext, IHttpClientFactory httpClientFactory) =>
 {
     httpContext.VerifyUserHasAnyAcceptedScope(scopeRequiredByApi);
 
@@ -111,14 +111,34 @@ app.MapPost("/consumeWithOBO", async (RequestFromConsumer messageRequest, HttpCo
 .WithName("consumeWithOBO")
 .RequireAuthorization();
 
-app.MapPost("/consumeWithoutOBO", (RequestFromConsumer messageRequest, HttpContext httpContext) =>
+app.MapPost("/consumeWithoutOBO", async (RequestWithoutObo messageRequest, HttpContext httpContext, IHttpClientFactory httpClientFactory) =>
 {
     httpContext.VerifyUserHasAnyAcceptedScope(scopeRequiredByApi);
 
+    // Prepare an HttpClient to consume SharePoint Online and Microsoft Graph
+    var client = httpClientFactory.CreateClient();
+    client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+
+    // Consume SharePoint Online
+    var spoRequest = new HttpRequestMessage(HttpMethod.Get, $"https://{messageRequest.TenantName}/{messageRequest.SiteRelativeUrl}/_api/web");
+    spoRequest.Headers.Authorization = new AuthenticationHeaderValue("Bearer", messageRequest.SpoAccessToken);
+    var spoResponse = await client.SendAsync(spoRequest);
+
+    // Process the JSON response
+    var web = await spoResponse.Content.ReadFromJsonAsync<SpoWeb>();
+
+    // Consume Microsoft Graph
+    var graphMeRequest = new HttpRequestMessage(HttpMethod.Get, "https://graph.microsoft.com/v1.0/me");
+    graphMeRequest.Headers.Authorization = new AuthenticationHeaderValue("Bearer", messageRequest.GraphAccessToken);
+    var graphMeResponse = await client.SendAsync(graphMeRequest);
+
+    // Process the JSON response
+    var me = await graphMeResponse.Content.ReadFromJsonAsync<GraphUser>();
+
     return new
     {
-        UserPrincipalName = "someone@withoutobo.onmicrosoft.com",
-        WebSiteTitle = "Web Site Title"
+        UserPrincipalName = me.UserPrincipalName,
+        WebSiteTitle = web.Title
     };
 })
 .WithName("consumeWithoutOBO")

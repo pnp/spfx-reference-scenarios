@@ -5,6 +5,8 @@ export interface IConsumeMiddlewareProps {
   middlewareClient: AadHttpClient;
   tenantName: string;
   siteRelativeUrl: string;
+  spoAccessToken: string;
+  graphAccessToken: string;
   isDarkTheme: boolean;
   hasTeamsContext: boolean;
   onConfigure: () => void;
