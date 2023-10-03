@@ -1,0 +1,46 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/spfx-build/package-solution.schema.json",
+  "solution": {
+    "name": "spfx-middleware-consumer-client-side-solution",
+    "id": "42d61a9e-4dc1-4f88-8a09-8259399e81b0",
+    "version": "1.0.0.0",
+    "includeClientSideAssets": true,
+    "skipFeatureDeployment": true,
+    "isDomainIsolated": false,
+    "developer": {
+      "name": "PiaSys.com",
+      "websiteUrl": "https://www.piasys.com/",
+      "privacyUrl": "http://piasys.com/privacy/",
+      "termsOfUseUrl": "",
+      "mpnId": "1075379"
+    },
+    "webApiPermissionRequests": [
+      {
+        "resource": "spfx-middleware-apis",
+        "scope": "Middleware.Consume"
+      }
+    ],
+    "metadata": {
+      "shortDescription": {
+        "default": "spfx-middleware-consumer description"
+      },
+      "longDescription": {
+        "default": "spfx-middleware-consumer description"
+      },
+      "screenshotPaths": [],
+      "videoUrl": "",
+      "categories": []
+    },
+    "features": [
+      {
+        "title": "spfx-middleware-consumer Feature",
+        "description": "The feature that activates elements of the spfx-middleware-consumer solution.",
+        "id": "2e40fca8-9898-41ff-b895-d44c425e3d2b",
+        "version": "1.0.0.0"
+      }
+    ]
+  },
+  "paths": {
+    "zippedPackage": "solution/spfx-middleware-consumer.sppkg"
+  }
+}

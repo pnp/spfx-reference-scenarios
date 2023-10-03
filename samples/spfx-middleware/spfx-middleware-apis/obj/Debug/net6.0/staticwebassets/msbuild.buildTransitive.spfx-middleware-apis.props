@@ -1,0 +1,3 @@
+﻿<Project>
+  <Import Project="..\buildMultiTargeting\spfx-middleware-apis.props" />
+</Project>
