@@ -51,10 +51,7 @@ export default class ConsumeMiddleware extends React.Component<IConsumeMiddlewar
             </div>
             <div className={styles.resultingData}>
               <div className={styles.commandButton}>
-                <PrimaryButton text="Consume SharePoint via middleware the wrong way (without OBO)" onClick={this._consumeMiddlewareWithoutOBO} />
-              </div>
-              <div className={styles.commandButton}>
-                <PrimaryButton text="Consume SharePoint via middleware with OBO" onClick={this._consumeMiddlewareWithOBO} />
+                <PrimaryButton text="Consume SharePoint and Microsoft Graph via middleware with OBO" onClick={this._consumeMiddlewareWithOBO} />
               </div>
               <div className={styles.resultingData}>
                 { userPrincipalName && <div><div>{apiDescription}</div><div>You are {userPrincipalName} and you are on SharePoint Online site with title &quot;{webSiteTitle}&quot;!</div></div> }
@@ -65,45 +62,6 @@ export default class ConsumeMiddleware extends React.Component<IConsumeMiddlewar
         }
       </section>
     );
-  }
-
-  private _consumeMiddlewareWithoutOBO = async (): Promise<void> => {
-    const {
-      middlewareUrl,
-      middlewareClient,
-    } = this.props;
-
-    try {
-      const getApiUrl = `${middlewareUrl}${middlewareUrl.charAt(middlewareUrl.length - 1) === '/' ? '': '/'}consumeWithoutOBO`;
-
-      const requestHeaders: Headers = new Headers();
-      requestHeaders.append('Content-type', 'application/json');
-  
-      console.log(this.props);
-      
-      const requestMessage: IHttpClientOptions = {
-        body: JSON.stringify({
-          tenantName: this.props.tenantName,
-          siteRelativeUrl: this.props.siteRelativeUrl,
-          spoAccessToken: this.props.spoAccessToken,
-          graphAccessToken: this.props.graphAccessToken
-        }),
-        headers: requestHeaders
-      }
-
-      const response = await middlewareClient.post(getApiUrl, AadHttpClient.configurations.v1, requestMessage);
-      const data = await response.json();
-  
-      this.setState({
-        apiDescription: "Middleware without OBO",
-        userPrincipalName: data.userPrincipalName,
-        webSiteTitle: data.webSiteTitle
-      });
-    } catch (ex) {
-      this.setState({
-        errorMessage: ex
-      });
-    }
   }
 
   private _consumeMiddlewareWithOBO = async (): Promise<void> => {
