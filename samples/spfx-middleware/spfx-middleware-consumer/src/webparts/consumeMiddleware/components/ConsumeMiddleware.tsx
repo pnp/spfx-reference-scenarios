@@ -13,7 +13,6 @@ export default class ConsumeMiddleware extends React.Component<IConsumeMiddlewar
     super(props);
     
     this.state = {
-      apiDescription: '',
       errorMessage: ''
     };
   }
@@ -26,7 +25,6 @@ export default class ConsumeMiddleware extends React.Component<IConsumeMiddlewar
     } = this.props;
 
     const {
-      apiDescription,
       userPrincipalName,
       webSiteTitle,
       errorMessage
@@ -54,7 +52,7 @@ export default class ConsumeMiddleware extends React.Component<IConsumeMiddlewar
                 <PrimaryButton text="Consume SharePoint and Microsoft Graph via middleware with OBO" onClick={this._consumeMiddlewareWithOBO} />
               </div>
               <div className={styles.resultingData}>
-                { userPrincipalName && <div><div>{apiDescription}</div><div>You are {userPrincipalName} and you are on SharePoint Online site with title &quot;{webSiteTitle}&quot;!</div></div> }
+                { userPrincipalName && <div>You are {userPrincipalName} and you are on SharePoint Online site with title &quot;{webSiteTitle}&quot;!</div> }
               </div>
             </div>
             { errorMessage && <div className={styles.errorMessage}>{errorMessage}</div> }
@@ -88,7 +86,6 @@ export default class ConsumeMiddleware extends React.Component<IConsumeMiddlewar
       const data = await response.json();
   
       this.setState({
-        apiDescription: "Middleware via OBO",
         userPrincipalName: data.userPrincipalName,
         webSiteTitle: data.webSiteTitle
       });
