@@ -6,7 +6,7 @@
     "shortDescription": "This is a sample solution that illustrates how to consume backend services like Microsoft Graph, SharePoint Online, or any 3rd Party APIs via OBO (on-behalf-of) flow via a middleware from a SPFx solution.",
     "url": "https://github.com/pnp/spfx-reference-scenarios/tree/main/samples/spfx-middleware",
     "longDescription": [
-      "This is a sample solution that illustrates how to consume backend services like Microsoft Graph, SharePoint Online, or any 3rd Party APIs via OBO (on-behalf-of) flow via a middleware from a SPFx solution.",
+      "This is a sample solution that illustrates how to consume backend services like Microsoft Graph, SharePoint Online, or any 3rd Party APIs via OBO (on-behalf-of) flow via a middleware from a SPFx solution."
     ],
     "creationDateTime": "2023-10-04",
     "updateDateTime": "2023-10-04",
