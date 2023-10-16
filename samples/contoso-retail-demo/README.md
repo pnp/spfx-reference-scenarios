@@ -2,7 +2,7 @@
 
 ## Summary
 
-This is a sample end-to-end application, based on demo sample data and on a back-end sample REST API implemented as an Azure Function, that shows you how to create a Microsoft Teams personal app with SharePoint Framework, hosting the solution also in Outlook.com and in the Microsoft 365 Portal as a Microsoft 365 app. The solution also provides a sample Adaptive Card Extension (ACE) for Microsoft Viva Connection, still built with SharePoint Framework. The sample illustrates how to connect the ACE with the Teams personal app, providing custom arguments to the Teams personal app via deep links defined in the ACE.
+This is a sample end-to-end application, based on demo sample data and on a back-end sample REST API implemented as an Azure Function, that shows you how to create a Microsoft Teams personal app with SharePoint Framework, hosting the solution also in Outlook.com and in the Microsoft 365 Portal as a Microsoft 365 app. The solution also provides a sample Adaptive Card Extension (ACE) for Microsoft Viva Connection, still built with SharePoint Framework. The sample illustrates how to connect the ACE with the Teams personal app, providing custom arguments to the Teams personal app via deep links defined in the ACE. The solution also illustrates how you can leverage the Microsoft Teams Toolkit to create a Teams Message Extension to extend the Microsoft Teams Search, consuming a back-end API with Single Sign-On and OAuth.
 
 Here you can see the Microsoft Teams personal app in action:
 
@@ -16,13 +16,21 @@ Here you can see the app hosted in the Office Portal as a Microsoft 365 app:
 
 ![The application hosted in the Office Portal as a Microsoft 365 app](./assets/office-hosted.png)
 
-Last but not least, here you can see the ACE in action in Microsoft Viva Connection:
+Here you can see the ACE in action in Microsoft Viva Connection:
 
 ![The ACE hosted in Microsoft Viva Connection](./assets/viva-connection-ace.png)
 
+Here you can see the Teams Message Extension prompting the user to login:
+
+![The Teams Message Extension prompting the user to sign in](./assets/teams-search-extension-signin.png)
+
+Last but not least, here you can see the Teams Message Extension output when the user is loggen in and Single Sign-on is in place:
+
+![The Teams Message Extension with search capabilities in action](./assets/teams-search-extension-search.png)
+
 ## Used SharePoint Framework Version
 
-![SPFx 1.7.3](https://img.shields.io/badge/version-1.17.3-green.svg)
+![SPFx 1.17.3](https://img.shields.io/badge/version-1.17.3-green.svg)
 
 ## Applies to
 
@@ -41,6 +49,7 @@ Last but not least, here you can see the ACE in action in Microsoft Viva Connect
 
 | Version | Date             | Comments        |
 | ------- | ---------------- | --------------- |
+| 1.2     | October 16, 2023   | Added Teams Message Extension with SSO |
 | 1.1     | June 06, 2023   | Added back-end Azure Function |
 | 1.0     | April 21, 2023   | Initial release |
 

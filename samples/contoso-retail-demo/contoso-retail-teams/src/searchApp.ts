@@ -34,7 +34,7 @@ export class SearchApp extends TeamsActivityHandler {
         context,
         oboAuthConfig,
         initialLoginEndpoint,
-        ["User.Read.All", "User.Read"],
+        ["User.Read"],
         async (token: MessageExtensionTokenResponse) => {
 
           // Get the search query
@@ -46,12 +46,9 @@ export class SearchApp extends TeamsActivityHandler {
             oboAuthConfig
           );
 
-          var contosoRetailToken = await credential.getToken(["api://pnp.contoso.retail/ContosoRetail.Consume"]);
+          var contosoRetailToken = await credential.getToken([`${config.apiUniqueUri}ContosoRetail.Consume`]);
           var contosoRetailTokenValue = contosoRetailToken.token;
-          console.log(contosoRetailTokenValue);
-
-          var apiUrl = `https://pnp-retail-piasys.azurewebsites.net/api/SearchProducts?q=${searchQuery}`;
-          console.log(apiUrl);
+          var apiUrl = `${config.searchApiUrl}?q=${searchQuery}`;
 
           const attachments = [];
           if (query.parameters[0] && query.parameters[0].name === "initialRun") {

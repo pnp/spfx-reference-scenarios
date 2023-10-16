@@ -3,13 +3,13 @@
       "name": "pnp-spfx-reference-scenarios-samples-react-retail-dashboard",
       "source": "pnp",
       "title": "Contoso Retail Dashboard",
-      "shortDescription": "This is a sample end-to-end application, based on demo sample data, that shows you how to create a Microsoft Teams personal app with SharePoint Framework, hosting the solution also in Outlook.com and in the Office portal as a Microsoft 365 app. The solution also provides a sample Adaptive Card Extension (ACE) for Microsoft Viva Connection, still built with SharePoint Framework. The sample illustrates how to connect the ACE with the Teams personal app, providing custom arguments to the Teams personal app via deep links defined in the ACE.",
+      "shortDescription": "This is a sample end-to-end application, based on demo sample data, that shows you how to create a Microsoft Teams personal app with SharePoint Framework, hosting the solution also in Outlook.com and in the Office portal as a Microsoft 365 app. The solution also provides a sample Adaptive Card Extension (ACE) for Microsoft Viva Connection, still built with SharePoint Framework. The sample illustrates how to connect the ACE with the Teams personal app, providing custom arguments to the Teams personal app via deep links defined in the ACE. Last but not least, the solution illustrates how to create a Teams Message Extension for Search using Microsoft Teams Toolkit.",
       "url": "https://github.com/pnp/spfx-reference-scenarios/tree/main/samples/contoso-retail-demo/",
       "longDescription": [
-        "This is a sample end-to-end application, based on demo sample data, that shows you how to create a Microsoft Teams personal app with SharePoint Framework, hosting the solution also in Outlook.com and in the Office portal as a Microsoft 365 app. The solution also provides a sample Adaptive Card Extension (ACE) for Microsoft Viva Connection, still built with SharePoint Framework. The sample illustrates how to connect the ACE with the Teams personal app, providing custom arguments to the Teams personal app via deep links defined in the ACE."
+        "This is a sample end-to-end application, based on demo sample data, that shows you how to create a Microsoft Teams personal app with SharePoint Framework, hosting the solution also in Outlook.com and in the Office portal as a Microsoft 365 app. The solution also provides a sample Adaptive Card Extension (ACE) for Microsoft Viva Connection, still built with SharePoint Framework. The sample illustrates how to connect the ACE with the Teams personal app, providing custom arguments to the Teams personal app via deep links defined in the ACE. Last but not least, the solution illustrates how to create a Teams Message Extension for Search using Microsoft Teams Toolkit."
       ],
       "creationDateTime": "2023-05-26",
-      "updateDateTime": "2023-05-26",
+      "updateDateTime": "2023-10-16",
       "products": [
         "SharePoint",
         "Viva",
@@ -49,6 +49,18 @@
             "order": 400,
             "url": "https://raw.githubusercontent.com/pnp/spfx-reference-scenarios/main/samples/contoso-retail-demo/assets/viva-connection-ace.png",
             "alt": "The ACE hosted in Microsoft Viva Connection"
+        },
+        {
+            "type": "image",
+            "order": 500,
+            "url": "https://raw.githubusercontent.com/pnp/spfx-reference-scenarios/main/samples/contoso-retail-demo/assets/teams-search-extension-signin.png",
+            "alt": "The Teams Message Extension prompting the user to sign in"
+        },
+        {
+            "type": "image",
+            "order": 600,
+            "url": "https://raw.githubusercontent.com/pnp/spfx-reference-scenarios/main/samples/contoso-retail-demo/assets/teams-search-extension-search.png",
+            "alt": "The Teams Message Extension with search capabilities in action"
         }
       ],
       "authors": [
@@ -80,6 +92,16 @@
           "name": "Use Microsoft Graph in your solution",
           "description": "Learn how to consume Microsoft Graph using SharePoint Framework (SPFx).",
           "url": "https://docs.microsoft.com/en-us/sharepoint/dev/spfx/web-parts/get-started/using-microsoft-graph-apis"
+        },
+        {
+          "name": "Teams Toolkit Overview",
+          "description": "Microsoft Teams Toolkit Overview.",
+          "url": "https://learn.microsoft.com/en-us/microsoftteams/platform/toolkit/teams-toolkit-fundamentals?pivots=visual-studio-code-v5"
+        },
+        {
+          "name": "Add single sign-on to Teams app",
+          "description": "Add single sign-on to Teams app.",
+          "url": "https://learn.microsoft.com/en-us/microsoftteams/platform/toolkit/add-single-sign-on?pivots=visual-studio-code-v5"
         },
         {
           "name": "Microsoft 365 Patterns and Practices",

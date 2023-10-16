@@ -28,6 +28,12 @@
     },
     "aadAppOauthAuthorityHost": {
       "value": "${{AAD_APP_OAUTH_AUTHORITY_HOST}}"
+    },
+    "apiUniqueUri": {
+      "value": "${{API_UNIQUE_URI}}"
+    },
+    "searchApiUrl": {
+      "value": "${{SEARCH_API_URL}}"
     }
   }
 }

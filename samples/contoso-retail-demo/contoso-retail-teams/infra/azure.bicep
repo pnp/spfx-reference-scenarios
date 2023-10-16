@@ -16,6 +16,9 @@ param aadAppOauthAuthorityHost string
 @secure()
 param aadAppClientSecret string
 
+param apiUniqueUri string
+param searchApiUrl string
+
 param webAppSKU string
 
 @maxLength(42)
@@ -85,6 +88,8 @@ resource webAppSettings 'Microsoft.Web/sites/config@2021-02-01' = {
     AAD_APP_TENANT_ID: aadAppTenantId
     AAD_APP_OAUTH_AUTHORITY_HOST: aadAppOauthAuthorityHost
     RUNNING_ON_AZURE: '1'
+    API_UNIQUE_URI: apiUniqueUri
+    SEARCH_API_URL: searchApiUrl
   }
 }
 
