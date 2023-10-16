@@ -1,0 +1,110 @@
+{
+    "id": "3d63495a-4f94-4c9a-bc81-f15b4cb2569a",
+    "appId": "cf0922dc-076a-4bfb-a1f5-c1ed0ecbad68",
+    "name": "Contoso-Retail-Teams",
+    "accessTokenAcceptedVersion": 2,
+    "signInAudience": "AzureADMyOrg",
+    "optionalClaims": {
+        "idToken": [],
+        "accessToken": [
+            {
+                "name": "idtyp",
+                "source": null,
+                "essential": false,
+                "additionalProperties": []
+            }
+        ],
+        "saml2Token": []
+    },
+    "requiredResourceAccess": [
+        {
+            "resourceAppId": "3c5664db-fc17-4657-8423-5523a85871df",
+            "resourceAccess": [
+                {
+                    "id": "1696bfb5-be6e-4226-bdd7-7ae3cf0df3b9",
+                    "type": "Scope"
+                }
+            ]
+        },
+        {
+            "resourceAppId": "00000003-0000-0000-c000-000000000000",
+            "resourceAccess": [
+                {
+                    "id": "e1fe6dd8-ba31-4d61-89e7-88639da4683d",
+                    "type": "Scope"
+                }
+            ]
+        }
+    ],
+    "oauth2Permissions": [
+        {
+            "adminConsentDescription": "Allows Teams to call the app's web APIs as the current user.",
+            "adminConsentDisplayName": "Teams can access app's web APIs",
+            "id": "c90011b1-5279-48ca-ac0b-55567027478b",
+            "isEnabled": true,
+            "type": "User",
+            "userConsentDescription": "Enable Teams to call this app's web APIs with the same rights that you have",
+            "userConsentDisplayName": "Teams can access app's web APIs and make requests on your behalf",
+            "value": "access_as_user"
+        }
+    ],
+    "preAuthorizedApplications": [
+        {
+            "appId": "1fec8e78-bce4-4aaf-ab1b-5451cc387264",
+            "permissionIds": [
+                "c90011b1-5279-48ca-ac0b-55567027478b"
+            ]
+        },
+        {
+            "appId": "5e3ce6c0-2b1f-4285-8d4b-75ee78787346",
+            "permissionIds": [
+                "c90011b1-5279-48ca-ac0b-55567027478b"
+            ]
+        },
+        {
+            "appId": "d3590ed6-52b3-4102-aeff-aad2292ab01c",
+            "permissionIds": [
+                "c90011b1-5279-48ca-ac0b-55567027478b"
+            ]
+        },
+        {
+            "appId": "00000002-0000-0ff1-ce00-000000000000",
+            "permissionIds": [
+                "c90011b1-5279-48ca-ac0b-55567027478b"
+            ]
+        },
+        {
+            "appId": "bc59ab01-8403-45c6-8796-ac3ef710b3e3",
+            "permissionIds": [
+                "c90011b1-5279-48ca-ac0b-55567027478b"
+            ]
+        },
+        {
+            "appId": "0ec893e0-5785-4de6-99da-4ed124e5296c",
+            "permissionIds": [
+                "c90011b1-5279-48ca-ac0b-55567027478b"
+            ]
+        },
+        {
+            "appId": "4765445b-32c6-49b0-83e6-1d93765276ca",
+            "permissionIds": [
+                "c90011b1-5279-48ca-ac0b-55567027478b"
+            ]
+        },
+        {
+            "appId": "4345a7b9-9a63-4910-a426-35363201d503",
+            "permissionIds": [
+                "c90011b1-5279-48ca-ac0b-55567027478b"
+            ]
+        }
+    ],
+    "identifierUris": [
+        "api://botid-3ebdbb70-48e9-479f-a13b-9401053f4e63"
+    ],
+    "replyUrlsWithType": [
+        {
+            "url": "https://180lp79w-3978.euw.devtunnels.ms/auth-end.html",
+            "type": "Web"
+        }
+    ]
+}
