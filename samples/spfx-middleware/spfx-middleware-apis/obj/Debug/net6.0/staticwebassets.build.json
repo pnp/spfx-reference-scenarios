@@ -1,0 +1,11 @@
+{
+  "Version": 1,
+  "Hash": "+ZY2LxQ20XHwaKf9QWQJ5dFshajKHM1MySYWdlByyzc=",
+  "Source": "spfx-middleware-apis",
+  "BasePath": "_content/spfx-middleware-apis",
+  "Mode": "Default",
+  "ManifestType": "Build",
+  "ReferencedProjectsConfiguration": [],
+  "DiscoveryPatterns": [],
+  "Assets": []
+}

@@ -9,7 +9,7 @@
       "This example shows an end to end solution with a couple of ACEs which interact with a back-end multi-tenant API. The ACEs are ListOrders, to see a read-only list of orders, and ManageOrders, to list/add/update/delete orders. The solution relies on a back-end multi-tenant API, implemented as an Azure Function App. The source code of the Function App is available in the solution folder, too."
     ],
     "creationDateTime": "2021-11-04",
-    "updateDateTime": "2021-11-04",
+    "updateDateTime": "2022-11-03",
     "products": [
       "SharePoint",
       "Viva"
@@ -21,7 +21,7 @@
       },
       {
         "key": "SPFX-VERSION",
-        "value": "1.13.0"
+        "value": "1.15.2"
       }
     ],
     "thumbnails": [
@@ -46,7 +46,7 @@
     ],
     "authors": [
       {
-        "gitHubAccount": "paolopia",
+        "gitHubAccount": "PaoloPia",
         "company": "PiaSys.com",
         "pictureUrl": "https://github.com/paolopia.png",
         "name": "Paolo Pialorsi",

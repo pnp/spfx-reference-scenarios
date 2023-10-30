@@ -3,7 +3,7 @@
     "plusBeta": false,
     "isCreatingSolution": false,
     "environment": "spo",
-    "version": "1.13.0",
+    "version": "1.15.2",
     "libraryName": "contoso-orders",
     "libraryId": "093eebef-9dbb-4b13-ba09-4da180bceb6d",
     "packageManager": "npm",

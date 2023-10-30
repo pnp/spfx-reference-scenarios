@@ -1,0 +1,46 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/spfx-build/package-solution.schema.json",
+  "solution": {
+    "name": "spfx-obo-consumer-client-side-solution",
+    "id": "ba3bf8a6-69e1-4def-b7ae-0132bdd285d8",
+    "version": "1.0.0.0",
+    "includeClientSideAssets": true,
+    "skipFeatureDeployment": true,
+    "isDomainIsolated": false,
+    "developer": {
+      "name": "PiaSys.com",
+      "websiteUrl": "https://www.piasys.com/",
+      "privacyUrl": "https://www.piasys.com/privacy",
+      "termsOfUseUrl": "https://www.piasys.com/",
+      "mpnId": "1075379"
+    },
+    "webApiPermissionRequests": [
+      {
+        "resource": "spfx-obo-middleware",
+        "scope": "Middleware.Consume"
+      }
+    ],
+    "metadata": {
+      "shortDescription": {
+        "default": "spfx-obo-consumer description"
+      },
+      "longDescription": {
+        "default": "spfx-obo-consumer description"
+      },
+      "screenshotPaths": [],
+      "videoUrl": "",
+      "categories": []
+    },
+    "features": [
+      {
+        "title": "spfx-obo-consumer Feature",
+        "description": "The feature that activates elements of the spfx-obo-consumer solution.",
+        "id": "6c065e9b-830a-44c7-98b5-a43cd3adec9b",
+        "version": "1.0.0.0"
+      }
+    ]
+  },
+  "paths": {
+    "zippedPackage": "solution/spfx-obo-consumer.sppkg"
+  }
+}

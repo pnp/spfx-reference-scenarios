@@ -1,0 +1,3 @@
+func init --worker-runtime dotnet-isolated --target-framework net7.0
+func templates list
+func new --name [Name] --autlevel anonymous --template "HTTP trigger"

@@ -1,0 +1,9 @@
+{
+  "profiles": {
+    "spfx_obo_middleware": {
+      "commandName": "Project",
+      "commandLineArgs": "--port 7135",
+      "launchBrowser": false
+    }
+  }
+}
