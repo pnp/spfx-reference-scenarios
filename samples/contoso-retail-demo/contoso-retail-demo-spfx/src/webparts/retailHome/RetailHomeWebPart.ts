@@ -4,6 +4,7 @@ import { Version } from '@microsoft/sp-core-library';
 import { IPropertyPaneConfiguration } from '@microsoft/sp-property-pane';
 import { BaseClientSideWebPart } from '@microsoft/sp-webpart-base';
 import { IReadonlyTheme } from '@microsoft/sp-component-base';
+import { initializeIcons } from 'office-ui-fabric-react';
 
 import * as strings from 'RetailHomeWebPartStrings';
 import RetailHome from './components/RetailHome';
@@ -54,6 +55,13 @@ export default class RetailHomeWebPart extends BaseClientSideWebPart<IRetailHome
     } else {
       this._retailDataService = this.context.serviceScope.consume(FakeRetailDataService.serviceKey);
     }
+    
+    // Initialize Office UI Fabric icons
+    try {
+      initializeIcons();
+    } catch (error) {
+      console.log(`Failed to initialize icons: ${error}`);
+    }
 
     const packageSolution: any = await require('../../../config/package-solution.json');
     console.log(`React-Retail-Dashboard.RetailHomeWebPart: v.${packageSolution.solution.version}`);
@@ -62,8 +70,6 @@ export default class RetailHomeWebPart extends BaseClientSideWebPart<IRetailHome
       this._environmentMessage = message;
     });
   }
-
-
 
   private _getEnvironmentMessage(): Promise<string> {
     if (!!this.context.sdks.microsoftTeams) { // running in Teams, office.com or Outlook
@@ -78,6 +84,7 @@ export default class RetailHomeWebPart extends BaseClientSideWebPart<IRetailHome
               environmentMessage = this.context.isServedFromLocalhost ? strings.Generic.AppLocalEnvironmentOutlook : strings.Generic.AppOutlookEnvironment;
               break;
             case 'Teams': // running in Teams
+            case 'TeamsModern': // running in Teams Modern
               environmentMessage = this.context.isServedFromLocalhost ? strings.Generic.AppLocalEnvironmentTeams : strings.Generic.AppTeamsTabEnvironment;
               break;
             default:

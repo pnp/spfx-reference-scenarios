@@ -4,6 +4,7 @@ import { Version } from '@microsoft/sp-core-library';
 import { IPropertyPaneConfiguration } from '@microsoft/sp-property-pane';
 import { BaseClientSideWebPart } from '@microsoft/sp-webpart-base';
 import { IReadonlyTheme } from '@microsoft/sp-component-base';
+import { initializeIcons } from 'office-ui-fabric-react';
 
 import * as strings from 'RetailDashboardWebPartStrings';
 import RetailDashboard from './components/RetailDashboard';
@@ -54,6 +55,13 @@ export default class RetailDashboardWebPart extends BaseClientSideWebPart<IRetai
     } else {
       this._retailDataService = this.context.serviceScope.consume(FakeRetailDataService.serviceKey);
     }
+    
+    // Initialize Office UI Fabric icons
+    try {
+      initializeIcons();
+    } catch (error) {
+      console.log(`Failed to initialize icons: ${error}`);
+    }
 
     const packageSolution: any = await require('../../../config/package-solution.json');
     console.log(`React-Retail-Dashboard.RetailDashboardWebPart: v.${packageSolution.solution.version}`);
@@ -78,6 +86,7 @@ export default class RetailDashboardWebPart extends BaseClientSideWebPart<IRetai
               environmentMessage = this.context.isServedFromLocalhost ? strings.Generic.AppLocalEnvironmentOutlook : strings.Generic.AppOutlookEnvironment;
               break;
             case 'Teams': // running in Teams
+            case 'TeamsModern': // running in Teams Modern
               environmentMessage = this.context.isServedFromLocalhost ? strings.Generic.AppLocalEnvironmentTeams : strings.Generic.AppTeamsTabEnvironment;
               break;
             default:

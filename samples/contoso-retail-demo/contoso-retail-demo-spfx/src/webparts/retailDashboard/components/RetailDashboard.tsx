@@ -5,7 +5,7 @@ import { IRetailDashboardProps } from './IRetailDashboardProps';
 import { IRetailDashboardState } from './IRetailDashboardState';
 
 import { WidgetSize, Dashboard, IWidget } from '@pnp/spfx-controls-react/lib/Dashboard';
-import { Spinner, SpinnerSize, initializeIcons } from 'office-ui-fabric-react';
+import { Spinner, SpinnerSize } from 'office-ui-fabric-react';
 
 import { ReturnVolumes } from '../../../components/ReturnVolumes/ReturnVolumes';
 import { ReturnReasons } from '../../../components/ReturnReasons/ReturnReasons';
@@ -17,9 +17,6 @@ export default class RetailDashboard extends React.Component<IRetailDashboardPro
   constructor(props: IRetailDashboardProps) {
     super(props);
 
-    // Initialize Office UI Fabric icons
-    initializeIcons();
-    
     // Initialize the state
     this.state = {
       isLoading: true,

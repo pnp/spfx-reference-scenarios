@@ -5,7 +5,7 @@ import { IRetailHomeProps } from './IRetailHomeProps';
 import { IRetailHomeState } from './IRetailHomeState';
 
 import { WidgetSize, Dashboard, IWidget } from '@pnp/spfx-controls-react/lib/Dashboard';
-import { Spinner, SpinnerSize, initializeIcons } from 'office-ui-fabric-react';
+import { Spinner, SpinnerSize } from 'office-ui-fabric-react';
 import { IconButton } from '@fluentui/react/lib/Button';
 import { IIconProps } from '@fluentui/react';
 
@@ -25,9 +25,6 @@ export default class RetailHome extends React.Component<IRetailHomeProps, IRetai
 
   constructor(props: IRetailHomeProps) {
     super(props);
-
-    // Initialize Office UI Fabric icons
-    initializeIcons();
     
     // Initialize the state
     this.state = {

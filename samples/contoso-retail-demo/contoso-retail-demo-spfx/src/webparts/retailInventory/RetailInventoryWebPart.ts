@@ -4,6 +4,7 @@ import { Version } from '@microsoft/sp-core-library';
 import { IPropertyPaneConfiguration } from '@microsoft/sp-property-pane';
 import { BaseClientSideWebPart } from '@microsoft/sp-webpart-base';
 import { IReadonlyTheme } from '@microsoft/sp-component-base';
+import { initializeIcons } from 'office-ui-fabric-react';
 
 import RetailInventory from './components/RetailInventory';
 import { IRetailInventoryProps } from './components/IRetailInventoryProps';
@@ -61,6 +62,13 @@ export default class RetailInventoryWebPart extends BaseClientSideWebPart<IRetai
       this._retailDataService = this.context.serviceScope.consume(RetailDataService.serviceKey);
     } else {
       this._retailDataService = this.context.serviceScope.consume(FakeRetailDataService.serviceKey);
+    }
+    
+    // Initialize Office UI Fabric icons
+    try {
+      initializeIcons();
+    } catch (error) {
+      console.log(`Failed to initialize icons: ${error}`);
     }
 
     const packageSolution: any = await require('../../../config/package-solution.json');
