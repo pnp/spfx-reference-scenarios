@@ -16,7 +16,7 @@ namespace Contoso.Retail.Demo.Backend
 
         public SearchProducts(ILoggerFactory loggerFactory)
         {
-            _logger = loggerFactory.CreateLogger<ProductsInventory>();
+            _logger = loggerFactory.CreateLogger<SearchProducts>();
         }
 
         [Function("SearchProducts")]
