@@ -34,6 +34,8 @@ Contoso.Orders.SPFx | Paolo Pialorsi - [PiaSys.com](https://www.piasys.com/) - [
 Version|Date|Comments
 -------|----|--------
 1.0|October 31, 2021|Initial release
+1.1|November 2, 2022|Upgraded to SPFx 1.15.2
+1.2|November 21, 2023|Upgraded to SPFx 1.18.2
 
 ## Disclaimer
 

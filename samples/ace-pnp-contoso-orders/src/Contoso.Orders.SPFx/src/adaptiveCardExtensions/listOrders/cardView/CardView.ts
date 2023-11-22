@@ -1,18 +1,36 @@
 import {
-  BasePrimaryTextCardView,
-  IPrimaryTextCardParameters,
+  ComponentsCardViewParameters,
+  ITextCardViewParameters,
   IExternalLinkCardAction,
   IQuickViewCardAction,
-  ICardButton
+  PrimaryTextCardView,
+  BaseComponentsCardView
 } from '@microsoft/sp-adaptive-card-extension-base';
 import * as strings from 'ListOrdersAdaptiveCardExtensionStrings';
 import { IListOrdersAdaptiveCardExtensionProps, IListOrdersAdaptiveCardExtensionState, LISTORDERS_QUICK_VIEW_REGISTRY_ID } from '../ListOrdersAdaptiveCardExtension';
 
-export class CardView extends BasePrimaryTextCardView<IListOrdersAdaptiveCardExtensionProps, IListOrdersAdaptiveCardExtensionState> {
-  public get cardButtons(): [ICardButton] | [ICardButton, ICardButton] | undefined {
-    if (this.state.orders != null && this.state.orders.length > 0) {
-      return [
-        {
+export class CardView extends BaseComponentsCardView<
+  IListOrdersAdaptiveCardExtensionProps, 
+  IListOrdersAdaptiveCardExtensionState, 
+  ComponentsCardViewParameters
+> {
+
+  public get cardViewParameters(): ITextCardViewParameters  {
+    return PrimaryTextCardView({
+      cardBar: {
+        componentName: 'cardBar',
+        title: this.properties.title
+      },
+      header: {
+        componentName: 'text',
+        text: strings.PrimaryText
+      },
+      body: {
+        componentName: 'text',
+        text: this.state.description
+      },
+      footer: {
+          componentName: 'cardButton',
           title: strings.QuickViewButton,
           action: {
             type: 'QuickView',
@@ -21,17 +39,8 @@ export class CardView extends BasePrimaryTextCardView<IListOrdersAdaptiveCardExt
             }
           }
         }
-      ];
-    } else {
-      return undefined;
-    }
-  }
-
-  public get data(): IPrimaryTextCardParameters {
-    return {
-      primaryText: strings.PrimaryText,
-      description: this.state.description
-    };
+      }
+    );
   }
 
   public get onCardSelection(): IQuickViewCardAction | IExternalLinkCardAction | undefined {

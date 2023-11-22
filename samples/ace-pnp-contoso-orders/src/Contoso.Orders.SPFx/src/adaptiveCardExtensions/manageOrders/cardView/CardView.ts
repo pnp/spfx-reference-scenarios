@@ -1,9 +1,10 @@
 import {
-  BasePrimaryTextCardView,
-  IPrimaryTextCardParameters,
-  IExternalLinkCardAction,
+  BaseComponentsCardView,
+  ComponentsCardViewParameters,
+  PrimaryTextCardView,
+  ITextCardViewParameters,
   IQuickViewCardAction,
-  ICardButton
+  IExternalLinkCardAction
 } from '@microsoft/sp-adaptive-card-extension-base';
 import * as strings from 'ManageOrdersAdaptiveCardExtensionStrings';
 import { 
@@ -13,40 +14,49 @@ import {
   LISTORDERS_QUICK_VIEW_REGISTRY_ID
 } from '../ManageOrdersAdaptiveCardExtension';
 
-export class CardView extends BasePrimaryTextCardView<IManageOrdersAdaptiveCardExtensionProps, IManageOrdersAdaptiveCardExtensionState> {
-  public get cardButtons(): [ICardButton] | [ICardButton, ICardButton] | undefined {
-
-    if (this.state.orders != null && this.state.orders.length > 0) {
-      return [
-        {
-          title: strings.ListOrdersQuickViewButton,
-          action: {
-            type: 'QuickView',
-            parameters: {
-              view: LISTORDERS_QUICK_VIEW_REGISTRY_ID
+export class CardView extends BaseComponentsCardView<
+  IManageOrdersAdaptiveCardExtensionProps, 
+  IManageOrdersAdaptiveCardExtensionState, 
+  ComponentsCardViewParameters
+> {
+  public get cardViewParameters(): ITextCardViewParameters  {
+    return PrimaryTextCardView({
+      cardBar: {
+        componentName: 'cardBar',
+        title: this.properties.title
+      },
+      header: {
+        componentName: 'text',
+        text: strings.PrimaryText
+      },
+      body: {
+        componentName: 'text',
+        text: this.state.description
+      },
+      footer: [
+          {
+            componentName: 'cardButton',
+            title: strings.ListOrdersQuickViewButton,
+            action: {
+              type: 'QuickView',
+              parameters: {
+                view: LISTORDERS_QUICK_VIEW_REGISTRY_ID
+              }
+            }
+          },
+          {
+            componentName: 'cardButton',
+            title: strings.AddOrderQuickViewButton,
+            action: {
+              type: 'QuickView',
+              parameters: {
+                view: ADDORDER_QUICK_VIEW_REGISTRY_ID
+              }
             }
           }
-        },
-        {
-          title: strings.AddOrderQuickViewButton,
-          action: {
-            type: 'QuickView',
-            parameters: {
-              view: ADDORDER_QUICK_VIEW_REGISTRY_ID
-            }
-          }
-        }
-      ];
-    } else {
-      return undefined;
-    }
-  }
-
-  public get data(): IPrimaryTextCardParameters {
-    return {
-      primaryText: strings.PrimaryText,
-      description: this.state.description
-    };
+        ]
+      }
+    );
   }
 
   public get onCardSelection(): IQuickViewCardAction | IExternalLinkCardAction | undefined {

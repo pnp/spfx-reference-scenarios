@@ -1,4 +1,4 @@
-import { ISPFxAdaptiveCard, BaseAdaptiveCardView, IActionArguments } from '@microsoft/sp-adaptive-card-extension-base';
+import { ISPFxAdaptiveCard, BaseAdaptiveCardQuickView, IActionArguments } from '@microsoft/sp-adaptive-card-extension-base';
 import * as strings from 'ManageOrdersAdaptiveCardExtensionStrings';
 import { IManageOrdersAdaptiveCardExtensionProps, IManageOrdersAdaptiveCardExtensionState } from '../ManageOrdersAdaptiveCardExtension';
 
@@ -8,7 +8,7 @@ export interface IConfirmQuickViewData {
   imageUrl: string;
 }
 
-export class ConfirmQuickView extends BaseAdaptiveCardView<
+export class ConfirmQuickView extends BaseAdaptiveCardQuickView<
   IManageOrdersAdaptiveCardExtensionProps,
   IManageOrdersAdaptiveCardExtensionState,
   IConfirmQuickViewData
@@ -23,11 +23,5 @@ export class ConfirmQuickView extends BaseAdaptiveCardView<
 
   public get template(): ISPFxAdaptiveCard {
     return require('./template/ConfirmQuickViewTemplate.json');
-  }
-
-  public onAction(action: IActionArguments): void {
-    if (action.id == "close") {
-        this.quickViewNavigator.close();
-    }
   }
 }

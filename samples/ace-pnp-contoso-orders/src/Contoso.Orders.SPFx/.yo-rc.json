@@ -3,12 +3,17 @@
     "plusBeta": false,
     "isCreatingSolution": false,
     "environment": "spo",
-    "version": "1.15.2",
+    "nodeVersion": "16.18.1",
+    "version": "1.18.1",
     "libraryName": "contoso-orders",
     "libraryId": "093eebef-9dbb-4b13-ba09-4da180bceb6d",
     "packageManager": "npm",
     "isDomainIsolated": false,
     "componentType": "adaptiveCardExtension",
-    "aceTemplateType": "Basic"
+    "aceTemplateType": "Basic",
+    "sdkVersions": {
+      "@microsoft/teams-js": "2.12.0",
+      "@microsoft/microsoft-graph-client": "3.0.2"
+    }
   }
 }

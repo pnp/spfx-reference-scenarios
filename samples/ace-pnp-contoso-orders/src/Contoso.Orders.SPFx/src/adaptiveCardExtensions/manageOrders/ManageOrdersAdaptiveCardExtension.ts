@@ -247,7 +247,7 @@ export default class ManageOrdersAdaptiveCardExtension extends BaseAdaptiveCardE
     return this.properties.title;
   }
 
-  protected get iconProperty(): string {
+  public get iconProperty(): string {
     return this.properties.iconProperty || require('./assets/SharePointLogo.svg');
   }
 
