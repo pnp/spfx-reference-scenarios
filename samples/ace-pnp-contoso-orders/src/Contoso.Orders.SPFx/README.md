@@ -9,7 +9,7 @@ The goal of this sample is to share with partners and ISVs how simple it is to c
 
 ## Used SharePoint Framework Version
 
-![version](https://img.shields.io/badge/version-1.13-green.svg)
+![version](https://img.shields.io/badge/version-1.18.2-green.svg)
 
 ## Applies to
 
