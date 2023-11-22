@@ -27,5 +27,12 @@
           "text": "${description}",
           "wrap": true
       }
+  ],
+  "actions": [
+      {
+          "type": "Action.Submit",
+          "id": "close",
+          "title": "Close"
+      }
   ]
 }
