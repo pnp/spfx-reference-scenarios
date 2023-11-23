@@ -9,7 +9,7 @@
         "This is a sample end-to-end application, based on demo sample data, that shows you how to create a Microsoft Teams personal app with SharePoint Framework, hosting the solution also in Outlook.com and in the Office portal as a Microsoft 365 app. The solution also provides a sample Adaptive Card Extension (ACE) for Microsoft Viva Connection, still built with SharePoint Framework. The sample illustrates how to connect the ACE with the Teams personal app, providing custom arguments to the Teams personal app via deep links defined in the ACE. Last but not least, the solution illustrates how to create a Teams Message Extension for Search using Microsoft Teams Toolkit."
       ],
       "creationDateTime": "2023-05-26",
-      "updateDateTime": "2023-10-16",
+      "updateDateTime": "2023-11-23",
       "products": [
         "SharePoint",
         "Viva",
@@ -22,7 +22,7 @@
         },
         {
           "key": "SPFX-VERSION",
-          "value": "1.17.1"
+          "value": "1.18.2"
         }
       ],
       "thumbnails": [
