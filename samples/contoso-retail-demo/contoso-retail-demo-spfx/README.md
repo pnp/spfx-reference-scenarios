@@ -41,6 +41,8 @@ Last but not least, here you can see the ACE in action in Microsoft Viva Connect
 
 | Version | Date             | Comments        |
 | ------- | ---------------- | --------------- |
+| 1.3     | November 23, 2023   | Upgraded to SPFx 1.18.2 |
+| 1.2     | October 16, 2023   | Added Teams Message Extension with SSO |
 | 1.1     | June 06, 2023   | Added back-end Azure Function |
 | 1.0     | April 21, 2023   | Initial release |
 

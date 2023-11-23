@@ -94,7 +94,7 @@ export default class InventoryAdaptiveCardExtension extends BaseAdaptiveCardExte
     return this._deferredPropertyPane?.getPropertyPaneConfiguration();
   }
 
-  protected get iconProperty(): string {
+  public get iconProperty(): string {
     return require('../../assets/icon.png');
   }
 }
