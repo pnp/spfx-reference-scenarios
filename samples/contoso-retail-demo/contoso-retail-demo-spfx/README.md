@@ -22,7 +22,7 @@ Last but not least, here you can see the ACE in action in Microsoft Viva Connect
 
 ## Used SharePoint Framework Version
 
-![SPFx 1.7.3](https://img.shields.io/badge/version-1.17.3-green.svg)
+![SPFx 1.18.2](https://img.shields.io/badge/version-1.18.2-green.svg)
 
 ## Applies to
 
