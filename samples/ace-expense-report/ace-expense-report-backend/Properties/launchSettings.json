@@ -1,0 +1,9 @@
+{
+  "profiles": {
+    "ace_expense_report_backend": {
+      "commandName": "Project",
+      "commandLineArgs": "--port 7042",
+      "launchBrowser": false
+    }
+  }
+}
