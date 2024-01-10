@@ -1,0 +1,40 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/spfx-build/package-solution.schema.json",
+  "solution": {
+    "name": "ace-expense-report-spfx-client-side-solution",
+    "id": "7974f935-176b-4b14-b4b7-b6cf9dd8cc58",
+    "version": "1.0.0.0",
+    "includeClientSideAssets": true,
+    "skipFeatureDeployment": true,
+    "isDomainIsolated": false,
+    "developer": {
+      "name": "",
+      "websiteUrl": "",
+      "privacyUrl": "",
+      "termsOfUseUrl": "",
+      "mpnId": "Undefined-1.18.2"
+    },
+    "metadata": {
+      "shortDescription": {
+        "default": "ace-expense-report-spfx description"
+      },
+      "longDescription": {
+        "default": "ace-expense-report-spfx description"
+      },
+      "screenshotPaths": [],
+      "videoUrl": "",
+      "categories": []
+    },
+    "features": [
+      {
+        "title": "ace-expense-report-spfx Feature",
+        "description": "The feature that activates elements of the ace-expense-report-spfx solution.",
+        "id": "e7d14c99-2daf-4f13-b9dc-a302e0473599",
+        "version": "1.0.0.0"
+      }
+    ]
+  },
+  "paths": {
+    "zippedPackage": "solution/ace-expense-report-spfx.sppkg"
+  }
+}

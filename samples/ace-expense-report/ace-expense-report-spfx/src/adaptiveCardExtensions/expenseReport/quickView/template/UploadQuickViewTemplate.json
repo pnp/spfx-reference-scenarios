@@ -1,0 +1,68 @@
+{
+  "schema": "http://adaptivecards.io/schemas/adaptive-card.json",
+  "type": "AdaptiveCard",
+  "version": "1.5",
+  "body": [
+    {
+      "type": "TextBlock",
+      "weight": "Bolder",
+      "text": "${title}"
+    },
+    {
+		"type": "Container",
+		"id": "expensePage",
+		"items": [
+			{
+				"type": "Input.Text",
+				"id": "expenseDescription",
+				"label": "${expenseDescriptionLabel}",
+				"isRequired": true,
+				"errorMessage": "${expenseDescriptionRequiredMessage}",
+				"placeholder": "${expenseDescriptionPlaceholder}"
+			},
+			{
+				"type": "Input.ChoiceSet",
+				"id": "expenseCategory",
+				"label": "${expenseCategoryLabel}",
+				"placeholder": "${expneseCategoryPlaceholder}",
+				"choices": [
+					{
+						"$data": "${expenseCategories}",
+						"title": "${text}",
+						"value": "${key}"
+					}
+				]
+			},
+			{
+				"type": "Input.Date",
+				"id": "expenseDate",
+				"label": "${expenseDateLabel}",
+				"placeholder": "${expenseDatePlaceholder}",
+				"errorMessage": "${expenseDateRequiredMessage}"
+			}
+		]
+    }
+  ],
+  "actions": [
+	{
+		"title": "${expenseUploadButtonLabel}",
+		"type": "VivaAction.SelectMedia",
+		"id": "expenseUpload",
+		"parameters": {
+			"mediaType": "MediaType.Image",
+			"allowMultipleCapture": false,
+			"supportedFileFormats": "png jpg jpeg pdf"
+		}
+	},
+	{
+		"title": "${submitButtonLabel}",
+		"type": "Action.Submit",
+		"id": "submitExpense",
+		"data": {
+			"expenseDescription": "{{expenseDescription.value}}",
+			"expenseCategory": "{{expenseCategory.value}}",
+			"expenseDate": "{{expenseDate.value}}"
+		}
+	}
+  ]
+}

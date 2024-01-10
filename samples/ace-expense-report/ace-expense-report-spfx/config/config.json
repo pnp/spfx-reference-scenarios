@@ -1,0 +1,18 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/spfx-build/config.2.0.schema.json",
+  "version": "2.0",
+  "bundles": {
+    "expense-report-adaptive-card-extension": {
+      "components": [
+        {
+          "entrypoint": "./lib/adaptiveCardExtensions/expenseReport/ExpenseReportAdaptiveCardExtension.js",
+          "manifest": "./src/adaptiveCardExtensions/expenseReport/ExpenseReportAdaptiveCardExtension.manifest.json"
+        }
+      ]
+    }
+  },
+  "externals": {},
+  "localizedResources": {
+    "ExpenseReportAdaptiveCardExtensionStrings": "lib/adaptiveCardExtensions/expenseReport/loc/{locale}.js"
+  }
+}
