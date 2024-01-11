@@ -1,8 +1,8 @@
 {
   "profiles": {
-    "ace_expense_report_backend": {
+    "PnP.Ace.ExpenseReport.Backend": {
       "commandName": "Project",
-      "commandLineArgs": "--port 7042",
+      "commandLineArgs": "--port 7172",
       "launchBrowser": false
     }
   }

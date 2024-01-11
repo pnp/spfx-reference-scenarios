@@ -1,7 +1,7 @@
 import {
   BaseComponentsCardView,
   ComponentsCardViewParameters,
-  BasicCardView,
+  ImageCardView,
   IExternalLinkCardAction,
   IQuickViewCardAction
 } from '@microsoft/sp-adaptive-card-extension-base';
@@ -18,10 +18,14 @@ export class HomeCardView extends BaseComponentsCardView<
   ComponentsCardViewParameters
 > {
   public get cardViewParameters(): ComponentsCardViewParameters {
-    return BasicCardView({
+    return ImageCardView({
       cardBar: {
         componentName: 'cardBar',
         title: this.properties.title
+      },
+      image: {
+        url: require('../assets/PiledCoins.png'),
+        altText: 'Placeholder image'
       },
       header: {
         componentName: 'text',

@@ -18,13 +18,15 @@
 				"label": "${expenseDescriptionLabel}",
 				"isRequired": true,
 				"errorMessage": "${expenseDescriptionRequiredMessage}",
-				"placeholder": "${expenseDescriptionPlaceholder}"
+				"placeholder": "${expenseDescriptionPlaceholder}",
+				"value": "${expenseDescription}"
 			},
 			{
 				"type": "Input.ChoiceSet",
 				"id": "expenseCategory",
 				"label": "${expenseCategoryLabel}",
 				"placeholder": "${expneseCategoryPlaceholder}",
+				"value": "${expenseCategory}",
 				"choices": [
 					{
 						"$data": "${expenseCategories}",
@@ -38,7 +40,8 @@
 				"id": "expenseDate",
 				"label": "${expenseDateLabel}",
 				"placeholder": "${expenseDatePlaceholder}",
-				"errorMessage": "${expenseDateRequiredMessage}"
+				"errorMessage": "${expenseDateRequiredMessage}",
+				"value": "${expenseDate}"
 			}
 		]
     }
@@ -51,7 +54,7 @@
 		"parameters": {
 			"mediaType": "MediaType.Image",
 			"allowMultipleCapture": false,
-			"supportedFileFormats": "png jpg jpeg pdf"
+			"supportedFileFormats": "png jpg jpeg"
 		}
 	},
 	{
