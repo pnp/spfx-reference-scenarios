@@ -29,19 +29,19 @@
         {
           "type": "image",
           "order": 100,
-          "url": "https://raw.githubusercontent.com/pnp/spfx-reference-scenarios/main/samples/contoso-retail-demo/assets/Viva-Connections-Dashboard-Desktop.png",
+          "url": "https://raw.githubusercontent.com/pnp/spfx-reference-scenarios/main/samples/ace-expense-report/assets/Viva-Connections-Dashboard-Desktop.png",
           "alt": "The Microsoft Viva Connections Dashboard on the desktop"
         },
         {
             "type": "image",
             "order": 200,
-            "url": "https://raw.githubusercontent.com/pnp/spfx-reference-scenarios/main/samples/contoso-retail-demo/assets/Viva-Connections-Dashboard-Mobile.PNG",
+            "url": "https://raw.githubusercontent.com/pnp/spfx-reference-scenarios/main/samples/ace-expense-report/assets/Viva-Connections-Dashboard-Mobile.PNG",
             "alt": "The Microsoft Viva Connections Dashboard on mobile"
         },
         {
             "type": "image",
             "order": 300,
-            "url": "https://raw.githubusercontent.com/pnp/spfx-reference-scenarios/main/samples/contoso-retail-demo/assets/ACE-QuickView-Mobile.PNG",
+            "url": "https://raw.githubusercontent.com/pnp/spfx-reference-scenarios/main/samples/ace-expense-report/assets/ACE-QuickView-Mobile.PNG",
             "alt": "The ACE Quick View on mobile"
         }
       ],
