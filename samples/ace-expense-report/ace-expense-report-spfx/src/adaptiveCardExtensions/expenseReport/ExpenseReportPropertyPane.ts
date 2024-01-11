@@ -1,0 +1,26 @@
+import { IPropertyPaneConfiguration, PropertyPaneTextField } from '@microsoft/sp-property-pane';
+import * as strings from 'ExpenseReportAdaptiveCardExtensionStrings';
+
+export class ExpenseReportPropertyPane {
+  public getPropertyPaneConfiguration(): IPropertyPaneConfiguration {
+    return {
+      pages: [
+        {
+          header: { description: strings.PropertyPaneDescription },
+          groups: [
+            {
+              groupFields: [
+                PropertyPaneTextField('title', {
+                  label: strings.TitleFieldLabel
+                }),
+                PropertyPaneTextField('serviceBaseUrl', {
+                  label: strings.ServiceBaseUrlFieldLabel
+                })
+              ]
+            }
+          ]
+        }
+      ]
+    };
+  }
+}

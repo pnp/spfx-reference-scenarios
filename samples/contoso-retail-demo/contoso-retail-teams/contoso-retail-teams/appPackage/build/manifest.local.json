@@ -1,0 +1,65 @@
+{
+    "$schema": "https://developer.microsoft.com/en-us/json-schemas/teams/v1.16/MicrosoftTeams.schema.json",
+    "manifestVersion": "1.16",
+    "version": "1.0.0",
+    "id": "b05d0b14-4631-481c-be3b-45dd6a44cdcf",
+    "packageName": "com.microsoft.teams.extension",
+    "developer": {
+        "name": "PiaSys.com",
+        "websiteUrl": "https://www.piasys.com/",
+        "privacyUrl": "https://piasys.com/privacy/",
+        "termsOfUseUrl": "https://www.piasys.com/terms-of-use/"
+    },
+    "icons": {
+        "color": "color.png",
+        "outline": "outline.png"
+    },
+    "name": {
+        "short": "contoso-retail-teams-local",
+        "full": "Contoso Retail Teams Extension"
+    },
+    "description": {
+        "short": "Contoso Retail Teams Extension",
+        "full": "Contoso Retail Teams Extension"
+    },
+    "accentColor": "#FFFFFF",
+    "bots": [],
+    "composeExtensions": [
+        {
+            "botId": "3ebdbb70-48e9-479f-a13b-9401053f4e63",
+            "commands": [
+                {
+                    "id": "searchQuery",
+                    "context": [
+                        "compose",
+                        "commandBox"
+                    ],
+                    "description": "Search Contoso Retail",
+                    "title": "Search",
+                    "type": "query",
+                    "parameters": [
+                        {
+                            "name": "searchQuery",
+                            "title": "Search Query",
+                            "description": "Your search query",
+                            "inputType": "text"
+                        }
+                    ]
+                }
+            ]
+        }
+    ],
+    "configurableTabs": [],
+    "staticTabs": [],
+    "permissions": [
+        "identity",
+        "messageTeamMembers"
+    ],
+    "validDomains": [
+        "180lp79w-3978.euw.devtunnels.ms"
+    ],
+    "webApplicationInfo": {
+        "id": "cf0922dc-076a-4bfb-a1f5-c1ed0ecbad68",
+        "resource": "api://botid-3ebdbb70-48e9-479f-a13b-9401053f4e63"
+    }
+}

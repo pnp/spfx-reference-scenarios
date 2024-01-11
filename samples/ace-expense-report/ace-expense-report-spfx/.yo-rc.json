@@ -1,0 +1,22 @@
+{
+  "@microsoft/generator-sharepoint": {
+    "plusBeta": false,
+    "isCreatingSolution": true,
+    "nodeVersion": "16.18.1",
+    "sdksVersions": {
+      "@microsoft/microsoft-graph-client": "3.0.2",
+      "@microsoft/teams-js": "2.12.0"
+    },
+    "version": "1.18.2",
+    "libraryName": "ace-expense-report-spfx",
+    "libraryId": "7974f935-176b-4b14-b4b7-b6cf9dd8cc58",
+    "environment": "spo",
+    "packageManager": "npm",
+    "solutionName": "ace-expense-report-spfx",
+    "solutionShortDescription": "ace-expense-report-spfx description",
+    "skipFeatureDeployment": true,
+    "isDomainIsolated": false,
+    "componentType": "adaptiveCardExtension",
+    "aceTemplateType": "Generic"
+  }
+}
