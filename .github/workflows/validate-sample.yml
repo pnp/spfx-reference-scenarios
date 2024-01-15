@@ -13,18 +13,27 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v3
-      - name: Fetch
-        if: ${{ hashFiles('samples/contoso-retail-demo/assets/sample.json') != '' }}
-        id: fetch
+      - name: Validate any sample.json file
         run: |
-          response=$(curl -X POST -H "Content-Type: application/json" -d @assets/samples.json https://m365-galleries.azurewebsites.net/Samples/validateSample); echo "response=$response" >> $GITHUB_OUTPUT
-          if [[ $(echo "$response" | jq -r '.isValid') == "true" ]]; then
-            echo "Validation successful! Proceeding with the pull request."
-            exit 0
-          else
-            echo "Validation failed! Please fix the errors and try again."
-            exit 1
-          fi
+          # Find all sample.json files in the pull request
+          files=$(git diff --name-only origin/main...HEAD | grep 'sample.json$')
+          echo "Found sample.json files: $files"
+    
+          # Process each file
+          for file in $files; do
+            echo "Processing file: $file"
+            response=$(curl -X POST -H "Content-Type: application/json" -d @$file https://m365-galleries.azurewebsites.net/Samples/validateSample)
+            echo "Response: $response"
+            
+            isValid=$(echo "$response" | jq -r '.isValid')
+            if [[ $isValid == "true" ]]; then
+              echo "Validation successful for $file"
+            else
+              echo "Validation failed for $file! Please fix the errors and try again."
+              exit 1
+            fi
+          done
+        id: fetch
   failure:
     needs: validate
     runs-on: ubuntu-latest
