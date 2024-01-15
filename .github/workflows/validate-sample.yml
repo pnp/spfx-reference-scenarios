@@ -1,0 +1,46 @@
+name: Sample.json validation
+
+on:
+  pull_request:
+    branches:
+      - "main"
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    outputs:
+      response: ${{ steps.fetch.outputs.response }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Fetch
+        if: ${{ hashFiles('**/samples.json') != '' }}
+        id: fetch
+        run: |
+          response=$(curl -X POST -H "Content-Type: application/json" -d @assets/samples.json https://m365-galleries.azurewebsites.net/Samples/validateSample); echo "response=$response" >> $GITHUB_OUTPUT
+          if [[ $(echo "$response" | jq -r '.isValid') == "true" ]]; then
+            echo "Validation successful! Proceeding with the pull request."
+            exit 0
+          else
+            echo "Validation failed! Please fix the errors and try again."
+            exit 1
+          fi
+  failure:
+    needs: validate
+    runs-on: ubuntu-latest
+    if: failure()
+    steps:
+      - name: Fail
+        run: |
+          echo ${{ needs.validate.outputs.response }}
+      - uses: actions/github-script@v6
+        with:
+          script: |
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: JSON.parse(`${{ needs.validate.outputs.response }}`).errors?.map(e => "- " + e).join("\n")
+            })
+      - name: Fail
+        run: exit 1
