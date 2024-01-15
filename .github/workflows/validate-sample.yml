@@ -16,7 +16,7 @@ jobs:
       - name: Validate any sample.json file
         run: |
           # Find all sample.json files in the pull request
-          files=$(git diff --name-only origin/main...HEAD | grep 'sample.json$')
+          files=$(git diff --name-only | grep 'sample.json$')
           echo "Found sample.json files: $files"
     
           # Process each file
