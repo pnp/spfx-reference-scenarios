@@ -15,6 +15,9 @@ export interface IExpenseReportAdaptiveCardExtensionProps {
 }
 
 export interface IExpenseReportAdaptiveCardExtensionState {
+  expenseDescription?: string;
+  expenseCategory?: string;
+  expenseDate?: string;
   expenseReceiptFileName?: string;
   expenseReceiptContent?: string;
 }

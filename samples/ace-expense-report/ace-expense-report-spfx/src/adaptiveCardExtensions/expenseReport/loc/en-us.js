@@ -9,7 +9,7 @@ define([], function() {
     PrimaryText: "Use this card to upload your expenese reports",
     ConfirmationText: "Your exenese report has been submitted",
     Description: "Create your SPFx Adaptive Card Extension solution!",
-    NewExpense: "Quick view",
+    NewExpense: "New Expense",
     GoHome: "Home",
     ExpenseReport: {
       DescriptionLabel: "Description",

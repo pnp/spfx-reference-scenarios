@@ -3,17 +3,23 @@
   "solution": {
     "name": "ace-expense-report-spfx-client-side-solution",
     "id": "7974f935-176b-4b14-b4b7-b6cf9dd8cc58",
-    "version": "1.0.0.0",
+    "version": "1.0.0.1",
     "includeClientSideAssets": true,
     "skipFeatureDeployment": true,
     "isDomainIsolated": false,
     "developer": {
-      "name": "",
-      "websiteUrl": "",
-      "privacyUrl": "",
-      "termsOfUseUrl": "",
-      "mpnId": "Undefined-1.18.2"
+      "name": "PiaSys.com",
+      "websiteUrl": "https://www.piasys.com/",
+      "privacyUrl": "http://piasys.com/privacy/",
+      "termsOfUseUrl": "https://www.piasys.com/terms-of-use/",
+      "mpnId": "1075379"
     },
+    "webApiPermissionRequests": [
+      {
+        "resource": "PnP.ExpenseReport.Service",
+        "scope": "ExpenseReport.Create"
+      }
+    ],
     "metadata": {
       "shortDescription": {
         "default": "ace-expense-report-spfx description"

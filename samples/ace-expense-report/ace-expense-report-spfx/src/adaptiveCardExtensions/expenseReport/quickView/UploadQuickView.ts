@@ -20,6 +20,9 @@ export interface IUploadQuickViewData {
   expenseDateRequiredMessage: string;
   expenseUploadButtonLabel: string;
   submitButtonLabel: string;
+  expenseDescription?: string;
+  expenseCategory?: string;
+  expenseDate?: string;
 }
 
 export class UploadQuickView extends BaseAdaptiveCardQuickView<
@@ -45,7 +48,10 @@ export class UploadQuickView extends BaseAdaptiveCardQuickView<
       expenseDatePlaceholder: strings.ExpenseReport.DatePlaceholder,
       expenseDateRequiredMessage: strings.ExpenseReport.DateRequiredMessage,
       expenseUploadButtonLabel: strings.ExpenseReport.UploadButtonLabel,
-      submitButtonLabel: strings.ExpenseReport.SubmitExpenseButtonLabel
+      submitButtonLabel: strings.ExpenseReport.SubmitExpenseButtonLabel,
+      expenseDescription: this.state.expenseDescription ?? "",
+      expenseCategory: this.state.expenseCategory ?? "",
+      expenseDate: this.state.expenseDate ?? ""
     };
   }
 
@@ -59,23 +65,36 @@ export class UploadQuickView extends BaseAdaptiveCardQuickView<
       console.log(action.media);
       // media is an array of attachment objects which contain the content and filename
       this.setState({
+        expenseDescription: action.data.expenseDescription,
+        expenseCategory: action.data.expenseCategory,
+        expenseDate: action.data.expenseDate,
         expenseReceiptFileName: action.media[0].fileName,
         expenseReceiptContent: action.media[0].content // base64 encoded string
       });
     }
     else if (action.type === 'Submit' && action.id === 'submitExpense') {
 
-      // Create the expense report
-      await this.properties.createExpenseReport({
-        description: action.data.expenseDescription,
-        category: action.data.expenseCategory,
-        date: action.data.expenseDate,
-        receiptFileName: this.state.expenseReceiptFileName,
-        receiptContent: this.state.expenseReceiptContent
-      });
+      if (this.state.expenseReceiptFileName && this.state.expenseReceiptContent) {
+        // Create the expense report
+        await this.properties.createExpenseReport({
+          description: action.data.expenseDescription,
+          category: action.data.expenseCategory,
+          date: action.data.expenseDate,
+          receiptFileName: this.state.expenseReceiptFileName,
+          receiptContent: this.state.expenseReceiptContent
+        });
 
-      (<QuickViewNavigator<BaseQuickView<IExpenseReportAdaptiveCardExtensionProps,IExpenseReportAdaptiveCardExtensionState>>>this.quickViewNavigator).close();
-      this.cardNavigator.push(CARD_VIEW_CONFIRM_REGISTRY_ID);
+        this.setState({
+          expenseDescription: undefined,
+          expenseCategory: undefined,
+          expenseDate: undefined,
+          expenseReceiptFileName: undefined,
+          expenseReceiptContent: undefined
+        });
+
+        (<QuickViewNavigator<BaseQuickView<IExpenseReportAdaptiveCardExtensionProps,IExpenseReportAdaptiveCardExtensionState>>>this.quickViewNavigator).close();
+        this.cardNavigator.push(CARD_VIEW_CONFIRM_REGISTRY_ID);
+        }
     }
   }
 }
