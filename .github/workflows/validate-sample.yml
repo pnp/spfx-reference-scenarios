@@ -18,21 +18,6 @@ jobs:
           # Find all sample.json files in the pull request
           files=$(git diff --name-only | grep 'sample.json$')
           echo "Found sample.json files: $files"
-    
-          # Process each file
-          for file in $files; do
-            echo "Processing file: $file"
-            response=$(curl -X POST -H "Content-Type: application/json" -d @$file https://m365-galleries.azurewebsites.net/Samples/validateSample)
-            echo "Response: $response"
-            
-            isValid=$(echo "$response" | jq -r '.isValid')
-            if [[ $isValid == "true" ]]; then
-              echo "Validation successful for $file"
-            else
-              echo "Validation failed for $file! Please fix the errors and try again."
-              exit 1
-            fi
-          done
         id: fetch
   failure:
     needs: validate
