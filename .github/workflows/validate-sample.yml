@@ -14,7 +14,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
       - name: Fetch
-        if: ${{ hashFiles('**/samples.json') != '' }}
+        if: ${{ hashFiles('samples/contoso-retail-demo/assets/sample.json') != '' }}
         id: fetch
         run: |
           response=$(curl -X POST -H "Content-Type: application/json" -d @assets/samples.json https://m365-galleries.azurewebsites.net/Samples/validateSample); echo "response=$response" >> $GITHUB_OUTPUT
