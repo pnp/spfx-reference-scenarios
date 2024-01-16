@@ -8,12 +8,6 @@
     "longDescription": [
       "This example shows how to build and ACE with multiple card and quick views allowing chat interaction with a Microsoft Teams channel."
     ],
-    "creationDateTime": "2021-09-07",
-    "updateDateTime": "2021-11-18",
-    "products": [
-      "SharePoint",
-      "Viva"
-    ],
     "metadata": [
       {
         "key": "CLIENT-SIDE-DEV",
