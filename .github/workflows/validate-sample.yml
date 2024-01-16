@@ -1,4 +1,4 @@
-name: Sample.json validation
+name: External validation
 
 on:
   pull_request:
@@ -8,33 +8,8 @@ on:
 jobs:
   validate:
     runs-on: ubuntu-latest
-    outputs:
-      response: ${{ steps.fetch.outputs.response }}
     steps:
-      - name: Checkout
-        uses: actions/checkout@v3
-      - name: Validate any sample.json file
-        run: |
-          # Find all sample.json files in the pull request
-          files=$(git diff --name-only | grep 'sample.json$')
-          echo "Found sample.json files: $files"
-        id: fetch
-  failure:
-    needs: validate
-    runs-on: ubuntu-latest
-    if: failure()
-    steps:
-      - name: Fail
-        run: |
-          echo ${{ needs.validate.outputs.response }}
-      - uses: actions/github-script@v6
+      - name: Validate
+        uses: pnp/pnp-sample-validation@main
         with:
-          script: |
-            github.rest.issues.createComment({
-              issue_number: context.issue.number,
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              body: JSON.parse(`${{ needs.validate.outputs.response }}`).errors?.map(e => "- " + e).join("\n")
-            })
-      - name: Fail
-        run: exit 1
+          gh-token: ${{ secrets.GITHUB_TOKEN }}
