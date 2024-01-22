@@ -2,7 +2,6 @@
   {
     "name": "pnp-spfx-reference-scenarios-spfx-middleware",
     "source": "pnp",
-    "title": "SPFx Middleware API Pattern",
     "shortDescription": "This is a sample solution that illustrates how to consume backend services like Microsoft Graph, SharePoint Online, or any 3rd Party APIs via OBO (on-behalf-of) flow via a middleware from a SPFx solution.",
     "url": "https://github.com/pnp/spfx-reference-scenarios/tree/main/samples/spfx-middleware",
     "longDescription": [
