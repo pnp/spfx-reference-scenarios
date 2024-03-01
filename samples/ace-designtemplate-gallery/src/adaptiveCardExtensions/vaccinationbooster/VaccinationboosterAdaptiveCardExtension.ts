@@ -3,44 +3,34 @@ import { BaseAdaptiveCardExtension } from '@microsoft/sp-adaptive-card-extension
 import { CardView } from './cardView/CardView';
 import { QuickView } from './quickView/QuickView';
 
-import { Logger, LogLevel, ConsoleListener } from "@pnp/logging";
-
 import { VaccinationboosterPropertyPane } from './VaccinationboosterPropertyPane';
-import * as strings from 'VaccinationboosterAdaptiveCardExtensionStrings';
+import { dtg } from '../../common/services/designtemplate.service';
 
 export interface IVaccinationboosterAdaptiveCardExtensionProps {
   iconProperty: string;
   title: string;
 }
 
-export interface IVaccinationboosterAdaptiveCardExtensionState {
-
-}
-
-const CARD_VIEW_REGISTRY_ID: string = 'Vaccinationbooster_CARD_VIEW';
-export const QUICK_VIEW_REGISTRY_ID: string = 'Vaccinationbooster_QUICK_VIEW';
+const CARD_VIEW_REGISTRY_ID = 'Vaccinationbooster_CARD_VIEW';
+export const QUICK_VIEW_REGISTRY_ID = 'Vaccinationbooster_QUICK_VIEW';
 
 export default class VaccinationboosterAdaptiveCardExtension extends BaseAdaptiveCardExtension<
-  IVaccinationboosterAdaptiveCardExtensionProps,
-  IVaccinationboosterAdaptiveCardExtensionState
+  IVaccinationboosterAdaptiveCardExtensionProps
 > {
-  private LOG_SOURCE: string = "🔶 Vaccination Booster Adaptive Card Extension";
+  private LOG_SOURCE = "🔶 Vaccination Booster Adaptive Card Extension";
   private _deferredPropertyPane: VaccinationboosterPropertyPane | undefined;
 
-  public onInit(): Promise<void> {
+  public async onInit(): Promise<void> {
     try {
-      //Initialize PnPLogger
-      Logger.subscribe(new ConsoleListener());
-      Logger.activeLogLevel = LogLevel.Info;
+      await dtg.Init(this.context.serviceScope);
 
-      //Set the data into state
-      this.state = {
-      };
       //Register the cards
       this.cardNavigator.register(CARD_VIEW_REGISTRY_ID, () => new CardView());
       this.quickViewNavigator.register(QUICK_VIEW_REGISTRY_ID, () => new QuickView());
     } catch (err) {
-      Logger.write(`${this.LOG_SOURCE} (onInit) - ${err}`, LogLevel.Error);
+      console.error(
+        `${this.LOG_SOURCE} (onInit) -- Could not initialize web part. - ${err}`
+      );
     }
     return Promise.resolve();
   }

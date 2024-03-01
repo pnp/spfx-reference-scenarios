@@ -27,7 +27,7 @@ define([], function() {
     "HelpDeskAppGitHubLink": "https://github.com/pnp/spfx-reference-scenarios/tree/main/samples/ace-designtemplate-gallery/src/adaptiveCardExtensions/helpdesk",
 
     "HelpDeskCreateAppName": "Help Desk Create Ticket",
-    "HelpDeskCreateAppDesc": "Design template for how to create a help desk ticket entry system. Submission form with a deep linking to Teams.",
+    "HelpDeskCreateAppDesc": "Design template for how to create a help desk ticket entry system. Submission form with a deep linking to Teams. This ACE leverages a Bing Maps API Key to get location data. Without adding that key to the properties of the ACE the location data will not display. In addition, this ACE demonstrates how to use the Select Media action to upload images to a SharePoint document library. If the user does not have access to the document library the add image button will not display.",
     "HelpDeskCreateAppDesignerLink": "https://adaptivecards.io/designer/index.html?card=https%3A%2F%2Fraw.githubusercontent.com%2Fpnp%2FAdaptiveCards-Templates%2Fmain%2Fsamples%2Fhelp-desk%2Fac-qv-create-ticket.json",
     "HelpDeskCreateAppGitHubLink": "https://github.com/pnp/spfx-reference-scenarios/tree/main/samples/ace-designtemplate-gallery/src/adaptiveCardExtensions/helpdeskcreateticket",
 

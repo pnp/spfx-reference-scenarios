@@ -1,10 +1,8 @@
 import * as React from 'react';
 import styles from './AceDesignTemplatePersonalApp.module.scss';
-import { Logger, LogLevel } from "@pnp/logging";
 import { AppData, DeepLinkData } from '../../../common/models/designtemplate.models';
 import AppDetails from './organisms/AppDetails';
 import AppList from './organisms/AppList';
-import { IMicrosoftTeams } from '@microsoft/sp-webpart-base';
 
 export interface IACEGalleryPersonalAppProps {
   appData: AppData;
@@ -25,17 +23,17 @@ export class ACEGalleryPersonalAppState implements IACEGalleryPersonalAppState {
   ) { }
 }
 
-
-
 export default class ACEGalleryPersonalApp extends React.Component<IACEGalleryPersonalAppProps, ACEGalleryPersonalAppState> {
-  private LOG_SOURCE: string = "🔶 ACEGalleryPersonalApp";
+  private LOG_SOURCE = "🔶 ACEGalleryPersonalApp";
 
   constructor(props: IACEGalleryPersonalAppProps) {
     super(props);
     try {
       this.state = new ACEGalleryPersonalAppState(this.props.appData, this.props.deepLink);
     } catch (err) {
-      Logger.write(`${this.LOG_SOURCE} (constructor) - ${err}`, LogLevel.Error);
+      console.error(
+        `${this.LOG_SOURCE} (constructor) - ${err}`
+      );
     }
   }
 
@@ -44,7 +42,9 @@ export default class ACEGalleryPersonalApp extends React.Component<IACEGalleryPe
 
       this.setState({ appData: selectedApp });
     } catch (err) {
-      Logger.write(`${this.LOG_SOURCE} (_onCardClick) - ${err}`, LogLevel.Error);
+      console.error(
+        `${this.LOG_SOURCE} (_onCardClick) - error clicking app card ${err}`
+      );
     }
   }
 
@@ -52,7 +52,9 @@ export default class ACEGalleryPersonalApp extends React.Component<IACEGalleryPe
     try {
       this.setState({ appData: null, deepLink: null });
     } catch (err) {
-      Logger.write(`${this.LOG_SOURCE} (_onBackClick) - ${err}`, LogLevel.Error);
+      console.error(
+        `${this.LOG_SOURCE} (_onBackClick) - error clicking app card ${err}`
+      );
     }
   }
 
@@ -60,10 +62,10 @@ export default class ACEGalleryPersonalApp extends React.Component<IACEGalleryPe
     return (
       <div className={styles.aceDesignTemplatePersonalApp}>
         {this.state.appData &&
-          <AppDetails appData={this.state.appData} deepLink={this.state.deepLink} onBackClick={this._onBackClick}></AppDetails>
+          <AppDetails appData={this.state.appData} deepLink={this.state.deepLink} onBackClick={this._onBackClick} />
         }
         {!this.state.appData &&
-          <AppList appList={this.props.appList} onCardClick={this._onCardClick}></AppList>
+          <AppList appList={this.props.appList} onCardClick={this._onCardClick} />
         }
 
       </div>

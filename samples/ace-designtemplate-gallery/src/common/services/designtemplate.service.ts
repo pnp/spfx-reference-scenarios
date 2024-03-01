@@ -1,5 +1,23 @@
 import { cloneDeep, find } from "@microsoft/sp-lodash-subset";
-import { Logger, LogLevel } from "@pnp/logging";
+import { PageContext } from "@microsoft/sp-page-context";
+import { ServiceKey, ServiceScope } from "@microsoft/sp-core-library";
+import "@pnp/sp/webs";
+import "@pnp/sp/lists";
+import "@pnp/sp/fields/list";
+import "@pnp/sp/views";
+import "@pnp/sp/files";
+import "@pnp/sp/folders";
+import { IView } from "@pnp/sp/views/types";
+import { spfi, SPFI, SPFx } from "@pnp/sp";
+
+import { IListAddResult, ILists } from "@pnp/sp/lists";
+import {
+  DateTimeFieldFormatType,
+  CalendarType,
+  DateTimeFieldFriendlyFormatType,
+  UrlFieldFormatType
+} from "@pnp/sp/fields/types";
+
 import * as strings from "AceDesignTemplatePersonalAppWebPartStrings";
 import * as eventStrings from "EventscheduleAdaptiveCardExtensionStrings";
 import * as faqStrings from "FaqaccordionAdaptiveCardExtensionStrings";
@@ -18,14 +36,23 @@ import {
   TimeOff, TimeOffRequest,
   VaccineAppointment, Cafeteria,
   Cuisine,
-  HelpDeskTicket
+  HelpDeskTicket,
+  IFieldList
 } from "../models/designtemplate.models";
+import { PermissionKind } from "@pnp/sp/security";
+import { IFileAddResult } from "@pnp/sp/files";
+
 
 export interface IDesignTemplateGalleryService {
+  readonly ready: boolean;
+  readonly sp: SPFI;
+  readonly pageContext: PageContext;
+  webUrl: string;
   TeamsUrl: string;
-  Init(): void;
+  Init(serviceScope: ServiceScope): Promise<void>;
   GetAllApps: () => AppData[];
   GetAppData: (linkdata: any) => AppData;
+  GetDeepLinkData(subEntityId: any, local: string): DeepLinkData;
   GetBenefits(): Benefits;
   GetEvents(): Event;
   GetEventRegistrationLink(eventRegistration: EventRegistration): string;
@@ -42,45 +69,92 @@ export interface IDesignTemplateGalleryService {
   GetHolidayTimeline: (local: string) => HolidayTimeline;
   GetTimeOff: () => TimeOff;
   SubmitTimeOffRequest: (request: TimeOffRequest) => void;
+  SubmitVaccineAppointment: (request: VaccineAppointment) => void;
   GetCafeterias: () => Cafeteria[];
   GetHelpDeskTicketLink(ticket: HelpDeskTicket): string;
-  GetHelpDeskTickets: () => HelpDeskTicket[];
+  GetHelpDeskTickets: (bingMapsKey: string) => HelpDeskTicket[];
   CloseHelpDeskTickets: (tickets: HelpDeskTicket[], currentTicket: HelpDeskTicket) => HelpDeskTicket[];
+  GetLocationData(latitude: string, longitude: string, apiKey: string): Promise<string>;
+  GetCurrentLocation(): Promise<any>;
+  CheckList(listName: string): Promise<boolean>;
+  CanUserUpload(listName: string): Promise<boolean>;
+  AddImage(listName: string, fileName: string, fileContents: Uint8Array): Promise<boolean>;
 }
 
 export class DesignTemplateGalleryService implements IDesignTemplateGalleryService {
-  private LOG_SOURCE: string = "🔶 ACE Design Template Service";
-  private _teamsUrl: string = "https://teams.microsoft.com/l/entity/4a007f51-abb1-4d3a-b753-7c84404936b2/com.acedesigntemplate.spfx";
+  private LOG_SOURCE = "🔶 ACE Design Template Service";
+  public static readonly serviceKey: ServiceKey<DesignTemplateGalleryService> =
+    ServiceKey.create<DesignTemplateGalleryService>(
+      "DesignTemplateGalleryService:IDesignTemplateGalleryService",
+      DesignTemplateGalleryService
+    );
+  private _sp: SPFI;
+  private _pageContext: PageContext;
+  private _ready = false;
+  private _webUrl = "";
+  private _teamsUrl = "https://teams.microsoft.com/l/entity/4a007f51-abb1-4d3a-b753-7c84404936b2/com.acedesigntemplate.spfx";
 
-  constructor() {
+  public async Init(serviceScope: ServiceScope): Promise<void> {
+    try {
+      serviceScope.whenFinished(async () => {
+        this._pageContext = serviceScope.consume(PageContext.serviceKey);
+        this._sp = spfi().using(SPFx({ pageContext: this._pageContext }));
+        this._ready = true;
+      });
+    } catch (err) {
+      console.error(`${this.LOG_SOURCE} (init) - ${err}`);
+    }
   }
 
+  public get ready(): boolean {
+    return this._ready;
+  }
+
+  public get sp(): SPFI {
+    return this._sp;
+  }
+
+  public get pageContext(): PageContext {
+    return this._pageContext;
+  }
+
+  public get webUrl(): string {
+    return this._webUrl;
+  }
+
+  public set webUrl(value: string) {
+    this._webUrl = value;
+    try {
+      this._sp = spfi(value).using(SPFx({ pageContext: this._pageContext }));
+    } catch (err) {
+      console.error(
+        `${this.LOG_SOURCE} (webUrl) - cannot connect to new web - ${err}`
+      );
+    }
+  }
   public get TeamsUrl(): string {
     return this._teamsUrl;
   }
 
-  public Init() {
-    try {
-      //Add code here to initialize anything you need for your data calls.
-    } catch (err) {
-      Logger.write(`${this.LOG_SOURCE} (init) - ${err.message}`, LogLevel.Error);
-    }
-  }
 
   public GetAllApps(): AppData[] {
-    let retVal: AppData[] = [];
+    const retVal: AppData[] = [];
     try {
       for (const item in AppList) {
-        retVal.push(this.GetAppData(AppList[item]));
+        if (Object.prototype.hasOwnProperty.call(AppList, item)) {
+          retVal.push(this.GetAppData(AppList[item]));
+        }
       }
     } catch (err) {
-      Logger.write(`${this.LOG_SOURCE} (GetAllApps) - ${err.message}`, LogLevel.Error);
+      console.error(
+        `${this.LOG_SOURCE} (GetAllApps) -- list of apps not returned. - ${err}`
+      );
     }
     return retVal;
   }
 
   public GetAppData(appName: AppList): AppData {
-    let retVal: AppData = new AppData();
+    const retVal: AppData = new AppData();
     try {
       switch (appName) {
         case AppList.BENEFITS: {
@@ -211,7 +285,9 @@ export class DesignTemplateGalleryService implements IDesignTemplateGalleryServi
         }
       }
     } catch (err) {
-      Logger.write(`${this.LOG_SOURCE} (GetAllApps) - ${err.message}`, LogLevel.Error);
+      console.error(
+        `${this.LOG_SOURCE} (GetAllApps) -- error returning app data. - ${err}`
+      );
     }
 
     return retVal;
@@ -287,7 +363,9 @@ export class DesignTemplateGalleryService implements IDesignTemplateGalleryServi
       }
     }
     catch (err) {
-      Logger.write(`${this.LOG_SOURCE} (GetDeepLinkData) - ${err.message}`, LogLevel.Error);
+      console.error(
+        `${this.LOG_SOURCE} (GetDeepLinkData) -- error getting deep link to Teams. - ${err}`
+      );
     }
 
     return retVal;
@@ -301,7 +379,7 @@ export class DesignTemplateGalleryService implements IDesignTemplateGalleryServi
       retVal = require("../data/benefits.data.json");
 
       //We need to manipulate the data for the deep link to Teams.
-      let details: BenefitDetails[] = cloneDeep(retVal.details);
+      const details: BenefitDetails[] = cloneDeep(retVal.details);
       details.map((item) => {
         if (item.isTeamsDeepLink) {
           const url = encodeURI(`${this._teamsUrl}?context={"subEntityId":{"appName":"${AppList.BENEFITS}","linkType":"${DeepLinkType.TEXT}","message":"${item.id}"}}`);
@@ -311,7 +389,9 @@ export class DesignTemplateGalleryService implements IDesignTemplateGalleryServi
       retVal.details = details;
 
     } catch (err) {
-      Logger.write(`${this.LOG_SOURCE} (GetBenefits) - ${err.message}`, LogLevel.Error);
+      console.error(
+        `${this.LOG_SOURCE} (GetBenefits) -- error getting benefits data. - ${err}`
+      );
     }
     return retVal;
   }
@@ -332,13 +412,15 @@ export class DesignTemplateGalleryService implements IDesignTemplateGalleryServi
       retVal.mainImage = require('../images/event-schedule/Ignite-2021-fall-trim.gif');
 
     } catch (err) {
-      Logger.write(`${this.LOG_SOURCE} (GetEvents) - ${err.message}`, LogLevel.Error);
+      console.error(
+        `${this.LOG_SOURCE} (GetEvents) -- error getting Events data. - ${err}`
+      );
     }
     return retVal;
   }
 
   public GetEventRegistrationLink(registration: EventRegistration): string {
-    let retVal: string = "";
+    let retVal = "";
     try {
       //In a real world scenario you would use this method to save the 
       //save data into the system of record.
@@ -346,7 +428,9 @@ export class DesignTemplateGalleryService implements IDesignTemplateGalleryServi
       retVal = encodeURI(`${this._teamsUrl}?context={"subEntityId":{"appName":"${AppList.EVENTSCHEDULE}","linkType":"${DeepLinkType.EVENTREGISTRATION}","message":${JSON.stringify(registration)}}}`);
 
     } catch (err) {
-      Logger.write(`${this.LOG_SOURCE} (GetEventRegistrationLink) - ${err.message}`, LogLevel.Error);
+      console.error(
+        `${this.LOG_SOURCE} (GetEventRegistrationLink) -- error getting event registration link. - ${err}`
+      );
     }
     return retVal;
   }
@@ -364,7 +448,9 @@ export class DesignTemplateGalleryService implements IDesignTemplateGalleryServi
       retVal.imageCaption = faqStrings.ImageCaption;
       retVal.introContent = faqStrings.IntroContent;
     } catch (err) {
-      Logger.write(`${this.LOG_SOURCE} (GetFAQs) - ${err.message}`, LogLevel.Error);
+      console.error(
+        `${this.LOG_SOURCE} (GetFAQs) -- error getting FAQ data. - ${err}`
+      );
     }
     return retVal;
   }
@@ -374,7 +460,9 @@ export class DesignTemplateGalleryService implements IDesignTemplateGalleryServi
       const url = encodeURI(`${this._teamsUrl}?context={"subEntityId":{"appName":"${AppList.FAQACCORDION}","linkType":"${DeepLinkType.TEXT}","message":"${message}"}}`);
       window.open(url);
     } catch (err) {
-      Logger.write(`${this.LOG_SOURCE} (GetFAQs) - ${err.message}`, LogLevel.Error);
+      console.error(
+        `${this.LOG_SOURCE} (SubmitFAQ) -- error submitting FAQ to Teams. - ${err}`
+      );
     }
   }
 
@@ -385,7 +473,9 @@ export class DesignTemplateGalleryService implements IDesignTemplateGalleryServi
       //To extend pull data from a list of your items
       retVal = require("../data/imagecarousel.data.json");
     } catch (err) {
-      Logger.write(`${this.LOG_SOURCE} (GetImageCarousel) - ${err.message}`, LogLevel.Error);
+      console.error(
+        `${this.LOG_SOURCE} (GetImageCarousel) -- error getting Image Carousel Data. - ${err}`
+      );
     }
     return retVal;
   }
@@ -397,23 +487,25 @@ export class DesignTemplateGalleryService implements IDesignTemplateGalleryServi
       //To extend pull data from a list of your items
       retVal = require("../data/inventory.data.json");
       //We need to manipulate the data for the deep link to Teams.
-      let inventoryItems: IInventoryItem[] = cloneDeep(retVal.inventoryItems);
+      const inventoryItems: IInventoryItem[] = cloneDeep(retVal.inventoryItems);
       inventoryItems.map((item) => {
         const url = encodeURI(`${this._teamsUrl}?context={"subEntityId":{"appName":"${AppList.INVENTORY}","linkType":"${DeepLinkType.TEXT}","message":"${item.id}"}}`);
         item.linkUrl = url;
       });
       retVal.inventoryItems = inventoryItems;
     } catch (err) {
-      Logger.write(`${this.LOG_SOURCE} (GetInventoryDetail) - ${err.message}`, LogLevel.Error);
+      console.error(
+        `${this.LOG_SOURCE} (GetInventoryDetail) -- error getting inventory data. - ${err}`
+      );
     }
     return retVal;
   }
 
   public GetPayPeriods(): PayPeriod[] {
-    let retVal: PayPeriod[] = [];
+    const retVal: PayPeriod[] = [];
     try {
       const currentDate: Date = new Date();
-      let payPeriodIndex: number = 0;
+      let payPeriodIndex = 0;
       for (let i = 0; i <= 11; i++) {
         let monthEnd: number;
         if (i == 3 || i == 5 || i == 8 || i == 10) {
@@ -433,8 +525,8 @@ export class DesignTemplateGalleryService implements IDesignTemplateGalleryServi
         const payPeriod2Start: Date = new Date(currentDate.getFullYear(), i, 16);
         const monthEndDate: Date = new Date(currentDate.getFullYear(), i, monthEnd);
 
-        let payPeriod1Current: boolean = false;
-        let payPeriod2Current: boolean = false;
+        let payPeriod1Current = false;
+        let payPeriod2Current = false;
         if (currentDate.getMonth() == i) {
           if (currentDate.getDate() <= payPeriod1End.getDate()) {
             payPeriod1Current = true;
@@ -449,7 +541,9 @@ export class DesignTemplateGalleryService implements IDesignTemplateGalleryServi
       }
 
     } catch (err) {
-      Logger.write(`${this.LOG_SOURCE} (_getPayPeriods) - ${err.message}`, LogLevel.Error);
+      console.error(
+        `${this.LOG_SOURCE} (GetPayPeriods) -- error getting pay periods. - ${err}`
+      );
     }
     return retVal;
   }
@@ -461,7 +555,9 @@ export class DesignTemplateGalleryService implements IDesignTemplateGalleryServi
       //To extend pull data from a list of your items
       retVal = require("../data/payslip.data.json");
     } catch (err) {
-      Logger.write(`${this.LOG_SOURCE} (GetPaySlips) - ${err.message}`, LogLevel.Error);
+      console.error(
+        `${this.LOG_SOURCE} (GetPaySlips) -- error getting payslip data. - ${err}`
+      );
     }
     return retVal;
   }
@@ -472,11 +568,11 @@ export class DesignTemplateGalleryService implements IDesignTemplateGalleryServi
       //Sample pulls data from mock
       //To extend pull data from a list of your items
       retVal = require("../data/simplelist.data.json");
-      let anniversaries: Anniversary[] = cloneDeep(retVal.anniversaries);
-      let currentDate: Date = new Date();
+      const anniversaries: Anniversary[] = cloneDeep(retVal.anniversaries);
+      const currentDate: Date = new Date();
       anniversaries.map((item) => {
         const anniversaryDate: Date = new Date(item.anniversaryDate);
-        let duration = currentDate.getFullYear() - anniversaryDate.getFullYear();
+        const duration = currentDate.getFullYear() - anniversaryDate.getFullYear();
         item.anniversaryLabel = Intl.DateTimeFormat(local, { weekday: undefined, year: undefined, month: 'short', day: 'numeric' }).format(anniversaryDate);
         item.anniversaryDuration = duration;
         const url = encodeURI(`${this._teamsUrl}?context={"subEntityId":{"appName":"${AppList.SIMPLELIST}","linkType":"${DeepLinkType.ANNIVERSARY}","message":"${item.id}"}}`);
@@ -485,23 +581,25 @@ export class DesignTemplateGalleryService implements IDesignTemplateGalleryServi
       });
       retVal.anniversaries = anniversaries;
 
-      let praise: Praise[] = cloneDeep(retVal.praise);
+      const praise: Praise[] = cloneDeep(retVal.praise);
       praise.map((item) => {
         const url = encodeURI(`${this._teamsUrl}?context={"subEntityId":{"appName":"${AppList.SIMPLELIST}","linkType":"${DeepLinkType.PRAISE}","message":"${item.id}"}}`);
         item.linkUrl = url;
       });
       retVal.praise = praise;
     } catch (err) {
-      Logger.write(`${this.LOG_SOURCE} (GetSimpleList) - ${err.message}`, LogLevel.Error);
+      console.error(
+        `${this.LOG_SOURCE} (GetSimpleList) -- error getting praise data. - ${err}`
+      );
     }
     return retVal;
   }
 
   public getCalendarDays(currentDate: Date, local: string): Day[] {
-    let retVal: Day[] = [];
+    const retVal: Day[] = [];
     try {
       const currentMonthIndex: number = currentDate.getMonth();
-      let dayCount: number = 31;
+      let dayCount = 31;
       if (currentMonthIndex == 3 || currentMonthIndex == 5 || currentMonthIndex == 8 || currentMonthIndex == 10) {
         dayCount = 30;
       } else if (currentMonthIndex == 1) {
@@ -520,7 +618,7 @@ export class DesignTemplateGalleryService implements IDesignTemplateGalleryServi
             retVal.push(new Day());
           }
         }
-        let day = new Day(currentMonthIndex, dayOfWeek, i, []);
+        const day = new Day(currentMonthIndex, dayOfWeek, i, []);
         retVal.push(day);
 
         if ((i == dayCount) && dayOfWeek != 6) {
@@ -532,15 +630,15 @@ export class DesignTemplateGalleryService implements IDesignTemplateGalleryServi
 
       const appointments: Appointment[] = this.GetAppointments(currentDate, local);
       appointments.map((appt) => {
-        let startDate: Date = new Date(appt.startDate);
+        const startDate: Date = new Date(appt.startDate);
         //If the event spans months set the start to the first day of the current month.
         if (currentDate.getMonth() != startDate.getMonth()) {
           startDate.setMonth(currentDate.getMonth());
           startDate.setDate(1);
         }
         const endDate: Date = new Date(appt.endDate);
-        let dif: number = endDate.getTime() - startDate.getTime();
-        let duration: number = dif / (1000 * 3600 * 24);
+        const dif: number = endDate.getTime() - startDate.getTime();
+        const duration: number = dif / (1000 * 3600 * 24);
         for (let x = 0; x <= duration; x++) {
           const apptStartDate: Date = cloneDeep(startDate);
           apptStartDate.setDate(startDate.getDate() + x);
@@ -552,23 +650,26 @@ export class DesignTemplateGalleryService implements IDesignTemplateGalleryServi
 
       });
     } catch (err) {
-      Logger.write(`${this.LOG_SOURCE} (getCalendarDays) - ${err.message}`, LogLevel.Error);
+      console.error(
+        `${this.LOG_SOURCE} (getCalendarDays) -- error getting calendar day data. - ${err}`
+      );
     }
     return retVal;
   }
 
   public GetAppointments(currentDate: Date, local: string): Appointment[] {
-    let retVal: Appointment[] = [];
+    const retVal: Appointment[] = [];
     try {
       //Sample pulls data from mock
       //To extend pull data from a list of your items
       const allAppointments: Appointment[] = require("../data/teamcalendar.data.json");
       allAppointments.map((appt) => {
-        let apptStartDate: Date = new Date(appt.startDate);
-        apptStartDate.setMonth(apptStartDate.getMonth() + 1);
-        let apptEndDate: Date = new Date(appt.endDate);
-        apptEndDate.setMonth(apptEndDate.getMonth() + 1);
-        let dateString: string = "";
+        const today: Date = new Date();
+        const apptStartDate: Date = new Date(appt.startDate);
+        apptStartDate.setMonth(today.getMonth() + 1);
+        const apptEndDate: Date = new Date(appt.endDate);
+        apptEndDate.setMonth(today.getMonth() + 1);
+        let dateString = "";
         if (apptStartDate.getMonth() == apptEndDate.getMonth() && apptStartDate.getDate() == apptEndDate.getDate()) {
           dateString = Intl.DateTimeFormat(local, { weekday: undefined, year: undefined, month: 'short', day: 'numeric' }).format(apptStartDate);
         } else if (apptStartDate.getDate() != apptEndDate.getDate() && apptStartDate.getMonth() == apptEndDate.getMonth()) {
@@ -585,13 +686,15 @@ export class DesignTemplateGalleryService implements IDesignTemplateGalleryServi
       });
 
     } catch (err) {
-      Logger.write(`${this.LOG_SOURCE} (GetAppointments) - ${err.message}`, LogLevel.Error);
+      console.error(
+        `${this.LOG_SOURCE} (GetAppointments) -- error getting calendar data. - ${err}`
+      );
     }
     return retVal;
   }
 
   public GetThisWeekData(currentDate: Date, local: string): Appointment[] {
-    let retVal: Appointment[] = [];
+    const retVal: Appointment[] = [];
     try {
 
       const sunday: Date = new Date(currentDate.getFullYear(), currentDate.getMonth(), currentDate.getDate() - currentDate.getDay());
@@ -618,13 +721,15 @@ export class DesignTemplateGalleryService implements IDesignTemplateGalleryServi
       });
 
     } catch (err) {
-      Logger.write(`${this.LOG_SOURCE} (GetThisWeekData) - ${err.message}`, LogLevel.Error);
+      console.error(
+        `${this.LOG_SOURCE} (GetThisWeekData) -- error getting calendar data for this week. - ${err}`
+      );
     }
     return retVal;
   }
 
   public GetHolidayTimeline(local: string): HolidayTimeline {
-    let retVal: HolidayTimeline = new HolidayTimeline();
+    const retVal: HolidayTimeline = new HolidayTimeline();
     try {
       const today: Date = new Date();
       const holidays: Holiday[] = require("../data/timelineholiday.data.json");
@@ -633,8 +738,8 @@ export class DesignTemplateGalleryService implements IDesignTemplateGalleryServi
         if (holidayDate.getTime() >= today.getTime()) {
           if ((holidayDate.getDay() == 1) && (holidayDate.getFullYear() == today.getFullYear())) {
             holiday.holidayWeekend = true;
-            let friday: Date = new Date(holidayDate.getFullYear(), holidayDate.getMonth(), holidayDate.getDate() - 3);
-            let tuesday: Date = new Date(holidayDate.getFullYear(), holidayDate.getMonth(), holidayDate.getDate() + 1);
+            const friday: Date = new Date(holidayDate.getFullYear(), holidayDate.getMonth(), holidayDate.getDate() - 3);
+            const tuesday: Date = new Date(holidayDate.getFullYear(), holidayDate.getMonth(), holidayDate.getDate() + 1);
             holiday.holidayWeekendFri = Intl.DateTimeFormat(local, { weekday: 'long', year: undefined, month: 'long', day: 'numeric' }).format(friday);
             holiday.holidayWeekendTue = Intl.DateTimeFormat(local, { weekday: 'long', year: undefined, month: 'long', day: 'numeric' }).format(tuesday);
           }
@@ -650,7 +755,9 @@ export class DesignTemplateGalleryService implements IDesignTemplateGalleryServi
         retVal.nextHoliday = retVal.holidays[0];
       }
     } catch (err) {
-      Logger.write(`${this.LOG_SOURCE} (GetHolidayTimeline) - ${err.message}`, LogLevel.Error);
+      console.error(
+        `${this.LOG_SOURCE} (GetHolidayTimeline) -- error getting holiday data. - ${err}`
+      );
     }
     return retVal;
   }
@@ -662,7 +769,9 @@ export class DesignTemplateGalleryService implements IDesignTemplateGalleryServi
       //To extend pull data from a list of your items
       retVal = require("../data/timeoff.data.json");
     } catch (err) {
-      Logger.write(`${this.LOG_SOURCE} (GetTimeOff) - ${err.message}`, LogLevel.Error);
+      console.error(
+        `${this.LOG_SOURCE} (GetTimeOff) -- error getting time off data. - ${err}`
+      );
     }
     return retVal;
   }
@@ -672,7 +781,9 @@ export class DesignTemplateGalleryService implements IDesignTemplateGalleryServi
       const url = encodeURI(`${this._teamsUrl}?context={"subEntityId":{"appName":"${AppList.TIMEOFF}","linkType":"${DeepLinkType.TIMEOFFREQUEST}","message":${JSON.stringify(request)}}}`);
       window.open(url);
     } catch (err) {
-      Logger.write(`${this.LOG_SOURCE} (SubmitTimeOffRequest) - ${err.message}`, LogLevel.Error);
+      console.error(
+        `${this.LOG_SOURCE} (SubmitTimeOffRequest) -- submitting time off request. - ${err}`
+      );
     }
   }
 
@@ -681,7 +792,9 @@ export class DesignTemplateGalleryService implements IDesignTemplateGalleryServi
       const url = encodeURI(`${this._teamsUrl}?context={"subEntityId":{"appName":"${AppList.VACCINATIONBOOSTER}","linkType":"${DeepLinkType.VACCINATIONBOOSTER}","message":${JSON.stringify(request)}}}`);
       window.open(url);
     } catch (err) {
-      Logger.write(`${this.LOG_SOURCE} (SubmitTimeOffRequest) - ${err.message}`, LogLevel.Error);
+      console.error(
+        `${this.LOG_SOURCE} (SubmitVaccineAppointment) -- submitting vaccine registration to Teams. - ${err}`
+      );
     }
   }
 
@@ -695,7 +808,7 @@ export class DesignTemplateGalleryService implements IDesignTemplateGalleryServi
       //We need to manipulate the data for the deep link to Teams.
       const cafes: Cafeteria[] = cloneDeep(retVal);
       cafes.map((cafe) => {
-        let cuisine: Cuisine[] = cloneDeep(cafe.cuisine);
+        const cuisine: Cuisine[] = cloneDeep(cafe.cuisine);
         cuisine.map((item) => {
           const url = encodeURI(`${this._teamsUrl}?context={"subEntityId":{"appName":"${AppList.VISUALLIST}","linkType":"${DeepLinkType.TEXT}","message":"${item.id}"}}`);
           item.linkUrl = url;
@@ -704,13 +817,15 @@ export class DesignTemplateGalleryService implements IDesignTemplateGalleryServi
       });
       retVal = cafes;
     } catch (err) {
-      Logger.write(`${this.LOG_SOURCE} (GetCafeterias) - ${err.message}`, LogLevel.Error);
+      console.error(
+        `${this.LOG_SOURCE} (GetCafeterias) -- getting cafe data. - ${err}`
+      );
     }
     return retVal;
   }
 
   public GetHelpDeskTicketLink(ticket: HelpDeskTicket): string {
-    let retVal: string = "";
+    let retVal = "";
     try {
       //In a real world scenario you would use this method to save the 
       //save data into the system of record.
@@ -718,23 +833,26 @@ export class DesignTemplateGalleryService implements IDesignTemplateGalleryServi
       retVal = encodeURI(`${this._teamsUrl}?context={"subEntityId":{"appName":"${AppList.HELPDESKCREATE}","linkType":"${DeepLinkType.HELPDESKTICKET}","message":${JSON.stringify(ticket)}}}`);
 
     } catch (err) {
-      Logger.write(`${this.LOG_SOURCE} (GetHelpDeskTicketLink) - ${err.message}`, LogLevel.Error);
+      console.error(
+        `${this.LOG_SOURCE} (GetHelpDeskTicketLink) -- getting HelpDesk link to Teams. - ${err}`
+      );
     }
     return retVal;
   }
 
-  public GetHelpDeskTickets(): HelpDeskTicket[] {
+  public GetHelpDeskTickets(bingMapsKey: string): HelpDeskTicket[] {
     let retVal: HelpDeskTicket[] = [];
     try {
       //Sample pulls data from mock
       //To extend pull data from a list of your items
       const tickets: HelpDeskTicket[] = require("../data/helpdesk.data.json");
 
-      //We are manipulating the data here to set teh due dates so there is always relevant data in the sample.
+      //We are manipulating the data here to set the due dates so there is always relevant data in the sample.
       //You can remove this code if you are attaching it to a ticketing system
-      tickets.map((ticket, index) => {
-        let eventDate: Date = new Date();
-        let offset: number = 0;
+      tickets.map(async (ticket, index) => {
+        const newTicket = ticket;
+        const eventDate: Date = new Date();
+        let offset = 0;
         if (index === 0) {
           offset = 8;
         } else {
@@ -750,26 +868,35 @@ export class DesignTemplateGalleryService implements IDesignTemplateGalleryServi
         if (eventDate.getDate() < 10) {
           datestring = `0${datestring}`;
         }
-        ticket.createDate = `${eventDate.getFullYear().toString()}-${month}-${datestring}T00:00:00Z`;
+        newTicket.createDate = `${eventDate.getFullYear().toString()}-${month}-${datestring}T00:00:00Z`;
 
         //Check if it is overdue
         const today: Date = new Date();
         const dueDate: Date = new Date(today.getFullYear(), today.getMonth(), today.getDate() - 7);
         if (eventDate.getTime() < dueDate.getTime()) {
-          ticket.overdue = true;
+          newTicket.overdue = true;
           const msInDay = 24 * 60 * 60 * 1000;
           const difference = Math.round(Math.abs(Number(dueDate.getTime()) - Number(today.getTime())) / msInDay);
-          ticket.overdueTime = difference.toString();
+          newTicket.overdueTime = difference.toString();
         } else {
-          ticket.overdue = false;
-          ticket.overdueTime = "";
+          newTicket.overdue = false;
+          newTicket.overdueTime = "";
         }
-
+        //Set the location based on the lat and long in the sample data
+        if (bingMapsKey) {
+          const location = await this.GetLocationData(ticket.latitude, ticket.longitude, bingMapsKey);
+          if (location != "") {
+            newTicket.location = location;
+          }
+        }
+        ticket = newTicket;
       });
       retVal = tickets;
 
     } catch (err) {
-      Logger.write(`${this.LOG_SOURCE} (GetHelpDeskTickets) - ${err.message}`, LogLevel.Error);
+      console.error(
+        `${this.LOG_SOURCE} (GetHelpDeskTickets) -- getting Help Desk Ticket Data. - ${err}`
+      );
     }
     return retVal;
   }
@@ -781,13 +908,153 @@ export class DesignTemplateGalleryService implements IDesignTemplateGalleryServi
       retVal = tickets.filter(ticket => ticket.incidentNumber != currentTicket.incidentNumber);
 
     } catch (err) {
-      Logger.write(`${this.LOG_SOURCE} (CloseHelpDeskTickets) - ${err.message}`, LogLevel.Error);
+      console.error(
+        `${this.LOG_SOURCE} (CloseHelpDeskTickets) -- closing Help Desk Ticket. - ${err}`
+      );
+    }
+    return retVal;
+  }
+
+  public async createList(
+    listName: string,
+    listDescription: string,
+    fieldList: IFieldList[]
+  ): Promise<boolean> {
+    let retVal = false;
+    try {
+      const list: IListAddResult = await this._sp.web.lists.add(
+        listName,
+        `${listName} ${listDescription} List`,
+        109,
+        false,
+        { OnQuickLaunch: true }
+      );
+      for (let i = 0; i < fieldList.length; i++) {
+        if (fieldList[i].props.FieldTypeKind === 2) {
+          await this._sp.web.lists
+            .getById(list.data.Id)
+            .fields.addText(fieldList[i].name);
+        } else if (fieldList[i].props.FieldTypeKind === 3) {
+          await this._sp.web.lists
+            .getById(list.data.Id)
+            .fields.createFieldAsXml(
+              `<Field Type="Note" Name="${fieldList[i].name}" DisplayName="${fieldList[i].name}" Required="FALSE" RichText="TRUE" RichTextMode="FullHtml" />`
+            );
+        } else if (fieldList[i].props.FieldTypeKind === 4) {
+          await this._sp.web.lists
+            .getById(list.data.Id)
+            .fields.addDateTime(fieldList[i].name, {
+              DisplayFormat: DateTimeFieldFormatType.DateTime,
+              DateTimeCalendarType: CalendarType.Gregorian,
+              FriendlyDisplayFormat: DateTimeFieldFriendlyFormatType.Disabled,
+            });
+        } else if (fieldList[i].props.FieldTypeKind === 6) {
+          await this._sp.web.lists
+            .getById(list.data.Id)
+            .fields.addChoice(fieldList[i].name, {
+              Choices: fieldList[i].props.choices,
+            });
+        } else if (fieldList[i].props.FieldTypeKind === 11) {
+          await this._sp.web.lists
+            .getById(list.data.Id)
+            .fields.addUrl(fieldList[i].name, {
+              DisplayFormat: UrlFieldFormatType.Hyperlink,
+            });
+        } else if (fieldList[i].props.FieldTypeKind === 12) {
+          await this._sp.web.lists
+            .getById(list.data.Id)
+            .fields.addNumber(fieldList[i].name);
+        }
+      }
+      const view: IView = await this._sp.web.lists.getById(list.data.Id)
+        .defaultView;
+      for (let i = 0; i < fieldList.length; i++) {
+        await view.fields.add(fieldList[i].name);
+      }
+      retVal = true;
+    } catch (err) {
+      console.error(`${this.LOG_SOURCE}:(createList) - ${err}`);
+    }
+    return retVal;
+  }
+
+  public async GetLocationData(latitude: string, longitude: string, apiKey: string): Promise<string> {
+    let retVal = "";
+    try {
+      const url = `https://dev.virtualearth.net/REST/v1/Locations/${latitude},${longitude}?includeEntityTypes=Address,Neighborhood,PopulatedPlace&key=${apiKey}`;
+      const results: any = await fetch(url).then(res => res.json());
+
+      retVal = results.resourceSets[0].resources[0].address.addressLine;
+    } catch (err) {
+      console.error(
+        `${this.LOG_SOURCE} (GetLocationData) -- error generating link to BingMaps. - ${err}`
+      );
+    }
+    return retVal;
+  }
+
+  public GetCurrentLocation(): Promise<any> {
+    return new Promise((resolve, reject) => {
+      navigator.geolocation.getCurrentPosition(resolve, reject);
+    });
+  }
+
+  public async CheckList(listName: string): Promise<boolean> {
+    let retVal = false;
+    try {
+      const lists: ILists = this._sp.web.lists;
+      const list = await lists.filter(`Title eq '${listName}'`)();
+
+      if (list.length > 0) {
+        retVal = true;
+      }
+    } catch (err) {
+      console.error(
+        `${this.LOG_SOURCE} (checkList) - ${err}`
+      );
+    }
+    return retVal;
+  }
+  public async CanUserUpload(listName: string): Promise<boolean> {
+    let retVal = false;
+    try {
+      const list = await this._sp.web.lists.getByTitle(listName);
+      retVal = await list.currentUserHasPermissions(PermissionKind.AddListItems);
+    } catch (err) {
+      console.error(
+        `${this.LOG_SOURCE} (checkList) - ${err}`
+      );
+    }
+    return retVal;
+  }
+
+  public async AddImage(listName: string, fileName: string, fileContents: Uint8Array): Promise<boolean> {
+    let retVal = false;
+    try {
+      const fileNamePath = encodeURI(fileName);
+
+      let result: IFileAddResult;
+      // you can adjust this number to control what size files are uploaded in chunks
+      if (fileContents.length <= 10485760) {
+        // small upload
+        result = await this._sp.web.lists.getByTitle(listName).rootFolder.files.addUsingPath(fileNamePath, fileContents, { Overwrite: true });
+        if (result) {
+          retVal = true;
+        }
+      } else {
+        // large upload
+        //Convert the byteArray to a blob
+        const blob = new Blob([fileContents.buffer]);
+        result = await this._sp.web.lists.getByTitle(listName).rootFolder.files.addChunked(fileNamePath, blob, data => {
+          console.log(`image progress ${data.totalBlocks}`);
+        }, true);
+      }
+    } catch (err) {
+      console.error(
+        `${this.LOG_SOURCE} (checkList) - ${err}`
+      );
     }
     return retVal;
   }
 }
-
-
-
-
 export const dtg = new DesignTemplateGalleryService();

@@ -2,13 +2,12 @@ import {
   BaseImageCardView,
   IImageCardParameters,
   IExternalLinkCardAction,
-  IQuickViewCardAction,
-  ICardButton
+  IQuickViewCardAction
 } from '@microsoft/sp-adaptive-card-extension-base';
 import * as strings from 'VaccinationboosterAdaptiveCardExtensionStrings';
-import { IVaccinationboosterAdaptiveCardExtensionProps, IVaccinationboosterAdaptiveCardExtensionState, QUICK_VIEW_REGISTRY_ID } from '../VaccinationboosterAdaptiveCardExtension';
+import { IVaccinationboosterAdaptiveCardExtensionProps, QUICK_VIEW_REGISTRY_ID } from '../VaccinationboosterAdaptiveCardExtension';
 
-export class CardView extends BaseImageCardView<IVaccinationboosterAdaptiveCardExtensionProps, IVaccinationboosterAdaptiveCardExtensionState> {
+export class CardView extends BaseImageCardView<IVaccinationboosterAdaptiveCardExtensionProps> {
 
   public get data(): IImageCardParameters {
     let text: string = strings.CardViewTitleShort;

@@ -2,8 +2,6 @@ import { ISPFxAdaptiveCard, BaseAdaptiveCardView, ISubmitActionArguments } from 
 import { find } from '@microsoft/sp-lodash-subset';
 import * as strings from 'PayslipAdaptiveCardExtensionStrings';
 
-import { Logger, LogLevel } from "@pnp/logging";
-
 import { PayPeriod, Payslip } from '../../../common/models/designtemplate.models';
 import { IPayslipAdaptiveCardExtensionProps, IPayslipAdaptiveCardExtensionState } from '../PayslipAdaptiveCardExtension';
 
@@ -27,7 +25,7 @@ export class QuickView extends BaseAdaptiveCardView<
   IPayslipAdaptiveCardExtensionState,
   IQuickViewData
 > {
-  private LOG_SOURCE: string = "🔶 Payslip Quick View";
+  private LOG_SOURCE = "🔶 Payslip Quick View";
 
   public get data(): IQuickViewData {
     const payslip: Payslip = find(this.state.payslips, { payPeriod: this.state.currentPayPeriod.id });
@@ -54,21 +52,23 @@ export class QuickView extends BaseAdaptiveCardView<
   public async onAction(action: ISubmitActionArguments): Promise<void> {
     try {
       if (action.type === 'Submit') {
-        const { id, payPeriodId } = action.data;
+        const { id } = action.data;
         if (id === 'next') {
-          let currentIndex = this.state.currentIndex + 1;
+          const currentIndex = this.state.currentIndex + 1;
           const currentPayPeriod: PayPeriod = this.state.payPeriods[currentIndex];
 
           this.setState({ currentPayPeriod: currentPayPeriod, currentIndex: currentIndex });
         } else if (id === 'prev') {
-          let currentIndex = this.state.currentIndex - 1;
+          const currentIndex = this.state.currentIndex - 1;
           const currentPayPeriod: PayPeriod = this.state.payPeriods[currentIndex];
 
           this.setState({ currentPayPeriod: currentPayPeriod, currentIndex: currentIndex });
         }
       }
     } catch (err) {
-      Logger.write(`${this.LOG_SOURCE} (onAction) - ${err}`, LogLevel.Error);
+      console.error(
+        `${this.LOG_SOURCE} (onAction) -- click event not handled. - ${err}`
+      );
     }
   }
 

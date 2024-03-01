@@ -157,13 +157,17 @@
           "title": "${$root.strings.SubmitButtonText}",
           "style": "positive",
           "associatedInputs": "none",
-          "id": "btn_submit"
+          "data": {
+            "id": "btn_submit"
+          }
         },
         {
           "type": "Action.Submit",
           "title": "${$root.strings.CancelButtonText}",
           "associatedInputs": "none",
-          "id": "btn_cancel"
+          "data": {
+            "id": "btn_cancel"
+          }
         }
       ]
     }

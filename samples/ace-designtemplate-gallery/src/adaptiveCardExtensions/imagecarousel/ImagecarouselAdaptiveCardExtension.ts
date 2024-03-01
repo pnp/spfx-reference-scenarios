@@ -4,10 +4,8 @@ import { CardView } from './cardView/CardView';
 import { QuickView } from './quickView/QuickView';
 import { ImagecarouselPropertyPane } from './ImagecarouselPropertyPane';
 
-import { Logger, LogLevel, ConsoleListener } from "@pnp/logging";
-
-import { dtg } from '../../common/services/designtemplate.service';
 import { ImageCarousel } from '../../common/models/designtemplate.models';
+import { dtg } from '../../common/services/designtemplate.service';
 
 export interface IImagecarouselAdaptiveCardExtensionProps {
   title: string;
@@ -23,24 +21,20 @@ export interface IImagecarouselAdaptiveCardExtensionState {
   nextIndex: number;
 }
 
-const CARD_VIEW_REGISTRY_ID: string = 'Imagecarousel_CARD_VIEW';
-export const QUICK_VIEW_REGISTRY_ID: string = 'Imagecarousel_QUICK_VIEW';
+const CARD_VIEW_REGISTRY_ID = 'Imagecarousel_CARD_VIEW';
+export const QUICK_VIEW_REGISTRY_ID = 'Imagecarousel_QUICK_VIEW';
 
 export default class ImagecarouselAdaptiveCardExtension extends BaseAdaptiveCardExtension<
   IImagecarouselAdaptiveCardExtensionProps,
   IImagecarouselAdaptiveCardExtensionState
 > {
-  private LOG_SOURCE: string = "🔶 Image Carousel Adaptive Card Extension";
+  private LOG_SOURCE = "🔶 Image Carousel Adaptive Card Extension";
   private _deferredPropertyPane: ImagecarouselPropertyPane | undefined;
 
-  public onInit(): Promise<void> {
+  public async onInit(): Promise<void> {
     try {
-      //Initialize PnPLogger
-      Logger.subscribe(new ConsoleListener());
-      Logger.activeLogLevel = LogLevel.Info;
-
       //Initialize Service
-      dtg.Init();
+      await dtg.Init(this.context.serviceScope);
 
       //Get the data for the app
       const app: ImageCarousel = dtg.GetImageCarousel();
@@ -55,7 +49,9 @@ export default class ImagecarouselAdaptiveCardExtension extends BaseAdaptiveCard
       this.cardNavigator.register(CARD_VIEW_REGISTRY_ID, () => new CardView());
       this.quickViewNavigator.register(QUICK_VIEW_REGISTRY_ID, () => new QuickView());
     } catch (err) {
-      Logger.write(`${this.LOG_SOURCE} (onInit) - ${err}`, LogLevel.Error);
+      console.error(
+        `${this.LOG_SOURCE} (onInit) -- Could not initialize web part. - ${err}`
+      );
     }
     return Promise.resolve();
   }

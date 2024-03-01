@@ -2,10 +2,8 @@ import {
   BasePrimaryTextCardView,
   IPrimaryTextCardParameters,
   IExternalLinkCardAction,
-  IQuickViewCardAction,
-  ICardButton
+  IQuickViewCardAction
 } from '@microsoft/sp-adaptive-card-extension-base';
-import * as strings from 'ImagecarouselAdaptiveCardExtensionStrings';
 import { IImagecarouselAdaptiveCardExtensionProps, IImagecarouselAdaptiveCardExtensionState, QUICK_VIEW_REGISTRY_ID } from '../ImagecarouselAdaptiveCardExtension';
 
 export class CardView extends BasePrimaryTextCardView<IImagecarouselAdaptiveCardExtensionProps, IImagecarouselAdaptiveCardExtensionState> {

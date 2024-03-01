@@ -1,9 +1,7 @@
 import * as React from 'react';
 import * as ReactDom from 'react-dom';
-import { Version } from '@microsoft/sp-core-library';
 import {
-  IPropertyPaneConfiguration,
-  PropertyPaneTextField
+  IPropertyPaneConfiguration
 } from '@microsoft/sp-property-pane';
 import { BaseClientSideWebPart, IMicrosoftTeams } from '@microsoft/sp-webpart-base';
 import {
@@ -11,14 +9,12 @@ import {
   ThemeChangedEventArgs,
   IReadonlyTheme,
 } from '@microsoft/sp-component-base';
-//import { sp } from "@pnp/sp";
-import { Logger, LogLevel, ConsoleListener } from "@pnp/logging";
 
 import AceDesignTemplatePersonalApp from './components/ACEGalleryPersonalApp';
 import { darkModeTheme, highContrastTheme, lightModeTheme } from '../../common/models/teamsapps.themes';
-import { dtg } from '../../common/services/designtemplate.service';
 import styles from './components/AceDesignTemplatePersonalApp.module.scss';
 import { AppData, DeepLinkData } from '../../common/models/designtemplate.models';
+import { dtg } from '../../common/services/designtemplate.service';
 
 export interface IACEGalleryAppPartProps {
   appData: AppData;
@@ -28,7 +24,7 @@ export interface IACEGalleryAppPartProps {
 
 export default class ACEGalleryAppPart extends BaseClientSideWebPart<IACEGalleryAppPartProps> {
 
-  private LOG_SOURCE: string = "🔶 ACEGalleryAppPart";
+  private LOG_SOURCE = "🔶 ACEGalleryAppPart";
   private _microsoftTeams: IMicrosoftTeams;
   private _linkData: DeepLinkData;
   private _appData: AppData = null;
@@ -40,11 +36,8 @@ export default class ACEGalleryAppPart extends BaseClientSideWebPart<IACEGallery
 
   public async onInit(): Promise<void> {
     try {
-      //Initialize PnPLogger
-      Logger.subscribe(new ConsoleListener());
-      Logger.activeLogLevel = LogLevel.Info;
-
-      dtg.Init();
+      //Initialize Service
+      await dtg.Init(this.context.serviceScope);
 
       //Initialize PnPJs
       //sp.setup({ spfxContext: this.context });
@@ -71,7 +64,7 @@ export default class ACEGalleryAppPart extends BaseClientSideWebPart<IACEGallery
         this._setCSSVariables(this._themeVariant.palette);
 
         // transfer color palette into CSS variables
-        this._setCSSVariables(this._themeVariant["effects"]);
+        this._setCSSVariables(this._themeVariant.effects);
 
       } else {
 
@@ -105,7 +98,9 @@ export default class ACEGalleryAppPart extends BaseClientSideWebPart<IACEGallery
 
       this._init();
     } catch (err) {
-      Logger.write(`${this.LOG_SOURCE} (onInit) - ${err}`, LogLevel.Error);
+      console.error(
+        `${this.LOG_SOURCE} (onInit) -- webpart not initialized. - ${err}`
+      );
     }
   }
 
@@ -117,7 +112,9 @@ export default class ACEGalleryAppPart extends BaseClientSideWebPart<IACEGallery
       }
       this.render();
     } catch (err) {
-      Logger.write(`${this.LOG_SOURCE} (_init) - ${err}`, LogLevel.Error);
+      console.error(
+        `${this.LOG_SOURCE} (_init) - ${err}`
+      );
     }
   }
 
@@ -134,12 +131,14 @@ export default class ACEGalleryAppPart extends BaseClientSideWebPart<IACEGallery
         }
       }
     } catch (err) {
-      Logger.write(`${this.LOG_SOURCE} (_getTeamsQueryString) - ${err} -- Error loading query string parameters from teams context.`, LogLevel.Error);
+      console.error(
+        `${this.LOG_SOURCE} (_getTeamsQueryString) - Error loading query string parameters from teams context. ${err}`
+      );
     }
   }
 
   private _setCSSVariables(theming: any) {
-    let themingKeys = Object.keys(theming);
+    const themingKeys = Object.keys(theming);
     if (themingKeys !== null) {
       themingKeys.forEach(key => {
         // add CSS variable to style property of the web part
@@ -155,15 +154,15 @@ export default class ACEGalleryAppPart extends BaseClientSideWebPart<IACEGallery
 
   public render(): void {
     try {
-      let element;
-      let teams: IMicrosoftTeams = this._microsoftTeams;
       const props: IACEGalleryAppPartProps = { appData: this._appData, deepLink: this._linkData, appList: this._appList };
-      element = React.createElement(AceDesignTemplatePersonalApp, props);
+      const element = React.createElement(AceDesignTemplatePersonalApp, props);
 
       this.domElement.classList.add(styles.appPartPage);
       ReactDom.render(element, this.domElement);
     } catch (err) {
-      Logger.write(`${this.LOG_SOURCE} (render) - ${err}`, LogLevel.Error);
+      console.error(
+        `${this.LOG_SOURCE} (render) - Error rendering web part. ${err}`
+      );
     }
   }
 

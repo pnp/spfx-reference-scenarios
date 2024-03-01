@@ -121,13 +121,58 @@
       ]
     },
     {
+      "type": "Container",
+      "$when": "${count($root.ticket.imageNames) >= 1}",
+      "items": [{
+        "type": "ColumnSet",
+        "columns": [{
+            "type": "Column",
+            "width": 30,
+            "items": [{
+              "type": "TextBlock",
+              "text": "${$root.strings.ImagesLabel}",
+              "wrap": true,
+              "weight": "Bolder"
+            }]
+          },
+          {
+            "type": "Column",
+            "width": 70,
+            "items": [{
+              "type": "Container",
+              "$data": "${$root.ticket.imageNames}",
+              "$when": "${count($root.ticket.imageNames) >= 1}",
+              "items": [{
+                "type": "TextBlock",
+                "text": "${$data}",
+                "wrap": true,
+                "color": "accent"
+              }]
+            }]
+          }
+        ],
+        "spacing": "Large"
+      }]
+    },
+    {
+      "type": "Container",
+      "spacing": "Large",
+      "items": [{
+        "type": "TextBlock",
+        "text": "${$root.errorMessage}",
+        "wrap": true,
+        "color": "attention"
+      }],
+      "$when": "${$root.errorMessage != ''}"
+    },
+    {
       "type": "ColumnSet",
       "columns": [{
           "type": "Column",
           "width": 30,
           "items": [{
             "type": "TextBlock",
-            "text": "Location",
+            "text": "${$root.strings.LocationLabel}",
             "wrap": true,
             "weight": "Bolder"
           }]
@@ -147,8 +192,22 @@
     {
       "type": "ActionSet",
       "actions": [{
+        "type": "Action.OpenUrl",
+        "url": "${ticketDirectionUrl}",
+        "title": "${$root.strings.GetDirectionsLabel}",
+        "style": "positive"
+      }, {
+        "type": "VivaAction.SelectMedia",
+        "id": "files",
+        "parameters": {
+          "mediaType": "MediaType.Image",
+          "allowMultipleCapture": true
+        },
+        "title": "${$root.strings.UploadImageLabel}",
+        "$when": "${canUpload == true}"
+      }, {
         "type": "Action.Submit",
-        "title": "Close Ticket",
+        "title": "${$root.strings.CloseTicketLabel}",
         "data": {
           "id": "close",
           "ticket": "${ticket}"
