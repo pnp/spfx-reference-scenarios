@@ -8,7 +8,7 @@
     "developer": {
         "name": "PiaSys.com",
         "websiteUrl": "https://www.piasys.com/",
-        "privacyUrl": "http://piasys.com/privacy/",
+        "privacyUrl": "https://piasys.com/privacy/",
         "termsOfUseUrl": "https://www.piasys.com/terms-of-use/"
     },
     "icons": {
@@ -60,7 +60,7 @@
         "identity"
     ],
     "validDomains": [
-        "piasysdev.sharepoint.com",
+        "*.sharepoint.com",
         "*.login.microsoftonline.com",
         "*.sharepoint-df.com",
         "spoppe-a.akamaihd.net",

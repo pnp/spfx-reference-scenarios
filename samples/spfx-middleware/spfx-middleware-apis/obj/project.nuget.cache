@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "PzL6GBciJ4wGbREWkGFYBOiq0W4Jkd+ypkhistLJjQSr18xfs07g3OQYFFXHipvKXAJNrhFNzhrhMJiNOHOlWg==",
+  "dgSpecHash": "FZ0LcmEN64lQt8Grv3WTqVBIGISbsMphwRaBjGquOfufzW77LhnYuIsye2xCnzPGfF0P7/f1Mxa8cQNpLKR+bQ==",
   "success": true,
   "projectFilePath": "C:\\github\\spfx-reference-scenarios\\samples\\spfx-middleware\\spfx-middleware-apis\\spfx-middleware-apis.csproj",
   "expectedPackageFiles": [
