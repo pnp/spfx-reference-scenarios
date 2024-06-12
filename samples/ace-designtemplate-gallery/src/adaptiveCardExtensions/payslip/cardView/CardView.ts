@@ -2,10 +2,8 @@ import {
   BasePrimaryTextCardView,
   IPrimaryTextCardParameters,
   IExternalLinkCardAction,
-  IQuickViewCardAction,
-  ICardButton
+  IQuickViewCardAction
 } from '@microsoft/sp-adaptive-card-extension-base';
-import { find } from '@microsoft/sp-lodash-subset';
 import * as strings from 'PayslipAdaptiveCardExtensionStrings';
 import { IPayslipAdaptiveCardExtensionProps, IPayslipAdaptiveCardExtensionState, QUICK_VIEW_REGISTRY_ID } from '../PayslipAdaptiveCardExtension';
 

@@ -4,6 +4,13 @@ define([], function() {
     "GroupName": "Configuration",
     "TitleFieldLabel": "Card Title",
     "IconPropertyFieldLabel": "Card Icon",
+    "BingMapsAPIKeyLabel": "Bing Maps API Key",
+    "BingMapsAPIKeyDescription": "In order to use the Get Location functionality you will need to get an Bing Maps API key. Get location functionality will not display if this property is not set.",
+    "AddLibraryLabel": "Configure Image Upload Library",
+    "AddLibraryButton": "Add Library",
+    "AddLibraryDesc": "This ACE requires a document library called HelpDeskTickets to store uploaded files. Selecting this button will create the library. Users without permissions to write to the document library will not see the image upload button.",
+    "LibraryAddedDesc": "Library Configured",
+    "LibraryDesc": "List to hold image uploads for Help Desk Ticket ACE.",
     "QuickViewButtonText":"View my tasks",
     "CardViewTextSingular":"task pending",
     "CardViewTextPlural":"tasks pending",
@@ -11,6 +18,13 @@ define([], function() {
     "CardViewDescription":"Get up to date with your tasks.",
     "QuickViewDescription": "Review the following tasks and approve or reject these requests before the due date.",
     "OpenedLabel": "Opened",
-    "OverdueLabel": "days overdue"
+    "OverdueLabel": "days overdue",
+    "LocationLabel": "Location",
+    "ImagesLabel": "Images",
+    "GetDirectionsLabel": "Get Directions",
+    "GetDirectionsLabel": "Get Directions",
+    "UploadImageLabel": "Upload Image",
+    "CloseTicketLabel": "Close Ticket",
+    "LocationString": "34/137, Redmond, WA"
   }
 });

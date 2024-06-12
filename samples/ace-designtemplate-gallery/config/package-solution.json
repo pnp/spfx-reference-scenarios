@@ -1,9 +1,20 @@
 {
   "$schema": "https://developer.microsoft.com/json-schemas/spfx-build/package-solution.schema.json",
   "solution": {
+    "metadata": {
+      "shortDescription": {
+        "default": "ace-designtemplate-gallery description"
+      },
+      "longDescription": {
+        "default": "ace-designtemplate-gallery description"
+      },
+      "screenshotPaths": [],
+      "videoUrl": "",
+      "categories": []
+    },
     "name": "ACE Design Gallery",
     "id": "4f3fb79b-3289-4c58-88f3-143096550446",
-    "version": "1.0.0.5",
+    "version": "1.0.0.10",
     "includeClientSideAssets": true,
     "skipFeatureDeployment": true,
     "isDomainIsolated": false,
@@ -14,14 +25,12 @@
       "termsOfUseUrl": "https://symp.info/acegalleryprivacy",
       "mpnId": "2459569"
     },
-    "features": [
-      {
-        "title": "ace-designtemplate-gallery Feature",
-        "description": "The feature that activates elements of the ace-designtemplate-gallery solution.",
-        "id": "4dee8855-0257-4b15-8f14-6c2df6dcd120",
-        "version": "1.0.0.0"
-      }
-    ]
+    "features": [{
+      "title": "ace-designtemplate-gallery Feature",
+      "description": "The feature that activates elements of the ace-designtemplate-gallery solution.",
+      "id": "4dee8855-0257-4b15-8f14-6c2df6dcd120",
+      "version": "1.0.0.0"
+    }]
   },
   "paths": {
     "zippedPackage": "solution/ace-designtemplate-gallery.sppkg"

@@ -1,8 +1,6 @@
 import { ISPFxAdaptiveCard, BaseAdaptiveCardView, ISubmitActionArguments } from '@microsoft/sp-adaptive-card-extension-base';
 import * as strings from 'ImagecarouselAdaptiveCardExtensionStrings';
 
-import { Logger, LogLevel } from "@pnp/logging";
-
 import { ImageCarousel } from '../../../common/models/designtemplate.models';
 import { IImagecarouselAdaptiveCardExtensionProps, IImagecarouselAdaptiveCardExtensionState } from '../ImagecarouselAdaptiveCardExtension';
 
@@ -21,10 +19,10 @@ export class QuickView extends BaseAdaptiveCardView<
   IQuickViewData
 > {
 
-  private LOG_SOURCE: string = "🔶 Image Carousel Quick View";
+  private LOG_SOURCE = "🔶 Image Carousel Quick View";
 
   public get data(): IQuickViewData {
-    let arrow: string = require('../../../common/images/image-carousel/chevron_right_white.png');
+    const arrow: string = require('../../../common/images/image-carousel/chevron_right_white.png');
     return {
       app: this.state.app,
       strings: strings,
@@ -56,7 +54,9 @@ export class QuickView extends BaseAdaptiveCardView<
         }
       }
     } catch (err) {
-      Logger.write(`${this.LOG_SOURCE} (onAction) - ${err}`, LogLevel.Error);
+      console.error(
+        `${this.LOG_SOURCE} (onAction) -- click event not handled. - ${err}`
+      );
     }
   }
 }
