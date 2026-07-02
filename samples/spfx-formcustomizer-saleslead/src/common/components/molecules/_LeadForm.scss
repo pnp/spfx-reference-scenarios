@@ -1,0 +1,171 @@
+@use '../../../../node_modules/@n8d/htwoo-core/lib/sass/00-base/colors/colors' as dt;
+
+.listform-container {
+    container-name: listform;
+    container-type: inline-size;
+    margin-inline: auto;
+    max-width: 1205px;
+
+    @container listform (width < 640px) {
+        .listform {
+            grid-template-areas:
+                "toptoolbar"
+                "mainform"
+                "sidebar"
+                "bottomtoolbar";
+            grid-template-columns: 1fr;
+            grid-template-rows: auto auto auto auto;
+        }
+    }
+}
+
+.listform {
+    display: grid;
+    gap: clamp(1rem, 2.75vw, 2rem);
+    grid-template-areas:
+        "toptoolbar toptoolbar"
+        "mainform sidebar"
+        "bottomtoolbar bottomtoolbar";
+    grid-template-columns: 3fr 1fr;
+    grid-template-rows: auto auto auto;
+
+    .col-2 {
+        display: grid;
+        gap: clamp(1rem, 2.75vw, 2rem);
+        grid-template-columns: 1fr 1fr;
+
+        @container mainform (width < 600px) {
+            grid-template-columns: 1fr;
+        }
+    }
+}
+
+.mainform {
+    container-name: mainform;
+    container-type: inline-size;
+    grid-area: mainform;
+
+}
+
+.sidebar {
+    grid-area: sidebar;
+}
+
+.formtoolbar {
+    &.top {
+        grid-area: toptoolbar;
+    }
+
+    &.bottom {
+        grid-area: bottomtoolbar;
+    }
+}
+
+.form-fieldset {
+
+    border-block: 0.1px dt.$theme-600 solid;
+    border-inline: none;
+
+    margin-block: 1rem;
+
+    .form-legend {
+        margin-left: -1rem;
+        padding: 0.5rem;
+
+        font-size: 1rem;
+        font-weight: bold;
+    }
+}
+
+.nav-selector-select {
+
+    display: flex;
+
+    gap: 1rem;
+}
+
+.nav-selector {
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 4rem;
+    width: 8rem;
+
+    border: 1px transparent solid;
+    border-radius: 0.25rem;
+    flex-direction: column;
+    padding: 0.5rem;
+    cursor: pointer;
+    transition: background-color 150ms ease-out, color 150ms ease-out, box-shadow 150ms ease-out;
+
+    &:hover {
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.18);
+    }
+
+    svg {
+
+        height: 1.5rem;
+        width: auto;
+    }
+
+    &.button1{
+        background-color: color-mix(in srgb, dt.$green-300 50%, white);
+        color: dt.$green-800;
+
+        &:hover {
+            background-color: color-mix(in srgb, dt.$green-300 75%, white);
+        }
+    }
+    &.button2{
+        background-color: color-mix(in srgb, dt.$yellow-300 50%, white);
+        color: dt.$neutral-800;
+
+        &:hover {
+            background-color: color-mix(in srgb, dt.$yellow-300 80%, white);
+        }
+    }
+    &.button3{
+        background-color: color-mix(in srgb, dt.$orange-600 35%, white);
+        color: dt.$neutral-800;
+
+        &:hover {
+            background-color: color-mix(in srgb, dt.$orange-600 50%, white);
+        }
+    }
+    &.button4{
+        background-color: color-mix(in srgb, dt.$magenta-600 25%, white);
+        color: dt.$magenta-800;
+
+        &:hover {
+            background-color: color-mix(in srgb, dt.$magenta-600 32%, white);
+        }
+    }
+    &.button5{
+        background-color: color-mix(in srgb, dt.$blue-300 50%, white);
+        color: dt.$blue-800;
+
+        &:hover {
+            background-color: color-mix(in srgb, dt.$blue-300 75%, white);
+        }
+    }
+    &.button6{
+        background-color: color-mix(in srgb, dt.$teal-600 35%, white);
+        color: dt.$neutral-800;
+
+        &:hover {
+            background-color: color-mix(in srgb, dt.$teal-600 55%, white);
+        }
+    }
+
+}
+
+// When one button in the group is selected, mute the others to look disabled —
+// but only while they're not being hovered, so hover restores the chip's real color.
+.nav-selector-select:has(.nav-selector[aria-pressed="true"]) {
+
+    .nav-selector:not([aria-pressed="true"]):not(:hover) {
+        background-color: dt.$neutral-200;
+        color: dt.$neutral-500;
+    }
+}

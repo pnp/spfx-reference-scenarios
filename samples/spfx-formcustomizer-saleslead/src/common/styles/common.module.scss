@@ -1,0 +1,266 @@
+@use 'pkg:@n8d/htwoo-core/lib/sass/00-base/colors/colors' as dt;
+@use 'sass:math';
+
+// Mixins and Functions
+@function su($value: 1) {
+
+	@if(unit($value)=="px") {
+		@return math.div($value, 16px) * 1rem;
+	}
+
+	@return math.div(1rem, 4) * $value
+}
+
+@mixin lineClamp($lines, $line-height: 1rem) {
+	display: -webkit-box;
+	overflow: hidden;
+
+	max-height: $line-height*$lines;
+
+	text-overflow: ellipsis;
+
+	-webkit-box-orient: vertical;
+	-webkit-line-clamp: $lines;
+}
+
+// Form & Fields & FieldSets
+.formfield {
+	margin: .5rem 0;
+	padding-bottom: 0.5rem;
+	&.error{
+		display: flex;
+	}
+
+	&+.formfield {
+		// border-bottom: 1px dt.$neutral-200 solid;
+	}
+
+	p {
+		margin-top: 0;
+
+		.hoo-icon {
+			justify-content: flex-start;
+		}
+	}
+
+	.hoo-label {
+		display: block;
+	}
+
+	.hoo-input-group+.hoo-input-group {
+		margin-top: .5rem;
+	}
+
+	.hoo-input-text {
+		width: 100%;
+	}
+
+	textarea.hoo-input-text[readonly] {
+		resize: none;
+		height: auto;
+		field-sizing: content;
+		overflow: hidden;
+		cursor: default;
+
+	}
+}
+
+.formfield-2c {
+	display: flex;
+	flex-direction: row;
+}
+
+.fieldset {
+	margin-top: 1rem;
+
+	border: 1px dt.$neutral-700 solid;
+
+	inset: 0;
+
+	.formfield {
+		border: none;
+	}
+
+	.hoo-select-text {
+		flex-wrap: wrap;
+	}
+
+	&:disabled {
+		.hoo-mtag {
+			pointer-events: none;
+
+			border: 1px dt.$neutral-300 solid;
+		}
+
+		.hoo-mtag-delete,
+		.hoo-tagselect-input,
+		.hoo-tagselect {
+			background-color: dt.$neutral-200;
+
+			>* {
+				background-color: dt.$neutral-200;
+			}
+		}
+
+		.hoo-select {
+			pointer-events: none;
+
+			.hoo-buttonicon {
+				background-color: dt.$neutral-200;
+			}
+		}
+
+		.hoo-input-prefix {
+			border: none;
+		}
+	}
+
+	.hoo-icon-search {
+		background-color: dt.$neutral-200;
+	}
+}
+
+.formtoolbar {
+	display: flex;
+	flex-direction: row;
+	justify-content: flex-end;
+
+	gap: 1rem;
+
+}
+
+// Quick Link
+
+@mixin gridBase() {
+	display: grid;
+	grid-template-columns: repeat(12, 1fr);
+	// margin: auto px2rem(8px);
+
+	/* > 1366 pixel */
+	gap: clamp(1rem, 2.75vw, 2rem);
+	row-gap: 2rem;
+}
+
+.tool-grid-container {
+	container-type: inline-size;
+	container-name: toolgrid;
+
+	@container toolgrid (600px <=width < 800px) {
+		.tool-grid {
+			grid-template-columns: repeat(6, 1fr);
+		}
+	}
+
+	@container toolgrid (width < 600px) {
+		.tool-grid {
+			grid-template-columns: repeat(3, 1fr);
+		}
+	}
+}
+
+.tool-grid {
+	position: relative;
+
+	@include gridBase();
+}
+
+.ql-link {
+	display: inline-block;
+
+	text-decoration: none;
+	grid-column: auto / span 3;
+
+	&:active {
+		outline: 1px dt.$neutral-700 solid;
+		border-radius: 0.25rem;
+	}
+}
+
+.ql-title {
+	font-weight: 600;
+	line-height: su(20px);
+
+	margin-bottom: su(2px);
+
+	text-decoration: inherit;
+
+	color: dt.$neutral-700;
+
+	block-size: min-content;
+}
+
+.ql-list {
+	font-size: su(14px);
+
+	position: relative;
+
+	display: flex;
+	flex-direction: row;
+
+	box-sizing: border-box;
+	height: 100%;
+	min-height: su(40px);
+	padding: su(10px);
+	padding-left: 0;
+	padding-left: .75rem;
+
+	cursor: pointer;
+
+	color: dt.$neutral-700;
+	border: 1px transparent solid;
+
+	align-items: flex-start;
+
+	@supports (gap: su(3)) {
+		gap: su(3);
+	}
+
+	.media {
+		width: 2.5rem;
+		height: 2.5rem;
+		margin: 0;
+
+		.hoo-icon {
+			height: inherit;
+			width: inherit;
+		}
+
+		.hoo-icon-svg {
+			width: inherit;
+			height: inherit;
+			padding: 0;
+		}
+	}
+
+	.ql-title {
+		@include lineClamp(1, su(20px));
+	}
+
+	.ql-desc {
+		@include lineClamp(2, su(20px));
+	}
+
+	&.mode-edit {
+		&:hover {
+			border-color: dt.$neutral-350;
+
+			.ql-menu {
+				display: flex;
+			}
+
+			.ql-about {
+				display: none;
+			}
+		}
+	}
+
+	&:hover {
+		color: dt.$theme-900;
+		border-color: 1px dt.$theme-100 solid;
+		border-radius: calc(0.25rem + 1px);
+
+		.ql-about {
+			display: flex;
+		}
+	}
+}

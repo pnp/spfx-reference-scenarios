@@ -1,0 +1,53 @@
+@use 'sass:meta';
+@use 'pkg:@n8d/htwoo-core/lib/sass/00-base/colors/colors' as dt;
+
+:global {
+  @keyframes :global(hoo-spinner) {
+    0% {
+      transform: rotate(0deg);
+    }
+
+    100% {
+      transform: rotate(360deg);
+    }
+  }
+
+  /***    MSFT FIX ***/
+  #SuiteNavWrapper {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 10;
+  }
+
+  .spAppAndPropertyPanelContainer {
+    margin-top: 46px;
+    position: relative;
+    z-index: 10
+  }
+
+  #spSiteHeader {
+    position: sticky;
+    top: 46px;
+    z-index: 10;
+    background-color: white;
+    border-bottom: dt.$neutral-100;
+  }
+
+}
+
+.salesLeadForm {
+  padding: 1rem;
+
+  color: var(--bodyText);
+  font-family: 'Segoe UI', 'Segoe UI Web (West European)', -apple-system, BlinkMacSystemFont, Roboto, 'Helvetica Neue', sans-serif;
+  box-sizing: border-box;
+
+  :global {
+    @include meta.load-css("pkg:@n8d/htwoo-core/lib/sass/htwoo-core");
+    @include meta.load-css("../../../common/styles/common.module");
+    @include meta.load-css("../../../common/components/molecules/LeadForm");
+    @include meta.load-css("../../../webparts/salesLead/components/_userlookup")
+  }
+}

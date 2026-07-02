@@ -1,0 +1,194 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Elements xmlns="http://schemas.microsoft.com/sharepoint/">
+  <Field
+		ID="{8E8A7A40-9F39-4A85-95E7-C5A5DFA645E1}"
+		Name="SLStatus"
+		StaticName="SLStatus"
+		DisplayName="Status"
+		Type="Choice"
+		Group="SalesLeadSystem"
+		Description="Sales Lead System Site Column">
+    <CHOICES>
+      <CHOICE>status-lead</CHOICE>
+      <CHOICE>status-site-survey</CHOICE>
+      <CHOICE>status-proposal</CHOICE>
+      <CHOICE>status-won</CHOICE>
+      <CHOICE>status-lost</CHOICE>
+    </CHOICES>
+  </Field>
+  <Field
+		ID="{2AE44F8C-3E16-47D7-A601-205A3B9362F0}"
+		Name="SLInstallationType"
+		StaticName="SLInstallationType"
+		DisplayName="Installation Type"
+		Type="Choice"
+		Group="SalesLeadSystem"
+		Description="Sales Lead System Site Column">
+    <CHOICES>
+      <CHOICE>Residential</CHOICE>
+      <CHOICE>Commercial</CHOICE>
+      <CHOICE>Industrial</CHOICE>
+      <CHOICE>Utility-Scale</CHOICE>
+    </CHOICES>
+  </Field>
+  <Field
+		ID="{689E0B24-715A-45EF-9CA8-2A5130B7C3F2}"
+		Name="SLMarket"
+		StaticName="SLMarket"
+		DisplayName="Market"
+		Type="Choice"
+		Group="SalesLeadSystem"
+		Description="Sales Lead System Site Column">
+    <CHOICES>
+      <CHOICE>Northeast</CHOICE>
+      <CHOICE>Southeast</CHOICE>
+      <CHOICE>Midwest</CHOICE>
+      <CHOICE>Southwest</CHOICE>
+      <CHOICE>West Coast</CHOICE>
+    </CHOICES>
+  </Field>
+  <Field
+		ID="{B0D8B6B8-38B9-4872-A21B-13E00808682D}"
+		Name="SLClient"
+		StaticName="SLClient"
+		DisplayName="Client"
+		Type="Text"
+		Group="SalesLeadSystem"
+		Description="Sales Lead System Site Column" />
+  <Field
+		ID="{1DB78300-C7B8-43A2-A605-7D7C4BCE1451}"
+		Name="SLSiteAddress"
+		StaticName="SLSiteAddress"
+		DisplayName="Site Address"
+		Type="Text"
+		Group="SalesLeadSystem"
+		Description="Sales Lead System Site Column" />
+  <Field
+		ID="{1FA8A0F4-8B42-4AD0-B725-6DD9FA14516B}"
+		Name="SLContact"
+		StaticName="SLContact"
+		DisplayName="Contact"
+		Type="Text"
+		Group="SalesLeadSystem"
+		Description="Sales Lead System Site Column" />
+  <Field
+		ID="{03A8CC0B-E633-4E86-86A0-DFB964321EBA}"
+		Name="SLContactEmail"
+		StaticName="SLContactEmail"
+		DisplayName="Contact Email"
+		Type="Text"
+		Group="SalesLeadSystem"
+		Description="Sales Lead System Site Column" />
+  <Field
+		ID="{8F9220D2-C1F4-49D4-8F3C-6A7BE4F03B09}"
+		Name="SLContactPhone"
+		StaticName="SLContactPhone"
+		DisplayName="Contact Phone"
+		Type="Text"
+		Group="SalesLeadSystem"
+		Description="Sales Lead System Site Column" />
+  <Field
+		ID="{9501135D-A2A2-4A45-BE5A-81E0295D4F8A}"
+		Name="SLLeadSource"
+		StaticName="SLLeadSource"
+		DisplayName="Lead Source"
+		Type="Choice"
+		Group="SalesLeadSystem"
+		Description="Sales Lead System Site Column">
+    <CHOICES>
+      <CHOICE>Referral</CHOICE>
+      <CHOICE>Website</CHOICE>
+      <CHOICE>Canvassing</CHOICE>
+      <CHOICE>Partner</CHOICE>
+      <CHOICE>Event</CHOICE>
+      <CHOICE>Cold Call</CHOICE>
+    </CHOICES>
+  </Field>
+  <Field
+		ID="{0466D956-E090-43F6-80D3-579A563DC0D4}"
+		Name="SLEstimatedSystemSizeKW"
+		StaticName="SLEstimatedSystemSizeKW"
+		DisplayName="Estimated System Size (KW)"
+		Type="Number"
+		Group="SalesLeadSystem"
+		Description="Sales Lead System Site Column" />
+  <Field
+		ID="{E2D797AA-C35B-43E0-A731-EA1E99E0E30B}"
+		Name="SLFinancingPreference"
+		StaticName="SLFinancingPreference"
+		DisplayName="Financing Preference"
+		Type="Choice"
+		Group="SalesLeadSystem"
+		Description="Sales Lead System Site Column">
+    <CHOICES>
+      <CHOICE>Cash</CHOICE>
+      <CHOICE>Loan</CHOICE>
+      <CHOICE>Lease</CHOICE>
+      <CHOICE>PPA</CHOICE>
+    </CHOICES>
+  </Field>
+  <Field
+		ID="{31A7A5A3-429B-40A9-826D-3E697A8F3835}"
+		Name="SLUtilityProvider"
+		StaticName="SLUtilityProvider"
+		DisplayName="Utility Provider"
+		Type="Text"
+		Group="SalesLeadSystem"
+		Description="Sales Lead System Site Column" />
+  <Field
+		ID="{BCC03A31-E11D-4A9D-9577-D5E993B4FDCF}"
+		Name="SLSummary"
+		StaticName="SLSummary"
+		DisplayName="Summary"
+		Type="Note"
+		NumLines="6"
+		RichText="FALSE"
+		RestrictedMode="FALSE"
+		AppendOnly="FALSE"
+		AllowHyperlink="FALSE"
+		Group="SalesLeadSystem"
+		Description="Sales Lead System Site Column" />
+  <Field
+		ID="{5B4F607C-BA40-4860-B34F-9110294B59D1}"
+		Name="SLValue"
+		StaticName="SLValue"
+		DisplayName="Value"
+		Type="Number"
+		Group="SalesLeadSystem"
+		Description="Sales Lead System Site Column" />
+  <Field
+		ID="{E8F6A3CC-61D8-4D3E-A322-4430DBA9757F}"
+		Name="SLAssignedTo"
+		StaticName="SLAssignedTo"
+		DisplayName="Assigned To"
+		Type="User"
+		UserSelectionMode="PeopleOnly"
+		UserSelectionScope="0"
+		Group="SalesLeadSystem"
+		Description="Sales Lead System Site Column" />
+  <ContentType
+		ID="0x01009F7EEC938CE60548A94915C28DF5CAC4"
+		Name="Sales Lead"
+		Group="SalesLeadSystem"
+		Description="Sales lead record"
+		Inherits="TRUE"
+		Version="0">
+    <FieldRefs>
+      <FieldRef ID="{8E8A7A40-9F39-4A85-95E7-C5A5DFA645E1}" Name="SLStatus" DisplayName="Status" />
+      <FieldRef ID="{2AE44F8C-3E16-47D7-A601-205A3B9362F0}" Name="SLInstallationType" DisplayName="Installation Type" />
+      <FieldRef ID="{689E0B24-715A-45EF-9CA8-2A5130B7C3F2}" Name="SLMarket" DisplayName="Market" />
+      <FieldRef ID="{B0D8B6B8-38B9-4872-A21B-13E00808682D}" Name="SLClient" DisplayName="Client" />
+      <FieldRef ID="{1DB78300-C7B8-43A2-A605-7D7C4BCE1451}" Name="SLSiteAddress" DisplayName="Site Address" />
+      <FieldRef ID="{1FA8A0F4-8B42-4AD0-B725-6DD9FA14516B}" Name="SLContact" DisplayName="Contact" />
+      <FieldRef ID="{03A8CC0B-E633-4E86-86A0-DFB964321EBA}" Name="SLContactEmail" DisplayName="Contact Email" />
+      <FieldRef ID="{8F9220D2-C1F4-49D4-8F3C-6A7BE4F03B09}" Name="SLContactPhone" DisplayName="Contact Phone" />
+      <FieldRef ID="{9501135D-A2A2-4A45-BE5A-81E0295D4F8A}" Name="SLLeadSource" DisplayName="Lead Source" />
+      <FieldRef ID="{0466D956-E090-43F6-80D3-579A563DC0D4}" Name="SLEstimatedSystemSizeKW" DisplayName="Estimated System Size (KW)" />
+      <FieldRef ID="{E2D797AA-C35B-43E0-A731-EA1E99E0E30B}" Name="SLFinancingPreference" DisplayName="Financing Preference" />
+      <FieldRef ID="{31A7A5A3-429B-40A9-826D-3E697A8F3835}" Name="SLUtilityProvider" DisplayName="Utility Provider" />
+      <FieldRef ID="{BCC03A31-E11D-4A9D-9577-D5E993B4FDCF}" Name="SLSummary" DisplayName="Summary" />
+      <FieldRef ID="{5B4F607C-BA40-4860-B34F-9110294B59D1}" Name="SLValue" DisplayName="Value" />
+      <FieldRef ID="{E8F6A3CC-61D8-4D3E-A322-4430DBA9757F}" Name="SLAssignedTo" DisplayName="Assigned To" />
+    </FieldRefs>
+  </ContentType>
+</Elements>

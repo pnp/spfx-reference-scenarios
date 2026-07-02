@@ -1,0 +1,20 @@
+{
+  "@microsoft/generator-sharepoint": {
+    "useGulp": false,
+    "plusBeta": false,
+    "isCreatingSolution": false,
+    "nodeVersion": "22.22.0",
+    "sdksVersions": {},
+    "version": "1.23.2",
+    "libraryName": "sales-lead-system",
+    "libraryId": "8ea1fb00-e216-44d6-8ff4-076ee08b2e13",
+    "environment": "spo",
+    "packageManager": "npm",
+    "solutionName": "sales-lead-system",
+    "solutionShortDescription": "sales-lead-system description",
+    "skipFeatureDeployment": true,
+    "isDomainIsolated": false,
+    "componentType": "extension",
+    "extensionType": "FormCustomizer"
+  }
+}
