@@ -1,0 +1,45 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/spfx-build/package-solution.schema.json",
+  "solution": {
+    "name": "Sales Lead System",
+    "id": "8ea1fb00-e216-44d6-8ff4-076ee08b2e13",
+    "version": "1.0.0.0",
+    "includeClientSideAssets": true,
+    "skipFeatureDeployment": false,
+    "isDomainIsolated": false,
+    "developer": {
+      "name": "Sympraxis Consulting",
+      "websiteUrl": "https://sympraxisconsulting.com",
+      "privacyUrl": "https://symp.info/privacyUrl",
+      "termsOfUseUrl": "https://symp.info/termsOfUseUrl",
+      "mpnId": "SYMPRAXIS"
+    },
+    "metadata": {
+      "shortDescription": {
+        "default": "Sales Lead System"
+      },
+      "longDescription": {
+        "default": "Sales Lead System providing access to a custom form for CRUD operations on sales leads as well as a sales lead listing tool for use in Copilot solutions."
+      },
+      "screenshotPaths": [],
+      "videoUrl": "",
+      "categories": []
+    },
+    "features": [
+      {
+        "title": "Sales Lead System Feature",
+        "description": "The feature that activates elements of the Sales Lead System solution.",
+        "id": "ccb4a13d-fe95-4fa7-8af7-b1ac561fdc93",
+        "version": "1.0.0.0",
+        "assets": {
+          "elementManifests": [
+            "elements.xml"
+          ]
+        }
+      }
+    ]
+  },
+  "paths": {
+    "zippedPackage": "solution/sales-lead-system.sppkg"
+  }
+}

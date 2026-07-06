@@ -1,0 +1,27 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/spfx-build/config.2.0.schema.json",
+  "version": "2.0",
+  "bundles": {
+    "sales-lead-web-part": {
+      "components": [
+        {
+          "entrypoint": "./lib/webparts/salesLead/SalesLeadWebPart.js",
+          "manifest": "./src/webparts/salesLead/SalesLeadWebPart.manifest.json"
+        }
+      ]
+    },
+    "sales-lead-form-form-customizer": {
+      "components": [
+        {
+          "entrypoint": "./lib/extensions/salesLeadForm/SalesLeadFormCustomizer.js",
+          "manifest": "./src/extensions/salesLeadForm/SalesLeadFormCustomizer.manifest.json"
+        }
+      ]
+    }
+  },
+  "externals": {},
+  "localizedResources": {
+    "SalesLeadWebPartStrings": "lib/webparts/salesLead/loc/{locale}.js",
+    "SalesLeadFormCustomizerStrings": "lib/extensions/salesLeadForm/loc/{locale}.js"
+  }
+}

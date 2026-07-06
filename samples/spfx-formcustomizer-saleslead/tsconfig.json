@@ -1,0 +1,12 @@
+{
+  "extends": "./node_modules/@microsoft/spfx-web-build-rig/profiles/default/tsconfig-base.json",
+  "compilerOptions": {
+    "target": "esnext",
+    "module": "esnext",
+    "moduleResolution": "bundler",
+    "jsx": "react",
+    "resolveJsonModule": true,
+    "noImplicitAny": false
+  },
+  "include": ["./src/**/*.ts", "./src/**/*.tsx"]
+}

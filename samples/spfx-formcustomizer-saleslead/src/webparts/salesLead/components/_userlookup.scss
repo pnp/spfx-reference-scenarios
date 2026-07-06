@@ -1,0 +1,173 @@
+/*
+ * UserLookup & UserPill overrides for HTWOO Core
+ *
+ * Requires: @n8d/htwoo-core base styles already loaded.
+ * Uses HTWOO Core Sass design tokens for theming.
+ */
+
+@use 'pkg:@n8d/htwoo-core/lib/sass/00-base/colors/colors' as dt;
+@use 'pkg:@n8d/htwoo-core/lib/sass/01-atoms/input/select' as select;
+
+/* ── Tag Select ── */
+
+.hoo-tagselect {
+    @extend .hoo-select;
+
+    flex-wrap: wrap;
+
+    .hoo-select-text {
+        font-size: 0.8rem;
+        line-height: 1.25rem;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        gap: 0.75rem;
+    }
+
+    .hoo-pill.is-persona {
+        flex-grow: 0;
+    }
+
+    .hoo-select-dropdown {
+        background-color: dt.$neutral-000;
+        border: 1px solid dt.$bodyText;
+        border-top: none;
+    }
+
+    &.is-readonly {
+        border-color: transparent;
+        .hoo-pill-delete{
+            button{
+                visibility: hidden;
+            }
+        }
+    }
+}
+
+/* ── Tag Select Input ── */
+
+.hoo-tagselect-input {
+    min-width: px2rem(200px);
+    max-width: 100%;
+    height: 1.75rem;
+    padding-block: 0.5rem;
+    display: inline-block;
+    border: none;
+    flex-grow: 1;
+    color: dt.$bodyText;
+    background-color: dt.$neutral-000;
+
+    &:focus {
+        outline: none;
+    }
+
+    &:disabled {
+        visibility: hidden;
+    }
+}
+
+/* ── Loading Indicator ── */
+
+.hoo-option-loading {
+    display: flex;
+    flex-direction: row;
+    list-style-type: none;
+    align-items: center;
+
+    .hoo-icon {
+        &>svg {
+            transform-origin: center center;
+            animation: rotateLoading 1s linear infinite;
+            animation-fill-mode: forwards;
+            fill: dt.$theme-700;
+        }
+    }
+
+    .hoo-loading-label {
+        font-weight: bold;
+        margin-left: 0.5rem;
+    }
+}
+
+@keyframes rotateLoading {
+    from {
+        transform: rotate(0deg);
+    }
+
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+/* ── Person Pill ── */
+
+.hoo-pill {
+    font-size: 1rem;
+    display: inline-flex;
+    overflow: hidden;
+    flex-direction: row;
+    justify-content: center;
+    color: dt.$neutral-700;
+    align-content: center;
+    align-items: stretch;
+
+    &:hover {
+
+        .hoo-pill-img,
+        .hoo-pill-lbl,
+        .hoo-pill-delete {
+            color: dt.$neutral-000;
+            background-color: dt.$theme-600;
+        }
+    }
+
+    .hoo-pill-img {
+        display: flex;
+        justify-content: center;
+        height: inherit;
+        padding-right: px2rem(4px);
+        padding-left: px2rem(4px);
+        border: 1px transparent solid;
+        border-top-left-radius: 50%;
+        border-bottom-left-radius: 50%;
+        background-color: dt.$neutral-100;
+        align-content: center;
+        align-items: center;
+    }
+
+    .hoo-avatar {
+        width: 1.4em;
+        height: 1.4em;
+    }
+
+    .hoo-pill-lbl {
+        font-size: 0.75em;
+        padding: 0.35rem 0 0.25rem 0.25rem;
+        background-color: dt.$neutral-100;
+    }
+
+    .hoo-pill-delete {
+        overflow: hidden;
+        margin: 0;
+        border: 1px transparent solid;
+        border-top-right-radius: 50%;
+        border-bottom-right-radius: 50%;
+        background-color: dt.$neutral-100;
+
+        .hoo-icon-svg {
+            width: 1em;
+            height: 1em;
+        }
+
+        .hoo-buttonicon {
+            color: currentColor;
+            border-radius: 50%;
+            inset: 4px;
+
+            &:hover {
+                color: dt.$neutral-000;
+                background-color: dt.$theme-600;
+            }
+        }
+    }
+}
