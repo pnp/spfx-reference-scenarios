@@ -3,12 +3,9 @@ import { BaseAdaptiveCardExtension } from '@microsoft/sp-adaptive-card-extension
 import { CardView } from './cardView/CardView';
 import { QuickView } from './quickView/QuickView';
 
-import { Logger, LogLevel, ConsoleListener } from "@pnp/logging";
-
 import { TimelineholidayPropertyPane } from './TimelineholidayPropertyPane';
-import { dtg } from '../../common/services/designtemplate.service';
-import * as strings from 'TimelineholidayAdaptiveCardExtensionStrings';
 import { Holiday, HolidayTimeline } from '../../common/models/designtemplate.models';
+import { dtg } from '../../common/services/designtemplate.service';
 
 export interface ITimelineholidayAdaptiveCardExtensionProps {
   iconProperty: string;
@@ -21,25 +18,20 @@ export interface ITimelineholidayAdaptiveCardExtensionState {
   nextHoliday: Holiday;
 }
 
-const CARD_VIEW_REGISTRY_ID: string = 'Timelineholiday_CARD_VIEW';
-export const QUICK_VIEW_REGISTRY_ID: string = 'Timelineholiday_QUICK_VIEW';
+const CARD_VIEW_REGISTRY_ID = 'Timelineholiday_CARD_VIEW';
+export const QUICK_VIEW_REGISTRY_ID = 'Timelineholiday_QUICK_VIEW';
 
 export default class TimelineholidayAdaptiveCardExtension extends BaseAdaptiveCardExtension<
   ITimelineholidayAdaptiveCardExtensionProps,
   ITimelineholidayAdaptiveCardExtensionState
 > {
-  private LOG_SOURCE: string = "🔶 Timeline-Holiday Adaptive Card Extension";
-
+  private LOG_SOURCE = "🔶 Timeline-Holiday Adaptive Card Extension";
   private _deferredPropertyPane: TimelineholidayPropertyPane | undefined;
 
-  public onInit(): Promise<void> {
+  public async onInit(): Promise<void> {
     try {
-      //Initialize PnPLogger
-      Logger.subscribe(new ConsoleListener());
-      Logger.activeLogLevel = LogLevel.Info;
-
       //Initialize Service
-      dtg.Init();
+      await dtg.Init(this.context.serviceScope);
 
       const timline: HolidayTimeline = dtg.GetHolidayTimeline(this.context.pageContext.cultureInfo.currentUICultureName);
 
@@ -53,7 +45,9 @@ export default class TimelineholidayAdaptiveCardExtension extends BaseAdaptiveCa
       this.cardNavigator.register(CARD_VIEW_REGISTRY_ID, () => new CardView());
       this.quickViewNavigator.register(QUICK_VIEW_REGISTRY_ID, () => new QuickView());
     } catch (err) {
-      Logger.write(`${this.LOG_SOURCE} (onInit) - ${err}`, LogLevel.Error);
+      console.error(
+        `${this.LOG_SOURCE} (onInit) -- Could not initialize web part. - ${err}`
+      );
     }
     return Promise.resolve();
   }

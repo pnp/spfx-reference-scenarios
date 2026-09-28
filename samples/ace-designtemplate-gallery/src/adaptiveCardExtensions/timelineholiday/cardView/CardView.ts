@@ -8,7 +8,7 @@ import { ITimelineholidayAdaptiveCardExtensionProps, ITimelineholidayAdaptiveCar
 
 export class CardView extends BaseImageCardView<ITimelineholidayAdaptiveCardExtensionProps, ITimelineholidayAdaptiveCardExtensionState> {
   public get data(): IImageCardParameters {
-    let imageUrl: string = "";
+    let imageUrl = "";
     const today: Date = new Date();
     if (today.getMonth() >= 0 && today.getMonth() <= 2) {
       imageUrl = require('../../../common/images/timeline-holidays/winter.jpg');

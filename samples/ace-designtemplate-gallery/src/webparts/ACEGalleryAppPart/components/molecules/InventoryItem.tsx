@@ -1,6 +1,4 @@
 import * as React from "react";
-import { Logger, LogLevel } from "@pnp/logging";
-import { isEqual } from "@microsoft/sp-lodash-subset";
 
 export interface IInventoryItemProps {
   introText: string;
@@ -8,25 +6,11 @@ export interface IInventoryItemProps {
   value: string;
 }
 
-export interface IInventoryItemState {
-}
-
-export class InventoryItemState implements IInventoryItemState {
-  constructor() { }
-}
-
-export default class InventoryItem extends React.Component<IInventoryItemProps, IInventoryItemState> {
-  private LOG_SOURCE: string = "🔶 InventoryItem";
+export default class InventoryItem extends React.Component<IInventoryItemProps> {
+  private LOG_SOURCE = "🔶 InventoryItem";
 
   constructor(props: IInventoryItemProps) {
     super(props);
-    this.state = new InventoryItemState();
-  }
-
-  public shouldComponentUpdate(nextProps: Readonly<IInventoryItemProps>, nextState: Readonly<IInventoryItemState>) {
-    if ((isEqual(nextState, this.state) && isEqual(nextProps, this.props)))
-      return false;
-    return true;
   }
 
   public render(): React.ReactElement<IInventoryItemProps> {
@@ -38,7 +22,9 @@ export default class InventoryItem extends React.Component<IInventoryItemProps, 
         </div>
       );
     } catch (err) {
-      Logger.write(`${this.LOG_SOURCE} (render) - ${err}`, LogLevel.Error);
+      console.error(
+        `${this.LOG_SOURCE} (render) - error rendering component ${err}`
+      );
       return null;
     }
   }

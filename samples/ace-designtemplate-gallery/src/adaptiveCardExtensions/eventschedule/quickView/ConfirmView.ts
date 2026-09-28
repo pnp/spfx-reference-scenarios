@@ -1,12 +1,10 @@
-import { ISPFxAdaptiveCard, BaseAdaptiveCardView, IActionArguments, ISubmitActionArguments } from '@microsoft/sp-adaptive-card-extension-base';
+import { ISPFxAdaptiveCard, BaseAdaptiveCardView, ISubmitActionArguments } from '@microsoft/sp-adaptive-card-extension-base';
 import * as strings from 'EventscheduleAdaptiveCardExtensionStrings';
 import { IEventscheduleAdaptiveCardExtensionProps, IEventscheduleAdaptiveCardExtensionState } from '../EventscheduleAdaptiveCardExtension';
 
-import { Logger, LogLevel } from "@pnp/logging";
-
-import { dtg } from '../../../common/services/designtemplate.service';
 import { Event, EventRegistration } from '../../../common/models/designtemplate.models';
 import { QUICK_VIEW_REGISTRY_ID } from '../../eventschedule/EventscheduleAdaptiveCardExtension';
+import { dtg } from '../../../common/services/designtemplate.service';
 
 export interface IConfirmViewData {
   event: Event;
@@ -21,7 +19,7 @@ export class ConfirmView extends BaseAdaptiveCardView<
   IEventscheduleAdaptiveCardExtensionState,
   IConfirmViewData
 > {
-  private LOG_SOURCE: string = "🔶 Event Schedule Confirm View";
+  private LOG_SOURCE = "🔶 Event Schedule Confirm View";
 
   public get data(): IConfirmViewData {
     return {
@@ -46,7 +44,9 @@ export class ConfirmView extends BaseAdaptiveCardView<
         }
       }
     } catch (err) {
-      Logger.write(`${this.LOG_SOURCE} (onAction) - ${err}`, LogLevel.Error);
+      console.error(
+        `${this.LOG_SOURCE} (onAction) -- click event not handled. - ${err}`
+      );
     }
   }
 }

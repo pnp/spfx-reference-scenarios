@@ -3,49 +3,63 @@ import { BaseAdaptiveCardExtension } from '@microsoft/sp-adaptive-card-extension
 import { CardView } from './cardView/CardView';
 import { QuickView } from './quickView/QuickView';
 import { HelpdeskPropertyPane } from './HelpdeskPropertyPane';
-import { Logger, LogLevel, ConsoleListener } from "@pnp/logging";
-import { dtg } from '../../common/services/designtemplate.service';
+
 import { HelpDeskTicket } from '../../common/models/designtemplate.models';
 import { EditView } from './quickView/EditView';
+import { dtg } from '../../common/services/designtemplate.service';
 
 export interface IHelpdeskAdaptiveCardExtensionProps {
   title: string;
   iconProperty: string;
+  bingMapsKey: string;
+  listExists: boolean;
+  canUpload: boolean;
+  currentLat: string;
+  currentLong: string;
 }
 
 export interface IHelpdeskAdaptiveCardExtensionState {
   tickets: HelpDeskTicket[];
   currentIncidentNumber: string;
+  errorMessage: string;
 }
 
-const CARD_VIEW_REGISTRY_ID: string = 'Helpdesk_CARD_VIEW';
-export const QUICK_VIEW_REGISTRY_ID: string = 'Helpdesk_QUICK_VIEW';
-export const EDITT_VIEW_REGISTRY_ID: string = 'Helpdesk_EDIT_VIEW';
+const CARD_VIEW_REGISTRY_ID = 'Helpdesk_CARD_VIEW';
+export const QUICK_VIEW_REGISTRY_ID = 'Helpdesk_QUICK_VIEW';
+export const EDITT_VIEW_REGISTRY_ID = 'Helpdesk_EDIT_VIEW';
 
 export default class HelpdeskAdaptiveCardExtension extends BaseAdaptiveCardExtension<
   IHelpdeskAdaptiveCardExtensionProps,
   IHelpdeskAdaptiveCardExtensionState
 > {
-  private LOG_SOURCE: string = "🔶 Help Desk Ticket Listing Adaptive Card Extension";
+  private LOG_SOURCE = "🔶 Help Desk Ticket Listing Adaptive Card Extension";
   private _deferredPropertyPane: HelpdeskPropertyPane | undefined;
+  private _listExists = false;
 
-
-  public onInit(): Promise<void> {
+  public async onInit(): Promise<void> {
     try {
       this._iconProperty = this.properties.iconProperty;
-      //Initialize PnPLogger
-      Logger.subscribe(new ConsoleListener());
-      Logger.activeLogLevel = LogLevel.Info;
 
       //Initialize Service
-      dtg.Init();
+      await dtg.Init(this.context.serviceScope);
+      //Check if the list to hold the images exists
+      this._listExists = await dtg.CheckList("HelpDeskTickets");
+      // this.properties.listExists = this._listExists;
 
-      const tickets: HelpDeskTicket[] = dtg.GetHelpDeskTickets();
+      if (this._listExists) {
+        this.properties.canUpload = await dtg.CanUserUpload("HelpDeskTickets");
+        this.properties.canUpload = true;
+      } else {
+        this.properties.canUpload = false;
+      }
+
+      const tickets: HelpDeskTicket[] = await dtg.GetHelpDeskTickets(this.properties.bingMapsKey);
 
       //Set the data into state
       this.state = {
         tickets: tickets,
-        currentIncidentNumber: ""
+        currentIncidentNumber: "",
+        errorMessage: ""
 
       };
       //Register the cards
@@ -53,7 +67,9 @@ export default class HelpdeskAdaptiveCardExtension extends BaseAdaptiveCardExten
       this.quickViewNavigator.register(QUICK_VIEW_REGISTRY_ID, () => new QuickView());
       this.quickViewNavigator.register(EDITT_VIEW_REGISTRY_ID, () => new EditView());
     } catch (err) {
-      Logger.write(`${this.LOG_SOURCE} (onInit) - ${err}`, LogLevel.Error);
+      console.error(
+        `${this.LOG_SOURCE} (onInit) -- Could not initialize web part. - ${err}`
+      );
     }
 
     return Promise.resolve();
@@ -73,7 +89,7 @@ export default class HelpdeskAdaptiveCardExtension extends BaseAdaptiveCardExten
     )
       .then(
         (component) => {
-          this._deferredPropertyPane = new component.HelpdeskPropertyPane();
+          this._deferredPropertyPane = new component.HelpdeskPropertyPane(this._listExists, this.context);
         }
       );
   }

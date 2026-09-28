@@ -200,7 +200,7 @@
                     "type": "ActionSet",
                     "actions": [{
                       "type": "Action.Submit",
-                      "title": "${$root.strings.ConfirmButtonLabel}",
+                      "title": "${$root.strings.NextButtonLabel}",
                       "style": "positive",
                       "data": {
                         "id": "confirm"

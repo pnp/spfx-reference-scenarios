@@ -1,10 +1,9 @@
 import { ISPFxAdaptiveCard, BaseAdaptiveCardView, ISubmitActionArguments } from '@microsoft/sp-adaptive-card-extension-base';
 import * as strings from 'TeamcalendarAdaptiveCardExtensionStrings';
-import { Logger, LogLevel } from "@pnp/logging";
 import { Appointment, Day } from '../../../common/models/designtemplate.models';
 import { ITeamcalendarAdaptiveCardExtensionProps, ITeamcalendarAdaptiveCardExtensionState } from '../TeamcalendarAdaptiveCardExtension';
-import { dtg } from '../../../common/services/designtemplate.service';
 import { cloneDeep } from '@microsoft/sp-lodash-subset';
+import { dtg } from '../../../common/services/designtemplate.service';
 
 export interface IQuickViewData {
   currentDate: Date;
@@ -21,7 +20,7 @@ export class QuickView extends BaseAdaptiveCardView<
   ITeamcalendarAdaptiveCardExtensionState,
   IQuickViewData
 > {
-  private LOG_SOURCE: string = "🔶 Team Calendar Quick View";
+  private LOG_SOURCE = "🔶 Team Calendar Quick View";
 
   public get data(): IQuickViewData {
 
@@ -60,12 +59,14 @@ export class QuickView extends BaseAdaptiveCardView<
           if (weekdayIndex < 0) {
             weekdayIndex = 0;
           }
-          let selectedSunday: Day = new Day(day.monthIndex, 0, weekdayIndex);
+          const selectedSunday: Day = new Day(day.monthIndex, 0, weekdayIndex);
           this.setState({ selectedAppointments: day.appointments, selectedSunday: selectedSunday });
         }
       }
     } catch (err) {
-      Logger.write(`${this.LOG_SOURCE} (onAction) - ${err}`, LogLevel.Error);
+      console.error(
+        `${this.LOG_SOURCE} (onAction) -- click event not handled. - ${err}`
+      );
     }
   }
 }

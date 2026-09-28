@@ -29,6 +29,7 @@
     "cardSize": "Medium",
     "properties": {
       "title": "Help Desk",
+      "bingMapsKey": "",
       "iconProperty": "person_support" // Default to sharepointlogo
     }
   }]

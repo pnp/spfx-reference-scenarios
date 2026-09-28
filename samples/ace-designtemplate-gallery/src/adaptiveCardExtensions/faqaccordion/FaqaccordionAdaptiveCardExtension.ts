@@ -4,53 +4,49 @@ import { CardView } from './cardView/CardView';
 import { QuickView } from './quickView/QuickView';
 import { FaqaccordionPropertyPane } from './FaqaccordionPropertyPane';
 
-import { Logger, LogLevel, ConsoleListener } from "@pnp/logging";
-
-import { dtg } from '../../common/services/designtemplate.service';
 import { AccordionList } from '../../common/models/designtemplate.models';
+import { dtg } from '../../common/services/designtemplate.service';
 
 export interface IFaqaccordionAdaptiveCardExtensionProps {
   iconProperty: string;
   title: string;
+  deepLink: string;
 }
 
 export interface IFaqaccordionAdaptiveCardExtensionState {
   faqApp: AccordionList;
-  deepLink: string;
 }
 
-const CARD_VIEW_REGISTRY_ID: string = 'Faqaccordion_CARD_VIEW';
-export const QUICK_VIEW_REGISTRY_ID: string = 'Faqaccordion_QUICK_VIEW';
+const CARD_VIEW_REGISTRY_ID = 'Faqaccordion_CARD_VIEW';
+export const QUICK_VIEW_REGISTRY_ID = 'Faqaccordion_QUICK_VIEW';
 
 export default class FaqaccordionAdaptiveCardExtension extends BaseAdaptiveCardExtension<
   IFaqaccordionAdaptiveCardExtensionProps,
   IFaqaccordionAdaptiveCardExtensionState
 > {
-  private LOG_SOURCE: string = "🔶 FAQ Adaptive Card Extension";
+  private LOG_SOURCE = "🔶 FAQ Adaptive Card Extension";
   private _deferredPropertyPane: FaqaccordionPropertyPane | undefined;
 
-  public onInit(): Promise<void> {
+  public async onInit(): Promise<void> {
     try {
-      //Initialize PnPLogger
-      Logger.subscribe(new ConsoleListener());
-      Logger.activeLogLevel = LogLevel.Info;
-
       //Initialize Service
-      dtg.Init();
+      await dtg.Init(this.context.serviceScope);
+      this.properties.deepLink = dtg.TeamsUrl;
 
       //Get the data for the app
       const faqApp: AccordionList = dtg.GetFAQs();
 
       //Set the data into state
       this.state = {
-        faqApp: faqApp,
-        deepLink: dtg.TeamsUrl
+        faqApp: faqApp
       };
       //Register the cards
       this.cardNavigator.register(CARD_VIEW_REGISTRY_ID, () => new CardView());
       this.quickViewNavigator.register(QUICK_VIEW_REGISTRY_ID, () => new QuickView());
     } catch (err) {
-      Logger.write(`${this.LOG_SOURCE} (onInit) - ${err}`, LogLevel.Error);
+      console.error(
+        `${this.LOG_SOURCE} (onInit) -- Could not initialize web part. - ${err}`
+      );
     }
     return Promise.resolve();
   }

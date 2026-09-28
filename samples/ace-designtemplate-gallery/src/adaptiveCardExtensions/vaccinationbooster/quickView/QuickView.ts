@@ -1,9 +1,8 @@
 import { ISPFxAdaptiveCard, BaseAdaptiveCardView, ISubmitActionArguments } from '@microsoft/sp-adaptive-card-extension-base';
 import * as strings from 'VaccinationboosterAdaptiveCardExtensionStrings';
-import { Logger, LogLevel } from "@pnp/logging";
-import { IVaccinationboosterAdaptiveCardExtensionProps, IVaccinationboosterAdaptiveCardExtensionState } from '../VaccinationboosterAdaptiveCardExtension';
-import { dtg } from '../../../common/services/designtemplate.service';
+import { IVaccinationboosterAdaptiveCardExtensionProps } from '../VaccinationboosterAdaptiveCardExtension';
 import { VaccineAppointment } from '../../../common/models/designtemplate.models';
+import { dtg } from '../../../common/services/designtemplate.service';
 
 export interface IQuickViewData {
   logo: string;
@@ -13,10 +12,9 @@ export interface IQuickViewData {
 
 export class QuickView extends BaseAdaptiveCardView<
   IVaccinationboosterAdaptiveCardExtensionProps,
-  IVaccinationboosterAdaptiveCardExtensionState,
   IQuickViewData
 > {
-  private LOG_SOURCE: string = "🔶 Vaccine Booster Quick View";
+  private LOG_SOURCE = "🔶 Vaccine Booster Quick View";
   public get data(): IQuickViewData {
     return {
       logo: require('../../../common/images/vaccination-booster/HealthCenterLogo.png'),
@@ -31,7 +29,7 @@ export class QuickView extends BaseAdaptiveCardView<
   public async onAction(action: ISubmitActionArguments): Promise<void> {
     try {
       if (action.type === 'Submit') {
-        const { id, data } = action;
+        const { id } = action;
         if (id === 'btn_cancel') {
           this.quickViewNavigator.close();
         } else if (id === 'btn_submit') {
@@ -41,7 +39,9 @@ export class QuickView extends BaseAdaptiveCardView<
         }
       }
     } catch (err) {
-      Logger.write(`${this.LOG_SOURCE} (onAction) - ${err}`, LogLevel.Error);
+      console.error(
+        `${this.LOG_SOURCE} (onAction) -- click event not handled. - ${err}`
+      );
     }
   }
 }

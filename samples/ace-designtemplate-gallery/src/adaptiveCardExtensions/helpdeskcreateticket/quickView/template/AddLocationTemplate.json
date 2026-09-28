@@ -1,6 +1,12 @@
 {
   "type": "AdaptiveCard",
-  "body": [{
+  "body": [
+
+
+
+
+
+    {
       "type": "Container",
       "items": [{
         "type": "TextBlock",
@@ -11,8 +17,7 @@
       "style": "emphasis",
       "bleed": true,
       "horizontalAlignment": "Center"
-    },
-    {
+    }, {
       "type": "Container",
       "items": [{
         "type": "TextBlock",
@@ -21,14 +26,12 @@
         "weight": "Bolder"
       }],
       "spacing": "Large"
-    },
-    {
+    }, {
       "type": "TextBlock",
       "text": "${$root.ticket.incidentNumber}",
       "wrap": true,
       "spacing": "Small"
-    },
-    {
+    }, {
       "type": "Container",
       "spacing": "Large",
       "items": [{
@@ -63,8 +66,7 @@
           "spacing": "Small"
         }
       ]
-    },
-    {
+    }, {
       "type": "Container",
       "spacing": "Large",
       "items": [{
@@ -80,8 +82,7 @@
           "spacing": "Small"
         }
       ]
-    },
-    {
+    }, {
       "type": "Container",
       "spacing": "Large",
       "items": [{
@@ -97,8 +98,7 @@
           "spacing": "Small"
         }
       ]
-    },
-    {
+    }, {
       "type": "Container",
       "spacing": "Large",
       "items": [{
@@ -107,14 +107,12 @@
         "wrap": true,
         "weight": "Bolder"
       }]
-    },
-    {
+    }, {
       "type": "TextBlock",
       "text": "${$root.ticket.urgency}",
       "wrap": true,
       "spacing": "Small"
-    },
-    {
+    }, {
       "type": "Container",
       "spacing": "Large",
       "items": [{
@@ -123,12 +121,125 @@
         "wrap": true,
         "weight": "Bolder"
       }]
-    },
-    {
+    }, {
       "type": "TextBlock",
       "text": "${$root.ticket.description}",
       "wrap": true,
       "spacing": "Small"
+    },
+    {
+      "type": "Container",
+      "spacing": "Large",
+      "items": [{
+          "type": "TextBlock",
+          "text": "${$root.strings.LocationLabel}",
+          "wrap": true,
+          "weight": "Bolder"
+        },
+        {
+          "type": "ColumnSet",
+          "columns": [{
+              "type": "Column",
+              "width": "16px",
+              "items": [{
+                "type": "Image",
+                "url": "${if(ticket.latitude == '', $root.imgAdd, $root.imgChecked)}"
+              }]
+            },
+            {
+              "type": "Column",
+              "width": "stretch",
+              "items": [{
+                "type": "TextBlock",
+                "text": "${if(ticket.latitude == '', $root.strings.AddLocationLabel, $root.ticket.location)}",
+                "wrap": true,
+                "weight": "Default",
+                "color": "Accent",
+                "spacing": "Small"
+              }]
+            }
+          ]
+        }
+      ],
+      "$when": "${$root.hasAPIKey == true}",
+      "selectAction": {
+        "title": "Choose location on map",
+        "type": "VivaAction.GetLocation",
+        "parameters": {
+          "chooseLocationOnMap": true
+        }
+      }
+    },
+    {
+      "type": "Container",
+      "spacing": "Large",
+      "items": [{
+        "type": "TextBlock",
+        "text": "${$root.strings.UploadImageLabel}",
+        "wrap": true,
+        "weight": "Bolder"
+      }],
+      "$when": "${$root.canUpload == true}"
+    },
+    {
+      "type": "Container",
+      "spacing": "Large",
+      "$data": "${$root.ticket.imageNames}",
+      "items": [{
+        "type": "TextBlock",
+        "text": "${$data}",
+        "wrap": true
+      }],
+      "$when": "${count($root.ticket.imageNames) > 0}"
+    },
+    {
+      "type": "Container",
+      "spacing": "Large",
+      "items": [{
+        "type": "TextBlock",
+        "text": "${$root.errorMessage}",
+        "wrap": true,
+        "color": "attention"
+      }],
+      "$when": "${$root.errorMessage != ''}"
+    },
+    {
+      "type": "Container",
+      "spacing": "Large",
+      "items": [{
+        "type": "ColumnSet",
+        "columns": [{
+            "type": "Column",
+            "width": "16px",
+            "items": [{
+              "type": "Image",
+              "url": "${$root.imgAdd}"
+            }]
+          },
+          {
+            "type": "Column",
+            "width": "stretch",
+            "items": [{
+              "type": "TextBlock",
+              "text": "${$root.strings.AddImageLabel}",
+              "wrap": true,
+              "weight": "Default",
+              "color": "Accent",
+              "spacing": "Small"
+            }]
+          }
+        ]
+      }],
+      "$when": "${$root.canUpload == true}",
+      "selectAction": {
+        "title": "$root.strings.AddImageLabel",
+        "type": "VivaAction.SelectMedia",
+        "id": "selectfile",
+        "parameters": {
+          "mediaType": "MediaType.Image",
+          "allowMultipleCapture": true
+        }
+      }
     },
     {
       "type": "Container",

@@ -1,7 +1,5 @@
-import { ISPFxAdaptiveCard, BaseAdaptiveCardView, IActionArguments } from '@microsoft/sp-adaptive-card-extension-base';
+import { ISPFxAdaptiveCard, BaseAdaptiveCardView } from '@microsoft/sp-adaptive-card-extension-base';
 import * as strings from 'InventorydetailsAdaptiveCardExtensionStrings';
-
-import { Logger, LogLevel } from "@pnp/logging";
 
 import { IInventorydetailsAdaptiveCardExtensionProps, IInventorydetailsAdaptiveCardExtensionState } from '../InventorydetailsAdaptiveCardExtension';
 import { InventoryDetail } from '../../../common/models/designtemplate.models';
@@ -18,7 +16,6 @@ export class QuickView extends BaseAdaptiveCardView<
   IInventorydetailsAdaptiveCardExtensionState,
   IQuickViewData
 > {
-  private LOG_SOURCE: string = "🔶 Inventory Quick View";
 
   public get data(): IQuickViewData {
     let formattedDate: string = new Date().toISOString();
