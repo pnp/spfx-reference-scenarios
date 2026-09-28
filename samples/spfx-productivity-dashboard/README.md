@@ -55,4 +55,4 @@ This solution illustrates the following concepts:
 - [Use Microsoft Graph Toolkit in your web parts](https://learn.microsoft.com/sharepoint/dev/spfx/web-parts/get-started/build-web-part-microsoft-graph-toolkit?WT.mc_id=m365-80548-wmastyka)
 - [Use Microsoft Graph in your solution](https://learn.microsoft.com/sharepoint/dev/spfx/web-parts/get-started/using-microsoft-graph-apis?WT.mc_id=m365-80548-wmastyka)
 
-<img src="https://pnptelemetry.azurewebsites.net/spfx-reference-scenarios/samples/spfx-productivity-dashboard" />
+<img src="https://m365-visitor-stats.azurewebsites.net/spfx-reference-scenarios/samples/spfx-productivity-dashboard" />

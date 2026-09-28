@@ -57,4 +57,4 @@ Version|Date|Comments
 - [Microsoft identity platform and OAuth 2.0 On-Behalf-Of flow](https://learn.microsoft.com/en-us/azure/active-directory/develop/v2-oauth2-on-behalf-of-flow)
 - [Microsoft 365 Patterns and Practices](https://aka.ms/m365pnp) - Guidance, tooling, samples and open-source controls for your Microsoft 365 development
 
-<img src="https://pnptelemetry.azurewebsites.net/spfx-reference-scenarios/samples/spfx-obo" />
+<img src="https://m365-visitor-stats.azurewebsites.net/spfx-reference-scenarios/samples/spfx-obo" />

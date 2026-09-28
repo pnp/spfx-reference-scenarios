@@ -111,4 +111,4 @@ This Adaptive Card Extension shows the following concepts
 - [Use Microsoft Graph in your solution](https://docs.microsoft.com/en-us/sharepoint/dev/spfx/web-parts/get-started/using-microsoft-graph-apis)
 - [Microsoft 365 Patterns and Practices](https://aka.ms/m365pnp) - Guidance, tooling, samples and open-source controls for your Microsoft 365 development
 
-<img src="https://pnptelemetry.azurewebsites.net/spfx-reference-scenarios/samples/ace-mymail" />
+<img src="https://m365-visitor-stats.azurewebsites.net/spfx-reference-scenarios/samples/ace-mymail" />
