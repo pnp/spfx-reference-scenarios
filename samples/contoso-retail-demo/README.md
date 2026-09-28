@@ -77,3 +77,5 @@ Last but not least, here you can see the Teams Message Extension output when the
 - [Building for Microsoft teams](https://docs.microsoft.com/en-us/sharepoint/dev/spfx/build-for-teams-overview)
 - [Use Microsoft Graph in your solution](https://docs.microsoft.com/en-us/sharepoint/dev/spfx/web-parts/get-started/using-microsoft-graph-apis)
 - [Microsoft 365 Patterns and Practices](https://aka.ms/m365pnp)
+
+<img src="https://m365-visitor-stats.azurewebsites.net/spfx-reference-scenarios/samples/contoso-retail-demo" />

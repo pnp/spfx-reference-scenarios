@@ -86,9 +86,15 @@ gulp serve
 
 This repository's contributors are all community members who volunteered their time to share code samples. Work is done as an open source community project, with each sample contained in their own solution.
 
+## Join the community calls
+
+Stay up to date with the latest Copilot, Microsoft 365, and Power Platform topics by joining our weekly community calls. Everyone is welcome. Come to learn, ask questions, and connect with the community.
+
+[View the call schedule and download the recurring invites](https://aka.ms/community/calls) so you don't miss an upcoming call.
+
 ## Contributions
 
-These are Microsoft sanctioned reference samples only and we are not accepting pull requests at this time. We absolutely want and welcome community contributions in one of our other samples repos. See [Samples & Solutions](https://pnp.github.io/#samples) for more information.
+Community contributions are welcome. Before submitting a sample, read the [contribution guidance](CONTRIBUTING.md) and use the [sample README template](templates/README-template.md). Keep each pull request focused and make sure the sample metadata, documentation, screenshots, and visitor statistics image are complete.
 
 ## Code of Conduct
 
