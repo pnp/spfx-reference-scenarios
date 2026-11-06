@@ -1,0 +1,56 @@
+[
+  {
+    "name": "pnp-spfx-reference-scenarios-ace-dynamic-card",
+    "source": "pnp",
+    "title": "Dynamic content in Adaptive Card Extensions",
+    "shortDescription": "Shows three Adaptive Card Extensions that use timer-driven state updates, generated SVG images and rotating content to make card views dynamic.",
+    "url": "https://github.com/pnp/spfx-reference-scenarios/tree/main/samples/ace-dynamic-card",
+    "downloadUrl": "https://pnp.github.io/download-partial/?url=https://github.com/pnp/spfx-reference-scenarios/tree/main/samples/ace-dynamic-card",
+    "longDescription": [
+      "Shows three Adaptive Card Extensions that use timer-driven state updates, generated SVG images and rotating content to make card views dynamic."
+    ],
+    "creationDateTime": "2022-02-07",
+    "updateDateTime": "2026-11-06",
+    "products": [
+      "SharePoint",
+      "Viva"
+    ],
+    "metadata": [
+      {
+        "key": "SAMPLE-TYPE",
+        "value": "SPFx-ACE"
+      },
+      {
+        "key": "CLIENT-SIDE-DEV",
+        "value": "TypeScript"
+      },
+      {
+        "key": "SPFX-VERSION",
+        "value": "1.13.1"
+      }
+    ],
+    "thumbnails": [
+      {
+        "type": "image",
+        "order": 100,
+        "url": "https://raw.githubusercontent.com/pnp/spfx-reference-scenarios/main/samples/ace-dynamic-card/assets/cards-in-action.png",
+        "alt": "Three Adaptive Card Extensions demonstrating dynamic text, generated images and rotating card content"
+      }
+    ],
+    "authors": [
+      {
+        "gitHubAccount": "patrick-rodgers",
+        "name": "Patrick Rodgers",
+        "company": "Microsoft",
+        "pictureUrl": "https://github.com/patrick-rodgers.png"
+      }
+    ],
+    "references": [
+      {
+        "name": "Build an Adaptive Card Extension",
+        "description": "Develop Adaptive Card Extensions with SharePoint Framework for Viva Connections.",
+        "url": "https://learn.microsoft.com/sharepoint/dev/spfx/viva/get-started/build-first-sharepoint-adaptive-card-extension"
+      }
+    ]
+  }
+]
