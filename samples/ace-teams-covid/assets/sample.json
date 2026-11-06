@@ -4,12 +4,12 @@
     "source": "pnp",
     "title": "Covid Self-Attestation Microsoft Teams personal app",
     "shortDescription": "This solution depicts how you can build a teams based custom form that collects information from users and provides a custom dashboard for working with the results.",
-    "url": "https://github.com/pnp/spfx-reference-scenarios/tree/main/ace-teams-covid",
+    "url": "https://github.com/pnp/spfx-reference-scenarios/tree/main/samples/ace-teams-covid",
     "longDescription": [
       "This solution depicts how you can build a teams based custom form that collects information from users and provides a custom dashboard for working with the results."
     ],
     "creationDateTime": "2021-09-07",
-    "updateDateTime": "2021-11-18",
+    "updateDateTime": "2026-11-06",
     "products": [
       "SharePoint",
       "Microsoft Teams",
