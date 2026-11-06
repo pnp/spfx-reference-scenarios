@@ -1,0 +1,49 @@
+[
+  {
+    "name": "pnp-spfx-reference-scenarios-ace-application-state",
+    "source": "pnp",
+    "title": "Managing application state in Adaptive Card Extensions",
+    "shortDescription": "Demonstrates initializing and updating shared ACE state across card views and quick views, with local storage and deferred loading of item details.",
+    "url": "https://github.com/pnp/spfx-reference-scenarios/tree/main/samples/ace-application-state",
+    "downloadUrl": "https://pnp.github.io/download-partial/?url=https://github.com/pnp/spfx-reference-scenarios/tree/main/samples/ace-application-state",
+    "longDescription": [
+      "Demonstrates initializing and updating shared ACE state across card views and quick views, with local storage and deferred loading of item details."
+    ],
+    "creationDateTime": "2022-01-18",
+    "updateDateTime": "2026-11-06",
+    "products": [
+      "SharePoint",
+      "Viva"
+    ],
+    "metadata": [
+      {
+        "key": "SAMPLE-TYPE",
+        "value": "SPFx-ACE"
+      },
+      {
+        "key": "CLIENT-SIDE-DEV",
+        "value": "TypeScript"
+      },
+      {
+        "key": "SPFX-VERSION",
+        "value": "1.13.1"
+      }
+    ],
+    "thumbnails": [],
+    "authors": [
+      {
+        "gitHubAccount": "patrick-rodgers",
+        "name": "Patrick Rodgers",
+        "company": "Microsoft",
+        "pictureUrl": "https://github.com/patrick-rodgers.png"
+      }
+    ],
+    "references": [
+      {
+        "name": "Build an Adaptive Card Extension",
+        "description": "Develop Adaptive Card Extensions with SharePoint Framework for Viva Connections.",
+        "url": "https://learn.microsoft.com/sharepoint/dev/spfx/viva/get-started/build-first-sharepoint-adaptive-card-extension"
+      }
+    ]
+  }
+]
