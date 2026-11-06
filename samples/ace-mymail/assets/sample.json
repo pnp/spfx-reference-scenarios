@@ -1,0 +1,69 @@
+[
+  {
+    "name": "pnp-spfx-reference-scenarios-ace-mymail",
+    "source": "pnp",
+    "title": "My Mail Adaptive Card Extension",
+    "shortDescription": "Uses Microsoft Graph to display the current user's email count and a quick view of message subjects, received times and previews, with configurable refresh intervals.",
+    "url": "https://github.com/pnp/spfx-reference-scenarios/tree/main/samples/ace-mymail",
+    "downloadUrl": "https://pnp.github.io/download-partial/?url=https://github.com/pnp/spfx-reference-scenarios/tree/main/samples/ace-mymail",
+    "longDescription": [
+      "Uses Microsoft Graph to display the current user's email count and a quick view of message subjects, received times and previews, with configurable refresh intervals."
+    ],
+    "creationDateTime": "2022-07-05",
+    "updateDateTime": "2026-11-06",
+    "products": [
+      "SharePoint",
+      "Viva",
+      "Microsoft Graph"
+    ],
+    "metadata": [
+      {
+        "key": "SAMPLE-TYPE",
+        "value": "SPFx-ACE"
+      },
+      {
+        "key": "CLIENT-SIDE-DEV",
+        "value": "TypeScript"
+      },
+      {
+        "key": "SPFX-VERSION",
+        "value": "1.14.0"
+      }
+    ],
+    "thumbnails": [
+      {
+        "type": "image",
+        "order": 100,
+        "url": "https://raw.githubusercontent.com/pnp/spfx-reference-scenarios/main/samples/ace-mymail/assets/ace-cardviews.png",
+        "alt": "My Mail card views displaying the current user's email count"
+      },
+      {
+        "type": "image",
+        "order": 101,
+        "url": "https://raw.githubusercontent.com/pnp/spfx-reference-scenarios/main/samples/ace-mymail/assets/quickview.png",
+        "alt": "My Mail quick view displaying email subjects and message previews"
+      },
+      {
+        "type": "image",
+        "order": 102,
+        "url": "https://raw.githubusercontent.com/pnp/spfx-reference-scenarios/main/samples/ace-mymail/assets/aceconfig.png",
+        "alt": "My Mail configuration for card size, mail type and refresh rate"
+      }
+    ],
+    "authors": [
+      {
+        "gitHubAccount": "dcashpeterson",
+        "name": "Derek Cash-Peterson",
+        "company": "Sympraxis Consulting",
+        "pictureUrl": "https://github.com/dcashpeterson.png"
+      }
+    ],
+    "references": [
+      {
+        "name": "Build an Adaptive Card Extension",
+        "description": "Develop Adaptive Card Extensions with SharePoint Framework for Viva Connections.",
+        "url": "https://learn.microsoft.com/sharepoint/dev/spfx/viva/get-started/build-first-sharepoint-adaptive-card-extension"
+      }
+    ]
+  }
+]
